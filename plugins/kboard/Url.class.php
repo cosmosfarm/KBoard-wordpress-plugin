@@ -1,7 +1,9 @@
 <?php
 /**
  * KBoard 워드프레스 게시판 URL
- * @author www.cosmosfarm.com
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
  */
 class Url {
 	
@@ -50,12 +52,12 @@ class Url {
 	 * 경로를 입력받아 URL 반환한다.
 	 * @return string
 	 */
-	public function toStringWithPath($path){
-		foreach($this->data AS $key => $value){
-			if($value) $query_strings[] = $key . '=' . $value;
-		}
-		$this->init();
-		return $path . '?' . @implode('&', $query_strings);
+	public function toStringWithPath($path){
+		foreach($this->data AS $key => $value){
+			if($value) $query_strings[] = $key . '=' . $value;
+		}
+		$this->init();
+		return $path . '?' . @implode('&', $query_strings);
 	}
 	
 	/**

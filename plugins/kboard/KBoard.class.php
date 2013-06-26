@@ -1,7 +1,9 @@
 <?php
 /**
  * KBoard 워드프레스 게시판 설정
- * @author www.cosmosfarm.com
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBoard {
 	

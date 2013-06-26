@@ -1,9 +1,10 @@
 <?php
 /**
  * KBoard 워드프레스 게시판 페이지 출력 함수
- * @author www.cosmosfarm.com
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
  */
-
 function kboard_pagination($current_page, $total, $limit){
 	foreach($_GET AS $key => $value){
 		if($key != 'pageid'){
