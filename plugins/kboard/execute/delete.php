@@ -17,16 +17,16 @@ $content = new Content();
 $content->initWithUID($uid);
 $board = new KBoard($content->board_id);
 if(!$board->isEditor($content->member_uid)){
-	if($board->permission_write=='all'){
+	if($board->permission_write=='all'){
 		if(!$board->isConfirm($content->password)){
 			$url = new Url();
-			$skin_path = KBOARD_URL_PATH . "/skin/$board->skin";
+			$skin_path = KBOARD_URL_PATH . "/skin/$board->skin";
 			include_once KBOARD_DIR_PATH . "/skin/$board->skin/confirm.php";
-			exit;
+			exit;
 		}
 		else{
 			
-		}
+		}
 	}
 	elseif(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="/wp-login.php";</script>');
 	else die('<script>alert("권한이 없습니다."); history.go(-1);</script>');

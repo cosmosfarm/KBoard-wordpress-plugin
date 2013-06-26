@@ -137,13 +137,13 @@ class ContentList {
 		if($read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
 		
 		$where[] = "secret LIKE ''";
-		
-		$this->total = reset(mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM kboard_board_content WHERE " . implode(" AND ", $where))));
+		
+		$this->total = reset(mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM kboard_board_content WHERE " . implode(" AND ", $where))));
 		$this->resource = mysql_query("SELECT * FROM kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		
+		
 		$this->index = $this->total;
-		
-		return $this->resource;
+		
+		return $this->resource;
 	}
 	
 	/**

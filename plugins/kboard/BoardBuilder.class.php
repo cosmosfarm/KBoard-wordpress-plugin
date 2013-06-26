@@ -112,7 +112,7 @@ class BoardBuilder {
 		$content = new Content($this->board_id);
 		$content->initWithUID($_REQUEST['uid']);
 		
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
 		
 		if(!$this->board->isReader($content->member_uid, $content->secret) && $content->notice != 'true'){
@@ -129,9 +129,9 @@ class BoardBuilder {
 			}
 		}
 		else{
-			$content->increaseView();
-			$content->initWithUID($_REQUEST['uid']);
-			
+			$content->increaseView();
+			$content->initWithUID($_REQUEST['uid']);
+			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
 		}
 	}
@@ -224,17 +224,17 @@ class BoardBuilder {
 	 */
 	public function createLatest(){
 		ob_start();
-		
-		$url = new Url();
-		$list = new ContentList($this->board_id);
-		$list->rpp($this->rpp)->getList();
-		
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		
+		$url = new Url();
+		$list = new ContentList($this->board_id);
+		$list->rpp($this->rpp)->getList();
+		
+		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
-		$board_url = $this->url;
-		
+		$board_url = $this->url;
+		
 		include KBOARD_DIR_PATH . "/skin/$this->skin/latest.php";
-		
+		
 		return ob_get_clean();
 	}
 }

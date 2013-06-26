@@ -46,12 +46,12 @@ class Url {
 		$this->init();
 		$url = parse_url($_SERVER['REQUEST_URI']);
 		return $url['path'] . '?' . @implode('&', $query_strings);
-	}
-
-	/**
-	 * 경로를 입력받아 URL 반환한다.
-	 * @return string
-	 */
+	}
+
+	/**
+	 * 경로를 입력받아 URL 반환한다.
+	 * @return string
+	 */
 	public function toStringWithPath($path){
 		foreach($this->data AS $key => $value){
 			if($value) $query_strings[] = $key . '=' . $value;
