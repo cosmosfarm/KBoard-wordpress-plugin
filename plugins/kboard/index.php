@@ -3,12 +3,12 @@
 Plugin Name: KBoard : 워드프레스 게시판
 Plugin URI: http://www.cosmosfarm.com/
 Description: 워드프레스 게시판 플러그인
-Version: 1.8
+Version: 1.9
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_VERSION', '1.8');
+define('KBOARD_VERSION', '1.9');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 if(!session_id()) session_start();
