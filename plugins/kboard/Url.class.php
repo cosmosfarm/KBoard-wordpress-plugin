@@ -14,7 +14,7 @@ class Url {
 	}
 	
 	/**
-	 * MOD, UID 값 초기화
+	 * MOD, UID 값 초기화, URL을 재사용 할 때 오류를 방지한다.
 	 * @return Url
 	 */
 	public function init(){
@@ -41,7 +41,7 @@ class Url {
 	 */
 	public function toString(){
 		foreach($this->data AS $key => $value){
-			if($value) $query_strings[] = $key . '=' . $value;
+			if($value) $query_strings[$key] = $key . '=' . $value;
 		}
 		$this->init();
 		$url = parse_url($_SERVER['REQUEST_URI']);
@@ -54,10 +54,20 @@ class Url {
 	 */
 	public function toStringWithPath($path){
 		foreach($this->data AS $key => $value){
-			if($value) $query_strings[] = $key . '=' . $value;
+			if($value) $query_strings[$key] = $key . '=' . $value;
 		}
+		
+		// 입력받은 경로를 처리한다.
+		$url = parse_url($path);
+		$query  = explode('&', html_entity_decode($url['query']));
+		foreach($query as $value){
+			list($key, $value) = explode('=', $value);
+			// 중복된 get 값이 있으면 덮어 씌운다.
+			if($value) $query_strings[$key] = $key . '=' . $value;
+		}
+		
 		$this->init();
-		return $path . '?' . @implode('&', $query_strings);
+		return $url['path'] . '?' . @implode('&', $query_strings);
 	}
 	
 	/**
