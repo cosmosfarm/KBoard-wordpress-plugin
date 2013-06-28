@@ -16,8 +16,8 @@ include_once 'CommentList.class.php';
 include_once 'CommentsBuilder.class.php';
 
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard 댓글 : 워드프레스 게시판 댓글');
-define('KBOARD_COMMENTS_DIR_PATH', str_replace('/index.php', '', str_replace('\\', '/', __FILE__)));
-define('KBOARD_COMMENTS_URL_PATH', get_site_url() . str_replace(KBOARD_WORDPRESS_ROOT, '', KBOARD_COMMENTS_DIR_PATH));
+define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
+define('KBOARD_COMMENTS_URL_PATH', plugins_url('kboard-comments'));
 define('KBOARD_COMMENTS_LIST_PAGE', admin_url('/admin.php?page=kboard_comments_list'));
 
 /*

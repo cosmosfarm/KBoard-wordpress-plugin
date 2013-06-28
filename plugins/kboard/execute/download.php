@@ -1,5 +1,5 @@
 <?php
-include reset(explode('/wp-content', dirname(__FILE__) . '/')) . '/wp-load.php';
+include reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
@@ -8,15 +8,15 @@ $uid = $_GET['uid'];
 $file = $_GET['file'];
 
 if(!$_GET['uid'] || !$_GET['file']){
-	die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+	die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
 $content = new Content();
 $content->initWithUID($uid);
 $board = new KBoard($content->board_id);
 if(!$board->isReader($content->member_uid, $content->secret)){
-	if(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="/wp-login.php";</script>');
-	else die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+	if(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="' . site_url('/wp-login.php') . '";</script>');
+	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
 $result = mysql_query("SELECT * FROM kboard_board_attached WHERE content_uid=$uid AND file_key LIKE '$file'");

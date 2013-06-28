@@ -23,8 +23,8 @@ include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 워드프레스 게시판');
-define('KBOARD_DIR_PATH', str_replace('/index.php', '', str_replace('\\', '/', __FILE__)));
-define('KBOARD_URL_PATH', get_site_url() . str_replace(KBOARD_WORDPRESS_ROOT, '', KBOARD_DIR_PATH));
+define('KBOARD_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
+define('KBOARD_URL_PATH', plugins_url('kboard'));
 define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
 define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_setting'));

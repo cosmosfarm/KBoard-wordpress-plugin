@@ -1,5 +1,5 @@
 <?php
-include reset(explode('/wp-content', dirname(__FILE__) . '/')) . '/wp-load.php';
+include reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
@@ -23,7 +23,6 @@ if(!$comment->uid){
 	<title>KBoard - 비밀번호 확인</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<!--[if lt IE 9]><script src="https://raw.github.com/scottjehl/Respond/master/respond.src.js"></script><![endif]-->
 	<style>
 		body { background-color: #f9f9f9; }
 		label { font-size: 12px; }

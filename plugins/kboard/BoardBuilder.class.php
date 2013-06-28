@@ -120,6 +120,9 @@ class BoardBuilder {
 				if(!$this->board->isConfirm($content->password)){
 					include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
 				}
+				else{
+					$allow_document = true;
+				}
 			}
 			else if(!$user_ID){
 				die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="' . site_url('/wp-login.php') . '";</script>');
@@ -129,9 +132,12 @@ class BoardBuilder {
 			}
 		}
 		else{
+			$allow_document = true;
+		}
+		
+		if($allow_document == true){
 			$content->increaseView();
 			$content->initWithUID($_REQUEST['uid']);
-			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
 		}
 	}
