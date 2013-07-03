@@ -22,7 +22,7 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 $result = mysql_query("SELECT * FROM kboard_board_attached WHERE content_uid=$uid AND file_key LIKE '$file'");
 $file_info = mysql_fetch_array($result);
 
-$path = reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR)) . str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);
+$path = reset(explode('/wp-content', dirname(__FILE__) . '/')) . $file_info['file_path'];
 $name = $file_info['file_name'];
 
 if(eregi("(MSIE 5.0|MSIE 5.1|MSIE 5.5|MSIE 6.0)", $_SERVER["HTTP_USER_AGENT"]) && !eregi("(Opera|Netscape)", $_SERVER["HTTP_USER_AGENT"])){
