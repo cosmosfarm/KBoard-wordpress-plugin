@@ -29,6 +29,14 @@ class Content {
 		$this->next = $_POST['next'];
 	}
 	
+	public function __get($name){
+		return stripslashes($this->row->{$name});
+	}
+	
+	public function __set($name, $value){
+		$this->row->{$name} = $value;
+	}
+	
 	function setBoardID($board_id){
 		$this->board_id = $board_id;
 		
@@ -38,18 +46,9 @@ class Content {
 		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/$board_id/" . date("Ym", current_time('timestamp')) . '/';
 	}
 	
-	public function __get($name){
-		return stripslashes($this->row->{$name});
-	}
-	
-	public function __set($name, $value){
-		$this->row->{$name} = $value;
-	}
-	
 	function initWithUID($uid){
 		if($uid){
 			$this->row = mysql_fetch_object(mysql_query("SELECT * FROM kboard_board_content WHERE uid=$uid LIMIT 1"));
-			
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
@@ -59,7 +58,6 @@ class Content {
 	function initWithRow($row){
 		if($row){
 			$this->row = $row;
-			
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
@@ -106,7 +104,7 @@ class Content {
 		$userdata = get_userdata($user_ID);
 		
 		$data['board_id'] = $this->board_id;
-		$data['member_uid'] = $userdata->data->ID;
+		$data['member_uid'] = $userdata->data->ID?$userdata->data->ID:0;
 		$data['member_display'] = $this->member_display?kboard_htmlclear($this->member_display):kboard_htmlclear($userdata->data->display_name);
 		$data['title'] = addslashes(kboard_htmlclear($this->title));
 		$data['content'] = addslashes(kboard_xssfilter($this->content));
@@ -116,6 +114,8 @@ class Content {
 		$data['category2'] = $this->category2;
 		$data['secret'] = $this->secret;
 		$data['notice'] = $this->notice;
+		$data['thumbnail_file'] = '';
+		$data['thumbnail_name'] = '';
 		if($this->password) $data['password'] = $this->password;
 		
 		foreach($data AS $key => $value){
@@ -312,7 +312,7 @@ class Content {
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
 			mysql_query("DELETE FROM kboard_board_content WHERE uid=$this->uid");
-			if(KBOARD_COMMNETS_VERSION != 'KBOARD_COMMNETS_VERSION') mysql_query("DELETE FROM kboard_comments WHERE content_uid=$this->uid");
+			if(defined('KBOARD_COMMNETS_VERSION')) mysql_query("DELETE FROM kboard_comments WHERE content_uid=$this->uid");
 			if($next){
 				echo "<script>location.href='$next';</script>";
 				exit;

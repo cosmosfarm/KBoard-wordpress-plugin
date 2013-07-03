@@ -1,5 +1,8 @@
-<?php include reset(explode('/wp-content', dirname(__FILE__) . '/')) . '/wp-load.php'; $board_id = $_GET['board_id']; if($board_id):?>
 <?php
+include reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR . 'wp-load.php';
+$board_id = $_GET['board_id'];
+
+if($board_id):
 /**
  * KBoard 게시판 고유주소로 요청하기
  * 페이지를 생성하고, 입력코드(Shortcode) 삽입 없이 직접 게시판을 요청합니다.
