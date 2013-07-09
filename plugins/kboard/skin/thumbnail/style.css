@@ -27,7 +27,7 @@ img { border: 0; }
 #kboard-list .kboard-list table td.kboard-list-view { width: 55px; }
 #kboard-list .kboard-list thead tr { padding: 10px 0; border-bottom: 1px solid #545861; }
 #kboard-list .kboard-list thead tr td { font-weight: bold; color: #545861; }
-#kboard-list .kboard-list tbody tr { padding: 10px 0; border-bottom: 1px solid #e3e3e3; }
+#kboard-list .kboard-list tbody tr { padding: 10px 0; border-bottom: 1px solid #e3e3e3; word-break:break-all; }
 #kboard-list .kboard-list tbody tr:hover { background-color: #f7f7f7; }
 #kboard-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
 #kboard-list .kboard-list tbody tr.kboard-list-notice td.kboard-list-uid { font-weight: bold; color: #515151; }
