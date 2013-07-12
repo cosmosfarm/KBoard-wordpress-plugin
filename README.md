@@ -15,7 +15,7 @@ KBoard 사용에 궁금하신 점은 http://www.cosmosfarm.com/threads 에 질�
 Examples (사용 예제)
 --------------------
 
-1. http://c9c9.2bstory.com/
+1. http://www.cosmosfarm.com/products/kboard_demo
 2. http://smart-k.com/?page_id=1692
 3. http://www.bluehillclinic.com/?page_id=427
 4. http://www.shoetoker.com/?page_id=1707
