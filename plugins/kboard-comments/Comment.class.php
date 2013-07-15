@@ -12,6 +12,7 @@ class Comment {
 	
 	public function __construct(){
 		global $user_ID;
+		$this->row = new stdClass();
 		$this->userdata = get_userdata($user_ID);
 	}
 

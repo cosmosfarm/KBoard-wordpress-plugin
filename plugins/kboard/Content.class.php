@@ -26,6 +26,7 @@ class Content {
 	
 	function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
+		$this->row = new stdClass();
 		$this->next = $_POST['next'];
 	}
 	
