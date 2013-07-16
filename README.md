@@ -20,6 +20,7 @@ Examples (사용 예제)
 3. http://www.bluehillclinic.com/?page_id=427
 4. http://www.shoetoker.com/?page_id=1707
 5. http://tourjoin.com/%EA%B2%AC%EC%A0%81%EB%AC%B8%EC%9D%98-2/
+6. http://iphonebuyer.co.kr/?page_id=6650
 
 
 
