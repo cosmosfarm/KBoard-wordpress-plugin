@@ -72,6 +72,7 @@ function kboard_list(){
 	}
 	
 	$board = new KBoard();
+	$board->getList();
 	include_once 'pages/kboard_list.php';
 }
 
