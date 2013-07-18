@@ -3,12 +3,12 @@
 Plugin Name: KBoard : 워드프레스 게시판
 Plugin URI: http://www.cosmosfarm.com/
 Description: 워드프레스 게시판 플러그인
-Version: 1.9
+Version: 2.0
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_VERSION', '1.9');
+define('KBOARD_VERSION', '2.0');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 if(!session_id()) session_start();
@@ -33,7 +33,7 @@ define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 /*
  * jQuery를 추가한다.
  */
-wp_enqueue_script("jquery");
+wp_enqueue_script('jquery');
 
 /*
  * 플러그인 페이지 링크
@@ -62,6 +62,8 @@ function kboard_settings_menu(){
  * 게시판 목록 페이지
  */
 function kboard_list(){
+	kboard_system_update();
+	
 	$action = $_POST['action'];
 	$action2 = $_POST['action2'];
 	if(($action=='remove' || $action2=='remove') && $_POST['board_id']){
@@ -80,6 +82,8 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
+	kboard_system_update();
+	
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
@@ -88,6 +92,8 @@ function kboard_new(){
  * 게시판 목록 페이지
  */
 function kboard_setting(){
+	kboard_system_update();
+	
 	if(!$_GET['board_id']){
 		echo '<script>location.href="' . KBOARD_LIST_PAGE . '"</script>';
 		exit;
@@ -106,7 +112,7 @@ function kboard_update(){
 	global $wpdb;
 	
 	if(!defined('KBOARD_COMMNETS_VERSION')){
-		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.");history.go(-1);</script>';
+		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
 		exit;
 	}
 	
@@ -261,6 +267,15 @@ function kboard_activation(){
 	  PRIMARY KEY  (`uid`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	$wpdb->query($kboard_board_option);
+	
+	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `kboard_board_meta` (
+	  `uid` bigint(20) unsigned NOT NULL auto_increment,
+	  `board_id` bigint(20) unsigned NOT NULL,
+	  `key` varchar(127) NOT NULL,
+	  `value` varchar(127) NOT NULL,
+	  PRIMARY KEY  (`uid`)
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+	$wpdb->query($kboard_board_meta);
 }
 
 /*
@@ -281,7 +296,8 @@ function kboard_uninstall(){
 	$drop_table = "DROP TABLE  `kboard_board_attached` ,
 		`kboard_board_content` ,
 		`kboard_board_option` ,
-		`kboard_board_setting`";
+		`kboard_board_setting` ,
+		`kboard_board_meta`";
 	$wpdb->query($drop_table);
 }
 
@@ -301,5 +317,10 @@ function kboard_permission($permission){
 	else{
 		return $permission;
 	}
+}
+
+function kboard_system_update(){
+	// KBoard 2.0에서 테이블 추가 생성 확인
+	if(!mysql_query("SELECT 1 FROM `kboard_board_meta`")) kboard_activation();
 }
 ?>
