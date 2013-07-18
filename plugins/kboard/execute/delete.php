@@ -18,7 +18,7 @@ $content->initWithUID($uid);
 $board = new KBoard($content->board_id);
 if(!$board->isEditor($content->member_uid)){
 	if($board->permission_write=='all'){
-		if(!$board->isConfirm($content->password)){
+		if(!$board->isConfirm($content->password, $content->uid)){
 			$url = new Url();
 			$skin_path = KBOARD_URL_PATH . "/skin/$board->skin";
 			include_once KBOARD_DIR_PATH . "/skin/$board->skin/confirm.php";

@@ -202,14 +202,16 @@ class KBoard {
 	/**
 	 * 게시글 비밀번호와 일치하는지 확인한다.
 	 * @param string $password
+	 * @param int $content_uid
 	 * @return boolean
 	 */
-	public function isConfirm($password){
+	public function isConfirm($password, $content_uid){
 		if(!$password || $this->permission_write != 'all'){
 			return false;
 		}
 		
-		if($_POST['password'] == $password){
+		if($_POST['password'] == $password || $_SESSION['kboard_confirm'][$content_uid] == $password){
+			$_SESSION['kboard_confirm'][$content_uid] = $password;
 			return true;
 		}
 		else{

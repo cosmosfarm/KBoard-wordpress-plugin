@@ -117,7 +117,7 @@ class BoardBuilder {
 		
 		if(!$this->board->isReader($content->member_uid, $content->secret) && $content->notice != 'true'){
 			if($this->board->permission_write=='all'){
-				if(!$this->board->isConfirm($content->password)){
+				if(!$this->board->isConfirm($content->password, $content->uid)){
 					include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
 				}
 				else{
@@ -166,7 +166,7 @@ class BoardBuilder {
 		}
 		else if($_REQUEST['uid'] && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
-				if(!$this->board->isConfirm($content->password)){
+				if(!$this->board->isConfirm($content->password, $content->uid)){
 					$confirm_view = true;
 				}
 			}
@@ -204,7 +204,7 @@ class BoardBuilder {
 		
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
-				if(!$this->board->isConfirm($content->password)){
+				if(!$this->board->isConfirm($content->password, $content->uid)){
 					$confirm_view = true;
 				}
 			}
