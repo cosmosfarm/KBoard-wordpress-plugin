@@ -269,12 +269,11 @@ function kboard_activation(){
 	$wpdb->query($kboard_board_option);
 	
 	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `kboard_board_meta` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_id` bigint(20) unsigned NOT NULL,
 	  `key` varchar(127) NOT NULL,
 	  `value` varchar(127) NOT NULL,
-	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+	  UNIQUE KEY `meta_index` (`board_id`,`key`)
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 	$wpdb->query($kboard_board_meta);
 }
 
