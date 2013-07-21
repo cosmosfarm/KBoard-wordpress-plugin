@@ -146,6 +146,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<td><input type="text" style="width: 350px;" name="admin_user" id="admin_user" value="<?=$board->admin_user?>">
 						<p class="description">사용자 아이디를 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p></td>
 				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
+					<td><input type="text" style="width: 350px;" name="latest_alerts" id="latest_alerts" value="<?=$meta->latest_alerts?>">
+						<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p></td>
+				</tr>
 			</tbody>
 		</table>
 		<p class="submit">

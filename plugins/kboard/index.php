@@ -18,6 +18,8 @@ include_once 'Content.class.php';
 include_once 'ContentList.class.php';
 include_once 'Url.class.php';
 include_once 'KBoardSkin.class.php';
+include_once 'KBoardMeta.class.php';
+include_once 'KBMail.class.php';
 include_once 'BoardBuilder.class.php';
 include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
@@ -102,6 +104,8 @@ function kboard_setting(){
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
 	$skin = KBoardSkin::getInstance();
+	$meta = new KBoardMeta($board->uid);
+	
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -133,12 +137,18 @@ function kboard_update(){
 	
 	if(!$board_id){
 		$wpdb->query("INSERT INTO kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
-		echo '<script>location.href="' . KBOARD_LIST_PAGE . '"</script>';
+		$board_id = mysql_insert_id();
 	}
 	else{
 		$wpdb->query("UPDATE kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
-		echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
 	}
+	
+	if($board_id){
+		$meta = new KBoardMeta($board_id);
+		$meta->latest_alerts = $_POST['latest_alerts'];
+	}
+	
+	echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
 }
 
 /*

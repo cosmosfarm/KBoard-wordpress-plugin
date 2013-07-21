@@ -23,11 +23,9 @@ class Content {
 	var $thumbnail_store_path;
 	
 	private $row;
-	private $board_id;
 	
 	function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
-		$this->row = new stdClass();
 		$this->next = $_POST['next'];
 	}
 	
@@ -39,10 +37,6 @@ class Content {
 		$this->row->{$name} = $value;
 	}
 	
-	/**
-	 * 게시판 아이디를 지정한다.
-	 * @param int $board_id
-	 */
 	function setBoardID($board_id){
 		$this->board_id = $board_id;
 		
@@ -52,11 +46,6 @@ class Content {
 		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/$board_id/" . date("Ym", current_time('timestamp')) . '/';
 	}
 	
-	/**
-	 * 고유번호로 초기화한다.
-	 * @param int $uid
-	 * @return Content
-	 */
 	function initWithUID($uid){
 		if($uid){
 			$this->row = mysql_fetch_object(mysql_query("SELECT * FROM kboard_board_content WHERE uid=$uid LIMIT 1"));
@@ -66,11 +55,6 @@ class Content {
 		return $this;
 	}
 	
-	/**
-	 * 데이터를 입력받아 초기화한다.
-	 * @param object $row
-	 * @return Content
-	 */
 	function initWithRow($row){
 		if($row){
 			$this->row = $row;
@@ -80,9 +64,6 @@ class Content {
 		return $this;
 	}
 	
-	/**
-	 * Content의 입력 및 수정을 실행한다.
-	 */
 	function execute(){
 		$this->member_uid = $_POST['member_uid'];
 		$this->member_display = $_POST['member_display'];
@@ -118,9 +99,6 @@ class Content {
 		if($this->next) die("<script>location.href='$this->next';</script>");
 	}
 	
-	/**
-	 * 입력을 실행한다.
-	 */
 	private function _insertContent(){
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
@@ -149,12 +127,18 @@ class Content {
 		$query = "INSERT INTO kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")";
 		mysql_query($query);
 		
+		$meta = new KBoardMeta($this->board_id);
+		if($meta->latest_alerts){
+			$mail = new KBMail();
+			$mail->to = explode(',', $meta->latest_alerts);
+			$mail->title = $data['title'];
+			$mail->content = $data['content'];
+			$mail->send();
+		}
+		
 		return mysql_insert_id();
 	}
 	
-	/**
-	 * 수정을 실행한다.
-	 */
 	private function _updateContent(){
 		if($this->uid){
 			$data['board_id'] = $this->board_id;
@@ -188,10 +172,6 @@ class Content {
 		}
 	}
 	
-	/**
-	 * 옵션 데이터를 초기화한다.
-	 * @return object
-	 */
 	function initOptions(){
 		if(!$this->uid) return '';
 		$result = mysql_query("SELECT * FROM kboard_board_option WHERE content_uid=$this->uid");
@@ -202,10 +182,6 @@ class Content {
 		return $option;
 	}
 	
-	/**
-	 * 첨부파일을 초기화한다.
-	 * @return object
-	 */
 	function initAttachedFiles(){
 		if(!$this->uid) return '';
 		$result = mysql_query("SELECT * FROM kboard_board_attached WHERE content_uid=$this->uid");
@@ -216,10 +192,6 @@ class Content {
 		return $file;
 	}
 	
-	/**
-	 * 첨부파일을 입력 및 수정한다.
-	 * @param int $uid
-	 */
 	function update_attach($uid){
 		if(!$this->attach_store_path) die('업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요.');
 		
@@ -246,13 +218,6 @@ class Content {
 		}
 	}
 	
-	/**
-	 * 첨부파일을 수정한다.
-	 * @param int $uid
-	 * @param string $key
-	 * @param string $file_path
-	 * @param string $file_name
-	 */
 	private function _update_attach($uid, $key, $file_path, $file_name){
 		$key = addslashes($key);
 		$file_path = addslashes($file_path);
@@ -260,13 +225,6 @@ class Content {
 		mysql_query("UPDATE kboard_board_attached SET file_path='$file_path', file_name='$file_name' WHERE file_key LIKE '$key' AND content_uid=$uid");
 	}
 	
-	/**
-	 * 첨부파일을 입력한다.
-	 * @param int $uid
-	 * @param string $key
-	 * @param string $file_path
-	 * @param string $file_name
-	 */
 	private function _insert_attach($uid, $key, $file_path, $file_name){
 		$date = date("YmdHis", current_time('timestamp'));
 		$key = addslashes($key);
@@ -275,10 +233,6 @@ class Content {
 		mysql_query("INSERT INTO kboard_board_attached (content_uid, file_key, date, file_path, file_name) VALUE ($uid, '$key', '$date', '$file_path', '$file_name')");
 	}
 	
-	/**
-	 * 모든 첨부파일을 삭제한다.
-	 * @param int $uid
-	 */
 	private function _remove_all_attached($uid){
 		$result = mysql_query("SELECT file_path FROM kboard_board_attached WHERE content_uid=$uid");
 		while($file = mysql_fetch_row($result)){
@@ -287,10 +241,6 @@ class Content {
 		mysql_query("DELETE FROM kboard_board_attached WHERE content_uid=$uid");
 	}
 	
-	/**
-	 * 첨부파일을 삭제한다.
-	 * @param string $key
-	 */
 	public function removeAttached($key){
 		if($this->uid){
 			$key = addslashes($key);
@@ -303,10 +253,6 @@ class Content {
 		}
 	}
 	
-	/**
-	 * 옵션 데이터를 입력 및 수정한다.
-	 * @param int $uid
-	 */
 	function update_options($uid){
 		foreach($_REQUEST AS $key => $value){
 			if(strstr($key, $this->skin_option_prefix) && trim($value)){
@@ -326,45 +272,22 @@ class Content {
 		$this->_remove_empty_option();
 	}
 	
-	/**
-	 * 옵션 데이터를 수정한다.
-	 * @param unknown $uid
-	 * @param unknown $key
-	 * @param unknown $value
-	 */
 	private function _update_option($uid, $key, $value){
 		mysql_query("UPDATE kboard_board_option SET option_value='$value' WHERE option_key LIKE '$key' AND content_uid=$uid");
 	}
 	
-	/**
-	 * 옵션 데이터를 입력한다.
-	 * @param int $uid
-	 * @param string $key
-	 * @param string $value
-	 */
 	private function _insert_option($uid, $key, $value){
 		mysql_query("INSERT INTO kboard_board_option (content_uid, option_key, option_value) VALUE ($uid, '$key', '$value')");
 	}
 	
-	/**
-	 * 비어있는(쓸모없는) 옵션 데이터를 정리한다.
-	 */
 	private function _remove_empty_option(){
 		mysql_query("DELETE FROM kboard_board_option WHERE option_value LIKE ''");
 	}
 	
-	/**
-	 * 옵션 데이터를 삭제한다.
-	 * @param int $uid
-	 */
 	private function _remove_option($uid){
 		mysql_query("DELETE FROM kboard_board_option WHERE content_uid=$uid");
 	}
 	
-	/**
-	 * 썸네일을 등록한다.
-	 * @param int $uid
-	 */
 	function setThumbnail($uid){
 		if(!$this->thumbnail_store_path) die('업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요.');
 		
@@ -381,9 +304,6 @@ class Content {
 		}
 	}
 	
-	/**
-	 * 썸네일을 삭제한다.
-	 */
 	function removeThumbnail(){
 		if($this->uid){
 			$result = mysql_query("SELECT * FROM kboard_board_content WHERE uid=$this->uid LIMIT 1");
@@ -395,10 +315,6 @@ class Content {
 		}
 	}
 	
-	/**
-	 * Content를 삭제한다. (댓글 포함)
-	 * @param string $next
-	 */
 	function remove($next=''){
 		if($this->uid){
 			$this->_remove_option($this->uid);
