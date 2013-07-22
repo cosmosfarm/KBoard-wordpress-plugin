@@ -127,6 +127,9 @@ class Content {
 		$query = "INSERT INTO kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")";
 		kboard_query($query);
 		
+		/*
+		 * 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
+		 */
 		$meta = new KBoardMeta($this->board_id);
 		if($meta->latest_alerts){
 			$mail = new KBMail();
