@@ -80,7 +80,7 @@ img { border: 0; }
 #kboard-latest table .kboard-latest-title { padding-left: 10px; }
 #kboard-latest table .kboard-latest-date { width: 75px; text-align: center; }
 
-@media (max-width: 420px) {
+@media (max-width: 600px) {
 	#kboard-list .kboard-search select { width: 80px; }
 	#kboard-list .kboard-search input { width: 80px; }
 	#kboard-list .kboard-list table td.kboard-list-uid { width: 50px; }
