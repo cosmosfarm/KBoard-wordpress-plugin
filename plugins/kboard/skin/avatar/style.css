@@ -85,10 +85,10 @@ img { border: 0; }
 @media (max-width: 420px) {
 	#kboard-list .kboard-search select { width: 80px; }
 	#kboard-list .kboard-search input { width: 80px; }
-	#kboard-list .kboard-list table td.uid { width: 50px; }
-	#kboard-list .kboard-list table td.date { width: 65px; }
-	#kboard-list .kboard-list td.user,
-	#kboard-list .kboard-list td.view { display: none; }
+	#kboard-list .kboard-list table td.kboard-list-uid { width: 50px; }
+	#kboard-list .kboard-list table td.kboard-list-date { width: 65px; }
+	#kboard-list .kboard-list td.kboard-list-user,
+	#kboard-list .kboard-list td.kboard-list-view { display: none; }
 	
 	#kboard-editor .kboard-attr-row input[type=text],
 	#kboard-editor .kboard-attr-row input[type=file],
