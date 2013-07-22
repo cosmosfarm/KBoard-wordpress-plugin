@@ -4,12 +4,14 @@ include reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DI
 header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
 
-if(!$_GET['uid']){
+$uid = intval($_GET['uid']);
+
+if(!$uid){
 	die("<script>alert('댓글 고유번호가 없습니다.');window.close();</script>");
 }
 
 $commentList = new CommentList();
-$comment = $commentList->getComment($_GET['uid']);
+$comment = $commentList->getComment($uid);
 
 if(!$comment->uid){
 	die("<script>alert('존재하지 않는 댓글 입니다.');window.close();</script>");

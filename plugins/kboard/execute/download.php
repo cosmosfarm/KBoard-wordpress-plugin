@@ -4,10 +4,10 @@ include reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DI
 header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
 
-$uid = $_GET['uid'];
-$file = $_GET['file'];
+$uid = intval($_GET['uid']);
+$file = kboard_htmlclear($_GET['file']);
 
-if(!$_GET['uid'] || !$_GET['file']){
+if(!$uid || !$file){
 	die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
@@ -19,7 +19,7 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
-$result = mysql_query("SELECT * FROM kboard_board_attached WHERE content_uid=$uid AND file_key LIKE '$file'");
+$result = kboard_query("SELECT * FROM kboard_board_attached WHERE content_uid=$uid AND file_key LIKE '$file'");
 $file_info = mysql_fetch_array($result);
 
 $path = reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR)) . str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);

@@ -22,10 +22,10 @@ class CommentList {
 	
 	public function init(){
 		if($this->content_uid){
-			$this->resource = mysql_query("SELECT * FROM kboard_comments WHERE content_uid=$this->content_uid ORDER BY uid $this->order");
+			$this->resource = kboard_query("SELECT * FROM kboard_comments WHERE content_uid=$this->content_uid ORDER BY uid $this->order");
 		}
 		else{
-			$this->resource = mysql_query("SELECT * FROM kboard_comments WHERE 1 ORDER BY uid $this->order");
+			$this->resource = kboard_query("SELECT * FROM kboard_comments WHERE 1 ORDER BY uid $this->order");
 		}
 		return $this->resource;
 	}
@@ -42,10 +42,10 @@ class CommentList {
 	public function getCount(){
 		if(is_null($this->total)){
 			if($this->content_uid){
-				$this->total = @reset(mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM kboard_comments WHERE content_uid=$this->content_uid")));
+				$this->total = @reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_comments WHERE content_uid=$this->content_uid")));
 			}
 			else{
-				$this->total = @reset(mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM kboard_comments WHERE 1")));
+				$this->total = @reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_comments WHERE 1")));
 			}
 		}
 		return intval($this->total);
@@ -66,7 +66,7 @@ class CommentList {
 	}
 	
 	public function getComment($uid){
-		$row = mysql_fetch_object(mysql_query("SELECT * FROM kboard_comments WHERE uid=$uid LIMIT 1"));
+		$row = mysql_fetch_object(kboard_query("SELECT * FROM kboard_comments WHERE uid=$uid LIMIT 1"));
 		
 		if($row){
 			$comment = new Comment();
@@ -85,11 +85,11 @@ class CommentList {
 		$password = addslashes($password);
 		
 		$created = date("YmdHis", current_time('timestamp'));
-		mysql_query("INSERT INTO kboard_comments (content_uid, user_uid, user_display, content, created, password) VALUE ('$this->content_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
+		kboard_query("INSERT INTO kboard_comments (content_uid, user_uid, user_display, content, created, password) VALUE ('$this->content_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
 	}
 	
 	public function delete($uid){
-		mysql_query("DELETE FROM kboard_comments WHERE uid=$uid");
+		kboard_query("DELETE FROM kboard_comments WHERE uid=$uid");
 	}
 }
 ?>

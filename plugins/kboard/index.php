@@ -310,6 +310,21 @@ function kboard_uninstall(){
 	$wpdb->query($drop_table);
 }
 
+/*
+ * 쿼리
+ */
+function kboard_query($query){
+	$resource = mysql_query($query);
+	if(mysql_errno()){
+		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요.';
+		die($error);
+	}
+	return $resource;
+}
+
+/*
+ * 권한 한글 출력
+ */
 function kboard_permission($permission){
 	if($permission == 'all'){
 		return '제한없음';
@@ -328,8 +343,11 @@ function kboard_permission($permission){
 	}
 }
 
+/*
+ * 업데이트
+ */
 function kboard_system_update(){
 	// KBoard 2.0에서 테이블 추가 생성 확인
-	if(!mysql_query("SELECT 1 FROM `kboard_board_meta`")) kboard_activation();
+	if(!kboard_query("SELECT 1 FROM `kboard_board_meta`")) kboard_activation();
 }
 ?>
