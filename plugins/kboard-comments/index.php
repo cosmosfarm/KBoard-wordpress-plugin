@@ -3,12 +3,12 @@
 Plugin Name: KBoard 댓글 : 워드프레스 게시판 댓글
 Plugin URI: http://www.cosmosfarm.com/
 Description: 워드프레스 게시판 KBoard의 댓글 플러그인
-Version: 1.8
+Version: 1.9
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_COMMNETS_VERSION', '1.8');
+define('KBOARD_COMMNETS_VERSION', '1.9');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 include_once 'Comment.class.php';
@@ -49,7 +49,7 @@ function kboard_comments_list(){
 /*
  * 페이지 표시 단축코드
  */
-add_shortcode("kboard_comments", "kboard_comments_builder");
+add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
 	$comments_builder = new CommentsBuilder();
 	$comments_builder->content_uid = $atts['content_uid'];
@@ -64,7 +64,7 @@ register_activation_hook(__FILE__, 'kboard_comments_activation');
 function kboard_comments_activation(){
 	global $wpdb;
 	
-	if(KBOARD_VERSION == 'KBOARD_VERSION'){
+	if(!defined('KBOARD_VERSION')){
 		echo 'KBoard 댓글 알림 :: 먼저 KBoard 플러그인을 설치하세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.';
 		exit;
 	}
