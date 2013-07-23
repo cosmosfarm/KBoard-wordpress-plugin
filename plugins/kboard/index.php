@@ -348,6 +348,6 @@ function kboard_permission($permission){
  */
 function kboard_system_update(){
 	// KBoard 2.0에서 테이블 추가 생성 확인
-	if(!kboard_query("SELECT 1 FROM `kboard_board_meta`")) kboard_activation();
+	if(!mysql_query("SELECT 1 FROM `kboard_board_meta`")) kboard_activation();
 }
 ?>
