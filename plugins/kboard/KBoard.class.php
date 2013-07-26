@@ -36,7 +36,7 @@ class KBoard {
 	 */
 	public function setID($id){
 		$this->id = $id;
-		$resource = kboard_query("SELECT * FROM kboard_board_setting WHERE uid=$id");
+		$resource = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_setting WHERE uid=$id");
 		$this->row = mysql_fetch_object($resource);
 		return $this;
 	}
@@ -54,8 +54,8 @@ class KBoard {
 	 * @return resource
 	 */
 	public function getList(){
-		$this->resource = kboard_query("SELECT * FROM kboard_board_setting WHERE 1 ORDER BY uid DESC");
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_board_setting WHERE 1")));
+		$this->resource = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_setting WHERE 1 ORDER BY uid DESC");
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".WP_PREFIX."Kboard_board_setting WHERE 1")));
 		return $this->resource;
 	}
 	
@@ -258,8 +258,8 @@ class KBoard {
 		while($content = $list->hasNext()){
 			$content->remove();
 		}
-		kboard_query("DELETE FROM kboard_board_setting WHERE uid=$uid");
-		kboard_query("DELETE FROM kboard_board_meta WHERE board_id=$uid");
+		kboard_query("DELETE FROM ".WP_PREFIX."Kboard_board_setting WHERE uid=$uid");
+		kboard_query("DELETE FROM ".WP_PREFIX."Kboard_board_meta WHERE board_id=$uid");
 	}
 }
 ?>

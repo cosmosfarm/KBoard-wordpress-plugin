@@ -89,8 +89,8 @@ class ContentList {
 		if($this->col_category1) $where[] = "category1 LIKE '$this->col_category1'";
 		if($this->col_category2) $where[] = "category2 LIKE '$this->col_category2'";
 		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_board_content WHERE " . implode(" AND ", $where))));
-		$this->resource = kboard_query("SELECT * FROM kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where))));
+		$this->resource = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total - (($this->page-1) * $this->rpp);
 		
@@ -102,8 +102,8 @@ class ContentList {
 	 * @return resource
 	 */
 	public function getAllList(){
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_board_content WHERE board_id LIKE '$this->board_id'")));
-		$this->resource = kboard_query("SELECT * FROM kboard_board_content WHERE board_id LIKE '$this->board_id' ORDER BY date DESC");
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".WP_PREFIX."Kboard_board_content WHERE board_id LIKE '$this->board_id'")));
+		$this->resource = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_content WHERE board_id LIKE '$this->board_id' ORDER BY date DESC");
 		
 		$this->index = $this->total;
 		
@@ -117,8 +117,8 @@ class ContentList {
 	public function init(){
 		$where[] = 1;
 		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_board_content WHERE " . implode(" AND ", $where))));
-		$this->resource = kboard_query("SELECT * FROM kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where))));
+		$this->resource = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total;
 		
@@ -130,7 +130,7 @@ class ContentList {
 	 * @return resource
 	 */
 	public function initWithRSS(){
-		$resource = kboard_query("SELECT uid FROM kboard_board_setting WHERE permission_read='all'");
+		$resource = kboard_query("SELECT uid FROM ".WP_PREFIX."Kboard_board_setting WHERE permission_read='all'");
 		while($row = mysql_fetch_row($resource)){
 			$read[] = $row[0];
 		}
@@ -138,8 +138,8 @@ class ContentList {
 		
 		$where[] = "secret LIKE ''";
 		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM kboard_board_content WHERE " . implode(" AND ", $where))));
-		$this->resource = kboard_query("SELECT * FROM kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where))));
+		$this->resource = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total;
 		
@@ -180,7 +180,7 @@ class ContentList {
 		$where[] = "board_id LIKE '$this->board_id'";
 		$where[] = "notice LIKE 'true'";
 	
-		$this->resource_notice = kboard_query("SELECT * FROM kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC");
+		$this->resource_notice = kboard_query("SELECT * FROM ".WP_PREFIX."Kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC");
 		return $this->resource_notice;
 	}
 	
