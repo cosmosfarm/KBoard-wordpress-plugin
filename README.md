@@ -52,5 +52,3 @@ Installation (설치)
 
 1. Upload 'kboard','kboard-comments' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'kboard','kboard-comments' menu in WordPress
-
-behind
