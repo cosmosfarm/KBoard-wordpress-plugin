@@ -9,7 +9,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<br>
 	</div>
 	<h2>
-		KBoard : 게시판 정보수정 <a href="<?=KBOARD_LIST_PAGE?>" class="add-new-h2">게시판 목록보기</a>
+		KBoard : 게시판 정보수정
+		<a href="<?=KBOARD_LIST_PAGE?>" class="add-new-h2">게시판 목록</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">최신버전 확인</a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
 	<form action="<?=KBOARD_UPDATE_ACTION?>" method="post">
 		<input type="hidden" name="board_id" value="<?=$board->uid?>">
@@ -21,11 +25,22 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<?php if($board->uid):?>
 				<tr valign="top">
-					<th scope="row"><label for="">고유주소</label></th>
+					<th scope="row"><label for="">고급 사용자용 고유주소</label></th>
 					<td>
 						<a href="<?=plugins_url()?>/kboard/board.php?board_id=<?=$board->uid?>" onclick="window.open(this.href); return false;"><?=plugins_url()?>/kboard/board.php?board_id=<?=$board->uid?></a>
 						<p class="description">고유주소는 독립적 레이아웃 편집 및 아이프레임 삽입 등 고급 사용자를 위한 편의 기능입니다. 일반 사용자는 입력코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
 					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="auto_page">게시판이 추가될 페이지</label></th>
+					<td><select name="auto_page" id="auto_page" class="">
+							<option value="">게시판 입력코드(Shortcode)로 생성합니다.</option>
+							<option value="">-------------------------------</option>
+							<?php foreach(get_pages() AS $key => $page):?>
+							<option value="<?=$page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?=$page->post_title?> 페이지에 자동으로 생성합니다.</option>
+							<?php endforeach?>
+						</select>
+						<p class="description">선택된 페이지에 자동으로 게시판이 생성됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 생성 하실 수 있습니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">게시판 입력코드(Shortcode)</label></th>
@@ -62,13 +77,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="30"<?php if($board->page_rpp == 30):?> selected<?php endif?>>30개</option>
 							<option value="50"<?php if($board->page_rpp == 50):?> selected<?php endif?>>50개</option>
 							<option value="100"<?php if($board->page_rpp == 100):?> selected<?php endif?>>100개</option>
-					</select>
+						</select>
 						<p class="description">한 페이지에 보여지는 게시물 숫자를 정합니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="use_comment">댓글쓰기</label></th>
 					<td>
-					<?php if(KBOARD_COMMNETS_VERSION != 'KBOARD_COMMNETS_VERSION'):?>
+					<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 					<select name="use_comment" id="use_comment" class="">
 							<option value="">no</option>
 							<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>yes</option>
@@ -149,7 +164,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
 					<td><input type="text" style="width: 350px;" name="latest_alerts" id="latest_alerts" value="<?=$meta->latest_alerts?>">
-						<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p></td>
+						<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다. 서버 환경에 따라서 메일이 전송되지 못 할 수도 있습니다.</p></td>
 				</tr>
 			</tbody>
 		</table>

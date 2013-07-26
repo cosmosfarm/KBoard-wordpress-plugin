@@ -259,6 +259,7 @@ class KBoard {
 			$content->remove();
 		}
 		kboard_query("DELETE FROM kboard_board_setting WHERE uid=$uid");
+		kboard_query("DELETE FROM kboard_board_meta WHERE board_id=$uid");
 	}
 }
 ?>

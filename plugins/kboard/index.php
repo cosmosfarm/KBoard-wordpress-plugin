@@ -3,12 +3,12 @@
 Plugin Name: KBoard : 워드프레스 게시판
 Plugin URI: http://www.cosmosfarm.com/
 Description: 워드프레스 게시판 플러그인
-Version: 2.1
+Version: 2.2
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_VERSION', '2.1');
+define('KBOARD_VERSION', '2.2');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 if(!session_id()) session_start();
@@ -77,6 +77,8 @@ function kboard_list(){
 	
 	$board = new KBoard();
 	$board->getList();
+	$meta = new KBoardMeta();
+	
 	include_once 'pages/kboard_list.php';
 }
 
@@ -146,6 +148,16 @@ function kboard_update(){
 	if($board_id){
 		$meta = new KBoardMeta($board_id);
 		$meta->latest_alerts = $_POST['latest_alerts'];
+		
+		$auto_page = $_POST['auto_page'];
+		if($auto_page){
+			$auto_page_board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'")));
+			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
+			else $meta->auto_page = $auto_page;
+		}
+		else{
+			$meta->auto_page = '';
+		}
 	}
 	
 	echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
@@ -201,6 +213,21 @@ function kboard_builder($args){
 	else{
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
 	}
+}
+
+/*
+ * 선택된 페이지에 자동으로 게시판 생성
+ */
+add_filter('the_content', 'kboard_auto_builder');
+function kboard_auto_builder($content){
+	global $post;
+	
+	if(is_page($post->ID)){
+		$board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'")));
+		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
+	}
+	
+	return $content;
 }
 
 /*
@@ -316,7 +343,7 @@ function kboard_uninstall(){
 function kboard_query($query){
 	$resource = mysql_query($query);
 	if(mysql_errno()){
-		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요.';
+		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요. 개인정보는 지워주세요.';
 		die($error);
 	}
 	return $resource;

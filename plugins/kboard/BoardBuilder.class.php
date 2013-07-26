@@ -128,7 +128,7 @@ class BoardBuilder {
 				die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="' . site_url('/wp-login.php') . '";</script>');
 			}
 			else{
-				die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 			}
 		}
 		else{
@@ -152,7 +152,7 @@ class BoardBuilder {
 		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
 			$next_url = $url->set('uid', $_GET['uid'])->set('mod', 'editor')->toString();
-			if(!$user_ID && !$_POST['password']) die('<script>alert("비밀번호를 입력해주세요."); location.href="'.$next_url.'";</script>');
+			if(!$user_ID && !$_POST['password']) die('<script>alert("비밀번호를 입력해주세요.");location.href="'.$next_url.'";</script>');
 		}
 		
 		$content = new Content($this->board_id);
@@ -162,7 +162,7 @@ class BoardBuilder {
 		$board = $this->board;
 		
 		if(!$_REQUEST['uid'] && !$this->board->isWriter()){
-			die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+			die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 		}
 		else if($_REQUEST['uid'] && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
@@ -171,7 +171,7 @@ class BoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 			}
 		}
 		
@@ -209,7 +209,7 @@ class BoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 			}
 		}
 		

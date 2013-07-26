@@ -1,7 +1,11 @@
 <div class="wrap">
 	<div id="icon-themes" class="icon32"><br></div>
 	<h2>
-		<?=KBOARD_PAGE_TITLE?> <a href="<?=KBOARD_NEW_PAGE?>" class="add-new-h2">게시판 추가하기</a>
+		<?=KBOARD_PAGE_TITLE?>
+		<a href="<?=KBOARD_NEW_PAGE?>" class="add-new-h2">게시판 생성</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">최신버전 확인</a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
 	
 	<ul class="subsubsub">
@@ -27,7 +31,7 @@
 						<a><span>게시판</span></a>
 					</th>
 					<th class="manage-column">
-						<a><span>입력코드(Shortcode)</span></a>
+						<a><span>설치된 페이지</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>스킨</span></a>
@@ -50,7 +54,7 @@
 						<a><span>게시판</span></a>
 					</th>
 					<th class="manage-column">
-						<a><span>입력코드(Shortcode)</span></a>
+						<a><span>설치된 페이지</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>스킨</span></a>
@@ -82,11 +86,18 @@
 				<?php while($board->hasNext()):?>
 				<tr>
 					<th class="check-column"><input type="checkbox" name="board_id[]" value="<?=$board->uid?>"></th>
-					<td><a class="row-title" href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>#board_name" title="편집"><?=$board->board_name?></a></td>
-					<td><input type="text" value="[kboard id=<?=$board->uid?>]"></td>
-					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>#skin" title="편집"><?=$board->skin?></a></td>
-					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>#permission_read" title="편집"><?=kboard_permission($board->permission_read)?></a></td>
-					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>#permission_write" title="편집"><?=kboard_permission($board->permission_write)?></a></td>
+					<td><a class="row-title" href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?=$board->board_name?></a></td>
+					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?php 
+					$meta->setBoardID($board->uid);
+					if($meta->auto_page){
+						$post = get_post($meta->auto_page);
+						echo $post->post_title;
+					}
+					else echo '페이지 연결 없음';
+					?></a></td>
+					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?=$board->skin?></a></td>
+					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?=kboard_permission($board->permission_read)?></a></td>
+					<td><a href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?=kboard_permission($board->permission_write)?></a></td>
 					<td><abbr title="<?=date("Y-m-d H:i", strtotime($board->created))?>"><?=date("Y-m-d", strtotime($board->created))?></abbr></td>
 				</tr>
 				<?php endwhile;?>

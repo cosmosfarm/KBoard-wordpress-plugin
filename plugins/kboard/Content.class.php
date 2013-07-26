@@ -10,6 +10,7 @@ include_once 'KBFileHandler.class.php';
 class Content {
 	
 	var $next;
+	var $board_id;
 	
 	var $option;
 	var $attach;
