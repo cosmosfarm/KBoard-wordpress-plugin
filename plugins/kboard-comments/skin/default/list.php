@@ -13,17 +13,17 @@
 			<input type="hidden" name="member_display" value="<?=$userdata->data->display_name?>">
 			<?php else:?>
 			<div class="comments-username">
-				<span class="username">작성자</span> <input type="text" name="member_display" value="<?=$userdata->data->display_name?>">
-				<span class="password">비밀번호</span> <input type="password" name="password" value="">
+				<span class="username">Author</span> <input type="text" name="member_display" value="<?=$userdata->data->display_name?>">
+				<span class="password">Password</span> <input type="password" name="password" value="">
 			</div>
 			<?php endif?>
 			
 			<div class="comments-content">
 				<div class="comments-content-text"><textarea name="content"></textarea></div>
-				<div class="comments-content-button"><input type="submit" value="입력"></div>
+				<div class="comments-content-button"><input type="submit" value="Write"></div>
 			</div>
 			<div class="comments-count">
-				댓글 <span class="total-count"><?=$commentList->getCount()?></span>개
+				Comment <span class="total-count"><?=$commentList->getCount()?></span>개
 				<hr>
 			</div>
 			<div class="comments-list">
@@ -36,9 +36,9 @@
 							<?=nl2br($comment->content)?>
 							
 							<?php if($comment->isEditor()):?>
-							 - <a href="<?=plugins_url().'/kboard-comments/execute/delete.php?uid='.$comment->uid?>" onclick="return confirm('삭제 하시겠습니까?');">삭제</a>
+							 - <a href="<?=plugins_url().'/kboard-comments/execute/delete.php?uid='.$comment->uid?>" onclick="return confirm('Are your sure to Delete?');">Delete</a>
 							<?php else:?>
-							 - <a href="<?=plugins_url().'/kboard-comments/execute/confirm.php?uid='.$comment->uid?>" onclick="open_confirm(this.href); return false;">삭제</a>
+							 - <a href="<?=plugins_url().'/kboard-comments/execute/confirm.php?uid='.$comment->uid?>" onclick="open_confirm(this.href); return false;">Delete</a>
 							<?php endif?>
 						</div>
 					</li>

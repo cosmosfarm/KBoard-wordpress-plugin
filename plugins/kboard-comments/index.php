@@ -3,12 +3,12 @@
 Plugin Name: KBoard 댓글 : 워드프레스 게시판 댓글
 Plugin URI: http://www.cosmosfarm.com/
 Description: 워드프레스 게시판 KBoard의 댓글 플러그인
-Version: 2.0
+Version: 1.9
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_COMMNETS_VERSION', '2.0');
+define('KBOARD_COMMNETS_VERSION', '1.9');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 include_once 'Comment.class.php';
@@ -20,6 +20,9 @@ define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php'
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('kboard-comments'));
 define('KBOARD_COMMENTS_LIST_PAGE', admin_url('/admin.php?page=kboard_comments_list'));
 
+global $wpdb;
+$wp_prefix = $wpdb->prefix; 
+define('WP_PREFIX', $wp_prefix);
 /*
  * 관리자메뉴에 추가
  */
@@ -69,7 +72,7 @@ function kboard_comments_activation(){
 		exit;
 	}
 	
-	$kboard_comments = "CREATE TABLE IF NOT EXISTS `kboard_comments` (
+	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".WP_PREFIX."Kboard_comments` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
 	  `user_uid` bigint(20) unsigned NOT NULL,
@@ -97,7 +100,7 @@ register_uninstall_hook(__FILE__, 'kboard_comments_uninstall');
 function kboard_comments_uninstall(){
 	global $wpdb;
 	
-	$drop_table = "DROP TABLE `kboard_comments`";
+	$drop_table = "DROP TABLE `".WP_PREFIX."Kboard_comments`";
 	$wpdb->query($drop_table);
 }
 ?>

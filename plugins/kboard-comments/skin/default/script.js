@@ -11,17 +11,17 @@ function kboard_comments_execute(form){
 	var $ = jQuery;
 	
 	if($('input[name=member_display]', form).exists() && !$('input[name=member_display]', form).val()){
-		alert('작성자를 입력하세요.');
+		alert('Missing Name!');
 		$('[name=member_display]', form).focus();
 		return false;
 	}
 	else if($('input[name=password]', form).exists() && !$('input[name=password]', form).val()){
-		alert('비밀번호를 입력하세요.');
+		alert('Missing Password!');
 		$('input[name=password]', form).focus();
 		return false;
 	}
 	else if($('textarea[name=content]', form).exists() && !$('textarea[name=content]', form).val()){
-		alert('댓글 내용을 입력하세요.');
+		alert('Missing Content!');
 		$('textarea[name=content]', form).focus();
 		return false;
 	}

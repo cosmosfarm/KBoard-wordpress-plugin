@@ -1,17 +1,14 @@
 <div class="wrap">
 	<div id="icon-themes" class="icon32"><br></div>
 	<h2>
-		<?=KBOARD_COMMENTS_PAGE_TITLE?>
-		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">최신버전 확인</a>
-		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
+		<?=".WP_PREFIX."Kboard_comments_PAGE_TITLE?>
 	</h2>
 	
 	<ul class="subsubsub">
-		<li class="all"><a href="<?=KBOARD_COMMENTS_LIST_PAGE?>" class="current">모두 <span class="count">(<?=$commentList->getCount()?>)</span></a></li>
+		<li class="all"><a href="<?=".WP_PREFIX."Kboard_comments_LIST_PAGE?>" class="current">모두 <span class="count">(<?=$commentList->getCount()?>)</span></a></li>
 	</ul>
 	
-	<form action="<?=KBOARD_COMMENTS_LIST_PAGE?>" method="post">
+	<form action="<?=".WP_PREFIX."Kboard_comments_LIST_PAGE?>" method="post">
 		<div class="tablenav top">
 			<div class="alignleft actions">
 				<select name="action">
