@@ -54,7 +54,7 @@ final class KBUpgrader {
 		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST']);
 		
 		if(is_wp_error($download_file)){
-			die('<script>alert("자동업데이트 실패 : 서버 접속 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
+			die('<script>alert("업데이트 실패 : 서버 연결 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
 		}
 		
 		return $download_file;
@@ -90,7 +90,7 @@ final class KBUpgrader {
 		
 		if(!$archive_files){
 			$file_handler->delete($working_dir);
-			die('<script>alert("자동업데이트 실패 : 압축 해제 실패, 디렉토리 권한을 확인하세요.");history.go(-1);</script>');
+			die('<script>alert("업데이트 실패 : 압축 해제 실패, 디렉토리 권한을 확인하세요.");history.go(-1);</script>');
 		}
 		else{
 			foreach($archive_files AS $file){
