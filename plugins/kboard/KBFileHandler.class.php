@@ -458,8 +458,8 @@ if(!class_exists('KBFileHandler')){
 					if($file == "." || $file == "..") continue;
 					$dirlist[] = $file;
 				}
+				closedir($dh);
 			}
-			closedir($dh);
 			return $dirlist;
 		}
 		
