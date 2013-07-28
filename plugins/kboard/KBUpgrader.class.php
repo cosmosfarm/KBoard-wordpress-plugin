@@ -1,6 +1,6 @@
 <?php
 /**
- * 업그레이드
+ * KBoard 업그레이더
  * @link www.cosmosfarm.com
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
@@ -8,8 +8,11 @@
 final class KBUpgrader {
 	
 	private static $LATEST_VERSIOIN;
-	static $KBOARD_SERVER_URL = 'http://www.cosmosfarm.com/data/latest/kboard.zip';
-	static $KBOARD_COMMENTS_SERVER_URL = 'http://www.cosmosfarm.com/data/latest/kboard.zip';
+	private static $SERVER_HOST = 'cosmosfarm.com';
+	
+	static $KBOARD_VERSION_SERVER_URL = 'http://www.cosmosfarm.com/wpstore/kboard/version';
+	static $KBOARD_SERVER_URL = 'http://www.cosmosfarm.com/wpstore/kboard/upgrade_kboard';
+	static $KBOARD_COMMENTS_SERVER_URL = 'http://www.cosmosfarm.com/wpstore/kboard/upgrade_comments';
 	
 	/**
 	 * 서버에서 최신버전을 가져온다.
@@ -17,19 +20,21 @@ final class KBUpgrader {
 	 */
 	static function getLatestVersion(){
 		if(!self::$LATEST_VERSIOIN){
-			
-			$host = 'cosmosfarm.com';
-			$url = 'http://www.cosmosfarm.com/wpstore/kboard/version';
+			$host = self::$SERVER_HOST;
+			$url = self::$KBOARD_VERSION_SERVER_URL;
 				
 			$fp=fsockopen($host, 80, &$errno, &$errstr, 30);
-			fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."User-Agent: Web 0.1\r\n"."\r\n");
-			while(!feof($fp)){
-				$output .= fgets($fp, 1024);
+			if($fp){
+				fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
+				while(!feof($fp)){
+					$output .= fgets($fp, 1024);
+				}
+				fclose($fp);
 			}
-			fclose($fp);
 			
 			$data = @explode("\r\n\r\n", $output);
 			$data = @end($data);
+			
 			if($output) self::$LATEST_VERSIOIN = json_decode($data);
 		}
 		return self::$LATEST_VERSIOIN;
@@ -46,7 +51,7 @@ final class KBUpgrader {
 			return $package; //must be a local file..
 		}
 		
-		$download_file = download_url($package);
+		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST']);
 		
 		if(is_wp_error($download_file)){
 			die('<script>alert("자동업데이트 실패 : 서버 접속 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
