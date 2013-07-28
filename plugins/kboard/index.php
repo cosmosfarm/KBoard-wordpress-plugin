@@ -17,9 +17,10 @@ include_once 'KBoard.class.php';
 include_once 'Content.class.php';
 include_once 'ContentList.class.php';
 include_once 'Url.class.php';
-include_once 'KBoardSkin.class.php';
-include_once 'KBoardMeta.class.php';
 include_once 'KBMail.class.php';
+include_once 'KBoardMeta.class.php';
+include_once 'KBoardSkin.class.php';
+include_once 'KBUpgrader.class.php';
 include_once 'BoardBuilder.class.php';
 include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
@@ -31,6 +32,7 @@ define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
 define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_setting'));
 define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
+define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 
 /*
  * jQuery를 추가한다.
@@ -40,7 +42,7 @@ wp_enqueue_script('jquery');
 /*
  * 플러그인 페이지 링크
  */
-add_filter('plugin_action_links_' . plugin_basename( __FILE__ ), 'kboard_settings_link');
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'kboard_settings_link');
 function kboard_settings_link($links){
 	return array_merge($links, array('settings' => '<a href="'.KBOARD_NEW_PAGE.'">게시판 생성</a>'));
 }
@@ -54,7 +56,8 @@ function kboard_settings_menu(){
 	
 	add_submenu_page('kboard_list', KBOARD_PAGE_TITLE, '게시판 생성', 'administrator', 'kboard_new', 'kboard_new');
 	if($_GET['board_id']) add_submenu_page('kboard_list', KBOARD_PAGE_TITLE, '게시판 정보 수정', 'administrator', 'kboard_setting', 'kboard_setting');
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업데이트', 'administrator', 'kboard_update', 'kboard_update');
+	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 정보 수정', 'administrator', 'kboard_update', 'kboard_update');
+	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
 	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3') add_submenu_page('kboard_list', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
@@ -112,7 +115,7 @@ function kboard_setting(){
 }
 
 /*
- * 게시판 정보 업데이트
+ * 게시판 정보 수정
  */
 function kboard_update(){
 	global $wpdb;
@@ -161,6 +164,26 @@ function kboard_update(){
 	}
 	
 	echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
+}
+
+/*
+ * 게시판 업그레이드
+ */
+function kboard_upgrade(){
+	if(!current_user_can('update_plugins')) wp_die(__('You do not have sufficient permissions to update plugins for this site.'));
+	
+	$upgrader = new KBUpgrader();
+	if($upgrader->getLatestVersion()->kboard_version <= KBOARD_VERSION){
+		echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_LIST_PAGE . '"</script>';
+		exit;
+	}
+	
+	$download_file = $upgrader->download(KBUpgrader::$KBOARD_SERVER_URL);
+	$working_dir = $upgrader->install($download_file);
+	
+	kboard_system_update();
+	
+	echo '<script>alert("업데이트 되었습니다.");location.href="' . KBOARD_LIST_PAGE . '"</script>';
 }
 
 /*

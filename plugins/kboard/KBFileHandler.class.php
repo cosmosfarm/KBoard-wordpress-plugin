@@ -445,6 +445,75 @@ if(!class_exists('KBFileHandler')){
 			}
 			return $size;
 		}
+		
+		/**
+		 * 경로의 내용을 반환한다.
+		 * @param string $path
+		 * @return array
+		 */
+		function getDirlist($path){
+			$dirlist = array();
+			if($dh = @opendir($path)){
+				while(($file = readdir($dh)) !== false){
+					if($file == "." || $file == "..") continue;
+					$dirlist[] = $file;
+				}
+			}
+			closedir($dh);
+			return $dirlist;
+		}
+		
+		/**
+		 * 파일 및 디렉토리를 삭제한다.
+		 * @param string $path
+		 */
+		public function delete($path){
+			if(is_file($path)) unlink($path);
+			elseif(is_dir($path)){
+				if(substr($path, strlen($path) - 1, 1) != '/') $path .= '/';
+				$dirlist = $this->getDirlist($path);
+				foreach($dirlist as $file){
+					$this->delete($path . $file);
+				}
+				rmdir($path);
+			}
+		}
+		
+		/**
+		 * 파일 및 디렉토리를 복사한다.
+		 * @param string $from
+		 * @param string $to
+		 */
+		public function copy($from, $to){
+			if(is_file($from)) copy($from, $to);
+			elseif(is_dir($from)){
+				if(substr($to, strlen($to) - 1, 1) != '/') $to .= '/';
+				if(substr($from, strlen($from) - 1, 1) != '/') $from .= '/';
+				$this->mkPath($to);
+				$dirlist = $this->getDirlist($from);
+				foreach($dirlist as $file){
+					$this->copy($from . $file, $to . $file);
+				}
+			}
+		}
+		
+		/**
+		 * 파일을 작성한다.
+		 * @param string $filename
+		 * @param mixed $data
+		 */
+		public function putContents($filename, $data){
+			if(!function_exists('file_put_contents')){
+				return file_put_contents($filename, $data);
+			}
+			else{
+				if($fp = fopen($filename, 'w')){
+					fwrite($fp, $data);
+					return fclose($fp);
+				}
+				return $fp;
+			}
+		}
 	}
 }
 ?>
