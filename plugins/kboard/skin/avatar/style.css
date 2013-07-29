@@ -69,6 +69,7 @@ img { border: 0; }
 #kboard-document .kboard-detail .detail-attr .detail-value img { vertical-align: middle; }
 #kboard-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
 #kboard-document .kboard-content .content-view { margin: 0; padding: 22px; }
+#kboard-document .kboard-content .content-view img { max-width: 100%; }
 #kboard-document .kboard-content .content-view .thumbnail-area { text-align: center; }
 #kboard-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
 #kboard-document .kboard-comments-area { float: left; width: 100%; }
