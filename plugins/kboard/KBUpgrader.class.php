@@ -22,8 +22,8 @@ final class KBUpgrader {
 		if(!self::$LATEST_VERSIOIN){
 			$host = self::$SERVER_HOST;
 			$url = self::$KBOARD_VERSION_SERVER_URL;
-				
-			$fp=fsockopen($host, 80, &$errno, &$errstr, 30);
+			
+			$fp = fsockopen($host, 80, $errno, $errstr, 30);
 			if($fp){
 				fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
 				while(!feof($fp)){

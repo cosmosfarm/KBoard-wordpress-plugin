@@ -1,14 +1,14 @@
 <?php
 /*
-Plugin Name: KBoard : 워드프레스 게시판
-Plugin URI: http://www.cosmosfarm.com/
-Description: 워드프레스 게시판 플러그인
-Version: 2.2
+Plugin Name: KBoard : 게시판
+Plugin URI: http://www.cosmosfarm.com/products/kboard
+Description: 워드프레스 KBoard 게시판 플러그인 입니다.
+Version: 2.3
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_VERSION', '2.2');
+define('KBOARD_VERSION', '2.3');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 if(!session_id()) session_start();
@@ -25,12 +25,12 @@ include_once 'BoardBuilder.class.php';
 include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
 
-define('KBOARD_PAGE_TITLE', 'KBoard : 워드프레스 게시판');
+define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_URL_PATH', plugins_url('kboard'));
 define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
-define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_setting'));
+define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 
@@ -52,37 +52,53 @@ function kboard_settings_link($links){
  */
 add_action('admin_menu', 'kboard_settings_menu');
 function kboard_settings_menu(){
-	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_list', 'kboard_list', '', '55.1');
+	$position = 50;
+	while($GLOBALS['menu'][$position]) $position++;
 	
-	add_submenu_page('kboard_list', KBOARD_PAGE_TITLE, '게시판 생성', 'administrator', 'kboard_new', 'kboard_new');
-	if($_GET['board_id']) add_submenu_page('kboard_list', KBOARD_PAGE_TITLE, '게시판 정보 수정', 'administrator', 'kboard_setting', 'kboard_setting');
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 정보 수정', 'administrator', 'kboard_update', 'kboard_update');
+	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', '', $position);
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '대시보드', 'administrator', 'kboard_dashboard');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 목록', 'administrator', 'kboard_list', 'kboard_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 생성', 'administrator', 'kboard_new', 'kboard_new');
+	
+	// 표시되지 않는 페이지
+	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 수정', 'administrator', 'kboard_update', 'kboard_update');
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
-	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3') add_submenu_page('kboard_list', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+}
+
+/*
+ * 게시판 대시보드 페이지
+ */
+function kboard_dashboard(){
+	kboard_system_update();
+	include_once 'pages/kboard_dashboard.php';
 }
 
 /*
  * 게시판 목록 페이지
  */
 function kboard_list(){
-	kboard_system_update();
-	
-	$action = $_POST['action'];
-	$action2 = $_POST['action2'];
-	if(($action=='remove' || $action2=='remove') && $_POST['board_id']){
-		$board = new KBoard();
-		foreach($_POST['board_id'] AS $key => $value){
-			$board->remove($value);
-		}
+	if($_GET['board_id']){
+		kboard_setting();
 	}
-	
-	$board = new KBoard();
-	$board->getList();
-	$meta = new KBoardMeta();
-	
-	include_once 'pages/kboard_list.php';
+	else{
+		$action = $_POST['action'];
+		$action2 = $_POST['action2'];
+		if(($action=='remove' || $action2=='remove') && $_POST['board_id']){
+			$board = new KBoard();
+			foreach($_POST['board_id'] AS $key => $value){
+				$board->remove($value);
+			}
+		}
+		
+		$board = new KBoard();
+		$board->getList();
+		$meta = new KBoardMeta();
+		
+		include_once 'pages/kboard_list.php';
+	}
 }
 
 /*
@@ -100,11 +116,6 @@ function kboard_new(){
  */
 function kboard_setting(){
 	kboard_system_update();
-	
-	if(!$_GET['board_id']){
-		echo '<script>location.href="' . KBOARD_LIST_PAGE . '"</script>';
-		exit;
-	}
 	
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
