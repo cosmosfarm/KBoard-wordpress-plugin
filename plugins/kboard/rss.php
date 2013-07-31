@@ -1,5 +1,6 @@
 <?php
-include reset(explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR . 'wp-load.php';
+$path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
 $list = new ContentList();
 $list->rpp = 100;
