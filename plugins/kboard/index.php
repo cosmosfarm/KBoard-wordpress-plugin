@@ -28,6 +28,7 @@ include_once 'Security.helper.php';
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_URL_PATH', plugins_url('kboard'));
+define('KBOARD_DASHBOARD_PAGE', admin_url('/admin.php?page=kboard_dashboard'));
 define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
 define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_list'));
@@ -45,6 +46,13 @@ wp_enqueue_script('jquery');
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'kboard_settings_link');
 function kboard_settings_link($links){
 	return array_merge($links, array('settings' => '<a href="'.KBOARD_NEW_PAGE.'">게시판 생성</a>'));
+}
+
+add_action('welcome_panel', 'kboard_welcome_panel');
+function kboard_welcome_panel(){
+	echo '<script>jQuery(document).ready(function($){$("div.welcome-panel-content").eq(0).hide();});</script>';
+	$upgrader = KBUpgrader::getInstance();
+	include_once 'pages/welcome.php';
 }
 
 /*
@@ -73,6 +81,7 @@ function kboard_settings_menu(){
  */
 function kboard_dashboard(){
 	kboard_system_update();
+	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
 
@@ -105,8 +114,6 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
-	kboard_system_update();
-	
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
@@ -115,8 +122,6 @@ function kboard_new(){
  * 게시판 목록 페이지
  */
 function kboard_setting(){
-	kboard_system_update();
-	
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
 	$skin = KBoardSkin::getInstance();
@@ -183,18 +188,18 @@ function kboard_update(){
 function kboard_upgrade(){
 	if(!current_user_can('update_plugins')) wp_die(__('You do not have sufficient permissions to update plugins for this site.'));
 	
-	$upgrader = new KBUpgrader();
+	$upgrader = KBUpgrader::getInstance();
 	if($upgrader->getLatestVersion()->kboard_version <= KBOARD_VERSION){
-		echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_LIST_PAGE . '"</script>';
+		echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 		exit;
 	}
 	
-	$download_file = $upgrader->download(KBUpgrader::$KBOARD_SERVER_URL);
+	$download_file = $upgrader->download(KBUpgrader::$KBOARD);
 	$working_dir = $upgrader->install($download_file);
 	
 	kboard_system_update();
 	
-	echo '<script>alert("업데이트 되었습니다.");location.href="' . KBOARD_LIST_PAGE . '"</script>';
+	echo '<script>alert("업데이트 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 }
 
 /*
