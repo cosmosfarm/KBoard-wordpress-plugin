@@ -7,13 +7,17 @@
  */
 class KBBackup {
 	
+	public function __construct(){
+		set_time_limit(0);
+	}
+	
 	/**
 	 * KBoard 테이블 목록을 반환한다.
 	 * @return array
 	 */
 	public function getTables(){
 		$tables = array();
-		$resource = mysql_query('SHOW TABLES');
+		$resource = kboard_query('SHOW TABLES');
 		while($row = mysql_fetch_row($resource)){
 			if(stristr($row[0], 'kboard')) $tables[] = $row[0];
 		}
@@ -21,39 +25,114 @@ class KBBackup {
 	}
 	
 	/**
-	 * 테이블 테이터를 생성한다.
+	 * 테이블 sql 테이터를 생성한다.
 	 * @param string $table
 	 * @return string
 	 */
-	public function getData($table){
-		$resource = mysql_query("SELECT * FROM `$table`");
-		$num_fields = mysql_num_fields($resource);
-		$create_table = mysql_fetch_row(mysql_query("SHOW CREATE TABLE `$table`"));
+	public function getSql($table){
+		$resource = kboard_query("SELECT * FROM `$table`");
 		
-		$data .= "DROP TABLE `$table`;";
-		$data .= "\n\n$create_table;\n\n";
-		
-		for($i = 0; $i<$num_fields; $i++){
-			while($row = mysql_fetch_row($resource)){
-				$data .= "INSERT INTO `$table` VALUES (";
-				
-				$value = array();
-				for($j=0; $j<$num_fields; $j++){
-					$row[$j] = addslashes($row[$j]);
-					$row[$j] = str_replace("\n","\\n", $row[$j]);
-					
-					if($row[$j]) $value[] = "'$row[$j]'";
-					else $value[] = "''";
-				}
-				$value = implode(',', $value);
-				
-				$data .= "$value);\n";
+		$sql = "TRUNCATE TABLE `$table`;\n";
+		while($row = mysql_fetch_row($resource)){
+			$columns = count($row);
+			$value = array();
+			$sql .= "INSERT INTO `$table` VALUE (";
+			for($i=0; $i<$columns; $i++){
+				if($row[$i]) $value[] = "'$row[$i]'";
+				else $value[] = "''";
 			}
+			$value = implode(',', $value);
+		
+			$sql .= "$value);\n";
 		}
+		return $sql;
+	}
+	
+	/**
+	 * 테이블 xml 테이터를 생성한다.
+	 * @param string $table
+	 * @return string
+	 */
+	public function getXml($table){
+		$resource = kboard_query("SELECT * FROM `$table`");
 		
-		$data .= "\n\n\n";
+		$xml .= "<$table>\n";
+		while($row = mysql_fetch_assoc($resource)){
+			$xml .= "\t<data>\n";
 		
-		return $data;
+			$value = array();
+			foreach($row AS $key => $value){
+				$xml .= "\t\t<$key>";
+				$xml .= "<![CDATA[".$value."]]>";
+				//$xml .= $value;
+				$xml .= "</$key>\n";
+			}
+		
+			$xml .= "\t</data>\n";
+		}
+		$xml .= "</$table>\n";
+		return $xml;
+	}
+	
+	/**
+	 * 데이터 파일을 다운로드 받는다.
+	 * @param string $data
+	 * @param string $file
+	 * @param string $filename
+	 */
+	public function download($data, $file='xml', $filename=''){
+		if(!$filename) $filename = 'KBoard-Backup-'.date("Ymd").'.'.$file;
+		header("Content-Type: application/octet-stream");
+		header("Content-Disposition: attachment; filename=\"".$filename."\"");
+		header("Pragma: no-cache");
+		Header("Expires: 0");
+		if($file == 'xml'){
+			echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+			echo "<kboard>\n";
+			echo $data;
+			echo "</kboard>";
+		}
+		else{
+			echo $data;
+		}
+		exit;
+	}
+	
+	public function importXml($file){
+		include 'XML2Array.class.php';
+		$xml = file_get_contents($file);
+		$array = XML2Array::createArray($xml);
+		
+		print_r($array);
+		echo '<br><br>';
+		foreach($array['kboard'] AS $table => $rows){
+			//if(is_array($rows['data']))
+			$data = $rows['data'];
+			echo 'count:'.count($rows).'<br>';
+			if($data){
+				echo "TRUNCATE TABLE `$table`" . '<br>';
+				
+				foreach($data AS $key => $row){
+					$keys = array_keys($row);
+					$row_count = count($row);
+					
+					$columns = array();
+					for($i=0; $i<$row_count; $i++){
+						$columns[] = "`$keys[$i]`";
+					}
+					$columns = implode(',', $columns);
+					
+					$value = array();
+					for($i=0; $i<$row_count; $i++){
+						$value[] = "'".$row[$keys[$i]]['@cdata']."'";
+					}
+					$value = implode(',', $value);
+					
+					echo "INSERT INTO `$table` ($columns) VALUE ($value)" . '<br>';
+				}
+			}
+			echo '<br>';
+		}
 	}
 }
 ?>

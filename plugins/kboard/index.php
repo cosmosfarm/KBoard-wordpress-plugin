@@ -32,6 +32,8 @@ define('KBOARD_DASHBOARD_PAGE', admin_url('/admin.php?page=kboard_dashboard'));
 define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
 define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_list'));
+define('KBOARD_BACKUP_PAGE', admin_url('/admin.php?page=kboard_backup'));
+define('KBOARD_BACKUP_ACTION', plugins_url('/execute/backup.php', __FILE__));
 define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 
@@ -48,6 +50,9 @@ function kboard_settings_link($links){
 	return array_merge($links, array('settings' => '<a href="'.KBOARD_NEW_PAGE.'">게시판 생성</a>'));
 }
 
+/*
+ * 워드프레스 관리자 웰컴 패널에 KBoard 패널을 추가한다.
+ */
 add_action('welcome_panel', 'kboard_welcome_panel');
 function kboard_welcome_panel(){
 	echo '<script>jQuery(document).ready(function($){$("div.welcome-panel-content").eq(0).hide();});</script>';
@@ -67,6 +72,7 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '대시보드', 'administrator', 'kboard_dashboard');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 목록', 'administrator', 'kboard_list', 'kboard_list');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 생성', 'administrator', 'kboard_new', 'kboard_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '백업 및 복구', 'administrator', 'kboard_backup', 'kboard_backup');
 	
 	// 표시되지 않는 페이지
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 수정', 'administrator', 'kboard_update', 'kboard_update');
@@ -131,6 +137,28 @@ function kboard_setting(){
 }
 
 /*
+ * 게시판 백업 및 복구 페이지
+ */
+function kboard_backup(){
+	include_once 'KBBackup.class.php';
+	$backup = new KBBackup();
+	
+	if($_GET['action'] == 'upload'){
+		$xmlfile = WP_CONTENT_DIR . '/uploads/' . basename($_FILES['kboard_backup_xml_file']['name']);
+		if(move_uploaded_file($_FILES['kboard_backup_xml_file']['tmp_name'], $xmlfile)){
+			$backup->importXml($xmlfile);
+			unlink($xmlfile);
+		}
+		else{
+			echo '<script>alert("파일 업로드 실패");history.go(-1);</script>';
+		}
+	}
+	else{
+		include_once 'pages/kboard_backup.php';
+	}
+}
+
+/*
  * 게시판 정보 수정
  */
 function kboard_update(){
@@ -142,7 +170,6 @@ function kboard_update(){
 	}
 	
 	$board_id = $_POST['board_id'];
-	
 	$board_name = addslashes($_POST['board_name']);
 	$skin = $_POST['skin'];
 	$page_rpp = $_POST['page_rpp'];
@@ -186,7 +213,7 @@ function kboard_update(){
  * 게시판 업그레이드
  */
 function kboard_upgrade(){
-	if(!current_user_can('update_plugins')) wp_die(__('You do not have sufficient permissions to update plugins for this site.'));
+	if(!current_user_can('activate_plugins')) wp_die('KBoard : 업그레이드 권한이 없습니다.');
 	
 	$upgrader = KBUpgrader::getInstance();
 	if($upgrader->getLatestVersion()->kboard_version <= KBOARD_VERSION){
@@ -196,8 +223,6 @@ function kboard_upgrade(){
 	
 	$download_file = $upgrader->download(KBUpgrader::$KBOARD);
 	$working_dir = $upgrader->install($download_file);
-	
-	kboard_system_update();
 	
 	echo '<script>alert("업데이트 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 }
@@ -276,6 +301,11 @@ add_action('wp_head', 'kboard_rss');
 function kboard_rss(){
 	$name = get_bloginfo('name');
 	echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard 통합 피드">';
+}
+
+add_action('template_redirect','kboard_template_redirect');
+function kboard_template_redirect(){
+	
 }
 
 /*

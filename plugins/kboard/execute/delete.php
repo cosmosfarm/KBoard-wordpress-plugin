@@ -3,7 +3,7 @@ $path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTOR
 include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
+if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
 
 $uid = intval($_GET['uid']);
 $file = kboard_htmlclear($_GET['file']);
@@ -29,8 +29,8 @@ if(!$board->isEditor($content->member_uid)){
 			
 		}
 	}
-	elseif(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="' . site_url('/wp-login.php') . '";</script>');
-	else die('<script>alert("권한이 없습니다."); history.go(-1);</script>');
+	elseif(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다.");location.href="' . site_url('/wp-login.php') . '";</script>');
+	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 if($file == 'thumbnail') $content->removeThumbnail();
 else $content->removeAttached($file);

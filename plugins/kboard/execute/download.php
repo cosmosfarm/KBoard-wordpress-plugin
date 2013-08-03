@@ -3,7 +3,7 @@ $path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTOR
 include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
+if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
 
 $uid = intval($_GET['uid']);
 $file = kboard_htmlclear($_GET['file']);
@@ -38,7 +38,6 @@ else{
 	Header("Content-type: file/unknown");
 	Header("Content-Length: ".filesize($path));
 	Header("Content-Disposition: attachment; filename=" . iconv('UTF-8','CP949',$name));
-	Header("Content-Description: PHP5 Generated Data");
 	Header("Pragma: no-cache");
 	Header("Expires: 0");
 }
