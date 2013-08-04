@@ -227,7 +227,7 @@ function kboard_upgrade(){
 			echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 			exit;
 		}
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD . '?version=' . $upgrader->getLatestVersion()->kboard);
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard);
 		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
 	else if($_GET['action'] == 'comments'){
@@ -237,7 +237,7 @@ function kboard_upgrade(){
 				exit;
 			}
 		}
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS . '?version=' . $upgrader->getLatestVersion()->comments);
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments);
 		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
 	else{

@@ -77,15 +77,16 @@ final class KBUpgrader {
 	/**
 	 * 패키지 파일을 다운받는다.
 	 * @param string $package
+	 * @param string $version
 	 * @return string
 	 */
-	public function download($package){
+	public function download($package, $version=''){
 		//로컬에 있는 파일인지 확인한다.
 		if(!preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package)){
 			return $package;
 		}
 		
-		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST']);
+		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST'].'&version='.$version);
 		
 		if(is_wp_error($download_file)){
 			die('<script>alert("업데이트 실패 : 서버 연결 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
