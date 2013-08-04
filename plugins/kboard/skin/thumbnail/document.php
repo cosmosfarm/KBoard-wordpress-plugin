@@ -59,7 +59,7 @@
 	</div>
 	
 	<?php if($board->isComment()):?>
-	<div class="kboard-comments-area"><?=do_shortcode("[kboard_comments content_uid=$content->uid]")?></div>
+	<div class="kboard-comments-area"><?=$board->buildComment($content->uid)?></div>
 	<?php endif?>
 	
 	<div class="kboard-control">
