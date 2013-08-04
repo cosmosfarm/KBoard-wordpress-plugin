@@ -20,6 +20,9 @@ class CommentList {
 		if($content_uid) $this->setContentUID($content_uid);
 	}
 	
+	/**
+	 * 댓글 목록을 초기화 한다.
+	 */
 	public function init(){
 		if($this->content_uid){
 			$this->resource = kboard_query("SELECT * FROM kboard_comments WHERE content_uid=$this->content_uid ORDER BY uid $this->order");
@@ -30,15 +33,26 @@ class CommentList {
 		return $this->resource;
 	}
 	
+	/**
+	 * 고유번호로 댓글 목록을 초기화 한다.
+	 * @param int $content_uid
+	 */
 	public function initWithUID($content_uid){
 		$this->setContentUID($content_uid);
 		$this->init();
 	}
 	
+	/**
+	 * 게시물 고유번호를 입력받는다.
+	 * @param int $content_uid
+	 */
 	public function setContentUID($content_uid){
 		$this->content_uid = $content_uid;
 	}
-
+	
+	/**
+	 * 총 댓글 개수를 반환한다.
+	 */
 	public function getCount(){
 		if(is_null($this->total)){
 			if($this->content_uid){
@@ -51,6 +65,10 @@ class CommentList {
 		return intval($this->total);
 	}
 	
+	/**
+	 * 다음 댓글을 반환한다.
+	 * @return Comment
+	 */
 	public function hasNext(){
 		if(!$this->resource) $this->init();
 		$this->row = mysql_fetch_object($this->resource);
@@ -65,6 +83,11 @@ class CommentList {
 		}
 	}
 	
+	/**
+	 * 댓글 고유번호를 입력받아 해당 댓글을 반환한다.
+	 * @param int $uid
+	 * @return Comment|unknown
+	 */
 	public function getComment($uid){
 		$row = mysql_fetch_object(kboard_query("SELECT * FROM kboard_comments WHERE uid=$uid LIMIT 1"));
 		
@@ -77,9 +100,15 @@ class CommentList {
 			return $row;
 		}
 	}
-
+	
+	/**
+	 * 댓글 정보를 입력한다.
+	 * @param int $user_uid
+	 * @param string $user_display
+	 * @param string $content
+	 * @param string $password
+	 */
 	public function add($user_uid, $user_display, $content, $password=''){
-		
 		$user_display = addslashes(kboard_htmlclear(trim($user_display)));
 		$content = addslashes(kboard_xssfilter(trim($content)));
 		$password = addslashes($password);
@@ -88,6 +117,10 @@ class CommentList {
 		kboard_query("INSERT INTO kboard_comments (content_uid, user_uid, user_display, content, created, password) VALUE ('$this->content_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
 	}
 	
+	/**
+	 * 댓글을 삭제한다.
+	 * @param int $uid
+	 */
 	public function delete($uid){
 		kboard_query("DELETE FROM kboard_comments WHERE uid=$uid");
 	}

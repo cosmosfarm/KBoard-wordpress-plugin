@@ -14,6 +14,7 @@ define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 include_once 'Comment.class.php';
 include_once 'CommentList.class.php';
 include_once 'CommentsBuilder.class.php';
+include_once 'KBCommentSkin.class.php';
 
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
@@ -62,8 +63,6 @@ function kboard_comments_builder($atts){
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');
 function kboard_comments_activation(){
-	global $wpdb;
-	
 	if(!defined('KBOARD_VERSION')){
 		echo 'KBoard 댓글 알림 :: 먼저 KBoard 플러그인을 설치하세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.';
 		exit;
@@ -79,7 +78,7 @@ function kboard_comments_activation(){
 	  `password` varchar(127) NOT NULL,
 	  PRIMARY KEY  (`uid`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-	$wpdb->query($kboard_comments);
+	kboard_query($kboard_comments);
 }
 
 /*
@@ -95,9 +94,7 @@ function kboard_comments_deactivation(){
  */
 register_uninstall_hook(__FILE__, 'kboard_comments_uninstall');
 function kboard_comments_uninstall(){
-	global $wpdb;
-	
 	$drop_table = "DROP TABLE `kboard_comments`";
-	$wpdb->query($drop_table);
+	kboard_query($drop_table);
 }
 ?>

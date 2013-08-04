@@ -7,37 +7,69 @@
  */
 final class KBUpgrader {
 	
-	private static $LATEST_VERSIOIN;
-	private static $SERVER_HOST = 'cosmosfarm.com';
+	static private $instance;
+	static private $latest_version;
+	static private $sever_host = 'cosmosfarm.com';
 	
-	static $KBOARD_VERSION_SERVER_URL = 'http://www.cosmosfarm.com/wpstore/kboard/version';
-	static $KBOARD_SERVER_URL = 'http://www.cosmosfarm.com/wpstore/kboard/upgrade_kboard';
-	static $KBOARD_COMMENTS_SERVER_URL = 'http://www.cosmosfarm.com/wpstore/kboard/upgrade_comments';
+	static $CONNECT_VERSION = 'http://www.cosmosfarm.com/wpstore/kboard/version';
+	static $CONNECT_KBOARD = 'http://www.cosmosfarm.com/wpstore/kboard/getkboard';
+	static $CONNECT_COMMENTS = 'http://www.cosmosfarm.com/wpstore/kboard/getcomments';
+	
+	static $TYPE_PLUGINS = 'plugins';
+	static $TYPE_THEMES = 'themes';
+	
+	private function __construct(){
+		
+	}
+
+	/**
+	 * 인스턴스를 반환한다.
+	 * @return KBoardSkin
+	 */
+	static public function getInstance(){
+		if(!self::$instance) self::$instance = new KBUpgrader();
+		return self::$instance;
+	}
+	
+	static function connect($url){
+		$host = self::$sever_host;
+		$fp = @fsockopen($host, 80, $errno, $errstr, 30);
+		if($fp){
+			fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
+			while(!feof($fp)){
+				$output .= fgets($fp, 1024);
+			}
+			fclose($fp);
+			$data = @explode("\r\n\r\n", $output);
+			$data = @end($data);
+			return json_decode($data);
+		}
+		else{
+			$data->error = '코스모스팜 서버에 접속할 수 없습니다.';
+			return $data;
+		}
+	}
 	
 	/**
 	 * 서버에서 최신버전을 가져온다.
 	 * @return string
 	 */
 	static function getLatestVersion(){
-		if(!self::$LATEST_VERSIOIN){
-			$host = self::$SERVER_HOST;
-			$url = self::$KBOARD_VERSION_SERVER_URL;
-			
-			$fp = fsockopen($host, 80, $errno, $errstr, 30);
-			if($fp){
-				fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
-				while(!feof($fp)){
-					$output .= fgets($fp, 1024);
-				}
-				fclose($fp);
-			}
-			
-			$data = @explode("\r\n\r\n", $output);
-			$data = @end($data);
-			
-			if($output) self::$LATEST_VERSIOIN = json_decode($data);
+		if($_SESSION['kboard_latest_version']){
+			self::$latest_version = $_SESSION['kboard_latest_version'];
 		}
-		return self::$LATEST_VERSIOIN;
+		else if(!self::$latest_version){
+			$data = self::connect(self::$CONNECT_VERSION);
+			if($data->error){
+				echo 'null';
+			}
+			else{
+				self::$latest_version = $data;
+			}
+		}
+		
+		//$_SESSION['kboard_latest_version'] = self::$latest_version;
+		return self::$latest_version;
 	}
 	
 	/**
@@ -46,9 +78,9 @@ final class KBUpgrader {
 	 * @return string
 	 */
 	public function download($package){
-		//Local file or remote?
-		if (!preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package)){
-			return $package; //must be a local file..
+		//로컬에 있는 파일인지 확인한다.
+		if(!preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package)){
+			return $package;
 		}
 		
 		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST']);
@@ -63,10 +95,11 @@ final class KBUpgrader {
 	/**
 	 * 패키지 파일의 압축을 풀고 설치한다.
 	 * @param string $package
+	 * @param string $content_type
 	 * @param string $delete_package
 	 * @return string
 	 */
-	public function install($package, $delete_package = true){
+	public function install($package, $content_type, $delete_package = true){
 		$file_handler = new KBFileHandler();
 		$upgrade_folder = WP_CONTENT_DIR . '/upgrade/';
 		$upgrade_files = $file_handler->getDirlist($upgrade_folder);
@@ -101,8 +134,8 @@ final class KBUpgrader {
 					$file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
 				}
 			}
+			$file_handler->copy($working_dir, WP_CONTENT_DIR . "/$content_type/test/");
 		}
-		$file_handler->copy($working_dir, WP_CONTENT_DIR . '/plugins/test/');
 		
 		return $working_dir;
 	}

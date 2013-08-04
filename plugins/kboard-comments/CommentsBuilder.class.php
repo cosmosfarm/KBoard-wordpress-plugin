@@ -18,12 +18,21 @@ class CommentsBuilder {
 		$this->setSkin('default');
 	}
 	
+	/**
+	 * 스킨을 지정한다.
+	 * @param string $skin
+	 * @return CommentsBuilder
+	 */
 	public function setSkin($skin){
 		$this->skin = $skin;
 		$this->skin_path = KBOARD_COMMENTS_URL_PATH . "/skin/$skin";
 		return $this;
 	}
 	
+	/**
+	 * 댓글창 화면을 생성한다.
+	 * @return string
+	 */
 	public function create(){
 		global $user_ID;
 		$userdata = get_userdata($user_ID);

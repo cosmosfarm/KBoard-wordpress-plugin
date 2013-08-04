@@ -220,17 +220,32 @@ function kboard_update(){
  */
 function kboard_upgrade(){
 	if(!current_user_can('activate_plugins')) wp_die('KBoard : 업그레이드 권한이 없습니다.');
-	
 	$upgrader = KBUpgrader::getInstance();
-	if($upgrader->getLatestVersion()->kboard_version <= KBOARD_VERSION){
-		echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
+	
+	if($_GET['action'] == 'kboard'){
+		if($upgrader->getLatestVersion()->kboard <= KBOARD_VERSION){
+			echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
+			exit;
+		}
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD);
+		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+	}
+	else if($_GET['action'] == 'comments'){
+		if(defined('KBOARD_COMMNETS_VERSION')){
+			if($upgrader->getLatestVersion()->comments <= KBOARD_COMMNETS_VERSION){
+				echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
+				exit;
+			}
+		}
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS);
+		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+	}
+	else{
+		echo '<script>alert("업그레이드에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 		exit;
 	}
 	
-	$download_file = $upgrader->download(KBUpgrader::$KBOARD);
-	$working_dir = $upgrader->install($download_file);
-	
-	echo '<script>alert("업데이트 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
+	echo '<script>alert("업그레이드 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 }
 
 /*
