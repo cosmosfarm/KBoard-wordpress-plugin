@@ -6,6 +6,7 @@
   3. 백업 및 복구 기능 추가
   4. Content 클래스에 getCommentsCount() 메소드 추가 및 스킨에 적용
   5. KBoard 클래스에 buildComment() 메소드 추가 및 스킨에 적용
+  6. 스킨의 게시물 리스트에 비밀글 아이콘 표시
 
 
 
