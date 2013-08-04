@@ -76,7 +76,7 @@
 					<td class="kboard-list-thumbnail"><?php if($content->thumbnail_file):?><img src="<?=get_site_url() . $content->thumbnail_file?>" style="max-width: 100px;" alt="<?=$content->thumbnail_name?>"><?php else:?>이미지 없음<?php endif?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?=$content->title?>
-							<?php if($content->secret):?><img src="<?=$skin_path?>/images/icon_lock.gif" alt="비밀글"><?php endif?>
+							<?php if($content->secret):?><img src="<?=$skin_path?>/images/icon_lock.png" alt="비밀글"><?php endif?>
 							</a>
 							<?=$content->getCommentsCount();?>
 						</div></td>
