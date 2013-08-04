@@ -15,8 +15,10 @@ final class KBUpgrader {
 	static $CONNECT_KBOARD = 'http://www.cosmosfarm.com/wpstore/kboard/getkboard';
 	static $CONNECT_COMMENTS = 'http://www.cosmosfarm.com/wpstore/kboard/getcomments';
 	
-	static $TYPE_PLUGINS = 'plugins';
-	static $TYPE_THEMES = 'themes';
+	static $TYPE_PLUGINS = '/plugins';
+	static $TYPE_THEMES = '/themes';
+	static $TYPE_KBOARD_SKIN = '/plugins/kboard/skin';
+	static $TYPE_COMMENTS_SKIN = '/plugins/kboard-comments/skin';
 	
 	private function __construct(){
 		
@@ -134,7 +136,7 @@ final class KBUpgrader {
 					$file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
 				}
 			}
-			$file_handler->copy($working_dir, WP_CONTENT_DIR . "/$content_type/test/");
+			$file_handler->copy($working_dir, WP_CONTENT_DIR . "$content_type");
 		}
 		
 		return $working_dir;
