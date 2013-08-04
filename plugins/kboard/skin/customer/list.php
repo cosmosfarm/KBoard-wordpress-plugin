@@ -73,6 +73,7 @@
 					<td class="kboard-list-uid"><?=$list->index()?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?=$content->title?></a>
+							<?php if($content->secret):?><img src="<?=$skin_path?>/images/icon_lock.gif" alt="비밀글"><?php endif?>
 							<?=$content->getCommentsCount();?>
 						</div></td>
 					<td class="kboard-list-user"><?=$content->member_display?></td>

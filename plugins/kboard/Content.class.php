@@ -25,7 +25,7 @@ class Content {
 	
 	private $row;
 	
-	function __construct($board_id=''){
+	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
 		$this->row = new stdClass();
 		$this->next = $_POST['next'];
@@ -43,7 +43,7 @@ class Content {
 	 * 게시판 ID를 입력받는다.
 	 * @param int $board_id
 	 */
-	function setBoardID($board_id){
+	public function setBoardID($board_id){
 		$this->board_id = $board_id;
 		
 		// 첨부파일 업로드 경로를 만든다.
@@ -57,7 +57,7 @@ class Content {
 	 * @param int $uid
 	 * @return Content
 	 */
-	function initWithUID($uid){
+	public function initWithUID($uid){
 		if($uid){
 			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM kboard_board_content WHERE uid=$uid LIMIT 1"));
 			$this->initOptions();
@@ -71,7 +71,7 @@ class Content {
 	 * @param object $row
 	 * @return Content
 	 */
-	function initWithRow($row){
+	public function initWithRow($row){
 		if($row){
 			$this->row = $row;
 			$this->initOptions();
@@ -83,7 +83,7 @@ class Content {
 	/**
 	 * 게시글을 등록/수정한다.
 	 */
-	function execute(){
+	public function execute(){
 		$this->member_uid = $_POST['member_uid'];
 		$this->member_display = $_POST['member_display'];
 		$this->title = trim($_POST['title']);
@@ -193,7 +193,7 @@ class Content {
 	/**
 	 * 게시물의 조회수를 증가한다.
 	 */
-	function increaseView(){
+	public function increaseView(){
 		if($this->uid && !@in_array($this->uid, $_SESSION['increased_document_uid'])){
 			$_SESSION['increased_document_uid'][] = $this->uid;
 			kboard_query("UPDATE kboard_board_content SET view=view+1 WHERE uid=$this->uid");
@@ -204,7 +204,7 @@ class Content {
 	 * 게시글 옵션 정보를 초기화 한다.
 	 * @return string
 	 */
-	function initOptions(){
+	public function initOptions(){
 		if(!$this->uid) return '';
 		$option = array();
 		$result = kboard_query("SELECT * FROM kboard_board_option WHERE content_uid=$this->uid");
@@ -219,7 +219,7 @@ class Content {
 	 * 게시글 첨부파일 정보를 초기화 한다.
 	 * @return array
 	 */
-	function initAttachedFiles(){
+	public function initAttachedFiles(){
 		if(!$this->uid) return '';
 		$file = array();
 		$result = kboard_query("SELECT * FROM kboard_board_attached WHERE content_uid=$this->uid");
@@ -234,7 +234,7 @@ class Content {
 	 * 게시글의 첨부파일을 업데이트한다. (입력/수정/삭제)
 	 * @param int $uid
 	 */
-	function update_attach($uid){
+	public function update_attach($uid){
 		if(!$this->attach_store_path) die('업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요.');
 		
 		$file = new KBFileHandler();
@@ -379,7 +379,7 @@ class Content {
 	 * 썸네일을 등록한다.
 	 * @param int $uid
 	 */
-	function setThumbnail($uid){
+	public function setThumbnail($uid){
 		if(!$this->thumbnail_store_path) die('업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요.');
 		
 		$file = new KBFileHandler();
@@ -398,7 +398,7 @@ class Content {
 	/**
 	 * 썸네일 파일을 삭제한다.
 	 */
-	function removeThumbnail(){
+	public function removeThumbnail(){
 		if($this->uid){
 			$result = kboard_query("SELECT * FROM kboard_board_content WHERE uid=$this->uid LIMIT 1");
 			$row = mysql_fetch_array($result);
@@ -413,7 +413,7 @@ class Content {
 	 * 게시글을 삭제한다.
 	 * @param string $next
 	 */
-	function remove($next=''){
+	public function remove($next=''){
 		if($this->uid){
 			$this->_remove_option($this->uid);
 			$this->_remove_all_attached($this->uid);
@@ -430,7 +430,7 @@ class Content {
 	 * @param string $endfix
 	 * @return string
 	 */
-	function getCommentsCount($prefix='(', $endfix=')'){
+	public function getCommentsCount($prefix='(', $endfix=')'){
 		if($this->uid && defined('KBOARD_COMMNETS_VERSION')){
 			$commentList = new CommentList($this->uid);
 			$commentsCount = $commentList->getCount();
