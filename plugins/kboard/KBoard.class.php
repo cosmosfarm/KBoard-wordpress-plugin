@@ -115,6 +115,21 @@ class KBoard {
 	}
 	
 	/**
+	 * 게시물의 댓글 폼과 리스트를 생성한다.
+	 * @param int $content_uid
+	 * @return string
+	 */
+	public function buildComment($content_uid){
+		if($this->id && $content_uid && $this->isComment()){
+			$meta = new KBoardMeta($this->id);
+			$atts['content_uid'] = $content_uid;
+			$atts['skin'] = $meta->comment_skin;
+			return kboard_comments_builder($atts);
+		}
+		return '';
+	}
+	
+	/**
 	 * 글 읽기 권한이 있는 사용자 인지 확인한다.
 	 * @param int $writer_uid
 	 * @param string $secret

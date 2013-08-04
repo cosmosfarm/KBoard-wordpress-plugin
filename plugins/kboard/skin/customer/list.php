@@ -61,6 +61,7 @@
 					<td class="kboard-list-uid">공지</td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?=$content->title?></a>
+							<?=$content->getCommentsCount();?>
 						</div></td>
 					<td class="kboard-list-user"><?=$content->member_display?></td>
 					<td class="kboard-list-date"><?=date("Y.m.d", strtotime($content->date))?></td>
@@ -72,11 +73,7 @@
 					<td class="kboard-list-uid"><?=$list->index()?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?=$content->title?></a>
-							<?php 
-							$commentList = new CommentList($content->uid);
-							$commentsCount = $commentList->getCount();
-							if($commentsCount) echo "($commentsCount)";
-							?>
+							<?=$content->getCommentsCount();?>
 						</div></td>
 					<td class="kboard-list-user"><?=$content->member_display?></td>
 					<td class="kboard-list-date"><?=date("Y.m.d", strtotime($content->date))?></td>

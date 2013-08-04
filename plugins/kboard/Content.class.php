@@ -425,6 +425,21 @@ class Content {
 	}
 	
 	/**
+	 * 게시글의 댓글 개수를 반환한다.
+	 * @param string $prefix
+	 * @param string $endfix
+	 * @return string
+	 */
+	function getCommentsCount($prefix='(', $endfix=')'){
+		if($this->uid && defined('KBOARD_COMMNETS_VERSION')){
+			$commentList = new CommentList($this->uid);
+			$commentsCount = $commentList->getCount();
+			if($commentsCount) echo "$prefix$commentsCount$endfix";
+		}
+		return '';
+	}
+	
+	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.
 	 */
 	static function autolink($contents){

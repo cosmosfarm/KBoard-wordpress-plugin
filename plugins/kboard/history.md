@@ -4,6 +4,8 @@
   1. 업데이트 기능 추가
   2. 대시보드 페이지 추가
   3. 백업 및 복구 기능 추가
+  4. Content 클래스에 getCommentsCount() 메소드 추가 및 스킨에 적용
+  5. KBoard 클래스에 buildComment() 메소드 추가 및 스킨에 적용
 
 
 
