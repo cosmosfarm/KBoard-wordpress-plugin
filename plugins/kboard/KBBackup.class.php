@@ -98,19 +98,29 @@ class KBBackup {
 		exit;
 	}
 	
+	/**
+	 * XML 복원파일을 입력받아 기존 데이터를 비우고 DB에 입력한다.
+	 * @param string $file
+	 */
 	public function importXml($file){
 		include 'XML2Array.class.php';
 		$xml = file_get_contents($file);
 		$array = XML2Array::createArray($xml);
 		
-		print_r($array);
-		echo '<br><br>';
 		foreach($array['kboard'] AS $table => $rows){
-			//if(is_array($rows['data']))
-			$data = $rows['data'];
-			echo 'count:'.count($rows).'<br>';
+			
+			// 테이블에 입력될 데이터가 한 개인지 여러개 인지 확인한다.
+			if(is_array($rows['data'])){
+				$keys = array_keys($rows['data']);
+				if(reset($keys) == '0') $data = $rows['data'];
+				else $data = $rows;
+			}
+			else{
+				$data = $rows;
+			}
+			
 			if($data){
-				echo "TRUNCATE TABLE `$table`" . '<br>';
+				kboard_query("TRUNCATE TABLE `$table`");
 				
 				foreach($data AS $key => $row){
 					$keys = array_keys($row);
@@ -128,10 +138,9 @@ class KBBackup {
 					}
 					$value = implode(',', $value);
 					
-					echo "INSERT INTO `$table` ($columns) VALUE ($value)" . '<br>';
+					kboard_query("INSERT INTO `$table` ($columns) VALUE ($value)");
 				}
 			}
-			echo '<br>';
 		}
 	}
 }

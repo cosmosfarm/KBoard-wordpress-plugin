@@ -146,16 +146,22 @@ function kboard_backup(){
 	if($_GET['action'] == 'upload'){
 		$xmlfile = WP_CONTENT_DIR . '/uploads/' . basename($_FILES['kboard_backup_xml_file']['name']);
 		if(move_uploaded_file($_FILES['kboard_backup_xml_file']['tmp_name'], $xmlfile)){
-			$backup->importXml($xmlfile);
+			$file_extension = explode('.', $xmlfile);
+			if(end($file_extension) == 'xml'){
+				$backup->importXml($xmlfile);
+				echo '<script>alert("복원파일의 데이터로 복구 되었습니다.");</script>';
+			}
+			else{
+				echo '<script>alert("복원에 실패 했습니다. 올바른 복원파일이 아닙니다.");</script>';
+			}
 			unlink($xmlfile);
 		}
 		else{
-			echo '<script>alert("파일 업로드 실패");history.go(-1);</script>';
+			echo '<script>alert("파일의 업로드를 실패 했습니다.");</script>';
 		}
 	}
-	else{
-		include_once 'pages/kboard_backup.php';
-	}
+	
+	include_once 'pages/kboard_backup.php';
 }
 
 /*
