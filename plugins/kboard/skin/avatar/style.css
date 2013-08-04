@@ -31,6 +31,7 @@ img { border: 0; }
 #kboard-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
 #kboard-list .kboard-list tbody tr.kboard-list-notice td.kboard-list-uid { font-weight: bold; color: #515151; }
 #kboard-list .kboard-list tbody td.kboard-list-title { text-align: left; }
+#kboard-list .kboard-list tbody td.kboard-list-title img { vertical-align: text-bottom; }
 #kboard-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; }
