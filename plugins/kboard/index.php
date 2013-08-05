@@ -135,6 +135,7 @@ function kboard_setting(){
 	$board->setID($_GET['board_id']);
 	$skin = KBoardSkin::getInstance();
 	$meta = new KBoardMeta($board->uid);
+	$comment_skin = KBCommentSkin::getInstance();
 	
 	include_once 'pages/kboard_setting.php';
 }
@@ -203,6 +204,7 @@ function kboard_update(){
 	if($board_id){
 		$meta = new KBoardMeta($board_id);
 		$meta->latest_alerts = $_POST['latest_alerts'];
+		$meta->comment_skin = $_POST['comment_skin'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){

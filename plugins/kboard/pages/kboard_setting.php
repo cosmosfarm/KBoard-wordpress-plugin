@@ -55,7 +55,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<?php endif?>
 				<tr valign="top">
-					<th scope="row"><label for="skin">스킨</label></th>
+					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 					<td><select name="skin" id="skin" class="">
 							<?php foreach($skin->list AS $key => $value):?>
 							<option value="<?=$value?>" <?php if($board->skin == $value):?> selected <?php endif?>>
@@ -82,23 +82,37 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">한 페이지에 보여지는 게시물 숫자를 정합니다.</p></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="use_comment">댓글쓰기</label></th>
+					<th scope="row"><label for="use_comment">댓글 활성화</label></th>
 					<td>
-					<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
-					<select name="use_comment" id="use_comment" class="">
-							<option value="">no</option>
-							<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>yes</option>
-					</select>
-						<p class="description">게시글에 댓글쓰기를 활성화 합니다. (KBoard 댓글 플러그인 사용)</p></td>
-					<?php else:?>
-					<select name="use_comment" id="use_comment" class="">
-							<option value="no" selected>no</option>
-					</select>
-						<p class="description">KBoard 댓글 플러그인을 설치하세요.</p></td>
-					<?php endif?>
+						<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
+							<select name="use_comment" id="use_comment" class="">
+									<option value="">no</option>
+									<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>yes</option>
+							</select>
+							<p class="description">게시글에 댓글 쓰기를 활성화 합니다. (KBoard 댓글 플러그인 사용)</p>
+						<?php else:?>
+							<select name="use_comment" id="use_comment" class="">
+									<option value="no" selected>no</option>
+							</select>
+							<p class="description">KBoard 댓글 플러그인을 설치하세요.</p>
+						<?php endif?>
+					</td>
 				</tr>
+				<?php if(defined('KBOARD_COMMNETS_VERSION') && $board->use_comment == 'yes'):?>
 				<tr valign="top">
-					<th scope="row"><label for="use_editor">에디터사용</label></th>
+					<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
+					<td><select name="comment_skin" id="comment_skin" class="">
+							<?php foreach($comment_skin->list AS $key => $value):?>
+							<option value="<?=$value?>" <?php if($meta->comment_skin == $value):?> selected <?php endif?>>
+								<?=$value?>
+							</option>
+							<?php endforeach;?>
+						</select>
+						<p class="description">댓글의 모양을 선택합니다. (KBoard 댓글 플러그인 사용)</p></td>
+				</tr>
+				<?php endif?>
+				<tr valign="top">
+					<th scope="row"><label for="use_editor">에디터 사용</label></th>
 					<td><select name="use_editor" id="use_editor" class="">
 							<option value="">no</option>
 							<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>yes</option>
@@ -106,7 +120,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">에디터를 사용해 게시물을 작성할 수 있습니다.</p></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="use_category">카테고리사용</label></th>
+					<th scope="row"><label for="use_category">카테고리 사용</label></th>
 					<td><select name="use_category" id="use_category" class="">
 							<option value="">no</option>
 							<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>yes</option>

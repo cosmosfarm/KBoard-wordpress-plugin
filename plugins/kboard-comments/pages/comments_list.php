@@ -76,7 +76,7 @@
 				?>
 				<tr>
 					<th class="check-column"><input type="checkbox" name="comment_uid[]" value="<?=$comment->uid?>"></th>
-					<td><a class="row-title" href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>#board_name" title="편집"><?=$board->board_name?></a></td>
+					<td><a class="row-title" href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?=$board->board_name?></a></td>
 					<td>
 						<?php if($comment->user_uid):?>
 						<a href="/wp-admin/user-edit.php?user_id=<?=$comment->user_uid?>"><?=$comment->user_display?></a>
