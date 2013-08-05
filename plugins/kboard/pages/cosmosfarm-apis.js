@@ -59,5 +59,8 @@ var COSMOSFARM = {
 	},
 	getLoginUrl:function(redirect_url){
 		return this.api_url + '/request_access_token?app_id=' + this.app_id + '&redirect_url=' + redirect_url;
+	},
+	getWpstoreProducts:function(category, rpp, callback, error){
+		this.api('/wpstore_products/'+category, 'rpp='+rpp, callback, error);
 	}
 }
