@@ -127,22 +127,29 @@ final class KBUpgrader {
 		
 		if(!$archive_files){
 			$file_handler->delete($working_dir);
-			die('<script>alert("업데이트 실패 : 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
+			die('<script>alert("파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
 		}
 		else{
+			$extract_result = true;
 			foreach($archive_files AS $file){
 				if($file['folder']){
-					$file_handler->mkPath($working_dir . '/' . $file['filename']);
+					$extract_result = $file_handler->mkPath($working_dir . '/' . $file['filename']);
 				}
 				else{
-					$file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
+					$extract_result = $file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
 				}
 			}
+			
+			if(!$extract_result){
+				$file_handler->delete($working_dir);
+				die('<script>alert("파일 복사 실패, /wp-content/upgrade 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
+			}
+			
 			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . "$content_type");
 			
 			if(!$copy_result){
 				$file_handler->delete($working_dir);
-				die('<script>alert("업데이트 실패 : 파일 복사 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
+				die('<script>alert("파일 복사 실패, /wp-content/plugins 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
 			}
 		}
 		

@@ -86,6 +86,8 @@ function kboard_settings_menu(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
+	if($_GET['access_token']) $_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
+	
 	kboard_system_update();
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';

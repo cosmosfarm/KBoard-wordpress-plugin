@@ -486,12 +486,7 @@ if(!class_exists('KBFileHandler')){
 		 */
 		public function copy($from, $to){
 			if(is_file($from)){
-				if(is_writable($to)){
-					return rename($from, $to);
-				}
-				else{
-					return false;
-				}
+				return @copy($from, $to);
 			}
 			elseif(is_dir($from)){
 				if(substr($to, strlen($to) - 1, 1) != '/') $to .= '/';
@@ -513,11 +508,11 @@ if(!class_exists('KBFileHandler')){
 		 * @param mixed $data
 		 */
 		public function putContents($filename, $data){
-			if(!function_exists('file_put_contents')){
-				return file_put_contents($filename, $data);
+			if(function_exists('file_put_contents')){
+				return @file_put_contents($filename, $data);
 			}
 			else{
-				if($fp = fopen($filename, 'w')){
+				if($fp = @fopen($filename, 'w')){
 					fwrite($fp, $data);
 					return fclose($fp);
 				}
