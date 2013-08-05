@@ -486,7 +486,12 @@ if(!class_exists('KBFileHandler')){
 		 */
 		public function copy($from, $to){
 			if(is_file($from)){
-				return copy($from, $to);
+				if(is_writable($to)){
+					return rename($from, $to);
+				}
+				else{
+					return false;
+				}
 			}
 			elseif(is_dir($from)){
 				if(substr($to, strlen($to) - 1, 1) != '/') $to .= '/';
