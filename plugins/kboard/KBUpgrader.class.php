@@ -11,7 +11,6 @@ final class KBUpgrader {
 	static private $latest_version;
 	static private $sever_host = 'cosmosfarm.com';
 	
-	static $CONNECT_LOGIN_STATUS = 'http://www.cosmosfarm.com/accounts/loginstatus';
 	static $CONNECT_VERSION = 'http://www.cosmosfarm.com/wpstore/kboard/version';
 	static $CONNECT_KBOARD = 'http://www.cosmosfarm.com/wpstore/kboard/getkboard';
 	static $CONNECT_COMMENTS = 'http://www.cosmosfarm.com/wpstore/kboard/getcomments';
@@ -113,37 +112,17 @@ final class KBUpgrader {
 			$file_handler->delete($upgrade_folder . $file);
 		}
 		
-		// See #15789 - PclZip uses string functions on binary data, If it's overloaded with Multibyte safe functions the results are incorrect.
-		if(ini_get('mbstring.func_overload') && function_exists('mb_internal_encoding')){
-			$previous_encoding = mb_internal_encoding();
-			mb_internal_encoding('ISO-8859-1');
-		}
-		require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
-		
-		$archive = new PclZip($package);
-		$archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING);
+		include ABSPATH . 'wp-admin/includes/file.php';
+		$result = unzip_file($package, $working_dir);
 		
 		if($delete_package) unlink($package);
 		
-		if(!$archive_files){
+		if(!$result){
 			$file_handler->delete($working_dir);
-			die('<script>alert("업데이트 실패 : 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
+			die('<script>alert("업데이트 실패 : 압축 해제 실패, 디렉토리 권한을 확인하세요.");history.go(-1);</script>');
 		}
 		else{
-			foreach($archive_files AS $file){
-				if($file['folder']){
-					$file_handler->mkPath($working_dir . '/' . $file['filename']);
-				}
-				else{
-					$file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
-				}
-			}
-			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . "$content_type");
-			
-			if(!$copy_result){
-				$file_handler->delete($working_dir);
-				die('<script>alert("업데이트 실패 : 파일 복사 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
-			}
+			$file_handler->copy($working_dir, WP_CONTENT_DIR . $content_type);
 		}
 		
 		return $working_dir;
