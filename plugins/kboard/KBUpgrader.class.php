@@ -90,7 +90,7 @@ final class KBUpgrader {
 		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST'].'&version='.$version.'&app_id='.KBOARD_WORDPRESS_APP_ID.'&access_token='.$access_token);
 		
 		if(is_wp_error($download_file)){
-			die('<script>alert("업데이트 서버 연결 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
+			die('<script>alert("업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요.");history.go(-1);</script>');
 		}
 		
 		return $download_file;

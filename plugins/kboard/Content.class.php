@@ -60,6 +60,7 @@ class Content {
 	public function initWithUID($uid){
 		if($uid){
 			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM kboard_board_content WHERE uid=$uid LIMIT 1"));
+			$this->board_id = $this->row->board_id;
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
@@ -74,6 +75,7 @@ class Content {
 	public function initWithRow($row){
 		if($row){
 			$this->row = $row;
+			$this->board_id = $this->row->board_id;
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
