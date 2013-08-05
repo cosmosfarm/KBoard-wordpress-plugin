@@ -485,15 +485,20 @@ if(!class_exists('KBFileHandler')){
 		 * @param string $to
 		 */
 		public function copy($from, $to){
-			if(is_file($from)) copy($from, $to);
+			if(is_file($from)){
+				return copy($from, $to);
+			}
 			elseif(is_dir($from)){
 				if(substr($to, strlen($to) - 1, 1) != '/') $to .= '/';
 				if(substr($from, strlen($from) - 1, 1) != '/') $from .= '/';
 				$this->mkPath($to);
 				$dirlist = $this->getDirlist($from);
+				$copy_result = true;
 				foreach($dirlist as $file){
-					$this->copy($from . $file, $to . $file);
+					$copy_result = $this->copy($from . $file, $to . $file);
+					if(!$copy_result) break;
 				}
+				return $copy_result;
 			}
 		}
 		

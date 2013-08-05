@@ -11,6 +11,7 @@ final class KBUpgrader {
 	static private $latest_version;
 	static private $sever_host = 'cosmosfarm.com';
 	
+	static $CONNECT_LOGIN_STATUS = 'http://www.cosmosfarm.com/accounts/loginstatus';
 	static $CONNECT_VERSION = 'http://www.cosmosfarm.com/wpstore/kboard/version';
 	static $CONNECT_KBOARD = 'http://www.cosmosfarm.com/wpstore/kboard/getkboard';
 	static $CONNECT_COMMENTS = 'http://www.cosmosfarm.com/wpstore/kboard/getcomments';
@@ -126,7 +127,7 @@ final class KBUpgrader {
 		
 		if(!$archive_files){
 			$file_handler->delete($working_dir);
-			die('<script>alert("업데이트 실패 : 압축 해제 실패, 디렉토리 권한을 확인하세요.");history.go(-1);</script>');
+			die('<script>alert("업데이트 실패 : 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
 		}
 		else{
 			foreach($archive_files AS $file){
@@ -137,7 +138,12 @@ final class KBUpgrader {
 					$file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
 				}
 			}
-			$file_handler->copy($working_dir, WP_CONTENT_DIR . "$content_type");
+			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . "$content_type");
+			
+			if(!$copy_result){
+				$file_handler->delete($working_dir);
+				die('<script>alert("업데이트 실패 : 파일 복사 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
+			}
 		}
 		
 		return $working_dir;
