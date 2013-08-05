@@ -26,6 +26,7 @@ include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
+define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
 define('KBOARD_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_URL_PATH', plugins_url('kboard'));
 define('KBOARD_DASHBOARD_PAGE', admin_url('/admin.php?page=kboard_dashboard'));
@@ -229,7 +230,7 @@ function kboard_upgrade(){
 			echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
 			exit;
 		}
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard);
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, $_SESSION['cosmosfarm_access_token']);
 		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
 	else if($_GET['action'] == 'comments'){
@@ -239,7 +240,7 @@ function kboard_upgrade(){
 				exit;
 			}
 		}
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments);
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, $_SESSION['cosmosfarm_access_token']);
 		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
 	else{

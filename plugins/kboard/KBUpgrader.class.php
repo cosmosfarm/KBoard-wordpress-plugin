@@ -70,8 +70,7 @@ final class KBUpgrader {
 				self::$latest_version = $data;
 			}
 		}
-		
-		//$_SESSION['kboard_latest_version'] = self::$latest_version;
+		$_SESSION['kboard_latest_version'] = self::$latest_version;
 		return self::$latest_version;
 	}
 	
@@ -79,18 +78,19 @@ final class KBUpgrader {
 	 * 패키지 파일을 다운받는다.
 	 * @param string $package
 	 * @param string $version
+	 * @param string $access_token
 	 * @return string
 	 */
-	public function download($package, $version=''){
+	public function download($package, $version, $access_token){
 		//로컬에 있는 파일인지 확인한다.
 		if(!preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package)){
 			return $package;
 		}
 		
-		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST'].'&version='.$version);
+		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST'].'&version='.$version.'&app_id='.KBOARD_WORDPRESS_APP_ID.'&access_token='.$access_token);
 		
 		if(is_wp_error($download_file)){
-			die('<script>alert("업데이트 실패 : 서버 연결 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
+			die('<script>alert("업데이트 서버 연결 실패, 잠시 후 다시 시도해 주세요.");history.go(-1);</script>');
 		}
 		
 		return $download_file;
