@@ -306,6 +306,20 @@ function kboard_builder($args){
 }
 
 /*
+ * SEO 최적화, 게시물 내용으로 description 데이터 입력 
+ */
+add_action('wp_head', 'kboard_head_description');
+function kboard_head_description(){
+	$mod = kboard_htmlclear($_GET['mod']);
+	$uid = intval($_GET['uid']);
+	if($mod == 'document' && $uid){
+		$content = new Content();
+		$content->initWithUID($uid);
+		echo '<meta name="description" content="'.$content->content.'">';
+	}
+}
+
+/*
  * 선택된 페이지에 자동으로 게시판 생성
  */
 add_filter('the_content', 'kboard_auto_builder');
