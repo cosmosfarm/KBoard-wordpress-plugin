@@ -315,7 +315,7 @@ function kboard_head_description(){
 	if($mod == 'document' && $uid){
 		$content = new Content();
 		$content->initWithUID($uid);
-		echo '<meta name="description" content="'.$content->content.'">';
+		echo '<meta name="description" content="'.addslashes(kboard_htmlclear($content->content)).'">';
 	}
 }
 
