@@ -33,11 +33,13 @@
 			<?php if($board->initCategory2()):?>
 			<div class="kboard-attr-row">
 				<label class="attr-name">카테고리2</label>
-				<select name="category2">
-					<?php while($board->hasNextCategory()):?>
-					<option value="<?=$board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
-					<?php endwhile?>
-				</select>
+				<div class="attr-value">
+					<select name="category2">
+						<?php while($board->hasNextCategory()):?>
+						<option value="<?=$board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
+						<?php endwhile?>
+					</select>
+				</div>
 			</div>
 			<?php endif;?>
 		<?php endif?>
