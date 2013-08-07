@@ -14,6 +14,8 @@
 			<?php else:?>
 			<div class="comments-username">
 				<span class="username">작성자</span> <input type="text" name="member_display" value="<?=$userdata->data->display_name?>">
+			</div>
+			<div class="comments-password">
 				<span class="password">비밀번호</span> <input type="password" name="password" value="">
 			</div>
 			<?php endif?>
