@@ -4,9 +4,9 @@
  */
 
 img { border: 0; }
-.cut_strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.cut_strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
-.kboard-button-small { display: inline; margin: 0; padding: 5px 10px; font-size: 12px; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
+.kboard-button-small { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
 .kboard-button-small:hover { color: white !important; background-image: none !important; background-color: #323239 !important; text-decoration: none; }
 
 .kboard-poweredby { float: left; font-size: 12px; }
@@ -26,7 +26,7 @@ img { border: 0; }
 #kboard-list .kboard-list table td.kboard-list-uid { width: 72px; }
 #kboard-list .kboard-list table td.kboard-list-title { width: auto; }
 #kboard-list .kboard-list table td.kboard-list-user { width: 65px; }
-#kboard-list .kboard-list table td.kboard-list-user img { vertical-align: middle; }
+#kboard-list .kboard-list table td.kboard-list-user img { display: inline; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-list .kboard-list table td.kboard-list-view { width: 55px; }
 #kboard-list .kboard-list thead tr { border-bottom: 1px solid #545861; }
@@ -36,7 +36,7 @@ img { border: 0; }
 #kboard-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
 #kboard-list .kboard-list tbody tr.kboard-list-notice td.kboard-list-uid { font-weight: bold; color: #515151; }
 #kboard-list .kboard-list tbody td.kboard-list-title { text-align: left; }
-#kboard-list .kboard-list tbody td.kboard-list-title img { vertical-align: text-bottom; }
+#kboard-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
 #kboard-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; }
@@ -51,10 +51,11 @@ img { border: 0; }
 #kboard-editor .kboard-attr-title input { display: inline-block; padding: 6px 2px; font-size: 12px; width: 50%; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-editor .kboard-attr-row .attr-name { float: left; margin: 0; padding: 0 10px 0 20px; width: 90px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
 #kboard-editor .kboard-attr-row .attr-value { font-size: 12px; width: 100%; }
-#kboard-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-editor .kboard-attr-row .attr-value input[type=text] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; min-width: 130px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-editor .kboard-attr-row .attr-value input[type=text],
+#kboard-editor .kboard-attr-row .attr-value input[type=password] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-editor .kboard-attr-row .attr-value input[type=checkbox] { margin-top: 8px; }
-#kboard-editor .kboard-attr-row .attr-value input[type=file] { margin: 0; padding: 0; font-size: 12px; color: #666666; border: 0; }
+#kboard-editor .kboard-attr-row .attr-value input[type=file] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border: 0; }
 #kboard-editor .kboard-content { float: left; padding: 9px 0; width: 100%; border-bottom: 1px solid #e3e3e3; }
 #kboard-editor .kboard-content textarea { width: 98%; height: 250px; }
 #kboard-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
@@ -67,8 +68,8 @@ img { border: 0; }
 #kboard-document .kboard-title { float: left; width: 100%; border-top: 2px solid #545861; }
 #kboard-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 12px; }
 #kboard-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #545861; border-bottom: 1px solid #e3e3e3; background-color: #f4f4f4; font-size: 12px; }
-#kboard-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 22px; padding-right: 35px; }
-#kboard-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; }
+#kboard-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; }
+#kboard-document .kboard-detail .detail-attr .detail-name { float: left; width: 40px; font-weight: bold; color: #545861; text-align: right; }
 #kboard-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
 #kboard-document .kboard-detail .detail-attr .detail-value img { vertical-align: middle; }
 #kboard-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
@@ -81,7 +82,7 @@ img { border: 0; }
 #kboard-document .kboard-control .left { float: left; }
 #kboard-document .kboard-control .right { float: right; text-align: right; }
 
-#kboard-latest table { table-layout: fixed; }
+#kboard-latest table { width: 100%; table-layout: fixed; }
 #kboard-latest table tr { padding: 10px 0; border-bottom: 1px solid #e3e3e3; }
 #kboard-latest table th { text-align: center; }
 #kboard-latest table .kboard-latest-title { padding-left: 10px; }
@@ -100,4 +101,6 @@ img { border: 0; }
 	#kboard-editor .kboard-attr-row input[type=text],
 	#kboard-editor .kboard-attr-row input[type=file],
 	#kboard-editor .kboard-attr-row input[type=password] { width: 50%; }
+	
+	#kboard-document .kboard-detail .detail-attr { clear: both; }
 }
