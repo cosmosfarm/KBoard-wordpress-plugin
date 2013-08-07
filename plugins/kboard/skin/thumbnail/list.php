@@ -37,7 +37,7 @@
 					<option value="member_display"<?php if($_REQUEST['search'] == 'member_display'):?> selected="selected"<?php endif?>>작성자</option>
 				</select>
 				<input type="text" name="keyword" value="<?=$_REQUEST['keyword']?>">
-				<button type="submit">검색</button>
+				<button type="submit" class="kboard-button-small">검색</button>
 			</div>
 		</form>
 	</div>

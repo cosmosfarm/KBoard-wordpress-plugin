@@ -14,6 +14,11 @@ img { border: 0; }
 
 #kboard-list { margin: 0 auto; width: 99%; }
 #kboard-list .kboard-header { float: left; margin-top: 0; width: 100%; }
+#kboard-list .kboard-category { float: left; padding-bottom: 5px; }
+#kboard-list .kboard-category select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-list .kboard-search { float: right; padding-bottom: 5px; }
+#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; }
 #kboard-list .kboard-list { float: left; width: 100%; background-color: white; }
 #kboard-list .kboard-list table { table-layout:fixed; width: 100%; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
 #kboard-list .kboard-list table a { color: black; text-decoration: none; }
@@ -39,20 +44,18 @@ img { border: 0; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li a { color: black; padding: 5px 10px; border: 1px solid #e0e0e0; text-decoration: none; font-size: 12px; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li.active a { font-weight: bold; border: 1px solid #a9a9a9; color: black; text-decoration: none; }
 #kboard-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
-#kboard-list .kboard-search { float: right; padding-bottom: 1px; }
-#kboard-list .kboard-search select { display: inline-block; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-list .kboard-search input { display: inline-block; padding: 6px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-list .kboard-category { float: left; }
-#kboard-list .kboard-category select { font-size: 12px; width: 125px; color: #666666; }
 
 #kboard-editor { margin: 0 auto; width: 99%; }
 #kboard-editor .kboard-header { float: left; margin-top: 0; width: 100%; border-top: 2px solid #545861; }
 #kboard-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; border-bottom: 1px solid #e3e3e3; }
 #kboard-editor .kboard-attr-title { float: left; border-bottom: 1px solid #545861; }
-#kboard-editor .kboard-attr-title input { width: 50%; }
-#kboard-editor .kboard-attr-row .attr-name { float: left; padding: 0 10px 0 20px; width: 60px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
+#kboard-editor .kboard-attr-title input { display: inline-block; padding: 6px 2px; font-size: 12px; width: 50%; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-editor .kboard-attr-row .attr-name { float: left; margin: 0; padding: 0 10px 0 20px; width: 90px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
 #kboard-editor .kboard-attr-row .attr-value { font-size: 12px; width: 100%; }
+#kboard-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-editor .kboard-attr-row .attr-value input[type=text] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-editor .kboard-attr-row .attr-value input[type=checkbox] { margin-top: 8px; }
+#kboard-editor .kboard-attr-row .attr-value input[type=file] { margin: 0; padding: 0; font-size: 12px; color: #666666; border: 0; }
 #kboard-editor .kboard-content { float: left; padding: 9px 0; width: 100%; border-bottom: 1px solid #e3e3e3; }
 #kboard-editor .kboard-content textarea { width: 98%; height: 250px; }
 #kboard-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
@@ -78,13 +81,15 @@ img { border: 0; }
 #kboard-document .kboard-control .left { float: left; }
 #kboard-document .kboard-control .right { float: right; text-align: right; }
 
-#kboard-latest table { table-layout:fixed; }
+#kboard-latest table { table-layout: fixed; }
 #kboard-latest table tr { padding: 10px 0; border-bottom: 1px solid #e3e3e3; }
 #kboard-latest table th { text-align: center; }
 #kboard-latest table .kboard-latest-title { padding-left: 10px; }
 #kboard-latest table .kboard-latest-date { width: 75px; text-align: center; }
 
 @media (max-width: 600px) {
+	#kboard-list .kboard-category select { width: auto;}
+	#kboard-list .kboard-search { clear: both; float: left; }
 	#kboard-list .kboard-search select { width: 80px; }
 	#kboard-list .kboard-search input { width: 80px; }
 	#kboard-list .kboard-list table td.kboard-list-uid { width: 50px; }
