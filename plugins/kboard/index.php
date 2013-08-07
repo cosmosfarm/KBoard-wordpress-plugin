@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 2.3
+Version: 2.4
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
