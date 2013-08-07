@@ -3,15 +3,16 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 2.4
+Version: 2.5
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_VERSION', '2.4');
-define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
-
+if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
+
+define('KBOARD_VERSION', '2.5');
+define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 include_once 'KBoard.class.php';
 include_once 'Content.class.php';
@@ -136,7 +137,6 @@ function kboard_setting(){
 	$skin = KBoardSkin::getInstance();
 	$meta = new KBoardMeta($board->uid);
 	$comment_skin = KBCommentSkin::getInstance();
-	
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -172,8 +172,6 @@ function kboard_backup(){
  * 게시판 정보 수정
  */
 function kboard_update(){
-	global $wpdb;
-	
 	if(!defined('KBOARD_COMMNETS_VERSION')){
 		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
 		exit;
@@ -194,11 +192,11 @@ function kboard_update(){
 	$create = date("YmdHis", current_time('timestamp'));
 	
 	if(!$board_id){
-		$wpdb->query("INSERT INTO kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+		kboard_query("INSERT INTO kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
 		$board_id = mysql_insert_id();
 	}
 	else{
-		$wpdb->query("UPDATE kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
+		kboard_query("UPDATE kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
 	}
 	
 	if($board_id){
@@ -208,7 +206,8 @@ function kboard_update(){
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
-			$auto_page_board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'")));
+			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'"));
+			$auto_page_board_id = @reset($row);
 			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
 			else $meta->auto_page = $auto_page;
 		}
@@ -353,8 +352,6 @@ function kboard_template_redirect(){
  */
 register_activation_hook(__FILE__, 'kboard_activation');
 function kboard_activation(){
-	global $wpdb;
-	
 	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `kboard_board_setting` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_name` varchar(127) NOT NULL,
@@ -371,7 +368,7 @@ function kboard_activation(){
 	  `created` char(14) NOT NULL,
 	  PRIMARY KEY  (`uid`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-	$wpdb->query($kboard_board_setting);
+	kboard_query($kboard_board_setting);
 	
 	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `kboard_board_attached` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
@@ -382,7 +379,7 @@ function kboard_activation(){
 	  `file_name` varchar(127) NOT NULL,
 	  PRIMARY KEY  (`uid`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-	$wpdb->query($kboard_board_attached);
+	kboard_query($kboard_board_attached);
 	
 	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `kboard_board_content` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
@@ -403,7 +400,7 @@ function kboard_activation(){
 	  PRIMARY KEY  (`uid`),
 	  KEY `board_id` (`board_id`)
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-	$wpdb->query($kboard_board_content);
+	kboard_query($kboard_board_content);
 	
 	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `kboard_board_option` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
@@ -412,7 +409,7 @@ function kboard_activation(){
 	  `option_value` text NOT NULL,
 	  PRIMARY KEY  (`uid`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-	$wpdb->query($kboard_board_option);
+	kboard_query($kboard_board_option);
 	
 	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `kboard_board_meta` (
 	  `board_id` bigint(20) unsigned NOT NULL,
@@ -420,7 +417,7 @@ function kboard_activation(){
 	  `value` varchar(127) NOT NULL,
 	  UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8";
-	$wpdb->query($kboard_board_meta);
+	kboard_query($kboard_board_meta);
 }
 
 /*
@@ -436,21 +433,20 @@ function kboard_deactivation(){
  */
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
 function kboard_uninstall(){
-	global $wpdb;
-	
 	$drop_table = "DROP TABLE  `kboard_board_attached` ,
 		`kboard_board_content` ,
 		`kboard_board_option` ,
 		`kboard_board_setting` ,
 		`kboard_board_meta`";
-	$wpdb->query($drop_table);
+	kboard_query($drop_table);
 }
 
 /*
  * 쿼리
  */
 function kboard_query($query){
-	$resource = mysql_query($query);
+	global $wpdb;
+	$resource = $wpdb->query($query);
 	if(mysql_errno()){
 		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요. 개인정보는 지워주세요.';
 		die($error);
