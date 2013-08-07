@@ -8,7 +8,7 @@ Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_VERSION', '2.3');
+define('KBOARD_VERSION', '2.4');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 if(!session_id()) session_start();
