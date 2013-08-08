@@ -7,12 +7,11 @@
  */
 class KBSeo {
 	
-	public $content;
+	private $content;
 	
 	public function __construct(){
 		$mod = $_GET['mod'];
 		$uid = intval($_GET['uid']);
-			
 		if($mod == 'document' && $uid){
 			$this->content = new Content();
 			$this->content->initWithUID($uid);
