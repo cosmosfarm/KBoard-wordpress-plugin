@@ -17,9 +17,12 @@ class KBSeo {
 			$this->content->initWithUID($uid);
 				
 			add_filter('wp_title', array($this, 'title'), 1);
-			add_action('kboard_head', array($this, 'description' ), 2);
+			add_action('kboard_head', array($this, 'ogp'), 2);
+			add_action('kboard_head', array($this, 'description'), 3);
+			add_action('kboard_head', array($this, 'author'), 4);
+			add_action('kboard_head', array($this, 'date'), 5);
 		}
-		add_action('kboard_head', array($this, 'rss'), 3);
+		add_action('kboard_head', array($this, 'rss'), 6);
 		add_action('wp_head', array($this, 'head'), 1);
 	}
 	
@@ -42,7 +45,17 @@ class KBSeo {
 	}
 	
 	/**
-	 * 메타태그를 추가한다.
+	 * 게시물 정보 Open Graph protocol(OGP)을 추가한다.
+	 */
+	public function ogp(){
+		echo '<meta property="og:title" content="'.kboard_htmlclear($this->content->title).'">';
+		echo "\n";
+		echo '<meta property="og:description" content="'.kboard_htmlclear($this->content->content).'">';
+		echo "\n";
+	}
+	
+	/**
+	 * 게시물 정보 메타태그를 추가한다.
 	 */
 	public function description(){
 		echo '<meta name="title" content="'.kboard_htmlclear($this->content->title).'">';
@@ -50,6 +63,23 @@ class KBSeo {
 		echo '<meta name="description" content="'.kboard_htmlclear($this->content->content).'">';
 		echo "\n";
 	}
+
+	/**
+	 * 작성자 메타태그를 추가한다.
+	 */
+	public function author(){
+		echo '<meta name="author" content="'.kboard_htmlclear($this->content->member_display).'">';
+		echo "\n";
+	}
+	
+	/**
+	 * 작성일 메타태그를 추가한다.
+	 */
+	public function date(){
+		echo '<meta name="author-date(date)" content="'.date("Y-m-d H:i:s", strtotime($this->content->date)).'">';
+		echo "\n";
+	}
+	
 	/**
 	 * RSS 피드 주소를 추가한다.
 	 */
