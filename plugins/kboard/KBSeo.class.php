@@ -10,20 +10,18 @@ class KBSeo {
 	public $content;
 	
 	public function __construct(){
-		if(!is_admin()){
-			$mod = $_GET['mod'];
-			$uid = intval($_GET['uid']);
+		$mod = $_GET['mod'];
+		$uid = intval($_GET['uid']);
 			
-			if($mod == 'document' && $uid){
-				$this->content = new Content();
-				$this->content->initWithUID($uid);
-					
-				add_filter('wp_title', array($this, 'title'), 1);
-				add_action('kboard_head', array($this, 'description' ), 2);
-			}
-			add_action('kboard_head', array($this, 'rss'), 3);
-			add_action('wp_head', array($this, 'head'), 1);
+		if($mod == 'document' && $uid){
+			$this->content = new Content();
+			$this->content->initWithUID($uid);
+				
+			add_filter('wp_title', array($this, 'title'), 1);
+			add_action('kboard_head', array($this, 'description' ), 2);
 		}
+		add_action('kboard_head', array($this, 'rss'), 3);
+		add_action('wp_head', array($this, 'head'), 1);
 	}
 	
 	/**

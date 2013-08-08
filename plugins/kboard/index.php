@@ -339,7 +339,9 @@ function kboard_auto_builder($content){
  */
 add_action('plugins_loaded', 'kboard_seo', 1);
 function kboard_seo(){
-	$seo = new KBSeo();
+	if(!is_admin()){
+		$seo = new KBSeo();
+	}
 }
 
 add_action('template_redirect','kboard_template_redirect');
