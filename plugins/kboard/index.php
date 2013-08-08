@@ -21,6 +21,7 @@ include_once 'Url.class.php';
 include_once 'KBMail.class.php';
 include_once 'KBoardMeta.class.php';
 include_once 'KBoardSkin.class.php';
+include_once 'KBSeo.class.php';
 include_once 'KBUpgrader.class.php';
 include_once 'BoardBuilder.class.php';
 include_once 'Pagination.helper.php';
@@ -334,12 +335,11 @@ function kboard_auto_builder($content){
 }
 
 /*
- * KBoard RSS 피드 
+ * KBoard SEO를 적용한다.
  */
-add_action('wp_head', 'kboard_rss');
-function kboard_rss(){
-	$name = get_bloginfo('name');
-	echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard 통합 피드">';
+add_action('plugins_loaded', 'kboard_seo', 1);
+function kboard_seo(){
+	$seo = new KBSeo();
 }
 
 add_action('template_redirect','kboard_template_redirect');
