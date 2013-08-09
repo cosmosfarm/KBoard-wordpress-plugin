@@ -225,7 +225,7 @@ class Content {
 		if(!$this->uid) return '';
 		$file = array();
 		$result = kboard_query("SELECT * FROM kboard_board_attached WHERE content_uid=$this->uid");
-		while($row = @mysql_fetch_array($result)){
+		while($row = mysql_fetch_array($result)){
 			$file[$row['file_key']] = array($row['file_path'], $row['file_name']);
 		}
 		$this->attach = (object)$file;
@@ -233,7 +233,7 @@ class Content {
 	}
 	
 	/**
-	 * 게시글의 첨부파일을 업데이트한다. (입력/수정/삭제)
+	 * 게시글의 첨부파일을 업데이트한다. (입력/수정)
 	 * @param int $uid
 	 */
 	public function update_attach($uid){
@@ -250,9 +250,11 @@ class Content {
 			$file_path = $upload['path'] . $upload['stored_name'];
 			
 			if($original_name){
-				$present_file = @reset(mysql_fetch_row(kboard_query("SELECT file_path FROM kboard_board_attached WHERE file_key LIKE '$key' AND content_uid=$uid")));
+				$resource = kboard_query("SELECT file_path FROM kboard_board_attached WHERE file_key LIKE '$key' AND content_uid=$uid");
+				$row = mysql_fetch_row($resource);
+				$present_file = @reset($row);
 				if($present_file){
-					unlink(KBOARD_WORDPRESS_ROOT . $present_file);
+					unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
 					$this->_update_attach($uid, $key, $file_path, $original_name);
 				}
 				else{
@@ -288,7 +290,7 @@ class Content {
 		$key = addslashes($key);
 		$file_path = addslashes($file_path);
 		$file_name = addslashes($file_name);
-		kboard_query("INSERT INTO kboard_board_attached (content_uid, file_key, date, file_path, file_name) VALUE ($uid, '$key', '$date', '$file_path', '$file_name')");
+		kboard_query("INSERT INTO kboard_board_attached (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$uid', '$key', '$date', '$file_path', '$file_name')");
 	}
 	
 	/**
