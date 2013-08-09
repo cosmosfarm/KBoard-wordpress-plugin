@@ -90,9 +90,10 @@ function kboard_settings_menu(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	if($_GET['access_token']) $_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
-	
 	kboard_system_update();
+	if($_GET['access_token']){
+		$_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
+	}
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
@@ -485,7 +486,26 @@ function kboard_permission($permission){
  * 업데이트
  */
 function kboard_system_update(){
-	// KBoard 2.0에서 테이블 추가 생성 확인
-	if(!mysql_query("SELECT 1 FROM `kboard_board_meta`")) kboard_activation();
+	/*
+	 * KBoard 2.5
+	 * table 이름에 prefix 추가
+	 */
+	include_once 'KBBackup.class.php';
+	$backup = new KBBackup();
+	$tables = $backup->getTables();
+	foreach($tables AS $key => $value){
+		$prefix = substr($value, 0, 6);
+		if($prefix == 'kboard'){
+			echo "RENAME TABLE `$value` TO `" . KBOARD_WORDPRESS_PREFIX . $value . "`";
+		}
+	}
+	
+	/*
+	 * KBoard 2.0
+	 * kboard_board_meta 테이블 추가 생성
+	 */
+	if(!mysql_query("SELECT 1 FROM `kboard_board_meta`")){
+		kboard_activation();
+	}
 }
 ?>

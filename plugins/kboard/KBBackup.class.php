@@ -19,7 +19,7 @@ class KBBackup {
 		$tables = array();
 		$resource = kboard_query('SHOW TABLES');
 		while($row = mysql_fetch_row($resource)){
-			if(stristr($row[0], 'kboard')) $tables[] = $row[0];
+			if(stristr($row[0], 'kboard_')) $tables[] = $row[0];
 		}
 		return $tables;
 	}
