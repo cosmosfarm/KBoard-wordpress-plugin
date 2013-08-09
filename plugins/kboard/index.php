@@ -452,8 +452,7 @@ function kboard_uninstall(){
  * 쿼리
  */
 function kboard_query($query){
-	global $wpdb;
-	$resource = $wpdb->query($query);
+	$resource = mysql_query($query);
 	if(mysql_errno()){
 		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요. 개인정보는 지워주세요.';
 		die($error);
