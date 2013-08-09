@@ -5,8 +5,7 @@
 	</div>
 	<h2>
 		KBoard : 백업 및 복구
-		<a href="<?=KBOARD_LIST_PAGE?>" class="add-new-h2">게시판 목록</a>
-		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">최신버전 확인</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
