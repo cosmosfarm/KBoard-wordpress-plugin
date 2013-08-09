@@ -152,6 +152,9 @@ class Content {
 		$query = "INSERT INTO kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")";
 		kboard_query($query);
 		
+		$insert_id = mysql_insert_id();
+		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		
 		/*
 		 * 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 		 */
@@ -164,7 +167,7 @@ class Content {
 			$mail->send();
 		}
 		
-		return mysql_insert_id();
+		return $insert_id;
 	}
 	
 	/**

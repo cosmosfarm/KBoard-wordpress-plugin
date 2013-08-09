@@ -12,7 +12,6 @@ if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
 define('KBOARD_VERSION', '2.5');
-define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 
 include_once 'KBoard.class.php';
 include_once 'Content.class.php';
@@ -28,6 +27,8 @@ include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
+define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
+define('KBOARD_WORDPRESS_PREFIX', $wpdb->prefix);
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
 define('KBOARD_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_URL_PATH', plugins_url('kboard'));
@@ -194,7 +195,11 @@ function kboard_update(){
 	
 	if(!$board_id){
 		kboard_query("INSERT INTO kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
-		$board_id = mysql_insert_id();
+		
+		$insert_id = mysql_insert_id();
+		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		
+		$board_id = $insert_id;
 	}
 	else{
 		kboard_query("UPDATE kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
