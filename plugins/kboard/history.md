@@ -5,6 +5,7 @@
   2. KBSeo 클래스 추가 및 검색 엔진 최적화 강화
   3. mysql_insert_id() 값이 없을때 LAST_INSERT_ID() 실행 하도록 업데이트
   4. KBMail 클래스에서 wp_mail() 함수 제거하고 mail() 함수로 변경
+  5. 스킨 스타일 워드프레스 3.6 twentythirteen 테마 호환성 강화
 
 
 

@@ -6,8 +6,12 @@
 img { border: 0; }
 .cut_strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
-.kboard-button-small { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
-.kboard-button-small:hover { color: white !important; background-image: none !important; background-color: #323239 !important; text-decoration: none; }
+.kboard-button-small,
+.kboard-button-small:link,
+.kboard-button-small:visited { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
+.kboard-button-small:hover,
+.kboard-button-small:focus,
+.kboard-button-small:active { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
 
 .kboard-poweredby { float: left; font-size: 12px; }
 .kboard-poweredby a { color: gray; }
