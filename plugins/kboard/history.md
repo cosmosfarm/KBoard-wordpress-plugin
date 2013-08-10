@@ -4,6 +4,7 @@
   1. 게시판 고유주소 페이지에서 테마를 제거하고 KBoard만 출력
   2. KBSeo 클래스 추가 및 검색 엔진 최적화 강화
   3. mysql_insert_id() 값이 없을때 LAST_INSERT_ID() 실행 하도록 업데이트
+  4. KBMail 클래스에서 wp_mail() 함수 제거하고 mail() 함수로 변경
 
 
 
