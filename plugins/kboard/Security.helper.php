@@ -35,7 +35,7 @@ function kboard_xssfilter($data){
 	else{
 		$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
 	}
-	return safeiframe($data);
+	return kboard_safeiframe($data);
 }
 
 /**
