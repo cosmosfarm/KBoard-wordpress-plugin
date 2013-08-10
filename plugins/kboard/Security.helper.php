@@ -9,7 +9,9 @@
 /*
  * HTMLPurifier 클래스를 불러온다.
  */
-include_once 'htmlpurifier/HTMLPurifier.standalone.php';
+if(!class_exists('HTMLPurifier')){
+	include_once 'htmlpurifier/HTMLPurifier.standalone.php';
+}
 
 /**
  * Cross-site scripting (XSS) 공격을 방어하기 위해서 위험 문자열을 제거한다.
