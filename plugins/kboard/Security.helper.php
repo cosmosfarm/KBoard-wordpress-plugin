@@ -6,57 +6,34 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 
+/*
+ * HTMLPurifier 클래스를 불러온다.
+ */
+include_once 'htmlpurifier/HTMLPurifier.standalone.php';
+
 /**
- * XSS filter
- *
- * This was built from numerous sources
- * (thanks all, sorry I didn't track to credit you)
- *
- * It was tested against *most* exploits here: http://ha.ckers.org/xss.html
- * WARNING: Some weren't tested!!!
- * Those include the Actionscript and SSI samples, or any newer than Jan 2011
- *
- *
- * TO-DO: compare to SymphonyCMS filter:
- * https://github.com/symphonycms/xssfilter/blob/master/extension.driver.php
- * (Symphony's is probably faster than my hack)
+ * Cross-site scripting (XSS) 공격을 방어하기 위해서 위험 문자열을 제거한다.
+ * @param string $data
  */
 function kboard_xssfilter($data){
 	if(is_array($data)){
-		return array_map('xssfilter', $data);
+		return array_map('kboard_xssfilter', $data);
 	}
-	
-	// Fix &entity\n;
-	$data = str_replace(array('&amp;','&lt;','&gt;'), array('&amp;amp;','&amp;lt;','&amp;gt;'), $data);
-	$data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
-	$data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
-	$data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
-
-	// Remove any attribute starting with "on" or xmlns
-	$data = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $data);
-
-	// Remove javascript: and vbscript: protocols
-	$data = preg_replace('#([a-z]*)[\x00-\x20]*=[\x00-\x20]*([`\'"]*)[\x00-\x20]*j[\x00-\x20]*a[\x00-\x20]*v[\x00-\x20]*a[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2nojavascript...', $data);
-	$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*v[\x00-\x20]*b[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2novbscript...', $data);
-	$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*-moz-binding[\x00-\x20]*:#u', '$1=$2nomozbinding...', $data);
-
-	// Only works in IE: <span style="width: expression(alert('Ping!'));"></span>
-	$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?expression[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
-	$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?behaviour[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
-	$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:*[^>]*+>#iu', '$1>', $data);
-
-	// Remove namespaced elements (we do not need them)
-	$data = preg_replace('#</*\w+:\w[^>]*+>#i', '', $data);
-
-	do{
-		// Remove really unwanted tags
-		$old_data = $data;
-		$data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|ilayer|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
+	$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
+	$HTMLPurifier_Config->set('HTML.SafeIframe', true);
+	$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
+	$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
+	$HTMLPurifier_Config->set('HTML.SafeObject', true);
+	$HTMLPurifier = HTMLPurifier::getInstance();
+	if(get_magic_quotes_gpc()){
+		$data = stripslashes($data);
+		$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
+		$data = addslashes($data);
 	}
-	while ($old_data !== $data);
-	
-	$data = kboard_safeiframe($data);
-	return $data;
+	else{
+		$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
+	}
+	return safeiframe($data);
 }
 
 /**
@@ -96,7 +73,7 @@ function kboard_safeiframe($data){
  */
 function kboard_htmlclear($data){
 	if(is_array($data)){
-		return array_map('htmlclear', $data);
+		return array_map('kboard_htmlclear', $data);
 	}
 	return htmlspecialchars(strip_tags($data));
 }
