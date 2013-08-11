@@ -27,14 +27,19 @@ final class KBUpgrader {
 
 	/**
 	 * 인스턴스를 반환한다.
-	 * @return KBoardSkin
+	 * @return KBUpgrader
 	 */
 	static public function getInstance(){
 		if(!self::$instance) self::$instance = new KBUpgrader();
 		return self::$instance;
 	}
 	
-	static function connect($url){
+	/**
+	 * 서버에 접속한다.
+	 * @param string $url
+	 * @return data
+	 */
+	static public function connect($url){
 		$host = self::$sever_host;
 		$fp = @fsockopen($host, 80, $errno, $errstr, 30);
 		if($fp){
@@ -57,7 +62,7 @@ final class KBUpgrader {
 	 * 서버에서 최신버전을 가져온다.
 	 * @return string
 	 */
-	static function getLatestVersion(){
+	static public function getLatestVersion(){
 		if($_SESSION['kboard_latest_version']){
 			self::$latest_version = $_SESSION['kboard_latest_version'];
 		}

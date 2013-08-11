@@ -17,9 +17,7 @@ include_once 'KBoard.class.php';
 include_once 'Content.class.php';
 include_once 'ContentList.class.php';
 include_once 'Url.class.php';
-include_once 'KBMail.class.php';
 include_once 'KBoardMeta.class.php';
-include_once 'KBoardSkin.class.php';
 include_once 'KBSeo.class.php';
 include_once 'KBUpgrader.class.php';
 include_once 'BoardBuilder.class.php';
@@ -28,8 +26,8 @@ include_once 'Security.helper.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
-define('KBOARD_WORDPRESS_PREFIX', $wpdb->prefix);
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
+define('KBOARD_DB_PREFIX', $wpdb->prefix);
 define('KBOARD_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_URL_PATH', plugins_url('kboard'));
 define('KBOARD_DASHBOARD_PAGE', admin_url('/admin.php?page=kboard_dashboard'));
@@ -127,6 +125,7 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
+	include 'KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
@@ -135,6 +134,8 @@ function kboard_new(){
  * 게시판 목록 페이지
  */
 function kboard_setting(){
+	include 'KBoardSkin.class.php';
+	include WP_CONTENT_DIR . 'kboard-comments/KBCommentSkin.class.php';
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
 	$skin = KBoardSkin::getInstance();
@@ -147,7 +148,7 @@ function kboard_setting(){
  * 게시판 백업 및 복구 페이지
  */
 function kboard_backup(){
-	include_once 'KBBackup.class.php';
+	include 'KBBackup.class.php';
 	$backup = new KBBackup();
 	
 	if($_GET['action'] == 'upload'){
@@ -195,7 +196,7 @@ function kboard_update(){
 	$create = date("YmdHis", current_time('timestamp'));
 	
 	if(!$board_id){
-		kboard_query("INSERT INTO kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
 		
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
@@ -203,7 +204,7 @@ function kboard_update(){
 		$board_id = $insert_id;
 	}
 	else{
-		kboard_query("UPDATE kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
+		kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
 	}
 	
 	if($board_id){
@@ -213,7 +214,7 @@ function kboard_update(){
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
-			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'"));
+			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'"));
 			$auto_page_board_id = @reset($row);
 			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
 			else $meta->auto_page = $auto_page;
@@ -312,31 +313,15 @@ function kboard_builder($args){
 }
 
 /*
- * SEO 최적화, 게시물 내용으로 description 데이터 입력 
- */
-add_action('wp_head', 'kboard_head_description');
-function kboard_head_description(){
-	$mod = kboard_htmlclear($_GET['mod']);
-	$uid = intval($_GET['uid']);
-	if($mod == 'document' && $uid){
-		$content = new Content();
-		$content->initWithUID($uid);
-		echo '<meta name="description" content="'.addslashes(kboard_htmlclear($content->content)).'">';
-	}
-}
-
-/*
  * 선택된 페이지에 자동으로 게시판 생성
  */
 add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post;
-	
 	if(is_page($post->ID)){
-		$board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'")));
+		$board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'")));
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
-	
 	return $content;
 }
 
@@ -350,17 +335,25 @@ function kboard_seo(){
 	}
 }
 
-add_action('template_redirect','kboard_template_redirect');
-function kboard_template_redirect(){
-	
-}
-
 /*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_activation');
 function kboard_activation(){
-	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `kboard_board_setting` (
+	/*
+	 * KBoard 2.5
+	 * table 이름에 prefix 추가
+	 */
+	$resource = kboard_query('SHOW TABLES');
+	while(list($table) = mysql_fetch_row($resource)){
+		$prefix = substr($table, 0, 7);
+		if($prefix == 'kboard_'){
+			kboard_query("RENAME TABLE `$table` TO `" . KBOARD_DB_PREFIX . $table . "`");
+		}
+	}
+	unset($resource, $table, $prefix);
+	
+	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_setting` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_name` varchar(127) NOT NULL,
 	  `skin` varchar(127) NOT NULL,
@@ -378,7 +371,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_setting);
 	
-	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `kboard_board_attached` (
+	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_attached` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
 	  `file_key` varchar(127) NOT NULL,
@@ -389,7 +382,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_attached);
 	
-	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `kboard_board_content` (
+	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_content` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_id` bigint(20) unsigned NOT NULL,
 	  `member_uid` bigint(20) unsigned NOT NULL,
@@ -410,7 +403,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_content);
 	
-	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `kboard_board_option` (
+	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_option` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
 	  `option_key` varchar(127) NOT NULL,
@@ -419,7 +412,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_option);
 	
-	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `kboard_board_meta` (
+	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_meta` (
 	  `board_id` bigint(20) unsigned NOT NULL,
 	  `key` varchar(127) NOT NULL,
 	  `value` varchar(127) NOT NULL,
@@ -441,11 +434,11 @@ function kboard_deactivation(){
  */
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
 function kboard_uninstall(){
-	$drop_table = "DROP TABLE  `kboard_board_attached` ,
-		`kboard_board_content` ,
-		`kboard_board_option` ,
-		`kboard_board_setting` ,
-		`kboard_board_meta`";
+	$drop_table = "DROP TABLE  `".KBOARD_DB_PREFIX."kboard_board_attached` ,
+		`".KBOARD_DB_PREFIX."kboard_board_content` ,
+		`".KBOARD_DB_PREFIX."kboard_board_option` ,
+		`".KBOARD_DB_PREFIX."kboard_board_setting` ,
+		`".KBOARD_DB_PREFIX."kboard_board_meta`";
 	kboard_query($drop_table);
 }
 
@@ -490,22 +483,23 @@ function kboard_system_update(){
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
 	 */
-	include_once 'KBBackup.class.php';
-	$backup = new KBBackup();
-	$tables = $backup->getTables();
-	foreach($tables AS $key => $value){
-		$prefix = substr($value, 0, 6);
-		if($prefix == 'kboard'){
-			echo "RENAME TABLE `$value` TO `" . KBOARD_WORDPRESS_PREFIX . $value . "`";
+	$resource = kboard_query('SHOW TABLES');
+	while(list($table) = mysql_fetch_row($resource)){
+		$prefix = substr($table, 0, 7);
+		if($prefix == 'kboard_'){
+			kboard_activation();
+			return;
 		}
 	}
+	unset($resource, $table, $prefix);
 	
 	/*
 	 * KBoard 2.0
 	 * kboard_board_meta 테이블 추가 생성
 	 */
-	if(!mysql_query("SELECT 1 FROM `kboard_board_meta`")){
+	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_meta`")){
 		kboard_activation();
+		return;
 	}
 }
 ?>

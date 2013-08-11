@@ -27,7 +27,7 @@ class KBoardMeta {
 				return stripslashes($this->meta->{$name});
 			}
 			else{
-				$this->meta->{$name} = @reset(mysql_fetch_row(kboard_query("SELECT value FROM kboard_board_meta WHERE `board_id`='$this->board_id' AND `key`='$name'")));
+				$this->meta->{$name} = @reset(mysql_fetch_row(kboard_query("SELECT value FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `board_id`='$this->board_id' AND `key`='$name'")));
 				return stripslashes($this->meta->{$name});
 			}
 		}
@@ -40,7 +40,7 @@ class KBoardMeta {
 		$value = addslashes($value);
 		
 		if($this->board_id){
-			kboard_query("INSERT INTO kboard_board_meta (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
+			kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_meta (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
 			$this->meta->{$name} = $value;
 		}
 	}
@@ -58,7 +58,7 @@ class KBoardMeta {
 	 * 모든 빈 값들을 제거한다.
 	 */
 	public function clear(){
-		kboard_query("DELETE FROM kboard_board_meta WHERE value=''");
+		kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE value=''");
 	}
 }
 ?>

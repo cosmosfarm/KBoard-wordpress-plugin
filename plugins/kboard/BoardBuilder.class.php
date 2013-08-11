@@ -125,7 +125,7 @@ class BoardBuilder {
 				}
 			}
 			else if(!$user_ID){
-				die('<script>alert("로그인 하셔야 사용할 수 있습니다."); location.href="' . site_url('/wp-login.php') . '";</script>');
+				die('<script>alert("로그인 하셔야 사용할 수 있습니다.");location.href="'.site_url('/wp-login.php').'";</script>');
 			}
 			else{
 				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');

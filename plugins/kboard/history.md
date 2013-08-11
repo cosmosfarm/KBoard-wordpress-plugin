@@ -7,6 +7,7 @@
   4. KBMail 클래스에서 wp_mail() 함수 제거하고 mail() 함수로 변경
   5. 기본 스킨 워드프레스 3.6 twentythirteen 테마 호환성 강화
   6. HTMLPurifier 4.5.0 추가로 Cross-site scripting (XSS) 공격에 대한 보안 강화
+  7. DB 테이블 이름에 PREFIX 추가로 워드프레스 멀티사이트 지원
 
 
 

@@ -59,7 +59,7 @@ class Content {
 	 */
 	public function initWithUID($uid){
 		if($uid){
-			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM kboard_board_content WHERE uid=$uid LIMIT 1"));
+			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid=$uid LIMIT 1"));
 			$this->board_id = $this->row->board_id;
 			$this->initOptions();
 			$this->initAttachedFiles();
@@ -149,8 +149,7 @@ class Content {
 			$insert_data[] = "'$value'";
 		}
 		
-		$query = "INSERT INTO kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")";
-		kboard_query($query);
+		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
 		
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
@@ -160,6 +159,7 @@ class Content {
 		 */
 		$meta = new KBoardMeta($this->board_id);
 		if($meta->latest_alerts){
+			include 'KBMail.class.php';
 			$mail = new KBMail();
 			$mail->to = explode(',', $meta->latest_alerts);
 			$mail->title = $data['title'];
@@ -191,7 +191,7 @@ class Content {
 				$value = addslashes($value);
 				$update[] = "`$key`='$value'";
 			}
-			kboard_query("UPDATE kboard_board_content SET ".implode(',', $update)." WHERE uid=$this->uid");
+			kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_content SET ".implode(',', $update)." WHERE uid=$this->uid");
 		}
 	}
 	
@@ -201,7 +201,7 @@ class Content {
 	public function increaseView(){
 		if($this->uid && !@in_array($this->uid, $_SESSION['increased_document_uid'])){
 			$_SESSION['increased_document_uid'][] = $this->uid;
-			kboard_query("UPDATE kboard_board_content SET view=view+1 WHERE uid=$this->uid");
+			kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_content SET view=view+1 WHERE uid=$this->uid");
 		}
 	}
 	
@@ -212,7 +212,7 @@ class Content {
 	public function initOptions(){
 		if(!$this->uid) return '';
 		$option = array();
-		$result = kboard_query("SELECT * FROM kboard_board_option WHERE content_uid=$this->uid");
+		$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_option WHERE content_uid=$this->uid");
 		while($row = mysql_fetch_array($result)){
 			$option[$row['option_key']] = stripslashes($row['option_value']);
 		}
@@ -227,7 +227,7 @@ class Content {
 	public function initAttachedFiles(){
 		if(!$this->uid) return '';
 		$file = array();
-		$result = kboard_query("SELECT * FROM kboard_board_attached WHERE content_uid=$this->uid");
+		$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid=$this->uid");
 		while($row = mysql_fetch_array($result)){
 			$file[$row['file_key']] = array($row['file_path'], $row['file_name']);
 		}
@@ -253,7 +253,7 @@ class Content {
 			$file_path = $upload['path'] . $upload['stored_name'];
 			
 			if($original_name){
-				$resource = kboard_query("SELECT file_path FROM kboard_board_attached WHERE file_key LIKE '$key' AND content_uid=$uid");
+				$resource = kboard_query("SELECT file_path FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE file_key LIKE '$key' AND content_uid=$uid");
 				$row = mysql_fetch_row($resource);
 				$present_file = @reset($row);
 				if($present_file){
@@ -278,7 +278,7 @@ class Content {
 		$key = addslashes($key);
 		$file_path = addslashes($file_path);
 		$file_name = addslashes($file_name);
-		kboard_query("UPDATE kboard_board_attached SET file_path='$file_path', file_name='$file_name' WHERE file_key LIKE '$key' AND content_uid=$uid");
+		kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_attached SET file_path='$file_path', file_name='$file_name' WHERE file_key LIKE '$key' AND content_uid=$uid");
 	}
 	
 	/**
@@ -293,7 +293,7 @@ class Content {
 		$key = addslashes($key);
 		$file_path = addslashes($file_path);
 		$file_name = addslashes($file_name);
-		kboard_query("INSERT INTO kboard_board_attached (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$uid', '$key', '$date', '$file_path', '$file_name')");
+		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_attached (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$uid', '$key', '$date', '$file_path', '$file_name')");
 	}
 	
 	/**
@@ -301,11 +301,11 @@ class Content {
 	 * @param int $uid
 	 */
 	private function _remove_all_attached($uid){
-		$result = kboard_query("SELECT file_path FROM kboard_board_attached WHERE content_uid=$uid");
+		$result = kboard_query("SELECT file_path FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid=$uid");
 		while($file = mysql_fetch_row($result)){
 			unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file[0]));
 		}
-		kboard_query("DELETE FROM kboard_board_attached WHERE content_uid=$uid");
+		kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid=$uid");
 	}
 	
 	/**
@@ -315,12 +315,12 @@ class Content {
 	public function removeAttached($key){
 		if($this->uid){
 			$key = addslashes($key);
-			$file = reset(mysql_fetch_row(kboard_query("SELECT file_path FROM kboard_board_attached WHERE file_key LIKE '$key' AND content_uid=$this->uid")));
+			$file = reset(mysql_fetch_row(kboard_query("SELECT file_path FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE file_key LIKE '$key' AND content_uid=$this->uid")));
 			if($file){
 				@unlink(KBOARD_WORDPRESS_ROOT . $file);
 				$this->_update_attach($this->uid, $key, '', '');
 			}
-			kboard_query("DELETE FROM kboard_board_attached WHERE content_uid=$this->uid AND file_key LIKE '$key'");
+			kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid=$this->uid AND file_key LIKE '$key'");
 		}
 	}
 	
@@ -335,7 +335,7 @@ class Content {
 				$key = kboard_htmlclear(str_replace($this->skin_option_prefix, '', addslashes($key)));
 				$value = kboard_xssfilter(trim(addslashes($value)));
 				
-				$present_value = @reset(mysql_fetch_row(kboard_query("SELECT option_value FROM kboard_board_option WHERE option_key LIKE '$key' AND content_uid=$uid")));
+				$present_value = @reset(mysql_fetch_row(kboard_query("SELECT option_value FROM ".KBOARD_DB_PREFIX."kboard_board_option WHERE option_key LIKE '$key' AND content_uid=$uid")));
 				if($present_value){
 					$this->_update_option($uid, $key, $value);
 				}
@@ -354,7 +354,7 @@ class Content {
 	 * @param string $value
 	 */
 	private function _update_option($uid, $key, $value){
-		kboard_query("UPDATE kboard_board_option SET option_value='$value' WHERE option_key LIKE '$key' AND content_uid=$uid");
+		kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_option SET option_value='$value' WHERE option_key LIKE '$key' AND content_uid=$uid");
 	}
 	
 	/**
@@ -364,14 +364,14 @@ class Content {
 	 * @param string $value
 	 */
 	private function _insert_option($uid, $key, $value){
-		kboard_query("INSERT INTO kboard_board_option (content_uid, option_key, option_value) VALUE ($uid, '$key', '$value')");
+		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_option (content_uid, option_key, option_value) VALUE ($uid, '$key', '$value')");
 	}
 	
 	/**
 	 * 빈 옵션들을 삭제한다.
 	 */
 	private function _remove_empty_option(){
-		kboard_query("DELETE FROM kboard_board_option WHERE option_value=''");
+		kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_option WHERE option_value=''");
 	}
 	
 	/**
@@ -379,7 +379,7 @@ class Content {
 	 * @param int $uid
 	 */
 	private function _remove_option($uid){
-		kboard_query("DELETE FROM kboard_board_option WHERE content_uid=$uid");
+		kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_option WHERE content_uid=$uid");
 	}
 	
 	/**
@@ -398,7 +398,7 @@ class Content {
 		
 		if($upload['original_name']){
 			$this->removeThumbnail($uid);
-			kboard_query("UPDATE kboard_board_content SET thumbnail_file='$file', thumbnail_name='$original_name' WHERE uid=$uid");
+			kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_content SET thumbnail_file='$file', thumbnail_name='$original_name' WHERE uid=$uid");
 		}
 	}
 	
@@ -407,11 +407,11 @@ class Content {
 	 */
 	public function removeThumbnail(){
 		if($this->uid){
-			$result = kboard_query("SELECT * FROM kboard_board_content WHERE uid=$this->uid LIMIT 1");
+			$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid=$this->uid LIMIT 1");
 			$row = mysql_fetch_array($result);
 			if($row['thumbnail_file']){
 				@unlink(KBOARD_WORDPRESS_ROOT . $row['thumbnail_file']);
-				kboard_query("UPDATE kboard_board_content SET thumbnail_file='', thumbnail_name='' WHERE uid=$this->uid");
+				kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_content SET thumbnail_file='', thumbnail_name='' WHERE uid=$this->uid");
 			}
 		}
 	}
@@ -425,8 +425,8 @@ class Content {
 			$this->_remove_option($this->uid);
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
-			kboard_query("DELETE FROM kboard_board_content WHERE uid=$this->uid");
-			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM kboard_comments WHERE content_uid=$this->uid");
+			kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid=$this->uid");
+			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_comments WHERE content_uid=$this->uid");
 			if($next) die("<script>location.href='$next';</script>");
 		}
 	}
