@@ -26,15 +26,9 @@ function kboard_xssfilter($data){
 	$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
 	$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
 	$HTMLPurifier_Config->set('HTML.SafeObject', true);
+	$HTMLPurifier_Config->set('Core.DefinitionCache', null);
 	$HTMLPurifier = HTMLPurifier::getInstance();
-	if(get_magic_quotes_gpc()){
-		$data = stripslashes($data);
-		$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
-		$data = addslashes($data);
-	}
-	else{
-		$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
-	}
+	$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
 	return kboard_safeiframe($data);
 }
 
