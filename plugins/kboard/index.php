@@ -135,7 +135,7 @@ function kboard_new(){
  */
 function kboard_setting(){
 	include 'KBoardSkin.class.php';
-	include WP_CONTENT_DIR . 'kboard-comments/KBCommentSkin.class.php';
+	include_once WP_CONTENT_DIR . '/plugins/kboard-comments/KBCommentSkin.class.php';
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
 	$skin = KBoardSkin::getInstance();
