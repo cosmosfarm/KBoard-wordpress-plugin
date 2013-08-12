@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 2.6
+Version: 2.7
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '2.6');
+define('KBOARD_VERSION', '2.7');
 
 include_once 'KBoard.class.php';
 include_once 'Content.class.php';
@@ -434,12 +434,13 @@ function kboard_deactivation(){
  */
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
 function kboard_uninstall(){
-	$drop_table = "DROP TABLE  `".KBOARD_DB_PREFIX."kboard_board_attached` ,
-		`".KBOARD_DB_PREFIX."kboard_board_content` ,
-		`".KBOARD_DB_PREFIX."kboard_board_option` ,
-		`".KBOARD_DB_PREFIX."kboard_board_setting` ,
-		`".KBOARD_DB_PREFIX."kboard_board_meta`";
-	kboard_query($drop_table);
+	global $wpdb;
+	$drop_table = "DROP TABLE  `".$wpdb->prefix."kboard_board_attached` ,
+		`".$wpdb->prefix."kboard_board_content` ,
+		`".$wpdb->prefix."kboard_board_option` ,
+		`".$wpdb->prefix."kboard_board_setting` ,
+		`".$wpdb->prefix."kboard_board_meta`";
+	mysql_query($drop_table);
 }
 
 /*
