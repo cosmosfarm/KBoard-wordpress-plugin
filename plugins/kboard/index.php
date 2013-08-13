@@ -340,6 +340,8 @@ function kboard_seo(){
  */
 register_activation_hook(__FILE__, 'kboard_activation');
 function kboard_activation(){
+	global $wpdb;
+	
 	/*
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
@@ -348,12 +350,12 @@ function kboard_activation(){
 	while(list($table) = mysql_fetch_row($resource)){
 		$prefix = substr($table, 0, 7);
 		if($prefix == 'kboard_'){
-			kboard_query("RENAME TABLE `$table` TO `" . KBOARD_DB_PREFIX . $table . "`");
+			kboard_query("RENAME TABLE `$table` TO `" . $wpdb->prefix . $table . "`");
 		}
 	}
 	unset($resource, $table, $prefix);
 	
-	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_setting` (
+	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_setting` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_name` varchar(127) NOT NULL,
 	  `skin` varchar(127) NOT NULL,
@@ -371,7 +373,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_setting);
 	
-	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_attached` (
+	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_attached` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
 	  `file_key` varchar(127) NOT NULL,
@@ -382,7 +384,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_attached);
 	
-	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_content` (
+	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_content` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_id` bigint(20) unsigned NOT NULL,
 	  `member_uid` bigint(20) unsigned NOT NULL,
@@ -403,7 +405,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_content);
 	
-	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_option` (
+	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_option` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
 	  `option_key` varchar(127) NOT NULL,
@@ -412,7 +414,7 @@ function kboard_activation(){
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_option);
 	
-	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_board_meta` (
+	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_meta` (
 	  `board_id` bigint(20) unsigned NOT NULL,
 	  `key` varchar(127) NOT NULL,
 	  `value` varchar(127) NOT NULL,

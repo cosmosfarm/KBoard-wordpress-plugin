@@ -63,12 +63,14 @@ function kboard_comments_builder($atts){
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');
 function kboard_comments_activation(){
+	global $wpdb;
+	
 	if(!defined('KBOARD_VERSION')){
 		echo 'KBoard 댓글 알림 :: 먼저 KBoard 플러그인을 설치하세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.';
 		exit;
 	}
 	
-	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".KBOARD_DB_PREFIX."kboard_comments` (
+	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_comments` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
 	  `user_uid` bigint(20) unsigned NOT NULL,
