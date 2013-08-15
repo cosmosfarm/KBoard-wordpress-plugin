@@ -33,15 +33,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="auto_page">게시판이 추가될 페이지</label></th>
+					<th scope="row"><label for="auto_page">게시판 자동 설치</label></th>
 					<td><select name="auto_page" id="auto_page" class="">
-							<option value="">게시판 입력코드(Shortcode)로 생성합니다.</option>
+							<option value="">페이지를 선택하세요.</option>
 							<option value="">-------------------------------</option>
 							<?php foreach(get_pages() AS $key => $page):?>
-							<option value="<?=$page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?=$page->post_title?> 페이지에 자동으로 생성합니다.</option>
+							<option value="<?=$page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?=$page->post_title?> 페이지에 자동으로 설치합니다.</option>
 							<?php endforeach?>
 						</select>
-						<p class="description">선택된 페이지에 자동으로 게시판이 생성됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 생성 하실 수 있습니다.</p></td>
+						<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">게시판 입력코드(Shortcode)</label></th>
@@ -50,7 +50,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">최신글 입력코드(Shortcode)</label></th>
-					<td><textarea style="width: 350px" id="shortcode">[kboard_latest id=<?=$board->uid?> url=게시판주소 rpp=5]</textarea>
+					<td><textarea style="width: 350px" id="shortcode">[kboard_latest id=<?=$board->uid?> url=페이지주소 rpp=5]</textarea>
 						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 리스트를 생성합니다.</p></td>
 				</tr>
 				<?php endif?>

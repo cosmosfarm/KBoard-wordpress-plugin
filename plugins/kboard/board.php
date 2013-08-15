@@ -17,6 +17,7 @@ if($board_id):
 	<title>워드프레스 KBoard <?=KBOARD_VERSION?></title>
 	<!--[if lt IE 9]><script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="https://raw.github.com/scottjehl/Respond/master/respond.src.js"></script><![endif]-->
+	<?php wp_head()?>
 </head>
 <body>
 	<!-- 
@@ -45,6 +46,7 @@ if($board_id):
 		}
 	*/
 	</script>
+	<?php wp_footer()?>
 </body>
 </html>
 <?php
