@@ -2,7 +2,7 @@
 <script type="text/javascript" src="<?=$skin_path?>/script.js"></script>
 
 <div class="kboard-comments">
-	<form action="<?=plugins_url().'/kboard-comments/execute/insert.php'?>" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
+	<form action="<?=plugins_url()?>/kboard-comments/execute/insert.php" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
 		<input type="hidden" name="content_uid" value="<?=$_REQUEST['uid']?>">
 		<input type="hidden" name="member_uid" value="<?=$userdata->data->ID?>">
 		
@@ -17,6 +17,9 @@
 			</div>
 			<div class="comments-password">
 				<span class="password">비밀번호</span> <input type="password" name="password" value="">
+			</div>
+			<div class="comments-captcha">
+				<span class="captcha"><img src="<?=plugins_url()?>/kboard/execute/captcha.php" alt=""></span> <input type="text" name="captcha" value="">
 			</div>
 			<?php endif?>
 			

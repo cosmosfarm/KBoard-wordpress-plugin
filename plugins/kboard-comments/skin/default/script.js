@@ -20,6 +20,11 @@ function kboard_comments_execute(form){
 		$('input[name=password]', form).focus();
 		return false;
 	}
+	else if($('input[name=captcha]', form).exists() && !$('input[name=captcha]', form).val()){
+		alert('옆에 보이는 보안코드를 입력하세요.');
+		$('input[name=captcha]', form).focus();
+		return false;
+	}
 	else if($('textarea[name=content]', form).exists() && !$('textarea[name=content]', form).val()){
 		alert('댓글 내용을 입력하세요.');
 		$('textarea[name=content]', form).focus();

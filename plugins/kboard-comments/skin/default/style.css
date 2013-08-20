@@ -11,6 +11,10 @@
 .kboard-comments .comments-password { float: left; padding-bottom: 5px; }
 .kboard-comments .comments-password .password { display: inline-block; margin-left: 21px; width: 60px; font-size: 12px; color: #8a8a8a; }
 .kboard-comments .comments-password input { display: inline; margin: 0; padding: 6px 2px; width: 120px; font-size: 12px; border: 1px solid #eaeaea; }
+.kboard-comments .comments-captcha { float: left; padding-bottom: 5px; }
+.kboard-comments .comments-captcha .captcha { display: inline-block; margin-left: 21px; width: 60px; font-size: 12px; color: #8a8a8a; }
+.kboard-comments .comments-captcha .captcha img { display: inline; max-width: 100%; vertical-align: middle; }
+.kboard-comments .comments-captcha input { display: inline; margin: 0; padding: 6px 2px; width: 120px; font-size: 12px; border: 1px solid #eaeaea; }
 .kboard-comments .comments-content { position: relative; clear: both; float: left; width: 100%; height: 65px; }
 .kboard-comments .comments-content .comments-content-text { position: absolute; left: 21px; top: 0; right: 100px; }
 .kboard-comments .comments-content .comments-content-text textarea { margin: 0; padding: 0; width: 100%; height: 63px; border: 1px solid #eaeaea; }
@@ -29,4 +33,5 @@
 
 @media (max-width: 600px) {
 	.kboard-comments .comments-password { clear: both; }
+	.kboard-comments .comments-captcha { clear: both; }
 }

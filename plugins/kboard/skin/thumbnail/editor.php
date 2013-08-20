@@ -63,6 +63,10 @@
 			<label class="attr-name">비밀번호</label>
 			<div class="attr-value"><input type="password" name="password" value="<?=$content->password?>"></div>
 		</div>
+		<div class="kboard-attr-row">
+			<label class="attr-name"><img src="<?=plugins_url()?>/kboard/execute/captcha.php" alt=""></label>
+			<div class="attr-value"><input type="text" name="captcha" value=""></div>
+		</div>
 		<?php endif;?>
 		
 		<div class="kboard-content">

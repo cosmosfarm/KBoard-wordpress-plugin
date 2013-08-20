@@ -25,6 +25,11 @@ function kboard_editor_execute(form){
 		$('input[name=password]', form).focus();
 		return false;
 	}
+	else if($('input[name=captcha]', form).exists() && !$('input[name=captcha]', form).val()){
+		alert('옆에 보이는 보안코드를 입력하세요.');
+		$('input[name=captcha]', form).focus();
+		return false;
+	}
 	
 	return true;
 }

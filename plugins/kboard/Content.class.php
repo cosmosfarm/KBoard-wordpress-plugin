@@ -109,11 +109,30 @@ class Content {
 		}
 		else if(!$this->uid && $this->title){
 			// 신규게시물 등록
+			
+			// captcha 코드 확인
+			include KBOARD_DIR_PATH . '/KBCaptcha.class.php';
+			$captcha = new KBCaptcha();
+			if(!$captcha->textCheck($_POST['captcha'])){
+				die("<script>alert('보안코드가 올바르지 않습니다.');history.go(-1);</script>");
+			}
+			
 			$uid = $this->_insertContent();
 			if($uid){
 				$this->setThumbnail($uid);
 				$this->update_options($uid);
 				$this->update_attach($uid);
+				
+				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
+				$meta = new KBoardMeta($this->board_id);
+				if($meta->latest_alerts){
+					include 'KBMail.class.php';
+					$mail = new KBMail();
+					$mail->to = explode(',', $meta->latest_alerts);
+					$mail->title = $data['title'];
+					$mail->content = $data['content'];
+					$mail->send();
+				}
 			}
 		}
 		
@@ -153,20 +172,6 @@ class Content {
 		
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
-		
-		/*
-		 * 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
-		 */
-		$meta = new KBoardMeta($this->board_id);
-		if($meta->latest_alerts){
-			include 'KBMail.class.php';
-			$mail = new KBMail();
-			$mail->to = explode(',', $meta->latest_alerts);
-			$mail->title = $data['title'];
-			$mail->content = $data['content'];
-			$mail->send();
-		}
-		
 		return $insert_id;
 	}
 	
