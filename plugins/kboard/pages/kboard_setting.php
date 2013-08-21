@@ -181,6 +181,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<td><input type="text" style="width: 350px;" name="latest_alerts" id="latest_alerts" value="<?=$meta->latest_alerts?>">
 						<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다. 서버 환경에 따라서 메일이 전송되지 못 할 수도 있습니다.</p></td>
 				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="default_content">본문 기본 양식</label></th>
+					<td><?php if($board->use_editor):?>
+							<?php wp_editor($meta->default_content, 'default_content'); ?>
+						<?php else:?>
+							<textarea name="default_content" id="default_content" style="width: 600px; height: 300px; max-width: 100%;"><?=$meta->default_content?></textarea>
+						<?php endif;?>
+						<p class="description">게시판 글 작성시 보여질 기본 양식입니다. 기본값은 빈 값입니다.</p></td>
+				</tr>
 			</tbody>
 		</table>
 		<p class="submit">

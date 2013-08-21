@@ -211,6 +211,7 @@ function kboard_update(){
 		$meta = new KBoardMeta($board_id);
 		$meta->latest_alerts = $_POST['latest_alerts'];
 		$meta->comment_skin = $_POST['comment_skin'];
+		$meta->default_content = $_POST['default_content'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){

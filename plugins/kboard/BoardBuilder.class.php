@@ -189,6 +189,11 @@ class BoardBuilder {
 				$next_url = $url->set('pageid', '')->toString();
 			}
 			
+			if(!$content->content){
+				$meta = new KBoardMeta($content->board_id);
+				$content->content = $meta->default_content;
+			}
+			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
 		}
 	}
