@@ -7,12 +7,12 @@
 			<h4>KBoard 버전</h4>
 			<p>
 				설치된 게시판 플러그인: <?=KBOARD_VERSION?> (최신: <?=$upgrader->getLatestVersion()->kboard?>)
-				<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?=KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return CF_oauthStatus(this.href);"><?=$upgrader->getLatestVersion()->kboard?> 버전으로 업데이트하기</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
+				<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?=KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return CF_oauthStatus(this.href);"><?=$upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
 			</p>
 			<p>
 				<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 				설치된 댓글 플러그인: <?=KBOARD_COMMNETS_VERSION?> (최신: <?=$upgrader->getLatestVersion()->comments?>)
-				<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?=KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return CF_oauthStatus(this.href);"><?=$upgrader->getLatestVersion()->comments?> 버전으로 업데이트하기</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
+				<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?=KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return CF_oauthStatus(this.href);"><?=$upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
 				<?php else:?>
 				<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">댓글 플러그인 홈페이지에서 다운로드</a><br>
 				<a class="button" href="<?=KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return CF_oauthStatus(this.href);"><?=$upgrader->getLatestVersion()->comments?> 버전으로 설치하기</a>

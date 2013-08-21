@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 2.8
+Version: 2.9
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '2.8');
+define('KBOARD_VERSION', '2.9');
 
 include_once 'KBoard.class.php';
 include_once 'Content.class.php';
@@ -351,10 +351,21 @@ function kboard_activation(){
 	while(list($table) = mysql_fetch_row($resource)){
 		$prefix = substr($table, 0, 7);
 		if($prefix == 'kboard_'){
-			kboard_query("RENAME TABLE `$table` TO `" . $wpdb->prefix . $table . "`");
+			kboard_query("RENAME TABLE `$table` TO `".$wpdb->prefix.$table."`");
 		}
 	}
 	unset($resource, $table, $prefix);
+	
+	/*
+	 * KBoard 2.9
+	 * kboard_board_meta `value` 데이터형 text로 변경
+	 */
+	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_meta` `value`");
+	list($name, $type) = mysql_fetch_row($resource);
+	if(stristr($type, 'varchar')){
+		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_meta` CHANGE `value` `value` text NOT NULL");
+	}
+	unset($resource, $name, $type);
 	
 	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_setting` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
@@ -418,7 +429,7 @@ function kboard_activation(){
 	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_meta` (
 	  `board_id` bigint(20) unsigned NOT NULL,
 	  `key` varchar(127) NOT NULL,
-	  `value` varchar(127) NOT NULL,
+	  `value` text NOT NULL,
 	  UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_meta);
@@ -484,6 +495,15 @@ function kboard_permission($permission){
  */
 function kboard_system_update(){
 	/*
+	 * KBoard 2.0
+	 * kboard_board_meta 테이블 추가 생성
+	 */
+	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_meta`")){
+		kboard_activation();
+		return;
+	}
+	
+	/*
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
 	 */
@@ -498,10 +518,11 @@ function kboard_system_update(){
 	unset($resource, $table, $prefix);
 	
 	/*
-	 * KBoard 2.0
-	 * kboard_board_meta 테이블 추가 생성
+	 * KBoard 2.9
+	 * kboard_board_meta `value` 데이터형 text로 변경
 	 */
-	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_meta`")){
+	list($name, $type) = mysql_fetch_row(kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_meta` `value`"));
+	if(stristr($type, 'varchar')){
 		kboard_activation();
 		return;
 	}
