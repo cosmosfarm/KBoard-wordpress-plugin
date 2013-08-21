@@ -27,7 +27,6 @@ function kboard_xssfilter($data){
 	$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
 	$HTMLPurifier_Config->set('HTML.SafeObject', true);
 	$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
-	$HTMLPurifier_Config->set('HTML.Allowed', 'object[width|height|data],param[name|value],embed[src|type|allowscriptaccess|width|height|wmode]');
 	$HTMLPurifier_Config->set('Output.FlashCompat', true);
 	$HTMLPurifier_Config->set('Core.DefinitionCache', null);
 	$HTMLPurifier = HTMLPurifier::getInstance();

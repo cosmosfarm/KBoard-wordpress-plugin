@@ -18,7 +18,7 @@ class KBCaptcha {
 		$text = substr(implode($text), 0, 15);
 		
 		$image = imagecreate(80 , 20);
-		$background_color = ImageColorAllocate($image, 255, 255, 255);
+		$background_color = imagecolorallocate($image, 255, 255, 255);
 		$font_color = imagecolorallocate($image, 138, 138, 138);
 		
 		imagettftext($image, $size, 0, 2, 14, $font_color, $font, $text);

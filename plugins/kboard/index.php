@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 3.0
+Version: 3.1
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '3.0');
+define('KBOARD_VERSION', '3.1');
 
 include_once 'KBoard.class.php';
 include_once 'Content.class.php';
@@ -211,7 +211,7 @@ function kboard_update(){
 		$meta = new KBoardMeta($board_id);
 		$meta->latest_alerts = $_POST['latest_alerts'];
 		$meta->comment_skin = $_POST['comment_skin'];
-		$meta->default_content = $_POST['default_content'];
+		$meta->default_content = kboard_xssfilter($_POST['default_content']);
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){

@@ -27,7 +27,8 @@ class KBoardMeta {
 				return stripslashes($this->meta->{$name});
 			}
 			else{
-				$this->meta->{$name} = @reset(mysql_fetch_row(kboard_query("SELECT value FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `board_id`='$this->board_id' AND `key`='$name'")));
+				$resource = kboard_query("SELECT value FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `board_id`='$this->board_id' AND `key`='$name'");
+				list($this->meta->{$name}) = mysql_fetch_row($resource);
 				return stripslashes($this->meta->{$name});
 			}
 		}
