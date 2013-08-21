@@ -356,17 +356,6 @@ function kboard_activation(){
 	}
 	unset($resource, $table, $prefix);
 	
-	/*
-	 * KBoard 2.9
-	 * kboard_board_meta `value` 데이터형 text로 변경
-	 */
-	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_meta` `value`");
-	list($name, $type) = mysql_fetch_row($resource);
-	if(stristr($type, 'varchar')){
-		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_meta` CHANGE `value` `value` text NOT NULL");
-	}
-	unset($resource, $name, $type);
-	
 	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_setting` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `board_name` varchar(127) NOT NULL,
@@ -433,6 +422,17 @@ function kboard_activation(){
 	  UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_meta);
+	
+	/*
+	 * KBoard 2.9
+	 * kboard_board_meta `value` 데이터형 text로 변경
+	 */
+	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_meta` `value`");
+	list($name, $type) = mysql_fetch_row($resource);
+	if(stristr($type, 'varchar')){
+		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_meta` CHANGE `value` `value` text NOT NULL");
+	}
+	unset($resource, $name, $type);
 }
 
 /*
