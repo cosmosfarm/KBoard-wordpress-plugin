@@ -16,7 +16,7 @@ else if(!$userdata->id && !$_POST['password']){
 	die("<script>alert('비밀번호를 입력하세요.');history.go(-1);</script>");
 }
 else if(!$captcha->textCheck($_POST['captcha'])){
-	die("<script>alert('보안코드가 올바르지 않습니다.');history.go(-1);</script>");
+	die("<script>alert('보안코드가 올바르지 않습니다. 보안 코드를 입력하세요.');history.go(-1);</script>");
 }
 else if(!$_POST['content_uid']){
 	die("<script>alert('게시물 고유번호가 없습니다.');history.go(-1);</script>");
