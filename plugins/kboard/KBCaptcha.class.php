@@ -1,4 +1,6 @@
 <?php
+include_once 'KBFileHandler.class.php';
+
 /**
  * KBoard Captcha
  * @link www.cosmosfarm.com
@@ -11,22 +13,34 @@ class KBCaptcha {
 	 * Captcha 이미지를 생성한다.
 	 */
 	public function createImage(){
-		$font = KBOARD_DIR_PATH . '/font/NanumGothic.ttf';
-		$size = 12;
-		$text = array('가', '나', '다', '라', '마', '바', '사', '아', '자', '차', '카', '타', '파', '하');
-		shuffle($text);
-		$text = substr(implode($text), 0, 15);
+		$captcha_folder = WP_CONTENT_DIR . '/uploads/kboard_captcha/';
+		$captcha_name = uniqid() . '.png';
 		
-		$image = imagecreate(80 , 20);
+		$file_handler = new KBFileHandler();
+		$file_handler->mkPath($captcha_folder);
+		
+		$captcha_files = $file_handler->getDirlist($captcha_folder);
+		foreach($captcha_files as $file){
+			$filetime = @filemtime($captcha_folder . $file);
+			$created = (time() - $filetime) / 60 / 60;
+			if($created > 1) $file_handler->delete($captcha_folder . $file);
+		}
+		
+		$font = KBOARD_DIR_PATH . '/font/NanumGothic.ttf';
+		$text = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+		shuffle($text);
+		$text = substr(implode('', $text), 0, 5);
+		$_SESSION['kboard_captcha'] = $text;
+		
+		$image = imagecreate(60, 20);
 		$background_color = imagecolorallocate($image, 255, 255, 255);
 		$font_color = imagecolorallocate($image, 138, 138, 138);
 		
-		imagettftext($image, $size, 0, 2, 14, $font_color, $font, $text);
-		header('content-type: image/png');
-		imagepng($image);
+		imagettftext($image, 12, 0, 2, 14, $font_color, $font, $text);
+		imagepng($image, $captcha_folder . $captcha_name);
 		imagedestroy($image);
 		
-		$_SESSION['kboard_captcha'] = $text;
+		return content_url('/uploads/kboard_captcha/' . $captcha_name);
 	}
 	
 	/**
@@ -43,7 +57,7 @@ class KBCaptcha {
 		else if(!$_SESSION['kboard_captcha']){
 			return true;
 		}
-		else if($_SESSION['kboard_captcha'] == $text){
+		else if($_SESSION['kboard_captcha'] == strtoupper($text)){
 			return true;
 		}
 		return false;

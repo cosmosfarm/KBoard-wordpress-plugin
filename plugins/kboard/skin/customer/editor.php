@@ -64,7 +64,7 @@
 			<div class="attr-value"><input type="password" name="password" value="<?=$content->password?>"></div>
 		</div>
 		<div class="kboard-attr-row">
-			<label class="attr-name"><img src="<?=plugins_url()?>/kboard/execute/captcha.php" alt=""></label>
+			<label class="attr-name"><img src="<?=kboard_captcha()?>" alt=""></label>
 			<div class="attr-value"><input type="text" name="captcha" value=""></div>
 		</div>
 		<?php endif;?>

@@ -19,7 +19,7 @@
 				<span class="password">비밀번호</span> <input type="password" name="password" value="">
 			</div>
 			<div class="comments-captcha">
-				<span class="captcha"><img src="<?=plugins_url()?>/kboard/execute/captcha.php" alt=""></span> <input type="text" name="captcha" value="">
+				<span class="captcha"><img src="<?=kboard_captcha()?>" alt=""></span> <input type="text" name="captcha" value="">
 			</div>
 			<?php endif?>
 			
