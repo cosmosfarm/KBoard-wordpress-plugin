@@ -100,13 +100,6 @@ class Content {
 		$this->notice = $_POST['notice'];
 		$this->password = $_POST['password'];
 		
-		// captcha 코드 확인
-		include_once 'KBCaptcha.class.php';
-		$captcha = new KBCaptcha();
-		if(!$captcha->textCheck($_POST['captcha'])){
-			die("<script>alert('보안코드가 올바르지 않습니다. 보안 코드를 입력하세요.');history.go(-1);</script>");
-		}
-		
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
 			$this->_updateContent();
@@ -115,6 +108,13 @@ class Content {
 			$this->update_attach($this->uid);
 		}
 		else if(!$this->uid && $this->title){
+			// captcha 코드 확인
+			include_once 'KBCaptcha.class.php';
+			$captcha = new KBCaptcha();
+			if(!$captcha->textCheck($_POST['captcha'])){
+				die("<script>alert('보안코드가 올바르지 않습니다. 보안 코드를 입력하세요.');history.go(-1);</script>");
+			}
+			
 			// 신규게시물 등록
 			$uid = $this->_insertContent();
 			if($uid){
