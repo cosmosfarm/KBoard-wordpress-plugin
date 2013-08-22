@@ -19,6 +19,7 @@ class KBCaptcha {
 		$file_handler = new KBFileHandler();
 		$file_handler->mkPath($captcha_folder);
 		
+		// 1시간이 지난 이미지는 삭제한다.
 		$captcha_files = $file_handler->getDirlist($captcha_folder);
 		foreach($captcha_files as $file){
 			$filetime = @filemtime($captcha_folder . $file);
@@ -27,16 +28,17 @@ class KBCaptcha {
 		}
 		
 		$font = KBOARD_DIR_PATH . '/font/NanumGothic.ttf';
-		$text = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+		$text = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 		shuffle($text);
 		$text = substr(implode('', $text), 0, 5);
 		$_SESSION['kboard_captcha'] = $text;
 		
 		$image = imagecreate(60, 20);
 		$background_color = imagecolorallocate($image, 255, 255, 255);
-		$font_color = imagecolorallocate($image, 138, 138, 138);
+		$font_color = imagecolorallocate($image, 194, 51, 21);
 		
 		imagettftext($image, 12, 0, 2, 14, $font_color, $font, $text);
+		imageline($image, 0, 0, 60, 20, $font_color);
 		imagepng($image, $captcha_folder . $captcha_name);
 		imagedestroy($image);
 		
