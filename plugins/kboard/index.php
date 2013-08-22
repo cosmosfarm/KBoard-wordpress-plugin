@@ -535,5 +535,11 @@ function kboard_system_update(){
 		kboard_activation();
 		return;
 	}
+	
+	/*
+	 * KBoard 3.2
+	 * captcha.php 파일 제거
+	 */
+	@unlink(KBOARD_DIR_PATH . '/execute/captcha.php');
 }
 ?>
