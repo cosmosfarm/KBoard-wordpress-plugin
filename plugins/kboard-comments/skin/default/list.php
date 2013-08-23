@@ -13,13 +13,13 @@
 			<input type="hidden" name="member_display" value="<?=$userdata->data->display_name?>">
 			<?php else:?>
 			<div class="comments-username">
-				<span class="username">작성자</span> <input type="text" name="member_display" value="<?=$userdata->data->display_name?>">
+				<label class="comments-username-label" for="comments_member_display">작성자</label> <input type="text" id="comments_member_display" name="member_display" value="<?=$userdata->data->display_name?>">
 			</div>
 			<div class="comments-password">
-				<span class="password">비밀번호</span> <input type="password" name="password" value="">
+				<label class="comments-password-label" for="comments_password">비밀번호</label> <input type="password" id="comments_password" name="password" value="">
 			</div>
 			<div class="comments-captcha">
-				<span class="captcha"><img src="<?=kboard_captcha()?>" alt=""></span> <input type="text" name="captcha" value="">
+				<label class="comments-captcha-label" for="comments_captcha"><img src="<?=kboard_captcha()?>" alt=""></label> <input type="text" id="comments_captcha" name="captcha" value="">
 			</div>
 			<?php endif?>
 			
@@ -28,16 +28,16 @@
 				<div class="comments-content-button"><input type="submit" value="입력"></div>
 			</div>
 			<div class="comments-count">
-				댓글 <span class="total-count"><?=$commentList->getCount()?></span>개
+				댓글 <span class="comments-total-count"><?=$commentList->getCount()?></span>개
 				<hr>
 			</div>
 			<div class="comments-list">
 				<ul>
 					<?php while($comment = $commentList->hasNext()):?>
 					<li>
-						<div class="username"><?=$comment->user_display?></div>
-						<div class="create"><?=date("Y-m-d H:i", strtotime($comment->created))?></div>
-						<div class="content">
+						<div class="comments-list-username"><?=$comment->user_display?></div>
+						<div class="comments-list-create"><?=date("Y-m-d H:i", strtotime($comment->created))?></div>
+						<div class="comments-list-content">
 							<?=nl2br($comment->content)?>
 							
 							<?php if($comment->isEditor()):?>
