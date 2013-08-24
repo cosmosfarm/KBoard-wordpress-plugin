@@ -7,8 +7,6 @@
 		<input type="hidden" name="member_uid" value="<?=$userdata->data->ID?>">
 		
 		<div class="kboard-comments-wrap">
-			<div class="social-icon"></div>
-			
 			<?php if($userdata->data->ID):?>
 			<input type="hidden" name="member_display" value="<?=$userdata->data->display_name?>">
 			<?php else:?>

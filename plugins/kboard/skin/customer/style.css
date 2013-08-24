@@ -21,7 +21,7 @@ img { border: 0; }
 #kboard-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
 #kboard-list .kboard-category select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-list .kboard-search { float: right; padding-bottom: 5px; width: 50%; text-align: right; }
-#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 125px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; }
+#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 100px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; }
 #kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 125px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; }
 #kboard-list .kboard-list { float: left; width: 100%; background-color: white; }
 #kboard-list .kboard-list table { table-layout:fixed; width: 100%; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
@@ -30,7 +30,7 @@ img { border: 0; }
 #kboard-list .kboard-list table td.kboard-list-uid { width: 72px; }
 #kboard-list .kboard-list table td.kboard-list-title { width: auto; }
 #kboard-list .kboard-list table td.kboard-list-title img { display: inline; vertical-align: middle; }
-#kboard-list .kboard-list table td.kboard-list-user { width: 65px; }
+#kboard-list .kboard-list table td.kboard-list-user { width: 80px; }
 #kboard-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-list .kboard-list table td.kboard-list-view { width: 55px; }
 #kboard-list .kboard-list thead tr { border-bottom: 1px solid #545861; }
@@ -49,13 +49,13 @@ img { border: 0; }
 #kboard-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 
 #kboard-editor { margin: 0 auto; width: 99%; }
-#kboard-editor .kboard-header { float: left; margin-top: 0; width: 100%; border-top: 2px solid #545861; }
+#kboard-editor .kboard-header { float: left; width: 100%; border-top: 2px solid #545861; line-height: 0; }
 #kboard-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; border-bottom: 1px solid #e3e3e3; }
 #kboard-editor .kboard-attr-title { float: left; border-bottom: 1px solid #545861; }
 #kboard-editor .kboard-attr-title input { display: inline-block; padding: 6px 2px; font-size: 12px; width: 50%; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 90px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
 #kboard-editor .kboard-attr-row .attr-name img { display: inline; max-width: 100%; vertical-align: middle; }
-#kboard-editor .kboard-attr-row .attr-value { font-size: 12px; width: 100%; }
+#kboard-editor .kboard-attr-row .attr-value { font-size: 12px; }
 #kboard-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-editor .kboard-attr-row .attr-value input[type=text],
 #kboard-editor .kboard-attr-row .attr-value input[type=password] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
