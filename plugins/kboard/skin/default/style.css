@@ -68,7 +68,7 @@ img { border: 0; }
 #kboard-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 98%; height: 250px; border-radius: 3px; border: 1px solid #cccccc; font-size: 12px; }
 #kboard-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-editor .kboard-control .left { float: left; }
-#kboard-editor .kboard-control .right { float: right; text-align: right; }
+#kboard-editor .kboard-control .right { float: right; width: 50%; text-align: right; }
 
 #kboard-document { margin: 0 auto; width: 99%; }
 #kboard-document .kboard-header { float: left; margin-top: 0; width: 100%; }
