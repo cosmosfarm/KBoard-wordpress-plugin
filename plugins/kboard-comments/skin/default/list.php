@@ -2,7 +2,7 @@
 <script type="text/javascript" src="<?=$skin_path?>/script.js"></script>
 
 <div class="kboard-comments">
-	<form action="<?=plugins_url()?>/kboard-comments/execute/insert.php" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
+	<form action="<?=$commentURL->getInsertURL()?>" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
 		<input type="hidden" name="content_uid" value="<?=$_REQUEST['uid']?>">
 		<input type="hidden" name="member_uid" value="<?=$userdata->data->ID?>">
 		
@@ -31,7 +31,7 @@
 			</div>
 			<div class="comments-list">
 				<ul>
-					<?php while($comment = $commentList->hasNext()):?>
+					<?php while($comment = $commentList->hasNext()): $commentURL->setCommentUID($comment->uid);?>
 					<li>
 						<div class="comments-list-username"><?=$comment->user_display?></div>
 						<div class="comments-list-create"><?=date("Y-m-d H:i", strtotime($comment->created))?></div>
@@ -39,9 +39,9 @@
 							<?=nl2br($comment->content)?>
 							
 							<?php if($comment->isEditor()):?>
-							 - <a href="<?=plugins_url().'/kboard-comments/execute/delete.php?uid='.$comment->uid?>" onclick="return confirm('삭제 하시겠습니까?');">삭제</a>
+							 - <a href="<?=$commentURL->getDeleteURL()?>" onclick="return confirm('삭제 하시겠습니까?');">삭제</a>
 							<?php else:?>
-							 - <a href="<?=plugins_url().'/kboard-comments/execute/confirm.php?uid='.$comment->uid?>" onclick="open_confirm(this.href); return false;">삭제</a>
+							 - <a href="<?=$commentURL->getConfirmURL()?>" onclick="open_confirm(this.href); return false;">삭제</a>
 							<?php endif?>
 						</div>
 					</li>
