@@ -76,9 +76,16 @@ class BoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		ob_start();
-		call_user_func(array($this, 'builder'.ucfirst($this->mod)));
-		return ob_get_clean();
+		$meta = new KBoardMeta($this->board_id);
+		if($meta->pass_autop == 'enable'){
+			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
+			return '';
+		}
+		else{
+			ob_start();
+			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
+			return ob_get_clean();
+		}
 	}
 	
 	/**

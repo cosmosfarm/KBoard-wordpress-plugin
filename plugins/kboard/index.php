@@ -212,6 +212,7 @@ function kboard_update(){
 		$meta->latest_alerts = $_POST['latest_alerts'];
 		$meta->comment_skin = $_POST['comment_skin'];
 		$meta->default_content = kboard_xssfilter($_POST['default_content']);
+		$meta->pass_autop = $_POST['pass_autop'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){

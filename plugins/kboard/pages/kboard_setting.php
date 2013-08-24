@@ -55,6 +55,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<?php endif?>
 				<tr valign="top">
+					<th scope="row"><label for="pass_autop">특정 테마 레이아웃 깨짐 방지</label></th>
+					<td><select name="pass_autop" id="pass_autop" class="">
+							<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
+							<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
+						</select>
+						<p class="description">특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다.</p></td>
+				</tr>
+				<tr valign="top">
 					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 					<td><select name="skin" id="skin" class="">
 							<?php foreach($skin->list AS $key => $value):?>
@@ -103,7 +111,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
 					<td><select name="comment_skin" id="comment_skin" class="">
 							<?php foreach($comment_skin->list AS $key => $value):?>
-							<option value="<?=$value?>" <?php if($meta->comment_skin == $value):?> selected <?php endif?>>
+							<option value="<?=$value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>>
 								<?=$value?>
 							</option>
 							<?php endforeach;?>
