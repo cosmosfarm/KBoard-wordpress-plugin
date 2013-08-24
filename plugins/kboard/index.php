@@ -67,7 +67,7 @@ function kboard_welcome_panel(){
  */
 add_action('admin_menu', 'kboard_settings_menu');
 function kboard_settings_menu(){
-	$position = 50;
+	$position = 50.5;
 	while($GLOBALS['menu'][$position]) $position++;
 	
 	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $position);
