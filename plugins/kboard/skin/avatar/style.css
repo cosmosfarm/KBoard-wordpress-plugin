@@ -21,8 +21,8 @@ img { border: 0; }
 #kboard-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
 #kboard-list .kboard-category select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-list .kboard-search { float: right; padding-bottom: 5px; width: 50%; text-align: right; }
-#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 100px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; }
-#kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 125px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; }
+#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 100px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; }
+#kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 125px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; }
 #kboard-list .kboard-list { float: left; width: 100%; background-color: white; }
 #kboard-list .kboard-list table { table-layout:fixed; width: 100%; border: 0; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
 #kboard-list .kboard-list table a { color: black; text-decoration: none; }
@@ -50,6 +50,8 @@ img { border: 0; }
 #kboard-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 
 #kboard-editor { margin: 0 auto; width: 99%; }
+#kboard-editor select,
+#kboard-editor input { width: auto; height: auto; }
 #kboard-editor .kboard-header { float: left; width: 100%; border-top: 2px solid #545861; line-height: 0; }
 #kboard-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; border-bottom: 1px solid #e3e3e3; }
 #kboard-editor .kboard-attr-title { float: left; border-bottom: 1px solid #545861; }
