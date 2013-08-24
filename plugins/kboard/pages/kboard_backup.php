@@ -1,8 +1,6 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
-	<div id="icon-themes" class="icon32">
-		<br>
-	</div>
+	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?=plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
 	<h2>
 		KBoard : 백업 및 복구
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
