@@ -4,19 +4,19 @@
  */
 
 .kboard-comments { float: left; width: 100%; background-color: #f9f9f9; border-top: 1px solid #545861; }
-.kboard-comments input { display: inline; margin: 0; padding: 6px 2px; width: 120px; font-size: 12px; border: 1px solid #eaeaea; }
+.kboard-comments input { display: inline; margin: 0; padding: 6px 2px; width: 60%; font-size: 12px; border: 1px solid #eaeaea; }
 .kboard-comments .social-icon { float: left; margin: 0; padding: 0; padding-bottom: 5px; width: 100%; }
-.kboard-comments .comments-username { float: left; padding-bottom: 5px; }
+.kboard-comments .comments-username { float: left; padding-bottom: 5px; width: 230px; }
 .kboard-comments .comments-username .comments-username-label { display: inline-block; margin-left: 21px; width: 60px; font-size: 12px; color: #8a8a8a; }
-.kboard-comments .comments-password { float: left; padding-bottom: 5px; }
+.kboard-comments .comments-password { float: left; padding-bottom: 5px; width: 230px; }
 .kboard-comments .comments-password .comments-password-label { display: inline-block; margin-left: 21px; width: 60px; font-size: 12px; color: #8a8a8a; }
-.kboard-comments .comments-captcha { float: left; padding-bottom: 5px; }
+.kboard-comments .comments-captcha { float: left; padding-bottom: 5px; width: 230px; }
 .kboard-comments .comments-captcha .comments-captcha-label { display: inline-block; margin-left: 21px; width: 60px; font-size: 12px; color: #8a8a8a; }
 .kboard-comments .comments-captcha .comments-captcha-label img { display: inline; max-width: 100%; vertical-align: middle; }
 .kboard-comments .comments-content { position: relative; clear: both; float: left; width: 100%; height: 65px; }
 .kboard-comments .comments-content .comments-content-text { position: absolute; left: 21px; top: 0; right: 100px; }
 .kboard-comments .comments-content .comments-content-text textarea { margin: 0; padding: 0; width: 100%; height: 63px; border: 1px solid #eaeaea; }
-.kboard-comments .comments-content .comments-content-button { position: absolute; right: 21px; top: 0; }
+.kboard-comments .comments-content .comments-content-button { position: absolute; right: 21px; top: 0; width: 69px; height: 65px; }
 .kboard-comments .comments-content .comments-content-button input { margin: 0; padding: 0; width: 69px; height: 65px; line-height: 65px; }
 .kboard-comments .comments-count { clear: both; padding: 32px 0 0 21px; color: #8a8a8a; font-size: 12px; }
 .kboard-comments .comments-count .comments-total-count { color: #f05726; }

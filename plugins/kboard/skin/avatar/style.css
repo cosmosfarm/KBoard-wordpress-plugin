@@ -8,21 +8,21 @@ img { border: 0; }
 
 .kboard-button-small,
 .kboard-button-small:link,
-.kboard-button-small:visited { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
+.kboard-button-small:visited { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; }
 .kboard-button-small:hover,
 .kboard-button-small:focus,
-.kboard-button-small:active { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; }
+.kboard-button-small:active { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; }
 
 .kboard-poweredby { float: left; font-size: 12px; }
 .kboard-poweredby a { color: gray; }
 
 #kboard-list { margin: 0 auto; width: 99%; }
 #kboard-list .kboard-header { float: left; margin-top: 0; width: 100%; }
-#kboard-list .kboard-category { float: left; padding-bottom: 5px; }
+#kboard-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
 #kboard-list .kboard-category select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-list .kboard-search { float: right; padding-bottom: 5px; }
-#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; font-size: 12px; width: 125px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; }
+#kboard-list .kboard-search { float: right; padding-bottom: 5px; width: 50%; text-align: right; }
+#kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 125px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; }
+#kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 125px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; }
 #kboard-list .kboard-list { float: left; width: 100%; background-color: white; }
 #kboard-list .kboard-list table { table-layout:fixed; width: 100%; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
 #kboard-list .kboard-list table a { color: black; text-decoration: none; }
@@ -65,8 +65,8 @@ img { border: 0; }
 #kboard-editor .kboard-content { float: left; padding: 9px 0; width: 100%; border-bottom: 1px solid #e3e3e3; }
 #kboard-editor .kboard-content textarea { width: 98%; height: 250px; }
 #kboard-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
-#kboard-editor .kboard-control .left { float: left; }
-#kboard-editor .kboard-control .right { float: right; text-align: right; }
+#kboard-editor .kboard-control .left { float: left; width: 50%; }
+#kboard-editor .kboard-control .right { float: right; width: 50%; text-align: right; }
 
 #kboard-document { margin: 0 auto; width: 99%; }
 #kboard-document .kboard-header { float: left; margin-top: 0; width: 100%; }
@@ -95,8 +95,9 @@ img { border: 0; }
 #kboard-latest table .kboard-latest-date { width: 75px; text-align: center; }
 
 @media (max-width: 600px) {
+	#kboard-list .kboard-category { width: 100%; }
 	#kboard-list .kboard-category select { width: auto;}
-	#kboard-list .kboard-search { clear: both; float: left; }
+	#kboard-list .kboard-search { clear: both; float: left; width: 100%; }
 	#kboard-list .kboard-search select { width: 80px; }
 	#kboard-list .kboard-search input { width: 80px; }
 	#kboard-list .kboard-list table td.kboard-list-uid { width: 50px; }
