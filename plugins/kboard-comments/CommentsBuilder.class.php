@@ -44,7 +44,7 @@ class CommentsBuilder {
 		include 'KBCommentUrl.class.php';
 		$commentURL = new KBCommentUrl();
 		$commentList = new CommentList($this->content_uid);
-		include_once KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/list.php";
+		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/list.php";
 	}
 }
 ?>
