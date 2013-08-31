@@ -22,6 +22,14 @@ class BoardBuilder {
 	private $skin_path;
 	
 	public function __construct($board_id=''){
+		$_REQUEST['uid'] = intval($_REQUEST['uid']);
+		$_REQUEST['pageid'] = intval($_REQUEST['pageid']);
+		$_REQUEST['mod'] = kboard_xssfilter($_REQUEST['mod']);
+		$_REQUEST['category1'] = kboard_xssfilter($_REQUEST['category1']);
+		$_REQUEST['category2'] = kboard_xssfilter($_REQUEST['category2']);
+		$_REQUEST['keyword'] = kboard_xssfilter($_REQUEST['keyword']);
+		$_REQUEST['search'] = kboard_xssfilter($_REQUEST['search']);
+		
 		$this->mod = $_REQUEST['mod']?$_REQUEST['mod']:'list';
 		$this->category1 = $_REQUEST['category1'];
 		$this->category2 = $_REQUEST['category2'];

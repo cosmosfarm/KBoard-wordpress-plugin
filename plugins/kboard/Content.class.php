@@ -59,7 +59,7 @@ class Content {
 	 */
 	public function initWithUID($uid){
 		if($uid){
-			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid=$uid LIMIT 1"));
+			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid='$uid' LIMIT 1"));
 			$this->board_id = $this->row->board_id;
 			$this->initOptions();
 			$this->initAttachedFiles();
@@ -147,7 +147,7 @@ class Content {
 		$userdata = get_userdata($user_ID);
 		
 		$data['board_id'] = $this->board_id;
-		$data['member_uid'] = $userdata->data->ID?$userdata->data->ID:0;
+		$data['member_uid'] = intval($userdata->data->ID);
 		$data['member_display'] = $this->member_display?kboard_htmlclear($this->member_display):kboard_htmlclear($userdata->data->display_name);
 		$data['title'] = addslashes(kboard_htmlclear($this->title));
 		$data['content'] = addslashes(kboard_xssfilter($this->content));
@@ -180,7 +180,7 @@ class Content {
 	private function _updateContent(){
 		if($this->uid){
 			$data['board_id'] = $this->board_id;
-			$data['member_uid'] = $this->member_uid;
+			$data['member_uid'] = intval($userdata->data->ID);
 			$data['member_display'] = kboard_htmlclear($this->member_display);
 			$data['title'] = addslashes(kboard_htmlclear($this->title));
 			$data['content'] = addslashes(kboard_xssfilter($this->content));

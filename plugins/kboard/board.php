@@ -1,7 +1,7 @@
 <?php
 $path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
-$board_id = $_GET['board_id'];
+$board_id = intval($_GET['board_id']);
 
 /**
  * KBoard 게시판 고유주소로 요청하기
