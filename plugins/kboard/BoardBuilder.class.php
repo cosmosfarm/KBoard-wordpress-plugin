@@ -153,6 +153,14 @@ class BoardBuilder {
 		if($allow_document == true){
 			$content->increaseView();
 			$content->initWithUID($_REQUEST['uid']);
+			
+			if($board->use_editor){
+				$content->content = nl2br($content->content);
+			}
+			else{
+				$content->content = nl2br(Content::autolink($content->content));
+			}
+			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
 		}
 	}

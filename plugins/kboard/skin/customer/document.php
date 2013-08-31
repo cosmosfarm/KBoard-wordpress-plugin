@@ -44,11 +44,7 @@
 				</p>
 				<?php endif?>
 				
-				<?php if($board->use_editor):?>
-					<?=nl2br($content->content)?>
-				<?php else:?>
-					<?=nl2br(Content::autolink($content->content))?>
-				<?php endif;?>
+				<?=$content->content?>
 			</div>
 		</div>
 		
