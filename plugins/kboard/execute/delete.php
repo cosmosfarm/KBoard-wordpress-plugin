@@ -29,7 +29,7 @@ if(!$board->isEditor($content->member_uid)){
 			
 		}
 	}
-	elseif(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다.");location.href="' . site_url('/wp-login.php') . '";</script>');
+	elseif(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다.");location.href="'.wp_login_url().'";</script>');
 	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 if($file == 'thumbnail') $content->removeThumbnail();
