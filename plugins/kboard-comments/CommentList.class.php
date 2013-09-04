@@ -109,6 +109,7 @@ class CommentList {
 	 * @param string $password
 	 */
 	public function add($user_uid, $user_display, $content, $password=''){
+		$user_uid = intval($user_uid);
 		$user_display = addslashes(kboard_htmlclear(trim($user_display)));
 		$content = addslashes(kboard_xssfilter(trim($content)));
 		$password = addslashes($password);
