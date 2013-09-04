@@ -41,7 +41,7 @@ final class KBUpgrader {
 	 */
 	static public function connect($url){
 		$host = self::$sever_host;
-		$fp = @fsockopen($host, 80, $errno, $errstr, 30);
+		$fp = @fsockopen($host, 80, $errno, $errstr, 3);
 		if($fp){
 			fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
 			while(!feof($fp)){

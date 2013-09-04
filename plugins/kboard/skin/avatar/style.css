@@ -24,7 +24,7 @@ img { border: 0; }
 #kboard-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 100px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; }
 #kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 125px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; }
 #kboard-list .kboard-list { float: left; width: 100%; background-color: white; }
-#kboard-list .kboard-list table { table-layout:fixed; width: 100%; border: 0; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
+#kboard-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
 #kboard-list .kboard-list table a { color: black; text-decoration: none; }
 #kboard-list .kboard-list table tr { border: 0; }
 #kboard-list .kboard-list table td { padding: 10px 0; text-align: center; vertical-align: middle; }
