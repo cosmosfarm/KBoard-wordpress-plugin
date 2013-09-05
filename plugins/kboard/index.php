@@ -18,6 +18,7 @@ include_once 'Content.class.php';
 include_once 'ContentList.class.php';
 include_once 'Url.class.php';
 include_once 'KBoardMeta.class.php';
+include_once 'KBRouter.class.php';
 include_once 'KBSeo.class.php';
 include_once 'KBUpgrader.class.php';
 include_once 'BoardBuilder.class.php';
@@ -43,6 +44,27 @@ define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
  * jQuery를 추가한다.
  */
 wp_enqueue_script('jquery');
+
+/*
+ * KBoard Router
+ */
+add_action('init', 'kboard_router');
+function kboard_router(){
+	$router = new KBRouter();
+	$router->process();
+}
+
+/*
+ * 워드프레스 검색용 필터 입력
+ */
+add_filter('pre_get_posts', 'kboard_search_filter');
+function kboard_search_filter($query){
+	$post_type = get_query_var('post_type');
+	if($query->is_search){
+		$query->set('post_type', array('post', 'page', 'attachment', 'kboard'));
+	};
+	return $query;
+}
 
 /*
  * 플러그인 페이지 링크
@@ -100,6 +122,7 @@ function kboard_dashboard(){
  * 게시판 목록 페이지
  */
 function kboard_list(){
+	kboard_system_update();
 	if($_GET['board_id']){
 		kboard_setting();
 	}
@@ -125,6 +148,7 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
+	kboard_system_update();
 	include 'KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
@@ -401,6 +425,7 @@ function kboard_activation(){
 	  `category2` varchar(127) NOT NULL,
 	  `secret` varchar(5) NOT NULL,
 	  `notice` varchar(5) NOT NULL,
+	  `search` char(1) NOT NULL,
 	  `password` varchar(127) NOT NULL,
 	  PRIMARY KEY  (`uid`),
 	  KEY `board_id` (`board_id`)
@@ -434,6 +459,17 @@ function kboard_activation(){
 		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_meta` CHANGE `value` `value` text NOT NULL");
 	}
 	unset($resource, $name, $type);
+	
+	/*
+	 * KBoard 3.5
+	 * kboard_board_content `search` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_content` `search`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `search` CHAR(1) NOT NULL AFTER `notice`");
+	}
+	unset($resource, $name);
 }
 
 /*
@@ -531,16 +567,30 @@ function kboard_system_update(){
 	 * KBoard 2.9
 	 * kboard_board_meta `value` 데이터형 text로 변경
 	 */
-	list($name, $type) = mysql_fetch_row(kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_meta` `value`"));
+	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_meta` `value`");
+	list($name, $type) = mysql_fetch_row($resource);
 	if(stristr($type, 'varchar')){
 		kboard_activation();
 		return;
 	}
+	unset($resource, $name, $type);
 	
 	/*
 	 * KBoard 3.2
 	 * captcha.php 파일 제거
 	 */
 	@unlink(KBOARD_DIR_PATH . '/execute/captcha.php');
+	
+	/*
+	 * KBoard 3.5
+	 * kboard_board_content `search` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `search`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_activation();
+		return;
+	}
+	unset($resource, $name);
 }
 ?>

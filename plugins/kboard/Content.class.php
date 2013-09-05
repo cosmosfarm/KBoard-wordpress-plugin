@@ -170,7 +170,28 @@ class Content {
 		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
 		
 		$insert_id = mysql_insert_id();
-		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		if(!$insert_id){
+			$resource = kboard_query("SELECT LAST_INSERT_ID()");
+			list($insert_id) = mysql_fetch_row($resource);
+		}
+		
+		if($insert_id){
+			// posts 테이블에 내용을 입력한다.
+			if($data['secret'] == 'true') $data['content'] = '';
+			$kboard_post = array(
+					'post_author'   => $data['member_uid'],
+					'post_title'    => $data['title'],
+					'post_content'  => $data['content'],
+					'post_status'   => 'publish',
+					'comment_status'=> 'closed',
+					'ping_status'   => 'closed',
+					'post_name'     => $insert_id,
+					'post_parent'   => $data['board_id'],
+					'post_type'     => 'kboard'
+			);
+			wp_insert_post($kboard_post);
+		}
+		
 		return $insert_id;
 	}
 	
@@ -196,6 +217,19 @@ class Content {
 				$update[] = "`$key`='$value'";
 			}
 			kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_content SET ".implode(',', $update)." WHERE uid=$this->uid");
+			
+			$post_id = $this->getPostID();
+			if($post_id){
+				// posts 테이블에 내용을 수정한다.
+				$kboard_post = array(
+						'ID'            => $post_id,
+						'post_author'   => $data['member_uid'],
+						'post_title'    => $data['title'],
+						'post_content'  => $data['content'],
+						'post_parent'   => $data['board_id']
+				);
+				wp_update_post($kboard_post);
+			}
 		}
 	}
 	
@@ -430,6 +464,7 @@ class Content {
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
 			kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid=$this->uid");
+			wp_delete_post($this->getPostID());
 			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_comments WHERE content_uid=$this->uid");
 			if($next) die("<script>location.href='$next';</script>");
 		}
@@ -445,9 +480,21 @@ class Content {
 		if($this->uid && defined('KBOARD_COMMNETS_VERSION')){
 			$commentList = new CommentList($this->uid);
 			$commentsCount = $commentList->getCount();
-			if($commentsCount) echo "$prefix$commentsCount$endfix";
+			if($commentsCount) echo "{$prefix}{$commentsCount}{$endfix}";
 		}
 		return '';
+	}
+	
+	/**
+	 * posts 테이블에 등록된 게시글의 ID 값을 가져온다.
+	 * @return int
+	 */
+	public function getPostID(){
+		if($this->uid){
+			$resource = kboard_query("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE post_name='{$this->uid}' AND post_type='kboard'");
+			list($post_id) = mysql_fetch_row($resource);
+		}
+		return intval($post_id);
 	}
 	
 	/**

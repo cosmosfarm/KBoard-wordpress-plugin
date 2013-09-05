@@ -1,7 +1,11 @@
 3.5
 ===================
 
-  1. 버그 수정
+  1. KBRouter 클래스 추가
+  2. 게시물 워드프레스검색 지원
+  3. RSS 기능 강화
+  4. kboard_board_content 테이블 search 컬럼 생성
+  5. 버그 수정
 
 
 
@@ -45,7 +49,7 @@
 2.9
 ===================
 
-  1. kboard_board_meta `value` 데이터형 text로 변경
+  1. kboard_board_meta 테이블 value 데이터형 text로 변경
 
 
 

@@ -3,7 +3,7 @@ $path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTOR
 include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
 $list = new ContentList();
-$list->rpp = 100;
+$list->rpp = 20;
 $list->initWithRSS();
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -16,11 +16,11 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		<?php while($content = $list->hasNext()): $kboard = new KBoard($content->board_id); ?>
 		<item>
 			<title><![CDATA[<?=$content->title?>]]></title>
-			<link><![CDATA[<?=plugins_url()?>/kboard/board.php?board_id=<?=$kboard->uid?>&mod=document&uid=<?=$content->uid?>]]></link>
+			<link><![CDATA[<?=site_url()?>?kboard_content_redirect=<?=$content->uid?>]]></link>
 			<description><![CDATA[<?=$content->content?>]]></description>
 			<author><?=$content->member_display?></author>
 			<pubDate><?=gmdate(DATE_RSS, strtotime($content->date))?></pubDate>
-			<category domain="<?=plugins_url()?>/kboard/board.php?board_id=<?=$kboard->uid?>"><?=$kboard->board_name?></category>
+			<category domain="<?=site_url()?>?kboard_redirect=<?=$kboard->uid?>"><?=$kboard->board_name?></category>
 		</item>
 		<?php endwhile;?>
 	</channel>
