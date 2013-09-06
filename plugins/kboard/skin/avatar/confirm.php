@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<?=$skin_path?>/style.css">
 
 <div id="kboard-editor">
-	<form method="post" action="<?=$url->set('mod', $_REQUEST['mod'])->set('uid', $_REQUEST['uid'])->toString()?>">
+	<form method="post" action="<?=$url->set('mod', $_GET['mod'])->set('uid', $_GET['uid'])->toString()?>">
 		<div class="kboard-header"></div>
 		
 		<div class="kboard-attr-row kboard-attr-title">

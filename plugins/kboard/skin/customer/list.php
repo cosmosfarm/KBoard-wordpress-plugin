@@ -13,7 +13,7 @@
 					<select name="category1">
 						<option value="">카테고리1</option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?=$board->currentCategory()?>"<?php if($_REQUEST['category1'] == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
+						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				<?php endif;?>
@@ -22,7 +22,7 @@
 					<select name="category2">
 						<option value="">카테고리2</option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?=$board->currentCategory()?>"<?php if($_REQUEST['category2'] == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
+						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				<?php endif;?>
@@ -32,11 +32,11 @@
 			<div class="kboard-search">
 				<select name="search">
 					<option value="">전체</option>
-					<option value="title"<?php if($_REQUEST['search'] == 'title'):?> selected="selected"<?php endif?>>제목</option>
-					<option value="content"<?php if($_REQUEST['search'] == 'content'):?> selected="selected"<?php endif?>>내용</option>
-					<option value="member_display"<?php if($_REQUEST['search'] == 'member_display'):?> selected="selected"<?php endif?>>작성자</option>
+					<option value="title"<?php if($_GET['search'] == 'title'):?> selected="selected"<?php endif?>>제목</option>
+					<option value="content"<?php if($_GET['search'] == 'content'):?> selected="selected"<?php endif?>>내용</option>
+					<option value="member_display"<?php if($_GET['search'] == 'member_display'):?> selected="selected"<?php endif?>>작성자</option>
 				</select>
-				<input type="text" name="keyword" value="<?=$_REQUEST['keyword']?>">
+				<input type="text" name="keyword" value="<?=$_GET['keyword']?>">
 				<button type="submit" class="kboard-button-small">검색</button>
 			</div>
 		</form>

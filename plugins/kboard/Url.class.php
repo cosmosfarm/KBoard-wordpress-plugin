@@ -18,7 +18,7 @@ class Url {
 	 * @return Url
 	 */
 	public function init(){
-		$this->data = kboard_htmlclear($_GET);
+		$this->data = kboard_xssfilter(kboard_htmlclear($_GET));
 		$this->data['mod'] = null;
 		$this->data['uid'] = null;
 		return $this;

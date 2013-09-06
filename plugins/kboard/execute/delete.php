@@ -6,7 +6,7 @@ header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
 
 $uid = intval($_GET['uid']);
-$file = kboard_htmlclear($_GET['file']);
+$file = addslashes(kboard_xssfilter(kboard_htmlclear($_GET['file'])));
 
 if(!$uid || !$file){
 	die('<script>alert("권한이 없습니다.");history.go(-1);</script>');

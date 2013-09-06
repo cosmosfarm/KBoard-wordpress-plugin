@@ -7,7 +7,7 @@ header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
 
 $uid = intval($_GET['uid']);
-$file = kboard_htmlclear($_GET['file']);
+$file = addslashes(kboard_xssfilter(kboard_htmlclear($_GET['file'])));
 
 if(!$uid || !$file){
 	die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
@@ -21,7 +21,7 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
-$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid=$uid AND file_key LIKE '$file'");
+$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid='$uid' AND file_key LIKE '$file'");
 $file_info = mysql_fetch_array($result);
 
 $path = $root_path . str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);

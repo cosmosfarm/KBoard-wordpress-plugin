@@ -4,7 +4,7 @@
 <div id="kboard-editor">
 	<form method="post" action="<?=$url->toString()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
 		<input type="hidden" name="mod" value="editor">
-		<input type="hidden" name="uid" value="<?=$_REQUEST['uid']?>">
+		<input type="hidden" name="uid" value="<?=$content->uid?>">
 		<input type="hidden" name="member_uid" value="<?=$content->member_uid?>">
 		<input type="hidden" name="member_display" value="<?=$content->member_display?>">
 		<input type="hidden" name="date" value="<?=$content->date?>">
@@ -46,13 +46,13 @@
 		
 		<div class="kboard-attr-row">
 			<label class="attr-name">비밀글</label>
-			<div class="attr-value"><input type="checkbox" name="secret" value="true" <?php if($content->secret == 'true'):?>checked<?php endif?>></div>
+			<div class="attr-value"><input type="checkbox" name="secret" value="true"<?php if($content->secret == 'true'):?> checked<?php endif?>></div>
 		</div>
 		
 		<?php if($board->isAdmin()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name">공지사항</label>
-			<div class="attr-value"><input type="checkbox" name="notice" value="true" <?php if($content->notice == 'true'):?>checked<?php endif?>></div>
+			<div class="attr-value"><input type="checkbox" name="notice" value="true"<?php if($content->notice == 'true'):?> checked<?php endif?>></div>
 		</div>
 		<?php elseif($board->isWriter() && $board->permission_write=='all'):?>
 		<div class="kboard-attr-row">

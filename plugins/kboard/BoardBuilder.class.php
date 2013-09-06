@@ -14,26 +14,24 @@ class BoardBuilder {
 	var $category1;
 	var $category2;
 	var $rpp;
-	
 	var $url;
-	
 	var $board;
 	
 	private $skin_path;
 	
 	public function __construct($board_id=''){
-		$_REQUEST['uid'] = intval($_REQUEST['uid']);
-		$_REQUEST['pageid'] = intval($_REQUEST['pageid']);
-		$_REQUEST['mod'] = kboard_xssfilter($_REQUEST['mod']);
-		$_REQUEST['category1'] = kboard_xssfilter($_REQUEST['category1']);
-		$_REQUEST['category2'] = kboard_xssfilter($_REQUEST['category2']);
-		$_REQUEST['keyword'] = kboard_xssfilter($_REQUEST['keyword']);
-		$_REQUEST['search'] = kboard_xssfilter($_REQUEST['search']);
+		$_GET['uid'] = intval($_GET['uid']);
+		$_GET['pageid'] = intval($_GET['pageid']);
+		$_GET['mod'] = kboard_xssfilter(kboard_htmlclear($_GET['mod']));
+		$_GET['category1'] = kboard_xssfilter(kboard_htmlclear($_GET['category1']));
+		$_GET['category2'] = kboard_xssfilter(kboard_htmlclear($_GET['category2']));
+		$_GET['keyword'] = kboard_xssfilter(kboard_htmlclear($_GET['keyword']));
+		$_GET['search'] = kboard_xssfilter(kboard_htmlclear($_GET['search']));
 		
-		$this->mod = $_REQUEST['mod']?$_REQUEST['mod']:'list';
-		$this->category1 = $_REQUEST['category1'];
-		$this->category2 = $_REQUEST['category2'];
-		$this->uid = $_REQUEST['uid'];
+		$this->mod = $_GET['mod']?$_GET['mod']:'list';
+		$this->category1 = $_GET['category1'];
+		$this->category2 = $_GET['category2'];
+		$this->uid = $_GET['uid'];
 		$this->skin = 'default';
 		
 		if($board_id) $this->setBoardID($board_id);
@@ -108,7 +106,7 @@ class BoardBuilder {
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		
-		$list->rpp($this->rpp)->page($_REQUEST['pageid'])->getList($_REQUEST['keyword'], $_REQUEST['search']);
+		$list->rpp($this->rpp)->page($_GET['pageid'])->getList($_GET['keyword'], $_GET['search']);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
@@ -125,7 +123,7 @@ class BoardBuilder {
 		$url = new Url();
 		
 		$content = new Content($this->board_id);
-		$content->initWithUID($_REQUEST['uid']);
+		$content->initWithUID($_GET['uid']);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
@@ -152,7 +150,7 @@ class BoardBuilder {
 		
 		if($allow_document == true){
 			$content->increaseView();
-			$content->initWithUID($_REQUEST['uid']);
+			$content->initWithUID($_GET['uid']);
 			
 			if($board->use_editor){
 				$content->content = nl2br($content->content);
@@ -179,15 +177,15 @@ class BoardBuilder {
 		}
 		
 		$content = new Content($this->board_id);
-		$content->initWithUID($_REQUEST['uid']);
+		$content->initWithUID($_GET['uid']);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
 		
-		if(!$_REQUEST['uid'] && !$this->board->isWriter()){
+		if(!$_GET['uid'] && !$this->board->isWriter()){
 			die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 		}
-		else if($_REQUEST['uid'] && !$this->board->isEditor($content->member_uid)){
+		else if($_GET['uid'] && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
 					$confirm_view = true;
@@ -203,7 +201,7 @@ class BoardBuilder {
 		}
 		else{
 			$content->execute();
-			$content->initWithUID($_REQUEST['uid']);
+			$content->initWithUID($_GET['uid']);
 			
 			if($_GET['uid']){
 				$next_url = $url->set('uid', $_GET['uid'])->set('mod', 'document')->toString();
@@ -228,7 +226,7 @@ class BoardBuilder {
 		$url = new Url();
 		
 		$content = new Content($this->board_id);
-		$content->initWithUID($_REQUEST['uid']);
+		$content->initWithUID($_GET['uid']);
 		
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
@@ -268,7 +266,6 @@ class BoardBuilder {
 		$board_url = $this->url;
 		
 		include KBOARD_DIR_PATH . "/skin/$this->skin/latest.php";
-		
 		return ob_get_clean();
 	}
 }
