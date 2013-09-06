@@ -95,7 +95,7 @@ class Content {
 		$this->category2 = $_POST['category2'];
 		$this->secret = $_POST['secret'];
 		$this->notice = $_POST['notice'];
-		$this->search = $_POST['search'];
+		$this->search = ($this->secret=='true' && $_POST['search']==1)?'2':$_POST['search'];
 		$this->password = kboard_xssfilter(kboard_htmlclear(trim($_POST['password'])));
 		
 		if($this->uid && $this->date){
@@ -171,22 +171,7 @@ class Content {
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
 		
-		if($insert_id){
-			// posts 테이블에 내용을 입력한다.
-			if($data['secret'] == 'true') $data['content'] = '';
-			$kboard_post = array(
-					'post_author'   => $data['member_uid'],
-					'post_title'    => $data['title'],
-					'post_content'  => $data['content'],
-					'post_status'   => 'publish',
-					'comment_status'=> 'closed',
-					'ping_status'   => 'closed',
-					'post_name'     => $insert_id,
-					'post_parent'   => $data['board_id'],
-					'post_type'     => 'kboard'
-			);
-			wp_insert_post($kboard_post);
-		}
+		$this->insertPost($content_uid, $data['member_uid']);
 		
 		return $insert_id;
 	}
@@ -217,17 +202,65 @@ class Content {
 			
 			$post_id = $this->getPostID();
 			if($post_id){
-				// posts 테이블에 내용을 수정한다.
-				$kboard_post = array(
-						'ID'            => $post_id,
-						'post_author'   => $data['member_uid'],
-						'post_title'    => $data['title'],
-						'post_content'  => $data['content'],
-						'post_parent'   => $data['board_id']
-				);
-				wp_update_post($kboard_post);
+				if($this->search==3){
+					$this->deletePost($post_id);
+				}
+				else{
+					$this->updatePost($post_id, $data['member_uid']);
+				}
+			}
+			else{
+				$this->insertPost($this->uid, $data['member_uid']);
 			}
 		}
+	}
+	
+	/**
+	 * posts 테이블에 내용을 입력한다.
+	 * @param int $content_uid
+	 * @param int $member_uid
+	 */
+	public function insertPost($content_uid, $member_uid){
+		if($content_uid && $this->search<3){
+			$kboard_post = array(
+				'post_author'   => $member_uid,
+				'post_title'    => $this->title,
+				'post_content'  => ($this->secret=='true' || $this->search==2)?'':$this->content,
+				'post_status'   => 'publish',
+				'comment_status'=> 'closed',
+				'ping_status'   => 'closed',
+				'post_name'     => $content_uid,
+				'post_parent'   => $this->board_id,
+				'post_type'     => 'kboard'
+			);
+			wp_insert_post($kboard_post);
+		}
+	}
+	
+	/**
+	 * posts 테이블에 내용을 수정한다.
+	 * @param int $post_id
+	 * @param int $member_uid
+	 */
+	public function updatePost($post_id, $member_uid){
+		if($post_id && $this->search<3){
+			$kboard_post = array(
+					'ID'            => $post_id,
+					'post_author'   => $member_uid,
+					'post_title'    => $this->title,
+					'post_content'  => ($this->secret=='true' || $this->search==2)?'':$this->content,
+					'post_parent'   => $this->board_id
+			);
+			wp_update_post($kboard_post);
+		}
+	}
+	
+	/**
+	 * posts 테이블에 내용을 삭제한다.
+	 * @param int $post_id
+	 */
+	public function deletePost($post_id){
+		wp_delete_post($post_id);
 	}
 	
 	/**
@@ -461,7 +494,7 @@ class Content {
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
 			kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid='$this->uid'");
-			wp_delete_post($this->getPostID());
+			$this->deletePost($this->getPostID());
 			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_comments WHERE content_uid='$this->uid'");
 			if($next) die("<script>location.href='$next';</script>");
 		}
