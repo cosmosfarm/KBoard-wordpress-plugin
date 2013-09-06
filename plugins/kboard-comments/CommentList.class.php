@@ -116,7 +116,7 @@ class CommentList {
 		$password = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
 		
 		$created = date("YmdHis", current_time('timestamp'));
-		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_comments (content_uid, user_uid, user_display, content, created, password) VALUE ('$this->content_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
+		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_comments` (content_uid, user_uid, user_display, content, created, password) VALUE ('$this->content_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
 	}
 	
 	/**
