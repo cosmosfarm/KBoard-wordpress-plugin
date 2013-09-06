@@ -41,12 +41,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="shortcode">게시판 입력코드(Shortcode)</label></th>
+					<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
 					<td><textarea style="width: 350px" id="shortcode">[kboard id=<?=$board->uid?>]</textarea>
 						<p class="description">이 코드를 포스팅 또는 페이지에 입력하세요. 자동으로 게시판이 추가됩니다.</p></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="shortcode">최신글 입력코드(Shortcode)</label></th>
+					<th scope="row"><label for="shortcode">최신글 숏코드(Shortcode)</label></th>
 					<td><textarea style="width: 350px" id="shortcode">[kboard_latest id=<?=$board->uid?> url=페이지주소 rpp=5]</textarea>
 						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 리스트를 생성합니다.</p></td>
 				</tr>
@@ -63,7 +63,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 					<td><select name="skin" id="skin" class="">
 							<?php foreach($skin->list AS $key => $value):?>
-							<option value="<?=$value?>" <?php if($board->skin == $value):?> selected <?php endif?>>
+							<option value="<?=$value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
 								<?=$value?>
 							</option>
 							<?php endforeach;?>
@@ -87,17 +87,17 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">한 페이지에 보여지는 게시물 숫자를 정합니다.</p></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="use_comment">댓글 활성화</label></th>
+					<th scope="row"><label for="use_comment">댓글 사용</label></th>
 					<td>
 						<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 							<select name="use_comment" id="use_comment" class="">
-									<option value="">no</option>
-									<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>yes</option>
+									<option value="">비활성화</option>
+									<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">게시글에 댓글 쓰기를 활성화 합니다. (KBoard 댓글 플러그인 사용)</p>
 						<?php else:?>
 							<select name="use_comment" id="use_comment" class="">
-									<option value="no" selected>no</option>
+									<option value="no" selected>댓글 비활성화</option>
 							</select>
 							<p class="description">KBoard 댓글 플러그인을 설치하세요.</p>
 						<?php endif?>
@@ -119,16 +119,24 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="use_editor">에디터 사용</label></th>
 					<td><select name="use_editor" id="use_editor" class="">
-							<option value="">no</option>
-							<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>yes</option>
+							<option value="">textarea 사용</option>
+							<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>워드프레스 내장 에디터 사용</option>
 					</select>
-						<p class="description">에디터를 사용해 게시물을 작성할 수 있습니다.</p></td>
+						<p class="description">에디터를 사용해 게시물을 작성할 수 있습니다. 워드프레스에 내장된 에디터를 사용합니다. 다른 에디터 플러그인을 설치하면 호환 됩니다.</p></td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="shortcode_execute">게시글 숏코드(Shortcode) 실행</label></th>
+					<td><select name="shortcode_execute" id="shortcode_execute" class="">
+							<option value="">비활성화</option>
+							<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
+					</select>
+						<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="use_category">카테고리 사용</label></th>
 					<td><select name="use_category" id="use_category" class="">
-							<option value="">no</option>
-							<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>yes</option>
+							<option value="">비활성화</option>
+							<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>활성화</option>
 					</select>
 						<p class="description">카테고리를 사용해서 게시물을 분리할 수 있습니다.</p></td>
 				</tr>

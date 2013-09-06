@@ -17,6 +17,7 @@ class BoardBuilder {
 	var $url;
 	var $board;
 	
+	private $meta;
 	private $skin_path;
 	
 	public function __construct($board_id=''){
@@ -88,7 +89,7 @@ class BoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		$meta = new KBoardMeta($this->board_id);
+		$this->meta = new KBoardMeta($this->board_id);
 		if($meta->pass_autop == 'enable'){
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
 			return '';
@@ -158,11 +159,17 @@ class BoardBuilder {
 			$content->increaseView();
 			$content->initWithUID($this->uid);
 			
+			// 에디터를 사용하지 않으면 자동으로 link를 생성한다.
 			if($board->use_editor){
 				$content->content = nl2br($content->content);
 			}
 			else{
 				$content->content = nl2br(Content::autolink($content->content));
+			}
+			
+			// 게시글 숏코드(Shortcode) 실행
+			if($this->meta->shortcode_execute==1){
+				$content->content = do_shortcode($content->content);
 			}
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
@@ -216,9 +223,9 @@ class BoardBuilder {
 				$next_url = $url->set('pageid', '')->toString();
 			}
 			
+			// 내용이 없으면 등록된 기본 양식을 가져온다.
 			if(!$content->content){
-				$meta = new KBoardMeta($content->board_id);
-				$content->content = $meta->default_content;
+				$content->content = $this->meta->default_content;
 			}
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";

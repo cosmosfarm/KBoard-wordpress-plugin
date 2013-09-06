@@ -225,6 +225,7 @@ function kboard_update(){
 		$meta->comment_skin = $_POST['comment_skin'];
 		$meta->default_content = kboard_xssfilter($_POST['default_content']);
 		$meta->pass_autop = $_POST['pass_autop'];
+		$meta->shortcode_execute = $_POST['shortcode_execute'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
