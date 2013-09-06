@@ -245,11 +245,11 @@ class Content {
 	public function updatePost($post_id, $member_uid){
 		if($post_id && $this->search<3){
 			$kboard_post = array(
-					'ID'            => $post_id,
-					'post_author'   => $member_uid,
-					'post_title'    => $this->title,
-					'post_content'  => ($this->secret=='true' || $this->search==2)?'':$this->content,
-					'post_parent'   => $this->board_id
+				'ID'            => $post_id,
+				'post_author'   => $member_uid,
+				'post_title'    => $this->title,
+				'post_content'  => ($this->secret=='true' || $this->search==2)?'':$this->content,
+				'post_parent'   => $this->board_id
 			);
 			wp_update_post($kboard_post);
 		}
@@ -554,9 +554,9 @@ class Content {
 	static function autolink($contents){
 		// http://yongji.tistory.com/28
 		$pattern = "/(http|https|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:[0-9]{2,4})?\/?"; //domain+port
-		$pattern .= "([\.~_0-9a-z-]+\/?)*";                                                                                                                                                                                             // sub roots
-		$pattern .= "(\S+\.[_0-9a-z]+)?"       ;                                                                                                                                                                                                    // file & extension string
-		$pattern .= "(\?[_0-9a-z#%&=\-\+]+)*/i";                                                                                                                                                                               // parameters
+		$pattern .= "([\.~_0-9a-z-]+\/?)*";// sub roots
+		$pattern .= "(\S+\.[_0-9a-z]+)?";// file & extension string
+		$pattern .= "(\?[_0-9a-z#%&=\-\+]+)*/i";// parameters
 		$replacement = "<a href=\"\\0\" target=\"window.opne(this.href); return false;\">\\0</a>";
 		return preg_replace($pattern, $replacement, $contents, -1);
 	}
