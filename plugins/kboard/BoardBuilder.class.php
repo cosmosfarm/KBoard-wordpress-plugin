@@ -65,6 +65,7 @@ class BoardBuilder {
 	 * @param int $board_id
 	 */
 	public function setBoardID($board_id){
+		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
 	}
 	
@@ -89,7 +90,6 @@ class BoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		$this->meta = new KBoardMeta($this->board_id);
 		if($meta->pass_autop == 'enable'){
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
 			return '';
