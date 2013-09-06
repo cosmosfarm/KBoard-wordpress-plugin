@@ -63,8 +63,7 @@ class KBBackup {
 			$value = array();
 			foreach($row AS $key => $value){
 				$xml .= "\t\t<$key>";
-				$xml .= "<![CDATA[".$value."]]>";
-				//$xml .= $value;
+				$xml .= "<![CDATA[".stripslashes($value)."]]>";
 				$xml .= "</$key>\n";
 			}
 		
@@ -121,6 +120,7 @@ class KBBackup {
 			
 			if($data){
 				kboard_query("TRUNCATE TABLE `$table`");
+				if(stristr($table, 'kboard_board_content')) kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."posts` WHERE post_type='kboard'");
 				
 				foreach($data AS $key => $row){
 					$keys = array_keys($row);
@@ -134,12 +134,35 @@ class KBBackup {
 					
 					$value = array();
 					for($i=0; $i<$row_count; $i++){
-						$value[] = "'".$row[$keys[$i]]['@cdata']."'";
+						$value[] = "'".addslashes($row[$keys[$i]]['@cdata'])."'";
 					}
 					$value = implode(',', $value);
 					
 					kboard_query("INSERT INTO `$table` ($columns) VALUE ($value)");
-				}
+					
+					/*
+					 * search 값이 있을경우 post 테이블에 내용을 입력한다.
+					 */
+					if($row['search']['@cdata']==1 || $row['search']['@cdata']==2){
+						$insert_id = mysql_insert_id();
+						if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+						
+						if($insert_id){
+							$kboard_post = array(
+								'post_author'   => $row['member_uid']['@cdata'],
+								'post_title'    => addslashes($row['title']['@cdata']),
+								'post_content'  => addslashes(($row['secret']['@cdata']=='true' || $row['search']['@cdata']==2)?'':$row['content']['@cdata']),
+								'post_status'   => 'publish',
+								'comment_status'=> 'closed',
+								'ping_status'   => 'closed',
+								'post_name'     => $insert_id,
+								'post_parent'   => $row['board_id']['@cdata'],
+								'post_type'     => 'kboard'
+							);
+							wp_insert_post($kboard_post, true);
+						}
+					}
+				} // end foreach
 			}
 		}
 	}
