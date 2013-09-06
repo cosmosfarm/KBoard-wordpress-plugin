@@ -98,6 +98,7 @@ class Content {
 		$this->category2 = addslashes($_POST['category2']);
 		$this->secret = $_POST['secret'];
 		$this->notice = $_POST['notice'];
+		$this->search = $_POST['search'];
 		$this->password = $_POST['password'];
 		
 		if($this->uid && $this->date){
@@ -157,6 +158,7 @@ class Content {
 		$data['category2'] = $this->category2;
 		$data['secret'] = $this->secret;
 		$data['notice'] = $this->notice;
+		$data['search'] = $this->search;
 		$data['thumbnail_file'] = '';
 		$data['thumbnail_name'] = '';
 		$data['password'] = $this->password?$this->password:'';
@@ -170,10 +172,7 @@ class Content {
 		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_content (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
 		
 		$insert_id = mysql_insert_id();
-		if(!$insert_id){
-			$resource = kboard_query("SELECT LAST_INSERT_ID()");
-			list($insert_id) = mysql_fetch_row($resource);
-		}
+		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
 		
 		if($insert_id){
 			// posts 테이블에 내용을 입력한다.
@@ -210,6 +209,7 @@ class Content {
 			$data['category2'] = $this->category2;
 			$data['secret'] = $this->secret;
 			$data['notice'] = $this->notice;
+			$data['search'] = $this->search;
 			if($this->password) $data['password'] = $this->password;
 			
 			foreach($data AS $key => $value){
@@ -480,14 +480,13 @@ class Content {
 		if($this->uid && defined('KBOARD_COMMNETS_VERSION')){
 			$commentList = new CommentList($this->uid);
 			$commentsCount = $commentList->getCount();
-			if($commentsCount) echo "{$prefix}{$commentsCount}{$endfix}";
+			if($commentsCount) echo "$prefix$commentsCount$endfix";
 		}
 		return '';
 	}
 	
 	/**
 	 * posts 테이블에 등록된 게시글의 ID 값을 가져온다.
-	 * @return int
 	 */
 	public function getPostID(){
 		if($this->uid){
@@ -495,6 +494,28 @@ class Content {
 			list($post_id) = mysql_fetch_row($resource);
 		}
 		return intval($post_id);
+	}
+	
+	/**
+	 * 다음 게시물의 UID를 반환한다.
+	 */
+	public function getNextUID(){
+		if($this->uid){
+			$resource = kboard_query("SELECT uid FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE board_id='{$this->board_id}' AND uid>'{$this->uid}' ORDER BY uid ASC LIMIT 1");
+			list($uid) = mysql_fetch_row($resource);
+		}
+		return intval($uid);
+	}
+	
+	/**
+	 * 이전 게시물의 UID를 반환한다.
+	 */
+	public function getPrevUID(){
+		if($this->uid){
+			$resource = kboard_query("SELECT uid FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE board_id='{$this->board_id}' AND uid<'{$this->uid}' ORDER BY uid DESC LIMIT 1");
+			list($uid) = mysql_fetch_row($resource);
+		}
+		return intval($uid);
 	}
 	
 	/**

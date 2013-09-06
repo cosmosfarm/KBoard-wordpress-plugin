@@ -55,18 +55,6 @@ function kboard_router(){
 }
 
 /*
- * 워드프레스 검색용 필터 입력
- */
-add_filter('pre_get_posts', 'kboard_search_filter');
-function kboard_search_filter($query){
-	$post_type = get_query_var('post_type');
-	if($query->is_search){
-		$query->set('post_type', array('post', 'page', 'attachment', 'kboard'));
-	};
-	return $query;
-}
-
-/*
  * 플러그인 페이지 링크
  */
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'kboard_settings_link');
@@ -534,6 +522,20 @@ function kboard_captcha(){
 	include_once 'KBCaptcha.class.php';
 	$captcha = new KBCaptcha();
 	return $captcha->createImage();
+}
+
+/*
+ * 워드프레스검색  필터 입력
+ */
+add_filter('pre_get_posts', 'kboard_search_filter');
+function kboard_search_filter($query){
+	if($query->is_search){
+		$post_type = get_query_var('post_type');
+		if(is_array($post_type)) array_push($post_type, 'post', 'page', 'attachment', 'kboard');
+		else $post_type = array('post', 'page', 'attachment', 'kboard');
+		$query->set('post_type', $post_type);
+	};
+	return $query;
 }
 
 /*

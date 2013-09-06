@@ -101,5 +101,22 @@ class Url {
 	public function getDownloadURLWithAttach($uid, $key){
 		return plugins_url() . "/kboard/execute/download.php?uid={$uid}&file={$key}";
 	}
+	
+	/**
+	 * 게시물 주소를 반환한다.
+	 * @param int $uid
+	 * @return string
+	 */
+	public function getDocumentURLWithUID($uid){
+		$uid = intval($uid);
+		if($uid){
+			$this->data['uid'] = $uid;
+			$this->data['mod'] = 'document';
+			return $this->toString();
+		}
+		else{
+			return "javascript:alert('글이 없습니다.')";
+		}
+	}
 }
 ?>

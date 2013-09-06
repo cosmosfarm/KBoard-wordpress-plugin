@@ -59,7 +59,11 @@
 	<?php endif?>
 	
 	<div class="kboard-control">
-		<div class="left"><a href="<?=$url->toString()?>" class="kboard-button-small">목록보기</a></div>
+		<div class="left">
+			<a href="<?=$url->toString()?>" class="kboard-button-small">목록보기</a>
+			<a href="<?=$url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-button-small">이전글</a>
+			<a href="<?=$url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-button-small">다음글</a>
+		</div>
 		<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
 		<div class="right">
 			<a href="<?=$url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-button-small">글수정</a>
