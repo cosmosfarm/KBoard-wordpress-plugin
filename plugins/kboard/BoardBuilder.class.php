@@ -28,10 +28,16 @@ class BoardBuilder {
 		$_GET['keyword'] = kboard_xssfilter(kboard_htmlclear($_GET['keyword']));
 		$_GET['search'] = kboard_xssfilter(kboard_htmlclear($_GET['search']));
 		
-		$this->mod = $_GET['mod']?$_GET['mod']:'list';
+		$_POST['uid'] = intval($_POST['uid']);
+		$_POST['mod'] = kboard_xssfilter(kboard_htmlclear($_POST['mod']));
+		
+		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
+		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
+		
+		$this->mod = in_array($mod, array('list', 'document', 'editor', 'remove'))?$mod:'list';
 		$this->category1 = $_GET['category1'];
 		$this->category2 = $_GET['category2'];
-		$this->uid = $_GET['uid'];
+		$this->uid = $uid;
 		$this->skin = 'default';
 		
 		if($board_id) $this->setBoardID($board_id);
@@ -123,7 +129,7 @@ class BoardBuilder {
 		$url = new Url();
 		
 		$content = new Content($this->board_id);
-		$content->initWithUID($_GET['uid']);
+		$content->initWithUID($this->uid);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
@@ -150,7 +156,7 @@ class BoardBuilder {
 		
 		if($allow_document == true){
 			$content->increaseView();
-			$content->initWithUID($_GET['uid']);
+			$content->initWithUID($this->uid);
 			
 			if($board->use_editor){
 				$content->content = nl2br($content->content);
@@ -172,20 +178,20 @@ class BoardBuilder {
 		$url = new Url();
 		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
-			$next_url = $url->set('uid', $_GET['uid'])->set('mod', 'editor')->toString();
+			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
 			if(!$user_ID && !$_POST['password']) die('<script>alert("비밀번호를 입력해주세요.");location.href="'.$next_url.'";</script>');
 		}
 		
 		$content = new Content($this->board_id);
-		$content->initWithUID($_GET['uid']);
+		$content->initWithUID($this->uid);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
 		
-		if(!$_GET['uid'] && !$this->board->isWriter()){
+		if(!$this->uid && !$this->board->isWriter()){
 			die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 		}
-		else if($_GET['uid'] && !$this->board->isEditor($content->member_uid)){
+		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
 					$confirm_view = true;
@@ -201,10 +207,10 @@ class BoardBuilder {
 		}
 		else{
 			$content->execute();
-			$content->initWithUID($_GET['uid']);
+			$content->initWithUID($this->uid);
 			
-			if($_GET['uid']){
-				$next_url = $url->set('uid', $_GET['uid'])->set('mod', 'document')->toString();
+			if($this->uid){
+				$next_url = $url->set('uid', $this->uid)->set('mod', 'document')->toString();
 			}
 			else{
 				$next_url = $url->set('pageid', '')->toString();
@@ -226,7 +232,7 @@ class BoardBuilder {
 		$url = new Url();
 		
 		$content = new Content($this->board_id);
-		$content->initWithUID($_GET['uid']);
+		$content->initWithUID($this->uid);
 		
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
