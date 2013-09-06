@@ -164,7 +164,7 @@ class KBBackup {
 					}
 				} // end foreach
 			}
-		}
+		} // end foreach
 	}
 }
 ?>
