@@ -150,11 +150,11 @@ final class KBUpgrader {
 				die('<script>alert("파일 복사 실패, /wp-content/upgrade 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
 			}
 			
-			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . "$content_type");
+			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . $content_type);
 			
 			if(!$copy_result){
 				$file_handler->delete($working_dir);
-				die('<script>alert("파일 복사 실패, /wp-content/plugins 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
+				die('<script>alert("파일 복사 실패, /wp-content'.$content_type.' 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
 			}
 		}
 		

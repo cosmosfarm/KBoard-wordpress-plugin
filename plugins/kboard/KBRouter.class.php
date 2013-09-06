@@ -37,6 +37,7 @@ class KBRouter {
 		
 		if($content->board_id){
 			$meta = new KBoardMeta($content->board_id);
+			
 			if($meta->auto_page) $page_id = $meta->auto_page;
 			else {
 				$resource = kboard_query("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE post_content LIKE '%[kboard id={$content->board_id}]%' AND post_type='page'");
@@ -64,8 +65,10 @@ class KBRouter {
 	 */
 	private function boardRedirect($board_id){
 		$board = new KBoard($board_id);
+		
 		if($board->uid){
 			$meta = new KBoardMeta($board_id);
+			
 			if($meta->auto_page) $page_id = $meta->auto_page;
 			else {
 				$resource = kboard_query("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE post_content LIKE '%[kboard id={$board_id}]%' AND post_type='page'");

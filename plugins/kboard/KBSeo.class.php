@@ -10,7 +10,7 @@ class KBSeo {
 	private $content;
 	
 	public function __construct(){
-		$mod = $_GET['mod'];
+		$mod = kboard_htmlclear($_GET['mod']);
 		$uid = intval($_GET['uid']);
 		if($mod == 'document' && $uid){
 			$this->content = new Content();
