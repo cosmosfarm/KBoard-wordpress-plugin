@@ -172,6 +172,9 @@ class BoardBuilder {
 				$content->content = do_shortcode($content->content);
 			}
 			
+			// kboard_content 필터 실행
+			$content->content = apply_filters('kboard_content', $content->content);
+			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
 		}
 	}
