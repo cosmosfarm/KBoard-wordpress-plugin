@@ -26,6 +26,42 @@ class ContentList {
 	}
 	
 	/**
+	 * 모든 게시판의 내용을 반환한다.
+	 * @return resource
+	 */
+	public function init(){
+		$where[] = 1;
+		
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
+		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		
+		$this->index = $this->total;
+		
+		return $this->resource;
+	}
+	
+	/**
+	 * RSS 피드 출력을 위한 리스트를 반환한다.
+	 * @return resource
+	 */
+	public function initWithRSS(){
+		$resource = kboard_query("SELECT uid FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE permission_read='all'");
+		while($row = mysql_fetch_row($resource)){
+			$read[] = $row[0];
+		}
+		if($read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
+		
+		$where[] = "secret LIKE ''";
+		
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
+		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		
+		$this->index = $this->total;
+		
+		return $this->resource;
+	}
+	
+	/**
 	 * 게시판 아이디를 입력한다.
 	 * @param int $board_id
 	 * @return ContentList
@@ -82,7 +118,15 @@ class ContentList {
 	 * @return resource
 	 */
 	public function getList($keyword='', $search='title'){
-		$where[] = "board_id LIKE '$this->board_id'";
+		if(is_array($this->board_id)){
+			foreach($this->board_id AS $key => $value){
+				$board_ids[] = "'$value'";
+			}
+			$board_ids = implode(',', $board_ids);
+			$where[] = "board_id IN ($board_ids)";
+		}
+		else $where[] = "board_id LIKE '$this->board_id'";
+		
 		$where[] = "notice LIKE ''";
 		if($keyword && $search) $where[] = "$search LIKE '%$keyword%'";
 		else if($keyword && !$search) $where[] = "(title LIKE '%$keyword%' OR content LIKE '%$keyword%')";
@@ -102,44 +146,17 @@ class ContentList {
 	 * @return resource
 	 */
 	public function getAllList(){
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE board_id LIKE '$this->board_id'")));
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE board_id LIKE '$this->board_id' ORDER BY date DESC");
-		
-		$this->index = $this->total;
-		
-		return $this->resource;
-	}
-	
-	/**
-	 * 모든 게시판의 내용을 반환한다.
-	 * @return resource
-	 */
-	public function init(){
-		$where[] = 1;
-		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		
-		$this->index = $this->total;
-		
-		return $this->resource;
-	}
-	
-	/**
-	 * RSS 피드 출력을 위한 리스트를 반환한다.
-	 * @return resource
-	 */
-	public function initWithRSS(){
-		$resource = kboard_query("SELECT uid FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE permission_read='all'");
-		while($row = mysql_fetch_row($resource)){
-			$read[] = $row[0];
+		if(is_array($this->board_id)){
+			foreach($this->board_id AS $key => $value){
+				$board_ids[] = "'$value'";
+			}
+			$board_ids = implode(',', $board_ids);
+			$where = "board_id IN ($board_ids)";
 		}
-		if($read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
+		else $where = "board_id LIKE '$this->board_id'";
 		
-		$where[] = "secret LIKE ''";
-		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where")));
+		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where ORDER BY date DESC");
 		
 		$this->index = $this->total;
 		
@@ -177,9 +194,17 @@ class ContentList {
 	 * @return resource
 	 */
 	public function getNoticeList(){
-		$where[] = "board_id LIKE '$this->board_id'";
+		if(is_array($this->board_id)){
+			foreach($this->board_id AS $key => $value){
+				$board_ids[] = "'$value'";
+			}
+			$board_ids = implode(',', $board_ids);
+			$where[] = "board_id IN ($board_ids)";
+		}
+		else $where[] = "board_id LIKE '$this->board_id'";
+		
 		$where[] = "notice LIKE 'true'";
-	
+		
 		$this->resource_notice = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC");
 		return $this->resource_notice;
 	}
