@@ -1,5 +1,5 @@
 <?php
-include_once 'KBFileHandler.class.php';
+
 
 /**
  * KBoard 워드프레스 게시판 게시물
@@ -310,6 +310,7 @@ class Content {
 	public function update_attach($uid){
 		if(!$this->attach_store_path) die('업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요.');
 		
+		include 'KBFileHandler.class.php';
 		$file = new KBFileHandler();
 		$file->setPath($this->attach_store_path);
 		

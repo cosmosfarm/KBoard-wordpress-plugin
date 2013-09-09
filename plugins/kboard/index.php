@@ -13,9 +13,9 @@ if(!session_id()) session_start();
 
 define('KBOARD_VERSION', '3.5');
 
+include_once 'class/BoardBuilder.class.php';
 include_once 'class/Content.class.php';
 include_once 'class/ContentList.class.php';
-include_once 'class/BoardBuilder.class.php';
 include_once 'class/KBoard.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBSeo.class.php';
@@ -24,8 +24,8 @@ include_once 'class/KBUpgrader.class.php';
 include_once 'class/KBRouter.class.php';
 include_once 'class/KBLatestview.class.php';
 include_once 'class/KBLatestviewList.class.php';
-include_once 'Pagination.helper.php';
-include_once 'Security.helper.php';
+include_once 'helper/Pagination.helper.php';
+include_once 'helper/Security.helper.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
@@ -145,7 +145,7 @@ function kboard_list(){
  */
 function kboard_new(){
 	kboard_system_update();
-	include 'KBoardSkin.class.php';
+	include 'class/KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
@@ -154,7 +154,7 @@ function kboard_new(){
  * 게시판 목록 페이지
  */
 function kboard_setting(){
-	include 'KBoardSkin.class.php';
+	include 'class/KBoardSkin.class.php';
 	include_once WP_CONTENT_DIR . '/plugins/kboard-comments/KBCommentSkin.class.php';
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
@@ -170,7 +170,7 @@ function kboard_setting(){
 function kboard_latestview(){
 	kboard_system_update();
 	if($_GET['latestview_uid']){
-		include 'KBoardSkin.class.php';
+		include 'class/KBoardSkin.class.php';
 		$skin = KBoardSkin::getInstance();
 		$latestview = new KBLatestview();
 		$latestview->initWithUID($_GET['latestview_uid']);
@@ -201,7 +201,7 @@ function kboard_latestview(){
  */
 function kboard_latestview_new(){
 	kboard_system_update();
-	include 'KBoardSkin.class.php';
+	include 'class/KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_latestview_setting.php';
 }
@@ -254,7 +254,7 @@ function kboard_latestview_update(){
  * 게시판 백업 및 복구 페이지
  */
 function kboard_backup(){
-	include 'KBBackup.class.php';
+	include 'class/KBBackup.class.php';
 	$backup = new KBBackup();
 	
 	if($_GET['action'] == 'upload'){
@@ -653,7 +653,7 @@ function kboard_permission($permission){
  * Captcha 이미지
  */
 function kboard_captcha(){
-	include_once 'KBCaptcha.class.php';
+	include_once 'class/KBCaptcha.class.php';
 	$captcha = new KBCaptcha();
 	return $captcha->createImage();
 }
