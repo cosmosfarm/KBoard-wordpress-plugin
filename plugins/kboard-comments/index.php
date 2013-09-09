@@ -8,13 +8,14 @@ Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
-define('KBOARD_COMMNETS_VERSION', '2.8');
-define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
+if(!defined('ABSPATH')) exit;
 
-include_once 'Comment.class.php';
-include_once 'CommentList.class.php';
-include_once 'CommentsBuilder.class.php';
-include_once 'KBCommentSkin.class.php';
+define('KBOARD_COMMNETS_VERSION', '2.8');
+
+include_once 'class/Comment.class.php';
+include_once 'class/CommentList.class.php';
+include_once 'class/CommentsBuilder.class.php';
+include_once 'class/KBCommentSkin.class.php';
 
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));

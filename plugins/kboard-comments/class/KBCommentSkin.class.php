@@ -11,7 +11,7 @@ class KBCommentSkin {
 	static $list;
 	
 	private function __construct(){
-		$dir = plugin_dir_path(__FILE__) . 'skin';
+		$dir = KBOARD_COMMENTS_DIR_PATH . '/skin';
 		if ($dh = @opendir($dir)){
 			while(($file = readdir($dh)) !== false){
 				if($file == "." || $file == "..") continue;
