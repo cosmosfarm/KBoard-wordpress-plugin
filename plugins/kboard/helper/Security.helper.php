@@ -10,7 +10,7 @@
  * HTMLPurifier 클래스를 불러온다.
  */
 if(!class_exists('HTMLPurifier')){
-	include_once 'htmlpurifier/HTMLPurifier.standalone.php';
+	include_once KBOARD_DIR_PATH.'/htmlpurifier/HTMLPurifier.standalone.php';
 }
 
 /**

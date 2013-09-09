@@ -12,21 +12,6 @@ if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
 define('KBOARD_VERSION', '3.5');
-
-include_once 'class/BoardBuilder.class.php';
-include_once 'class/Content.class.php';
-include_once 'class/ContentList.class.php';
-include_once 'class/KBoard.class.php';
-include_once 'class/KBoardMeta.class.php';
-include_once 'class/KBSeo.class.php';
-include_once 'class/KBUrl.class.php';
-include_once 'class/KBUpgrader.class.php';
-include_once 'class/KBRouter.class.php';
-include_once 'class/KBLatestview.class.php';
-include_once 'class/KBLatestviewList.class.php';
-include_once 'helper/Pagination.helper.php';
-include_once 'helper/Security.helper.php';
-
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -44,6 +29,21 @@ define('KBOARD_BACKUP_ACTION', plugins_url('/execute/backup.php', __FILE__));
 define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 define('KBOARD_LATESTVIEW_ACTION', admin_url('/admin.php?page=kboard_latestview_update'));
+
+include_once 'helper/Pagination.helper.php';
+include_once 'helper/Security.helper.php';
+include_once 'class/KBoardBuilder.class.php';
+include_once 'class/KBContent.class.php';
+include_once 'class/KBContentList.class.php';
+include_once 'class/KBoard.class.php';
+include_once 'class/KBoardMeta.class.php';
+include_once 'class/KBSeo.class.php';
+include_once 'class/KBUrl.class.php';
+include_once 'class/KBUpgrader.class.php';
+include_once 'class/KBRouter.class.php';
+include_once 'class/KBLatestview.class.php';
+include_once 'class/KBLatestviewList.class.php';
+include_once 'class/KBFileHandler.class.php';
 
 /*
  * jQuery를 추가한다.
@@ -383,7 +383,7 @@ function kboard_latest_shortcode($args){
 	$board->setID($args['id']);
 	
 	if($board->uid){
-		$board_builder = new BoardBuilder();
+		$board_builder = new KBoardBuilder();
 		$board_builder->setBoardID($board->uid);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($args['rpp']);
@@ -407,7 +407,7 @@ function kboard_latestview_shortcode($args){
 	$latestview = new KBLatestview($args['id']);
 	
 	if($latestview->uid){
-		$board_builder = new BoardBuilder();
+		$board_builder = new KBoardBuilder();
 		$board_builder->setBoardID($latestview->getLinkedBoard());
 		$board_builder->setSkin($latestview->skin);
 		$board_builder->setRpp($latestview->rpp);
@@ -430,7 +430,7 @@ function kboard_builder($args){
 	$board->setID($args['id']);
 	
 	if($board->uid){
-		$board_builder = new BoardBuilder();
+		$board_builder = new KBoardBuilder();
 		$board_builder->setBoardID($board->uid);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);

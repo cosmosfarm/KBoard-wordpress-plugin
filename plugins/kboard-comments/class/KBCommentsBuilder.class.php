@@ -5,7 +5,7 @@
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-class CommentsBuilder {
+class KBCommentsBuilder {
 	
 	var $content_uid;
 	var $skin;
@@ -43,7 +43,7 @@ class CommentsBuilder {
 		
 		include 'KBCommentUrl.class.php';
 		$commentURL = new KBCommentUrl();
-		$commentList = new CommentList($this->content_uid);
+		$commentList = new KBCommentList($this->content_uid);
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/list.php";
 	}
 }

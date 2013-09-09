@@ -5,7 +5,7 @@
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-class ContentList {
+class KBContentList {
 	
 	var $board_id;
 	
@@ -172,7 +172,7 @@ class ContentList {
 		$this->row = mysql_fetch_object($this->resource);
 		
 		if($this->row){
-			$content = new Content();
+			$content = new KBContent();
 			$content->initWithRow($this->row);
 			return $content;
 		}
@@ -228,7 +228,7 @@ class ContentList {
 		$this->row = mysql_fetch_object($this->resource_notice);
 	
 		if($this->row){
-			$content = new Content();
+			$content = new KBContent();
 			$content->initWithRow($this->row);
 			return $content;
 		}

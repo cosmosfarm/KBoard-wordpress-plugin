@@ -1,7 +1,7 @@
 <?php
 $path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
-include KBOARD_DIR_PATH . '/KBCaptcha.class.php';
+include KBOARD_DIR_PATH . '/class/KBCaptcha.class.php';
 
 header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");

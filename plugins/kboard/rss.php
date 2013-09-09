@@ -2,8 +2,8 @@
 $path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
 
-$url = new Url();
-$list = new ContentList();
+$url = new KBUrl();
+$list = new KBContentList();
 $list->rpp = 20;
 $list->initWithRSS();
 

@@ -11,16 +11,15 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 
 define('KBOARD_COMMNETS_VERSION', '2.8');
-
-include_once 'class/Comment.class.php';
-include_once 'class/CommentList.class.php';
-include_once 'class/CommentsBuilder.class.php';
-include_once 'class/KBCommentSkin.class.php';
-
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('kboard-comments'));
 define('KBOARD_COMMENTS_LIST_PAGE', admin_url('/admin.php?page=kboard_comments_list'));
+
+include_once 'class/KBComment.class.php';
+include_once 'class/KBCommentList.class.php';
+include_once 'class/KBCommentsBuilder.class.php';
+include_once 'class/KBCommentSkin.class.php';
 
 /*
  * 관리자메뉴에 추가
@@ -34,7 +33,7 @@ function kboard_comments_settings_menu(){
  * 댓글 목록 페이지
  */
 function kboard_comments_list(){
-	$commentList = new CommentList();
+	$commentList = new KBCommentList();
 	
 	$action = $_POST['action'];
 	$action2 = $_POST['action2'];
@@ -53,7 +52,7 @@ function kboard_comments_list(){
  */
 add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
-	$comments_builder = new CommentsBuilder();
+	$comments_builder = new KBCommentsBuilder();
 	$comments_builder->content_uid = $atts['content_uid'];
 	if($atts['skin']) $comments_builder->setSkin($atts['skin']);
 	return $comments_builder->create();

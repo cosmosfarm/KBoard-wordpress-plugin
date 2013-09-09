@@ -1,6 +1,4 @@
 <?php
-include_once 'KBFileHandler.class.php';
-
 /**
  * KBoard Captcha
  * @link www.cosmosfarm.com

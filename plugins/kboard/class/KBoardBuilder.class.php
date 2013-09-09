@@ -5,7 +5,7 @@
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-class BoardBuilder {
+class KBoardBuilder {
 	
 	var $mod;
 	var $board_id;
@@ -109,7 +109,7 @@ class BoardBuilder {
 		$userdata = get_userdata($user_ID);
 		$url = new KBUrl();
 		
-		$list = new ContentList($this->board_id);
+		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		
@@ -129,7 +129,7 @@ class BoardBuilder {
 		$userdata = get_userdata($user_ID);
 		$url = new KBUrl();
 		
-		$content = new Content($this->board_id);
+		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
@@ -192,7 +192,7 @@ class BoardBuilder {
 			if(!$user_ID && !$_POST['password']) die('<script>alert("비밀번호를 입력해주세요.");location.href="'.$next_url.'";</script>');
 		}
 		
-		$content = new Content($this->board_id);
+		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
@@ -241,7 +241,7 @@ class BoardBuilder {
 	public function builderRemove(){
 		$url = new KBUrl();
 		
-		$content = new Content($this->board_id);
+		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
 		if(!$this->board->isEditor($content->member_uid)){
@@ -274,7 +274,7 @@ class BoardBuilder {
 		ob_start();
 		
 		$url = new KBUrl();
-		$list = new ContentList($this->board_id);
+		$list = new KBContentList($this->board_id);
 		$list->rpp($this->rpp)->getList();
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";

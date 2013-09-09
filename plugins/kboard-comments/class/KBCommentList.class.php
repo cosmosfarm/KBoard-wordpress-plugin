@@ -5,7 +5,7 @@
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-class CommentList {
+class KBCommentList {
 	
 	var $total;
 	var $userdata;
@@ -74,7 +74,7 @@ class CommentList {
 		$this->row = mysql_fetch_object($this->resource);
 		
 		if($this->row){
-			$comment = new Comment();
+			$comment = new KBComment();
 			$comment->initWithRow($this->row);
 			return $comment;
 		}
@@ -93,7 +93,7 @@ class CommentList {
 		$row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE uid='$uid' LIMIT 1"));
 		
 		if($row){
-			$comment = new Comment();
+			$comment = new KBComment();
 			$comment->initWithRow($row);
 			return $comment;
 		}
