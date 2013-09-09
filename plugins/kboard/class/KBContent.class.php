@@ -7,17 +7,15 @@
  */
 class KBContent {
 	
-	var $next;
-	var $board_id;
-	
-	var $option;
-	var $attach;
-	
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
 	var $skin_attach_prefix = 'kboard_attach_';
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	var $skin_option_prefix = 'kboard_option_';
 	
+	var $next;
+	var $board_id;
+	var $option;
+	var $attach;
 	var $attach_store_path;
 	var $thumbnail_store_path;
 	
@@ -53,7 +51,7 @@ class KBContent {
 	/**
 	 * 게시글 고유번호를 입력받아 정보를 초기화한다.
 	 * @param int $uid
-	 * @return Content
+	 * @return KBContent
 	 */
 	public function initWithUID($uid){
 		if($uid){
@@ -68,7 +66,7 @@ class KBContent {
 	/**
 	 * 게시글 정보를 입력받는다.
 	 * @param object $row
-	 * @return Content
+	 * @return KBContent
 	 */
 	public function initWithRow($row){
 		if($row){

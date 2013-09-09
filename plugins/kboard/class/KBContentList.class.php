@@ -8,7 +8,8 @@
 class KBContentList {
 	
 	var $board_id;
-	
+	var $total;
+	var $index;
 	var $col_category1;
 	var $col_category2;
 	var $rpp = 10;
@@ -18,31 +19,27 @@ class KBContentList {
 	private $resource_notice;
 	private $row;
 	
-	var $total;
-	var $index;
-	
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
 	}
 	
 	/**
 	 * 모든 게시판의 내용을 반환한다.
-	 * @return resource
+	 * @return KBContentList
 	 */
 	public function init(){
-		$where[] = 1;
-		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE 1");
+		list($this->total) = mysql_fetch_row($resource);
+		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE 1 ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total;
 		
-		return $this->resource;
+		return $this;
 	}
 	
 	/**
 	 * RSS 피드 출력을 위한 리스트를 반환한다.
-	 * @return resource
+	 * @return KBContentList
 	 */
 	public function initWithRSS(){
 		$resource = kboard_query("SELECT uid FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE permission_read='all'");
@@ -53,18 +50,19 @@ class KBContentList {
 		
 		$where[] = "secret LIKE ''";
 		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
+		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where));
+		list($this->total) = mysql_fetch_row($resource);
 		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total;
 		
-		return $this->resource;
+		return $this;
 	}
 	
 	/**
 	 * 게시판 아이디를 입력한다.
 	 * @param int $board_id
-	 * @return ContentList
+	 * @return KBContentList
 	 */
 	public function setBoardID($board_id){
 		$this->board_id = $board_id;
@@ -74,7 +72,7 @@ class KBContentList {
 	/**
 	 * 페이지 번호를 입력한다.
 	 * @param int $page
-	 * @return ContentList
+	 * @return KBContentList
 	 */
 	public function page($page){
 		if($page) $this->page = $page;
@@ -84,7 +82,7 @@ class KBContentList {
 	/**
 	 * 한 페이지에 표시될 게시물 숫자를 입력한다. 
 	 * @param int $rpp
-	 * @return ContentList
+	 * @return KBContentList
 	 */
 	public function rpp($rpp){
 		if($rpp) $this->rpp = $rpp;
@@ -94,7 +92,7 @@ class KBContentList {
 	/**
 	 * 카테고리1을 입력한다.
 	 * @param string $category
-	 * @return ContentList
+	 * @return KBContentList
 	 */
 	public function category1($category){
 		if($category) $this->col_category1 = $category;
@@ -104,7 +102,7 @@ class KBContentList {
 	/**
 	 * 카테고리2를 입력한다.
 	 * @param string $category
-	 * @return ContentList
+	 * @return KBContentList
 	 */
 	public function category2($category){
 		if($category) $this->col_category2 = $category;
@@ -133,7 +131,8 @@ class KBContentList {
 		if($this->col_category1) $where[] = "category1 LIKE '$this->col_category1'";
 		if($this->col_category2) $where[] = "category2 LIKE '$this->col_category2'";
 		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where))));
+		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where));
+		list($this->total) = mysql_fetch_row($resource);
 		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total - (($this->page-1) * $this->rpp);
@@ -155,7 +154,8 @@ class KBContentList {
 		}
 		else $where = "board_id LIKE '$this->board_id'";
 		
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where")));
+		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where");
+		list($this->total) = mysql_fetch_row($resource);
 		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where ORDER BY date DESC");
 		
 		$this->index = $this->total;

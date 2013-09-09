@@ -1,14 +1,15 @@
 <?php
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 include $path.DIRECTORY_SEPARATOR.'wp-load.php';
-$board_id = intval($_GET['board_id']);
 
 /**
  * KBoard 게시판 고유주소로 요청하기
  * 입력코드(Shortcode) 없이 직접 게시판을 요청합니다.
  * @author www.cosmosfarm.com
  */
-if($board_id):
+
+$board_id = intval($_GET['board_id']);
+if(!$board_id) wp_die('게시판 아이디가 없습니다.');
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -49,8 +50,3 @@ if($board_id):
 	<?php wp_footer()?>
 </body>
 </html>
-<?php
-else:
-wp_die('게시판 아이디가 없습니다.');
-endif;
-?>
