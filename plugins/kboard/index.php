@@ -13,19 +13,19 @@ if(!session_id()) session_start();
 
 define('KBOARD_VERSION', '3.5');
 
-include_once 'KBoard.class.php';
-include_once 'Content.class.php';
-include_once 'ContentList.class.php';
-include_once 'KBUrl.class.php';
-include_once 'KBoardMeta.class.php';
+include_once 'class/Content.class.php';
+include_once 'class/ContentList.class.php';
+include_once 'class/BoardBuilder.class.php';
+include_once 'class/KBoard.class.php';
+include_once 'class/KBoardMeta.class.php';
+include_once 'class/KBSeo.class.php';
+include_once 'class/KBUrl.class.php';
+include_once 'class/KBUpgrader.class.php';
 include_once 'class/KBRouter.class.php';
-include_once 'KBSeo.class.php';
-include_once 'KBUpgrader.class.php';
-include_once 'BoardBuilder.class.php';
-include_once 'Pagination.helper.php';
-include_once 'Security.helper.php';
 include_once 'class/KBLatestview.class.php';
 include_once 'class/KBLatestviewList.class.php';
+include_once 'Pagination.helper.php';
+include_once 'Security.helper.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
