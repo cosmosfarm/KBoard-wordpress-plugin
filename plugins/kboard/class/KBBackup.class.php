@@ -42,7 +42,7 @@ class KBBackup {
 				else $value[] = "''";
 			}
 			$value = implode(',', $value);
-		
+			
 			$sql .= "$value);\n";
 		}
 		return $sql;
@@ -59,14 +59,14 @@ class KBBackup {
 		$xml .= "<$table>\n";
 		while($row = mysql_fetch_assoc($resource)){
 			$xml .= "\t<data>\n";
-		
+			
 			$value = array();
 			foreach($row AS $key => $value){
 				$xml .= "\t\t<$key>";
 				$xml .= "<![CDATA[".stripslashes($value)."]]>";
 				$xml .= "</$key>\n";
 			}
-		
+			
 			$xml .= "\t</data>\n";
 		}
 		$xml .= "</$table>\n";

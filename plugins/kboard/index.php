@@ -165,6 +165,64 @@ function kboard_setting(){
 }
 
 /*
+ * 게시판 정보 수정
+ */
+function kboard_update(){
+	if(!defined('KBOARD_COMMNETS_VERSION')){
+		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
+		exit;
+	}
+	
+	$board_id = $_POST['board_id'];
+	$board_name = addslashes($_POST['board_name']);
+	$skin = $_POST['skin'];
+	$page_rpp = $_POST['page_rpp'];
+	$use_comment = $_POST['use_comment'];
+	$use_editor = $_POST['use_editor'];
+	$permission_read = $_POST['permission_read'];
+	$permission_write = $_POST['permission_write'];
+	$admin_user = addslashes($_POST['admin_user']);
+	$use_category = $_POST['use_category'];
+	$category1_list = addslashes($_POST['category1_list']);
+	$category2_list = addslashes($_POST['category2_list']);
+	$create = date("YmdHis", current_time('timestamp'));
+	
+	if(!$board_id){
+		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+		
+		$insert_id = mysql_insert_id();
+		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		
+		$board_id = $insert_id;
+	}
+	else{
+		kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
+	}
+	
+	if($board_id){
+		$meta = new KBoardMeta($board_id);
+		$meta->latest_alerts = $_POST['latest_alerts'];
+		$meta->comment_skin = $_POST['comment_skin'];
+		$meta->default_content = kboard_xssfilter($_POST['default_content']);
+		$meta->pass_autop = $_POST['pass_autop'];
+		$meta->shortcode_execute = $_POST['shortcode_execute'];
+		
+		$auto_page = $_POST['auto_page'];
+		if($auto_page){
+			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'"));
+			$auto_page_board_id = @reset($row);
+			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
+			else $meta->auto_page = $auto_page;
+		}
+		else{
+			$meta->auto_page = '';
+		}
+	}
+	
+	echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
+}
+
+/*
  * 최신글 뷰
  */
 function kboard_latestview(){
@@ -279,64 +337,6 @@ function kboard_backup(){
 }
 
 /*
- * 게시판 정보 수정
- */
-function kboard_update(){
-	if(!defined('KBOARD_COMMNETS_VERSION')){
-		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
-		exit;
-	}
-	
-	$board_id = $_POST['board_id'];
-	$board_name = addslashes($_POST['board_name']);
-	$skin = $_POST['skin'];
-	$page_rpp = $_POST['page_rpp'];
-	$use_comment = $_POST['use_comment'];
-	$use_editor = $_POST['use_editor'];
-	$permission_read = $_POST['permission_read'];
-	$permission_write = $_POST['permission_write'];
-	$admin_user = addslashes($_POST['admin_user']);
-	$use_category = $_POST['use_category'];
-	$category1_list = addslashes($_POST['category1_list']);
-	$category2_list = addslashes($_POST['category2_list']);
-	$create = date("YmdHis", current_time('timestamp'));
-	
-	if(!$board_id){
-		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
-		
-		$insert_id = mysql_insert_id();
-		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
-		
-		$board_id = $insert_id;
-	}
-	else{
-		kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
-	}
-	
-	if($board_id){
-		$meta = new KBoardMeta($board_id);
-		$meta->latest_alerts = $_POST['latest_alerts'];
-		$meta->comment_skin = $_POST['comment_skin'];
-		$meta->default_content = kboard_xssfilter($_POST['default_content']);
-		$meta->pass_autop = $_POST['pass_autop'];
-		$meta->shortcode_execute = $_POST['shortcode_execute'];
-		
-		$auto_page = $_POST['auto_page'];
-		if($auto_page){
-			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'"));
-			$auto_page_board_id = @reset($row);
-			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
-			else $meta->auto_page = $auto_page;
-		}
-		else{
-			$meta->auto_page = '';
-		}
-	}
-	
-	echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
-}
-
-/*
  * 게시판 업그레이드
  */
 function kboard_upgrade(){
@@ -367,6 +367,43 @@ function kboard_upgrade(){
 	}
 	
 	echo '<script>alert("업그레이드 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
+}
+
+/*
+ * 페이지 표시 단축코드
+ */
+add_shortcode('kboard', 'kboard_builder');
+function kboard_builder($args){
+	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
+	
+	$board = new KBoard();
+	$board->setID($args['id']);
+	
+	if($board->uid){
+		$board_builder = new KBoardBuilder();
+		$board_builder->setBoardID($board->uid);
+		$board_builder->setSkin($board->skin);
+		$board_builder->setRpp($board->page_rpp);
+		$board_builder->board = $board;
+		$kboard = $board_builder->create();
+		return $kboard;
+	}
+	else{
+		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
+	}
+}
+
+/*
+ * 선택된 페이지에 자동으로 게시판 생성
+ */
+add_filter('the_content', 'kboard_auto_builder');
+function kboard_auto_builder($content){
+	global $post;
+	if(is_page($post->ID)){
+		$board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'")));
+		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
+	}
+	return $content;
 }
 
 /*
@@ -420,43 +457,6 @@ function kboard_latestview_shortcode($args){
 }
 
 /*
- * 페이지 표시 단축코드
- */
-add_shortcode('kboard', 'kboard_builder');
-function kboard_builder($args){
-	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
-	
-	$board = new KBoard();
-	$board->setID($args['id']);
-	
-	if($board->uid){
-		$board_builder = new KBoardBuilder();
-		$board_builder->setBoardID($board->uid);
-		$board_builder->setSkin($board->skin);
-		$board_builder->setRpp($board->page_rpp);
-		$board_builder->board = $board;
-		$kboard = $board_builder->create();
-		return $kboard;
-	}
-	else{
-		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
-	}
-}
-
-/*
- * 선택된 페이지에 자동으로 게시판 생성
- */
-add_filter('the_content', 'kboard_auto_builder');
-function kboard_auto_builder($content){
-	global $post;
-	if(is_page($post->ID)){
-		$board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'")));
-		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
-	}
-	return $content;
-}
-
-/*
  * KBoard SEO를 적용한다.
  */
 add_action('plugins_loaded', 'kboard_seo', 1);
@@ -464,6 +464,62 @@ function kboard_seo(){
 	if(!is_admin()){
 		$seo = new KBSeo();
 	}
+}
+
+/*
+ * 쿼리
+ */
+function kboard_query($query){
+	$resource = mysql_query($query);
+	if(mysql_errno()){
+		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요. 개인정보는 지워주세요.';
+		die($error);
+	}
+	return $resource;
+}
+
+/*
+ * 권한 한글 출력
+ */
+function kboard_permission($permission){
+	if($permission == 'all'){
+		return '제한없음';
+	}
+	else if($permission == 'author'){
+		return '로그인 사용자';
+	}
+	else if($permission == 'editor'){
+		return '선택된 관리자';
+	}
+	else if($permission == 'administrator'){
+		return '최고관리자';
+	}
+	else{
+		return $permission;
+	}
+}
+
+/*
+ * Captcha 이미지
+ */
+function kboard_captcha(){
+	include_once 'class/KBCaptcha.class.php';
+	$captcha = new KBCaptcha();
+	return $captcha->createImage();
+}
+
+/*
+ * 워드프레스검색  필터 입력
+ */
+add_filter('pre_get_posts', 'kboard_search_filter');
+function kboard_search_filter($query){
+	if($query->is_search){
+		$post_type = get_query_var('post_type');
+		if(is_array($post_type)) array_push($post_type, 'post', 'page', 'attachment', 'kboard');
+		else $post_type = array('post', 'page', 'attachment', 'kboard');
+		$query->set('post_type', $post_type);
+	};
+	return $query;
 }
 
 /*
@@ -614,62 +670,6 @@ function kboard_uninstall(){
 		`".$wpdb->prefix."kboard_board_setting` ,
 		`".$wpdb->prefix."kboard_board_meta`";
 	mysql_query($drop_table);
-}
-
-/*
- * 쿼리
- */
-function kboard_query($query){
-	$resource = mysql_query($query);
-	if(mysql_errno()){
-		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요. 개인정보는 지워주세요.';
-		die($error);
-	}
-	return $resource;
-}
-
-/*
- * 권한 한글 출력
- */
-function kboard_permission($permission){
-	if($permission == 'all'){
-		return '제한없음';
-	}
-	else if($permission == 'author'){
-		return '로그인 사용자';
-	}
-	else if($permission == 'editor'){
-		return '선택된 관리자';
-	}
-	else if($permission == 'administrator'){
-		return '최고관리자';
-	}
-	else{
-		return $permission;
-	}
-}
-
-/*
- * Captcha 이미지
- */
-function kboard_captcha(){
-	include_once 'class/KBCaptcha.class.php';
-	$captcha = new KBCaptcha();
-	return $captcha->createImage();
-}
-
-/*
- * 워드프레스검색  필터 입력
- */
-add_filter('pre_get_posts', 'kboard_search_filter');
-function kboard_search_filter($query){
-	if($query->is_search){
-		$post_type = get_query_var('post_type');
-		if(is_array($post_type)) array_push($post_type, 'post', 'page', 'attachment', 'kboard');
-		else $post_type = array('post', 'page', 'attachment', 'kboard');
-		$query->set('post_type', $post_type);
-	};
-	return $query;
 }
 
 /*
