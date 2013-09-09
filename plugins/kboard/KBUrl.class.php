@@ -5,7 +5,7 @@
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-class Url {
+class KBUrl {
 	
 	private $data;
 	
@@ -55,6 +55,11 @@ class Url {
 	public function toStringWithPath($path){
 		foreach($this->data AS $key => $value){
 			if($value) $query_strings[$key] = $key . '=' . $value;
+		}
+		
+		// 경로가 없을경우
+		if(!$path && $this->data['uid']){
+			return $this->getDocumentRedirect($this->data['uid']);
 		}
 		
 		// 입력받은 경로를 처리한다.
@@ -117,6 +122,24 @@ class Url {
 		else{
 			return "javascript:alert('글이 없습니다.')";
 		}
+	}
+	
+	/**
+	 * 라우터를 이용해 게시물 본문으로 이동한다.
+	 * @param int $uid
+	 * @return string
+	 */
+	public function getDocumentRedirect($uid){
+		return site_url() . '?kboard_content_redirect=' . $uid;
+	}
+	
+	/**
+	 * 라우터를 이용해 게시판으로 이동한다.
+	 * @param int $uid
+	 * @return string
+	 */
+	public function getBoardRedirect($uid){
+		return site_url() . '?kboard_redirect=' . $uid;
 	}
 }
 ?>

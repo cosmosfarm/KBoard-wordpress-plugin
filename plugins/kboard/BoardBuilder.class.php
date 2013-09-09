@@ -107,7 +107,7 @@ class BoardBuilder {
 	public function builderList(){
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
-		$url = new Url();
+		$url = new KBUrl();
 		
 		$list = new ContentList($this->board_id);
 		$list->category1($this->category1);
@@ -127,7 +127,7 @@ class BoardBuilder {
 	public function builderDocument(){
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
-		$url = new Url();
+		$url = new KBUrl();
 		
 		$content = new Content($this->board_id);
 		$content->initWithUID($this->uid);
@@ -185,7 +185,7 @@ class BoardBuilder {
 	public function builderEditor(){
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
-		$url = new Url();
+		$url = new KBUrl();
 		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
@@ -239,7 +239,7 @@ class BoardBuilder {
 	 * 게시물 삭제 페이지를 생성한다. (완료 후 바로 리다이렉션)
 	 */
 	public function builderRemove(){
-		$url = new Url();
+		$url = new KBUrl();
 		
 		$content = new Content($this->board_id);
 		$content->initWithUID($this->uid);
@@ -273,7 +273,7 @@ class BoardBuilder {
 	public function createLatest(){
 		ob_start();
 		
-		$url = new Url();
+		$url = new KBUrl();
 		$list = new ContentList($this->board_id);
 		$list->rpp($this->rpp)->getList();
 		

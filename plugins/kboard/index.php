@@ -16,14 +16,16 @@ define('KBOARD_VERSION', '3.5');
 include_once 'KBoard.class.php';
 include_once 'Content.class.php';
 include_once 'ContentList.class.php';
-include_once 'Url.class.php';
+include_once 'KBUrl.class.php';
 include_once 'KBoardMeta.class.php';
-include_once 'KBRouter.class.php';
+include_once 'class/KBRouter.class.php';
 include_once 'KBSeo.class.php';
 include_once 'KBUpgrader.class.php';
 include_once 'BoardBuilder.class.php';
 include_once 'Pagination.helper.php';
 include_once 'Security.helper.php';
+include_once 'class/KBLatestview.class.php';
+include_once 'class/KBLatestviewList.class.php';
 
 define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
@@ -35,10 +37,13 @@ define('KBOARD_DASHBOARD_PAGE', admin_url('/admin.php?page=kboard_dashboard'));
 define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
 define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_list'));
+define('KBOARD_LATESTVIEW_PAGE', admin_url('/admin.php?page=kboard_latestview'));
+define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('/admin.php?page=kboard_latestview_new'));
 define('KBOARD_BACKUP_PAGE', admin_url('/admin.php?page=kboard_backup'));
 define('KBOARD_BACKUP_ACTION', plugins_url('/execute/backup.php', __FILE__));
 define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
+define('KBOARD_LATESTVIEW_ACTION', admin_url('/admin.php?page=kboard_latestview_update'));
 
 /*
  * jQuery를 추가한다.
@@ -84,10 +89,13 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '대시보드', 'administrator', 'kboard_dashboard');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 목록', 'administrator', 'kboard_list', 'kboard_list');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 생성', 'administrator', 'kboard_new', 'kboard_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '최신글 뷰 목록', 'administrator', 'kboard_latestview', 'kboard_latestview');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '최신글 뷰 생성', 'administrator', 'kboard_latestview_new', 'kboard_latestview_new');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '백업 및 복구', 'administrator', 'kboard_backup', 'kboard_backup');
 	
 	// 표시되지 않는 페이지
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 수정', 'administrator', 'kboard_update', 'kboard_update');
+	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '최신글 뷰 수정', 'administrator', 'kboard_latestview_update', 'kboard_latestview_update');
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
@@ -115,16 +123,16 @@ function kboard_list(){
 		kboard_setting();
 	}
 	else{
+		$board = new KBoard();
+		
 		$action = $_POST['action'];
 		$action2 = $_POST['action2'];
-		if(($action=='remove' || $action2=='remove') && $_POST['board_id']){
-			$board = new KBoard();
+		if(($action=='remove' || $action2=='remove') && $_POST['board_id']){			
 			foreach($_POST['board_id'] AS $key => $value){
 				$board->remove($value);
 			}
 		}
 		
-		$board = new KBoard();
 		$board->getList();
 		$meta = new KBoardMeta();
 		
@@ -154,6 +162,92 @@ function kboard_setting(){
 	$meta = new KBoardMeta($board->uid);
 	$comment_skin = KBCommentSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
+}
+
+/*
+ * 최신글 뷰
+ */
+function kboard_latestview(){
+	kboard_system_update();
+	if($_GET['latestview_uid']){
+		include 'KBoardSkin.class.php';
+		$skin = KBoardSkin::getInstance();
+		$latestview = new KBLatestview();
+		$latestview->initWithUID($_GET['latestview_uid']);
+		$linkedBoard = $latestview->getLinkedBoard();
+		$board = new KBoard();
+		include_once 'pages/kboard_latestview_setting.php';
+	}
+	else{
+		$action = $_POST['action'];
+		$action2 = $_POST['action2'];
+		if(($action=='remove' || $action2=='remove') && $_POST['latestview_uid']){
+			$latestview = new KBLatestview();
+			foreach($_POST['latestview_uid'] AS $key => $uid){
+				$latestview->initWithUID($uid);
+				$latestview->delete();
+			}
+		}
+		
+		$latestviewList = new KBLatestviewList();
+		$latestviewList->init();
+		
+		include_once 'pages/kboard_latestview.php';
+	}
+}
+
+/*
+ * 최신글 뷰 생성
+ */
+function kboard_latestview_new(){
+	kboard_system_update();
+	include 'KBoardSkin.class.php';
+	$skin = KBoardSkin::getInstance();
+	include_once 'pages/kboard_latestview_setting.php';
+}
+
+/*
+ * 최신글 뷰 수정
+ */
+function kboard_latestview_update(){
+	if(!defined('KBOARD_COMMNETS_VERSION')){
+		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
+		exit;
+	}
+	
+	$latestview_uid = $_POST['latestview_uid'];
+	$latestview_link = $_POST['latestview_link'];
+	$latestview_unlink = $_POST['latestview_unlink'];
+	$name = $_POST['name'];
+	$skin = $_POST['skin'];
+	$rpp = $_POST['rpp'];
+	
+	$latestview = new KBLatestview();
+	if($latestview_uid) $latestview->initWithUID($latestview_uid);
+	else $latestview->create();
+	
+	$latestview->name = $name;
+	$latestview->skin = $skin;
+	$latestview->rpp = $rpp;
+	$latestview->update();
+	
+	$latestview_link = explode(',', $latestview_link);
+	if(is_array($latestview_link)){
+		foreach($latestview_link AS $key => $value){
+			$value = intval($value);
+			if($value) $latestview->pushBoard($value);
+		}
+	}
+	
+	$latestview_unlink = explode(',', $latestview_unlink);
+	if(is_array($latestview_unlink)){
+		foreach($latestview_unlink AS $key => $value){
+			$value = intval($value);
+			if($value) $latestview->popBoard($value);
+		}
+	}
+	
+	echo '<script>location.href="' . KBOARD_LATESTVIEW_PAGE . '&latestview_uid=' . $latestview_uid . '"</script>';
 }
 
 /*
@@ -276,12 +370,12 @@ function kboard_upgrade(){
 }
 
 /*
- * 최신 게시물 추출 단축코드
+ * 최신글 추출 단축코드
  */
-add_shortcode('kboard_latest', 'kboard_latest');
-function kboard_latest($args){
+add_shortcode('kboard_latest', 'kboard_latest_shortcode');
+function kboard_latest_shortcode($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
-	else if(!$args['url']) return 'KBoard 알림 :: url=null, 게시판 페이지 주소는 필수 입니다.';
+	else if(!$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수 입니다.';
 	
 	if(!$args['rpp']) $args['rpp'] = 5;
 	
@@ -300,6 +394,28 @@ function kboard_latest($args){
 	}
 	else{
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
+	}
+}
+
+/*
+ * 최신글 뷰 단축코드
+ */
+add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
+function kboard_latestview_shortcode($args){
+	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
+	
+	$latestview = new KBLatestview($args['id']);
+	
+	if($latestview->uid){
+		$board_builder = new BoardBuilder();
+		$board_builder->setBoardID($latestview->getLinkedBoard());
+		$board_builder->setSkin($latestview->skin);
+		$board_builder->setRpp($latestview->rpp);
+		$kboard_latest = $board_builder->createLatest();
+		return $kboard_latest;
+	}
+	else{
+		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 최신글 뷰 입니다.';
 	}
 }
 
@@ -385,7 +501,7 @@ function kboard_activation(){
 	  `page_rpp` int(10) unsigned NOT NULL,
 	  `created` char(14) NOT NULL,
 	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_setting);
 	
 	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_attached` (
@@ -418,7 +534,7 @@ function kboard_activation(){
 	  `password` varchar(127) NOT NULL,
 	  PRIMARY KEY  (`uid`),
 	  KEY `board_id` (`board_id`)
-	) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_board_content);
 	
 	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_option` (
@@ -437,6 +553,23 @@ function kboard_activation(){
 	  UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_meta);
+	
+	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview` (
+	  `uid` bigint(20) unsigned NOT NULL auto_increment,
+	  `name` varchar(127) NOT NULL,
+	  `skin` varchar(127) NOT NULL,
+	  `rpp` int(10) unsigned NOT NULL,
+	  `created` char(14) NOT NULL,
+	  PRIMARY KEY  (`uid`)
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+	kboard_query($kboard_board_latestview);
+	
+	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview_link` (
+	  `latestview_uid` bigint(20) unsigned NOT NULL,
+	  `board_id` bigint(20) unsigned NOT NULL,
+	  UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
+	) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+	kboard_query($kboard_board_latestview);
 	
 	/*
 	 * KBoard 2.9
@@ -587,10 +720,15 @@ function kboard_system_update(){
 	/*
 	 * KBoard 3.5
 	 * kboard_board_content `search` 컬럼 생성 확인
+	 * kboard_board_latestview, kboard_board_latestview_link 테이블 추가 생성
 	 */
 	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `search`");
 	list($name) = mysql_fetch_row($resource);
 	if(!$name){
+		kboard_activation();
+		return;
+	}
+	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_latestview`")){
 		kboard_activation();
 		return;
 	}
