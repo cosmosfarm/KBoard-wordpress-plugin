@@ -1,21 +1,21 @@
 <?php
-$path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-$root_path = reset($path);
-include $root_path . DIRECTORY_SEPARATOR . 'wp-load.php';
+list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
+include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
 if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
 
 $uid = intval($_GET['uid']);
-$file = addslashes(kboard_xssfilter(kboard_htmlclear($_GET['file'])));
+$file = addslashes(kboard_xssfilter(kboard_htmlclear(trim($_GET['file']))));
 
 if(!$uid || !$file){
 	die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
-$content = new Content();
+$content = new KBContent();
 $content->initWithUID($uid);
 $board = new KBoard($content->board_id);
+
 if(!$board->isReader($content->member_uid, $content->secret)){
 	if(!$user_ID) die('<script>alert("로그인 하셔야 사용할 수 있습니다.");location.href="'.wp_login_url().'";</script>');
 	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
@@ -24,8 +24,12 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 $result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid='$uid' AND file_key LIKE '$file'");
 $file_info = mysql_fetch_array($result);
 
-$path = $root_path . str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);
+$path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);
 $name = $file_info['file_name'];
+
+if(!$file_info['file_path'] || !file_exists($path)){
+	die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
+}
 
 if(eregi("(MSIE 5.0|MSIE 5.1|MSIE 5.5|MSIE 6.0)", $_SERVER["HTTP_USER_AGENT"]) && !eregi("(Opera|Netscape)", $_SERVER["HTTP_USER_AGENT"])){
 	Header("Content-type: application/octet-stream");
@@ -42,6 +46,7 @@ else{
 	Header("Pragma: no-cache");
 	Header("Expires: 0");
 }
+
 $fp = fopen($path, "rb");
 if(!fpassthru($fp)) fclose($fp);
 ?>

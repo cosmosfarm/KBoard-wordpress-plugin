@@ -1,6 +1,6 @@
 <?php
-$path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
+list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
+include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
 $uid = intval($_GET['uid']);
 
@@ -8,7 +8,7 @@ if(!$uid){
 	die("<script>alert('댓글 고유번호가 없습니다.');window.close();</script>");
 }
 
-$commentList = new CommentList();
+$commentList = new KBCommentList();
 $comment = $commentList->getComment($uid);
 
 if(!$comment->uid){

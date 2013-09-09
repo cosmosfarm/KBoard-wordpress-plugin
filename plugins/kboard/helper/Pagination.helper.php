@@ -8,21 +8,17 @@
 function kboard_pagination($current_page, $total, $limit){
 	foreach($_GET AS $key => $value){
 		if($key != 'pageid'){
-			$query_strings[] = $key . '=' . kboard_xssfilter(kboard_htmlclear($value));
+			$query_strings[] = $key . '=' . kboard_xssfilter(kboard_htmlclear(trim($value)));
 		}
 	}
 	if($query_strings) $query_strings = '&' . implode('&', $query_strings);
 	
+	$sliding_size = 10;
 	$total_page = ceil($total/$limit);
-	$paging;
+	$paging = '';
 	$i = 0;
 	
-	// 움직일 윈도 사이즈
-	$sliding_size = 10;
-	
-	// 만약 윈도 범위가 첫 페이지를 벗어나면 1 ...을 출력한다.
 	if($current_page > $sliding_size){
-		//$paging .= '<a href=?pageid=$current_page>1</a>... ';
 		$i = $current_page - ($current_page % $sliding_size);
 	}
 	
@@ -41,14 +37,7 @@ function kboard_pagination($current_page, $total, $limit){
 		}
 	}
 	
-	/*
-	// 만약 윈도 범위가 마지막 페이지를 포함하지 못하면 ... N 을 출력한다.
-	if(($i + 10 ) < $total_page){
-		$paging .= " ... <a href=url?pageid=$total_page>$total_page</a>";
-	}
-	*/
-	
-	// 좌우 이동 화살표 <, >를 출력한다.
+	// 좌우 이동 화살표 «, »를 출력한다.
 	// 처음과 마지막 페이지가 아니라면 링크를 걸어주면 된다.
 	if($current_page != 1){
 		$prev_page = $current_page - 1;

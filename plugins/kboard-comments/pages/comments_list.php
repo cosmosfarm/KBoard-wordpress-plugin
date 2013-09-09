@@ -70,7 +70,7 @@
 				
 				<?php while($comment = $commentList->hasNext()):?>
 				<?php 
-					$content = new Content();
+					$content = new KBContent();
 					$content->initWithUID($comment->content_uid);
 					$board = new KBoard($content->board_id);
 				?>

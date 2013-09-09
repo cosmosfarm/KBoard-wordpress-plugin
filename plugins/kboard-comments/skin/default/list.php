@@ -3,7 +3,7 @@
 
 <div class="kboard-comments">
 	<form action="<?=$commentURL->getInsertURL()?>" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
-		<input type="hidden" name="content_uid" value="<?=$_REQUEST['uid']?>">
+		<input type="hidden" name="content_uid" value="<?=$_GET['uid']?>">
 		<input type="hidden" name="member_uid" value="<?=$userdata->data->ID?>">
 		
 		<div class="kboard-comments-wrap">

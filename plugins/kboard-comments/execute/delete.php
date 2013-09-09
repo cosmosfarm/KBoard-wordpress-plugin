@@ -1,9 +1,9 @@
 <?php
-$path = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
-include reset($path) . DIRECTORY_SEPARATOR . 'wp-load.php';
+list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
+include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) die("<script>alert('외부접근불가');</script>");
+if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
 
 $userdata = get_userdata($user_ID);
 $uid = intval($_GET['uid']);
@@ -15,19 +15,21 @@ else if(!$userdata->id && !$_POST['password']){
 	die("<script>alert('로그인해야 합니다.');history.go(-1);</script>");
 }
 
-$commentList = new CommentList();
+$commentList = new KBCommentList();
 $comment = $commentList->getComment($uid);
 if(!$comment->isEditor() && $comment->password != $_POST['password']){
 	die("<script>alert('권한이 없습니다.');history.go(-1);</script>");
 }
 $commentList->delete($uid);
 if($comment->password && $comment->password == $_POST['password']){
+	// 팝업창으로 비밀번호 확인 후 opener 윈도우를 새로고침 한다.
 	echo '<script>';
 	echo 'opener.window.location.reload();';
 	echo 'window.close();';
 	echo '</script>';
 }
 else{
-	header("Location:" . $_SERVER['HTTP_REFERER']);
+	// 삭제권한이 있는 사용자일 경우 팝업창은 없기 때문에 페이지 이동한다.
+	header("Location:".$_SERVER['HTTP_REFERER']);
 }
 ?>
