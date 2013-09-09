@@ -183,6 +183,11 @@ class KBoardBuilder {
 	 * 게시판 에디터 페이지를 생성한다.
 	 */
 	public function builderEditor(){
+		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
+			echo '<script>alert("KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.");</script>';
+			return;
+		}
+		
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
 		$url = new KBUrl();
@@ -239,8 +244,12 @@ class KBoardBuilder {
 	 * 게시물 삭제 페이지를 생성한다. (완료 후 바로 리다이렉션)
 	 */
 	public function builderRemove(){
-		$url = new KBUrl();
+		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
+			echo '<script>alert("KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.");</script>';
+			return;
+		}
 		
+		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		

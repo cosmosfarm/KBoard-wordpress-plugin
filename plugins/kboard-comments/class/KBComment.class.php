@@ -35,12 +35,16 @@ class KBComment {
 	 * @return boolean
 	 */
 	public function isEditor(){
+		$resource = kboard_query("SELECT board_id FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE uid='{$this->content_uid}'");
+		list($board_id) = mysql_fetch_row($resource);
+		$board = new KBoard($board_id);
+		
 		if($this->user_uid == $this->userdata->data->ID && $this->userdata->data->ID){
-			// 본인일경우 허용
+			// 본인인 경우
 			return true;
 		}
-		else if(@in_array('administrator' , $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
-			// 최고관리자 허용
+		else if($board->isAdmin()){
+			// 게시판 관리자 허용
 			return true;
 		}
 		else{

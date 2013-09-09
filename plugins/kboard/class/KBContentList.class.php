@@ -31,9 +31,7 @@ class KBContentList {
 		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE 1");
 		list($this->total) = mysql_fetch_row($resource);
 		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE 1 ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		
 		$this->index = $this->total;
-		
 		return $this;
 	}
 	
@@ -53,9 +51,7 @@ class KBContentList {
 		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where));
 		list($this->total) = mysql_fetch_row($resource);
 		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		
 		$this->index = $this->total;
-		
 		return $this;
 	}
 	
@@ -157,9 +153,7 @@ class KBContentList {
 		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where");
 		list($this->total) = mysql_fetch_row($resource);
 		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where ORDER BY date DESC");
-		
 		$this->index = $this->total;
-		
 		return $this->resource;
 	}
 	

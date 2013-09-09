@@ -35,9 +35,10 @@ class KBoard {
 	 * @return KBoard
 	 */
 	public function setID($id){
-		$this->id = $id;
-		$resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE uid=$id");
+		$id = intval($id);
+		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE uid='$id'");
 		$this->row = mysql_fetch_object($resource);
+		$this->id = $id;
 		return $this;
 	}
 	
@@ -54,8 +55,9 @@ class KBoard {
 	 * @return resource
 	 */
 	public function getList(){
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE 1 ORDER BY uid DESC");
-		$this->total = reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE 1")));
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1");
+		list($this->total) = mysql_fetch_row($resource);
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1 ORDER BY uid DESC");
 		return $this->resource;
 	}
 	
@@ -142,7 +144,7 @@ class KBoard {
 			return true;
 		}
 		else if($writer_uid == $this->userdata->data->ID && $this->userdata->data->ID){
-			// 본인일경우 허용
+			// 본인인 경우
 			return true;
 		}
 		else if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
@@ -195,18 +197,12 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isEditor($writer_uid){
-		$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
-		
 		if($writer_uid == $this->userdata->data->ID && $this->userdata->data->ID){
-			// 본인일경우 허용
+			// 본인인 경우
 			return true;
 		}
-		else if(@in_array('administrator' , $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
-			// 최고관리자 허용
-			return true;
-		}
-		else if(@in_array($this->userdata->data->user_login, $admin_user) && $this->userdata->data->user_login){
-			// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+		else if($this->isAdmin()){
+			// 게시판 관리자 허용
 			return true;
 		}
 		else{
@@ -268,13 +264,14 @@ class KBoard {
 	 * @param int $uid
 	 */
 	public function remove($uid){
-		$list = new ContentList($uid);
+		$uid = intval($uid);
+		$list = new KBContentList($uid);
 		$list->getAllList();
 		while($content = $list->hasNext()){
 			$content->remove();
 		}
-		kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE uid=$uid");
-		kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE board_id=$uid");
+		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE uid='$uid'");
+		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE board_id='$uid'");
 	}
 }
 ?>
