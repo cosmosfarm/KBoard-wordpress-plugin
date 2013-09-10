@@ -656,11 +656,14 @@ function kboard_deactivation(){
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
 function kboard_uninstall(){
 	global $wpdb;
-	$drop_table = "DROP TABLE  `".$wpdb->prefix."kboard_board_attached` ,
+	$drop_table = "DROP TABLE 
+		`".$wpdb->prefix."kboard_board_attached` ,
 		`".$wpdb->prefix."kboard_board_content` ,
 		`".$wpdb->prefix."kboard_board_option` ,
 		`".$wpdb->prefix."kboard_board_setting` ,
-		`".$wpdb->prefix."kboard_board_meta`";
+		`".$wpdb->prefix."kboard_board_meta`,
+		`".$wpdb->prefix."kboard_board_latestview`,
+		`".$wpdb->prefix."kboard_board_latestview_link`";
 	mysql_query($drop_table);
 }
 
