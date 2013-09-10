@@ -74,7 +74,7 @@ class KBUrl {
 		foreach($query as $value){
 			list($key, $value) = explode('=', $value);
 			// 중복된 get 값이 있으면 덮어 씌운다.
-			if($value) $query_strings[$key] = $key . '=' . $value;
+			if($value) $this->set($key, $value);
 		}
 		
 		$query_strings = $this->getCleanQueryStrings();
