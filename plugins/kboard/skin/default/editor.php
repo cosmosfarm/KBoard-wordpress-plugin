@@ -8,7 +8,6 @@
 		<input type="hidden" name="member_uid" value="<?=$content->member_uid?>">
 		<input type="hidden" name="member_display" value="<?=$content->member_display?>">
 		<input type="hidden" name="date" value="<?=$content->date?>">
-		<input type="hidden" name="next" value="<?=$next_url?>">
 		<div class="kboard-header"></div>
 		
 		<div class="kboard-attr-row kboard-attr-title">
@@ -115,6 +114,7 @@
 			<div class="left">
 				<?php if($content->uid):?>
 				<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-button-small">돌아가기</a>
+				<a href="<?=$url->toString()?>" class="kboard-button-small">목록보기</a>
 				<?php else:?>
 				<a href="<?=$url->toString()?>" class="kboard-button-small">돌아가기</a>
 				<?php endif?>

@@ -183,11 +183,6 @@ class KBoardBuilder {
 	 * 게시판 에디터 페이지를 생성한다.
 	 */
 	public function builderEditor(){
-		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
-			echo '<script>alert("KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.");</script>';
-			return;
-		}
-		
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
 		$url = new KBUrl();
@@ -221,15 +216,14 @@ class KBoardBuilder {
 			include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
 		}
 		else{
-			$content->execute();
-			$content->initWithUID($this->uid);
+			$execute_uid = $content->execute();
+			if($execute_uid){
+				$next_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
+				die("<script>location.href='$next_url';</script>");
+			}
 			
-			if($this->uid){
-				$next_url = $url->set('uid', $this->uid)->set('mod', 'document')->toString();
-			}
-			else{
-				$next_url = $url->set('pageid', '')->toString();
-			}
+			// execute된 내용으로 다시 초기화 한다.
+			$content->initWithUID($this->uid);
 			
 			// 내용이 없으면 등록된 기본 양식을 가져온다.
 			if(!$content->content){

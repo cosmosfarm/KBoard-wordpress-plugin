@@ -12,7 +12,6 @@ class KBContent {
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	var $skin_option_prefix = 'kboard_option_';
 	
-	var $next;
 	var $board_id;
 	var $option;
 	var $attach;
@@ -22,9 +21,8 @@ class KBContent {
 	private $row;
 	
 	public function __construct($board_id=''){
-		if($board_id) $this->setBoardID($board_id);
 		$this->row = new stdClass();
-		$this->next = kboard_xssfilter(kboard_htmlclear(trim($_POST['next'])));
+		if($board_id) $this->setBoardID($board_id);
 	}
 	
 	public function __get($name){
@@ -100,6 +98,7 @@ class KBContent {
 			$this->setThumbnail($this->uid);
 			$this->update_options($this->uid);
 			$this->update_attach($this->uid);
+			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
 			// captcha 코드 확인
@@ -127,9 +126,9 @@ class KBContent {
 					$mail->send();
 				}
 			}
+			return $uid;
 		}
-		
-		if($this->next) die("<script>location.href='$this->next';</script>");
+		return '';
 	}
 	
 	/**

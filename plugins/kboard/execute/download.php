@@ -24,6 +24,7 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 $result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid='$uid' AND file_key LIKE '$file'");
 $file_info = mysql_fetch_array($result);
 
+list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 $path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);
 $name = $file_info['file_name'];
 
