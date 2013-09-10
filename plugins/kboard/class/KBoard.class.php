@@ -151,7 +151,7 @@ class KBoard {
 			// 최고관리자 허용
 			return true;
 		}
-		else if($this->permission_read == 'editor' && @in_array($this->userdata->data->user_login, $admin_user)){
+		else if(($this->permission_read == 'all' || $this->permission_read == 'author' || $this->permission_read == 'editor') && @in_array($this->userdata->data->user_login, $admin_user)){
 			// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
 			return true;
 		}
