@@ -15,20 +15,32 @@ class KBUrl {
 	
 	/**
 	 * MOD, UID 값 초기화, URL을 재사용 할 때 오류를 방지한다.
-	 * @return Url
+	 * @return KBUrl
 	 */
 	public function init(){
-		$this->data = kboard_xssfilter(kboard_htmlclear($_GET));
+		$this->data = $_GET;
 		$this->data['mod'] = null;
 		$this->data['uid'] = null;
 		return $this;
 	}
 	
 	/**
+	 * 안전한 쿼리스트링을 반환한다.
+	 * @return string
+	 */
+	public function getCleanQueryStrings(){
+		$query_strings = array();
+		foreach($this->data AS $key => $value){
+			if($value) $query_strings[$key] = kboard_xssfilter(kboard_htmlclear(trim($key))).'='.kboard_xssfilter(kboard_htmlclear(trim($value)));
+		}
+		return implode('&', $query_strings);
+	}
+	
+	/**
 	 * GET 데이터를 입력한다.
 	 * @param string $key
 	 * @param string $value
-	 * @return Url
+	 * @return KBUrl
 	 */
 	public function set($key, $value){
 		$this->data[$key] = $value;
@@ -40,12 +52,10 @@ class KBUrl {
 	 * @return string
 	 */
 	public function toString(){
-		foreach($this->data AS $key => $value){
-			if($value) $query_strings[$key] = $key . '=' . $value;
-		}
+		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
 		$url = parse_url($_SERVER['REQUEST_URI']);
-		return $url['path'] . '?' . @implode('&', $query_strings);
+		return $url['path'] . '?' . $query_strings;
 	}
 
 	/**
@@ -53,10 +63,6 @@ class KBUrl {
 	 * @return string
 	 */
 	public function toStringWithPath($path){
-		foreach($this->data AS $key => $value){
-			if($value) $query_strings[$key] = $key . '=' . $value;
-		}
-		
 		// 경로가 없을경우
 		if(!$path && $this->data['uid']){
 			return $this->getDocumentRedirect($this->data['uid']);
@@ -71,8 +77,9 @@ class KBUrl {
 			if($value) $query_strings[$key] = $key . '=' . $value;
 		}
 		
+		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
-		return $url['path'] . '?' . @implode('&', $query_strings);
+		return $url['path'] . '?' . $query_strings;
 	}
 	
 	/**
@@ -81,7 +88,7 @@ class KBUrl {
 	 */
 	public function toInput(){
 		foreach($this->data AS $key => $value){
-			if($value) $input[] = '<input type="hidden" name="' . $key .'" value="' . $value . '">';
+			if($value) $input[] = '<input type="hidden" name="' . kboard_xssfilter(kboard_htmlclear(trim($key))) .'" value="' . kboard_xssfilter(kboard_htmlclear(trim($value))) . '">';
 		}
 		$this->init();
 		return @implode('', $input);
@@ -130,6 +137,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getDocumentRedirect($uid){
+		$uid = intval($uid);
 		return site_url() . '?kboard_content_redirect=' . $uid;
 	}
 	
@@ -139,6 +147,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getBoardRedirect($uid){
+		$uid = intval($uid);
 		return site_url() . '?kboard_redirect=' . $uid;
 	}
 }

@@ -45,7 +45,7 @@ class KBRouter {
 			}
 				
 			if($page_id){
-				$url = new Url();
+				$url = new KBUrl();
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath( get_permalink($page_id) );
 			}
 			else{
@@ -76,7 +76,7 @@ class KBRouter {
 			}
 			
 			if($page_id){
-				$url = new Url();
+				$url = new KBUrl();
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->toStringWithPath( get_permalink($page_id) );
 			}
 			else{

@@ -13,6 +13,13 @@ if(!class_exists('HTMLPurifier')){
 	include_once KBOARD_DIR_PATH.'/htmlpurifier/HTMLPurifier.standalone.php';
 }
 
+/*
+ * HTMLPurifier 설정 캐시 경로
+ */
+$file_handler = new KBFileHandler();
+$file_handler->mkPath(WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
+unset($file_handler);
+
 /**
  * Cross-site scripting (XSS) 공격을 방어하기 위해서 위험 문자열을 제거한다.
  * @param string $data
@@ -28,7 +35,7 @@ function kboard_xssfilter($data){
 	$HTMLPurifier_Config->set('HTML.SafeObject', true);
 	$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
 	$HTMLPurifier_Config->set('Output.FlashCompat', true);
-	$HTMLPurifier_Config->set('Core.DefinitionCache', null);
+	$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
 	$HTMLPurifier = HTMLPurifier::getInstance();
 	$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
 	return kboard_safeiframe($data);

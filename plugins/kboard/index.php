@@ -30,8 +30,6 @@ define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 define('KBOARD_LATESTVIEW_ACTION', admin_url('/admin.php?page=kboard_latestview_update'));
 
-include_once 'helper/Pagination.helper.php';
-include_once 'helper/Security.helper.php';
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
@@ -44,6 +42,8 @@ include_once 'class/KBRouter.class.php';
 include_once 'class/KBLatestview.class.php';
 include_once 'class/KBLatestviewList.class.php';
 include_once 'class/KBFileHandler.class.php';
+include_once 'helper/Pagination.helper.php';
+include_once 'helper/Security.helper.php';
 
 /*
  * jQuery를 추가한다.
@@ -124,7 +124,6 @@ function kboard_list(){
 	}
 	else{
 		$board = new KBoard();
-		
 		$action = $_POST['action'];
 		$action2 = $_POST['action2'];
 		if(($action=='remove' || $action2=='remove') && $_POST['board_id']){			
@@ -132,10 +131,8 @@ function kboard_list(){
 				$board->remove($value);
 			}
 		}
-		
 		$board->getList();
 		$meta = new KBoardMeta();
-		
 		include_once 'pages/kboard_list.php';
 	}
 }
@@ -155,7 +152,7 @@ function kboard_new(){
  */
 function kboard_setting(){
 	include 'class/KBoardSkin.class.php';
-	include_once WP_CONTENT_DIR . '/plugins/kboard-comments/KBCommentSkin.class.php';
+	include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
 	$skin = KBoardSkin::getInstance();
@@ -249,7 +246,6 @@ function kboard_latestview(){
 		
 		$latestviewList = new KBLatestviewList();
 		$latestviewList->init();
-		
 		include_once 'pages/kboard_latestview.php';
 	}
 }
@@ -413,7 +409,6 @@ add_shortcode('kboard_latest', 'kboard_latest_shortcode');
 function kboard_latest_shortcode($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
 	else if(!$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수 입니다.';
-	
 	if(!$args['rpp']) $args['rpp'] = 5;
 	
 	$board = new KBoard();
@@ -442,7 +437,6 @@ function kboard_latestview_shortcode($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
 	
 	$latestview = new KBLatestview($args['id']);
-	
 	if($latestview->uid){
 		$board_builder = new KBoardBuilder();
 		$board_builder->setBoardID($latestview->getLinkedBoard());
@@ -461,9 +455,7 @@ function kboard_latestview_shortcode($args){
  */
 add_action('plugins_loaded', 'kboard_seo', 1);
 function kboard_seo(){
-	if(!is_admin()){
-		$seo = new KBSeo();
-	}
+	if(!is_admin()) $seo = new KBSeo();
 }
 
 /*
@@ -673,7 +665,7 @@ function kboard_uninstall(){
 }
 
 /*
- * 업데이트
+ * 시스템 업데이트
  */
 function kboard_system_update(){
 	/*

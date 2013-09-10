@@ -164,7 +164,7 @@ class KBoardBuilder {
 				$content->content = nl2br($content->content);
 			}
 			else{
-				$content->content = nl2br(Content::autolink($content->content));
+				$content->content = nl2br(KBContent::autolink($content->content));
 			}
 			
 			// 게시글 숏코드(Shortcode) 실행

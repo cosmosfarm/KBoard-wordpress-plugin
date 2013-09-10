@@ -13,7 +13,7 @@ class KBSeo {
 		$mod = kboard_htmlclear($_GET['mod']);
 		$uid = intval($_GET['uid']);
 		if($mod == 'document' && $uid){
-			$this->content = new Content();
+			$this->content = new KBContent();
 			$this->content->initWithUID($uid);
 				
 			add_filter('wp_title', array($this, 'title'), 1);
