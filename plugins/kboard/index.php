@@ -166,8 +166,7 @@ function kboard_setting(){
  */
 function kboard_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')){
-		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
-		exit;
+		die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	}
 	
 	$board_id = $_POST['board_id'];
@@ -217,7 +216,7 @@ function kboard_update(){
 		}
 	}
 	
-	echo '<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>';
+	die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');
 }
 
 /*
@@ -266,8 +265,7 @@ function kboard_latestview_new(){
  */
 function kboard_latestview_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')){
-		echo '<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
-		exit;
+		die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	}
 	
 	$latestview_uid = $_POST['latestview_uid'];
@@ -302,7 +300,7 @@ function kboard_latestview_update(){
 		}
 	}
 	
-	echo '<script>location.href="' . KBOARD_LATESTVIEW_PAGE . '&latestview_uid=' . $latestview_uid . '"</script>';
+	die('<script>location.href="' . KBOARD_LATESTVIEW_PAGE . '&latestview_uid=' . $latestview_uid . '"</script>');
 }
 
 /*
@@ -342,8 +340,7 @@ function kboard_upgrade(){
 	
 	if($_GET['action'] == 'kboard'){
 		if($upgrader->getLatestVersion()->kboard <= KBOARD_VERSION){
-			echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
-			exit;
+			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 		}
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, $_SESSION['cosmosfarm_access_token']);
 		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
@@ -351,19 +348,17 @@ function kboard_upgrade(){
 	else if($_GET['action'] == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
 			if($upgrader->getLatestVersion()->comments <= KBOARD_COMMNETS_VERSION){
-				echo '<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
-				exit;
+				die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 			}
 		}
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, $_SESSION['cosmosfarm_access_token']);
 		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
 	else{
-		echo '<script>alert("업그레이드에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
-		exit;
+		die('<script>alert("업그레이드에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	
-	echo '<script>alert("업그레이드 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>';
+	die('<script>alert("업그레이드 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 }
 
 /*
@@ -397,7 +392,8 @@ add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post;
 	if(is_page($post->ID)){
-		$board_id = @reset(mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'")));
+		$resource = kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'");
+		list($board_id) = mysql_fetch_row($resource);
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
 	return $content;
