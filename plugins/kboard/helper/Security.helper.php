@@ -26,7 +26,7 @@ unset($file_handler);
  */
 function kboard_xssfilter($data){
 	if(is_array($data)) return array_map('kboard_xssfilter', $data);
-	if(get_magic_quotes_gpc()) $data = stripslashes($data);
+	if((function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc()) || ini_get('magic_quotes_sybase')) $data = stripslashes($data);
 	$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
 	$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 	$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
