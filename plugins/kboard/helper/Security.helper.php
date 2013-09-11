@@ -25,9 +25,8 @@ unset($file_handler);
  * @param string $data
  */
 function kboard_xssfilter($data){
-	if(is_array($data)){
-		return array_map('kboard_xssfilter', $data);
-	}
+	if(is_array($data)) return array_map('kboard_xssfilter', $data);
+	if(get_magic_quotes_gpc()) $data = stripslashes($data);
 	$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
 	$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 	$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
@@ -77,9 +76,7 @@ function kboard_safeiframe($data){
  * @param object $data
  */
 function kboard_htmlclear($data){
-	if(is_array($data)){
-		return array_map('kboard_htmlclear', $data);
-	}
+	if(is_array($data)) return array_map('kboard_htmlclear', $data);
 	return htmlspecialchars(strip_tags($data));
 }
 ?>

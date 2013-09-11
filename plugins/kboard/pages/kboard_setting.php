@@ -1,8 +1,7 @@
 <?php
 if(!defined('ABSPATH')) exit;
 if(!defined('KBOARD_COMMNETS_VERSION')){
-	echo '<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
-	exit;
+	die('<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 }
 ?>
 <div class="wrap">
@@ -67,19 +66,27 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<?=$value?>
 							</option>
 							<?php endforeach;?>
-					</select>
+						</select>
 						<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="page_rpp">게시물 표시</label></th>
 					<td><select name="page_rpp" id="page_rpp" class="">
 							<option value="1"<?php if($board->page_rpp == 1):?> selected<?php endif?>>1개</option>
+							<option value="2"<?php if($board->page_rpp == 2):?> selected<?php endif?>>2개</option>
+							<option value="3"<?php if($board->page_rpp == 3):?> selected<?php endif?>>3개</option>
 							<option value="4"<?php if($board->page_rpp == 4):?> selected<?php endif?>>4개</option>
+							<option value="5"<?php if($board->page_rpp == 5):?> selected<?php endif?>>5개</option>
 							<option value="6"<?php if($board->page_rpp == 6):?> selected<?php endif?>>6개</option>
+							<option value="7"<?php if($board->page_rpp == 7):?> selected<?php endif?>>7개</option>
+							<option value="8"<?php if($board->page_rpp == 8):?> selected<?php endif?>>8개</option>
+							<option value="9"<?php if($board->page_rpp == 9):?> selected<?php endif?>>9개</option>
 							<option value="10"<?php if($board->page_rpp == 10):?> selected<?php endif?>>10개</option>
 							<option value="12"<?php if($board->page_rpp == 12):?> selected<?php endif?>>12개</option>
 							<option value="15"<?php if($board->page_rpp == 15):?> selected<?php endif?>>15개</option>
+							<option value="17"<?php if($board->page_rpp == 17):?> selected<?php endif?>>17개</option>
 							<option value="20"<?php if($board->page_rpp == 20):?> selected<?php endif?>>20개</option>
+							<option value="25"<?php if($board->page_rpp == 25):?> selected<?php endif?>>25개</option>
 							<option value="30"<?php if($board->page_rpp == 30):?> selected<?php endif?>>30개</option>
 							<option value="50"<?php if($board->page_rpp == 50):?> selected<?php endif?>>50개</option>
 							<option value="100"<?php if($board->page_rpp == 100):?> selected<?php endif?>>100개</option>
@@ -117,19 +124,29 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<?php endif?>
 				<tr valign="top">
-					<th scope="row"><label for="use_editor">에디터 사용</label></th>
+					<th scope="row"><label for="use_editor">글 작성 에디터</label></th>
 					<td><select name="use_editor" id="use_editor" class="">
 							<option value="">textarea 사용</option>
 							<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>워드프레스 내장 에디터 사용</option>
-					</select>
+						</select>
 						<p class="description">에디터를 사용해 게시물을 작성할 수 있습니다. 워드프레스에 내장된 에디터를 사용합니다. 다른 에디터 플러그인을 설치하면 호환 됩니다.</p></td>
 				</tr>
+				<?php if(!$board->use_editor):?>
 				<tr valign="top">
-					<th scope="row"><label for="shortcode_execute">게시글 숏코드(Shortcode) 실행</label></th>
+					<th scope="row"><label for="autolink">게시글 본문 자동링크 사용</label></th>
+					<td><select name="autolink" id="autolink" class="">
+							<option value="">비활성화</option>
+							<option value="1"<?php if($meta->autolink == '1'):?> selected<?php endif?>>활성화</option>
+						</select>
+						<p class="description">에디터 textarea를 사용할때 url주소에 자동으로 링크를 생성합니다.</p></td>
+				</tr>
+				<?php endif?>
+				<tr valign="top">
+					<th scope="row"><label for="shortcode_execute">게시글 본문 숏코드(Shortcode) 실행</label></th>
 					<td><select name="shortcode_execute" id="shortcode_execute" class="">
 							<option value="">비활성화</option>
 							<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
-					</select>
+						</select>
 						<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.</p></td>
 				</tr>
 				<tr valign="top">
@@ -137,7 +154,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<td><select name="use_category" id="use_category" class="">
 							<option value="">비활성화</option>
 							<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>활성화</option>
-					</select>
+						</select>
 						<p class="description">카테고리를 사용해서 게시물을 분리할 수 있습니다.</p></td>
 				</tr>
 				<tr valign="top">
@@ -165,7 +182,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="administrator"<?php if($board->permission_read == 'administrator'):?> selected<?php endif?>>
 								<?=kboard_permission('administrator')?>
 							</option>
-					</select></td>
+						</select></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="permission_write">쓰기권한</label></th>
@@ -182,7 +199,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="administrator"<?php if($board->permission_write == 'administrator'):?> selected<?php endif?>>
 								<?=kboard_permission('administrator')?>
 							</option>
-					</select></td>
+						</select></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="admin_user">선택된 관리자</label></th>

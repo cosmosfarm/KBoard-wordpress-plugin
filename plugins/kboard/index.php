@@ -200,9 +200,10 @@ function kboard_update(){
 		$meta = new KBoardMeta($board_id);
 		$meta->latest_alerts = $_POST['latest_alerts'];
 		$meta->comment_skin = $_POST['comment_skin'];
-		$meta->default_content = kboard_xssfilter($_POST['default_content']);
+		$meta->default_content = $_POST['default_content'];
 		$meta->pass_autop = $_POST['pass_autop'];
 		$meta->shortcode_execute = $_POST['shortcode_execute'];
+		$meta->autolink = $_POST['autolink'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){

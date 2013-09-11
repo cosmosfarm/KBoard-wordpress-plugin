@@ -159,12 +159,13 @@ class KBoardBuilder {
 			$content->increaseView();
 			$content->initWithUID($this->uid);
 			
-			// 에디터를 사용하지 않으면 자동으로 link를 생성한다.
-			if($board->use_editor){
-				$content->content = nl2br($content->content);
+			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
+			if(!$board->use_editor && $this->meta->autolink){
+				include KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
+				$content->content = nl2br(Kboard_autolink($content->content));
 			}
 			else{
-				$content->content = nl2br(KBContent::autolink($content->content));
+				$content->content = nl2br($content->content);
 			}
 			
 			// 게시글 숏코드(Shortcode) 실행

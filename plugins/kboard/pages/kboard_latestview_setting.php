@@ -1,8 +1,7 @@
 <?php
 if(!defined('ABSPATH')) exit;
 if(!defined('KBOARD_COMMNETS_VERSION')){
-	echo '<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>';
-	exit;
+	die('<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 }
 ?>
 <style>
