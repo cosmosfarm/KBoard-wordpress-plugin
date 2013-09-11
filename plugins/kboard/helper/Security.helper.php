@@ -26,7 +26,6 @@ unset($file_handler);
  */
 function kboard_xssfilter($data){
 	if(is_array($data)) return array_map('kboard_xssfilter', $data);
-	if((function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc()) || ini_get('magic_quotes_sybase')) $data = stripslashes($data);
 	$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
 	$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 	$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
@@ -36,7 +35,7 @@ function kboard_xssfilter($data){
 	$HTMLPurifier_Config->set('Output.FlashCompat', true);
 	$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
 	$HTMLPurifier = HTMLPurifier::getInstance();
-	$data = $HTMLPurifier->purify($data, $HTMLPurifier_Config);
+	$data = $HTMLPurifier->purify(stripslashes($data), $HTMLPurifier_Config);
 	return kboard_safeiframe($data);
 }
 
