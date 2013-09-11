@@ -725,5 +725,31 @@ function kboard_system_update(){
 		return;
 	}
 	unset($resource, $name);
+	
+	/*
+	 * KBoard 3.5
+	 * 파일 제거
+	 */
+	@unlink(KBOARD_DIR_PATH . '/BoardBuilder.class.php');
+	@unlink(KBOARD_DIR_PATH . '/Content.class.php');
+	@unlink(KBOARD_DIR_PATH . '/ContentList.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBBackup.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBCaptcha.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBFileHandler.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBMail.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBoard.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBoardMeta.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBoardSkin.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBSeo.class.php');
+	@unlink(KBOARD_DIR_PATH . '/KBUpgrader.class.php');
+	@unlink(KBOARD_DIR_PATH . '/Pagination.helper.php');
+	@unlink(KBOARD_DIR_PATH . '/Security.helper.php');
+	@unlink(KBOARD_DIR_PATH . '/Url.class.php');
+	@unlink(KBOARD_DIR_PATH . '/XML2Array.class.php');
+	
+	/*
+	 * 댓글 시스템 업데이트
+	 */
+	if(function_exists('kboard_comments_system_update')) kboard_comments_system_update();
 }
 ?>

@@ -57,7 +57,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="10"<?php if($latestview->rpp == 10):?> selected<?php endif?>>10개</option>
 							<option value="12"<?php if($latestview->rpp == 12):?> selected<?php endif?>>12개</option>
 							<option value="15"<?php if($latestview->rpp == 15):?> selected<?php endif?>>15개</option>
+							<option value="17"<?php if($latestview->rpp == 17):?> selected<?php endif?>>17개</option>
 							<option value="20"<?php if($latestview->rpp == 20):?> selected<?php endif?>>20개</option>
+							<option value="25"<?php if($latestview->rpp == 25):?> selected<?php endif?>>25개</option>
 							<option value="30"<?php if($latestview->rpp == 30):?> selected<?php endif?>>30개</option>
 							<option value="50"<?php if($latestview->rpp == 50):?> selected<?php endif?>>50개</option>
 							<option value="100"<?php if($latestview->rpp == 100):?> selected<?php endif?>>100개</option>

@@ -33,8 +33,8 @@ function kboard_comments_settings_menu(){
  * 댓글 목록 페이지
  */
 function kboard_comments_list(){
+	kboard_comments_system_update();
 	$commentList = new KBCommentList();
-	
 	$action = $_POST['action'];
 	$action2 = $_POST['action2'];
 	if(($action=='remove' || $action2=='remove') && $_POST['comment_uid']){
@@ -42,7 +42,6 @@ function kboard_comments_list(){
 			$commentList->delete($value);
 		}
 	}
-	
 	$commentList->order = 'DESC';
 	include_once 'pages/comments_list.php';
 }
@@ -66,8 +65,7 @@ function kboard_comments_activation(){
 	global $wpdb;
 	
 	if(!defined('KBOARD_VERSION')){
-		echo 'KBoard 댓글 알림 :: 먼저 KBoard 플러그인을 설치하세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.';
-		exit;
+		die('KBoard 댓글 알림 :: 먼저 KBoard 플러그인을 설치하세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.');
 	}
 	
 	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_comments` (
@@ -99,5 +97,20 @@ function kboard_comments_uninstall(){
 	global $wpdb;
 	$drop_table = "DROP TABLE `".$wpdb->prefix."kboard_comments`";
 	mysql_query($drop_table);
+}
+
+/*
+ * 시스템 업데이트
+ */
+function kboard_comments_system_update(){
+	/*
+	 * KBoard 댓글 2.8
+	 * 파일 제거
+	 */
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/Comment.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentList.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentsBuilder.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentSkin.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentUrl.class.php');
 }
 ?>
