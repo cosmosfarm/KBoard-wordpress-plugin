@@ -56,10 +56,12 @@ class KBCommentList {
 	public function getCount(){
 		if(is_null($this->total)){
 			if($this->content_uid){
-				$this->total = @reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->content_uid'")));
+				$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->content_uid'");
+				list($this->total) = mysql_fetch_row($resource);
 			}
 			else{
-				$this->total = @reset(mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1")));
+				$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1");
+				list($this->total) = mysql_fetch_row($resource);
 			}
 		}
 		return intval($this->total);
@@ -90,7 +92,8 @@ class KBCommentList {
 	 */
 	public function getComment($uid){
 		$uid = intval($uid);
-		$row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE uid='$uid' LIMIT 1"));
+		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE uid='$uid' LIMIT 1");
+		$row = mysql_fetch_object($resource);
 		
 		if($row){
 			$comment = new KBComment();

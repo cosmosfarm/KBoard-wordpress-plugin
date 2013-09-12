@@ -21,7 +21,7 @@ class KBCommentsBuilder {
 	/**
 	 * 스킨을 지정한다.
 	 * @param string $skin
-	 * @return CommentsBuilder
+	 * @return KBCommentsBuilder
 	 */
 	public function setSkin($skin){
 		$this->skin = $skin;
