@@ -26,7 +26,7 @@ unset($kboard_file_handler);
  */
 function kboard_xssfilter($data){
 	if(is_array($data)) return array_map('kboard_xssfilter', $data);
-	if(!$GLOBALS['_KBOARD']['HTMLPurifier'] && !$GLOBALS['_KBOARD']['HTMLPurifier_Config']){
+	if(!$GLOBALS['_KBOARD']['HTMLPurifier'] || !$GLOBALS['_KBOARD']['HTMLPurifier_Config']){
 		$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
 		$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 		$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
