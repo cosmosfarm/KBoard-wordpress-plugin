@@ -8,14 +8,11 @@
 class KBoard {
 	
 	var $id;
-	
 	var $resource;
 	var $total;
 	var $row;
-	
 	var $category;
 	var $category_row;
-	
 	var $userdata;
 	
 	public function __construct($id=''){
@@ -143,21 +140,23 @@ class KBoard {
 		if($this->permission_read == 'all' && !$secret){
 			return true;
 		}
-		else if($writer_uid == $this->userdata->data->ID && $this->userdata->data->ID){
-			// 본인인 경우
-			return true;
-		}
-		else if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
-			// 최고관리자 허용
-			return true;
-		}
-		else if(($this->permission_read == 'all' || $this->permission_read == 'author' || $this->permission_read == 'editor') && @in_array($this->userdata->data->user_login, $admin_user)){
-			// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
-			return true;
-		}
-		else if($this->permission_read == 'author' && $this->userdata->data->ID && !$secret){
-			// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
-			return true;
+		else if($this->userdata->data->ID){
+			if($writer_uid == $this->userdata->data->ID){
+				// 본인인 경우
+				return true;
+			}
+			else if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
+				// 최고관리자 허용
+				return true;
+			}
+			else if(($this->permission_read == 'all' || $this->permission_read == 'author' || $this->permission_read == 'editor') && @in_array($this->userdata->data->user_login, $admin_user)){
+				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+				return true;
+			}
+			else if($this->permission_read == 'author' && !$secret){
+				// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
+				return true;
+			}
 		}
 		else{
 			return false;
@@ -174,17 +173,19 @@ class KBoard {
 		if($this->permission_write == 'all'){
 			return true;
 		}
-		else if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
-			// 최고관리자 허용
-			return true;
-		}
-		else if($this->permission_write == 'editor' && @in_array($this->userdata->data->user_login, $admin_user)){
-			// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
-			return true;
-		}
-		else if($this->permission_write == 'author' && $this->userdata->data->ID){
-			// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
-			return true;
+		else if($this->userdata->data->ID){
+			if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
+				// 최고관리자 허용
+				return true;
+			}
+			else if($this->permission_write == 'editor' && @in_array($this->userdata->data->user_login, $admin_user)){
+				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+				return true;
+			}
+			else if($this->permission_write == 'author'){
+				// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
+				return true;
+			}
 		}
 		else{
 			return false;
@@ -197,13 +198,15 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isEditor($writer_uid){
-		if($writer_uid == $this->userdata->data->ID && $this->userdata->data->ID){
-			// 본인인 경우
-			return true;
-		}
-		else if($this->isAdmin()){
-			// 게시판 관리자 허용
-			return true;
+		if($this->userdata->data->ID){
+			if($writer_uid == $this->userdata->data->ID){
+				// 본인인 경우
+				return true;
+			}
+			else if($this->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
 		}
 		else{
 			return false;
@@ -237,13 +240,15 @@ class KBoard {
 	public function isAdmin(){
 		$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
 		
-		if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
-			// 최고관리자 허용
-			return true;
-		}
-		else if(@in_array($this->userdata->data->user_login, $admin_user) && $this->userdata->data->user_login){
-			// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
-			return true;
+		if($this->userdata->data->ID){
+			if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
+				// 최고관리자 허용
+				return true;
+			}
+			else if(@in_array($this->userdata->data->user_login, $admin_user)){
+				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+				return true;
+			}
 		}
 		else{
 			return false;
