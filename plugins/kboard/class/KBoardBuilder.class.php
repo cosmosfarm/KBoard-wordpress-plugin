@@ -220,7 +220,7 @@ class KBoardBuilder {
 			$execute_uid = $content->execute();
 			if($execute_uid){
 				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
-				if($content->password) $content->isConfirm($content->password, $execute_uid);
+				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 				die("<script>location.href='$next_url';</script>");
