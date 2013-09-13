@@ -90,7 +90,7 @@ class KBoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		if($meta->pass_autop == 'enable'){
+		if($this->meta->pass_autop == 'enable'){
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
 			return '';
 		}
