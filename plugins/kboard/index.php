@@ -498,20 +498,6 @@ function kboard_captcha(){
 }
 
 /*
- * 워드프레스검색  필터 입력
- */
-add_filter('pre_get_posts', 'kboard_search_filter');
-function kboard_search_filter($query){
-	if($query->is_search){
-		$post_type = get_query_var('post_type');
-		if(is_array($post_type)) array_push($post_type, 'post', 'page', 'attachment', 'kboard');
-		else $post_type = array('post', 'page', 'attachment', 'kboard');
-		$query->set('post_type', $post_type);
-	};
-	return $query;
-}
-
-/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_activation');
