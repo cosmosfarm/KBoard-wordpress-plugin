@@ -226,6 +226,9 @@ class KBoardBuilder {
 				die("<script>location.href='$next_url';</script>");
 			}
 			
+			// execute후 POST 데이터를 지우고 다시 초기화 한다.
+			$content->initWithUID($this->uid);
+			
 			// 내용이 없으면 등록된 기본 양식을 가져온다.
 			if(!$content->content){
 				$content->content = $this->meta->default_content;
