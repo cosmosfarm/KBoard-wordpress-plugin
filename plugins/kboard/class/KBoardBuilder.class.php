@@ -219,12 +219,12 @@ class KBoardBuilder {
 		else{
 			$execute_uid = $content->execute();
 			if($execute_uid){
+				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
+				if($content->password) $content->isConfirm($content->password, $execute_uid);
+				
 				$next_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 				die("<script>location.href='$next_url';</script>");
 			}
-			
-			// execute된 내용으로 다시 초기화 한다.
-			$content->initWithUID($this->uid);
 			
 			// 내용이 없으면 등록된 기본 양식을 가져온다.
 			if(!$content->content){
