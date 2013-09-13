@@ -362,7 +362,7 @@ function kboard_upgrade(){
 }
 
 /*
- * 페이지 표시 단축코드
+ * 게시판 생성 숏코드
  */
 add_shortcode('kboard', 'kboard_builder');
 function kboard_builder($args){
@@ -400,7 +400,7 @@ function kboard_auto_builder($content){
 }
 
 /*
- * 최신글 추출 단축코드
+ * 최신글 생성 숏코드
  */
 add_shortcode('kboard_latest', 'kboard_latest_shortcode');
 function kboard_latest_shortcode($args){
@@ -427,7 +427,7 @@ function kboard_latest_shortcode($args){
 }
 
 /*
- * 최신글 뷰 단축코드
+ * 최신글 뷰 생성 숏코드
  */
 add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
 function kboard_latestview_shortcode($args){
@@ -640,10 +640,10 @@ register_uninstall_hook(__FILE__, 'kboard_uninstall');
 function kboard_uninstall(){
 	global $wpdb;
 	$drop_table = "DROP TABLE 
-		`".$wpdb->prefix."kboard_board_attached` ,
-		`".$wpdb->prefix."kboard_board_content` ,
-		`".$wpdb->prefix."kboard_board_option` ,
-		`".$wpdb->prefix."kboard_board_setting` ,
+		`".$wpdb->prefix."kboard_board_attached`,
+		`".$wpdb->prefix."kboard_board_content`,
+		`".$wpdb->prefix."kboard_board_option`,
+		`".$wpdb->prefix."kboard_board_setting`,
 		`".$wpdb->prefix."kboard_board_meta`,
 		`".$wpdb->prefix."kboard_board_latestview`,
 		`".$wpdb->prefix."kboard_board_latestview_link`";
