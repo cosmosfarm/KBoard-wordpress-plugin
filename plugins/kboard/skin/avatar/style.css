@@ -25,7 +25,7 @@ img { border: 0; }
 #kboard-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 125px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; }
 #kboard-list .kboard-list { float: left; width: 100%; background-color: white; }
 #kboard-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
-#kboard-list .kboard-list table a { color: black; text-decoration: none; }
+#kboard-list .kboard-list table a { color: black; text-decoration: none; border: 0; }
 #kboard-list .kboard-list table tr { border: 0; }
 #kboard-list .kboard-list table td { padding: 10px 0; text-align: center; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-uid { width: 65px; }
@@ -43,8 +43,8 @@ img { border: 0; }
 #kboard-list .kboard-list tbody td.kboard-list-title { text-align: left; }
 #kboard-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
 #kboard-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
-#kboard-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; }
-#kboard-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; }
+#kboard-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; border: 0; }
+#kboard-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li a { color: black; padding: 5px 10px; border: 1px solid #e0e0e0; text-decoration: none; font-size: 12px; line-height: 27px; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li.active a { font-weight: bold; border: 1px solid #a9a9a9; color: black; text-decoration: none; }
 #kboard-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
