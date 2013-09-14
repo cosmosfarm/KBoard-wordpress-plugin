@@ -8,7 +8,7 @@
 function kboard_pagination($current_page, $total, $limit){
 	foreach($_GET AS $key => $value){
 		if($key != 'pageid' && $value){
-			$query_strings[] = kboard_xssfilter($key).'='.kboard_xssfilter(kboard_htmlclear(trim($value)));
+			$query_strings[] = kboard_xssfilter(kboard_htmlclear(trim($key))).'='.kboard_xssfilter(kboard_htmlclear(trim($value)));
 		}
 	}
 	if($query_strings) $query_strings = '&' . implode('&', $query_strings);

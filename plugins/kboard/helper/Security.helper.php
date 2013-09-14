@@ -54,6 +54,7 @@ function kboard_safeiframe($data){
 	 */
 	$whilelist[] = 'youtube.com';
 	$whilelist[] = 'www.youtube.com';
+	$whilelist[] = 'player.vimeo.com';
 	$whilelist[] = 'maps.google.com';
 	$whilelist[] = 'maps.google.co.kr';
 	$whilelist[] = 'serviceapi.nmv.naver.com';
