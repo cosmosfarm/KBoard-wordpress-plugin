@@ -21,8 +21,8 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 	else die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
 }
 
-$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid='$uid' AND file_key LIKE '$file'");
-$file_info = mysql_fetch_array($result);
+$resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid='$uid' AND file_key LIKE '$file'");
+$file_info = mysql_fetch_array($resource);
 
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 $path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);

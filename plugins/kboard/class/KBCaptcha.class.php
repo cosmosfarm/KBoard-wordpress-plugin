@@ -50,8 +50,9 @@ class KBCaptcha {
 	 */
 	public function textCheck($text){
 		global $user_ID;
+		$userdata = get_userdata($user_ID);
 		
-		if($user_ID){
+		if($userdata->data->ID){
 			return true;
 		}
 		else if(!$_SESSION['kboard_captcha']){

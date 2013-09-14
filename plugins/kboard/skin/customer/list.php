@@ -13,7 +13,7 @@
 					<select name="category1">
 						<option value="">카테고리1</option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
+						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?=$board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				<?php endif;?>
@@ -22,7 +22,7 @@
 					<select name="category2">
 						<option value="">카테고리2</option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected" <?php endif?>><?=$board->currentCategory()?></option>
+						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?=$board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				<?php endif;?>

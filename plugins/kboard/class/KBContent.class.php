@@ -506,7 +506,7 @@ class KBContent {
 		if($this->uid && defined('KBOARD_COMMNETS_VERSION')){
 			$commentList = new KBCommentList($this->uid);
 			$commentsCount = $commentList->getCount();
-			if($commentsCount) echo "$prefix$commentsCount$endfix";
+			if($commentsCount) return "{$prefix}{$commentsCount}{$endfix}";
 		}
 		return '';
 	}
