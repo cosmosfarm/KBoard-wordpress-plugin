@@ -23,9 +23,11 @@ class KBRouter {
 		
 		register_post_type('kboard', array(
 			'labels' => array('name'=>'KBoard'),
+			'show_ui'=> false,
+			'show_in_menu'=> false,
 			'rewrite' => false,
 			'query_var' => 'kboard_content_redirect',
-			'public'=>true
+			'public'=> true
 		));
 	}
 	

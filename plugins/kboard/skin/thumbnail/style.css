@@ -32,7 +32,7 @@ img { border: 0; }
 #kboard-list .kboard-list table td.kboard-list-thumbnail { width: 120px; }
 #kboard-list .kboard-list table td.kboard-list-thumbnail img { display: inline; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-title { width: auto; }
-#kboard-list .kboard-list table td.kboard-list-title img { display: inline; vertical-align: middle; }
+#kboard-list .kboard-list table td.kboard-list-title img { display: inline; margin: 0; width: 16px; height: 16px; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-user { width: 80px; }
 #kboard-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-list .kboard-list table td.kboard-list-view { width: 55px; }

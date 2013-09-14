@@ -30,9 +30,9 @@ img { border: 0; }
 #kboard-list .kboard-list table td { padding: 10px 0; text-align: center; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-uid { width: 65px; }
 #kboard-list .kboard-list table td.kboard-list-title { width: auto; }
-#kboard-list .kboard-list table td.kboard-list-title img { display: inline; vertical-align: middle; }
+#kboard-list .kboard-list table td.kboard-list-title img { display: inline; margin: 0; width: 16px; height: 16px; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-user { width: 80px; }
-#kboard-list .kboard-list table td.kboard-list-user img { display: inline; vertical-align: middle; }
+#kboard-list .kboard-list table td.kboard-list-user img { display: inline; margin: 0; width: 32px; height: 32px; vertical-align: middle; }
 #kboard-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-list .kboard-list table td.kboard-list-view { width: 55px; }
 #kboard-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 1px solid #545861; }
