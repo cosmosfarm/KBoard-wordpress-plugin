@@ -13,6 +13,7 @@ if(!$board_id) wp_die('게시판 아이디가 없습니다.');
 ?>
 <!DOCTYPE html>
 <html lang="ko">
+<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<title>워드프레스 KBoard <?=KBOARD_VERSION?></title>
