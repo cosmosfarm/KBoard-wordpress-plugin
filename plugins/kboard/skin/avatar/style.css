@@ -91,10 +91,10 @@ img { border: 0; }
 #kboard-document .kboard-control .left { float: left; }
 #kboard-document .kboard-control .right { float: right; text-align: right; }
 
-#kboard-latest table { width: 100%; table-layout: fixed; }
-#kboard-latest table tr { padding: 0; border-bottom: 1px solid #e3e3e3; }
-#kboard-latest table th { padding: 5px 0; text-align: center; }
-#kboard-latest table td { padding: 5px 0; border: 0; }
+#kboard-latest table { width: 100%; table-layout: fixed; border: 0; border-bottom: 1px solid #e3e3e3; }
+#kboard-latest table tr { padding: 0; border: 0; }
+#kboard-latest table th { padding: 5px 0; border: 0; text-align: center; }
+#kboard-latest table td { padding: 5px 0; border-top: 1px solid #e3e3e3; }
 #kboard-latest table .kboard-latest-title { padding-left: 5px; }
 #kboard-latest table .kboard-latest-date { width: 80px; text-align: center; }
 
