@@ -98,6 +98,12 @@ class KBContent {
 			$this->setThumbnail($this->uid);
 			$this->update_options($this->uid);
 			$this->update_attach($this->uid);
+			
+			/*
+			 * 게시글 수정 액션 훅 실행
+			 */
+			do_action('kboard_document_update', $this->uid);
+			
 			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
@@ -114,6 +120,11 @@ class KBContent {
 				$this->setThumbnail($uid);
 				$this->update_options($uid);
 				$this->update_attach($uid);
+				
+				/*
+				 * 게시글 입력 액션 훅 실행
+				 */
+				do_action('kboard_document_insert', $uid);
 				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				$meta = new KBoardMeta($this->board_id);
@@ -492,6 +503,12 @@ class KBContent {
 			kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid='$this->uid'");
 			$this->deletePost($this->getPostID());
 			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->uid'");
+			
+			/*
+			 * 게시글 삭제 액션 훅 실행
+			 */
+			do_action('kboard_document_delete', $this->uid);
+			
 			if($next) die("<script>location.href='$next';</script>");
 		}
 	}
