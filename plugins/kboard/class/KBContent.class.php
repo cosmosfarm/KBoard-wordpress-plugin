@@ -54,7 +54,7 @@ class KBContent {
 	public function initWithUID($uid){
 		if($uid){
 			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE uid='$uid' LIMIT 1"));
-			$this->board_id = $this->row->board_id;
+			$this->setBoardID($this->row->board_id);
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
@@ -69,7 +69,7 @@ class KBContent {
 	public function initWithRow($row){
 		if($row){
 			$this->row = $row;
-			$this->board_id = $this->row->board_id;
+			$this->setBoardID($this->row->board_id);
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
@@ -121,11 +121,6 @@ class KBContent {
 				$this->update_options($uid);
 				$this->update_attach($uid);
 				
-				/*
-				 * 게시글 입력 액션 훅 실행
-				 */
-				do_action('kboard_document_insert', $uid);
-				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				$meta = new KBoardMeta($this->board_id);
 				if($meta->latest_alerts){
@@ -136,6 +131,11 @@ class KBContent {
 					$mail->content = $data['content'];
 					$mail->send();
 				}
+				
+				/*
+				 * 게시글 입력 액션 훅 실행
+				 */
+				do_action('kboard_document_insert', $uid);
 			}
 			return $uid;
 		}
@@ -482,7 +482,7 @@ class KBContent {
 	 */
 	public function removeThumbnail(){
 		if($this->uid){
-			$result = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid='$this->uid' LIMIT 1");
+			$result = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE uid='$this->uid' LIMIT 1");
 			$row = mysql_fetch_array($result);
 			if($row['thumbnail_file']){
 				@unlink(KBOARD_WORDPRESS_ROOT . $row['thumbnail_file']);
@@ -495,21 +495,19 @@ class KBContent {
 	 * 게시글을 삭제한다.
 	 * @param string $next
 	 */
-	public function remove($next=''){
+	public function remove(){
 		if($this->uid){
 			$this->_remove_option($this->uid);
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
-			kboard_query("DELETE FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE uid='$this->uid'");
+			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE uid='$this->uid'");
 			$this->deletePost($this->getPostID());
 			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->uid'");
 			
 			/*
 			 * 게시글 삭제 액션 훅 실행
 			 */
-			do_action('kboard_document_delete', $this->uid);
-			
-			if($next) die("<script>location.href='$next';</script>");
+			do_action('kboard_document_delete', $this->board_id);
 		}
 	}
 	

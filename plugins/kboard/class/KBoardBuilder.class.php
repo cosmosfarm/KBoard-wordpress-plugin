@@ -265,11 +265,13 @@ class KBoardBuilder {
 		if($confirm_view){
 			$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 			$board = $this->board;
-				
 			include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
 		}
 		else{
-			$content->remove($url->set('mod', 'list')->toString());
+			$content->remove();
+			// 삭제뒤 게시판 리스트로 이동한다.
+			$next = $url->set('mod', 'list')->toString();
+			die("<script>location.href='$next';</script>");
 		}
 	}
 	
