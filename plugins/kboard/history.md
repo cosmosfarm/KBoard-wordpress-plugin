@@ -1,7 +1,7 @@
 3.9
 ===================
 
-  1. 스킨 CSS 최적화
+  1. 기본스킨 CSS 최적화
   2. 아이프레임 허용 주소에 비메오(Vimeo), 사운드클라우드(SoundCloud) 추가
   3. kboard_document_insert, kboard_document_update, kboard_document_delete 워드프레스 액션 훅 추가 및 외부 플러그인 제작에 사용 가능
   4. 버그 수정
