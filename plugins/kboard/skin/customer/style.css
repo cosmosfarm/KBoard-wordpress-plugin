@@ -43,8 +43,8 @@ img { border: 0; }
 #kboard-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
 #kboard-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; border: 0; }
-#kboard-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; background-color: white; border: 0; }
-#kboard-list .kboard-pagination .kboard-pagination-pages li a { color: black; padding: 5px 10px; border: 1px solid #e0e0e0; text-decoration: none; font-size: 12px; line-height: 27px; }
+#kboard-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; }
+#kboard-list .kboard-pagination .kboard-pagination-pages li a { color: black; padding: 5px 10px; border: 1px solid #e0e0e0; text-decoration: none; font-size: 12px; line-height: 27px; background-color: white; }
 #kboard-list .kboard-pagination .kboard-pagination-pages li.active a { font-weight: bold; border: 1px solid #a9a9a9; color: black; text-decoration: none; }
 #kboard-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 

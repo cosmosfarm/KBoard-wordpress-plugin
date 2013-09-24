@@ -41,7 +41,7 @@ class KBCommentsBuilder {
 		
 		if(!$this->content_uid) return 'KBoard 댓글 알림 :: content_uid=null, content_uid값은 필수 입니다.';
 		
-		include 'KBCommentUrl.class.php';
+		include_once 'KBCommentUrl.class.php';
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/list.php";
