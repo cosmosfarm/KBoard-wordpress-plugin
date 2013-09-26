@@ -44,7 +44,22 @@ class KBCommentsBuilder {
 		include_once 'KBCommentUrl.class.php';
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
+		$commentBuilder = $this;
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/list.php";
+	}
+	
+	/**
+	 * 댓글 리스트 트리를 생성한다.
+	 * @param string $template
+	 * @param int $parent_uid
+	 */
+	public function buildTreeList($template, $parent_uid=''){
+		$commentURL = new KBCommentUrl();
+		$commentList = new KBCommentList();
+		$commentBuilder = $this;
+		if($parent_uid) $commentList->initWithParentUID($parent_uid);
+		else $commentList->initWithUID($this->content_uid);
+		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/$template";
 	}
 }
 ?>

@@ -10,6 +10,7 @@ class KBCommentList {
 	var $total;
 	var $userdata;
 	var $content_uid;
+	var $parent_uid;
 	var $resource;
 	var $row;
 	var $order = 'ASC';
@@ -40,6 +41,17 @@ class KBCommentList {
 	public function initWithUID($content_uid){
 		$this->setContentUID($content_uid);
 		$this->init();
+	}
+	
+	/**
+	 * 부모 고유번호로 초기화 한다.
+	 * @param int $parent_uid
+	 */
+	public function initWithParentUID($parent_uid){
+		$this->parent_uid = $parent_uid;
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE parent_uid='$this->parent_uid' ORDER BY uid $this->order");
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE parent_uid='$this->parent_uid'");
+		list($this->total) = mysql_fetch_row($resource);
 	}
 	
 	/**
@@ -88,7 +100,7 @@ class KBCommentList {
 	/**
 	 * 댓글 고유번호를 입력받아 해당 댓글을 반환한다.
 	 * @param int $uid
-	 * @return Comment|unknown
+	 * @return Comment
 	 */
 	public function getComment($uid){
 		$uid = intval($uid);
@@ -106,20 +118,26 @@ class KBCommentList {
 	}
 	
 	/**
-	 * 댓글 정보를 입력한다.
+	 * 댓글 정보를 입력한다.\
+	 * @param int $parent_uid
 	 * @param int $user_uid
 	 * @param string $user_display
 	 * @param string $content
 	 * @param string $password
 	 */
-	public function add($user_uid, $user_display, $content, $password=''){
+	public function add($parent_uid, $user_uid, $user_display, $content, $password=''){
+		$content_uid = intval($this->content_uid);
+		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);
 		$user_display = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
 		$content = addslashes(kboard_xssfilter(trim($content)));
 		$password = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
 		
+		// 부모 고유번호가 있으면 게시물 고유번호 초기화 한다.
+		if($parent_uid) $content_uid=0;
+		
 		$created = date("YmdHis", current_time('timestamp'));
-		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_comments` (content_uid, user_uid, user_display, content, created, password) VALUE ('$this->content_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
+		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_comments` (content_uid, parent_uid, user_uid, user_display, content, created, password) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
 	}
 	
 	/**
