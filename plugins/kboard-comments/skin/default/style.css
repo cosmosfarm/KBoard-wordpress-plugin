@@ -14,7 +14,7 @@
 .kboard-comments .comments-list ul li { margin: 0; padding: 15px 0 0 0; width: 100%; border: 0; font-size: 12px; background: none; }
 .kboard-comments .comments-list .comments-list-username { float: left; margin: 0; padding-right: 10px; width: auto; color: #3b3b3b; font-weight: bold; }
 .kboard-comments .comments-list .comments-list-create { float: inherit; margin: 0; font-size: 11px; color: #a0a0a0; }
-.kboard-comments .comments-list .comments-list-content { float: inherit; margin: 0; padding: 10px 0; color: #3b3b3b; }
+.kboard-comments .comments-list .comments-list-content { float: inherit; margin: 0; padding: 10px 0; width: 100%; color: #3b3b3b; }
 .kboard-comments .comments-list .comments-list-content a { color: #f05726; text-decoration: none; }
 .kboard-comments .comments-list .comments-list-controller { float: inherit; margin: 0; }
 .kboard-comments .comments-list .comments-list-controller span { display: inline-block; font-size: 11px; padding-right: 3px; }
