@@ -15,6 +15,7 @@
 					<a href="<?=$commentURL->getConfirmURL()?>" onclick="return kboard_comments_open_confirm(this.href);">삭제</a>
 					<?php endif?>
 				</span>
+				<span style="color: #a0a0a0;">|</span>
 				<span>
 					<a href="#" onclick="return kboard_comments_reply(this, '#kboard_comments_reply_form_<?=$comment->uid?>', '#kboard_comments_form');" class="kboard-reply">댓글</a>
 				</span>
