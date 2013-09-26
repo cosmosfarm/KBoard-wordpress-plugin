@@ -54,6 +54,11 @@ class KBCommentsBuilder {
 	 * @param int $parent_uid
 	 */
 	public function buildTreeList($template, $parent_uid=''){
+		global $user_ID;
+		$userdata = get_userdata($user_ID);
+		$content_uid = $this->content_uid;
+		$skin_path = $this->skin_path;
+		
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList();
 		$commentBuilder = $this;

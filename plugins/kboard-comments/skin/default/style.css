@@ -18,8 +18,9 @@
 .kboard-comments .comments-list .comments-list-content a { color: #f05726; text-decoration: none; }
 .kboard-comments .comments-list .comments-list-controller { float: inherit; margin: 0; }
 .kboard-comments .comments-list .comments-list-controller span { display: inline-block; padding-right: 10px; }
+.kboard-comments .comments-list .comments-list-controller .kboard-reply-active { font-weight: bold; }
 .kboard-comments .comments-list .comments-reply-form { float: left; margin: 0; width: 100%; }
-.kboard-comments .comments-list .comments-reply-form .kboard-comments-form { padding: 0 0 50px 0; } /* display: none;*/
+.kboard-comments .comments-list .comments-reply-form .kboard-comments-form { padding: 0 0 50px 0; }
 .kboard-comments .kboard-comments-form { float: left; padding: 15px 0; width: 100%; }
 .kboard-comments .kboard-comments-form .comments-username { float: left; padding-bottom: 5px; width: 230px; }
 .kboard-comments .kboard-comments-form .comments-username .comments-username-label { display: inline-block; margin-left: 21px; width: 60px; font-size: 12px; color: #8a8a8a; vertical-align: middle; }

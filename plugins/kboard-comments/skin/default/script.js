@@ -34,9 +34,25 @@ function kboard_comments_execute(form){
 	return true;
 }
 
-function open_confirm(url){
+function kboard_comments_open_confirm(url){
 	var width = 300;
 	var height = 150;
 	window.open(url, '', 'top='+(screen.availHeight*0.5-height*0.5)+',left='+(screen.availWidth*0.5-width*0.5)+',width='+width+',height='+height+',resizable=0,scrollbars=1');
+	return false;
+}
+
+function kboard_comments_reply(obj, form_id, cancel_id){
+	var $ = jQuery;
+	
+	$('.kboard-reply').text('댓글').removeClass('kboard-reply-active');
+	
+	if($(obj).hasClass('kboard-reply-active')){
+		$(cancel_id).append($('.kboard-comments-form'));
+	}
+	else{
+		$(form_id).append($('.kboard-comments-form'));
+		$(obj).text('취소').addClass('kboard-reply-active');
+	}
+	
 	return false;
 }

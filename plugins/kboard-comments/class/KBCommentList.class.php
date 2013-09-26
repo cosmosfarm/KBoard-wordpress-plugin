@@ -26,7 +26,7 @@ class KBCommentList {
 	 */
 	public function init(){
 		if($this->content_uid){
-			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->content_uid' ORDER BY uid $this->order");
+			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->content_uid' AND parent_uid<=0 ORDER BY uid $this->order");
 		}
 		else{
 			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1 ORDER BY uid $this->order");
@@ -118,7 +118,7 @@ class KBCommentList {
 	}
 	
 	/**
-	 * 댓글 정보를 입력한다.\
+	 * 댓글 정보를 입력한다.
 	 * @param int $parent_uid
 	 * @param int $user_uid
 	 * @param string $user_display
@@ -132,9 +132,6 @@ class KBCommentList {
 		$user_display = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
 		$content = addslashes(kboard_xssfilter(trim($content)));
 		$password = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
-		
-		// 부모 고유번호가 있으면 게시물 고유번호 초기화 한다.
-		if($parent_uid) $content_uid=0;
 		
 		$created = date("YmdHis", current_time('timestamp'));
 		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_comments` (content_uid, parent_uid, user_uid, user_display, content, created, password) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
