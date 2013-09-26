@@ -3,14 +3,14 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 3.1
+Version: 3.2
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define('KBOARD_COMMNETS_VERSION', '3.1');
+define('KBOARD_COMMNETS_VERSION', '3.2');
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('kboard-comments'));
@@ -71,6 +71,7 @@ function kboard_comments_activation(){
 	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_comments` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,
 	  `content_uid` bigint(20) unsigned NOT NULL,
+	  `parent_uid` bigint(20) unsigned NOT NULL,
 	  `user_uid` bigint(20) unsigned NOT NULL,
 	  `user_display` varchar(127) NOT NULL,
 	  `content` text NOT NULL,
@@ -79,6 +80,17 @@ function kboard_comments_activation(){
 	  PRIMARY KEY  (`uid`)
 	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
 	kboard_query($kboard_comments);
+	
+	/*
+	 * KBoard 댓글 3.2
+	 * kboard_comments `parent_uid` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_comments` `parent_uid`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_comments` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `content_uid`");
+	}
+	unset($resource, $name);
 }
 
 /*
@@ -112,5 +124,17 @@ function kboard_comments_system_update(){
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentsBuilder.class.php');
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentSkin.class.php');
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentUrl.class.php');
+	
+	/*
+	 * KBoard 댓글 3.2
+	 * kboard_comments `parent_uid` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_comments` `parent_uid`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_comments_activation();
+		return;
+	}
+	unset($resource, $name);
 }
 ?>

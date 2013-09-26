@@ -67,7 +67,7 @@ final class KBUpgrader {
 			self::$latest_version = $_SESSION['kboard_latest_version'];
 		}
 		else if(!self::$latest_version){
-			$data = self::connect(self::$CONNECT_VERSION);
+			$data = self::connect(self::$CONNECT_VERSION.'?version='.KBOARD_VERSION);
 			if($data->error){
 				echo 'null';
 			}
