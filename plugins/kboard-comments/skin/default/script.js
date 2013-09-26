@@ -44,13 +44,14 @@ function kboard_comments_open_confirm(url){
 function kboard_comments_reply(obj, form_id, cancel_id){
 	var $ = jQuery;
 	
-	$('.kboard-reply').text('댓글').removeClass('kboard-reply-active');
-	
 	if($(obj).hasClass('kboard-reply-active')){
 		$(cancel_id).append($('.kboard-comments-form'));
+		$('.kboard-reply').text('댓글').removeClass('kboard-reply-active');
 	}
 	else{
 		$(form_id).append($('.kboard-comments-form'));
+		$('textarea[name=content]').focus();
+		$('.kboard-reply').text('댓글').removeClass('kboard-reply-active');
 		$(obj).text('취소').addClass('kboard-reply-active');
 	}
 	
