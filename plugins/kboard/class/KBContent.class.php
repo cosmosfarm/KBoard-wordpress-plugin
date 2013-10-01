@@ -89,7 +89,7 @@ class KBContent {
 		$this->category2 = kboard_xssfilter(kboard_htmlclear(trim($_POST['category2'])));
 		$this->secret = kboard_xssfilter(kboard_htmlclear(trim($_POST['secret'])));
 		$this->notice = kboard_xssfilter(kboard_htmlclear(trim($_POST['notice'])));
-		$this->search = intval(($this->secret=='true' && $_POST['search']==1)?'2':$_POST['search']);
+		$this->search = intval(($this->secret=='true' && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']);
 		$this->password = kboard_xssfilter(kboard_htmlclear(trim($_POST['password'])));
 		
 		if($this->uid && $this->date){

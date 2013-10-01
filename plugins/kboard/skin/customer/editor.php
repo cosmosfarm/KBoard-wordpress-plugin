@@ -111,7 +111,7 @@
 		<div class="kboard-attr-row">
 			<label class="attr-name">통합검색</label>
 			<div class="attr-value">
-				<select name="search">
+				<select name="wordpress_search">
 					<option value="1"<?php if($content->search == '1'):?> selected<?php endif?>>제목과 내용 검색허용</option>
 					<option value="2"<?php if($content->search == '2'):?> selected<?php endif?>>제목만 검색허용 (비밀글)</option>
 					<option value="3"<?php if($content->search == '3'):?> selected<?php endif?>>통함검색 제외</option>
