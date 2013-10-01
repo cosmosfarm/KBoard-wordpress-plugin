@@ -5,7 +5,7 @@
 	<!-- 검색폼 시작 -->
 	<div class="kboard-header">
 		<form method="get" action="<?=$url->set('mod', 'list')->toString()?>">
-			<?=$url->set('category1', '')->set('category2', '')->set('search', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
+			<?=$url->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
 			
 			<?php if($board->use_category == 'yes'):?>
 			<div class="kboard-category">
@@ -30,11 +30,11 @@
 			<?php endif?>
 			
 			<div class="kboard-search">
-				<select name="search">
+				<select name="target">
 					<option value="">전체</option>
-					<option value="title"<?php if($_GET['search'] == 'title'):?> selected="selected"<?php endif?>>제목</option>
-					<option value="content"<?php if($_GET['search'] == 'content'):?> selected="selected"<?php endif?>>내용</option>
-					<option value="member_display"<?php if($_GET['search'] == 'member_display'):?> selected="selected"<?php endif?>>작성자</option>
+					<option value="title"<?php if($_GET['target'] == 'title'):?> selected="selected"<?php endif?>>제목</option>
+					<option value="content"<?php if($_GET['target'] == 'content'):?> selected="selected"<?php endif?>>내용</option>
+					<option value="member_display"<?php if($_GET['target'] == 'member_display'):?> selected="selected"<?php endif?>>작성자</option>
 				</select>
 				<input type="text" name="keyword" value="<?=$_GET['keyword']?>">
 				<button type="submit" class="kboard-button-small">검색</button>

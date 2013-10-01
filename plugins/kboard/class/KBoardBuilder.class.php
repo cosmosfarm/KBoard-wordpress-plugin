@@ -27,7 +27,7 @@ class KBoardBuilder {
 		$_GET['category1'] = kboard_xssfilter(kboard_htmlclear($_GET['category1']));
 		$_GET['category2'] = kboard_xssfilter(kboard_htmlclear($_GET['category2']));
 		$_GET['keyword'] = kboard_xssfilter(kboard_htmlclear($_GET['keyword']));
-		$_GET['search'] = kboard_xssfilter(kboard_htmlclear($_GET['search']));
+		$_GET['target'] = kboard_xssfilter(kboard_htmlclear($_GET['target']));
 		
 		$_POST['uid'] = intval($_POST['uid']);
 		$_POST['mod'] = kboard_xssfilter(kboard_htmlclear($_POST['mod']));
@@ -113,7 +113,7 @@ class KBoardBuilder {
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		
-		$list->rpp($this->rpp)->page($_GET['pageid'])->getList($_GET['keyword'], $_GET['search']);
+		$list->rpp($this->rpp)->page($_GET['pageid'])->getList($_GET['keyword'], $_GET['target']);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
