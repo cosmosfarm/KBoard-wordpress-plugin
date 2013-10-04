@@ -56,6 +56,9 @@ class KBBackup {
 	public function getXml($table){
 		$resource = kboard_query("SELECT * FROM `$table`");
 		
+		// 테이블 이름에서 PREFIX를 지운다.
+		$table = str_replace(KBOARD_DB_PREFIX, '', $table);
+		
 		$xml .= "<$table>\n";
 		while($row = mysql_fetch_assoc($resource)){
 			$xml .= "\t<data>\n";
@@ -119,6 +122,9 @@ class KBBackup {
 			}
 			
 			if($data){
+				// 테이블 이름에 PREFIX를 추가 한다.
+				$table = KBOARD_DB_PREFIX . $table;
+				
 				kboard_query("TRUNCATE TABLE `$table`");
 				if(stristr($table, 'kboard_board_content')) kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."posts` WHERE post_type='kboard'");
 				
