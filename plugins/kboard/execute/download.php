@@ -33,19 +33,20 @@ if(!$file_info['file_path'] || !file_exists($path)){
 }
 
 if(eregi("(MSIE 5.0|MSIE 5.1|MSIE 5.5|MSIE 6.0)", $_SERVER["HTTP_USER_AGENT"]) && !eregi("(Opera|Netscape)", $_SERVER["HTTP_USER_AGENT"])){
-	Header("Content-type: application/octet-stream");
-	Header("Content-Length: ".filesize($path));
-	Header("Content-Disposition: attachment; filename=" . iconv('UTF-8','CP949',$name));
-	Header("Content-Transfer-Encoding: binary");
-	Header("Pragma: no-cache");
-	Header("Expires: 0");
+	header("Content-type: application/octet-stream");
+	header("Content-Length: ".filesize($path));
+	header("Content-Disposition: attachment; filename=" . iconv('UTF-8','cp949//IGNORE',str_replace(' ','-',$name)));
+	header("Content-Transfer-Encoding: binary");
+	header("Pragma: no-cache");
+	header("Expires: 0");
 }
 else{
-	Header("Content-type: file/unknown");
-	Header("Content-Length: ".filesize($path));
-	Header("Content-Disposition: attachment; filename=" . iconv('UTF-8','CP949',$name));
-	Header("Pragma: no-cache");
-	Header("Expires: 0");
+	header("Content-type: file/unknown");
+	header("Content-Length: ".filesize($path));
+	header("Content-Disposition: attachment; filename=" . iconv('UTF-8','cp949//IGNORE',str_replace(' ','-',$name)));
+	header("Content-Transfer-Encoding: binary");
+	header("Pragma: no-cache");
+	header("Expires: 0");
 }
 
 $fp = fopen($path, "rb");
