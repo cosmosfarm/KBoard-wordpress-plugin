@@ -1,10 +1,10 @@
 <div class="comments-list">
 	<ul>
 		<?php while($comment = $commentList->hasNext()): $commentURL->setCommentUID($comment->uid);?>
-		<li>
-			<div class="comments-list-username"><?=$comment->user_display?></div>
-			<div class="comments-list-create"><?=date("Y-m-d H:i", strtotime($comment->created))?></div>
-			<div class="comments-list-content">
+		<li itemscope itemtype="http://schema.org/Comment" class="kboard-comments-item" data-username="<?=$comment->user_display?>" data-created="<?=$comment->created?>">
+			<div class="comments-list-username" itemprop="author"><?=$comment->user_display?></div>
+			<div class="comments-list-create" itemprop="dateCreated"><?=date("Y-m-d H:i", strtotime($comment->created))?></div>
+			<div class="comments-list-content" itemprop="description">
 				<?=nl2br($comment->content)?>
 			</div>
 			<div class="comments-list-controller">

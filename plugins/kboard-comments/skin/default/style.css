@@ -16,6 +16,7 @@
 .kboard-comments .comments-list .comments-list-create { float: inherit; margin: 0; font-size: 11px; color: #a0a0a0; }
 .kboard-comments .comments-list .comments-list-content { float: inherit; margin: 0; padding: 10px 0; width: 100%; color: #3b3b3b; }
 .kboard-comments .comments-list .comments-list-content a { color: #f05726; text-decoration: none; }
+.kboard-comments .comments-list .comments-list-content img { border: 0; max-width: 100%; }
 .kboard-comments .comments-list .comments-list-controller { float: inherit; margin: 0; }
 .kboard-comments .comments-list .comments-list-controller span { display: inline-block; font-size: 11px; padding-right: 3px; }
 .kboard-comments .comments-list .comments-list-controller a { color: #f05726; text-decoration: none; }
@@ -32,7 +33,7 @@
 .kboard-comments .kboard-comments-form .comments-captcha .comments-captcha-label img { display: inline; max-width: 100%; vertical-align: middle; }
 .kboard-comments .kboard-comments-form .comments-submit { position: relative; clear: both; float: left; width: 100%; height: 65px; }
 .kboard-comments .kboard-comments-form .comments-submit .comments-submit-text { position: absolute; left: 20px; top: 0; right: 80px; }
-.kboard-comments .kboard-comments-form .comments-submit .comments-submit-text textarea { margin: 0; padding: 0; width: 100%; height: 63px; border: 1px solid #eaeaea; }
+.kboard-comments .kboard-comments-form .comments-submit .comments-submit-text textarea { margin: 0; padding: 0; width: 100%; height: 63px; border: 1px solid #eaeaea; font-size: 12px; }
 .kboard-comments .kboard-comments-form .comments-submit .comments-submit-button { position: absolute; right: 0; top: 0; width: 70px; height: 65px; }
 .kboard-comments .kboard-comments-form .comments-submit .comments-submit-button input { margin: 0; padding: 0; width: 69px; height: 65px; line-height: 65px; }
 

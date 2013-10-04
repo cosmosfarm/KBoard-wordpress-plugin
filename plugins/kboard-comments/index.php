@@ -58,6 +58,18 @@ function kboard_comments_builder($atts){
 }
 
 /*
+ * head에 댓글 스크립트 추가
+ */
+add_action('wp_head', 'kboard_comments_script');
+function kboard_comments_script(){
+	$mod = kboard_htmlclear($_GET['mod']);
+	$uid = intval($_GET['uid']);
+	if($mod == 'document' && $uid){
+		echo '<script>alert("kboard_comments_script");</script>';
+	}
+}
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');
