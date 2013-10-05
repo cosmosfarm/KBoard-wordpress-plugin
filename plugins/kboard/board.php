@@ -9,14 +9,14 @@ include $path.DIRECTORY_SEPARATOR.'wp-load.php';
  */
 
 $board_id = intval($_GET['board_id']);
-if(!$board_id) wp_die('게시판 아이디가 없습니다.');
+if(!$board_id) wp_die(__('Board ID does not exist.', 'kboard'));
 ?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
-	<title>워드프레스 KBoard <?=KBOARD_VERSION?></title>
+	<title><?=__('WordPress')?> KBoard <?=KBOARD_VERSION?></title>
 	<!--[if lt IE 9]><script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="https://raw.github.com/scottjehl/Respond/master/respond.src.js"></script><![endif]-->
 	<?php wp_head()?>

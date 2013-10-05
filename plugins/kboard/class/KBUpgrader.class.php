@@ -53,7 +53,7 @@ final class KBUpgrader {
 			return json_decode($data);
 		}
 		else{
-			$data->error = '코스모스팜 서버에 접속할 수 없습니다.';
+			$data->error = __('You will not be able to connect to the server.', 'kboard');
 			return $data;
 		}
 	}
@@ -95,7 +95,7 @@ final class KBUpgrader {
 		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST'].'&version='.$version.'&app_id='.KBOARD_WORDPRESS_APP_ID.'&access_token='.$access_token);
 		
 		if(is_wp_error($download_file)){
-			die('<script>alert("업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요.");history.go(-1);</script>');
+			die('<script>alert("'.__('Update the server connection fails, please reconnect the Cosmosfarm.', 'kboard').'");history.go(-1);</script>');
 		}
 		
 		return $download_file;
@@ -132,7 +132,7 @@ final class KBUpgrader {
 		
 		if(!$archive_files){
 			$file_handler->delete($working_dir);
-			die('<script>alert("파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요.");history.go(-1);</script>');
+			die('<script>alert("'.__('Failure to decompress the file, check the permissions of directories and files.', 'kboard').'");history.go(-1);</script>');
 		}
 		else{
 			$extract_result = true;
@@ -147,14 +147,14 @@ final class KBUpgrader {
 			
 			if(!$extract_result){
 				$file_handler->delete($working_dir);
-				die('<script>alert("파일 복사 실패, /wp-content/upgrade 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
+				die('<script>alert("'.__('File copy failed', 'kboard').', '.__('Must have write permissions in the directory.', 'kboard').' (/wp-content/upgrade)");history.go(-1);</script>');
 			}
 			
 			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . $content_type);
 			
 			if(!$copy_result){
 				$file_handler->delete($working_dir);
-				die('<script>alert("파일 복사 실패, /wp-content'.$content_type.' 디렉토리에 쓰기 권한이 있어야 합니다.");history.go(-1);</script>');
+				die('<script>alert("'.__('File copy failed', 'kboard').', '.__('Must have write permissions in the directory.', 'kboard').' (/wp-content'.$content_type.')");history.go(-1);</script>');
 			}
 		}
 		

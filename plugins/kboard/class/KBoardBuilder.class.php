@@ -145,10 +145,10 @@ class KBoardBuilder {
 				}
 			}
 			else if(!$user_ID){
-				die('<script>alert("로그인 하셔야 사용할 수 있습니다.");location.href="'.wp_login_url().'";</script>');
+				die('<script>alert("'.__('You will need to login.', 'kboard').'");location.href="'.wp_login_url().'";</script>');
 			}
 			else{
-				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
+				die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
 			}
 		}
 		else{
@@ -190,7 +190,7 @@ class KBoardBuilder {
 		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
-			if(!$user_ID && !$_POST['password']) die('<script>alert("비밀번호를 입력해주세요.");location.href="'.$next_url.'";</script>');
+			if(!$user_ID && !$_POST['password']) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="'.$next_url.'";</script>');
 		}
 		
 		$content = new KBContent($this->board_id);
@@ -200,7 +200,7 @@ class KBoardBuilder {
 		$board = $this->board;
 		
 		if(!$this->uid && !$this->board->isWriter()){
-			die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
+			die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
@@ -209,7 +209,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
+				die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
 			}
 		}
 		
@@ -243,7 +243,7 @@ class KBoardBuilder {
 	 */
 	public function builderRemove(){
 		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
-			echo '<script>alert("KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.");</script>';
+			echo '<script>alert("KBoard : '.__('This page is limited to access from outside.', 'kboard').'");</script>';
 			return;
 		}
 		
@@ -258,7 +258,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("권한이 없습니다.");history.go(-1);</script>');
+				die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
 			}
 		}
 		

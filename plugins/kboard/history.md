@@ -3,7 +3,8 @@
 
   1. 기본스킨 CSS 최적화
   2. 기본스킨 검색옵션 search -> target 이름 변경
-  3. 버그 수정
+  3. 영문 지원 (Bing Translator 사용)
+  4. 버그 수정
 
 
 

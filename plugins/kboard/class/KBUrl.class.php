@@ -127,7 +127,7 @@ class KBUrl {
 			return $this->toString();
 		}
 		else{
-			return "javascript:alert('글이 없습니다.')";
+			return "javascript:alert('".__('No document.', 'kboard')."')";
 		}
 	}
 	

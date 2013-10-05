@@ -85,7 +85,7 @@ class KBSeo {
 	 */
 	public function rss(){
 		$name = get_bloginfo('name');
-		echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard 통합 피드">';
+		echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard '.__('Integration feed', 'kboard').'">';
 		echo "\n";
 	}
 }

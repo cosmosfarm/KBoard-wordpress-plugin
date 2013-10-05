@@ -11,9 +11,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <rss version="2.0">
 	<channel>
-		<title>워드프레스 KBoard 피드</title>
+		<title><?=__('WordPress KBoard feed', 'kboard')?></title>
 		<link><?=plugins_url()?>/kboard/rss.php</link>
-		<description>워드프레스 KBoard 피드</description>
+		<description><?=__('WordPress KBoard feed', 'kboard')?></description>
 		<?php while($content = $list->hasNext()): $kboard = new KBoard($content->board_id); ?>
 		<item>
 			<title><![CDATA[<?=$content->title?>]]></title>
