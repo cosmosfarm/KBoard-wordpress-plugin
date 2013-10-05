@@ -65,7 +65,7 @@ function kboard_comments_script(){
 	$mod = kboard_htmlclear($_GET['mod']);
 	$uid = intval($_GET['uid']);
 	if($mod == 'document' && $uid){
-		echo '<script>alert("kboard_comments_script");</script>';
+		echo '<script type="text/javascript" src="http://contents.cosmosfarm.com/wordpress/kboard-comments.js"></script>' . "\n";
 	}
 }
 
