@@ -48,12 +48,12 @@
 		<table>
 			<thead>
 				<tr>
-					<td class="kboard-list-uid">번호</td>
-					<td class="kboard-list-thumbnail">썸네일</td>
-					<td class="kboard-list-title">제목</td>
-					<td class="kboard-list-user">작성자</td>
-					<td class="kboard-list-date">작성일</td>
-					<td class="kboard-list-view">조회</td>
+					<td class="kboard-list-uid"><?=_('Number')?></td>
+					<td class="kboard-list-thumbnail"><?=_('Thumbnail')?></td>
+					<td class="kboard-list-title"><?=_('Title')?></td>
+					<td class="kboard-list-user"><?=_('Author')?></td>
+					<td class="kboard-list-date"><?=_('Date')?></td>
+					<td class="kboard-list-view"><?=_('Views')?></td>
 				</tr>
 			</thead>
 			<tbody>

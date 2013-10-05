@@ -46,7 +46,7 @@ include_once 'helper/Pagination.helper.php';
 include_once 'helper/Security.helper.php';
 
 /*
- * jQuery를 추가한다.
+ * jQuery 추가
  */
 wp_enqueue_script('jquery');
 
@@ -495,6 +495,14 @@ function kboard_captcha(){
 	include_once 'class/KBCaptcha.class.php';
 	$captcha = new KBCaptcha();
 	return $captcha->createImage();
+}
+
+/*
+ * 언어 파일 추가
+ */
+add_action('plugins_loaded', 'kboard_languages');
+function kboard_languages(){
+	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)).'/languages/');
 }
 
 /*
