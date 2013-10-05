@@ -111,7 +111,7 @@ class KBContent {
 			include_once 'KBCaptcha.class.php';
 			$captcha = new KBCaptcha();
 			if(!$captcha->textCheck($_POST['captcha'])){
-				die("<script>alert('"._('The security code is incorrect. Please enter the security code.', 'kboard')."');history.go(-1);</script>");
+				die("<script>alert('".__('The security code is incorrect. Please enter the security code.', 'kboard')."');history.go(-1);</script>");
 			}
 			
 			// 신규게시물 등록
@@ -314,7 +314,7 @@ class KBContent {
 	 * @param int $uid
 	 */
 	public function update_attach($uid){
-		if(!$this->attach_store_path) die(_('Upload path is not supported. Please enter the ID and initialize message board.', 'kboard'));
+		if(!$this->attach_store_path) die(__('Upload path is not supported. Please enter the ID and initialize message board.', 'kboard'));
 		
 		$file = new KBFileHandler();
 		$file->setPath($this->attach_store_path);
@@ -462,7 +462,7 @@ class KBContent {
 	 * @param int $uid
 	 */
 	public function setThumbnail($uid){
-		if(!$this->thumbnail_store_path) die(_('Upload path is not supported. Please enter the ID and initialize message board.', 'kboard'));
+		if(!$this->thumbnail_store_path) die(__('Upload path is not supported. Please enter the ID and initialize message board.', 'kboard'));
 		
 		$file = new KBFileHandler();
 		$file->setPath($this->thumbnail_store_path);

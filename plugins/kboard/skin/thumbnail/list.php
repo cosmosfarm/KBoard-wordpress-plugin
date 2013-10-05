@@ -48,12 +48,12 @@
 		<table>
 			<thead>
 				<tr>
-					<td class="kboard-list-uid"><?=_('Number')?></td>
-					<td class="kboard-list-thumbnail"><?=_('Thumbnail')?></td>
-					<td class="kboard-list-title"><?=_('Title')?></td>
-					<td class="kboard-list-user"><?=_('Author')?></td>
-					<td class="kboard-list-date"><?=_('Date')?></td>
-					<td class="kboard-list-view"><?=_('Views')?></td>
+					<td class="kboard-list-uid"><?=__('Number', 'kboard')?></td>
+					<td class="kboard-list-thumbnail"><?=__('Thumbnail', 'kboard')?></td>
+					<td class="kboard-list-title"><?=__('Title', 'kboard')?></td>
+					<td class="kboard-list-user"><?=__('Author', 'kboard')?></td>
+					<td class="kboard-list-date"><?=__('Date', 'kboard')?></td>
+					<td class="kboard-list-view"><?=__('Views', 'kboard')?></td>
 				</tr>
 			</thead>
 			<tbody>
