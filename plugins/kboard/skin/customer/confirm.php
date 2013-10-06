@@ -5,19 +5,19 @@
 		<div class="kboard-header"></div>
 		
 		<div class="kboard-attr-row kboard-attr-title">
-			<label class="attr-name">비밀번호</label>
+			<label class="attr-name"><?=__('Password', 'kboard')?></label>
 			<div class="attr-value"><input type="password" name="password"></div>
 		</div>
 		
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-button-small">본문으로</a>
+				<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-button-small"><?=__('Document', 'kboard')?></a>
 				<?php endif?>
-				<a href="<?=$url->toString()?>" class="kboard-button-small">목록보기</a>
+				<a href="<?=$url->toString()?>" class="kboard-button-small"><?=__('List', 'kboard')?></a>
 			</div>
 			<div class="right">
-				<button type="submit" class="kboard-button-small">비밀번호 확인</button>
+				<button type="submit" class="kboard-button-small"><?=__('Password confirm', 'kboard')?></button>
 			</div>
 		</div>
 	</form>

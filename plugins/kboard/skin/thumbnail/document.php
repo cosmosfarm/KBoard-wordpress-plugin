@@ -20,15 +20,15 @@
 			</div>
 			<?php endif?>
 			<div class="detail-attr detail-writer">
-				<div class="detail-name">작성자</div>
+				<div class="detail-name"><?=__('Author', 'kboard')?></div>
 				<div class="detail-value"><?=$content->member_display?></div>
 			</div>
 			<div class="detail-attr detail-date">
-				<div class="detail-name">작성일</div>
+				<div class="detail-name"><?=__('Date', 'kboard')?></div>
 				<div class="detail-value"><?=date("Y-m-d H:i", strtotime($content->date))?></div>
 			</div>
 			<div class="detail-attr detail-view">
-				<div class="detail-name">조회</div>
+				<div class="detail-name"><?=__('Views', 'kboard')?></div>
 				<div class="detail-value"><?=$content->view?></div>
 			</div>
 		</div>
@@ -43,13 +43,13 @@
 		
 		<?php if($content->attach->file1[0]):?>
 		<div class="kboard-attach">
-			첨부파일 : <a href="<?=$url->getDownloadURLWithAttach($content->uid, 'file1')?>"><?=$content->attach->file1[1]?></a>
+			<?=__('Attachment', 'kboard')?> : <a href="<?=$url->getDownloadURLWithAttach($content->uid, 'file1')?>"><?=$content->attach->file1[1]?></a>
 		</div>
 		<?php endif?>
 		
 		<?php if($content->attach->file2[0]):?>
 		<div class="kboard-attach">
-			첨부파일 : <a href="<?=$url->getDownloadURLWithAttach($content->uid, 'file2')?>"><?=$content->attach->file2[1]?></a>
+			<?=__('Attachment', 'kboard')?> : <a href="<?=$url->getDownloadURLWithAttach($content->uid, 'file2')?>"><?=$content->attach->file2[1]?></a>
 		</div>
 		<?php endif?>
 	</div>
@@ -60,19 +60,19 @@
 	
 	<div class="kboard-control">
 		<div class="left">
-			<a href="<?=$url->toString()?>" class="kboard-button-small">목록보기</a>
-			<a href="<?=$url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-button-small">이전글</a>
-			<a href="<?=$url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-button-small">다음글</a>
+			<a href="<?=$url->toString()?>" class="kboard-button-small"><?=__('List', 'kboard')?></a>
+			<a href="<?=$url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-button-small"><?=__('Prev', 'kboard')?></a>
+			<a href="<?=$url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-button-small"><?=__('Next', 'kboard')?></a>
 		</div>
 		<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
 		<div class="right">
-			<a href="<?=$url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-button-small">글수정</a>
-			<a href="<?=$url->set('uid', $content->uid)->set('mod', 'remove')->toString()?>" class="kboard-button-small" onclick="return confirm('삭제 하시겠습니까?');">글삭제</a>
+			<a href="<?=$url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-button-small"><?=__('Edit', 'kboard')?></a>
+			<a href="<?=$url->set('uid', $content->uid)->set('mod', 'remove')->toString()?>" class="kboard-button-small" onclick="return confirm('<?=__('Are you sure you want to delete?', 'kboard')?>');"><?=__('Delete', 'kboard')?></a>
 		</div>
 		<?php endif?>
 	</div>
 	
 	<div class="kboard-poweredby">
-		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="의미있는 워드프레스 게시판">Powered by KBoard</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?=__('The Best of WordPress Board', 'kboard')?>">Powered by KBoard</a>
 	</div>
 </div>
