@@ -145,10 +145,10 @@ class KBoardBuilder {
 				}
 			}
 			else if(!$user_ID){
-				die('<script>alert("'.__('You will need to login.', 'kboard').'");location.href="'.wp_login_url().'";</script>');
+				die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="'.wp_login_url().'";</script>');
 			}
 			else{
-				die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
 		}
 		else{
@@ -200,7 +200,7 @@ class KBoardBuilder {
 		$board = $this->board;
 		
 		if(!$this->uid && !$this->board->isWriter()){
-			die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
+			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
@@ -209,7 +209,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
 		}
 		
@@ -243,7 +243,7 @@ class KBoardBuilder {
 	 */
 	public function builderRemove(){
 		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
-			echo '<script>alert("KBoard : '.__('This page is limited to access from outside.', 'kboard').'");</script>';
+			echo '<script>alert("KBoard : '.__('This page is restricted from external access.', 'kboard').'");</script>';
 			return;
 		}
 		
@@ -258,7 +258,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("'.__('You do not have permissions.', 'kboard').'");history.go(-1);</script>');
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
 		}
 		

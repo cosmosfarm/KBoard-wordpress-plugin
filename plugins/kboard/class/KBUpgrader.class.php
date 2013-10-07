@@ -53,7 +53,7 @@ final class KBUpgrader {
 			return json_decode($data);
 		}
 		else{
-			$data->error = __('You will not be able to connect to the server.', 'kboard');
+			$data->error = __('Unable to connect to Cosmosfarm server.', 'kboard');
 			return $data;
 		}
 	}
@@ -95,7 +95,7 @@ final class KBUpgrader {
 		$download_file = download_url($package.'?host='.$_SERVER['HTTP_HOST'].'&version='.$version.'&app_id='.KBOARD_WORDPRESS_APP_ID.'&access_token='.$access_token);
 		
 		if(is_wp_error($download_file)){
-			die('<script>alert("'.__('Update the server connection fails, please reconnect the Cosmosfarm.', 'kboard').'");history.go(-1);</script>');
+			die('<script>alert("'.__('Unable to connect to the update server, Cosmosfarm account please connect again.', 'kboard').'");history.go(-1);</script>');
 		}
 		
 		return $download_file;
@@ -132,7 +132,7 @@ final class KBUpgrader {
 		
 		if(!$archive_files){
 			$file_handler->delete($working_dir);
-			die('<script>alert("'.__('Failure to decompress the file, check the permissions of directories and files.', 'kboard').'");history.go(-1);</script>');
+			die('<script>alert("'.__('Download file is decompression failed, please check directory and file permissions.', 'kboard').'");history.go(-1);</script>');
 		}
 		else{
 			$extract_result = true;
@@ -147,14 +147,14 @@ final class KBUpgrader {
 			
 			if(!$extract_result){
 				$file_handler->delete($working_dir);
-				die('<script>alert("'.__('File copy failed', 'kboard').', '.__('Must have write permissions in the directory.', 'kboard').' (/wp-content/upgrade)");history.go(-1);</script>');
+				die('<script>alert("'.__('File copy failed, directory requires write permission.', 'kboard').' (/wp-content/upgrade)");history.go(-1);</script>');
 			}
 			
 			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . $content_type);
 			
 			if(!$copy_result){
 				$file_handler->delete($working_dir);
-				die('<script>alert("'.__('File copy failed', 'kboard').', '.__('Must have write permissions in the directory.', 'kboard').' (/wp-content'.$content_type.')");history.go(-1);</script>');
+				die('<script>alert("'.__('File copy failed, directory requires write permission.', 'kboard').' (/wp-content'.$content_type.')");history.go(-1);</script>');
 			}
 		}
 		

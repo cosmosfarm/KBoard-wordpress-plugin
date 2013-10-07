@@ -11,7 +11,7 @@
 		<div class="kboard-header"></div>
 		
 		<div class="kboard-attr-row kboard-attr-title">
-			<label class="attr-name">제목</label>
+			<label class="attr-name"><?=__('Title')?></label>
 			<div class="attr-value"><input type="text" name="title" value="<?=$content->title?>"></div>
 		</div>
 		

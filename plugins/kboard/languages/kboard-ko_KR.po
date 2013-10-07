@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard 4.0\n"
-"POT-Creation-Date: 2013-10-06 18:32+0900\n"
-"PO-Revision-Date: 2013-10-06 18:32+0900\n"
+"POT-Creation-Date: 2013-10-07 12:58+0900\n"
+"PO-Revision-Date: 2013-10-07 12:58+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,25 +29,27 @@ msgid "WordPress KBoard feed"
 msgstr "워드프레스 KBoard 피드"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBContent.class.php:114
-msgid "The security code is incorrect. Please enter the security code."
+msgid "The secure code is not valid. Please enter the security code."
 msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력하세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBContent.class.php:317
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBContent.class.php:465
-msgid ""
-"Upload path is not supported. Please enter the ID and initialize message "
-"board."
+msgid "No upload path. Please enter board ID and initialize."
 msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
 
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBMail.class.php:27
+msgid "KBoard new document"
+msgstr "KBoard 신규등록"
+
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:148
-msgid "You will need to login."
+msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:151
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:203
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:212
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:261
-msgid "You do not have permissions."
+msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:193
@@ -55,19 +57,19 @@ msgid "Please enter your password."
 msgstr "비밀번호를 입력해주세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:246
-msgid "This page is limited to access from outside."
+msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBRouter.class.php:101
-msgid "Home"
+msgid "Go home"
 msgstr "홈으로"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBRouter.class.php:102
-msgid "Back to top"
+msgid "Go back"
 msgstr "뒤로가기"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBRouter.class.php:103
-msgid "It is the wrong approach."
+msgid "It is an invalid access."
 msgstr "잘못된 접근입니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBSeo.class.php:88
@@ -75,28 +77,25 @@ msgid "Integration feed"
 msgstr "통합 피드"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:56
-msgid "You will not be able to connect to the server."
+msgid "Unable to connect to Cosmosfarm server."
 msgstr "코스모스팜 서버에 접속할 수 없습니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:98
-msgid "Update the server connection fails, please reconnect the Cosmosfarm."
-msgstr "업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요."
+msgid ""
+"Unable to connect to the update server, Cosmosfarm account please connect "
+"again."
+msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:135
 msgid ""
-"Failure to decompress the file, check the permissions of directories and "
-"files."
-msgstr "파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요."
+"Download file is decompression failed, please check directory and file "
+"permissions."
+msgstr "다운로드 파일 압축 해제 실패, 디렉토리 및 파일 권한을 확인하십시오."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:150
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:157
-msgid "File copy failed"
-msgstr "파일 복사 실패"
-
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:150
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:157
-msgid "Must have write permissions in the directory."
-msgstr "디렉토리에 쓰기 권한이 있어야 합니다."
+msgid "File copy failed, directory requires write permission."
+msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUrl.class.php:130
 msgid "No document."
@@ -224,19 +223,23 @@ msgstr "글삭제"
 msgid "The Best of WordPress Board"
 msgstr "의미있는 워드프레스 게시판"
 
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:14
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:52
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:14
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:52
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:14
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:52
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:14
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:53
+msgid "Title"
+msgstr "제목"
+
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:51
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:51
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:51
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:51
 msgid "Number"
 msgstr "번호"
-
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:52
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:52
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:52
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:53
-msgid "Title"
-msgstr "제목"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:42
 msgid "Name"
@@ -249,3 +252,29 @@ msgstr "연락처"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:52
 msgid "Thumbnail"
 msgstr "썸네일"
+
+#~ msgid "Go Home"
+#~ msgstr "홈으로"
+
+#~ msgid "Back to top"
+#~ msgstr "뒤로가기"
+
+#~ msgid "It is the wrong approach."
+#~ msgstr "잘못된 접근입니다."
+
+#~ msgid "You will need to login."
+#~ msgstr "로그인 하셔야 사용할 수 있습니다."
+
+#~ msgid "Update the server connection fails, please reconnect the Cosmosfarm."
+#~ msgstr "업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요."
+
+#~ msgid ""
+#~ "Failure to decompress the file, check the permissions of directories and "
+#~ "files."
+#~ msgstr "파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요."
+
+#~ msgid "File copy failed"
+#~ msgstr "파일 복사 실패"
+
+#~ msgid "Must have write permissions in the directory."
+#~ msgstr "디렉토리에 쓰기 권한이 있어야 합니다."

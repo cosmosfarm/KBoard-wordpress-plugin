@@ -98,9 +98,9 @@ class KBRouter {
 	 * 오류 화면을 출력한다.
 	 */
 	private function error(){
-		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) $next = '<a href="'.site_url().'">'.__('Home', 'kboard').'</a>';
-		else $next = '<a href="javascript:history.go(-1);">'.__('Back to top', 'kboard').'</a>';
-		wp_die(__('It is the wrong approach.', 'kboard').'<br>'.$next);
+		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) $next = '<a href="'.site_url().'">'.__('Go home', 'kboard').'</a>';
+		else $next = '<a href="javascript:history.go(-1);">'.__('Go back', 'kboard').'</a>';
+		wp_die(__('It is an invalid access.', 'kboard').'<br>'.$next);
 		exit;
 	}
 }
