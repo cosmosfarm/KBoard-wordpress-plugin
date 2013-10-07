@@ -70,6 +70,14 @@ function kboard_comments_script(){
 }
 
 /*
+ * 언어 파일 추가
+ */
+add_action('plugins_loaded', 'kboard_comments_languages');
+function kboard_comments_languages(){
+	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)).'/languages/');
+}
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');

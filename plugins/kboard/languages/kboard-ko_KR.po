@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard 4.0\n"
-"POT-Creation-Date: 2013-10-07 16:01+0900\n"
-"PO-Revision-Date: 2013-10-07 16:03+0900\n"
+"POT-Creation-Date: 2013-10-07 16:10+0900\n"
+"PO-Revision-Date: 2013-10-07 16:10+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -354,7 +354,7 @@ msgstr "통합검색"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:115
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:106
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:106
-msgid "Title and content searchable"
+msgid "Public"
 msgstr "제목과 내용 검색허용"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:107
@@ -433,6 +433,9 @@ msgstr "이름"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:76
 msgid "Phone number"
 msgstr "연락처"
+
+#~ msgid "Title and content searchable"
+#~ msgstr "제목과 내용 검색허용"
 
 #~ msgid "Go Home"
 #~ msgstr "홈으로"

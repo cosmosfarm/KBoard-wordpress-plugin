@@ -112,7 +112,7 @@
 			<label class="attr-name"><?=__('WP Search', 'kboard')?></label>
 			<div class="attr-value">
 				<select name="wordpress_search">
-					<option value="1"<?php if($content->search == '1'):?> selected<?php endif?>><?=__('Title and content searchable', 'kboard')?></option>
+					<option value="1"<?php if($content->search == '1'):?> selected<?php endif?>><?=__('Public', 'kboard')?></option>
 					<option value="2"<?php if($content->search == '2'):?> selected<?php endif?>><?=__('Only title (secret document)', 'kboard')?></option>
 					<option value="3"<?php if($content->search == '3'):?> selected<?php endif?>><?=__('Exclusion', 'kboard')?></option>
 				</select>

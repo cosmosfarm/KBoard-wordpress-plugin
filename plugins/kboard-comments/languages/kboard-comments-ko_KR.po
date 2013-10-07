@@ -1,0 +1,203 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2013-10-07 16:22+0900\n"
+"PO-Revision-Date: 2013-10-07 16:22+0900\n"
+"Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
+"X-Poedit-Basepath: D:\\workspace-web\\KBoard-wordpress-plugin\\plugins"
+"\\kboard\n"
+"X-Poedit-SearchPath-0: D:\\workspace-web\\KBoard-wordpress-plugin\\plugins"
+"\\kboard-comments\n"
+
+#~ msgid "Board ID does not exist."
+#~ msgstr "게시판 아이디가 없습니다."
+
+#~ msgid "WordPress"
+#~ msgstr "워드프레스"
+
+#~ msgid "WordPress KBoard feed"
+#~ msgstr "워드프레스 KBoard 피드"
+
+#~ msgid "The secure code is not valid. Please enter the security code."
+#~ msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력하세요."
+
+#~ msgid "No upload path. Please enter board ID and initialize."
+#~ msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
+
+#~ msgid "KBoard new document"
+#~ msgstr "KBoard 신규등록"
+
+#~ msgid "Please Log in to continue."
+#~ msgstr "로그인 하셔야 사용할 수 있습니다."
+
+#~ msgid "You do not have permission."
+#~ msgstr "권한이 없습니다."
+
+#~ msgid "Please enter your password."
+#~ msgstr "비밀번호를 입력해주세요."
+
+#~ msgid "This page is restricted from external access."
+#~ msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
+
+#~ msgid "Go home"
+#~ msgstr "홈으로"
+
+#~ msgid "Go back"
+#~ msgstr "뒤로가기"
+
+#~ msgid "It is an invalid access."
+#~ msgstr "잘못된 접근입니다."
+
+#~ msgid "Integration feed"
+#~ msgstr "통합 피드"
+
+#~ msgid "Unable to connect to Cosmosfarm server."
+#~ msgstr "코스모스팜 서버에 접속할 수 없습니다."
+
+#~ msgid ""
+#~ "Unable to connect to the update server, Cosmosfarm account please connect "
+#~ "again."
+#~ msgstr ""
+#~ "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
+
+#~ msgid ""
+#~ "Download file is decompression failed, please check directory and file "
+#~ "permissions."
+#~ msgstr "다운로드 파일 압축 해제 실패, 디렉토리 및 파일 권한을 확인하십시오."
+
+#~ msgid "File copy failed, directory requires write permission."
+#~ msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
+
+#~ msgid "No document."
+#~ msgstr "글이 없습니다."
+
+#~ msgid "Password"
+#~ msgstr "비밀번호"
+
+#~ msgid "Document"
+#~ msgstr "본문보기"
+
+#~ msgid "List"
+#~ msgstr "목록보기"
+
+#~ msgid "Password confirm"
+#~ msgstr "비밀번호 확인"
+
+#~ msgid "Author"
+#~ msgstr "작성자"
+
+#~ msgid "Date"
+#~ msgstr "작성일"
+
+#~ msgid "Views"
+#~ msgstr "조회"
+
+#~ msgid "Attachment"
+#~ msgstr "첨부파일"
+
+#~ msgid "Prev"
+#~ msgstr "이전글"
+
+#~ msgid "Next"
+#~ msgstr "다음글"
+
+#~ msgid "Edit"
+#~ msgstr "글수정"
+
+#~ msgid "Are you sure you want to delete?"
+#~ msgstr "삭제 하시겠습니까?"
+
+#~ msgid "Delete"
+#~ msgstr "글삭제"
+
+#~ msgid "The Best of WordPress Board"
+#~ msgstr "의미있는 워드프레스 게시판"
+
+#~ msgid "Title"
+#~ msgstr "제목"
+
+#~ msgid "Category"
+#~ msgstr "카테고리"
+
+#~ msgid "Secret"
+#~ msgstr "비밀글"
+
+#~ msgid "Notice"
+#~ msgstr "공지사항"
+
+#~ msgid "Thumbnail"
+#~ msgstr "썸네일"
+
+#~ msgid "WP Search"
+#~ msgstr "통합검색"
+
+#~ msgid "Public"
+#~ msgstr "제목과 내용 검색허용"
+
+#~ msgid "Only title (secret document)"
+#~ msgstr "제목만 검색허용 (비밀글)"
+
+#~ msgid "Exclusion"
+#~ msgstr "통함검색 제외"
+
+#~ msgid "Back"
+#~ msgstr "돌아가기"
+
+#~ msgid "Save"
+#~ msgstr "저장하기"
+
+#~ msgid "All"
+#~ msgstr "전체"
+
+#~ msgid "Content"
+#~ msgstr "내용"
+
+#~ msgid "Search"
+#~ msgstr "검색"
+
+#~ msgid "Number"
+#~ msgstr "번호"
+
+#~ msgid "New"
+#~ msgstr "글쓰기"
+
+#~ msgid "Name"
+#~ msgstr "이름"
+
+#~ msgid "Phone number"
+#~ msgstr "연락처"
+
+#~ msgid "Title and content searchable"
+#~ msgstr "제목과 내용 검색허용"
+
+#~ msgid "Go Home"
+#~ msgstr "홈으로"
+
+#~ msgid "Back to top"
+#~ msgstr "뒤로가기"
+
+#~ msgid "It is the wrong approach."
+#~ msgstr "잘못된 접근입니다."
+
+#~ msgid "You will need to login."
+#~ msgstr "로그인 하셔야 사용할 수 있습니다."
+
+#~ msgid "Update the server connection fails, please reconnect the Cosmosfarm."
+#~ msgstr "업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요."
+
+#~ msgid ""
+#~ "Failure to decompress the file, check the permissions of directories and "
+#~ "files."
+#~ msgstr "파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요."
+
+#~ msgid "File copy failed"
+#~ msgstr "파일 복사 실패"
+
+#~ msgid "Must have write permissions in the directory."
+#~ msgstr "디렉토리에 쓰기 권한이 있어야 합니다."
