@@ -13,7 +13,7 @@ img { border: 0; }
 .kboard-button-small:focus,
 .kboard-button-small:active { display: inline-block; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 12px; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; }
 
-.kboard-poweredby { float: left; font-size: 12px; }
+.kboard-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 12px; }
 .kboard-poweredby a { color: gray; }
 
 #kboard-list { margin: 0 auto; width: 99%; }
