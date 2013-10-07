@@ -3,6 +3,7 @@
 
   1. kboard_comments 테이블 parent_uid 컬럼 생성
   2. 계층형 댓글 지원
+  3. 영문 지원 (Bing Translator 사용)
 
 
 
