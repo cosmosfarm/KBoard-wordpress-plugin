@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="<?=$skin_path?>/style.css">
-<script type="text/javascript" src="<?=$skin_path?>/script.js"></script>
 
 <div class="kboard-comments">
 	<div class="kboard-comments-wrap">
@@ -44,3 +43,15 @@
 		
 	</div>
 </div>
+
+<script type="text/javascript">
+var kboard_comments_localize = {
+	please_enter_a_author:'<?=__('Please enter a author.', 'kboard-comments')?>',
+	please_enter_a_password:'<?=__('Please enter a password.', 'kboard-comments')?>',
+	please_enter_the_CAPTCHA_code:'<?=__('Please enter the CAPTCHA code.', 'kboard-comments')?>',
+	type_the_content_of_the_comment:'<?=__('Type the content of the comment.', 'kboard-comments')?>',
+	reply:'<?=__('Reply', 'kboard-comments')?>',
+	cancel:'<?=__('Cancel', 'kboard-comments')?>'
+}
+</script>
+<script type="text/javascript" src="<?=$skin_path?>/script.js"></script>

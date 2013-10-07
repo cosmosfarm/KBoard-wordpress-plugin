@@ -11,22 +11,22 @@ function kboard_comments_execute(form){
 	var $ = jQuery;
 	
 	if($('input[name=member_display]', form).exists() && !$('input[name=member_display]', form).val()){
-		alert('작성자를 입력하세요.');
+		alert(kboard_comments_localize.please_enter_a_author);
 		$('[name=member_display]', form).focus();
 		return false;
 	}
 	else if($('input[name=password]', form).exists() && !$('input[name=password]', form).val()){
-		alert('비밀번호를 입력하세요.');
+		alert(kboard_comments_localize.please_enter_a_password);
 		$('input[name=password]', form).focus();
 		return false;
 	}
 	else if($('input[name=captcha]', form).exists() && !$('input[name=captcha]', form).val()){
-		alert('옆에 보이는 보안코드를 입력하세요.');
+		alert(kboard_comments_localize.please_enter_the_CAPTCHA_code);
 		$('input[name=captcha]', form).focus();
 		return false;
 	}
 	else if($('textarea[name=content]', form).exists() && !$('textarea[name=content]', form).val()){
-		alert('댓글 내용을 입력하세요.');
+		alert(kboard_comments_localize.type_the_content_of_the_comment);
 		$('textarea[name=content]', form).focus();
 		return false;
 	}
@@ -46,13 +46,13 @@ function kboard_comments_reply(obj, form_id, cancel_id){
 	
 	if($(obj).hasClass('kboard-reply-active')){
 		$(cancel_id).append($('.kboard-comments-form'));
-		$('.kboard-reply').text('댓글').removeClass('kboard-reply-active');
+		$('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
 	}
 	else{
 		$(form_id).append($('.kboard-comments-form'));
 		$('textarea[name=content]').focus();
-		$('.kboard-reply').text('댓글').removeClass('kboard-reply-active');
-		$(obj).text('취소').addClass('kboard-reply-active');
+		$('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
+		$(obj).text(kboard_comments_localize.cancel).addClass('kboard-reply-active');
 	}
 	
 	return false;

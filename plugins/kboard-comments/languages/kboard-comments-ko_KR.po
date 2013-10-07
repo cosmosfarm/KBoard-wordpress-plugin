@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-10-07 20:31+0900\n"
-"PO-Revision-Date: 2013-10-07 20:46+0900\n"
+"POT-Creation-Date: 2013-10-07 21:39+0900\n"
+"PO-Revision-Date: 2013-10-07 21:40+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,11 +31,12 @@ msgstr "비밀번호 확인"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:34
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:16
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:50
 msgid "Please enter a password."
 msgstr "비밀번호를 입력해주세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:47
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:39
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:38
 msgid "Submit"
 msgstr "입력"
 
@@ -53,6 +54,7 @@ msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:13
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:49
 msgid "Please enter a author."
 msgstr "작성자명을 입력해주세요."
 
@@ -65,6 +67,7 @@ msgid "No document UID."
 msgstr "게시물 고유번호가 없습니다."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:25
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:52
 msgid "Type the content of the comment."
 msgstr "댓글 내용을 입력해주세요."
 
@@ -78,24 +81,33 @@ msgid "Delete"
 msgstr "삭제"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:20
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:53
 msgid "Reply"
-msgstr "댓글"
+msgstr "답글"
 
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:9
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:8
 msgid "Total Reply"
 msgstr "전체"
 
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:9
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:8
 msgid "Count"
 msgstr "개"
 
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:27
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:26
 msgid "Author"
 msgstr "작성자"
 
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:30
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:29
 msgid "Password"
 msgstr "비밀번호"
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:51
+msgid "Please enter the CAPTCHA code."
+msgstr "옆에 보이는 보안코드를 입력하세요."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:54
+msgid "Cancel"
+msgstr "취소"
 
 #~ msgid "WordPress"
 #~ msgstr "워드프레스"
