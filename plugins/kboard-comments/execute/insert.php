@@ -4,25 +4,25 @@ include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 include KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
 
 header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
+if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard-comments'));
 
 $userdata = get_userdata($user_ID);
 $captcha = new KBCaptcha();
 
 if(!$userdata->id && !$_POST['member_display']){
-	die("<script>alert('작성자명을 입력하세요.');history.go(-1);</script>");
+	die("<script>alert('".__('Please enter a author.', 'kboard-comments')."');history.go(-1);</script>");
 }
 else if(!$userdata->id && !$_POST['password']){
-	die("<script>alert('비밀번호를 입력하세요.');history.go(-1);</script>");
+	die("<script>alert('".__('Please enter a password.', 'kboard-comments')."');history.go(-1);</script>");
 }
 else if(!$captcha->textCheck($_POST['captcha'])){
-	die("<script>alert('보안코드가 올바르지 않습니다. 보안 코드를 입력하세요.');history.go(-1);</script>");
+	die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard-comments')."');history.go(-1);</script>");
 }
 else if(!$_POST['content_uid'] && !$_POST['parent_uid']){
-	die("<script>alert('게시물 고유번호가 없습니다.');history.go(-1);</script>");
+	die("<script>alert('".__('No document UID.', 'kboard-comments')."');history.go(-1);</script>");
 }
 else if(!$_POST['content']){
-	die("<script>alert('댓글 내용을 입력하세요.');history.go(-1);</script>");
+	die("<script>alert('".__('Type the content of the comment.', 'kboard-comments')."');history.go(-1);</script>");
 }
 
 $commentList = new KBCommentList($_POST['content_uid']);

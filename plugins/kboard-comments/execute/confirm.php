@@ -5,14 +5,14 @@ include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 $uid = intval($_GET['uid']);
 
 if(!$uid){
-	die("<script>alert('댓글 고유번호가 없습니다.');window.close();</script>");
+	die("<script>alert('".__('No UID of comments.', 'kboard-comments')."');window.close();</script>");
 }
 
 $commentList = new KBCommentList();
 $comment = $commentList->getComment($uid);
 
 if(!$comment->uid){
-	die("<script>alert('존재하지 않는 댓글 입니다.');window.close();</script>");
+	die("<script>alert('".__('It is a comment does not exist.', 'kboard-comments')."');window.close();</script>");
 }
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ if(!$comment->uid){
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="http://www.cosmosfarm.com/">
-	<title>KBoard - 비밀번호 확인</title>
+	<title>KBoard - <?=__('Password confirmation', 'kboard-comments')?></title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<style>
@@ -31,7 +31,7 @@ if(!$comment->uid){
 	<script>
 		function password_checker(form){
 			if(!$('input[name=password]').val()){
-				alert('비밀번호를 입력하세요.');
+				alert('<?=__('Please enter a password.', 'kboard-comments')?>');
 				$('input[name=password]').focus();
 				return false;
 			}
@@ -42,9 +42,9 @@ if(!$comment->uid){
 
 <body>
 	<form method="post" action="<?=plugins_url().'/kboard-comments/execute/delete.php?uid='.$comment->uid?>" onsubmit="return password_checker(this);">
-		<p><label for="input_password">비밀번호 확인</label></p>
+		<p><label for="input_password"><?=__('Password confirmation', 'kboard-comments')?></label></p>
 		<p><input type="password" name="password" id="input_password"></p>
-		<p><input type="submit" value="댓글 삭제하기"></p>
+		<p><input type="submit" value="<?=__('Submit', 'kboard-comments')?>"></p>
 	</form>
 </body>
 </html>

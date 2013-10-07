@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2013-10-07 16:59+0900\n"
-"PO-Revision-Date: 2013-10-07 17:01+0900\n"
+"POT-Creation-Date: 2013-10-07 20:31+0900\n"
+"PO-Revision-Date: 2013-10-07 20:46+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,59 @@ msgstr ""
 "\\kboard\n"
 "X-Poedit-SearchPath-0: D:\\workspace-web\\KBoard-wordpress-plugin\\plugins"
 "\\kboard-comments\n"
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:8
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:12
+msgid "No UID of comments."
+msgstr "댓글 고유번호가 없습니다."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:15
+msgid "It is a comment does not exist."
+msgstr "존재하지 않는 댓글 입니다."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:23
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:45
+msgid "Password confirmation"
+msgstr "비밀번호 확인"
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:34
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:16
+msgid "Please enter a password."
+msgstr "비밀번호를 입력해주세요."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:47
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:39
+msgid "Submit"
+msgstr "입력"
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:6
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:7
+msgid "This page is restricted from external access."
+msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:15
+msgid "Please Log in to continue."
+msgstr "로그인 하셔야 사용할 수 있습니다."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:21
+msgid "You do not have permission."
+msgstr "권한이 없습니다."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:13
+msgid "Please enter a author."
+msgstr "작성자명을 입력해주세요."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:19
+msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
+msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력하세요."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:22
+msgid "No document UID."
+msgstr "게시물 고유번호가 없습니다."
+
+#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:25
+msgid "Type the content of the comment."
+msgstr "댓글 내용을 입력해주세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
 msgid "Are you sure you want to delete?"
@@ -44,39 +97,17 @@ msgstr "작성자"
 msgid "Password"
 msgstr "비밀번호"
 
-#: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:39
-msgid "Submit"
-msgstr "입력"
-
-#~ msgid "Board ID does not exist."
-#~ msgstr "게시판 아이디가 없습니다."
-
 #~ msgid "WordPress"
 #~ msgstr "워드프레스"
 
 #~ msgid "WordPress KBoard feed"
 #~ msgstr "워드프레스 KBoard 피드"
 
-#~ msgid "The secure code is not valid. Please enter the security code."
-#~ msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력하세요."
-
 #~ msgid "No upload path. Please enter board ID and initialize."
 #~ msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
 
 #~ msgid "KBoard new document"
 #~ msgstr "KBoard 신규등록"
-
-#~ msgid "Please Log in to continue."
-#~ msgstr "로그인 하셔야 사용할 수 있습니다."
-
-#~ msgid "You do not have permission."
-#~ msgstr "권한이 없습니다."
-
-#~ msgid "Please enter your password."
-#~ msgstr "비밀번호를 입력해주세요."
-
-#~ msgid "This page is restricted from external access."
-#~ msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
 #~ msgid "Go home"
 #~ msgstr "홈으로"
@@ -107,17 +138,11 @@ msgstr "입력"
 #~ msgid "File copy failed, directory requires write permission."
 #~ msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
 
-#~ msgid "No document."
-#~ msgstr "글이 없습니다."
-
 #~ msgid "Document"
 #~ msgstr "본문보기"
 
 #~ msgid "List"
 #~ msgstr "목록보기"
-
-#~ msgid "Password confirm"
-#~ msgstr "비밀번호 확인"
 
 #~ msgid "Date"
 #~ msgstr "작성일"

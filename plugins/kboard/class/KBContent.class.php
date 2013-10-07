@@ -111,7 +111,7 @@ class KBContent {
 			include_once 'KBCaptcha.class.php';
 			$captcha = new KBCaptcha();
 			if(!$captcha->textCheck($_POST['captcha'])){
-				die("<script>alert('".__('The secure code is not valid. Please enter the security code.', 'kboard')."');history.go(-1);</script>");
+				die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
 			}
 			
 			// 신규게시물 등록

@@ -3,22 +3,22 @@ list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECT
 include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
 header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : 이 페이지는 외부에서의 접근을 제한하고 있습니다.');
+if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard-comments'));
 
 $userdata = get_userdata($user_ID);
 $uid = intval($_GET['uid']);
 
 if(!$uid){
-	die("<script>alert('댓글 고유번호가 없습니다.');history.go(-1);</script>");
+	die("<script>alert('".__('No UID of comments.', 'kboard-comments')."');history.go(-1);</script>");
 }
 else if(!$userdata->id && !$_POST['password']){
-	die("<script>alert('로그인해야 합니다.');history.go(-1);</script>");
+	die("<script>alert('".__('Please Log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 }
 
 $commentList = new KBCommentList();
 $comment = $commentList->getComment($uid);
 if(!$comment->isEditor() && $comment->password != $_POST['password']){
-	die("<script>alert('권한이 없습니다.');history.go(-1);</script>");
+	die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 }
 $commentList->delete($uid);
 if($comment->password && $comment->password == $_POST['password']){

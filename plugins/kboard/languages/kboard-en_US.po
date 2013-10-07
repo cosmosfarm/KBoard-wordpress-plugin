@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KBoard 4.0\n"
 "POT-Creation-Date: 2013-10-07 20:46+0900\n"
-"PO-Revision-Date: 2013-10-07 20:46+0900\n"
+"PO-Revision-Date: 2013-10-07 20:50+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,35 +17,35 @@ msgstr ""
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/board.php:12
 msgid "Board ID does not exist."
-msgstr "게시판 아이디가 없습니다."
+msgstr "Board ID does not exist."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/board.php:19
 msgid "WordPress"
-msgstr "워드프레스"
+msgstr "WordPress"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/rss.php:14
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/rss.php:16
 msgid "WordPress KBoard feed"
-msgstr "워드프레스 KBoard 피드"
+msgstr "WordPress KBoard feed"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBContent.class.php:114
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
-msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력하세요."
+msgstr "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBContent.class.php:317
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBContent.class.php:465
 msgid "No upload path. Please enter board ID and initialize."
-msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
+msgstr "No upload path. Please enter board ID and initialize."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBMail.class.php:27
 msgid "KBoard new document"
-msgstr "KBoard 신규등록"
+msgstr "KBoard new document"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:148
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/delete.php:31
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/download.php:20
 msgid "Please Log in to continue."
-msgstr "로그인 하셔야 사용할 수 있습니다."
+msgstr "Please Log in to continue."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:151
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:203
@@ -57,63 +57,67 @@ msgstr "로그인 하셔야 사용할 수 있습니다."
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/download.php:21
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/download.php:32
 msgid "You do not have permission."
-msgstr "권한이 없습니다."
+msgstr "You do not have permission."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:193
 msgid "Please enter your password."
-msgstr "비밀번호를 입력해주세요."
+msgstr "Please enter your password."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBoardBuilder.class.php:246
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/backup.php:6
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/delete.php:6
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/download.php:6
 msgid "This page is restricted from external access."
-msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
+msgstr "This page is restricted from external access."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBRouter.class.php:101
 msgid "Go home"
-msgstr "홈으로"
+msgstr "Go home"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBRouter.class.php:102
 msgid "Go back"
-msgstr "뒤로가기"
+msgstr "Go back"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBRouter.class.php:103
 msgid "It is an invalid access."
-msgstr "잘못된 접근입니다."
+msgstr "It is an invalid access."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBSeo.class.php:88
 msgid "Integration feed"
-msgstr "통합 피드"
+msgstr "Integration feed"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:56
 msgid "Unable to connect to Cosmosfarm server."
-msgstr "코스모스팜 서버에 접속할 수 없습니다."
+msgstr "Unable to connect to Cosmosfarm server."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:98
 msgid ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
-msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
+msgstr ""
+"Unable to connect to the update server, Cosmosfarm account please connect "
+"again."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:135
 msgid ""
 "Download file is decompression failed, please check directory and file "
 "permissions."
-msgstr "다운로드 파일 압축 해제 실패, 디렉토리 및 파일 권한을 확인하십시오."
+msgstr ""
+"Download file is decompression failed, please check directory and file "
+"permissions."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:150
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUpgrader.class.php:157
 msgid "File copy failed, directory requires write permission."
-msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
+msgstr "File copy failed, directory requires write permission."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/class/KBUrl.class.php:130
 msgid "No document."
-msgstr "글이 없습니다."
+msgstr "No document."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/execute/backup.php:7
 msgid "No backup privilege."
-msgstr "백업 권한이 없습니다."
+msgstr "No backup privilege."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/confirm.php:8
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:62
@@ -124,14 +128,14 @@ msgstr "백업 권한이 없습니다."
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:8
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:62
 msgid "Password"
-msgstr "비밀번호"
+msgstr "Password"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/confirm.php:15
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/confirm.php:15
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/confirm.php:15
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:15
 msgid "Document"
-msgstr "본문보기"
+msgstr "Document"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/confirm.php:17
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:69
@@ -146,14 +150,14 @@ msgstr "본문보기"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:63
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:117
 msgid "List"
-msgstr "목록보기"
+msgstr "List"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/confirm.php:20
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/confirm.php:20
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/confirm.php:20
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:20
 msgid "Password confirm"
-msgstr "비밀번호 확인"
+msgstr "Password confirm"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:23
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:58
@@ -172,7 +176,7 @@ msgstr "비밀번호 확인"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:37
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:54
 msgid "Author"
-msgstr "작성자"
+msgstr "Author"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:33
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/latest.php:8
@@ -187,7 +191,7 @@ msgstr "작성자"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/latest.php:8
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:55
 msgid "Date"
-msgstr "작성일"
+msgstr "Date"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:37
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:55
@@ -198,7 +202,7 @@ msgstr "작성일"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:31
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:56
 msgid "Views"
-msgstr "조회"
+msgstr "Views"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:52
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:58
@@ -217,28 +221,28 @@ msgstr "조회"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:88
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:95
 msgid "Attachment"
-msgstr "첨부파일"
+msgstr "Attachment"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:70
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:71
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:64
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:64
 msgid "Prev"
-msgstr "이전글"
+msgstr "Prev"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:71
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:72
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:65
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:65
 msgid "Next"
-msgstr "다음글"
+msgstr "Next"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:75
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:76
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:69
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:69
 msgid "Edit"
-msgstr "글수정"
+msgstr "Edit"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:76
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:82
@@ -257,7 +261,7 @@ msgstr "글수정"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:90
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:97
 msgid "Are you sure you want to delete?"
-msgstr "삭제 하시겠습니까?"
+msgstr "Are you sure you want to delete?"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:76
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:82
@@ -276,7 +280,7 @@ msgstr "삭제 하시겠습니까?"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:90
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:97
 msgid "Delete"
-msgstr "글삭제"
+msgstr "Delete"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:82
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:119
@@ -287,7 +291,7 @@ msgstr "글삭제"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:76
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:110
 msgid "KBoard is the best community software available for WordPress"
-msgstr "의미있는 워드프레스 게시판"
+msgstr "KBoard is the best community software available for WordPress"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:14
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/latest.php:7
@@ -306,7 +310,7 @@ msgstr "의미있는 워드프레스 게시판"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:35
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:53
 msgid "Title"
-msgstr "제목"
+msgstr "Title"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:21
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:34
@@ -325,7 +329,7 @@ msgstr "제목"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:14
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:23
 msgid "Category"
-msgstr "카테고리"
+msgstr "Category"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:47
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:82
@@ -336,7 +340,7 @@ msgstr "카테고리"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:47
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:79
 msgid "Secret"
-msgstr "비밀글"
+msgstr "Secret"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:53
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:61
@@ -347,7 +351,7 @@ msgstr "비밀글"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:53
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:62
 msgid "Notice"
-msgstr "공지사항"
+msgstr "Notice"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:80
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:89
@@ -355,35 +359,35 @@ msgstr "공지사항"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:80
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:52
 msgid "Thumbnail"
-msgstr "썸네일"
+msgstr "Thumbnail"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:103
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:112
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:103
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:103
 msgid "WP Search"
-msgstr "통합검색"
+msgstr "WP Search"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:106
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:115
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:106
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:106
 msgid "Public"
-msgstr "제목과 내용 검색허용"
+msgstr "Public"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:107
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:116
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:107
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:107
 msgid "Only title (secret document)"
-msgstr "제목만 검색허용 (비밀글)"
+msgstr "Only title (secret document)"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:108
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:117
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:108
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:108
 msgid "Exclusion"
-msgstr "통함검색 제외"
+msgstr "Exclusion"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:116
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:119
@@ -394,59 +398,59 @@ msgstr "통함검색 제외"
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:116
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:119
 msgid "Back"
-msgstr "돌아가기"
+msgstr "Back"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:124
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:133
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:124
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:124
 msgid "Save"
-msgstr "저장하기"
+msgstr "Save"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:34
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:34
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:34
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:34
 msgid "All"
-msgstr "전체"
+msgstr "All"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:36
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:36
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:36
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:36
 msgid "Content"
-msgstr "내용"
+msgstr "Content"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:40
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:40
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:40
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:40
 msgid "Search"
-msgstr "검색"
+msgstr "Search"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:51
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:51
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:51
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:51
 msgid "Number"
-msgstr "번호"
+msgstr "Number"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:113
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:101
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:101
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:104
 msgid "New"
-msgstr "글쓰기"
+msgstr "New"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:42
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:72
 msgid "Name"
-msgstr "이름"
+msgstr "Name"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:43
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:76
 msgid "Phone number"
-msgstr "연락처"
+msgstr "Phone number"
 
 #~ msgid "The Best of WordPress Board"
 #~ msgstr "의미있는 워드프레스 게시판"

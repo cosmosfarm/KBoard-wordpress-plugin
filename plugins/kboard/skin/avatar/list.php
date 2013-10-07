@@ -116,6 +116,6 @@
 	<?php endif?>
 	
 	<div class="kboard-poweredby">
-		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?=__('The Best of WordPress Board', 'kboard')?>">Powered by KBoard</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?=__('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 	</div>
 </div>
