@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2013-10-07 16:59+0900\n"
-"PO-Revision-Date: 2013-10-07 17:04+0900\n"
+"PO-Revision-Date: 2013-10-07 17:10+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,36 +17,36 @@ msgstr ""
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
 msgid "Are you sure you want to delete?"
-msgstr "Are you sure you want to delete?1"
+msgstr "Are you sure you want to delete?"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:15
 msgid "Delete"
-msgstr "Delete1"
+msgstr "Delete"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:20
 msgid "Reply"
-msgstr "Reply1"
+msgstr "Reply"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:9
 msgid "Total Reply"
-msgstr "Total Reply1"
+msgstr "Total"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:9
 msgid "Count"
-msgstr ""
+msgstr " "
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:27
 msgid "Author"
-msgstr "Author1"
+msgstr "Author"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:30
 msgid "Password"
-msgstr "Password1"
+msgstr "Password"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:39
 msgid "Submit"
-msgstr "Submit1"
+msgstr "Submit"
 
 #~ msgid "Board ID does not exist."
 #~ msgstr "게시판 아이디가 없습니다."
