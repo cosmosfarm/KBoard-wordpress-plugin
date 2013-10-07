@@ -4,13 +4,13 @@
 
 	<!-- 검색폼 시작 -->
 	<div class="kboard-header">
-		<form method="get" action="<?=$url->set('mod', 'list')->toString()?>">
+		<form id="kboard-search-form" method="get" action="<?=$url->set('mod', 'list')->toString()?>">
 			<?=$url->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
 			
 			<?php if($board->use_category == 'yes'):?>
 			<div class="kboard-category">
 				<?php if($board->initCategory1()):?>
-					<select name="category1">
+					<select name="category1" onchange="jQuery('#kboard-search-form').submit();">
 						<option value=""><?=__('Category', 'kboard')?>1</option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?=$board->currentCategory()?></option>
@@ -19,7 +19,7 @@
 				<?php endif;?>
 				
 				<?php if($board->initCategory2()):?>
-					<select name="category2">
+					<select name="category2" onchange="jQuery('#kboard-search-form').submit();">
 						<option value=""><?=__('Category', 'kboard')?>2</option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?=$board->currentCategory()?></option>

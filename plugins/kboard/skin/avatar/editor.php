@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="<?=$skin_path?>/style.css">
-<script type="text/javascript" src="<?=$skin_path?>/script.js"></script>
 
 <div id="kboard-editor">
 	<form method="post" action="<?=$url->toString()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
@@ -127,3 +126,13 @@
 		</div>
 	</form>
 </div>
+
+<script type="text/javascript">
+var kboard_localize = {
+	please_enter_a_title:'<?=__('Please enter a title.', 'kboard')?>',
+	please_enter_a_author:'<?=__('Please enter a author.', 'kboard')?>',
+	please_enter_a_password:'<?=__('Please enter a password.', 'kboard')?>',
+	please_enter_the_CAPTCHA_code:'<?=__('Please enter the CAPTCHA code.', 'kboard')?>'
+}
+</script>
+<script type="text/javascript" src="<?=$skin_path?>/script.js"></script>

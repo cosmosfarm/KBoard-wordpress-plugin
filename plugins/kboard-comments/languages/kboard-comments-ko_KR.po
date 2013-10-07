@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2013-10-07 21:39+0900\n"
-"PO-Revision-Date: 2013-10-07 21:40+0900\n"
+"PO-Revision-Date: 2013-10-07 21:49+0900\n"
 "Last-Translator: http://www.cosmosfarm.com <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "작성자명을 입력해주세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:19
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
-msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력하세요."
+msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:22
 msgid "No document UID."
@@ -103,7 +103,7 @@ msgstr "비밀번호"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:51
 msgid "Please enter the CAPTCHA code."
-msgstr "옆에 보이는 보안코드를 입력하세요."
+msgstr "옆에 보이는 보안코드를 입력해주세요."
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:54
 msgid "Cancel"
