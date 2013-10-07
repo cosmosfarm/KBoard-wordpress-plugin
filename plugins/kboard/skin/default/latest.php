@@ -4,8 +4,8 @@
 	<table>
 		<thead>
 			<tr>
-				<th class="kboard-latest-title">제목</th>
-				<th class="kboard-latest-date">작성일</th>
+				<th class="kboard-latest-title"><?=__('Title', 'kboard')?></th>
+				<th class="kboard-latest-date"><?=__('Date', 'kboard')?></th>
 			</tr>
 		</thead>
 		<tbody>

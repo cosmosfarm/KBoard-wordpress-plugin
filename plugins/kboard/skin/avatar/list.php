@@ -11,7 +11,7 @@
 			<div class="kboard-category">
 				<?php if($board->initCategory1()):?>
 					<select name="category1">
-						<option value="">카테고리1</option>
+						<option value=""><?=__('Category', 'kboard')?>1</option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?=$board->currentCategory()?></option>
 						<?php endwhile?>
@@ -20,7 +20,7 @@
 				
 				<?php if($board->initCategory2()):?>
 					<select name="category2">
-						<option value="">카테고리2</option>
+						<option value=""><?=__('Category', 'kboard')?>2</option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?=$board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?=$board->currentCategory()?></option>
 						<?php endwhile?>
@@ -31,13 +31,13 @@
 			
 			<div class="kboard-search">
 				<select name="target">
-					<option value="">전체</option>
-					<option value="title"<?php if($_GET['target'] == 'title'):?> selected="selected"<?php endif?>>제목</option>
-					<option value="content"<?php if($_GET['target'] == 'content'):?> selected="selected"<?php endif?>>내용</option>
-					<option value="member_display"<?php if($_GET['target'] == 'member_display'):?> selected="selected"<?php endif?>>작성자</option>
+					<option value=""><?=__('All', 'kboard')?></option>
+					<option value="title"<?php if($_GET['target'] == 'title'):?> selected="selected"<?php endif?>><?=__('Title', 'kboard')?></option>
+					<option value="content"<?php if($_GET['target'] == 'content'):?> selected="selected"<?php endif?>><?=__('Content', 'kboard')?></option>
+					<option value="member_display"<?php if($_GET['target'] == 'member_display'):?> selected="selected"<?php endif?>><?=__('Author', 'kboard')?></option>
 				</select>
 				<input type="text" name="keyword" value="<?=$_GET['keyword']?>">
-				<button type="submit" class="kboard-button-small">검색</button>
+				<button type="submit" class="kboard-button-small"><?=__('Search', 'kboard')?></button>
 			</div>
 		</form>
 	</div>
@@ -58,7 +58,7 @@
 			<tbody>
 				<?php while($content = $list->hasNextNotice()):?>
 				<tr class="kboard-list-notice">
-					<td class="kboard-list-uid">공지</td>
+					<td class="kboard-list-uid"><?=__('Notice', 'kboard')?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?=$content->title?></a>
 							<?=$content->getCommentsCount();?>
@@ -79,7 +79,7 @@
 					<td class="kboard-list-uid"><?=$list->index()?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?=$url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?=$content->title?>
-							<?php if($content->secret):?><img src="<?=$skin_path?>/images/icon_lock.png" alt="비밀글"><?php endif?>
+							<?php if($content->secret):?><img src="<?=$skin_path?>/images/icon_lock.png" alt="<?=__('Secret', 'kboard')?>"><?php endif?>
 							</a>
 							<?=$content->getCommentsCount();?>
 						</div></td>
@@ -110,7 +110,7 @@
 	<?php if($board->isWriter()):?>
 	<!-- 버튼 시작 -->
 	<div class="kboard-control">
-		<a href="<?=$url->set('mod', 'editor')->toString()?>" class="kboard-button-small">글쓰기</a>
+		<a href="<?=$url->set('mod', 'editor')->toString()?>" class="kboard-button-small"><?=__('New', 'kboard')?></a>
 	</div>
 	<!-- 버튼 끝 -->
 	<?php endif?>
