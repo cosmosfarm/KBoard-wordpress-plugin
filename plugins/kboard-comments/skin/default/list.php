@@ -6,7 +6,7 @@
 		
 		<!-- 등록된 댓글 수 시작 -->
 		<div class="comments-count">
-			댓글 <span class="comments-total-count"><?=$commentList->getCount()?></span>개
+			<?=__('Total Reply', 'kboard-comments')?> <span class="comments-total-count"><?=$commentList->getCount()?></span><?=__('Count', 'kboard-comments')?>
 			<hr>
 		</div>
 		<!-- 등록된 댓글 수 끝 -->
@@ -24,10 +24,10 @@
 				<input type="hidden" name="member_display" value="<?=$userdata->data->display_name?>">
 				<?php else:?>
 				<div class="comments-username">
-					<label class="comments-username-label" for="comments_member_display">작성자</label> <input type="text" id="comments_member_display" name="member_display" value="<?=$userdata->data->display_name?>">
+					<label class="comments-username-label" for="comments_member_display"><?=__('Author', 'kboard-comments')?></label> <input type="text" id="comments_member_display" name="member_display" value="<?=$userdata->data->display_name?>">
 				</div>
 				<div class="comments-password">
-					<label class="comments-password-label" for="comments_password">비밀번호</label> <input type="password" id="comments_password" name="password" value="">
+					<label class="comments-password-label" for="comments_password"><?=__('Password', 'kboard-comments')?></label> <input type="password" id="comments_password" name="password" value="">
 				</div>
 				<div class="comments-captcha">
 					<label class="comments-captcha-label" for="comments_captcha"><img src="<?=kboard_captcha()?>" alt=""></label> <input type="text" id="comments_captcha" name="captcha" value="">
@@ -36,7 +36,7 @@
 				
 				<div class="comments-submit">
 					<div class="comments-submit-text"><textarea name="content"></textarea></div>
-					<div class="comments-submit-button"><input type="submit" value="입력"></div>
+					<div class="comments-submit-button"><input type="submit" value="<?=__('Submit', 'kboard-comments')?>"></div>
 				</div>
 			</div>
 		</form>

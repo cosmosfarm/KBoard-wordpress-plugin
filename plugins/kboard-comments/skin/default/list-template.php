@@ -10,14 +10,14 @@
 			<div class="comments-list-controller">
 				<span>
 					<?php if($comment->isEditor()):?>
-					<a href="<?=$commentURL->getDeleteURL()?>" onclick="return confirm('삭제 하시겠습니까?');">삭제</a>
+					<a href="<?=$commentURL->getDeleteURL()?>" onclick="return confirm('<?=__('Are you sure you want to delete?', 'kboard-comments')?>');"><?=__('Delete', 'kboard-comments')?></a>
 					<?php else:?>
-					<a href="<?=$commentURL->getConfirmURL()?>" onclick="return kboard_comments_open_confirm(this.href);">삭제</a>
+					<a href="<?=$commentURL->getConfirmURL()?>" onclick="return kboard_comments_open_confirm(this.href);"><?=__('Delete', 'kboard-comments')?></a>
 					<?php endif?>
 				</span>
 				<span style="color: #a0a0a0;">|</span>
 				<span>
-					<a href="#" onclick="return kboard_comments_reply(this, '#kboard_comments_reply_form_<?=$comment->uid?>', '#kboard_comments_form');" class="kboard-reply">댓글</a>
+					<a href="#" onclick="return kboard_comments_reply(this, '#kboard_comments_reply_form_<?=$comment->uid?>', '#kboard_comments_form');" class="kboard-reply"><?=__('Reply', 'kboard-comments')?></a>
 				</span>
 			</div>
 			<hr>
