@@ -745,10 +745,5 @@ function kboard_system_update(){
 	 * 댓글 시스템 업데이트
 	 */
 	if(function_exists('kboard_comments_system_update')) kboard_comments_system_update();
-	
-	/*
-	 * KBoard 4.1
-	 * 업데이트
-	 */
 }
 ?>
