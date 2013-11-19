@@ -10,7 +10,7 @@ function Kboard_autolink($text){
 	 * Mark Goldsmith
 	 * http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
 	 */
-	return preg_replace_callback('#(?i)(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com+)(?:/[^,.\s]*|))#', 'Kboard_autolink_prependHTTP', $text);
+	return preg_replace_callback('#(?i)(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com+)(?:/[^,\s]*|))#', 'Kboard_autolink_prependHTTP', $text);
 }
 function Kboard_autolink_prependHTTP($m){
 	/*
