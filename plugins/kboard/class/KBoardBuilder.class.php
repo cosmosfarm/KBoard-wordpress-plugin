@@ -163,9 +163,11 @@ class KBoardBuilder {
 			if(!$board->use_editor && $this->meta->autolink){
 				include KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
 				$content->content = nl2br(Kboard_autolink($content->content));
+				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->content);
 			}
 			else{
 				$content->content = nl2br($content->content);
+				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->content);
 			}
 			
 			// 게시글 숏코드(Shortcode) 실행
