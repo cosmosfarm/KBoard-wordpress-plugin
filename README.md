@@ -58,7 +58,7 @@ Installation (설치)
 Expansion (확장)
 -------------------
 1. kboard_content 필터(Filter) 사용법
-“`
+<pre><code>
 add_filter('kboard_content', 'kboard_content_extend');
  
 function kboard_content_extend($content){
@@ -69,8 +69,7 @@ function kboard_content_extend($content){
  
  // 최종 내용을 반환합니다.
  return $content;
-}
-“`
+</code></pre>
 
 2. kboard_document_insert 액션(Action)
 3. kboard_document_update 액션(Action)
