@@ -60,13 +60,10 @@ Expansion (확장)
 1. kboard_content 필터(Filter) 사용법
 <pre><code>
 add_filter('kboard_content', 'kboard_content_extend');
- 
 function kboard_content_extend($content){
  // kboard_content 필터는 게시글 본문 내용을 입력 받습니다.
- 
  // 내용을 편집 및 추가할 수 있습니다.
  $content = $content . '<br>kboard_content_extend 실행';
- 
  // 최종 내용을 반환합니다.
  return $content;
 </code></pre>
