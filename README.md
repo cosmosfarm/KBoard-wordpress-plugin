@@ -15,7 +15,7 @@ KBoard 사용에 궁금하신 점은 http://www.cosmosfarm.com/threads 에 질�
 Examples (사용 예제)
 --------------------
 
-1. http://www.cosmosfarm.com/products/kboard_demo
+1. http://www.cosmosfarm.com/demo/kboard/
 2. http://smart-k.com/?page_id=1692
 3. http://www.bluehillclinic.com/?page_id=427
 4. http://www.shoetoker.com/?page_id=1707
@@ -52,3 +52,26 @@ Installation (설치)
 
 1. Upload 'kboard','kboard-comments' to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'kboard','kboard-comments' menu in WordPress
+
+
+
+Expansion (확장)
+-------------------
+1. kboard_content 필터(Filter) 사용법
+“`
+add_filter('kboard_content', 'kboard_content_extend');
+ 
+function kboard_content_extend($content){
+ // kboard_content 필터는 게시글 본문 내용을 입력 받습니다.
+ 
+ // 내용을 편집 및 추가할 수 있습니다.
+ $content = $content . '<br>kboard_content_extend 실행';
+ 
+ // 최종 내용을 반환합니다.
+ return $content;
+}
+“`
+
+2. kboard_document_insert 액션(Action)
+3. kboard_document_update 액션(Action)
+4. kboard_document_delete 액션(Action)
