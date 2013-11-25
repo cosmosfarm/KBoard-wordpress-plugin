@@ -87,7 +87,7 @@
 					<td><?=$comment->content?></td>
 					<td><abbr title="<?=date("Y-m-d H:i:s", strtotime($comment->created))?>"><?=date("Y-m-d H:i:s", strtotime($comment->created))?></abbr></td>
 				</tr>
-				<?php endwhile;?>
+				<?php endwhile?>
 			</tbody>
 		</table>
 		
