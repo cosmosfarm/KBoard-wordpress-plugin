@@ -2,6 +2,7 @@
 ===================
 
   1. 자동링크 서버파일 확장자까지 링크 안걸리는 버그 수정
+  2. table이 깨지는 현상 fix (Wooram Jun, https://github.com/chatii2412)
 
 
 
