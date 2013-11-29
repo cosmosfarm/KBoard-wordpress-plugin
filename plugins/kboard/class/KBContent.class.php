@@ -127,8 +127,8 @@ class KBContent {
 					include 'KBMail.class.php';
 					$mail = new KBMail();
 					$mail->to = explode(',', $meta->latest_alerts);
-					$mail->title = $data['title'];
-					$mail->content = $data['content'];
+					$mail->title = $this->title;
+					$mail->content = $this->content;
 					$mail->send();
 				}
 				
