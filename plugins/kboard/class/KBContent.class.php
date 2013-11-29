@@ -404,7 +404,7 @@ class KBContent {
 	 */
 	function update_options($uid){
 		foreach($_REQUEST AS $key => $value){
-			if(strstr($key, $this->skin_option_prefix) && trim($value)){
+			if(strstr($key, $this->skin_option_prefix)){
 				
 				$key = addslashes(kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key)));
 				$value = addslashes(kboard_xssfilter(trim($value)));
