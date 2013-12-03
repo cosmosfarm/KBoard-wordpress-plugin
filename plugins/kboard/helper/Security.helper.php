@@ -50,7 +50,7 @@ function kboard_xssfilter($data){
  */
 function kboard_safeiframe($data){
 	/*
-	 * 허가된 도메인 호스트
+	 * 허가된 도메인 호스트 (화이트 리스트)
 	 */
 	$whilelist[] = 'youtube.com';
 	$whilelist[] = 'www.youtube.com';
