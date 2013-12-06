@@ -157,7 +157,7 @@ final class KBUpgrader {
 				die('<script>alert("'.__('File copy failed, directory requires write permission.', 'kboard').' (/wp-content'.$content_type.')");history.go(-1);</script>');
 			}
 		}
-		
+		$file_handler->delete($working_dir);
 		return $working_dir;
 	}
 }
