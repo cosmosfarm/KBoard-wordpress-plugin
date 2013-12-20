@@ -44,7 +44,7 @@ class KBCaptcha {
 		}
 		else{
 			$_SESSION['kboard_captcha'] = 'ERROR';
-			$src = KBOARD_URL_PATH . '/images/captcha_error.png';
+			$src = KBOARD_URL_PATH . '/images/captcha-error.png';
 		}
 		
 		return $src;
