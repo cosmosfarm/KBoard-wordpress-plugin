@@ -5,6 +5,7 @@
   2. table이 깨지는 현상 fix (Wooram Jun, https://github.com/chatii2412)
   3. 최신글 이메일 알림에서 작성글 제목, 내용도 함께 보내지도록 수정
   4. 게시판 customer스킨 개인정보 필드값 안지워지는 버그 수정 (옵션 필드값 버그 수정)
+  5. KBCaptcha에서 폰트 사용 제거 그리고 나눔고딕 폰트 파일 삭제
 
 
 
