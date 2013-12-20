@@ -25,18 +25,17 @@ class KBCaptcha {
 			if($created > 1) $file_handler->delete($captcha_folder . $file);
 		}
 		
-		$font = KBOARD_DIR_PATH . '/font/NanumGothic.ttf';
 		$text = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 		shuffle($text);
 		$text = substr(implode('', $text), 0, 5);
 		$_SESSION['kboard_captcha'] = $text;
 		
-		$image = imagecreate(60, 20);
+		$image = imagecreate(50, 20);
 		$background_color = imagecolorallocate($image, 255, 255, 255);
 		$font_color = imagecolorallocate($image, 194, 51, 21);
 		
-		imagettftext($image, 12, 0, 2, 14, $font_color, $font, $text);
-		imageline($image, 0, 0, 60, 20, $font_color);
+		imagestring($image, 5, 2, 2, $text, $font_color);
+		imageline($image, 0, 0, 50, 20, $font_color);
 		imagepng($image, $captcha_folder . $captcha_name);
 		imagedestroy($image);
 		
