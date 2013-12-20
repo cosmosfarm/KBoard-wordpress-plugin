@@ -28,7 +28,6 @@ class KBCaptcha {
 		$text = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 		shuffle($text);
 		$text = substr(implode('', $text), 0, 5);
-		$_SESSION['kboard_captcha'] = $text;
 		
 		$image = imagecreate(50, 20);
 		$background_color = imagecolorallocate($image, 255, 255, 255);
@@ -36,10 +35,19 @@ class KBCaptcha {
 		
 		imagestring($image, 5, 2, 2, $text, $font_color);
 		imageline($image, 0, 0, 50, 20, $font_color);
-		imagepng($image, $captcha_folder . $captcha_name);
+		@imagepng($image, $captcha_folder . $captcha_name);
 		imagedestroy($image);
 		
-		return content_url('/uploads/kboard_captcha/' . $captcha_name);
+		if(file_exists($captcha_folder . $captcha_name)){
+			$_SESSION['kboard_captcha'] = $text;
+			$src = content_url('/uploads/kboard_captcha/' . $captcha_name);
+		}
+		else{
+			$_SESSION['kboard_captcha'] = 'ERROR';
+			$src = KBOARD_URL_PATH . '/images/captcha_error.png';
+		}
+		
+		return $src;
 	}
 	
 	/**
