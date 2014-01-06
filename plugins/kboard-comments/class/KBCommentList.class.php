@@ -26,10 +26,10 @@ class KBCommentList {
 	 */
 	public function init(){
 		if($this->content_uid){
-			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->content_uid' AND parent_uid<=0 ORDER BY uid $this->order");
+			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `content_uid`='$this->content_uid' AND `parent_uid`<=0 ORDER BY `uid` $this->order");
 		}
 		else{
-			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1 ORDER BY uid $this->order");
+			$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1 ORDER BY `uid` $this->order");
 		}
 		return $this->resource;
 	}
@@ -49,8 +49,8 @@ class KBCommentList {
 	 */
 	public function initWithParentUID($parent_uid){
 		$this->parent_uid = $parent_uid;
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE parent_uid='$this->parent_uid' ORDER BY uid $this->order");
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE parent_uid='$this->parent_uid'");
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `parent_uid`='$this->parent_uid' ORDER BY `uid` $this->order");
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `parent_uid`='$this->parent_uid'");
 		list($this->total) = mysql_fetch_row($resource);
 	}
 	
@@ -68,7 +68,7 @@ class KBCommentList {
 	public function getCount(){
 		if(is_null($this->total)){
 			if($this->content_uid){
-				$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE content_uid='$this->content_uid'");
+				$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `content_uid`='$this->content_uid'");
 				list($this->total) = mysql_fetch_row($resource);
 			}
 			else{
@@ -104,7 +104,7 @@ class KBCommentList {
 	 */
 	public function getComment($uid){
 		$uid = intval($uid);
-		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE uid='$uid' LIMIT 1");
+		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1");
 		$row = mysql_fetch_object($resource);
 		
 		if($row){
@@ -134,7 +134,12 @@ class KBCommentList {
 		$password = addslashes(kboard_xssfilter(kboard_htmlclear(trim($password))));
 		
 		$created = date("YmdHis", current_time('timestamp'));
-		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_comments` (content_uid, parent_uid, user_uid, user_display, content, created, password) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
+		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `created`, `password`) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
+		
+		$insert_id = mysql_insert_id();
+		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		
+		return $insert_id;
 	}
 	
 	/**
@@ -143,7 +148,7 @@ class KBCommentList {
 	 */
 	public function delete($uid){
 		$uid = intval($uid);
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE uid='$uid'");
+		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid'");
 	}
 }
 ?>
