@@ -21,6 +21,7 @@ if(!$comment->isEditor() && $comment->password != $_POST['password']){
 	die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 }
 $commentList->delete($uid);
+
 if($comment->password && $comment->password == $_POST['password']){
 	// 팝업창으로 비밀번호 확인 후 opener 윈도우를 새로고침 한다.
 	echo '<script>';

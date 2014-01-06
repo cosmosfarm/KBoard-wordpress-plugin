@@ -130,3 +130,17 @@ function kboard_list_orderby_extend($orderby){
 	return $orderby;
 }
 </code></pre>
+
+7. kboard_comments_insert 액션(Action) 사용법
+<pre><code>
+add_action('kboard_comments_insert', 'kboard_comments_insert_extend');<br /> 
+function kboard_comments_insert_extend($comment_uid){
+	// 댓글 insert 액션은 Insert ID($comment_uid)를 입력 받습니다.<br /> 
+	// $comment_uid로 내용을 초기화 합니다.
+	$comment = new KBComment();
+	$comment->initWithUID($comment_uid);<br /> 
+	// KBComment 클래스 내용을 출력해 봅니다.
+	print_r($comment);
+	exit;
+}
+</code></pre>

@@ -26,10 +26,7 @@ else if(!$_POST['content']){
 }
 
 $commentList = new KBCommentList($_POST['content_uid']);
-$uid = $commentList->add($_POST['parent_uid'], $_POST['member_uid'], $_POST['member_display'], $_POST['content'], $_POST['password']);
-
-//댓글 입력 액션 훅 실행
-do_action('kboard_comments_insert', $uid);
+$commentList->add($_POST['parent_uid'], $_POST['member_uid'], $_POST['member_display'], $_POST['content'], $_POST['password']);
 
 // 댓글 입력 완료 후 이전 페이지로 이동
 header("Location:".$_SERVER['HTTP_REFERER']);

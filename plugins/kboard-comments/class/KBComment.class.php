@@ -21,9 +21,21 @@ class KBComment {
 	}
 	
 	/**
+	 * 댓글 고유번호를 입력받아 정보를 초기화한다.
+	 * @param int $uid
+	 * @return KBComment
+	 */
+	public function initWithUID($uid){
+		if($uid){
+			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1"));
+		}
+		return $this;
+	}
+	
+	/**
 	 * 댓글 정보를 입력받아 초기화 한다.
 	 * @param object $comment
-	 * @return Comment
+	 * @return KBComment
 	 */
 	public function initWithRow($comment){
 		$this->row = $comment;
@@ -35,7 +47,7 @@ class KBComment {
 	 * @return boolean
 	 */
 	public function isEditor(){
-		$resource = kboard_query("SELECT board_id FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE uid='{$this->content_uid}'");
+		$resource = kboard_query("SELECT board_id FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='{$this->content_uid}'");
 		list($board_id) = mysql_fetch_row($resource);
 		$board = new KBoard($board_id);
 		

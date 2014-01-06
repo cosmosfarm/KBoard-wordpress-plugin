@@ -139,6 +139,9 @@ class KBCommentList {
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
 		
+		//댓글 입력 액션 훅 실행
+		do_action('kboard_comments_insert', $insert_id);
+		
 		return $insert_id;
 	}
 	
@@ -148,6 +151,10 @@ class KBCommentList {
 	 */
 	public function delete($uid){
 		$uid = intval($uid);
+		
+		//댓글 삭제 액션 훅 실행
+		do_action('kboard_comments_delete', $uid);
+		
 		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid'");
 	}
 }
