@@ -27,7 +27,7 @@
 		<div class="welcome-panel-column">
 			<h4>워드프레스 스토어</h4>
 			<ul id="cf-wpstore-products">
-				<li>등록된 KBoard 스킨이 없습니다.</li>
+				<li>등록된 상품이 없습니다.</li>
 			</ul>
 		</div>
 		<div class="welcome-panel-column">
