@@ -26,20 +26,23 @@ unset($kboard_file_handler);
  */
 function kboard_xssfilter($data){
 	if(is_array($data)) return array_map('kboard_xssfilter', $data);
-	if(!$GLOBALS['_KBOARD']['HTMLPurifier'] || !$GLOBALS['_KBOARD']['HTMLPurifier_Config']){
+	if(!$GLOBALS['KBOARD']['HTMLPurifier'] || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
 		$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
 		$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 		$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
 		$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
 		$HTMLPurifier_Config->set('HTML.SafeObject', true);
 		$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
+		$HTMLPurifier_Config->set('HTML.AllowedAttributes', "*.style,a.href,a.target,img.src,img.height,img.width");
+		$HTMLPurifier_Config->set('HTML.AllowedElements','a,p,ol,li,ul,b,br,span,img,div');
+		$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
 		$HTMLPurifier_Config->set('Output.FlashCompat', true);
 		$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
-		$GLOBALS['_KBOARD']['HTMLPurifier_Config'] = $HTMLPurifier_Config;
-		$GLOBALS['_KBOARD']['HTMLPurifier'] = HTMLPurifier::getInstance();
+		$GLOBALS['KBOARD']['HTMLPurifier_Config'] = $HTMLPurifier_Config;
+		$GLOBALS['KBOARD']['HTMLPurifier'] = HTMLPurifier::getInstance();
 		unset($HTMLPurifier_Config);
 	}
-	$data = $GLOBALS['_KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['_KBOARD']['HTMLPurifier_Config']);
+	$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['KBOARD']['HTMLPurifier_Config']);
 	return kboard_safeiframe($data);
 }
 
