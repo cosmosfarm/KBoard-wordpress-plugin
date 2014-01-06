@@ -73,18 +73,19 @@
 					$content = new KBContent();
 					$content->initWithUID($comment->content_uid);
 					$board = new KBoard($content->board_id);
+					$url = new KBUrl();
 				?>
 				<tr>
 					<th class="check-column"><input type="checkbox" name="comment_uid[]" value="<?php echo $comment->uid?>"></th>
 					<td><a class="row-title" href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo $board->board_name?></a></td>
 					<td>
 						<?php if($comment->user_uid):?>
-						<a href="/wp-admin/user-edit.php?user_id=<?php echo $comment->user_uid?>"><?php echo $comment->user_display?></a>
+						<a href="<?php echo admin_url('/wp-admin/user-edit.php?user_id='.$comment->user_uid)?>"><?php echo $comment->user_display?></a>
 						<?php else:?>
 						<?php echo $comment->user_display?>
 						<?php endif?>
 					</td>
-					<td><?php echo $comment->content?></td>
+					<td><?php echo $comment->content?> - <a href="<?php echo $url->getDocumentRedirect($comment->content_uid)?>" titlt="페이지에서 보기" onclick="window.open(this.href); return false;">페이지에서 보기</a></td>
 					<td><abbr title="<?php echo date("Y-m-d H:i:s", strtotime($comment->created))?>"><?php echo date("Y-m-d H:i:s", strtotime($comment->created))?></abbr></td>
 				</tr>
 				<?php endwhile?>
