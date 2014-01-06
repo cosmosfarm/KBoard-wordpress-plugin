@@ -17,7 +17,12 @@ class KBComment {
 	}
 
 	public function __get($name){
-		return stripslashes($this->row->{$name});
+		if($name == 'content'){
+			return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}));
+		}
+		else{
+			return stripslashes($this->row->{$name});
+		}
 	}
 	
 	/**

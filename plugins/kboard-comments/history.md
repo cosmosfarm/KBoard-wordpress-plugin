@@ -4,6 +4,7 @@
   1. 모든 PHP 문자열 echo로 출력해 short_open_tag옵션 비활성화시 오류 방지
   2. 관리자 페이지 전체 댓글보기 기능 추가 (버그해결 및 댓글 입력 게시물 페이지 바로가기 버튼 추가)
   3. kboard_comments_insert, kboard_comments_delete 워드프레스 액션 훅 추가 및 외부 플러그인 제작에 사용 가능
+  4. kboard_comments_content 필터 추가로 댓글 본문내용을 편집하는 외부 플러그인 제작 가능
 
 
 
