@@ -28,9 +28,9 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function init(){
-		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE 1");
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE 1");
 		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE 1 ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE 1 ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
 		return $this;
 	}
@@ -40,17 +40,17 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function initWithRSS(){
-		$resource = kboard_query("SELECT uid FROM ".KBOARD_DB_PREFIX."kboard_board_setting WHERE permission_read='all'");
+		$resource = kboard_query("SELECT `uid` FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE `permission_read`='all'");
 		while($row = mysql_fetch_row($resource)){
 			$read[] = $row[0];
 		}
 		if($read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
 		
-		$where[] = "secret LIKE ''";
+		$where[] = "secret=''";
 		
-		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where));
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where));
 		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
 		return $this;
 	}
@@ -117,19 +117,23 @@ class KBContentList {
 				$board_ids[] = "'$value'";
 			}
 			$board_ids = implode(',', $board_ids);
-			$where[] = "board_id IN ($board_ids)";
+			$where[] = "`board_id` IN ($board_ids)";
 		}
-		else $where[] = "board_id LIKE '$this->board_id'";
+		else $where[] = "`board_id`='$this->board_id'";
 		
-		$where[] = "notice LIKE ''";
-		if($keyword && $search) $where[] = "$search LIKE '%$keyword%'";
-		else if($keyword && !$search) $where[] = "(title LIKE '%$keyword%' OR content LIKE '%$keyword%')";
-		if($this->col_category1) $where[] = "category1 LIKE '$this->col_category1'";
-		if($this->col_category2) $where[] = "category2 LIKE '$this->col_category2'";
+		$where[] = "`notice` LIKE ''";
+		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
+		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
+		if($this->col_category1) $where[] = "`category1` LIKE '$this->col_category1'";
+		if($this->col_category2) $where[] = "`category2` LIKE '$this->col_category2'";
 		
-		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where));
+		// kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
+		$where = apply_filters('kboard_list_where', implode(' AND ', $where));
+		$orderby = apply_filters('kboard_list_orderby', '`date` DESC');
+		
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
 		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		
 		$this->index = $this->total - (($this->page-1) * $this->rpp);
 		
@@ -146,13 +150,13 @@ class KBContentList {
 				$board_ids[] = "'$value'";
 			}
 			$board_ids = implode(',', $board_ids);
-			$where = "board_id IN ($board_ids)";
+			$where = "`board_id` IN ($board_ids)";
 		}
-		else $where = "board_id LIKE '$this->board_id'";
+		else $where = "`board_id`='$this->board_id'";
 		
-		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where");
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
 		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE $where ORDER BY date DESC");
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY `date` DESC");
 		$this->index = $this->total;
 		return $this->resource;
 	}
@@ -193,13 +197,13 @@ class KBContentList {
 				$board_ids[] = "'$value'";
 			}
 			$board_ids = implode(',', $board_ids);
-			$where[] = "board_id IN ($board_ids)";
+			$where[] = "`board_id` IN ($board_ids)";
 		}
-		else $where[] = "board_id LIKE '$this->board_id'";
+		else $where[] = "`board_id`='$this->board_id'";
 		
-		$where[] = "notice LIKE 'true'";
+		$where[] = "`notice`='true'";
 		
-		$this->resource_notice = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_content WHERE " . implode(" AND ", $where) . " ORDER BY date DESC");
+		$this->resource_notice = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
 		return $this->resource_notice;
 	}
 	

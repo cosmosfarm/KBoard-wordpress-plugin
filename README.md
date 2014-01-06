@@ -69,7 +69,7 @@ function kboard_content_extend($content){
 }
 </code></pre>
 
-2. kboard_document_insert 액션(Action)
+2. kboard_document_insert 액션(Action) 사용법
 <pre><code>
 add_action('kboard_document_insert', 'kboard_document_insert_extend');<br /> 
 function kboard_document_insert_extend($content_uid){
@@ -83,7 +83,7 @@ function kboard_document_insert_extend($content_uid){
 }
 </code></pre>
 
-3. kboard_document_update 액션(Action)
+3. kboard_document_update 액션(Action) 사용법
 <pre><code>
 add_action('kboard_document_update', 'kboard_document_update_extend');<br /> 
 function kboard_document_update_extend($content_uid){
@@ -97,7 +97,7 @@ function kboard_document_update_extend($content_uid){
 }
 </code></pre>
 
-4. kboard_document_delete 액션(Action)
+4. kboard_document_delete 액션(Action) 사용법
 <pre><code>
 add_action('kboard_document_delete', 'kboard_document_delete_extend');<br /> 
 function kboard_document_delete_extend($board_id){
@@ -108,5 +108,25 @@ function kboard_document_delete_extend($board_id){
 	// KBoard 클래스 내용을 출력해 봅니다.
 	print_r($board);
 	exit;
+}
+</code></pre>
+
+5. kboard_list_where 필터(Filter) 사용법
+<pre><code>
+add_filter('kboard_list_where', 'kboard_list_where_extend');<br /> 
+function kboard_list_where_extend($where){
+	// $where 내용을 출력해 봅니다.
+	print_r($where);
+	return $where;
+}
+</code></pre>
+
+6. kboard_list_orderby 필터(Filter) 사용법
+<pre><code>
+add_filter('kboard_list_orderby', 'kboard_list_orderby_extend');<br /> 
+function kboard_list_orderby_extend($orderby){
+	// $orderby 내용을 출력해 봅니다.
+	print_r($orderby);
+	return $orderby;
 }
 </code></pre>

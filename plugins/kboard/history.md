@@ -9,6 +9,7 @@
   6. xssfilter에서 안전한 태그와 속성 허용
   7. 모든 PHP 문자열 echo로 출력해 short_open_tag옵션 비활성화시 오류 방지
   8. 고급 사용자용 고유주소 기본 비활성화
+  9. kboard_list_where, kboard_list_orderby 워드프레스 필터 추가 및 외부 플러그인 제작에 사용 가능
 
 
 
