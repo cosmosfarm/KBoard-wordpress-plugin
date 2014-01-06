@@ -135,7 +135,21 @@ function kboard_list_orderby_extend($orderby){
 <pre><code>
 add_action('kboard_comments_insert', 'kboard_comments_insert_extend');<br /> 
 function kboard_comments_insert_extend($comment_uid){
-	// 댓글 insert 액션은 Insert ID($comment_uid)를 입력 받습니다.<br /> 
+	// 댓글 insert 액션은 $comment_uid를 입력 받습니다.<br /> 
+	// $comment_uid로 내용을 초기화 합니다.
+	$comment = new KBComment();
+	$comment->initWithUID($comment_uid);<br /> 
+	// KBComment 클래스 내용을 출력해 봅니다.
+	print_r($comment);
+	exit;
+}
+</code></pre>
+
+8. kboard_comments_delete 액션(Action) 사용법
+<pre><code>
+add_action('kboard_comments_delete', 'kboard_comments_delete_extend');<br /> 
+function kboard_comments_delete_extend($comment_uid){
+	// 댓글 delete 액션은 $comment_uid를 입력 받습니다.<br /> 
 	// $comment_uid로 내용을 초기화 합니다.
 	$comment = new KBComment();
 	$comment->initWithUID($comment_uid);<br /> 
