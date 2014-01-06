@@ -10,6 +10,9 @@ include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
 $board_id = intval($_GET['board_id']);
 if(!$board_id) wp_die(__('Board ID does not exist.', 'kboard'));
+
+$meta = new KBoardMeta($board_id);
+if(!$meta->use_direct_url) exit;
 ?>
 <!DOCTYPE html>
 <html lang="ko">

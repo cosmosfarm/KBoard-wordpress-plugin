@@ -197,6 +197,7 @@ function kboard_update(){
 	
 	if($board_id){
 		$meta = new KBoardMeta($board_id);
+		$meta->use_direct_url = $_POST['use_direct_url'];
 		$meta->latest_alerts = $_POST['latest_alerts'];
 		$meta->comment_skin = $_POST['comment_skin'];
 		$meta->default_content = $_POST['default_content'];

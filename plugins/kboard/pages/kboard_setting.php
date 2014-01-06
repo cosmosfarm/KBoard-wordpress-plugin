@@ -24,7 +24,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="">고급 사용자용 고유주소</label></th>
 					<td>
+						<select name="use_direct_url">
+							<option value="">사용중지</option>
+							<option value="1"<?php if($meta->use_direct_url):?> selected<?php endif?>>사용하기</option>
+						</select>
+						<?php if($meta->use_direct_url):?>
 						<a href="<?php echo plugins_url()?>/kboard/board.php?board_id=<?php echo $board->uid?>" onclick="window.open(this.href); return false;"><?php echo plugins_url()?>/kboard/board.php?board_id=<?php echo $board->uid?></a>
+						<?php endif?>
 						<p class="description">고유주소는 독립적 레이아웃 편집 및 아이프레임 삽입 등 고급 사용자를 위한 편의 기능입니다. 일반 사용자는 입력코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
 					</td>
 				</tr>
