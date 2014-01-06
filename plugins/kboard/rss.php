@@ -11,17 +11,17 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <rss version="2.0">
 	<channel>
-		<title><?=__('WordPress KBoard feed', 'kboard')?></title>
-		<link><?=plugins_url()?>/kboard/rss.php</link>
-		<description><?=__('WordPress KBoard feed', 'kboard')?></description>
+		<title><?php echo __('WordPress KBoard feed', 'kboard')?></title>
+		<link><?php echo plugins_url()?>/kboard/rss.php</link>
+		<description><?php echo __('WordPress KBoard feed', 'kboard')?></description>
 		<?php while($content = $list->hasNext()): $kboard = new KBoard($content->board_id); ?>
 		<item>
-			<title><![CDATA[<?=$content->title?>]]></title>
-			<link><![CDATA[<?=$url->getDocumentRedirect($content->uid)?>]]></link>
-			<description><![CDATA[<?=$content->content?>]]></description>
-			<author><![CDATA[<?=$content->member_display?>]]></author>
-			<pubDate><?=gmdate(DATE_RSS, strtotime($content->date))?></pubDate>
-			<category domain="<?=$url->getBoardRedirect($kboard->uid)?>"><?=$kboard->board_name?></category>
+			<title><![CDATA[<?php echo $content->title?>]]></title>
+			<link><![CDATA[<?php echo $url->getDocumentRedirect($content->uid)?>]]></link>
+			<description><![CDATA[<?php echo $content->content?>]]></description>
+			<author><![CDATA[<?php echo $content->member_display?>]]></author>
+			<pubDate><?php echo gmdate(DATE_RSS, strtotime($content->date))?></pubDate>
+			<category domain="<?php echo $url->getBoardRedirect($kboard->uid)?>"><?php echo $kboard->board_name?></category>
 		</item>
 		<?php endwhile;?>
 	</channel>

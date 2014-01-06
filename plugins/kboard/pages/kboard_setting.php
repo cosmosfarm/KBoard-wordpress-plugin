@@ -5,26 +5,26 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 }
 ?>
 <div class="wrap">
-	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?=plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
+	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?php echo plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
 	<h2>
 		KBoard : 게시판 관리
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
-	<form action="<?=KBOARD_UPDATE_ACTION?>" method="post">
-		<input type="hidden" name="board_id" value="<?=$board->uid?>">
+	<form action="<?php echo KBOARD_UPDATE_ACTION?>" method="post">
+		<input type="hidden" name="board_id" value="<?php echo $board->uid?>">
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
 					<th scope="row"><label for="board_name">게시판 이름</label></th>
-					<td><input type="text" name="board_name" size="30" tabindex="1" value="<?php if(!$board->board_name):?>무명게시판 <?=date("Y-m-d", current_time('timestamp'))?><?php else:?><?=$board->board_name?><?php endif?>" id="board_name"></td>
+					<td><input type="text" name="board_name" size="30" tabindex="1" value="<?php if(!$board->board_name):?>무명게시판 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $board->board_name?><?php endif?>" id="board_name"></td>
 				</tr>
 				<?php if($board->uid):?>
 				<tr valign="top">
 					<th scope="row"><label for="">고급 사용자용 고유주소</label></th>
 					<td>
-						<a href="<?=plugins_url()?>/kboard/board.php?board_id=<?=$board->uid?>" onclick="window.open(this.href); return false;"><?=plugins_url()?>/kboard/board.php?board_id=<?=$board->uid?></a>
+						<a href="<?php echo plugins_url()?>/kboard/board.php?board_id=<?php echo $board->uid?>" onclick="window.open(this.href); return false;"><?php echo plugins_url()?>/kboard/board.php?board_id=<?php echo $board->uid?></a>
 						<p class="description">고유주소는 독립적 레이아웃 편집 및 아이프레임 삽입 등 고급 사용자를 위한 편의 기능입니다. 일반 사용자는 입력코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
 					</td>
 				</tr>
@@ -34,19 +34,19 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="">페이지를 선택하세요.</option>
 							<option value="">-------------------------------</option>
 							<?php foreach(get_pages() AS $key => $page):?>
-							<option value="<?=$page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?=$page->post_title?> 페이지에 자동으로 설치합니다.</option>
+							<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?> 페이지에 자동으로 설치합니다.</option>
 							<?php endforeach?>
 						</select>
 						<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
-					<td><textarea style="width: 350px" id="shortcode">[kboard id=<?=$board->uid?>]</textarea>
+					<td><textarea style="width: 350px" id="shortcode">[kboard id=<?php echo $board->uid?>]</textarea>
 						<p class="description">이 코드를 포스팅 또는 페이지에 입력하세요. 자동으로 게시판이 추가됩니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">최신글 숏코드(Shortcode)</label></th>
-					<td><textarea style="width: 350px" id="shortcode">[kboard_latest id=<?=$board->uid?> url=페이지주소 rpp=5]</textarea>
+					<td><textarea style="width: 350px" id="shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
 						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 리스트를 생성합니다.</p></td>
 				</tr>
 				<?php endif?>
@@ -62,8 +62,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 					<td><select name="skin" id="skin" class="">
 							<?php foreach($skin->list AS $key => $value):?>
-							<option value="<?=$value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
-								<?=$value?>
+							<option value="<?php echo $value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
+								<?php echo $value?>
 							</option>
 							<?php endforeach;?>
 						</select>
@@ -115,8 +115,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
 					<td><select name="comment_skin" id="comment_skin" class="">
 							<?php foreach($comment_skin->list AS $key => $value):?>
-							<option value="<?=$value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>>
-								<?=$value?>
+							<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>>
+								<?php echo $value?>
 							</option>
 							<?php endforeach;?>
 						</select>
@@ -159,28 +159,28 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="category1_list">카테고리1</label></th>
-					<td><input type="text" style="width: 350px;" name="category1_list" id="category1_list" value="<?=$board->category1_list?>">
+					<td><input type="text" style="width: 350px;" name="category1_list" id="category1_list" value="<?php echo $board->category1_list?>">
 						<p class="description">카테고리를 입력하세요. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="category2_list">카테고리2</label></th>
-					<td><input type="text" style="width: 350px;" name="category2_list" id="category2_list" value="<?=$board->category2_list?>">
+					<td><input type="text" style="width: 350px;" name="category2_list" id="category2_list" value="<?php echo $board->category2_list?>">
 						<p class="description">카테고리를 입력하세요. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="permission_read">읽기권한</label></th>
 					<td><select name="permission_read" id="permission_read" class="">
 							<option value="all"<?php if($board->permission_read == 'all'):?> selected<?php endif?>>
-								<?=kboard_permission('all')?>
+								<?php echo kboard_permission('all')?>
 							</option>
 							<option value="author"<?php if($board->permission_read == 'author'):?> selected<?php endif?>>
-								<?=kboard_permission('author')?>
+								<?php echo kboard_permission('author')?>
 							</option>
 							<option value="editor"<?php if($board->permission_read == 'editor'):?> selected<?php endif?>>
-								<?=kboard_permission('editor')?>
+								<?php echo kboard_permission('editor')?>
 							</option>
 							<option value="administrator"<?php if($board->permission_read == 'administrator'):?> selected<?php endif?>>
-								<?=kboard_permission('administrator')?>
+								<?php echo kboard_permission('administrator')?>
 							</option>
 						</select></td>
 				</tr>
@@ -188,27 +188,27 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<th scope="row"><label for="permission_write">쓰기권한</label></th>
 					<td><select name="permission_write" id="permission_write" class="">
 							<option value="all"<?php if($board->permission_read == 'all'):?> selected<?php endif?>>
-								<?=kboard_permission('all')?>
+								<?php echo kboard_permission('all')?>
 							</option>
 							<option value="author"<?php if($board->permission_write == 'author'):?> selected<?php endif?>>
-								<?=kboard_permission('author')?>
+								<?php echo kboard_permission('author')?>
 							</option>
 							<option value="editor"<?php if($board->permission_write == 'editor'):?> selected<?php endif?>>
-								<?=kboard_permission('editor')?>
+								<?php echo kboard_permission('editor')?>
 							</option>
 							<option value="administrator"<?php if($board->permission_write == 'administrator'):?> selected<?php endif?>>
-								<?=kboard_permission('administrator')?>
+								<?php echo kboard_permission('administrator')?>
 							</option>
 						</select></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="admin_user">선택된 관리자</label></th>
-					<td><input type="text" style="width: 350px;" name="admin_user" id="admin_user" value="<?=$board->admin_user?>">
+					<td><input type="text" style="width: 350px;" name="admin_user" id="admin_user" value="<?php echo $board->admin_user?>">
 						<p class="description">사용자 아이디를 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
-					<td><input type="text" style="width: 350px;" name="latest_alerts" id="latest_alerts" value="<?=$meta->latest_alerts?>">
+					<td><input type="text" style="width: 350px;" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>">
 						<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다. 서버 환경에 따라서 메일이 전송되지 못 할 수도 있습니다.</p></td>
 				</tr>
 				<?php if($board->uid):?>
@@ -217,7 +217,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<td><?php if($board->use_editor):?>
 							<?php wp_editor($meta->default_content, 'default_content'); ?>
 						<?php else:?>
-							<textarea name="default_content" id="default_content" style="width: 600px; height: 300px; max-width: 100%;"><?=$meta->default_content?></textarea>
+							<textarea name="default_content" id="default_content" style="width: 600px; height: 300px; max-width: 100%;"><?php echo $meta->default_content?></textarea>
 						<?php endif;?>
 						<p class="description">게시판 글 작성시 보여질 기본 양식입니다. 기본값은 빈 값입니다.</p></td>
 				</tr>

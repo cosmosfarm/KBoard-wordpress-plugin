@@ -1,17 +1,17 @@
 <div class="wrap">
-	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?=plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
+	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?php echo plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
 	<h2>
-		<?=KBOARD_COMMENTS_PAGE_TITLE?>
+		<?php echo KBOARD_COMMENTS_PAGE_TITLE?>
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
 	
 	<ul class="subsubsub">
-		<li class="all"><a href="<?=KBOARD_COMMENTS_LIST_PAGE?>" class="current">모두 <span class="count">(<?=$commentList->getCount()?>)</span></a></li>
+		<li class="all"><a href="<?php echo KBOARD_COMMENTS_LIST_PAGE?>" class="current">모두 <span class="count">(<?php echo $commentList->getCount()?>)</span></a></li>
 	</ul>
 	
-	<form action="<?=KBOARD_COMMENTS_LIST_PAGE?>" method="post">
+	<form action="<?php echo KBOARD_COMMENTS_LIST_PAGE?>" method="post">
 		<div class="tablenav top">
 			<div class="alignleft actions">
 				<select name="action">
@@ -75,17 +75,17 @@
 					$board = new KBoard($content->board_id);
 				?>
 				<tr>
-					<th class="check-column"><input type="checkbox" name="comment_uid[]" value="<?=$comment->uid?>"></th>
-					<td><a class="row-title" href="<?=KBOARD_SETTING_PAGE?>&board_id=<?=$board->uid?>" title="편집"><?=$board->board_name?></a></td>
+					<th class="check-column"><input type="checkbox" name="comment_uid[]" value="<?php echo $comment->uid?>"></th>
+					<td><a class="row-title" href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo $board->board_name?></a></td>
 					<td>
 						<?php if($comment->user_uid):?>
-						<a href="/wp-admin/user-edit.php?user_id=<?=$comment->user_uid?>"><?=$comment->user_display?></a>
+						<a href="/wp-admin/user-edit.php?user_id=<?php echo $comment->user_uid?>"><?php echo $comment->user_display?></a>
 						<?php else:?>
-						<?=$comment->user_display?>
+						<?php echo $comment->user_display?>
 						<?php endif?>
 					</td>
-					<td><?=$comment->content?></td>
-					<td><abbr title="<?=date("Y-m-d H:i:s", strtotime($comment->created))?>"><?=date("Y-m-d H:i:s", strtotime($comment->created))?></abbr></td>
+					<td><?php echo $comment->content?></td>
+					<td><abbr title="<?php echo date("Y-m-d H:i:s", strtotime($comment->created))?>"><?php echo date("Y-m-d H:i:s", strtotime($comment->created))?></abbr></td>
 				</tr>
 				<?php endwhile?>
 			</tbody>

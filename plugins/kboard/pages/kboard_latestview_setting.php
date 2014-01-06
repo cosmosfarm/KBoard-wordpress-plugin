@@ -14,29 +14,29 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 .latestview-preview { width: 300px; border: 1px solid gray; }
 </style>
 <div class="wrap">
-	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?=plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
+	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?php echo plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
 	<h2>
 		KBoard : 최신글 뷰 관리
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
-	<form action="<?=KBOARD_LATESTVIEW_ACTION?>" method="post" onsubmit="return latestview_submit()">
-		<input type="hidden" name="latestview_uid" value="<?=$latestview->uid?>">
+	<form action="<?php echo KBOARD_LATESTVIEW_ACTION?>" method="post" onsubmit="return latestview_submit()">
+		<input type="hidden" name="latestview_uid" value="<?php echo $latestview->uid?>">
 		<input type="hidden" name="latestview_link">
 		<input type="hidden" name="latestview_unlink">
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
 					<th scope="row"><label for="name">최신글 뷰 이름</label></th>
-					<td><input type="text" id="name" name="name" size="30" tabindex="1" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?=date("Y-m-d", current_time('timestamp'))?><?php else:?><?=$latestview->name?><?php endif?>"></td>
+					<td><input type="text" id="name" name="name" size="30" tabindex="1" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>"></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="skin">최신글 스킨 선택</label></th>
 					<td><select name="skin" id="skin">
 							<?php foreach($skin->list AS $key => $value):?>
-							<option value="<?=$value?>"<?php if($latestview->skin == $value):?> selected<?php endif?>>
-								<?=$value?>
+							<option value="<?php echo $value?>"<?php if($latestview->skin == $value):?> selected<?php endif?>>
+								<?php echo $value?>
 							</option>
 							<?php endforeach;?>
 						</select>
@@ -75,7 +75,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<select name="link" id="link" size="10" multiple="multiple">
 									<?php $board->getList(); while($board->hasNext()):?>
 										<?php if(in_array($board->uid, $linkedBoard)):?>
-											<option value="<?=$board->uid?>"><?=$board->board_name?></option>
+											<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
 										<?php endif?>
 									<?php endwhile?>
 								</select>
@@ -91,7 +91,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<select name="unlink" id="unlink" size="10" multiple="multiple">
 									<?php $board->getList(); while($board->hasNext()):?>
 										<?php if(!in_array($board->uid, $linkedBoard)):?>
-											<option value="<?=$board->uid?>"><?=$board->board_name?></option>
+											<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
 										<?php endif?>
 									<?php endwhile?>
 								</select>
@@ -101,7 +101,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">모아보기 숏코드(Shortcode)</label></th>
-					<td><textarea style="width: 350px" id="shortcode">[kboard_latestview id=<?=$latestview->uid?>]</textarea>
+					<td><textarea style="width: 350px" id="shortcode">[kboard_latestview id=<?php echo $latestview->uid?>]</textarea>
 						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 모아보기를 생성합니다.</p></td>
 				</tr>
 				<?php endif?>

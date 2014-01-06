@@ -1,6 +1,6 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
-	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?=plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
+	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?php echo plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
 	<h2>
 		KBoard : 백업 및 복구
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
@@ -8,13 +8,13 @@
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
 	</h2>
 	
-	<form action="<?=KBOARD_BACKUP_PAGE?>&action=upload" method="post" enctype="multipart/form-data">
+	<form action="<?php echo KBOARD_BACKUP_PAGE?>&action=upload" method="post" enctype="multipart/form-data">
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
 					<th scope="row"><label for="board_name">복원파일 다운로드</label></th>
 					<td>
-						<a href="<?=KBOARD_BACKUP_ACTION?>" class="button-primary">xml 파일 다운로드</a>
+						<a href="<?php echo KBOARD_BACKUP_ACTION?>" class="button-primary">xml 파일 다운로드</a>
 						<p class="description">KBoard 데이터 파일을 다운로드 받습니다. 파일은 xml 파일이며 복구하기를 통해 백업된 상태로 되돌릴 수 있습니다.</p>
 					</td>
 				</tr>
