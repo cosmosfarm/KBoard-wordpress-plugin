@@ -81,12 +81,33 @@ function kboard_comments_languages(){
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');
-function kboard_comments_activation(){
+function kboard_comments_activation($networkwide){
 	global $wpdb;
 	
 	if(!defined('KBOARD_VERSION')){
 		die('KBoard 댓글 알림 :: 먼저 KBoard 플러그인을 설치하세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.');
 	}
+	
+	if(function_exists('is_multisite') && is_multisite()){
+		if($networkwide){
+			$old_blog = $wpdb->blogid;
+			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+			foreach($blogids as $blog_id){
+				switch_to_blog($blog_id);
+				kboard_comments_activation_execute();
+			}
+			switch_to_blog($old_blog);
+			return;
+		}
+	}
+	kboard_comments_activation_execute();
+}
+
+/*
+ * 활성화 실행
+ */
+function kboard_comments_activation_execute(){
+	global $wpdb;
 	
 	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_comments` (
 	  `uid` bigint(20) unsigned NOT NULL auto_increment,

@@ -510,7 +510,28 @@ function kboard_languages(){
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_activation');
-function kboard_activation(){
+function kboard_activation($networkwide){
+	global $wpdb;
+	
+	if(function_exists('is_multisite') && is_multisite()){
+		if($networkwide){
+			$old_blog = $wpdb->blogid;
+			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+			foreach($blogids as $blog_id){
+				switch_to_blog($blog_id);
+				kboard_activation_execute();
+			}
+			switch_to_blog($old_blog);
+			return;
+		}
+	}
+	kboard_activation_execute();
+}
+
+/*
+ * 활성화 실행
+ */
+function kboard_activation_execute(){
 	global $wpdb;
 	
 	/*
