@@ -659,7 +659,7 @@ function kboard_activation_execute(){
  * 비활성화
  */
 register_deactivation_hook(__FILE__, 'kboard_deactivation');
-function kboard_deactivation(){
+function kboard_deactivation($networkwide){
 	
 }
 
@@ -667,8 +667,30 @@ function kboard_deactivation(){
  * 언인스톨
  */
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
-function kboard_uninstall(){
+function kboard_uninstall($networkwide){
 	global $wpdb;
+	
+	if(function_exists('is_multisite') && is_multisite()){
+		if($networkwide){
+			$old_blog = $wpdb->blogid;
+			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+			foreach($blogids as $blog_id){
+				switch_to_blog($blog_id);
+				kboard_uninstall_execute();
+			}
+			switch_to_blog($old_blog);
+			return;
+		}
+	}
+	kboard_uninstall_execute();
+}
+
+/*
+ * 언인스톨 실행
+ */
+function kboard_uninstall_execute(){
+	global $wpdb;
+	
 	$drop_table = "DROP TABLE 
 		`".$wpdb->prefix."kboard_board_attached`,
 		`".$wpdb->prefix."kboard_board_content`,

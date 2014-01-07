@@ -146,7 +146,28 @@ function kboard_comments_deactivation(){
  * 언인스톨
  */
 register_uninstall_hook(__FILE__, 'kboard_comments_uninstall');
-function kboard_comments_uninstall(){
+function kboard_comments_uninstall($networkwide){
+	global $wpdb;
+	
+	if(function_exists('is_multisite') && is_multisite()){
+		if($networkwide){
+			$old_blog = $wpdb->blogid;
+			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+			foreach($blogids as $blog_id){
+				switch_to_blog($blog_id);
+				kboard_comments_uninstall_exeucte();
+			}
+			switch_to_blog($old_blog);
+			return;
+		}
+	}
+	kboard_comments_uninstall_exeucte();
+}
+
+/*
+ * 인인스톨 실행
+ */
+function kboard_comments_uninstall_exeucte(){
 	global $wpdb;
 	$drop_table = "DROP TABLE `".$wpdb->prefix."kboard_comments`";
 	mysql_query($drop_table);
