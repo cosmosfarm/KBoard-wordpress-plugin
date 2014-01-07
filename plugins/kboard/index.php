@@ -667,20 +667,18 @@ function kboard_deactivation($networkwide){
  * 언인스톨
  */
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
-function kboard_uninstall($networkwide){
+function kboard_uninstall(){
 	global $wpdb;
 	
 	if(function_exists('is_multisite') && is_multisite()){
-		if($networkwide){
-			$old_blog = $wpdb->blogid;
-			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
-			foreach($blogids as $blog_id){
-				switch_to_blog($blog_id);
-				kboard_uninstall_execute();
-			}
-			switch_to_blog($old_blog);
-			return;
+		$old_blog = $wpdb->blogid;
+		$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+		foreach($blogids as $blog_id){
+			switch_to_blog($blog_id);
+			kboard_uninstall_execute();
 		}
+		switch_to_blog($old_blog);
+		return;
 	}
 	kboard_uninstall_execute();
 }
