@@ -137,6 +137,7 @@ final class KBUpgrader {
 		else{
 			$extract_result = true;
 			foreach($archive_files AS $file){
+				if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
 				if($file['folder']){
 					$extract_result = $file_handler->mkPath($working_dir . '/' . $file['filename']);
 				}
