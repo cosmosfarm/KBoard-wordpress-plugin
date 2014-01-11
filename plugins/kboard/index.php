@@ -540,6 +540,21 @@ function kboard_ajax_builder(){
 }
 
 /*
+ * 관리자 알림 출력
+ */
+add_action('admin_notices', 'kboard_admin_notices');
+function kboard_admin_notices(){
+	if(!is_writable(WP_CONTENT_DIR.'/uploads')){
+		echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리 권한을 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">이 알림에 대해서 질문하기</a></p></div>';
+	}
+	
+	$upgrader = KBUpgrader::getInstance();
+	if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard){
+		echo '<div class="updated"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+	}
+}
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_activation');

@@ -78,6 +78,17 @@ function kboard_comments_languages(){
 }
 
 /*
+ * 관리자 알림 출력
+ */
+add_action('admin_notices', 'kboard_comments_admin_notices');
+function kboard_comments_admin_notices(){
+	$upgrader = KBUpgrader::getInstance();
+	if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments){
+		echo '<div class="updated"><p>KBoard 댓글 : '.$upgrader->getLatestVersion()->comments.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+	}
+}
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');

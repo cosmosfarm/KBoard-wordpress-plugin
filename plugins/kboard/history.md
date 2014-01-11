@@ -12,6 +12,7 @@
   9. kboard_list_where, kboard_list_orderby 워드프레스 필터 추가 및 외부 플러그인 제작에 사용 가능
   10. HTML Purifier 4.6.0 버전으로 교체
   11. 워드프레스 네트워크 활성화 기능 강화
+  12. 버그 수정
 
 
 

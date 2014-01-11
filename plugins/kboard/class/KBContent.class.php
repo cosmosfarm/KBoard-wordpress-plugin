@@ -316,16 +316,28 @@ class KBContent {
 	public function update_attach($uid){
 		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
+		// 업로드된 파일이 있는지 확인한다. 없으면 중단
+		$upload_checker = false;
+		foreach($_FILES AS $key => $value){
+			if(!strstr($key, $this->skin_attach_prefix)) continue;
+			if($_FILES[$key]['tmp_name']){
+				$upload_checker = true;
+				break;
+			}
+		}
+		if(!$upload_checker) return;
+		
 		$file = new KBFileHandler();
 		$file->setPath($this->attach_store_path);
 		
 		foreach($_FILES AS $key => $value){
+			if(!strstr($key, $this->skin_attach_prefix)) continue;
 			$key = str_replace($this->skin_attach_prefix, '', $key);
 			
 			$upload = $file->upload($this->skin_attach_prefix . $key);
 			$original_name = $upload['original_name'];
 			$file_path = $upload['path'] . $upload['stored_name'];
-			
+		
 			if($original_name){
 				$resource = kboard_query("SELECT file_path FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE file_key LIKE '$key' AND content_uid='$uid'");
 				list($present_file) = mysql_fetch_row($resource);
@@ -464,16 +476,18 @@ class KBContent {
 	public function setThumbnail($uid){
 		if(!$this->thumbnail_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
-		$file = new KBFileHandler();
-		$file->setPath($this->thumbnail_store_path);
-		$upload = $file->upload('thumbnail');
-		
-		$original_name = $upload['original_name'];
-		$file = $upload['path'] . $upload['stored_name'];
-		
-		if($upload['original_name']){
-			$this->removeThumbnail($uid);
-			kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET thumbnail_file='$file', thumbnail_name='$original_name' WHERE uid='$uid'");
+		if($_FILES['thumbnail']['tmp_name']){
+			$file = new KBFileHandler();
+			$file->setPath($this->thumbnail_store_path);
+			$upload = $file->upload('thumbnail');
+			
+			$original_name = $upload['original_name'];
+			$file = $upload['path'] . $upload['stored_name'];
+			
+			if($upload['original_name']){
+				$this->removeThumbnail($uid);
+				kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET thumbnail_file='$file', thumbnail_name='$original_name' WHERE uid='$uid'");
+			}
 		}
 	}
 	
