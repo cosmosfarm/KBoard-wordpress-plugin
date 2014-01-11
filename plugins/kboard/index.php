@@ -44,6 +44,7 @@ include_once 'class/KBLatestviewList.class.php';
 include_once 'class/KBFileHandler.class.php';
 include_once 'helper/Pagination.helper.php';
 include_once 'helper/Security.helper.php';
+include_once 'helper/functions.helper.php';
 
 /*
  * jQuery 추가
@@ -503,7 +504,39 @@ function kboard_captcha(){
  */
 add_action('plugins_loaded', 'kboard_languages');
 function kboard_languages(){
+	$locale = apply_filters('plugin_locale', get_locale(), 'kboard');
 	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)).'/languages/');
+}
+
+/*
+ * 비동기로 게시판 데이터를 요청한다.
+ */
+add_action('init', 'kboard_ajax');
+function kboard_ajax(){
+	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
+	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
+}
+
+/*
+ * 비동기 게시판 빌더
+ */
+function kboard_ajax_builder(){
+	if(!$_SESSION['kboard_board_id']) die('KBoard 알림 :: id=null, 아이디값은 필수 입니다.');
+	
+	$board = new KBoard();
+	$board->setID($_SESSION['kboard_board_id']);
+	
+	if($board->uid){
+		$board_builder = new KBoardBuilder();
+		$board_builder->setBoardID($board->uid);
+		$board_builder->setSkin($board->skin);
+		$board_builder->setRpp($board->page_rpp);
+		$board_builder->board = $board;
+		die($board_builder->getJsonList());
+	}
+	else{
+		die('KBoard 알림 :: id='.$_SESSION['kboard_board_id'].', 생성되지 않은 게시판입니다.');
+	}
 }
 
 /*

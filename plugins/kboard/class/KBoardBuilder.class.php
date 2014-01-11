@@ -67,6 +67,9 @@ class KBoardBuilder {
 	public function setBoardID($board_id){
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
+		
+		// ajax 요청에서 사용될 게시판 id는 세션에 저장한다. 외부 요청 불허
+		$_SESSION['kboard_board_id'] = $this->board_id;
 	}
 	
 	/**
@@ -83,6 +86,43 @@ class KBoardBuilder {
 	 */
 	public function setURL($url){
 		$this->url = $url;
+	}
+	
+	/**
+	 * 게시판 리스트를 반환한다.
+	 * @return KBContentList
+	 */
+	public function getList(){
+		$list = new KBContentList($this->board_id);
+		$list->category1($this->category1);
+		$list->category2($this->category2);
+		$list->rpp($this->rpp)->page($_GET['pageid'])->getList($_GET['keyword'], $_GET['target']);
+		return $list;
+	}
+	
+	/**
+	 * 게시판 데이터를 JSON 형식으로 반환한다.
+	 */
+	public function getJsonList(){
+		$list = $this->getList();
+		$data = array();
+		while($content = $list->hasNext()){
+			$_data['uid'] = $content->uid;
+			$_data['member_uid'] = $content->member_uid;
+			$_data['member_display'] = $content->member_display;
+			$_data['title'] = $content->title;
+			$_data['content'] = $content->secret!='true'?$content->content:'';
+			$_data['date'] = $content->date;
+			$_data['view'] = $content->view;
+			$_data['thumbnail_file'] = $content->thumbnail_file;
+			$_data['thumbnail_name'] = $content->thumbnail_name;
+			$_data['category1'] = $content->category1;
+			$_data['category2'] = $content->category2;
+			$_data['secret'] = $content->secret;
+			$_data['search'] = $content->search;
+			$data[] = $_data;
+		}
+		return kboard_json_encode($data);
 	}
 	
 	/**
@@ -108,13 +148,7 @@ class KBoardBuilder {
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
 		$url = new KBUrl();
-		
-		$list = new KBContentList($this->board_id);
-		$list->category1($this->category1);
-		$list->category2($this->category2);
-		
-		$list->rpp($this->rpp)->page($_GET['pageid'])->getList($_GET['keyword'], $_GET['target']);
-		
+		$list = $this->getList();
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
 		
