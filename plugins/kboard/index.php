@@ -545,7 +545,7 @@ function kboard_ajax_builder(){
 add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
 	if(!is_writable(WP_CONTENT_DIR.'/uploads')){
-		echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리 권한을 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">이 알림에 대해서 질문하기</a></p></div>';
+		echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">이 알림에 대해서 질문하기</a></p></div>';
 	}
 	
 	$upgrader = KBUpgrader::getInstance();
