@@ -100,7 +100,8 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
-	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3') kboard_comments_settings_menu();
 }
 
 /*
@@ -767,9 +768,6 @@ function kboard_uninstall_execute(){
  */
 add_action('admin_init', 'kboard_system_update');
 function kboard_system_update(){
-	// 댓글 시스템 업데이트
-	if(function_exists('kboard_comments_system_update')) kboard_comments_system_update();
-	
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
 	if(KBOARD_VERSION <= get_option('kboard_version')) return;
 	

@@ -24,9 +24,8 @@ include_once 'class/KBCommentSkin.class.php';
 /*
  * 관리자메뉴에 추가
  */
-add_action('admin_menu', 'kboard_comments_settings_menu');
 function kboard_comments_settings_menu(){
-	
+	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
 }
 
 /*
@@ -198,7 +197,6 @@ function kboard_comments_system_update(){
 	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
 	
 	$networkwide = is_plugin_active_for_network(__FILE__);
-	
 	
 	/*
 	 * KBoard 댓글 2.8
