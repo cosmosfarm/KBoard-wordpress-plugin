@@ -120,6 +120,8 @@ class KBoardBuilder {
 			$_data['category2'] = $content->category2;
 			$_data['secret'] = $content->secret;
 			$_data['search'] = $content->search;
+			$_data['attach'] = $content->attach;
+			$_data['option'] = $content->option;
 			$data[] = $_data;
 		}
 		return kboard_json_encode($data);
