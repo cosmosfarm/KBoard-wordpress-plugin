@@ -107,7 +107,6 @@ function kboard_settings_menu(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	kboard_system_update();
 	if($_GET['access_token']){
 		$_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
 	}
@@ -119,7 +118,6 @@ function kboard_dashboard(){
  * 게시판 목록 페이지
  */
 function kboard_list(){
-	kboard_system_update();
 	if($_GET['board_id']){
 		kboard_setting();
 	}
@@ -142,7 +140,6 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
-	kboard_system_update();
 	include 'class/KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
@@ -225,7 +222,6 @@ function kboard_update(){
  * 최신글 뷰
  */
 function kboard_latestview(){
-	kboard_system_update();
 	if($_GET['latestview_uid']){
 		include 'class/KBoardSkin.class.php';
 		$skin = KBoardSkin::getInstance();
@@ -256,7 +252,6 @@ function kboard_latestview(){
  * 최신글 뷰 생성
  */
 function kboard_latestview_new(){
-	kboard_system_update();
 	include 'class/KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_latestview_setting.php';
@@ -701,6 +696,25 @@ function kboard_activation_execute(){
 		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `search` CHAR(1) NOT NULL AFTER `notice`");
 	}
 	unset($resource, $name);
+	
+	/*
+	 * KBoard 4.1
+	 * kboard_board_content `comment` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_content` `comment`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `comment` INT UNSIGNED NOT NULL AFTER `view`");
+	}
+	if(defined('KBOARD_COMMNETS_VERSION')){
+		// comment 컬럼에 댓글 입력 숫자를 등록한다.
+		$resource = kboard_query("SELECT `uid` FROM `".$wpdb->prefix."kboard_board_content` WHERE 1");
+		while($row = mysql_fetch_row($resource)){
+			list($count) = mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM `".$wpdb->prefix."kboard_comments` WHERE `content_uid`='".intval($row[0])."'"));
+			kboard_query("UPDATE `".$wpdb->prefix."kboard_board_content` SET `comment`='$count' WHERE `uid`='".intval($row[0])."'");
+		}
+	}
+	unset($resource, $name, $count);
 }
 
 /*
@@ -751,13 +765,29 @@ function kboard_uninstall_execute(){
 /*
  * 시스템 업데이트
  */
+add_action('admin_init', 'kboard_system_update');
 function kboard_system_update(){
+	// 댓글 시스템 업데이트
+	if(function_exists('kboard_comments_system_update')) kboard_comments_system_update();
+	
+	// 시스템 업데이트를 이미 진행 했다면 중단한다.
+	if(KBOARD_VERSION <= get_option('kboard_version')) return;
+	
+	// 시스템 업데이트를 확인하기 위해서 버전 등록
+	if(get_option('kboard_version') !== false) update_option('kboard_version', KBOARD_VERSION);
+	else add_option('kboard_version', KBOARD_VERSION, null, 'no');
+	
+	// 관리자 알림
+	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
+	
+	$networkwide = is_plugin_active_for_network(__FILE__);
+	
 	/*
 	 * KBoard 2.0
 	 * kboard_board_meta 테이블 추가 생성
 	 */
 	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_meta`")){
-		kboard_activation();
+		kboard_activation($networkwide);
 		return;
 	}
 	
@@ -769,7 +799,7 @@ function kboard_system_update(){
 	while(list($table) = mysql_fetch_row($resource)){
 		$prefix = substr($table, 0, 7);
 		if($prefix == 'kboard_'){
-			kboard_activation();
+			kboard_activation($networkwide);
 			return;
 		}
 	}
@@ -782,7 +812,7 @@ function kboard_system_update(){
 	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_meta` `value`");
 	list($name, $type) = mysql_fetch_row($resource);
 	if(stristr($type, 'varchar')){
-		kboard_activation();
+		kboard_activation($networkwide);
 		return;
 	}
 	unset($resource, $name, $type);
@@ -801,11 +831,11 @@ function kboard_system_update(){
 	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `search`");
 	list($name) = mysql_fetch_row($resource);
 	if(!$name){
-		kboard_activation();
+		kboard_activation($networkwide);
 		return;
 	}
 	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_latestview`")){
-		kboard_activation();
+		kboard_activation($networkwide);
 		return;
 	}
 	unset($resource, $name);
@@ -832,8 +862,15 @@ function kboard_system_update(){
 	@unlink(KBOARD_DIR_PATH . '/XML2Array.class.php');
 	
 	/*
-	 * 댓글 시스템 업데이트
+	 * KBoard 4.1
+	 * kboard_board_content `comment` 컬럼 생성 확인
 	 */
-	if(function_exists('kboard_comments_system_update')) kboard_comments_system_update();
+	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `comment`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($resource, $name);
 }
 ?>

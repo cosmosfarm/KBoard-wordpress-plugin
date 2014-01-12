@@ -532,6 +532,19 @@ class KBContent {
 	 * @return string
 	 */
 	public function getCommentsCount($prefix='(', $endfix=')'){
+		if($this->uid){
+			if($this->comment) return "{$prefix}{$this->comment}{$endfix}";
+		}
+		return '';
+	}
+	
+	/**
+	 * 게시글의 댓글 개수를 반환한다.
+	 * @param string $prefix
+	 * @param string $endfix
+	 * @return string
+	 */
+	public function getCommentsCountOld($prefix='(', $endfix=')'){
 		if($this->uid && defined('KBOARD_COMMNETS_VERSION')){
 			$commentList = new KBCommentList($this->uid);
 			$commentsCount = $commentList->getCount();
