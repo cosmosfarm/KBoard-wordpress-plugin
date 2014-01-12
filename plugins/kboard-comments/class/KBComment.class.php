@@ -31,9 +31,8 @@ class KBComment {
 	 * @return KBComment
 	 */
 	public function initWithUID($uid){
-		if($uid){
-			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1"));
-		}
+		$uid = intval($uid);
+		$this->row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1"));
 		return $this;
 	}
 	

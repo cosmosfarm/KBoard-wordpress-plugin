@@ -59,7 +59,7 @@ class KBCommentList {
 	 * @param int $content_uid
 	 */
 	public function setContentUID($content_uid){
-		$this->content_uid = $content_uid;
+		$this->content_uid = intval($content_uid);
 	}
 	
 	/**
@@ -126,7 +126,7 @@ class KBCommentList {
 	 * @param string $password
 	 */
 	public function add($parent_uid, $user_uid, $user_display, $content, $password=''){
-		$content_uid = intval($this->content_uid);
+		$content_uid = $this->content_uid;
 		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);
 		$user_display = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
@@ -138,6 +138,9 @@ class KBCommentList {
 		
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		
+		// 댓글 숫자를 게시물에 등록한다.
+		kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `comment`=`comment`+1 WHERE `uid`='".$content_uid."'");
 		
 		//댓글 입력 액션 훅 실행
 		do_action('kboard_comments_insert', $insert_id);
@@ -155,7 +158,19 @@ class KBCommentList {
 		//댓글 삭제 액션 훅 실행
 		do_action('kboard_comments_delete', $uid);
 		
+		if(empty($this->content_uid)){
+			$comment = new KBComment();
+			$comment->initWithUID($uid);
+			$content_uid = $comment->content_uid;
+		}
+		else{
+			$content_uid = $this->content_uid;
+		}
+		
 		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid'");
+		
+		// 댓글 숫자를 게시물에 등록한다.
+		kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='".$content_uid."'");
 	}
 }
 ?>

@@ -80,7 +80,7 @@
 					<td><a class="row-title" href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo $board->board_name?></a></td>
 					<td>
 						<?php if($comment->user_uid):?>
-						<a href="<?php echo admin_url('/wp-admin/user-edit.php?user_id='.$comment->user_uid)?>"><?php echo $comment->user_display?></a>
+						<a href="<?php echo admin_url('/user-edit.php?user_id='.$comment->user_uid)?>"><?php echo $comment->user_display?></a>
 						<?php else:?>
 						<?php echo $comment->user_display?>
 						<?php endif?>
