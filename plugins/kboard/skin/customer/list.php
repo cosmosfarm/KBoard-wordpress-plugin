@@ -67,7 +67,7 @@
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
 				</tr>
-				<?php endwhile;?>
+				<?php endwhile?>
 				<?php while($content = $list->hasNext()):?>
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
@@ -81,7 +81,7 @@
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
 				</tr>
-				<?php endwhile;?>
+				<?php endwhile?>
 			</tbody>
 		</table>
 	</div>
