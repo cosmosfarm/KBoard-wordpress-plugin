@@ -157,6 +157,7 @@ class KBContent {
 		$data['content'] = $this->content;
 		$data['date'] = date("YmdHis", current_time('timestamp'));
 		$data['view'] = 0;
+		$data['comment'] = 0;
 		$data['category1'] = $this->category1;
 		$data['category2'] = $this->category2;
 		$data['secret'] = $this->secret;
