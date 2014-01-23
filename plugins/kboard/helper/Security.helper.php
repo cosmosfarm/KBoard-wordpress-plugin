@@ -33,8 +33,6 @@ function kboard_xssfilter($data){
 		$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
 		$HTMLPurifier_Config->set('HTML.SafeObject', true);
 		$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
-		$HTMLPurifier_Config->set('HTML.AllowedAttributes', "*.style,*.alt,*.title,*.id,*.class,*.name,*.classid,*.usemap,*.type,a.href,a.target,src,height,width,table.align,table.border,table.cellpadding,table.cellspacing,frameborder");
-		$HTMLPurifier_Config->set('HTML.AllowedElements','h1,h2,h3,h4,h5,h6,a,p,ol,li,ul,dl,dt,dd,b,br,span,img,pre,blockquote,div,table,thead,tbody,tfoot,th,tr,td,iframe,object,embed,strong');
 		$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
 		$HTMLPurifier_Config->set('Output.FlashCompat', true);
 		$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
