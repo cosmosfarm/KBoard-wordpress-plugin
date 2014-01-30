@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="<?php echo $skin_path?>/style.css">
-
-<div id="kboard-editor">
+<div id="kboard-default-editor">
 	<form method="post" action="<?php echo $url->set('mod', $_GET['mod'])->set('uid', $_GET['uid'])->toString()?>">
 		<div class="kboard-header"></div>
 		

@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="<?php echo $skin_path?>/style.css">
-
-<div id="kboard-editor">
+<div id="kboard-avatar-editor">
 	<form method="post" action="<?php echo $url->toString()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
 		<input type="hidden" name="mod" value="editor">
 		<input type="hidden" name="uid" value="<?php echo $content->uid?>">

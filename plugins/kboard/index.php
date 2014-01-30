@@ -558,6 +558,17 @@ function kboard_admin_notices(){
 }
 
 /*
+ * 게시판 스킨의 스타일 파일을 출력한다.
+ */
+add_action('init', 'kboard_skin_style');
+function kboard_skin_style(){
+	$skin = KBoardSkin::getInstance();
+	foreach($skin->list AS $key => $value){
+		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
+	}
+}
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_activation');

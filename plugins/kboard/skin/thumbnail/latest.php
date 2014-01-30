@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="<?php echo $skin_path?>/style.css">
-
-<div id="kboard-latest">
+<div id="kboard-thumbnail-latest">
 	<table>
 		<thead>
 			<tr>

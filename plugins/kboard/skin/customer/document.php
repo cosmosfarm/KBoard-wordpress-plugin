@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="<?php echo $skin_path?>/style.css">
-
-<div id="kboard-document">
+<div id="kboard-customer-document">
 	<div class="kboard-header"></div>
 	
 	<div class="kboard-document-wrap" itemscope itemtype="http://schema.org/Article">

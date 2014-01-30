@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="<?php echo $skin_path?>/style.css">
-
-<div id="kboard-list">
+<div id="kboard-default-list">
 
 	<!-- 검색폼 시작 -->
 	<div class="kboard-header">
