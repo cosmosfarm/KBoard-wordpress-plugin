@@ -599,88 +599,89 @@ function kboard_activation_execute(){
 	unset($resource, $table, $prefix);
 	
 	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_setting` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
-	  `board_name` varchar(127) NOT NULL,
-	  `skin` varchar(127) NOT NULL,
-	  `use_comment` varchar(5) NOT NULL,
-	  `use_editor` varchar(5) NOT NULL,
-	  `permission_read` varchar(127) NOT NULL,
-	  `permission_write` varchar(127) NOT NULL,
-	  `admin_user` varchar(127) NOT NULL,
-	  `use_category` varchar(5) NOT NULL,
-	  `category1_list` varchar(127) NOT NULL,
-	  `category2_list` varchar(127) NOT NULL,
-	  `page_rpp` int(10) unsigned NOT NULL,
-	  `created` char(14) NOT NULL,
-	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`board_name` varchar(127) NOT NULL,
+		`skin` varchar(127) NOT NULL,
+		`use_comment` varchar(5) NOT NULL,
+		`use_editor` varchar(5) NOT NULL,
+		`permission_read` varchar(127) NOT NULL,
+		`permission_write` varchar(127) NOT NULL,
+		`admin_user` varchar(127) NOT NULL,
+		`use_category` varchar(5) NOT NULL,
+		`category1_list` varchar(127) NOT NULL,
+		`category2_list` varchar(127) NOT NULL,
+		`page_rpp` int(10) unsigned NOT NULL,
+		`created` char(14) NOT NULL,
+		PRIMARY KEY  (`uid`)
+	)";
 	kboard_query($kboard_board_setting);
 	
 	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_attached` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
-	  `content_uid` bigint(20) unsigned NOT NULL,
-	  `file_key` varchar(127) NOT NULL,
-	  `date` char(14) NOT NULL,
-	  `file_path` varchar(127) NOT NULL,
-	  `file_name` varchar(127) NOT NULL,
-	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`content_uid` bigint(20) unsigned NOT NULL,
+		`file_key` varchar(127) NOT NULL,
+		`date` char(14) NOT NULL,
+		`file_path` varchar(127) NOT NULL,
+		`file_name` varchar(127) NOT NULL,
+		PRIMARY KEY  (`uid`)
+	)";
 	kboard_query($kboard_board_attached);
 	
 	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_content` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
-	  `board_id` bigint(20) unsigned NOT NULL,
-	  `member_uid` bigint(20) unsigned NOT NULL,
-	  `member_display` varchar(127) NOT NULL,
-	  `title` varchar(127) NOT NULL,
-	  `content` text NOT NULL,
-	  `date` char(14) NOT NULL,
-	  `view` int(10) unsigned NOT NULL,
-	  `thumbnail_file` varchar(127) NOT NULL,
-	  `thumbnail_name` varchar(127) NOT NULL,
-	  `category1` varchar(127) NOT NULL,
-	  `category2` varchar(127) NOT NULL,
-	  `secret` varchar(5) NOT NULL,
-	  `notice` varchar(5) NOT NULL,
-	  `search` char(1) NOT NULL,
-	  `password` varchar(127) NOT NULL,
-	  PRIMARY KEY  (`uid`),
-	  KEY `board_id` (`board_id`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`board_id` bigint(20) unsigned NOT NULL,
+		`member_uid` bigint(20) unsigned NOT NULL,
+		`member_display` varchar(127) NOT NULL,
+		`title` varchar(127) NOT NULL,
+		`content` text NOT NULL,
+		`date` char(14) NOT NULL,
+		`view` int(10) unsigned NOT NULL,
+		`comment` int(10) unsigned NOT NULL,
+		`thumbnail_file` varchar(127) NOT NULL,
+		`thumbnail_name` varchar(127) NOT NULL,
+		`category1` varchar(127) NOT NULL,
+		`category2` varchar(127) NOT NULL,
+		`secret` varchar(5) NOT NULL,
+		`notice` varchar(5) NOT NULL,
+		`search` char(1) NOT NULL,
+		`password` varchar(127) NOT NULL,
+		PRIMARY KEY  (`uid`),
+		KEY `board_id` (`board_id`)
+	)";
 	kboard_query($kboard_board_content);
 	
 	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_option` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
-	  `content_uid` bigint(20) unsigned NOT NULL,
-	  `option_key` varchar(127) NOT NULL,
-	  `option_value` text NOT NULL,
-	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`content_uid` bigint(20) unsigned NOT NULL,
+		`option_key` varchar(127) NOT NULL,
+		`option_value` text NOT NULL,
+		PRIMARY KEY  (`uid`)
+	)";
 	kboard_query($kboard_board_option);
 	
 	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_meta` (
-	  `board_id` bigint(20) unsigned NOT NULL,
-	  `key` varchar(127) NOT NULL,
-	  `value` text NOT NULL,
-	  UNIQUE KEY `meta_index` (`board_id`,`key`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+		`board_id` bigint(20) unsigned NOT NULL,
+		`key` varchar(127) NOT NULL,
+		`value` text NOT NULL,
+		UNIQUE KEY `meta_index` (`board_id`,`key`)
+	)";
 	kboard_query($kboard_board_meta);
 	
 	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
-	  `name` varchar(127) NOT NULL,
-	  `skin` varchar(127) NOT NULL,
-	  `rpp` int(10) unsigned NOT NULL,
-	  `created` char(14) NOT NULL,
-	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`name` varchar(127) NOT NULL,
+		`skin` varchar(127) NOT NULL,
+		`rpp` int(10) unsigned NOT NULL,
+		`created` char(14) NOT NULL,
+		PRIMARY KEY  (`uid`)
+	)";
 	kboard_query($kboard_board_latestview);
 	
 	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview_link` (
-	  `latestview_uid` bigint(20) unsigned NOT NULL,
-	  `board_id` bigint(20) unsigned NOT NULL,
-	  UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+		`latestview_uid` bigint(20) unsigned NOT NULL,
+		`board_id` bigint(20) unsigned NOT NULL,
+		UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
+	)";
 	kboard_query($kboard_board_latestview);
 	
 	/*

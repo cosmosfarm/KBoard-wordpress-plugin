@@ -120,16 +120,16 @@ function kboard_comments_activation_execute(){
 	global $wpdb;
 	
 	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_comments` (
-	  `uid` bigint(20) unsigned NOT NULL auto_increment,
-	  `content_uid` bigint(20) unsigned NOT NULL,
-	  `parent_uid` bigint(20) unsigned NOT NULL,
-	  `user_uid` bigint(20) unsigned NOT NULL,
-	  `user_display` varchar(127) NOT NULL,
-	  `content` text NOT NULL,
-	  `created` char(14) NOT NULL,
-	  `password` varchar(127) NOT NULL,
-	  PRIMARY KEY  (`uid`)
-	) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
+		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`content_uid` bigint(20) unsigned NOT NULL,
+		`parent_uid` bigint(20) unsigned NOT NULL,
+		`user_uid` bigint(20) unsigned NOT NULL,
+		`user_display` varchar(127) NOT NULL,
+		`content` text NOT NULL,
+		`created` char(14) NOT NULL,
+		`password` varchar(127) NOT NULL,
+		PRIMARY KEY  (`uid`)
+	)";
 	kboard_query($kboard_comments);
 	
 	/*
