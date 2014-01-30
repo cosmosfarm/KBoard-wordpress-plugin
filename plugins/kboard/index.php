@@ -142,7 +142,6 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
-	include 'class/KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
@@ -224,7 +223,6 @@ function kboard_update(){
  */
 function kboard_latestview(){
 	if($_GET['latestview_uid']){
-		include 'class/KBoardSkin.class.php';
 		$skin = KBoardSkin::getInstance();
 		$latestview = new KBLatestview();
 		$latestview->initWithUID($_GET['latestview_uid']);
@@ -253,7 +251,6 @@ function kboard_latestview(){
  * 최신글 뷰 생성
  */
 function kboard_latestview_new(){
-	include 'class/KBoardSkin.class.php';
 	$skin = KBoardSkin::getInstance();
 	include_once 'pages/kboard_latestview_setting.php';
 }
