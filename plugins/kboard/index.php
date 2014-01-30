@@ -35,6 +35,7 @@ include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
 include_once 'class/KBoard.class.php';
 include_once 'class/KBoardMeta.class.php';
+include_once 'class/KBoardSkin.class.php';
 include_once 'class/KBSeo.class.php';
 include_once 'class/KBUrl.class.php';
 include_once 'class/KBUpgrader.class.php';
@@ -150,7 +151,6 @@ function kboard_new(){
  * 게시판 목록 페이지
  */
 function kboard_setting(){
-	include 'class/KBoardSkin.class.php';
 	include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
