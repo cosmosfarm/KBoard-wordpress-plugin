@@ -109,15 +109,6 @@ final class KBUpgrader {
 	 * @return string
 	 */
 	public function install($package, $content_type, $delete_package = true){
-		$file_handler = new KBFileHandler();
-		$upgrade_folder = WP_CONTENT_DIR . '/upgrade/';
-		$upgrade_files = $file_handler->getDirlist($upgrade_folder);
-		$working_dir = $upgrade_folder . basename($package, '.zip');
-		
-		foreach($upgrade_files as $file){
-			$file_handler->delete($upgrade_folder . $file);
-		}
-		
 		// See #15789 - PclZip uses string functions on binary data, If it's overloaded with Multibyte safe functions the results are incorrect.
 		if(ini_get('mbstring.func_overload') && function_exists('mb_internal_encoding')){
 			$previous_encoding = mb_internal_encoding();
@@ -131,35 +122,69 @@ final class KBUpgrader {
 		if($delete_package) unlink($package);
 		
 		if(!$archive_files){
-			$file_handler->delete($working_dir);
 			die('<script>alert("'.__('Download file is decompression failed, please check directory and file permissions.', 'kboard').'");history.go(-1);</script>');
 		}
 		else{
-			$extract_result = true;
-			foreach($archive_files AS $file){
-				if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
-				if($file['folder']){
-					$extract_result = $file_handler->mkPath($working_dir . '/' . $file['filename']);
-				}
-				else{
-					$extract_result = $file_handler->putContents($working_dir . '/' . $file['filename'], $file['content']);
+			$install_result = true;
+			
+			if(is_writable($module_dir)){
+				$file_handler = new KBFileHandler();
+				$target_dir = trailingslashit(WP_CONTENT_DIR . $content_type);
+				foreach($archive_files AS $file){
+					if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
+					if($file['folder']){
+						$install_result = $file_handler->mkPath($target_dir . $file['filename']);
+					}
+					else{
+						$install_result = $file_handler->putContents($target_dir . $file['filename'], $file['content']);
+					}
+					if(!$install_result) break;
 				}
 			}
-			
-			if(!$extract_result){
-				$file_handler->delete($working_dir);
-				die('<script>alert("'.__('File copy failed, directory requires write permission.', 'kboard').' (/wp-content/upgrade)");history.go(-1);</script>');
+			else{
+				global $wp_filesystem;
+				$target_dir = trailingslashit($wp_filesystem->find_folder(WP_CONTENT_DIR . $content_type));
+				foreach($archive_files AS $file){
+					if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
+					if($file['folder']){
+						if($wp_filesystem->is_dir($target_dir . $file['filename'])) continue;
+						else $install_result = $wp_filesystem->mkdir($target_dir . $file['filename'], FS_CHMOD_DIR);
+					}
+					else{
+						$install_result = $wp_filesystem->put_contents($target_dir . $file['filename'], $file['content'], FS_CHMOD_FILE);
+					}
+					if(!$install_result) break;
+				}
 			}
-			
-			$copy_result = $file_handler->copy($working_dir, WP_CONTENT_DIR . $content_type);
-			
-			if(!$copy_result){
-				$file_handler->delete($working_dir);
+			if(!$install_result){
 				die('<script>alert("'.__('File copy failed, directory requires write permission.', 'kboard').' (/wp-content'.$content_type.')");history.go(-1);</script>');
 			}
 		}
-		$file_handler->delete($working_dir);
-		return $working_dir;
+		return '';
+	}
+	
+	/**
+	 * 워드프레스 Filesystem을 초기화 한다.
+	 * @param string $form_url
+	 * @param string $path
+	 * @param string $method
+	 * @param string $fields
+	 * @return boolean
+	 */
+	function credentials($form_url, $path, $method='', $fields=null){
+		global $wp_filesystem;
+		
+		if(is_writable($path)){
+			return true;
+		}
+		if(false === ($creds = request_filesystem_credentials($form_url, $method, false, $path, $fields))){
+			return false;
+		}
+		if(!WP_Filesystem($creds)){
+			request_filesystem_credentials($form_url, $method, true, $path);
+			return false;
+		}
+		return true;
 	}
 }
 ?>

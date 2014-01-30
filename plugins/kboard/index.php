@@ -333,30 +333,37 @@ function kboard_backup(){
  * 게시판 업그레이드
  */
 function kboard_upgrade(){
-	if(!current_user_can('activate_plugins')) wp_die('KBoard : 업그레이드 권한이 없습니다.');
+	if(!current_user_can('activate_plugins')) wp_die('KBoard : 설치 권한이 없습니다.');
+	
+	$action = kboard_htmlclear($_GET['action']);
+	$form_url = wp_nonce_url(admin_url("/admin.php?page=kboard_upgrade&action=$action"), 'kboard_upgrade');
 	$upgrader = KBUpgrader::getInstance();
 	
-	if($_GET['action'] == 'kboard'){
+	if($action == 'kboard'){
 		if($upgrader->getLatestVersion()->kboard <= KBOARD_VERSION){
 			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 		}
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, $_SESSION['cosmosfarm_access_token']);
-		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
-	else if($_GET['action'] == 'comments'){
+	else if($action == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
 			if($upgrader->getLatestVersion()->comments <= KBOARD_COMMNETS_VERSION){
 				die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 			}
 		}
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, $_SESSION['cosmosfarm_access_token']);
-		$working_dir = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 	}
 	else{
-		die('<script>alert("업그레이드에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("설치에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	
-	die('<script>alert("업그레이드 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+	die('<script>alert("완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 }
 
 /*
