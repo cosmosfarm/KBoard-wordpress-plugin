@@ -21,6 +21,7 @@ class KBUrl {
 		$this->data = $_GET;
 		$this->data['mod'] = null;
 		$this->data['uid'] = null;
+		$this->data['parent_uid'] = null;
 		return $this;
 	}
 	

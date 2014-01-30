@@ -14,7 +14,7 @@
 						<option value="<?php echo $board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
-				<?php endif;?>
+				<?php endif?>
 				
 				<?php if($board->initCategory2()):?>
 					<select name="category2" onchange="jQuery('#kboard-search-form').submit();">
@@ -23,7 +23,7 @@
 						<option value="<?php echo $board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
-				<?php endif;?>
+				<?php endif?>
 			</div>
 			<?php endif?>
 			
@@ -79,6 +79,7 @@
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
 				</tr>
+				<?php $boardBuilder->builderReply($content->uid)?>
 				<?php endwhile?>
 			</tbody>
 		</table>

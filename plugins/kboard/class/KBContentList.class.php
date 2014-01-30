@@ -17,6 +17,7 @@ class KBContentList {
 	
 	private $resource;
 	private $resource_notice;
+	private $resource_reply;
 	private $row;
 	
 	public function __construct($board_id=''){
@@ -163,7 +164,7 @@ class KBContentList {
 	
 	/**
 	 * 리스트에서 다음 게시물을 반환한다.
-	 * @return Content
+	 * @return KBContent
 	 */
 	public function hasNext(){
 		if(!$this->resource) $this->getList();
@@ -211,7 +212,7 @@ class KBContentList {
 	 * 공지사항 리스트에서 다음 게시물을 반환한다.
 	 * @deprecated
 	 * @see ContentList::hasNextNotice()
-	 * @return Content
+	 * @return KBContent
 	 */
 	public function hasNoticeNext(){
 		return $this->hasNextNotice();
@@ -224,6 +225,33 @@ class KBContentList {
 	public function hasNextNotice(){
 		if(!$this->resource_notice) $this->getNoticeList();
 		$this->row = mysql_fetch_object($this->resource_notice);
+	
+		if($this->row){
+			$content = new KBContent();
+			$content->initWithRow($this->row);
+			return $content;
+		}
+		else{
+			return $this->row;
+		}
+	}
+	
+	/**
+	 * 답글 리스트를 반환한다.
+	 * @return resource
+	 */
+	public function getReplyList($parent_uid){
+		$this->resource_reply = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `parent_uid`='$parent_uid' ORDER BY `date` ASC");
+		return $this->resource_reply;
+	}
+	
+	/**
+	 * 답글 리스트에서 다음 게시물을 반환한다.
+	 * @return KBContent
+	 */
+	public function hasNextReply(){
+		if(!$this->resource_reply) return;
+		$this->row = mysql_fetch_object($this->resource_reply);
 	
 		if($this->row){
 			$content = new KBContent();

@@ -80,6 +80,7 @@ class KBContent {
 	 * 게시글을 등록/수정한다.
 	 */
 	public function execute(){
+		$this->parent_uid = intval($_POST['parent_uid']);
 		$this->member_uid = intval($_POST['member_uid']);
 		$this->member_display = kboard_xssfilter(kboard_htmlclear(trim($_POST['member_display'])));
 		$this->title = kboard_xssfilter(kboard_htmlclear(trim($_POST['title'])));
@@ -150,7 +151,14 @@ class KBContent {
 		global $user_ID;
 		$userdata = get_userdata($user_ID);
 		
-		$data['board_id'] = $this->board_id;
+		if($this->parent_uid){
+			$data['board_id'] = 0;
+			$data['parent_uid'] = $this->parent_uid;
+		}
+		else{
+			$data['board_id'] = $this->board_id;
+			$data['parent_uid'] = 0;
+		}
 		$data['member_uid'] = intval($userdata->data->ID);
 		$data['member_display'] = $this->member_display?$this->member_display:$userdata->data->display_name;
 		$data['title'] = $this->title;
@@ -188,7 +196,14 @@ class KBContent {
 	 */
 	private function _updateContent(){
 		if($this->uid){
-			$data['board_id'] = $this->board_id;
+			if($this->parent_uid){
+				$data['board_id'] = 0;
+				$data['parent_uid'] = $this->parent_uid;
+			}
+			else{
+				$data['board_id'] = $this->board_id;
+				$data['parent_uid'] = 0;
+			}
 			$data['member_uid'] = $this->member_uid;
 			$data['member_display'] = $this->member_display;
 			$data['title'] = $this->title;

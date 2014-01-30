@@ -22,6 +22,7 @@ class KBoardBuilder {
 	
 	public function __construct($board_id=''){
 		$_GET['uid'] = intval($_GET['uid']);
+		$_GET['parent_uid'] = intval($_GET['parent_uid']);
 		$_GET['pageid'] = intval($_GET['pageid']);
 		$_GET['mod'] = kboard_xssfilter(kboard_htmlclear($_GET['mod']));
 		$_GET['category1'] = kboard_xssfilter(kboard_htmlclear($_GET['category1']));
@@ -153,8 +154,24 @@ class KBoardBuilder {
 		$list = $this->getList();
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
+		$boardBuilder = $this;
 		
 		include KBOARD_DIR_PATH . "/skin/$this->skin/list.php";
+	}
+	
+	/**
+	 * 답글 리스트를 생성한다.
+	 * @param int $parent_uid
+	 */
+	public function builderReply($parent_uid, $depth=0){
+		$url = new KBUrl();
+		$list = new KBContentList();
+		$list->getReplyList($parent_uid);
+		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$board = $this->board;
+		$boardBuilder = $this;
+		
+		include KBOARD_DIR_PATH . "/skin/$this->skin/reply-template.php";
 	}
 	
 	/**
@@ -271,6 +288,9 @@ class KBoardBuilder {
 			if(!$content->content){
 				$content->content = $this->meta->default_content;
 			}
+			
+			// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
+			if($_GET['parent_uid']) $content->parent_uid = $_GET['parent_uid'];
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
 		}

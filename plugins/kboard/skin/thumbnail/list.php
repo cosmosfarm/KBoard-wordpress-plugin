@@ -82,6 +82,7 @@
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
 				</tr>
+				<?php $boardBuilder->builderReply($content->uid)?>
 				<?php endwhile?>
 			</tbody>
 		</table>

@@ -45,7 +45,7 @@ include_once 'class/KBLatestviewList.class.php';
 include_once 'class/KBFileHandler.class.php';
 include_once 'helper/Pagination.helper.php';
 include_once 'helper/Security.helper.php';
-include_once 'helper/functions.helper.php';
+include_once 'helper/Functions.helper.php';
 
 /*
  * jQuery 추가
@@ -559,6 +559,11 @@ function kboard_admin_notices(){
  */
 add_action('init', 'kboard_skin_style');
 function kboard_skin_style(){
+	global $wp_styles;
+	wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
+	wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
+	$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
+	
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->list AS $key => $value){
 		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
@@ -638,6 +643,7 @@ function kboard_activation_execute(){
 	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_content` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`board_id` bigint(20) unsigned NOT NULL,
+		`parent_uid` bigint(20) unsigned NOT NULL,
 		`member_uid` bigint(20) unsigned NOT NULL,
 		`member_display` varchar(127) NOT NULL,
 		`title` varchar(127) NOT NULL,
@@ -732,6 +738,17 @@ function kboard_activation_execute(){
 		}
 	}
 	unset($resource, $name, $count);
+	
+	/*
+	 * KBoard 4.2
+	 * kboard_board_content `parent_uid` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_content` `parent_uid`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `board_id`");
+	}
+	unset($resource, $name);
 }
 
 /*
@@ -880,6 +897,18 @@ function kboard_system_update(){
 	 * kboard_board_content `comment` 컬럼 생성 확인
 	 */
 	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `comment`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($resource, $name);
+	
+	/*
+	 * KBoard 4.2
+	 * kboard_board_content `parent_uid` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `parent_uid`");
 	list($name) = mysql_fetch_row($resource);
 	if(!$name){
 		kboard_activation($networkwide);

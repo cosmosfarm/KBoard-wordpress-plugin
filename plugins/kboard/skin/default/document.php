@@ -61,6 +61,7 @@
 			<a href="<?php echo $url->toString()?>" class="kboard-button-small"><?php echo __('List', 'kboard')?></a>
 			<a href="<?php echo $url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-button-small"><?php echo __('Prev', 'kboard')?></a>
 			<a href="<?php echo $url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-button-small"><?php echo __('Next', 'kboard')?></a>
+			<?php if(!$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-button-small">답글쓰기</a><?php endif?>
 		</div>
 		<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
 		<div class="right">
