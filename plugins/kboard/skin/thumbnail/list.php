@@ -71,7 +71,7 @@
 				<?php while($content = $list->hasNext()):?>
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
-					<td class="kboard-list-thumbnail"><?php if($content->thumbnail_file):?><img src="<?php echo get_site_url() . $content->thumbnail_file?>" style="max-width: 100px;" alt="<?php echo $content->thumbnail_name?>"><?php else:?>이미지 없음<?php endif?></td>
+					<td class="kboard-list-thumbnail"><?php if($content->thumbnail_file):?><img src="<?php echo get_site_url() . $content->thumbnail_file?>" style="max-width: 100px;" alt="<?php echo $content->thumbnail_name?>"><?php else:?><i class="icon-picture"></i><?php endif?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?>
 							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
