@@ -127,7 +127,7 @@ final class KBUpgrader {
 		else{
 			$install_result = true;
 			
-			if(is_writable($module_dir)){
+			if(is_writable(WP_CONTENT_DIR . $content_type)){
 				$file_handler = new KBFileHandler();
 				$target_dir = trailingslashit(WP_CONTENT_DIR . $content_type);
 				foreach($archive_files AS $file){
