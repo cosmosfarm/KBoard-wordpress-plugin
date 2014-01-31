@@ -504,8 +504,9 @@ function kboard_captcha(){
  */
 add_action('plugins_loaded', 'kboard_languages');
 function kboard_languages(){
-	$locale = apply_filters('plugin_locale', get_locale(), 'kboard');
-	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)).'/languages/');
+	$domain = 'kboard';
+	$locale = apply_filters('plugin_locale', get_locale(), $domain);
+	load_plugin_textdomain($domain, false, dirname(plugin_basename(__FILE__)).'/languages/');
 }
 
 /*
