@@ -290,7 +290,7 @@ class KBoardBuilder {
 			}
 			
 			// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
-			if($_GET['parent_uid']) $content->parent_uid = $_GET['parent_uid'];
+			if($_GET['parent_uid'] && !$content->uid && !$content->parent_uid) $content->parent_uid = $_GET['parent_uid'];
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
 		}
