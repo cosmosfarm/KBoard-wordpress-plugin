@@ -7,15 +7,15 @@
 			<h4>KBoard 버전</h4>
 			<p>
 				설치된 게시판 플러그인: <?php echo KBOARD_VERSION?> (최신: <?php echo $upgrader->getLatestVersion()->kboard?>)
-				<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return CF_oauthStatus(this.href);"><?php echo $upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
+				<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return cf_oauthStatus(this.href);"><?php echo $upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
 			</p>
 			<p>
 				<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 				설치된 댓글 플러그인: <?php echo KBOARD_COMMNETS_VERSION?> (최신: <?php echo $upgrader->getLatestVersion()->comments?>)
-				<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return CF_oauthStatus(this.href);"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
+				<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return cf_oauthStatus(this.href);"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
 				<?php else:?>
 				<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">댓글 플러그인 홈페이지에서 다운로드</a><br>
-				<a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return CF_oauthStatus(this.href);"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 설치하기</a>
+				<a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return cf_oauthStatus(this.href);"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 설치하기</a>
 				<?php endif?>
 			</p>
 			<h4>KBoard 백업</h4>
@@ -48,38 +48,38 @@
 
 <script src="<?php echo plugins_url('cosmosfarm-apis.js', __FILE__)?>"></script>
 <script>
-COSMOSFARM.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo $_SESSION['cosmosfarm_access_token']?>');
 window.onload = function(){
-	COSMOSFARM.getWpstoreProducts('kboard', 5, function(res){
+	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo $_SESSION['cosmosfarm_access_token']?>');
+	cosmosfarm.getWpstoreProducts('kboard', 5, function(res){
 		if(res.length > 0){
 			var products = document.getElementById('cf-wpstore-products');
 			products.innerHTML = '';
 		}
 		for(var i=0; i<res.length; i++){
-			CF_addWpstoreProduct(res[i].title, res[i].created, res[i].link);
+			cf_addWpstoreProduct(res[i].title, res[i].created, res[i].link);
 		}
 	});
 };
-function CF_oauthStatus(upgrade_url){
-	COSMOSFARM.oauthStatus(function(res){
+function cf_oauthStatus(upgrade_url){
+	cosmosfarm.oauthStatus(function(res){
 		if(res.status == 'valid'){
 			if(confirm('업그레이드전에 플러그인을 백업하세요. 모두 최신 파일로 교체됩니다. 계속 할까요?')){
 				location.href = upgrade_url;
 			}
 		}
 		else{
-			if(confirm('access_token이 만료되어 재발급 받아야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-				location.href = COSMOSFARM.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_dashboard')?>');
+			if(confirm('Access Token이 만료되어 재발급 받아야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_dashboard')?>');
 			}
 		}
 	}, function(res){
 		if(confirm('업데이트를 진행 하시려면 코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-			location.href = COSMOSFARM.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_dashboard')?>');
+			location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_dashboard')?>');
 		}
 	});
 	return false;
 }
-function CF_addWpstoreProduct(title, created, link){
+function cf_addWpstoreProduct(title, created, link){
 	var products = document.getElementById('cf-wpstore-products');
 	var a = document.createElement('a');
 	a.innerHTML = title;

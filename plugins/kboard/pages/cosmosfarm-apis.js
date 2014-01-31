@@ -2,7 +2,7 @@
  * @author http://www.cosmosfarm.com/
  */
 
-var COSMOSFARM = {
+var cosmosfarm = {
 	app_id:'',
 	access_token:'',
 	api_url:'http://www.cosmosfarm.com/apis',
