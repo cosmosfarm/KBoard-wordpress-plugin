@@ -37,6 +37,7 @@ include_once 'class/KBoard.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
 include_once 'class/KBSeo.class.php';
+include_once 'class/KBStore.class.php';
 include_once 'class/KBUrl.class.php';
 include_once 'class/KBUpgrader.class.php';
 include_once 'class/KBRouter.class.php';
@@ -87,6 +88,7 @@ function kboard_settings_menu(){
 	$position = 50.5;
 	while($GLOBALS['menu'][$position]) $position++;
 	
+	// KBoard 메뉴 등록
 	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $position);
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '대시보드', 'administrator', 'kboard_dashboard');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 목록', 'administrator', 'kboard_list', 'kboard_list');
@@ -100,18 +102,29 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '최신글 뷰 수정', 'administrator', 'kboard_latestview_update', 'kboard_latestview_update');
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
+	// 스토어 메뉴 등록
+	while($GLOBALS['menu'][$position]) $position++;
+	add_menu_page('스토어', '스토어', 'administrator', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $position);
+	add_submenu_page('kboard_store', '스토어', '스토어', 'administrator', 'kboard_store');
+	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
 	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
 	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3') kboard_comments_settings_menu();
 }
 
 /*
+ * 스토어 상품 리스트 페이지
+ */
+function kboard_store(){
+	if($_GET['access_token']) $_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
+	KBStore::productsList();
+}
+
+/*
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	if($_GET['access_token']){
-		$_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
-	}
+	if($_GET['access_token']) $_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
@@ -333,7 +346,9 @@ function kboard_upgrade(){
 	if(!current_user_can('activate_plugins')) wp_die('KBoard : 설치 권한이 없습니다.');
 	
 	$action = kboard_htmlclear($_GET['action']);
-	$form_url = wp_nonce_url(admin_url("/admin.php?page=kboard_upgrade&action=$action"), 'kboard_upgrade');
+	$download_url = kboard_htmlclear($_GET['download_url']);
+	$download_version = kboard_htmlclear($_GET['download_version']);
+	$form_url = wp_nonce_url(admin_url("/admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
 	$upgrader = KBUpgrader::getInstance();
 	
 	if($action == 'kboard'){
@@ -341,9 +356,9 @@ function kboard_upgrade(){
 			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		die('<script>alert("완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
@@ -352,15 +367,37 @@ function kboard_upgrade(){
 			}
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		die('<script>alert("완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+	}
+	else if($action == 'plugin'){
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/plugins.php') . '"</script>');
+	}
+	else if($action == 'theme'){
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
+		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
+		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/themes.php') . '"</script>');
+	}
+	else if($action == 'kboard-skin'){
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
+		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
+		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+	}
+	else if($action == 'comments-skin'){
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
+		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
+		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
 	else{
 		die('<script>alert("설치에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
-	
-	die('<script>alert("완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 }
 
 /*
@@ -556,10 +593,10 @@ function kboard_admin_notices(){
 }
 
 /*
- * 게시판 스킨의 스타일 파일을 출력한다.
+ * 스타일 파일을 출력한다.
  */
-add_action('init', 'kboard_skin_style');
-function kboard_skin_style(){
+add_action('init', 'kboard_style');
+function kboard_style(){
 	global $wp_styles;
 	wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
 	wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
@@ -568,6 +605,10 @@ function kboard_skin_style(){
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->list AS $key => $value){
 		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
+	}
+	
+	if(is_admin()){
+		wp_enqueue_style("kboard-store", KBOARD_URL_PATH.'/pages/kboard-store.css');
 	}
 }
 

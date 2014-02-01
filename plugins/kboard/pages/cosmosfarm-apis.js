@@ -6,42 +6,14 @@ var cosmosfarm = {
 	app_id:'',
 	access_token:'',
 	api_url:'http://www.cosmosfarm.com/apis',
+	callback_index:0,
 	init:function(app_id, access_token){
 		this.app_id = app_id;
 		this.access_token = access_token;
 	},
-	ajaxGet:function(url, data, callback){
-		var xmlhttp;
-		if(window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
-		else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		xmlhttp.onreadystatechange = function(){
-			if(xmlhttp.readyState==4 && xmlhttp.status==200){
-				alert('test');
-				if(typeof callback === 'function'){
-		            callback(xmlhttp.responseText);
-		        }
-			}
-		}
-		xmlhttp.open('GET', url + (data?'?'+data:''), true);
-		xmlhttp.send();
-	},
-	ajaxPost:function(url, data, callback){
-		var xmlhttp;
-		if(window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
-		else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		xmlhttp.onreadystatechange = function(){
-			if(xmlhttp.readyState==4 && xmlhttp.status==200){
-				if(typeof callback === 'function'){
-		            callback(xmlhttp.responseText);
-		        }
-			}
-		}
-		xmlhttp.open('POST', url, true);
-		xmlhttp.send(data);
-	},
 	api:function(command, data, callback, error){
-		callback_name = "_COSMOSFARM_callback_" + (new Date()).getTime();
-		error_name = "_COSMOSFARM_error_" + (new Date()).getTime();
+		callback_name = "_COSMOSFARM_callback_" + (new Date()).getTime() + '_' + this.callback_index;
+		error_name = "_COSMOSFARM_error_" + (new Date()).getTime() + '_' + this.callback_index++;
 		if(typeof callback !== 'function') callback = function(res){};
 		if(typeof error !== 'function') error = function(res){};
 		window[callback_name] = callback;
@@ -57,10 +29,13 @@ var cosmosfarm = {
 	loginStatus:function(callback, error){
 		this.api('/login_status', '', callback, error);
 	},
+	getProfile:function(callback, error){
+		this.api('/me', '', callback, error);
+	},
 	getLoginUrl:function(redirect_url){
 		return this.api_url + '/request_access_token?app_id=' + this.app_id + '&redirect_url=' + redirect_url;
 	},
-	getWpstoreProducts:function(category, rpp, callback, error){
-		this.api('/wpstore_products/'+category, 'rpp='+rpp, callback, error);
+	getWpstoreProducts:function(category, page, rpp, callback, error){
+		this.api('/wpstore_products/'+category, 'page='+page+'&rpp='+rpp, callback, error);
 	}
 }

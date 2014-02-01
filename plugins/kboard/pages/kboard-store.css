@@ -1,0 +1,15 @@
+@charset "utf-8";
+/**
+ * @author http://www.cosmosfarm.com/
+ */
+
+.subsubsub .current a { color: black; }
+
+.kbstore-thumbnail { width: 100px; }
+.kbstore-title { width: 250px; }
+.kbstore-category { width: 150px; }
+.kbstore-version { width: 150px; }
+
+#kbstore-products-list td { border: 0; border-bottom: 1px solid #e1e1e1; }
+#kbstore-products-list tr:last-child td { border: 0; }
+#kbstore-products-list .kbstore-thumbnail-img { width: 100px; height: 100px; }
