@@ -50,7 +50,7 @@
 <script>
 window.onload = function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo $_SESSION['cosmosfarm_access_token']?>');
-	cosmosfarm.getWpstoreProducts('kboard', 1, 5, function(res){
+	cosmosfarm.getWpstoreProducts('', 1, 5, function(res){
 		if(res.length > 0){
 			var products = document.getElementById('cf-wpstore-products');
 			products.innerHTML = '';

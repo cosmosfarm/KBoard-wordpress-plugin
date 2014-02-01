@@ -5,7 +5,7 @@
 		스토어
 		<a href="#" class="add-new-h2 kbstore-login-button"></a>
 		<a href="http://www.cosmosfarm.com/wpstore" class="add-new-h2" onclick="window.open(this.href); return false;">스토어 홈페이지</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">문의하기</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
 	</h2>
 	
 	<ul class="subsubsub">
@@ -112,8 +112,6 @@ function cf_get_kbstore_list(page){
 	cf_list_page+=1;
 }
 function cf_add_kbstore_product(thumbnail, title, link, download, formatted_category, category, version, description, price, purchased){
-	var list = document.getElementById('kbstore-products-list');
-	
 	var td1 = document.createElement('td');
 	var img = document.createElement('img');
 	img.setAttribute('class', 'kbstore-thumbnail-img');
@@ -199,6 +197,8 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	tr.appendChild(td3);
 	tr.appendChild(td4);
 	tr.appendChild(td5);
+
+	var list = document.getElementById('kbstore-products-list');
 	list.appendChild(tr);
 }
 function cf_get_a_install(action, download, version){
