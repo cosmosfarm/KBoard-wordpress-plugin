@@ -71,22 +71,25 @@ var cf_list_continue = true;
 var cf_list_lock = false;
 window.onload = function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo $_SESSION['cosmosfarm_access_token']?>');
-	cosmosfarm.loginStatus(function(res){
-		if(res.status == 'connected'){
+	cosmosfarm.oauthStatus(function(res){
+		if(res.status == 'valid'){
 			cosmosfarm.getProfile(function(res){
-				cf_login_status = 'connected';
-				jQuery('.kbstore-login-button').text(res.profile.username+'님 환영합니다');
-				jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>'));
+				if(res.profile.username){
+					cf_login_status = 'connected';
+					jQuery('.kbstore-login-button').text(res.profile.username+'님 환영합니다');
+				}
+				else{
+					jQuery('.kbstore-login-button').text('로그인');
+				}
 			});
 		}
 		else{
 			jQuery('.kbstore-login-button').text('로그인');
-			jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>'));
 		}
 	}, function(res){
 		jQuery('.kbstore-login-button').text('로그인');
-		jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>'));
 	});
+	jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>'));
 	cf_get_kbstore_list(cf_list_page);
 };
 jQuery(window).scroll(function(){
