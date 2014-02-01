@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2014-01-31 11:35+0900\n"
-"PO-Revision-Date: 2014-01-31 11:35+0900\n"
+"POT-Creation-Date: 2014-02-02 00:52+0900\n"
+"PO-Revision-Date: 2014-02-02 00:53+0900\n"
 "Last-Translator: Cosmosfarm <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -122,6 +122,8 @@ msgstr "No backup privilege."
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:60
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/confirm.php:6
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:60
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/confirm.php:6
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:60
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:6
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:60
 msgid "Password"
@@ -130,6 +132,7 @@ msgstr "Password"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/confirm.php:13
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/confirm.php:13
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/confirm.php:13
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/confirm.php:13
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:13
 msgid "Document"
 msgstr "Document"
@@ -143,6 +146,9 @@ msgstr "Document"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/confirm.php:15
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:61
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:115
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/confirm.php:15
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:61
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:125
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:15
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:61
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:115
@@ -152,6 +158,7 @@ msgstr "List"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/confirm.php:18
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/confirm.php:18
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/confirm.php:18
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/confirm.php:18
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/confirm.php:18
 msgid "Password confirm"
 msgstr "Password confirm"
@@ -168,6 +175,9 @@ msgstr "Password confirm"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:56
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:35
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:51
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:21
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:56
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:35
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:21
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:56
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:35
@@ -184,6 +194,9 @@ msgstr "Author"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:25
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/latest.php:6
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:52
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:25
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/latest.php:6
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:53
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:25
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/latest.php:6
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:53
@@ -196,6 +209,7 @@ msgstr "Date"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:53
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:29
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:53
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:29
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:29
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:54
 msgid "Views"
@@ -213,6 +227,10 @@ msgstr "Views"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:50
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:86
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:93
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:44
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:50
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:86
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:93
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:44
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:50
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:86
@@ -223,6 +241,7 @@ msgstr "Attachment"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:68
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:69
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:62
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:62
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:62
 msgid "Prev"
 msgstr "Prev"
@@ -230,6 +249,7 @@ msgstr "Prev"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:69
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:70
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:63
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:63
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:63
 msgid "Next"
 msgstr "Next"
@@ -237,6 +257,7 @@ msgstr "Next"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:70
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:71
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:64
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:64
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:64
 msgid "Reply"
 msgstr "Reply"
@@ -244,6 +265,7 @@ msgstr "Reply"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:74
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:75
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:68
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:68
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:68
 msgid "Edit"
 msgstr "Edit"
@@ -260,6 +282,10 @@ msgstr "Edit"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:80
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:88
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:95
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:69
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:80
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:88
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:95
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:69
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:80
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:88
@@ -270,6 +296,7 @@ msgstr "Are you sure you want to delete?"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/document.php:75
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/document.php:76
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:69
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:69
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:69
 msgid "Delete"
 msgstr "Delete"
@@ -280,6 +307,8 @@ msgstr "Delete"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:106
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/document.php:75
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:106
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/document.php:75
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:106
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/document.php:75
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:109
 msgid "KBoard is the best community software available for WordPress"
@@ -297,6 +326,10 @@ msgstr "KBoard is the best community software available for WordPress"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/latest.php:5
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:33
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:50
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:12
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/latest.php:5
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:33
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:51
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:12
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/latest.php:5
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:33
@@ -316,6 +349,10 @@ msgstr "Title"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:32
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:12
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:21
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:19
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:32
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:12
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:21
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:19
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:32
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:12
@@ -332,6 +369,9 @@ msgstr "Category"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:45
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:74
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/reply-template.php:6
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:45
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:75
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/reply-template.php:7
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:45
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:77
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/reply-template.php:7
@@ -344,6 +384,8 @@ msgstr "Secret"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:59
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:51
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:59
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:51
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:59
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:51
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:60
 msgid "Notice"
@@ -352,6 +394,7 @@ msgstr "Notice"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:78
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:87
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:78
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:78
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:78
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:50
 msgid "Thumbnail"
@@ -366,6 +409,9 @@ msgstr "Thumbnail"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:80
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:88
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:95
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:80
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:88
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:95
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:80
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:88
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:95
@@ -375,6 +421,7 @@ msgstr "Delete file"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:101
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:110
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:101
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:111
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:101
 msgid "WP Search"
 msgstr "WP Search"
@@ -382,6 +429,7 @@ msgstr "WP Search"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:104
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:113
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:104
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:114
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:104
 msgid "Public"
 msgstr "Public"
@@ -389,6 +437,7 @@ msgstr "Public"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:105
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:114
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:105
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:115
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:105
 msgid "Only title (secret document)"
 msgstr "Only title (secret document)"
@@ -396,6 +445,7 @@ msgstr "Only title (secret document)"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:106
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:115
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:106
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:116
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:106
 msgid "Exclusion"
 msgstr "Exclusion"
@@ -406,6 +456,8 @@ msgstr "Exclusion"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:126
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:114
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:117
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:124
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:127
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:114
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:117
 msgid "Back"
@@ -414,6 +466,7 @@ msgstr "Back"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:122
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:131
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:122
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:132
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:122
 msgid "Save"
 msgstr "Save"
@@ -421,6 +474,7 @@ msgstr "Save"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:131
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:140
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:131
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:141
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:131
 msgid "Please enter a title."
 msgstr "Please enter a title."
@@ -428,6 +482,7 @@ msgstr "Please enter a title."
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:132
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:141
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:132
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:142
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:132
 msgid "Please enter a author."
 msgstr "Please enter a author."
@@ -435,6 +490,7 @@ msgstr "Please enter a author."
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:133
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:142
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:133
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:143
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:133
 msgid "Please enter a password."
 msgstr "Please enter a password."
@@ -442,6 +498,7 @@ msgstr "Please enter a password."
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:134
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:143
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/editor.php:134
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:144
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:134
 msgid "Please enter the CAPTCHA code."
 msgstr "Please enter the CAPTCHA code."
@@ -449,6 +506,7 @@ msgstr "Please enter the CAPTCHA code."
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:32
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:32
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:32
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:32
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:32
 msgid "All"
 msgstr "All"
@@ -456,6 +514,7 @@ msgstr "All"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:34
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:34
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:34
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:34
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:34
 msgid "Content"
 msgstr "Content"
@@ -463,6 +522,7 @@ msgstr "Content"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:38
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:38
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:38
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:38
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:38
 msgid "Search"
 msgstr "Search"
@@ -470,6 +530,7 @@ msgstr "Search"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:49
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:49
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:49
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:49
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:49
 msgid "Number"
 msgstr "Number"
@@ -477,6 +538,7 @@ msgstr "Number"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/list.php:112
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/list.php:100
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/default/list.php:100
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:100
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/list.php:103
 msgid "New"
 msgstr "New"
@@ -490,6 +552,17 @@ msgstr "Name"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/customer/editor.php:74
 msgid "Phone number"
 msgstr "Phone number"
+
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:101
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:52
+msgid "Language"
+msgstr "Language"
+
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:50
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/list.php:72
+#: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/reply-template.php:4
+msgid "Download"
+msgstr "Download"
 
 #~ msgid "The Best of WordPress Board"
 #~ msgstr "의미있는 워드프레스 게시판"
