@@ -668,7 +668,7 @@ function kboard_activation_execute(){
 		`page_rpp` int(10) unsigned NOT NULL,
 		`created` char(14) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_setting);
 	
 	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_attached` (
@@ -679,7 +679,7 @@ function kboard_activation_execute(){
 		`file_path` varchar(127) NOT NULL,
 		`file_name` varchar(127) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_attached);
 	
 	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_content` (
@@ -703,7 +703,7 @@ function kboard_activation_execute(){
 		`password` varchar(127) NOT NULL,
 		PRIMARY KEY  (`uid`),
 		KEY `board_id` (`board_id`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_content);
 	
 	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_option` (
@@ -712,7 +712,7 @@ function kboard_activation_execute(){
 		`option_key` varchar(127) NOT NULL,
 		`option_value` text NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_option);
 	
 	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_meta` (
@@ -720,7 +720,7 @@ function kboard_activation_execute(){
 		`key` varchar(127) NOT NULL,
 		`value` text NOT NULL,
 		UNIQUE KEY `meta_index` (`board_id`,`key`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_meta);
 	
 	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview` (
@@ -730,14 +730,14 @@ function kboard_activation_execute(){
 		`rpp` int(10) unsigned NOT NULL,
 		`created` char(14) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_latestview);
 	
 	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview_link` (
 		`latestview_uid` bigint(20) unsigned NOT NULL,
 		`board_id` bigint(20) unsigned NOT NULL,
 		UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_board_latestview);
 	
 	/*

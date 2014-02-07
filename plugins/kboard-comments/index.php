@@ -129,7 +129,7 @@ function kboard_comments_activation_execute(){
 		`created` char(14) NOT NULL,
 		`password` varchar(127) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) CHARSET=utf8";
+	) DEFAULT CHARSET=utf8";
 	kboard_query($kboard_comments);
 	
 	/*
