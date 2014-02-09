@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2013-10-07 21:50+0900\n"
+"POT-Creation-Date: 2013-10-07 21:39+0900\n"
 "PO-Revision-Date: 2014-02-09 13:00+0900\n"
 "Last-Translator: Cosmosfarm <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
@@ -10,102 +10,102 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.3\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
-"Language: en_US\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja_JP\n"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:8
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:12
 msgid "No UID of comments."
-msgstr "No UID of comments."
+msgstr "コメントの固有番号がありません。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:15
 msgid "It is a comment does not exist."
-msgstr "It is a comment does not exist."
+msgstr "削除されたコメントです。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:23
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:45
 msgid "Password confirmation"
-msgstr "Password confirmation"
+msgstr "パスワードの確認"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:34
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:16
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:50
 msgid "Please enter a password."
-msgstr "Please enter a password."
+msgstr "パスワードを入力してください"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:47
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:38
 msgid "Submit"
-msgstr "Submit"
+msgstr "登録"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:6
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:7
 msgid "This page is restricted from external access."
-msgstr "This page is restricted from external access."
+msgstr "このページは外部からのアクセスを制限しています。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:15
 msgid "Please Log in to continue."
-msgstr "Please Log in to continue."
+msgstr "ログインしてください。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:21
 msgid "You do not have permission."
-msgstr "You do not have permission."
+msgstr "権限がありません。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:13
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:49
 msgid "Please enter a author."
-msgstr "Please enter a author."
+msgstr "投稿者名を入力してください。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:19
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
-msgstr "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
+msgstr "セキュリティーナンバーが正しくありません。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:22
 msgid "No document UID."
-msgstr "No document UID."
+msgstr "投稿の固有番号がありません。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:25
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:52
 msgid "Type the content of the comment."
-msgstr "Type the content of the comment."
+msgstr "コメントの内容を入力してください。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
 msgid "Are you sure you want to delete?"
-msgstr "Are you sure you want to delete?"
+msgstr "削除しますか?"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:15
 msgid "Delete"
-msgstr "Delete"
+msgstr "削除"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:20
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:53
 msgid "Reply"
-msgstr "Reply"
+msgstr "コメント"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:8
 msgid "Total Reply"
-msgstr "Total"
+msgstr "全体"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:8
 msgid "Count"
-msgstr " "
+msgstr "個"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:26
 msgid "Author"
-msgstr "Author"
+msgstr "投稿者"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:29
 msgid "Password"
-msgstr "Password"
+msgstr "パスワード"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:51
 msgid "Please enter the CAPTCHA code."
-msgstr "Please enter the CAPTCHA code."
+msgstr "セキュリティーナンバーを入力してください。"
 
 #: D:\workspace-web\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:54
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "取り消し"
 
 #~ msgid "WordPress"
 #~ msgstr "워드프레스"
