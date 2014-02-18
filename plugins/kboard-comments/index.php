@@ -3,14 +3,15 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 3.4
+Version: 3.5
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
+if(defined('KBOARD_VERSION')){
 
-define('KBOARD_COMMNETS_VERSION', '3.4');
+define('KBOARD_COMMNETS_VERSION', '3.5');
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('kboard-comments'));
@@ -219,5 +220,6 @@ function kboard_comments_system_update(){
 		return;
 	}
 	unset($resource, $name);
+}
 }
 ?>
