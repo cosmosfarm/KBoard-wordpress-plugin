@@ -89,6 +89,48 @@ function kboard_comments_admin_notices(){
 }
 
 /*
+ * 시스템 업데이트
+ */
+add_action('admin_init', 'kboard_comments_system_update');
+function kboard_comments_system_update(){
+	// 시스템 업데이트를 이미 진행 했다면 중단한다.
+	if(KBOARD_COMMNETS_VERSION <= get_option('kboard_comments_version')) return;
+	
+	// 시스템 업데이트를 확인하기 위해서 버전 등록
+	if(get_option('kboard_comments_version') !== false) update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
+	else add_option('kboard_comments_version', KBOARD_COMMNETS_VERSION, null, 'no');
+	
+	// 관리자 알림
+	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
+	
+	$networkwide = is_plugin_active_for_network(__FILE__);
+	
+	/*
+	 * KBoard 댓글 2.8
+	 * 파일 제거
+	 */
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/Comment.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentList.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentsBuilder.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentSkin.class.php');
+	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentUrl.class.php');
+	
+	/*
+	 * KBoard 댓글 3.2
+	 * kboard_comments `parent_uid` 컬럼 생성 확인
+	 */
+	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_comments` `parent_uid`");
+	list($name) = mysql_fetch_row($resource);
+	if(!$name){
+		kboard_comments_activation($networkwide);
+		return;
+	}
+	unset($resource, $name);
+}
+
+} // End defined('KBOARD_VERSION')
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_comments_activation');
@@ -180,46 +222,5 @@ function kboard_comments_uninstall_exeucte(){
 	global $wpdb;
 	$drop_table = "DROP TABLE `".$wpdb->prefix."kboard_comments`";
 	mysql_query($drop_table);
-}
-
-/*
- * 시스템 업데이트
- */
-add_action('admin_init', 'kboard_comments_system_update');
-function kboard_comments_system_update(){
-	// 시스템 업데이트를 이미 진행 했다면 중단한다.
-	if(KBOARD_COMMNETS_VERSION <= get_option('kboard_comments_version')) return;
-	
-	// 시스템 업데이트를 확인하기 위해서 버전 등록
-	if(get_option('kboard_comments_version') !== false) update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
-	else add_option('kboard_comments_version', KBOARD_COMMNETS_VERSION, null, 'no');
-	
-	// 관리자 알림
-	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
-	
-	$networkwide = is_plugin_active_for_network(__FILE__);
-	
-	/*
-	 * KBoard 댓글 2.8
-	 * 파일 제거
-	 */
-	@unlink(KBOARD_COMMENTS_DIR_PATH . '/Comment.class.php');
-	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentList.class.php');
-	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentsBuilder.class.php');
-	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentSkin.class.php');
-	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentUrl.class.php');
-	
-	/*
-	 * KBoard 댓글 3.2
-	 * kboard_comments `parent_uid` 컬럼 생성 확인
-	 */
-	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_comments` `parent_uid`");
-	list($name) = mysql_fetch_row($resource);
-	if(!$name){
-		kboard_comments_activation($networkwide);
-		return;
-	}
-	unset($resource, $name);
-}
 }
 ?>
