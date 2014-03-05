@@ -20,14 +20,14 @@ class KBMail {
 		}
 		
 		$headers = 'MIME-Version: 1.0' . "\r\n";
-		$headers .= 'Content-type: text/html; charset=euckr' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=EUC-KR' . "\r\n";
 		$headers .= 'To: ' . $this->to . "\r\n";
 		$headers .= 'From: ' . $admin_email . "\r\n";
 		
 		$title = '['.__('KBoard new document', 'kboard').'] ' . $this->title;
 		$content = nl2br(kboard_htmlclear($this->content)) . '<br><br><a href="'.site_url().'" onclick="window.open(this.href); return false;">'.site_url().'</a>';
 		
-		$result = mail($to, iconv('utf8', 'euckr', $title), iconv('utf8', 'euckr', $content), iconv('utf8', 'euckr', $headers));
+		$result = mail($to, iconv('UTF-8', 'EUC-KR', $title), iconv('UTF-8', 'EUC-KR', $content), iconv('UTF-8', 'EUC-KR', $headers));
 		return $result;
 	}
 }
