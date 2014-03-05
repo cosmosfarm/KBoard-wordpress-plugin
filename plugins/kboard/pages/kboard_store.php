@@ -9,15 +9,15 @@
 	</h2>
 	
 	<ul class="subsubsub">
-		<li class="all<?php if($category==''):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store')?>">모두</a> |</li>
-		<li class="kboard<?php if($category=='kboard'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=kboard')?>">KBoard 스킨</a> |</li>
-		<li class="theme<?php if($category=='theme'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=theme')?>">테마</a> |</li>
-		<li class="plugin<?php if($category=='plugin'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=plugin')?>">플러그인</a> |</li>
-		<li class="widget<?php if($category=='widget'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=widget')?>">위젯</a> |</li>
-		<li class="mobile<?php if($category=='mobile'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=mobile')?>">모바일</a> |</li>
-		<li class="admin<?php if($category=='admin'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=admin')?>">관리자용</a> |</li>
-		<li class="social<?php if($category=='social'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=social')?>">소셜</a> |</li>
-		<li class="design<?php if($category=='design'):?> current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=design')?>">디자인소스</a></li>
+		<li class="<?php if($category==''):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store')?>">모두</a> |</li>
+		<li class="<?php if($category=='kboard'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=kboard')?>">KBoard 스킨</a> |</li>
+		<li class="<?php if($category=='theme'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=theme')?>">테마</a> |</li>
+		<li class="<?php if($category=='plugin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=plugin')?>">플러그인</a> |</li>
+		<li class="<?php if($category=='widget'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=widget')?>">위젯</a> |</li>
+		<li class="<?php if($category=='mobile'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=mobile')?>">모바일</a> |</li>
+		<li class="<?php if($category=='admin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=admin')?>">관리자용</a> |</li>
+		<li class="<?php if($category=='social'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=social')?>">소셜</a> |</li>
+		<li class="<?php if($category=='design'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=design')?>">디자인소스</a></li>
 	</ul>
 	
 	<table class="wp-list-table widefat fixed">

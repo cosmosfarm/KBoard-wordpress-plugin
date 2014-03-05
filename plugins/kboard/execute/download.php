@@ -21,7 +21,7 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 	else die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
-$resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_attached WHERE content_uid='$uid' AND file_key LIKE '$file'");
+$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
 $file_info = mysql_fetch_array($resource);
 
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
@@ -33,7 +33,8 @@ if(!$file_info['file_path'] || !file_exists($path)){
 }
 
 header("Content-type: application/octet-stream");
-header("Content-Disposition: filename=\"".iconv('utf8','cp949//IGNORE',str_replace(' ','-',$name))."\"");
+header("Content-Disposition: attachment; filename=".iconv('UTF-8','EUC-KR//IGNORE',str_replace(' ','-',$name)));
+header("Content-Transfer-Encoding: binary");
 header("Content-length: ".filesize($path));
 header("Cache-control: private");
 header('Pragma: private');
