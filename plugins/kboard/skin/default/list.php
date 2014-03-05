@@ -35,7 +35,7 @@
 					<option value="member_display"<?php if($_GET['target'] == 'member_display'):?> selected="selected"<?php endif?>><?php echo __('Author', 'kboard')?></option>
 				</select>
 				<input type="text" name="keyword" value="<?php echo $_GET['keyword']?>">
-				<button type="submit" class="kboard-button-small"><?php echo __('Search', 'kboard')?></button>
+				<button type="submit" class="kboard-default-button-small"><?php echo __('Search', 'kboard')?></button>
 			</div>
 		</form>
 	</div>
@@ -97,12 +97,12 @@
 	<?php if($board->isWriter()):?>
 	<!-- 버튼 시작 -->
 	<div class="kboard-control">
-		<a href="<?php echo $url->set('mod', 'editor')->toString()?>" class="kboard-button-small"><?php echo __('New', 'kboard')?></a>
+		<a href="<?php echo $url->set('mod', 'editor')->toString()?>" class="kboard-default-button-small"><?php echo __('New', 'kboard')?></a>
 	</div>
 	<!-- 버튼 끝 -->
 	<?php endif?>
 	
-	<div class="kboard-poweredby">
+	<div class="kboard-default-poweredby">
 		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 	</div>
 </div>

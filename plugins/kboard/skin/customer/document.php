@@ -65,20 +65,20 @@
 	
 	<div class="kboard-control">
 		<div class="left">
-			<a href="<?php echo $url->toString()?>" class="kboard-button-small"><?php echo __('List', 'kboard')?></a>
-			<a href="<?php echo $url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-button-small"><?php echo __('Prev', 'kboard')?></a>
-			<a href="<?php echo $url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-button-small"><?php echo __('Next', 'kboard')?></a>
-			<?php if($board->isWriter() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
+			<a href="<?php echo $url->toString()?>" class="kboard-customer-button-small"><?php echo __('List', 'kboard')?></a>
+			<a href="<?php echo $url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-customer-button-small"><?php echo __('Prev', 'kboard')?></a>
+			<a href="<?php echo $url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-customer-button-small"><?php echo __('Next', 'kboard')?></a>
+			<?php if($board->isWriter() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-customer-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
 		</div>
 		<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
 		<div class="right">
-			<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-button-small"><?php echo __('Edit', 'kboard')?></a>
-			<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'remove')->toString()?>" class="kboard-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
+			<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-customer-button-small"><?php echo __('Edit', 'kboard')?></a>
+			<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'remove')->toString()?>" class="kboard-customer-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
 		</div>
 		<?php endif?>
 	</div>
 	
-	<div class="kboard-poweredby">
+	<div class="kboard-customer-poweredby">
 		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 	</div>
 </div>

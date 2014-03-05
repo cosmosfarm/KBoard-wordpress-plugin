@@ -111,15 +111,15 @@
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-button-small"><?php echo __('Back', 'kboard')?></a>
-				<a href="<?php echo $url->toString()?>" class="kboard-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo $url->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php else:?>
-				<a href="<?php echo $url->toString()?>" class="kboard-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo $url->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Back', 'kboard')?></a>
 				<?php endif?>
 			</div>
 			<div class="right">
 				<?php if($board->isWriter()):?>
-				<button type="submit" class="kboard-button-small"><?php echo __('Save', 'kboard')?></button>
+				<button type="submit" class="kboard-thumbnail-button-small"><?php echo __('Save', 'kboard')?></button>
 				<?php endif?>
 			</div>
 		</div>
