@@ -32,13 +32,13 @@ if(!$file_info['file_path'] || !file_exists($path)){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
-header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=".iconv('UTF-8','EUC-KR//IGNORE',str_replace(' ','-',$name)));
-header("Content-Transfer-Encoding: binary");
-header("Content-length: ".filesize($path));
-header("Cache-control: private");
+header('Content-type: application/octet-stream');
+header('Content-Disposition: attachment; filename="'.iconv('UTF-8','EUC-KR//IGNORE',str_replace(' ','-',$name)).'"');
+header('Content-Transfer-Encoding: binary');
+header('Content-length: '.filesize($path));
+header('Cache-control: private');
 header('Pragma: private');
-header("Expires: 0");
+header('Expires: 0');
 
 $fp = fopen($path, "rb");
 if(!fpassthru($fp)) fclose($fp);

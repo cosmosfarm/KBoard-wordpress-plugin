@@ -10,7 +10,13 @@ Author URI: http://www.cosmosfarm.com/
 
 if(!defined('ABSPATH')) exit;
 
-$active_plugins = get_option('active_plugins');
+if(function_exists('is_multisite') && is_multisite()){
+	$active_plugins = get_site_option('active_plugins');
+}
+else{
+	$active_plugins = get_option('active_plugins');
+}
+
 if(array_search('kboard/index.php', $active_plugins)){
 
 define('KBOARD_COMMNETS_VERSION', '3.5');
@@ -227,7 +233,7 @@ function kboard_comments_uninstall(){
 }
 
 /*
- * 인인스톨 실행
+ * 언인스톨 실행
  */
 function kboard_comments_uninstall_exeucte(){
 	global $wpdb;
