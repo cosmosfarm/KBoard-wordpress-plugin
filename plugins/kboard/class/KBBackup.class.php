@@ -84,7 +84,7 @@ class KBBackup {
 	 */
 	public function download($data, $file='xml', $filename=''){
 		if(!$filename) $filename = 'KBoard-Backup-'.date("Ymd").'.'.$file;
-		header("Content-Type: application/octet-stream");
+		header("Content-Type: ".kboard_minme_type($filename));
 		header("Content-Disposition: attachment; filename=\"".$filename."\"");
 		header("Pragma: no-cache");
 		Header("Expires: 0");
