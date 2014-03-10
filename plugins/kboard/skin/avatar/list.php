@@ -9,7 +9,7 @@
 			<div class="kboard-category">
 				<?php if($board->initCategory1()):?>
 					<select name="category1" onchange="jQuery('#kboard-search-form').submit();">
-						<option value=""><?php echo __('Category', 'kboard')?>1</option>
+						<option value=""><?php echo __('All', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?php echo $board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
@@ -18,7 +18,7 @@
 				
 				<?php if($board->initCategory2()):?>
 					<select name="category2" onchange="jQuery('#kboard-search-form').submit();">
-						<option value=""><?php echo __('Category', 'kboard')?>2</option>
+						<option value=""><?php echo __('All', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?php echo $board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
