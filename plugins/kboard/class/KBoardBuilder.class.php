@@ -289,8 +289,17 @@ class KBoardBuilder {
 				$content->content = $this->meta->default_content;
 			}
 			
-			// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
-			if($_GET['parent_uid'] && !$content->uid && !$content->parent_uid) $content->parent_uid = $_GET['parent_uid'];
+			// 새로운 답글 쓰기에서만 실행한다.
+			if($_GET['parent_uid'] && !$content->uid && !$content->parent_uid){
+				$parent = new KBContent();
+				$parent->initWithUID($_GET['parent_uid']);
+				
+				// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
+				$content->parent_uid = $parent->uid;
+				
+				// 비밀글이면 부모 비밀번호를 가져온다.
+				if($parent->secret=='true' && !$content->notice && ($this->board->isEditor($parent->member_uid) || $this->board->isConfirm($parent->password, $parent->uid))) $content->password = $parent->password;
+			}
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
 		}
