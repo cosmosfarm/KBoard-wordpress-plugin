@@ -196,7 +196,7 @@ class KBFileHandler {
 		$file_input = $_FILES[$name];
 
 		if(count($extension)<=0 || !is_array($extension)){
-			$extension = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'zip', 'hwp', 'ppt', 'xls', 'doc', 'txt', 'pdf');
+			$extension = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'zip', '7z', 'hwp', 'ppt', 'xls', 'doc', 'txt', 'pdf', 'xlsx', 'pptx', 'docx');
 		}
 
 		$this->extension = $extension;
