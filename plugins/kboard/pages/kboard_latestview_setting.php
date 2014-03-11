@@ -18,8 +18,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 	<h2>
 		KBoard : 최신글 뷰 관리
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
-		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">커뮤니티</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
 	</h2>
 	<form action="<?php echo KBOARD_LATESTVIEW_ACTION?>" method="post" onsubmit="return latestview_submit()">
 		<input type="hidden" name="latestview_uid" value="<?php echo $latestview->uid?>">

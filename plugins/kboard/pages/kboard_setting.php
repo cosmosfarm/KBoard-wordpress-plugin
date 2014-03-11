@@ -9,8 +9,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 	<h2>
 		KBoard : 게시판 관리
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
-		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">질문하기</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">기능추가 및 기술지원</a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">커뮤니티</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
 	</h2>
 	<form action="<?php echo KBOARD_UPDATE_ACTION?>" method="post">
 		<input type="hidden" name="board_id" value="<?php echo $board->uid?>">
@@ -62,7 +62,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
 							<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
 						</select>
-						<p class="description">특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다.</p></td>
+						<p class="description">특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.cosmosfarm.com/50178536050" onclick="window.open(this.href); return false;">더보기</a></p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
@@ -153,7 +153,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="">비활성화</option>
 							<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
 						</select>
-						<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.</p></td>
+						<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.cosmosfarm.com/50179426321" onclick="window.open(this.href); return false;">더보기</a></p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="use_category">카테고리 사용</label></th>
