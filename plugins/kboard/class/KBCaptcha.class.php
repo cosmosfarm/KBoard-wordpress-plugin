@@ -11,6 +11,8 @@ class KBCaptcha {
 	 * Captcha 이미지를 생성한다.
 	 */
 	public function createImage(){
+		if(!isset($_SESSION['kboard_captcha'])) $_SESSION['kboard_captcha'] = array();
+		
 		$captcha_folder = WP_CONTENT_DIR . '/uploads/kboard_captcha/';
 		$captcha_name = uniqid() . '.png';
 		
@@ -39,11 +41,11 @@ class KBCaptcha {
 		imagedestroy($image);
 		
 		if(file_exists($captcha_folder . $captcha_name)){
-			$_SESSION['kboard_captcha'] = $text;
+			$_SESSION['kboard_captcha'][] = $text;
 			$src = content_url('/uploads/kboard_captcha/' . $captcha_name);
 		}
 		else{
-			$_SESSION['kboard_captcha'] = 'ERROR';
+			$_SESSION['kboard_captcha'][] = 'ERROR';
 			$src = KBOARD_URL_PATH . '/images/captcha-error.png';
 		}
 		
@@ -62,10 +64,11 @@ class KBCaptcha {
 		if($userdata->data->ID){
 			return true;
 		}
-		else if(!$_SESSION['kboard_captcha']){
+		else if(!isset($_SESSION['kboard_captcha'])){
 			return true;
 		}
-		else if($_SESSION['kboard_captcha'] == strtoupper($text)){
+		else if(in_array(strtoupper($text), $_SESSION['kboard_captcha'])){
+			unset($_SESSION['kboard_captcha']);
 			return true;
 		}
 		return false;
