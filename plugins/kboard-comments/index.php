@@ -127,7 +127,7 @@ function kboard_comments_system_update(){
 	}
 	unset($resource, $name);
 }
-} // 플러그인 활성화
+} // KBoard 게시판 플러그인이 활성화 돼 있어야 동작하는 구간 완료
 
 /*
  * 활성화
