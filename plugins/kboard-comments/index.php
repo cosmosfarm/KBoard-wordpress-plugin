@@ -3,23 +3,15 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 3.5
+Version: 3.6
 Author: Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
+if(array_search('kboard/index.php', get_option('active_plugins')) || array_search('kboard/index.php', array_keys(get_site_option('active_sitewide_plugins')))){
 
-if(function_exists('is_multisite') && is_multisite()){
-	$active_plugins = get_site_option('active_plugins');
-}
-else{
-	$active_plugins = get_option('active_plugins');
-}
-
-if(array_search('kboard/index.php', $active_plugins)){
-
-define('KBOARD_COMMNETS_VERSION', '3.5');
+define('KBOARD_COMMNETS_VERSION', '3.6');
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', str_replace(DIRECTORY_SEPARATOR . 'index.php', '', __FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('kboard-comments'));
@@ -135,17 +127,7 @@ function kboard_comments_system_update(){
 	}
 	unset($resource, $name);
 }
-}
-else{
-	// KBoard 게시판 플러그인이 비활성화면 댓글 플러그인도 비활성화 한다.
-	$_active_plugins = array();
-	foreach($active_plugins AS $key => $value){
-		if($value != 'kboard-comments/index.php'){
-			$_active_plugins[] = $value;
-		}
-	}
-	update_option('active_plugins', $_active_plugins);
-}
+} // 플러그인 활성화
 
 /*
  * 활성화
