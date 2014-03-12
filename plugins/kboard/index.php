@@ -625,11 +625,21 @@ function kboard_style(){
 			wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
 			$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 		}
-		
 		$skin = KBoardSkin::getInstance();
 		foreach($skin->list AS $key => $value){
 			wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
 		}
+	}
+}
+
+/*
+ * 스킨의 functions.php 파일을 실행한다.
+ */
+add_action('init', 'kboard_skin_functions');
+function kboard_skin_functions(){
+	$skin = KBoardSkin::getInstance();
+	foreach($skin->list AS $key => $value){
+		if(file_exists(KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php')) include_once KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php';
 	}
 }
 
