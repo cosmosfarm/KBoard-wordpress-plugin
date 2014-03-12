@@ -547,12 +547,13 @@ function kboard_languages(){
 }
 
 /*
- * 비동기로 게시판 데이터를 요청한다.
+ * AJAX 초기화
  */
 add_action('init', 'kboard_ajax');
 function kboard_ajax(){
 	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
+	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
 }
 
 /*
@@ -578,6 +579,23 @@ function kboard_ajax_builder(){
 }
 
 /*
+ * 시스템 설정 업데이트
+ */
+function kboard_system_option_update(){
+	if(current_user_can('activate_plugins')){
+		$option_name = addslashes($_POST['option']);
+		$new_value = addslashes($_POST['value']);
+		if(get_option($option_name) !== false){
+			update_option($option_name, $new_value);
+		}
+		else{
+			add_option($option_name, $new_value, null, 'no');
+		}
+	}
+	exit;
+}
+
+/*
  * 관리자 알림 출력
  */
 add_action('admin_notices', 'kboard_admin_notices');
@@ -597,18 +615,19 @@ function kboard_admin_notices(){
  */
 add_action('init', 'kboard_style');
 function kboard_style(){
-	global $wp_styles;
-	wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
-	wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
-	$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
-	
-	$skin = KBoardSkin::getInstance();
-	foreach($skin->list AS $key => $value){
-		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
-	}
-	
 	if(is_admin()){
-		wp_enqueue_style("kboard-store", KBOARD_URL_PATH.'/pages/kboard-store.css');
+		wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css');
+	}
+	else{
+		global $wp_styles;
+		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
+		wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
+		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
+		
+		$skin = KBoardSkin::getInstance();
+		foreach($skin->list AS $key => $value){
+			wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
+		}
 	}
 }
 

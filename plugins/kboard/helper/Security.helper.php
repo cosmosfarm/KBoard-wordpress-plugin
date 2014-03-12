@@ -6,41 +6,44 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 
-/*
- * HTMLPurifier 클래스를 불러온다.
- */
-if(!class_exists('HTMLPurifier')){
-	include_once KBOARD_DIR_PATH.'/htmlpurifier/HTMLPurifier.standalone.php';
+// 시스템 설정을 가져온다.
+$kboard_xssfilter_active = get_option('kboard_xssfilter')?false:true;
+if($kboard_xssfilter_active){
+	// HTMLPurifier 클래스를 불러온다.
+	if(!class_exists('HTMLPurifier')){
+		include_once KBOARD_DIR_PATH.'/htmlpurifier/HTMLPurifier.standalone.php';
+	}
+	
+	// HTMLPurifier 설정 캐시 경로 디렉토리 생성
+	$kboard_file_handler = new KBFileHandler();
+	$kboard_file_handler->mkPath(WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
+	unset($kboard_file_handler);
 }
-
-/*
- * HTMLPurifier 설정 캐시 경로
- */
-$kboard_file_handler = new KBFileHandler();
-$kboard_file_handler->mkPath(WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
-unset($kboard_file_handler);
 
 /**
  * Cross-site scripting (XSS) 공격을 방어하기 위해서 위험 문자열을 제거한다.
  * @param string $data
  */
 function kboard_xssfilter($data){
+	global $kboard_xssfilter_active;
 	if(is_array($data)) return array_map('kboard_xssfilter', $data);
-	if(!$GLOBALS['KBOARD']['HTMLPurifier'] || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
-		$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
-		$HTMLPurifier_Config->set('HTML.SafeIframe', true);
-		$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
-		$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
-		$HTMLPurifier_Config->set('HTML.SafeObject', true);
-		$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
-		$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
-		$HTMLPurifier_Config->set('Output.FlashCompat', true);
-		$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
-		$GLOBALS['KBOARD']['HTMLPurifier_Config'] = $HTMLPurifier_Config;
-		$GLOBALS['KBOARD']['HTMLPurifier'] = HTMLPurifier::getInstance();
-		unset($HTMLPurifier_Config);
+	if($kboard_xssfilter_active){
+		if(!$GLOBALS['KBOARD']['HTMLPurifier'] || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
+			$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
+			$HTMLPurifier_Config->set('HTML.SafeIframe', true);
+			$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
+			$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
+			$HTMLPurifier_Config->set('HTML.SafeObject', true);
+			$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
+			$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
+			$HTMLPurifier_Config->set('Output.FlashCompat', true);
+			$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
+			$GLOBALS['KBOARD']['HTMLPurifier_Config'] = $HTMLPurifier_Config;
+			$GLOBALS['KBOARD']['HTMLPurifier'] = HTMLPurifier::getInstance();
+			unset($HTMLPurifier_Config);
+		}
+		$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['KBOARD']['HTMLPurifier_Config']);
 	}
-	$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['KBOARD']['HTMLPurifier_Config']);
 	return kboard_safeiframe($data);
 }
 

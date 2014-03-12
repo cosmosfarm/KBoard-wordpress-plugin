@@ -1,7 +1,7 @@
 <?php
 if(!defined('ABSPATH')) exit;
 if(!defined('KBOARD_COMMNETS_VERSION')){
-	die('<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
+	die('<script>alert("KBoard 댓글 플러그인을 추가로 설치해주세요.\n코스모스팜 홈페이지(http://www.cosmosfarm.com/)에서 다운로드 가능합니다.");history.go(-1);</script>');
 }
 ?>
 <div class="wrap">
@@ -37,10 +37,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="auto_page">게시판 자동 설치</label></th>
 					<td><select name="auto_page" id="auto_page" class="">
-							<option value="">페이지를 선택하세요.</option>
+							<option value="">페이지를 선택하세요</option>
 							<option value="">-------------------------------</option>
 							<?php foreach(get_pages() AS $key => $page):?>
-							<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?> 페이지에 자동으로 설치합니다.</option>
+							<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?> 페이지에 자동으로 설치합니다</option>
 							<?php endforeach?>
 						</select>
 						<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p></td>
