@@ -18,13 +18,22 @@
 
 <ul id="kboard-dashboard-options">
 	<li>
-		<h4>XSS공격 차단 옵션이 <?php echo get_option('kboard_xssfilter')?'비활성화':'활성화'?> 되어 있습니다.</h4>
+		<h4><?php echo get_option('kboard_xssfilter')?'XSS공격 차단 옵션이 비활성화 되어 있습니다.':'XSS공격으로 부터 보호되고 있습니다.'?></h4>
 		<p>
-		해커로부터 웹 사이트를 안전하게 지키려면 이 옵션이 활성화 되어 있어야 합니다.<br>
-		서버에 ModSecurity등의 방화벽이 설치되어 있으면 이 옵션을 비활성화 해주세요.<br>
+		서버에 ModSecurity등의 방화벽이 설치되어 있으면 이 옵션을 비활성화 가능합니다.<br>
+		이 옵션을 100% 신뢰하지 마세요, 서버와 네트워크에 방화벽 설치를 권장합니다.<br>
 		이 옵션을 비활성화 하면 시스템 속도가 빨라집니다.
 		</p>
 		<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_xssfilter', '<?php echo get_option('kboard_xssfilter')?'':'1'?>')">XSS공경 차단 <?php echo get_option('kboard_xssfilter')?'활성화':'비활성화'?></button></p>
+	</li>
+	<li>
+		<h4><?php echo get_option('kboard_fontawesome')?'Font Awesome 사용 중지되었습니다.':'Font Awesome 사용 가능합니다.'?></h4>
+		<p>
+		Font Awesome은 오픈소스 아이콘 폰트 입니다.<br>
+		KBoard의 게시판 스킨에 사용되고 있습니다.<br>
+		테마의 다른 버튼과 충돌이 발생되면 이 옵션을 비활성화 해보세요.
+		</p>
+		<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_fontawesome', '<?php echo get_option('kboard_fontawesome')?'':'1'?>')">Font Awesome <?php echo get_option('kboard_fontawesome')?'활성화':'비활성화'?></button></p>
 	</li>
 </ul>
 

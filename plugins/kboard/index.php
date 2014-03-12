@@ -619,10 +619,12 @@ function kboard_style(){
 		wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css');
 	}
 	else{
-		global $wp_styles;
-		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
-		wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
-		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
+		if(!get_option('kboard_fontawesome')){
+			global $wp_styles;
+			wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
+			wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
+			$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
+		}
 		
 		$skin = KBoardSkin::getInstance();
 		foreach($skin->list AS $key => $value){
