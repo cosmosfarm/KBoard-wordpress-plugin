@@ -29,5 +29,18 @@ class KBoardSkin {
 		if(!self::$instance) self::$instance = new KBoardSkin();
 		return self::$instance;
 	}
+	
+	/**
+	 * 사용 중인 스킨 리스트를 반환한다.
+	 * @return array
+	 */
+	public function getActiveList(){
+		$list = array();
+		$resource = kboard_query("SELECT `skin` FROM `".KBOARD_DB_PREFIX."kboard_board_setting` UNION SELECT `skin` FROM `".KBOARD_DB_PREFIX."kboard_board_latestview`");
+		while($row = mysql_fetch_object($resource)){
+			$list[] = stripslashes($row->skin);
+		}
+		return $list;
+	}
 }
 ?>
