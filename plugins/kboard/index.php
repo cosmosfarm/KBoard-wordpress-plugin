@@ -188,10 +188,10 @@ function kboard_update(){
 	$use_editor = $_POST['use_editor'];
 	$permission_read = $_POST['permission_read'];
 	$permission_write = $_POST['permission_write'];
-	$admin_user = addslashes($_POST['admin_user']);
+	$admin_user = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['admin_user']))));
 	$use_category = $_POST['use_category'];
-	$category1_list = addslashes($_POST['category1_list']);
-	$category2_list = addslashes($_POST['category2_list']);
+	$category1_list = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list']))));
+	$category2_list = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list']))));
 	$create = date("YmdHis", current_time('timestamp'));
 	
 	if(!$board_id){
@@ -209,7 +209,7 @@ function kboard_update(){
 	if($board_id){
 		$meta = new KBoardMeta($board_id);
 		$meta->use_direct_url = $_POST['use_direct_url'];
-		$meta->latest_alerts = $_POST['latest_alerts'];
+		$meta->latest_alerts = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['latest_alerts']))));
 		$meta->comment_skin = $_POST['comment_skin'];
 		$meta->default_content = $_POST['default_content'];
 		$meta->pass_autop = $_POST['pass_autop'];
