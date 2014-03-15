@@ -3,7 +3,7 @@
 	<!-- 검색폼 시작 -->
 	<div class="kboard-header">
 		<form id="kboard-search-form" method="get" action="<?php echo $url->set('mod', 'list')->toString()?>">
-			<?php echo $url->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
+			<?php echo $url->set('category1', '')->set('category2', '')->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
 			
 			<?php if($board->use_category == 'yes'):?>
 			<div class="kboard-category">
