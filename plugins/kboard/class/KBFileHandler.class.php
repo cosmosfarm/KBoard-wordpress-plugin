@@ -221,7 +221,7 @@ class KBFileHandler {
 				
 			// HTTP POST를 통하여 업로드 된 파일인지 체크
 			if(!is_uploaded_file($file["tmp_name"])){
-				echo "올바르게 업로드 되지 않았습니다.";
+				echo "<script>alert('파일이 올바르게 업로드 되지 않았습니다.');history.go(-1);</script>";
 				$this->rollback($i);
 				exit;
 			}
@@ -229,33 +229,33 @@ class KBFileHandler {
 			// 파일 확장자 체크
 			$temps = $this->checkExtension($file["name"]);
 			if( ($temps && !$this->extension_type) || (!$temps && $this->extension_type) ){
-				echo "확장자 거부";
+				echo "<script>alert('업로드 가능한 파일 확장자가 아닙니다.');history.go(-1);</script>";
 				$this->rollback($i);
 				exit;
 			}
 				
 			// 파일 사이즈 체크
 			if(!$this->checkFileSize($file["size"])){
-				echo "용량 너무큼";
+				echo "<script>alert('업로드 파일 용량이 너무 큽니다.');history.go(-1);</script>";
 				$this->rollback($i);
 				exit;
 			}
 				
 			// 오류 체크
 			if(!$this->checkError($file["error"])){
-				echo "오류";
+				echo "<script>alert('업로드 중 오류가 발생했습니다.');history.go(-1);</script>";
 				$this->rollback($i);
 				exit;
 			}
 				
 			// 파일 중복 체크
 			if(!$this->checkOverlap()){
-				echo "중복됨";
+				echo "<script>alert('같은 파일이 이미 업로드 되어 있습니다.');history.go(-1);</script>";
 				$this->makeUniqueName();
 			}
 				
 			if(!@move_uploaded_file($file["tmp_name"], KBOARD_WORDPRESS_ROOT . $this->path. "/" .$this->file_unique_name)){
-				echo $file["tmp_name"] . " 파일 업로드 도중 오류가 발생함 : ". $this->path . "/" . $this->file_unique_name;
+				echo "<script>alert('".$file["tmp_name"] . " 파일 업로드 중 오류가 발생 했습니다 : ". $this->path . "/" . $this->file_unique_name."');history.go(-1);</script>";
 				$this->rollback($i);
 				exit;
 			}
@@ -284,7 +284,7 @@ class KBFileHandler {
 
 				// HTTP POST를 통하여 업로드 된 파일인지 체크
 				if(!is_uploaded_file($file["tmp_name"][$i])){
-					echo "올바르게 업로드 되지 않았습니다.";
+					echo "<script>alert('파일이 올바르게 업로드 되지 않았습니다.');history.go(-1);</script>";
 					$this->rollback($i);
 					exit;
 				}
@@ -293,33 +293,33 @@ class KBFileHandler {
 				unset($this->file_extension);
 				$temps = $this->checkExtension($file["name"][$i]);
 				if( (!$temps && !$this->extension_type) || ($temps && $this->extension_type) ){
-					echo "확장자 거부";
+					echo "<script>alert('업로드 가능한 파일 확장자가 아닙니다.');history.go(-1);</script>";
 					$this->rollback($i);
 					exit;
 				}
 
 				// 파일 사이즈 체크
 				if(!$this->checkFileSize($file["size"][$i])){
-					echo "용량 너무큼";
+					echo "<script>alert('업로드 파일 용량이 너무 큽니다.');history.go(-1);</script>";
 					$this->rollback($i);
 					exit;
 				}
 
 				// 오류 체크
 				if(!$this->checkError($file["error"][$i])){
-					echo "오류";
+					echo "<script>alert('업로드 중 오류가 발생했습니다.');history.go(-1);</script>";
 					$this->rollback($i);
 					exit;
 				}
 
 				// 파일 중복 체크
 				if(!$this->checkOverlap()){
-					echo "중복됨";
+					echo "<script>alert('같은 파일이 이미 업로드 되어 있습니다.');history.go(-1);</script>";
 					$this->makeUniqueName();
 				}
 
 				if(!@move_uploaded_file($file["tmp_name"][$i], KBOARD_WORDPRESS_ROOT . $this->path. "/" .$this->file_unique_name)){
-					echo $file["tmp_name"][$i] . " 파일 업로드 도중 오류가 발생함 : ". $this->path . "/" . $this->file_unique_name;
+					echo "<script>alert('".$file["tmp_name"][$i] . " 파일 업로드 중 오류가 발생 했습니다 : ". $this->path . "/" . $this->file_unique_name."');history.go(-1);</script>";
 					$this->rollback($i);
 					exit;
 				}
