@@ -22,9 +22,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tr>
 				<?php if($board->uid):?>
 				<tr valign="top">
-					<th scope="row"><label for="">고급 사용자용 고유주소</label></th>
+					<th scope="row"><label for="use_direct_url">고급 사용자용 고유주소</label></th>
 					<td>
-						<select name="use_direct_url">
+						<select name="use_direct_url" id="use_direct_url">
 							<option value="">사용중지</option>
 							<option value="1"<?php if($meta->use_direct_url):?> selected<?php endif?>>사용하기</option>
 						</select>
@@ -228,6 +228,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">게시판 글 작성시 보여질 기본 양식입니다. 기본값은 빈 값입니다.</p></td>
 				</tr>
 				<?php endif?>
+				<tr valign="top">
+					<th scope="row"><label for="reply_copy_content">답글 기본 내용</label></th>
+					<td><select name="reply_copy_content" id="reply_copy_content" class="">
+							<option value="">빈 내용</option>
+							<option value="1"<?php if($meta->reply_copy_content == '1'):?> selected<?php endif?>>원글 내용</option>
+							<option value="2"<?php if($meta->reply_copy_content == '2'):?> selected<?php endif?>>본문 기본 양식</option>
+						</select>
+						<p class="description">답글 작성시 원글의 내용을 가져오거나 본문 기본 양식을 보여줍니다.</p></td>
+				</tr>
 			</tbody>
 		</table>
 		<p class="submit">

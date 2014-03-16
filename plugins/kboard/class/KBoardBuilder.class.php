@@ -299,6 +299,17 @@ class KBoardBuilder {
 				
 				// 비밀글이면 부모 비밀번호를 가져온다.
 				if($parent->secret=='true' && !$content->notice && ($this->board->isEditor($parent->member_uid) || $this->board->isConfirm($parent->password, $parent->uid))) $content->password = $parent->password;
+				
+				// 답글 기본 내용을 설정한다.
+				if($this->meta->reply_copy_content=='1'){
+					$content->content = $parent->content;
+				}
+				else if($this->meta->reply_copy_content=='2'){
+					$content->content = $this->meta->default_content;
+				}
+				else{
+					$content->content = '';
+				}
 			}
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";

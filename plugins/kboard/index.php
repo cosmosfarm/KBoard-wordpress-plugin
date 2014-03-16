@@ -195,7 +195,7 @@ function kboard_update(){
 	$create = date("YmdHis", current_time('timestamp'));
 	
 	if(!$board_id){
-		kboard_query("INSERT INTO ".KBOARD_DB_PREFIX."kboard_board_setting (board_name, skin, page_rpp, use_comment, use_editor, permission_read, permission_write, admin_user, use_category, category1_list, category2_list, created) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
 		
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
@@ -203,7 +203,7 @@ function kboard_update(){
 		$board_id = $insert_id;
 	}
 	else{
-		kboard_query("UPDATE ".KBOARD_DB_PREFIX."kboard_board_setting SET board_name='$board_name', skin='$skin', page_rpp='$page_rpp', use_comment='$use_comment', use_editor='$use_editor', permission_read='$permission_read', permission_write='$permission_write', use_category='$use_category', category1_list='$category1_list', category2_list='$category2_list', admin_user='$admin_user' WHERE uid=$board_id");
+		kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
 	}
 	
 	if($board_id){
@@ -215,10 +215,11 @@ function kboard_update(){
 		$meta->pass_autop = $_POST['pass_autop'];
 		$meta->shortcode_execute = $_POST['shortcode_execute'];
 		$meta->autolink = $_POST['autolink'];
+		$meta->reply_copy_content = $_POST['reply_copy_content'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
-			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$auto_page'"));
+			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'"));
 			$auto_page_board_id = @reset($row);
 			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
 			else $meta->auto_page = $auto_page;
