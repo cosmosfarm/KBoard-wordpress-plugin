@@ -89,6 +89,20 @@ function kboard_comments_admin_notices(){
 }
 
 /*
+ * 스타일 파일을 출력한다.
+ */
+add_action('init', 'kboard_comments_skin_init');
+function kboard_comments_skin_init(){
+	if(!is_admin()){
+		$resource = kboard_query("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
+		while($row = mysql_fetch_object($resource)){
+			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/style.css');
+			if(file_exists(KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php')) include_once KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php';
+		}
+	}
+}
+
+/*
  * 시스템 업데이트
  */
 add_action('admin_init', 'kboard_comments_system_update');
