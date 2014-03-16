@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="<?php echo $skin_path?>/style.css">
-
 <div class="kboard-comments">
 	<div class="kboard-comments-wrap">
 		
