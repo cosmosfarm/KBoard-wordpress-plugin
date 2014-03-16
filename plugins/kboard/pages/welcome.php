@@ -1,7 +1,10 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="welcome-panel-content">
-	<h3>코스모스팜 대시보드 입니다.</h3>
-	<p class="about-description">최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.</p>
+	<div style="float: left;">
+		<h3>코스모스팜 대시보드 입니다.</h3>
+		<p class="about-description">최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.</p>
+	</div>
+	<div style="float: right;"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width: 500px; height:60px;" allowTransparency="true"></iframe></div>
 	<div class="welcome-panel-column-container">
 		<div class="welcome-panel-column">
 			<h4>KBoard 버전</h4>
