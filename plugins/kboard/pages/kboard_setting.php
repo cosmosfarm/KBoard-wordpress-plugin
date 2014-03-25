@@ -116,14 +116,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<?php endif?>
 					</td>
 				</tr>
-				<?php if(defined('KBOARD_COMMNETS_VERSION') && $board->use_comment == 'yes'):?>
+				<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 				<tr valign="top">
 					<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
 					<td><select name="comment_skin" id="comment_skin" class="">
 							<?php foreach($comment_skin->list AS $key => $value):?>
-							<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>>
-								<?php echo $value?>
-							</option>
+							<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
 							<?php endforeach;?>
 						</select>
 						<p class="description">댓글의 모양을 선택합니다. (KBoard 댓글 플러그인 사용)</p></td>
