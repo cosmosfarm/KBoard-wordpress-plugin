@@ -187,6 +187,7 @@ class KBoardBuilder {
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
+		$boardBuilder = $this;
 		
 		if(!$this->board->isReader($content->member_uid, $content->secret) && $content->notice != 'true'){
 			if($this->board->permission_write=='all' && ($this->board->permission_read=='all' || $this->board->permission_read=='author')){
@@ -253,6 +254,7 @@ class KBoardBuilder {
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
+		$boardBuilder = $this;
 		
 		if(!$this->uid && !$this->board->isWriter()){
 			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
@@ -367,6 +369,7 @@ class KBoardBuilder {
 		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
 		$board = $this->board;
 		$board_url = $this->url;
+		$boardBuilder = $this;
 		
 		include KBOARD_DIR_PATH . "/skin/$this->skin/latest.php";
 		return ob_get_clean();
