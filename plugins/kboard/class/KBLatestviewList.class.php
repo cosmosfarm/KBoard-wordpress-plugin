@@ -20,12 +20,10 @@ class KBLatestviewList {
 	 * @return LatestviewList
 	 */
 	public function init(){
-		$resource = kboard_query("SELECT COUNT(*) FROM ".KBOARD_DB_PREFIX."kboard_board_latestview WHERE 1");
+		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1");
 		list($this->total) = mysql_fetch_row($resource);
 		$this->index = $this->total;
-		
-		$this->resource = kboard_query("SELECT * FROM ".KBOARD_DB_PREFIX."kboard_board_latestview WHERE 1 ORDER BY uid DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		
+		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1 ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		return $this;
 	}
 	

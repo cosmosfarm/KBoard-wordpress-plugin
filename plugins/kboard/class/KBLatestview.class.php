@@ -34,7 +34,7 @@ class KBLatestview {
 	 */
 	public function initWithUID($uid){
 		$uid = intval($uid);
-		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE uid='$uid'");
+		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$uid'");
 		$this->row = mysql_fetch_object($resource);
 		return $this;
 	}
@@ -53,7 +53,7 @@ class KBLatestview {
 	 */
 	public function create(){
 		$date = date("YmdHis", current_time('timestamp'));
-		$result = kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview` (`created`) VALUE ('$date')");
+		$result = kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
 		
 		$insert_id = mysql_insert_id();
 		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
@@ -73,7 +73,7 @@ class KBLatestview {
 					$data[] = "`$key`='$value'";
 				}
 			}
-			if($data) kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_latestview` SET ".implode(',', $data)." WHERE uid='$this->uid' LIMIT 1");
+			if($data) kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid' LIMIT 1");
 		}
 	}
 	
@@ -82,8 +82,8 @@ class KBLatestview {
 	 */
 	public function delete(){
 		if($this->uid){
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE uid='$this->uid' LIMIT 1");
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE latestview_uid='$this->uid'");
+			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$this->uid' LIMIT 1");
+			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
 		}
 	}
 	
@@ -127,8 +127,7 @@ class KBLatestview {
 	public function isLinked($board_id){
 		$board_id = intval($board_id);
 		if($this->uid){
-			$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE latestview_uid='$this->uid' AND board_id='$board_id'");
-			list($count) = mysql_fetch_row($resource);
+			list($count) = mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'"));
 		}
 		if(intval($count)) return true;
 		else return false;
