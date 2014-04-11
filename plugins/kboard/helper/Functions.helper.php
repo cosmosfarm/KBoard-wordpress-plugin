@@ -53,7 +53,7 @@ function kboard_json_encode($val){
  * @param string $filename
  * @return string
  */
-function kboard_minme_type($filename){
+function kboard_mime_type($filename){
 	$filename = basename($filename);
 	$mime_types = array(
 			'txt' => 'text/plain',

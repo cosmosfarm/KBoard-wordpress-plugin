@@ -32,7 +32,7 @@ if(!$file_info['file_path'] || !file_exists($path)){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
-header('Content-type: '.kboard_minme_type($path));
+header('Content-type: '.kboard_mime_type($path));
 header('Content-Disposition: attachment; filename="'.iconv('UTF-8','EUC-KR//IGNORE',str_replace(' ','-',$name)).'"');
 header('Content-Transfer-Encoding: binary');
 header('Content-length: '.filesize($path));
