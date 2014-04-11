@@ -8,10 +8,10 @@ img { border: 0; }
 
 .kboard-avatar-button-small,
 .kboard-avatar-button-small:link,
-.kboard-avatar-button-small:visited { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 12px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; }
+.kboard-avatar-button-small:visited { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 12px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 .kboard-avatar-button-small:hover,
 .kboard-avatar-button-small:focus,
-.kboard-avatar-button-small:active { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 12px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; }
+.kboard-avatar-button-small:active { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 12px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 
 .kboard-avatar-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 12px; }
 .kboard-avatar-poweredby a { color: gray; }
