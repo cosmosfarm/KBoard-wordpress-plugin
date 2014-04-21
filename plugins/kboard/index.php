@@ -614,23 +614,26 @@ function kboard_admin_notices(){
 /*
  * 스타일 파일을 출력한다.
  */
-add_action('init', 'kboard_style');
+add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
-	if(is_admin()){
-		wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css');
+	if(!get_option('kboard_fontawesome')){
+		global $wp_styles;
+		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
+		wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
+		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 	}
-	else{
-		if(!get_option('kboard_fontawesome')){
-			global $wp_styles;
-			wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
-			wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
-			$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
-		}
-		$skin = KBoardSkin::getInstance();
-		foreach($skin->getActiveList() AS $key => $value){
-			wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
-		}
+	$skin = KBoardSkin::getInstance();
+	foreach($skin->getActiveList() AS $key => $value){
+		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
 	}
+}
+
+/*
+ * 관리자 페이지 스타일 파일을 출력한다.
+ */
+add_action('admin_enqueue_scripts', 'kboard_admin_style', 999);
+function kboard_admin_style(){
+	wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css');
 }
 
 /*
