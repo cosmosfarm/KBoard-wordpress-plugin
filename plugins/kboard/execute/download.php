@@ -21,14 +21,13 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 	else die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
-$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
-$file_info = mysql_fetch_array($resource);
+$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
 
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
-$path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info['file_path']);
-$name = $file_info['file_name'];
+$path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info->file_path);
+$name = $file_info->file_name;
 
-if(!$file_info['file_path'] || !file_exists($path)){
+if(!$file_info->file_path || !file_exists($path)){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 

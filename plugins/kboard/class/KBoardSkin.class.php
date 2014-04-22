@@ -35,9 +35,10 @@ class KBoardSkin {
 	 * @return array
 	 */
 	public function getActiveList(){
+		global $wpdb;
 		$list = array();
-		$resource = kboard_query("SELECT `skin` FROM `".KBOARD_DB_PREFIX."kboard_board_setting` UNION SELECT `skin` FROM `".KBOARD_DB_PREFIX."kboard_board_latestview`");
-		while($row = mysql_fetch_object($resource)){
+		$result = $wpdb->get_results("SELECT `skin` FROM `".KBOARD_DB_PREFIX."kboard_board_setting` UNION SELECT `skin` FROM `".KBOARD_DB_PREFIX."kboard_board_latestview`");
+		foreach($result as $row){
 			$list[] = stripslashes($row->skin);
 		}
 		return $list;

@@ -52,8 +52,9 @@ class KBContent {
 	 * @return KBContent
 	 */
 	public function initWithUID($uid){
+		global $wpdb;
 		if($uid){
-			$this->row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='$uid' LIMIT 1"));
+			$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$uid' LIMIT 1");
 			$this->setBoardID($this->row->board_id);
 			$this->initOptions();
 			$this->initAttachedFiles();
@@ -148,7 +149,7 @@ class KBContent {
 	 * @return int
 	 */
 	private function _insertContent(){
-		global $user_ID;
+		global $user_ID, $wpdb;
 		$userdata = get_userdata($user_ID);
 		
 		if($this->parent_uid){
@@ -181,10 +182,8 @@ class KBContent {
 			$insert_data[] = "'$value'";
 		}
 		
-		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
-		
-		$insert_id = mysql_insert_id();
-		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
+		$insert_id = $wpdb->insert_id;
 		
 		$this->insertPost($insert_id, $data['member_uid']);
 		
@@ -195,6 +194,7 @@ class KBContent {
 	 * 게시글 정보를 수정한다.
 	 */
 	private function _updateContent(){
+		global $wpdb;
 		if($this->uid){
 			if($this->parent_uid){
 				$data['board_id'] = 0;
@@ -220,7 +220,7 @@ class KBContent {
 				$value = addslashes($value);
 				$update[] = "`$key`='$value'";
 			}
-			kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
 			
 			$post_id = $this->getPostID();
 			if($post_id){
@@ -289,9 +289,10 @@ class KBContent {
 	 * 게시물의 조회수를 증가한다.
 	 */
 	public function increaseView(){
+		global $wpdb;
 		if($this->uid && !@in_array($this->uid, $_SESSION['increased_document_uid'])){
 			$_SESSION['increased_document_uid'][] = $this->uid;
-			kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `view`=`view`+1 WHERE `uid`='$this->uid'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `view`=`view`+1 WHERE `uid`='$this->uid'");
 		}
 	}
 	
@@ -300,10 +301,11 @@ class KBContent {
 	 * @return string
 	 */
 	public function initOptions(){
+		global $wpdb;
 		if(!$this->uid) return '';
 		$option = array();
-		$result = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_option` WHERE `content_uid`='$this->uid'");
-		while($row = mysql_fetch_array($result)){
+		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->uid'", ARRAY_A);
+		foreach($result as $row){
 			$option[$row['option_key']] = stripslashes($row['option_value']);
 		}
 		$this->option = (object)$option;
@@ -315,10 +317,11 @@ class KBContent {
 	 * @return array
 	 */
 	public function initAttachedFiles(){
+		global $wpdb;
 		if(!$this->uid) return '';
 		$file = array();
-		$result = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `content_uid`='$this->uid'");
-		while($row = mysql_fetch_array($result)){
+		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid'", ARRAY_A);
+		foreach($result as $row){
 			$file[$row['file_key']] = array($row['file_path'], $row['file_name']);
 		}
 		$this->attach = (object)$file;
@@ -330,6 +333,7 @@ class KBContent {
 	 * @param int $uid
 	 */
 	public function update_attach($uid){
+		global $wpdb;
 		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
 		// 업로드된 파일이 있는지 확인한다. 없으면 중단
@@ -355,8 +359,7 @@ class KBContent {
 			$file_path = $upload['path'] . $upload['stored_name'];
 		
 			if($original_name){
-				$resource = kboard_query("SELECT `file_path` FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$uid'");
-				list($present_file) = mysql_fetch_row($resource);
+				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$uid'");
 				if($present_file){
 					unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
 					$this->_update_attach($uid, $key, $file_path, $original_name);
@@ -376,10 +379,11 @@ class KBContent {
 	 * @param string $file_name
 	 */
 	private function _update_attach($uid, $key, $file_path, $file_name){
+		global $wpdb;
 		$key = addslashes($key);
 		$file_path = addslashes($file_path);
 		$file_name = addslashes($file_name);
-		kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name' WHERE `file_key`='$key' AND `content_uid`='$uid'");
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name' WHERE `file_key`='$key' AND `content_uid`='$uid'");
 	}
 	
 	/**
@@ -390,11 +394,12 @@ class KBContent {
 	 * @param string $file_name
 	 */
 	private function _insert_attach($uid, $key, $file_path, $file_name){
+		global $wpdb;
 		$date = date("YmdHis", current_time('timestamp'));
 		$key = addslashes($key);
 		$file_path = addslashes($file_path);
 		$file_name = addslashes($file_name);
-		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$uid', '$key', '$date', '$file_path', '$file_name')");
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$uid', '$key', '$date', '$file_path', '$file_name')");
 	}
 	
 	/**
@@ -402,11 +407,12 @@ class KBContent {
 	 * @param int $uid
 	 */
 	private function _remove_all_attached($uid){
-		$result = kboard_query("SELECT file_path FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `content_uid`='$uid'");
-		while($file = mysql_fetch_row($result)){
-			unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file[0]));
+		global $wpdb;
+		$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid'");
+		foreach($result as $file){
+			unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
 		}
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `content_uid`='$uid'");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid'");
 	}
 	
 	/**
@@ -414,15 +420,15 @@ class KBContent {
 	 * @param string $key
 	 */
 	public function removeAttached($key){
+		global $wpdb;
 		if($this->uid){
 			$key = addslashes($key);
-			$resource = kboard_query("SELECT file_path FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$this->uid'");
-			list($file) = mysql_fetch_row($resource);
+			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$this->uid'");
 			if($file){
 				@unlink(KBOARD_WORDPRESS_ROOT . $file);
 				$this->_update_attach($this->uid, $key, '', '');
 			}
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 		}
 	}
 	
@@ -431,14 +437,14 @@ class KBContent {
 	 * @param int $uid
 	 */
 	function update_options($uid){
+		global $wpdb;
 		foreach($_REQUEST AS $key => $value){
 			if(strstr($key, $this->skin_option_prefix)){
 				
 				$key = addslashes(kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key)));
 				$value = addslashes(kboard_xssfilter(trim($value)));
 				
-				$resource = kboard_query("SELECT `option_value` FROM `".KBOARD_DB_PREFIX."kboard_board_option` WHERE `option_key`='$key' AND `content_uid`='$uid'");
-				list($present_value) = mysql_fetch_row($resource);
+				$present_value = $wpdb->get_var("SELECT `option_value` FROM `{$wpdb->prefix}kboard_board_option` WHERE `option_key`='$key' AND `content_uid`='$uid'");
 				if($present_value){
 					$this->_update_option($uid, $key, $value);
 				}
@@ -457,7 +463,8 @@ class KBContent {
 	 * @param string $value
 	 */
 	private function _update_option($uid, $key, $value){
-		kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_option` SET `option_value`='$value' WHERE `option_key`='$key' AND `content_uid`='$uid'");
+		global $wpdb;
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_option` SET `option_value`='$value' WHERE `option_key`='$key' AND `content_uid`='$uid'");
 	}
 	
 	/**
@@ -467,14 +474,16 @@ class KBContent {
 	 * @param string $value
 	 */
 	private function _insert_option($uid, $key, $value){
-		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUE ('$uid', '$key', '$value')");
+		global $wpdb;
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUE ('$uid', '$key', '$value')");
 	}
 	
 	/**
 	 * 빈 옵션들을 삭제한다.
 	 */
 	private function _remove_empty_option(){
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_option` WHERE `option_value`=''");
+		global $wpdb;
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `option_value`=''");
 	}
 	
 	/**
@@ -482,7 +491,8 @@ class KBContent {
 	 * @param int $uid
 	 */
 	private function _remove_option($uid){
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_option` WHERE `content_uid`='$uid'");
+		global $wpdb;
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$uid'");
 	}
 	
 	/**
@@ -490,6 +500,7 @@ class KBContent {
 	 * @param int $uid
 	 */
 	public function setThumbnail($uid){
+		global $wpdb;
 		if(!$this->thumbnail_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
 		if($_FILES['thumbnail']['tmp_name']){
@@ -502,7 +513,7 @@ class KBContent {
 			
 			if($upload['original_name']){
 				$this->removeThumbnail($uid);
-				kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `thumbnail_file`='$file', `thumbnail_name`='$original_name' WHERE `uid`='$uid'");
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='$file', `thumbnail_name`='$original_name' WHERE `uid`='$uid'");
 			}
 		}
 	}
@@ -511,12 +522,12 @@ class KBContent {
 	 * 썸네일 파일을 삭제한다.
 	 */
 	public function removeThumbnail(){
+		global $wpdb;
 		if($this->uid){
-			$result = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='$this->uid' LIMIT 1");
-			$row = mysql_fetch_array($result);
-			if($row['thumbnail_file']){
-				@unlink(KBOARD_WORDPRESS_ROOT . $row['thumbnail_file']);
-				kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
+			$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid' LIMIT 1");
+			if($content->thumbnail_file){
+				@unlink(KBOARD_WORDPRESS_ROOT . $content->thumbnail_file);
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
 			}
 		}
 	}
@@ -526,14 +537,15 @@ class KBContent {
 	 * @param string $next
 	 */
 	public function remove(){
+		global $wpdb;
 		if($this->uid){
 			$this->_remove_option($this->uid);
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='$this->uid'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid'");
 			$this->deletePost($this->getPostID());
 			$this->deleteReply($this->uid);
-			if(defined('KBOARD_COMMNETS_VERSION')) kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `content_uid`='$this->uid'");
+			if(defined('KBOARD_COMMNETS_VERSION')) $wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->uid'");
 			
 			/*
 			 * 게시글 삭제 액션 훅 실행
@@ -587,9 +599,9 @@ class KBContent {
 	 * posts 테이블에 등록된 게시글의 ID 값을 가져온다.
 	 */
 	public function getPostID(){
+		global $wpdb;
 		if($this->uid){
-			$resource = kboard_query("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE `post_name`='$this->uid' AND `post_type`='kboard'");
-			list($post_id) = mysql_fetch_row($resource);
+			$post_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_name`='$this->uid' AND `post_type`='kboard'");
 		}
 		return intval($post_id);
 	}
@@ -598,9 +610,9 @@ class KBContent {
 	 * 다음 게시물의 UID를 반환한다.
 	 */
 	public function getNextUID(){
+		global $wpdb;
 		if($this->uid){
-			$resource = kboard_query("SELECT `uid` FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`>'$this->uid' ORDER BY `uid` ASC LIMIT 1");
-			list($uid) = mysql_fetch_row($resource);
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`>'$this->uid' ORDER BY `uid` ASC LIMIT 1");
 		}
 		return intval($uid);
 	}
@@ -609,9 +621,9 @@ class KBContent {
 	 * 이전 게시물의 UID를 반환한다.
 	 */
 	public function getPrevUID(){
+		global $wpdb;
 		if($this->uid){
-			$resource = kboard_query("SELECT `uid` FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`<'$this->uid' ORDER BY `uid` DESC LIMIT 1");
-			list($uid) = mysql_fetch_row($resource);
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`<'$this->uid' ORDER BY `uid` DESC LIMIT 1");
 		}
 		return intval($uid);
 	}

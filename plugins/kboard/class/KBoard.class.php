@@ -32,9 +32,9 @@ class KBoard {
 	 * @return KBoard
 	 */
 	public function setID($id){
+		global $wpdb;
 		$id = intval($id);
-		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE uid='$id'");
-		$this->row = mysql_fetch_object($resource);
+		$this->row = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE uid='$id'");
 		$this->id = $id;
 		return $this;
 	}
@@ -52,9 +52,9 @@ class KBoard {
 	 * @return resource
 	 */
 	public function getList(){
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1");
-		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1 ORDER BY uid DESC");
+		global $wpdb;
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1");
+		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1 ORDER BY uid DESC");
 		return $this->resource;
 	}
 	
@@ -72,7 +72,11 @@ class KBoard {
 	 */
 	public function hasNext(){
 		if(!$this->resource) $this->getList();
-		$this->row = mysql_fetch_object($this->resource);
+		$this->row = current($this->resource);
+		
+		if(!$this->row) unset($this->resource);
+		else next($this->resource);
+		
 		return $this->row;
 	}
 	
@@ -269,14 +273,15 @@ class KBoard {
 	 * @param int $uid
 	 */
 	public function remove($uid){
+		global $wpdb;
 		$uid = intval($uid);
 		$list = new KBContentList($uid);
 		$list->getAllList();
 		while($content = $list->hasNext()){
 			$content->remove();
 		}
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE uid='$uid'");
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE board_id='$uid'");
+		$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE uid='$uid'");
+		$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE board_id='$uid'");
 	}
 }
 ?>

@@ -11,37 +11,32 @@ class KBoardMeta {
 	private $meta;
 	
 	public function __construct($board_id=''){
+		$this->clear();
 		$this->meta = new stdClass();
 		if($board_id) $this->setBoardID($board_id);
 	}
 	
-	public function __destruct(){
-		$this->clear();
-	}
-	
 	public function __get($name){
+		global $wpdb;
 		$name = addslashes($name);
-		
 		if($this->board_id){
 			if($this->meta->{$name}){
 				return stripslashes($this->meta->{$name});
 			}
 			else{
-				$resource = kboard_query("SELECT value FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
-				list($this->meta->{$name}) = mysql_fetch_row($resource);
+				$this->meta->{$name} = $wpdb->get_var("SELECT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
 				return stripslashes($this->meta->{$name});
 			}
 		}
-		
 		return '';
 	}
 	
 	public function __set($name, $value){
+		global $wpdb;
 		$name = addslashes($name);
 		$value = addslashes($value);
-		
 		if($this->board_id){
-			kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
+			$wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
 			$this->meta->{$name} = $value;
 		}
 	}
@@ -59,7 +54,8 @@ class KBoardMeta {
 	 * 모든 빈 값들을 제거한다.
 	 */
 	public function clear(){
-		kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE value=''");
+		global $wpdb;
+		$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE value=''");
 	}
 }
 ?>

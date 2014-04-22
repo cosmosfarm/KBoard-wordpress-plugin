@@ -29,9 +29,9 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function init(){
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE 1");
-		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE 1 ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		global $wpdb;
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE 1");
+		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE 1 ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
 		return $this;
 	}
@@ -41,17 +41,14 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function initWithRSS(){
-		$resource = kboard_query("SELECT `uid` FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE `permission_read`='all'");
-		while($row = mysql_fetch_row($resource)){
-			$read[] = $row[0];
-		}
+		global $wpdb;
+		$read = array();
+		$result = $wpdb->get_results("SELECT `uid` FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE `permission_read`='all'");
+		foreach($result as $row) $read[] = $row->uid;
 		if($read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
-		
 		$where[] = "secret=''";
-		
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where));
-		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where));
+		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
 		return $this;
 	}
@@ -113,6 +110,7 @@ class KBContentList {
 	 * @return resource
 	 */
 	public function getList($keyword='', $search='title'){
+		global $wpdb;
 		if(is_array($this->board_id)){
 			foreach($this->board_id AS $key => $value){
 				$board_ids[] = "'$value'";
@@ -132,12 +130,9 @@ class KBContentList {
 		$where = apply_filters('kboard_list_where', implode(' AND ', $where));
 		$orderby = apply_filters('kboard_list_orderby', '`date` DESC');
 		
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
-		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total - (($this->page-1) * $this->rpp);
-		
 		return $this->resource;
 	}
 	
@@ -146,6 +141,7 @@ class KBContentList {
 	 * @return resource
 	 */
 	public function getAllList(){
+		global $wpdb;
 		if(is_array($this->board_id)){
 			foreach($this->board_id AS $key => $value){
 				$board_ids[] = "'$value'";
@@ -155,9 +151,8 @@ class KBContentList {
 		}
 		else $where = "`board_id`='$this->board_id'";
 		
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
-		list($this->total) = mysql_fetch_row($resource);
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY `date` DESC");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY `date` DESC");
 		$this->index = $this->total;
 		return $this->resource;
 	}
@@ -168,15 +163,17 @@ class KBContentList {
 	 */
 	public function hasNext(){
 		if(!$this->resource) $this->getList();
-		$this->row = mysql_fetch_object($this->resource);
+		$this->row = current($this->resource);
 		
 		if($this->row){
+		next($this->resource);
 			$content = new KBContent();
 			$content->initWithRow($this->row);
 			return $content;
 		}
 		else{
-			return $this->row;
+			unset($this->resource);
+			return '';
 		}
 	}
 	
@@ -193,6 +190,7 @@ class KBContentList {
 	 * @return resource
 	 */
 	public function getNoticeList(){
+		global $wpdb;
 		if(is_array($this->board_id)){
 			foreach($this->board_id AS $key => $value){
 				$board_ids[] = "'$value'";
@@ -201,10 +199,9 @@ class KBContentList {
 			$where[] = "`board_id` IN ($board_ids)";
 		}
 		else $where[] = "`board_id`='$this->board_id'";
-		
 		$where[] = "`notice`='true'";
 		
-		$this->resource_notice = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
+		$this->resource_notice = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
 		return $this->resource_notice;
 	}
 	
@@ -224,15 +221,17 @@ class KBContentList {
 	 */
 	public function hasNextNotice(){
 		if(!$this->resource_notice) $this->getNoticeList();
-		$this->row = mysql_fetch_object($this->resource_notice);
+		$this->row = current($this->resource_notice); 
 	
 		if($this->row){
+			next($this->resource_notice);
 			$content = new KBContent();
 			$content->initWithRow($this->row);
 			return $content;
 		}
 		else{
-			return $this->row;
+			unset($this->resource_notice);
+			return '';
 		}
 	}
 	
@@ -241,7 +240,8 @@ class KBContentList {
 	 * @return resource
 	 */
 	public function getReplyList($parent_uid){
-		$this->resource_reply = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `parent_uid`='$parent_uid' ORDER BY `date` ASC");
+		global $wpdb;
+		$this->resource_reply = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `parent_uid`='$parent_uid' ORDER BY `date` ASC");
 		return $this->resource_reply;
 	}
 	
@@ -251,15 +251,17 @@ class KBContentList {
 	 */
 	public function hasNextReply(){
 		if(!$this->resource_reply) return;
-		$this->row = mysql_fetch_object($this->resource_reply);
+		$this->row = current($this->resource_reply);
 	
 		if($this->row){
+			next($this->resource_reply);
 			$content = new KBContent();
 			$content->initWithRow($this->row);
 			return $content;
 		}
 		else{
-			return $this->row;
+			unset($this->resource_reply);
+			return '';
 		}
 	}
 }

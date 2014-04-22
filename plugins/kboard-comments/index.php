@@ -93,9 +93,10 @@ function kboard_comments_admin_notices(){
  */
 add_action('wp_enqueue_scripts', 'kboard_comments_style', 999);
 function kboard_comments_style(){
+	global $wpdb;
 	if(!is_admin()){
-		$resource = kboard_query("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
-		while($row = mysql_fetch_object($resource)){
+		$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
+		foreach($result as $row){
 			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH.'/skin/'.$row->value.'/style.css');
 			if(file_exists(KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php')) include_once KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php';
 		}
@@ -107,8 +108,9 @@ function kboard_comments_style(){
  */
 add_action('init', 'kboard_comments_skin_functions');
 function kboard_comments_skin_functions(){
-	$resource = kboard_query("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
-	while($row = mysql_fetch_object($resource)){
+	global $wpdb;
+	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
+	foreach($result as $row){
 		if(file_exists(KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php')) include_once KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php';
 	}
 }
@@ -120,37 +122,36 @@ add_action('admin_init', 'kboard_comments_system_update');
 function kboard_comments_system_update(){
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
 	if(KBOARD_COMMNETS_VERSION <= get_option('kboard_comments_version')) return;
-
+	
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
 	if(get_option('kboard_comments_version') !== false) update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
 	else add_option('kboard_comments_version', KBOARD_COMMNETS_VERSION, null, 'no');
-
+	
 	// 관리자 알림
 	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
-
+	
 	$networkwide = is_plugin_active_for_network(__FILE__);
-
+	
 	/*
 	 * KBoard 댓글 2.8
-	* 파일 제거
-	*/
+	 * 파일 제거
+	 */
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/Comment.class.php');
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentList.class.php');
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/CommentsBuilder.class.php');
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentSkin.class.php');
 	@unlink(KBOARD_COMMENTS_DIR_PATH . '/KBCommentUrl.class.php');
-
+	
 	/*
 	 * KBoard 댓글 3.2
-	* kboard_comments `parent_uid` 컬럼 생성 확인
-	*/
-	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_comments` `parent_uid`");
-	list($name) = mysql_fetch_row($resource);
+	 * kboard_comments `parent_uid` 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_comments` `parent_uid`", ARRAY_N);
 	if(!$name){
 		kboard_comments_activation($networkwide);
 		return;
 	}
-	unset($resource, $name);
+	unset($name);
 }
 } // KBoard 게시판 플러그인이 활성화 돼 있어야 동작하는 구간 완료
 
@@ -186,7 +187,7 @@ function kboard_comments_activation($networkwide){
 function kboard_comments_activation_execute(){
 	global $wpdb;
 	
-	$kboard_comments = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_comments` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_comments` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`content_uid` bigint(20) unsigned NOT NULL,
 		`parent_uid` bigint(20) unsigned NOT NULL,
@@ -196,19 +197,17 @@ function kboard_comments_activation_execute(){
 		`created` char(14) NOT NULL,
 		`password` varchar(127) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_comments);
+	) DEFAULT CHARSET=utf8");
 	
 	/*
 	 * KBoard 댓글 3.2
 	 * kboard_comments `parent_uid` 컬럼 생성 확인
 	 */
-	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_comments` `parent_uid`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_comments` `parent_uid`", ARRAY_N);
 	if(!$name){
-		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_comments` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `content_uid`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_comments` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `content_uid`");
 	}
-	unset($resource, $name);
+	unset($name);
 }
 
 /*
@@ -244,7 +243,6 @@ function kboard_comments_uninstall(){
  */
 function kboard_comments_uninstall_exeucte(){
 	global $wpdb;
-	$drop_table = "DROP TABLE `".$wpdb->prefix."kboard_comments`";
-	mysql_query($drop_table);
+	$wpdb->query("DROP TABLE `{$wpdb->prefix}kboard_comments`");
 }
 ?>

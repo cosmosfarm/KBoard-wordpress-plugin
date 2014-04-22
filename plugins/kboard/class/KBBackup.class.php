@@ -16,10 +16,11 @@ class KBBackup {
 	 * @return array
 	 */
 	public function getTables(){
+		global $wpdb;
 		$tables = array();
-		$resource = kboard_query('SHOW TABLES');
-		while($row = mysql_fetch_row($resource)){
-			if(stristr($row[0], KBOARD_DB_PREFIX.'kboard_')) $tables[] = $row[0];
+		$tables_result = $wpdb->get_results('SHOW TABLES', ARRAY_N);
+		foreach($tables_result as $table){
+			if(stristr($table[0], $wpdb->prefix.'kboard_')) $tables[] = $table[0];
 		}
 		return $tables;
 	}
@@ -30,10 +31,10 @@ class KBBackup {
 	 * @return string
 	 */
 	public function getSql($table){
-		$resource = kboard_query("SELECT * FROM `$table`");
-		
+		global $wpdb;
+		$result = $wpdb->get_results("SELECT * FROM `$table`", ARRAY_N);
 		$sql = "TRUNCATE TABLE `$table`;\n";
-		while($row = mysql_fetch_row($resource)){
+		foreach($result as $row){
 			$columns = count($row);
 			$value = array();
 			$sql .= "INSERT INTO `$table` VALUE (";
@@ -54,13 +55,13 @@ class KBBackup {
 	 * @return string
 	 */
 	public function getXml($table){
-		$resource = kboard_query("SELECT * FROM `$table`");
+		global $wpdb;
+		$result = $wpdb->get_results("SELECT * FROM `$table`", ARRAY_A);
 		
 		// 테이블 이름에서 PREFIX를 지운다.
-		$table = str_replace(KBOARD_DB_PREFIX, '', $table);
-		
+		$table = str_replace($wpdb->prefix, '', $table);
 		$xml .= "<$table>\n";
-		while($row = mysql_fetch_assoc($resource)){
+		foreach($result as $row){
 			$xml .= "\t<data>\n";
 			
 			$value = array();
@@ -105,6 +106,7 @@ class KBBackup {
 	 * @param string $file
 	 */
 	public function importXml($file){
+		global $wpdb;
 		include 'XML2Array.class.php';
 		$xml = file_get_contents($file);
 		$array = XML2Array::createArray($xml);
@@ -123,10 +125,13 @@ class KBBackup {
 			
 			if($data){
 				// 테이블 이름에 PREFIX를 추가 한다.
-				$table = KBOARD_DB_PREFIX . $table;
+				$table = $wpdb->prefix.$table;
 				
-				kboard_query("TRUNCATE TABLE `$table`");
-				if(stristr($table, 'kboard_board_content')) kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."posts` WHERE post_type='kboard'");
+				// 새로 생성될 테이블을 비운다.
+				$wpdb->query("TRUNCATE TABLE `$table`");
+				
+				// 새로운 content를 입력하기 위해서 posts테이블에 입력된 content를 삭제한다.
+				if(stristr($table, 'kboard_board_content')) $wpdb->query("DELETE FROM `{$wpdb->prefix}posts` WHERE `post_type`='kboard'");
 				
 				foreach($data AS $key => $row){
 					$keys = array_keys($row);
@@ -144,16 +149,13 @@ class KBBackup {
 					}
 					$value = implode(',', $value);
 					
-					kboard_query("INSERT INTO `$table` ($columns) VALUE ($value)");
+					$wpdb->query("INSERT INTO `$table` ($columns) VALUE ($value)");
 					
 					/*
 					 * search 값이 있을경우 post 테이블에 내용을 입력한다.
 					 */
 					if($row['search']['@cdata']==1 || $row['search']['@cdata']==2){
-						$insert_id = mysql_insert_id();
-						if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
-						
-						if($insert_id){
+						if($wpdb->insert_id){
 							$kboard_post = array(
 								'post_author'   => $row['member_uid']['@cdata'],
 								'post_title'    => addslashes($row['title']['@cdata']),
@@ -161,7 +163,7 @@ class KBBackup {
 								'post_status'   => 'publish',
 								'comment_status'=> 'closed',
 								'ping_status'   => 'closed',
-								'post_name'     => $insert_id,
+								'post_name'     => $wpdb->insert_id,
 								'post_parent'   => $row['board_id']['@cdata'],
 								'post_type'     => 'kboard'
 							);

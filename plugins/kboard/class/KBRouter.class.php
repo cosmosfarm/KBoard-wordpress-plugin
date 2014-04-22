@@ -36,16 +36,14 @@ class KBRouter {
 	 * @param int $content_uid
 	 */
 	private function contentRedirect($content_uid){
-		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE uid='$content_uid'");
-		$content = mysql_fetch_object($resource);
-		
+		global $wpdb;
+		$content = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='$content_uid'");
 		if($content->board_id){
 			$meta = new KBoardMeta($content->board_id);
 			
 			if($meta->auto_page) $page_id = $meta->auto_page;
 			else {
-				$resource = kboard_query("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE post_content LIKE '%[kboard id={$content->board_id}]%' AND post_type='page'");
-				list($page_id) = mysql_fetch_row($resource);
+				$page_id = $wpdb->get_var("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE `post_content` LIKE '%[kboard id={$content->board_id}]%' AND `post_type`='page'");
 			}
 				
 			if($page_id){
@@ -68,15 +66,14 @@ class KBRouter {
 	 * @param int $board_id
 	 */
 	private function boardRedirect($board_id){
+		global $wpdb;
 		$board = new KBoard($board_id);
-		
 		if($board->uid){
 			$meta = new KBoardMeta($board_id);
 			
 			if($meta->auto_page) $page_id = $meta->auto_page;
 			else {
-				$resource = kboard_query("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE post_content LIKE '%[kboard id={$board_id}]%' AND post_type='page'");
-				list($page_id) = mysql_fetch_row($resource);
+				$page_id = $wpdb->get_var("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
 			}
 			
 			if($page_id){

@@ -33,9 +33,9 @@ class KBLatestview {
 	 * @return Latestview
 	 */
 	public function initWithUID($uid){
+		global $wpdb;
 		$uid = intval($uid);
-		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$uid'");
-		$this->row = mysql_fetch_object($resource);
+		$this->row = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$uid'");
 		return $this;
 	}
 	
@@ -52,13 +52,10 @@ class KBLatestview {
 	 * 모아보기를 생성한다.
 	 */
 	public function create(){
+		global $wpdb;
 		$date = date("YmdHis", current_time('timestamp'));
-		$result = kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
-		
-		$insert_id = mysql_insert_id();
-		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
-		
-		$this->uid = $insert_id;
+		$result = $wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
+		$this->uid = $wpdb->insert_id;
 		return $this->uid;
 	}
 	
@@ -66,6 +63,7 @@ class KBLatestview {
 	 * 모아보기 정보를 수정한다.
 	 */
 	public function update(){
+		global $wpdb;
 		if($this->uid){
 			foreach($this->row AS $key => $value){
 				if($key != 'uid'){
@@ -73,7 +71,7 @@ class KBLatestview {
 					$data[] = "`$key`='$value'";
 				}
 			}
-			if($data) kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid' LIMIT 1");
+			if($data) $wpdb->query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid' LIMIT 1");
 		}
 	}
 	
@@ -81,9 +79,10 @@ class KBLatestview {
 	 * 모아보기 정보를 삭제한다.
 	 */
 	public function delete(){
+		global $wpdb;
 		if($this->uid){
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$this->uid' LIMIT 1");
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
+			$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$this->uid' LIMIT 1");
+			$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
 		}
 	}
 	
@@ -92,9 +91,10 @@ class KBLatestview {
 	 * @param int $board_id
 	 */
 	public function pushBoard($board_id){
+		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid && !$this->isLinked($board_id)){
-			kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview_link` (`latestview_uid`, `board_id`) VALUE ('$this->uid', '$board_id')");
+			$wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview_link` (`latestview_uid`, `board_id`) VALUE ('$this->uid', '$board_id')");
 		}
 	}
 	
@@ -103,9 +103,10 @@ class KBLatestview {
 	 * @param int $board_id
 	 */
 	public function popBoard($board_id){
+		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid){
-			kboard_query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id' LIMIT 1");
+			$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id' LIMIT 1");
 		}
 	}
 	
@@ -113,9 +114,10 @@ class KBLatestview {
 	 * 모아볼 게시판들을 반환한다.
 	 */
 	public function getLinkedBoard(){
+		global $wpdb;
 		$list = array();
-		$resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
-		while($row = mysql_fetch_object($resource)){
+		$result = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
+		foreach($result as $row){
 			$list[] = $row->board_id;
 		}
 		return $list;
@@ -125,9 +127,10 @@ class KBLatestview {
 	 * 연결된 게시판인지 확인한다.
 	 */
 	public function isLinked($board_id){
+		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid){
-			list($count) = mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'"));
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'");
 		}
 		if(intval($count)) return true;
 		else return false;

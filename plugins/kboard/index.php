@@ -176,6 +176,7 @@ function kboard_setting(){
  * 게시판 정보 수정
  */
 function kboard_update(){
+	global $wpdb;
 	if(!defined('KBOARD_COMMNETS_VERSION')){
 		die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	}
@@ -195,15 +196,11 @@ function kboard_update(){
 	$create = date("YmdHis", current_time('timestamp'));
 	
 	if(!$board_id){
-		kboard_query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
-		
-		$insert_id = mysql_insert_id();
-		if(!$insert_id) list($insert_id) = mysql_fetch_row(kboard_query("SELECT LAST_INSERT_ID()"));
-		
-		$board_id = $insert_id;
+		$wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+		$board_id = $wpdb->insert_id;
 	}
 	else{
-		kboard_query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
+		$wpdb->query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
 	}
 	
 	if($board_id){
@@ -219,8 +216,7 @@ function kboard_update(){
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
-			$row = mysql_fetch_row(kboard_query("SELECT board_id FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'"));
-			$auto_page_board_id = @reset($row);
+			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
 			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
 			else $meta->auto_page = $auto_page;
 		}
@@ -228,7 +224,6 @@ function kboard_update(){
 			$meta->auto_page = '';
 		}
 	}
-	
 	die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');
 }
 
@@ -430,10 +425,9 @@ function kboard_builder($args){
  */
 add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
-	global $post;
+	global $post, $wpdb;
 	if(is_page($post->ID)){
-		$resource = kboard_query("SELECT board_id FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'");
-		list($board_id) = mysql_fetch_row($resource);
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'");
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
 	return $content;
@@ -679,16 +673,15 @@ function kboard_activation_execute(){
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
 	 */
-	$resource = kboard_query('SHOW TABLES');
-	while(list($table) = mysql_fetch_row($resource)){
+	$tables = $wpdb->get_results('SHOW TABLES', ARRAY_N);
+	foreach($tables as $table){
+		$table = $table[0];
 		$prefix = substr($table, 0, 7);
-		if($prefix == 'kboard_'){
-			kboard_query("RENAME TABLE `$table` TO `".$wpdb->prefix.$table."`");
-		}
+		if($prefix == 'kboard_') $wpdb->query("RENAME TABLE `{$table}` TO `{$wpdb->prefix}{$table}`");
 	}
-	unset($resource, $table, $prefix);
+	unset($tables, $table, $prefix);
 	
-	$kboard_board_setting = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_setting` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_setting` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`board_name` varchar(127) NOT NULL,
 		`skin` varchar(127) NOT NULL,
@@ -702,11 +695,10 @@ function kboard_activation_execute(){
 		`category2_list` varchar(127) NOT NULL,
 		`page_rpp` int(10) unsigned NOT NULL,
 		`created` char(14) NOT NULL,
-		PRIMARY KEY  (`uid`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_setting);
+		PRIMARY KEY (`uid`)
+	) DEFAULT CHARSET=utf8");
 	
-	$kboard_board_attached = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_attached` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_attached` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`content_uid` bigint(20) unsigned NOT NULL,
 		`file_key` varchar(127) NOT NULL,
@@ -714,10 +706,9 @@ function kboard_activation_execute(){
 		`file_path` varchar(127) NOT NULL,
 		`file_name` varchar(127) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_attached);
+	) DEFAULT CHARSET=utf8");
 	
-	$kboard_board_content = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_content` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`board_id` bigint(20) unsigned NOT NULL,
 		`parent_uid` bigint(20) unsigned NOT NULL,
@@ -738,94 +729,85 @@ function kboard_activation_execute(){
 		`password` varchar(127) NOT NULL,
 		PRIMARY KEY  (`uid`),
 		KEY `board_id` (`board_id`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_content);
+	) DEFAULT CHARSET=utf8");
 	
-	$kboard_board_option = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_option` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`content_uid` bigint(20) unsigned NOT NULL,
 		`option_key` varchar(127) NOT NULL,
 		`option_value` text NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_option);
+	) DEFAULT CHARSET=utf8");
 	
-	$kboard_board_meta = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_meta` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
 		`board_id` bigint(20) unsigned NOT NULL,
 		`key` varchar(127) NOT NULL,
 		`value` text NOT NULL,
 		UNIQUE KEY `meta_index` (`board_id`,`key`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_meta);
+	) DEFAULT CHARSET=utf8");
 	
-	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview` (
 		`uid` bigint(20) unsigned NOT NULL auto_increment,
 		`name` varchar(127) NOT NULL,
 		`skin` varchar(127) NOT NULL,
 		`rpp` int(10) unsigned NOT NULL,
 		`created` char(14) NOT NULL,
 		PRIMARY KEY  (`uid`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_latestview);
+	) DEFAULT CHARSET=utf8");
 	
-	$kboard_board_latestview = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."kboard_board_latestview_link` (
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
 		`latestview_uid` bigint(20) unsigned NOT NULL,
 		`board_id` bigint(20) unsigned NOT NULL,
 		UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
-	) DEFAULT CHARSET=utf8";
-	kboard_query($kboard_board_latestview);
+	) DEFAULT CHARSET=utf8");
 	
 	/*
 	 * KBoard 2.9
 	 * kboard_board_meta `value` 데이터형 text로 변경
 	 */
-	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_meta` `value`");
-	list($name, $type) = mysql_fetch_row($resource);
+	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_meta` `value`", ARRAY_N);
 	if(stristr($type, 'varchar')){
-		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_meta` CHANGE `value` `value` text NOT NULL");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_meta` CHANGE `value` `value` text NOT NULL");
 	}
-	unset($resource, $name, $type);
+	unset($name, $type);
 	
 	/*
 	 * KBoard 3.5
 	 * kboard_board_content `search` 컬럼 생성 확인
 	 */
-	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_content` `search`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `search`", ARRAY_N);
 	if(!$name){
-		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `search` CHAR(1) NOT NULL AFTER `notice`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` CHAR(1) NOT NULL AFTER `notice`");
 	}
-	unset($resource, $name);
+	unset($name);
 	
 	/*
 	 * KBoard 4.1
 	 * kboard_board_content `comment` 컬럼 생성 확인
 	 */
-	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_content` `comment`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `comment`", ARRAY_N);
 	if(!$name){
-		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `comment` INT UNSIGNED NOT NULL AFTER `view`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `comment` INT UNSIGNED NOT NULL AFTER `view`");
 	}
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		// comment 컬럼에 댓글 입력 숫자를 등록한다.
-		$resource = kboard_query("SELECT `uid` FROM `".$wpdb->prefix."kboard_board_content` WHERE 1");
-		while($row = mysql_fetch_row($resource)){
-			list($count) = mysql_fetch_row(kboard_query("SELECT COUNT(*) FROM `".$wpdb->prefix."kboard_comments` WHERE `content_uid`='".intval($row[0])."'"));
-			kboard_query("UPDATE `".$wpdb->prefix."kboard_board_content` SET `comment`='$count' WHERE `uid`='".intval($row[0])."'");
+		$contents = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE 1");
+		foreach($contents as $content){
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='".intval($content->uid)."'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`='$count' WHERE `uid`='".intval($content->uid)."'");
 		}
 	}
-	unset($resource, $name, $count);
+	unset($name, $count);
 	
 	/*
 	 * KBoard 4.2
 	 * kboard_board_content `parent_uid` 컬럼 생성 확인
 	 */
-	$resource = kboard_query("DESCRIBE `".$wpdb->prefix."kboard_board_content` `parent_uid`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `parent_uid`", ARRAY_N);
 	if(!$name){
-		kboard_query("ALTER TABLE `".$wpdb->prefix."kboard_board_content` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `board_id`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `board_id`");
 	}
-	unset($resource, $name);
+	unset($name);
 }
 
 /*
@@ -842,7 +824,6 @@ function kboard_deactivation($networkwide){
 register_uninstall_hook(__FILE__, 'kboard_uninstall');
 function kboard_uninstall(){
 	global $wpdb;
-	
 	if(function_exists('is_multisite') && is_multisite()){
 		$old_blog = $wpdb->blogid;
 		$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
@@ -861,16 +842,14 @@ function kboard_uninstall(){
  */
 function kboard_uninstall_execute(){
 	global $wpdb;
-	
-	$drop_table = "DROP TABLE 
-		`".$wpdb->prefix."kboard_board_attached`,
-		`".$wpdb->prefix."kboard_board_content`,
-		`".$wpdb->prefix."kboard_board_option`,
-		`".$wpdb->prefix."kboard_board_setting`,
-		`".$wpdb->prefix."kboard_board_meta`,
-		`".$wpdb->prefix."kboard_board_latestview`,
-		`".$wpdb->prefix."kboard_board_latestview_link`";
-	mysql_query($drop_table);
+	$wpdb->query("DROP TABLE 
+		`{$wpdb->prefix}kboard_board_attached`,
+		`{$wpdb->prefix}kboard_board_content`,
+		`{$wpdb->prefix}kboard_board_option`,
+		`{$wpdb->prefix}kboard_board_setting`,
+		`{$wpdb->prefix}kboard_board_meta`,
+		`{$wpdb->prefix}kboard_board_latestview`,
+		`{$wpdb->prefix}kboard_board_latestview_link`");
 }
 
 /*
@@ -878,6 +857,8 @@ function kboard_uninstall_execute(){
  */
 add_action('admin_init', 'kboard_system_update');
 function kboard_system_update(){
+	global $wpdb;
+	
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
 	if(KBOARD_VERSION <= get_option('kboard_version')) return;
 	
@@ -894,7 +875,7 @@ function kboard_system_update(){
 	 * KBoard 2.0
 	 * kboard_board_meta 테이블 추가 생성
 	 */
-	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_meta`")){
+	if(!$wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}kboard_board_meta'")){
 		kboard_activation($networkwide);
 		return;
 	}
@@ -903,27 +884,27 @@ function kboard_system_update(){
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
 	 */
-	$resource = kboard_query('SHOW TABLES');
-	while(list($table) = mysql_fetch_row($resource)){
+	$tables = $wpdb->get_results('SHOW TABLES', ARRAY_N);
+	foreach($tables as $table){
+		$table = $table[0];
 		$prefix = substr($table, 0, 7);
 		if($prefix == 'kboard_'){
 			kboard_activation($networkwide);
 			return;
 		}
 	}
-	unset($resource, $table, $prefix);
+	unset($tables, $table, $prefix);
 	
 	/*
 	 * KBoard 2.9
 	 * kboard_board_meta `value` 데이터형 text로 변경
 	 */
-	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_meta` `value`");
-	list($name, $type) = mysql_fetch_row($resource);
+	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_meta` `value`", ARRAY_N);
 	if(stristr($type, 'varchar')){
 		kboard_activation($networkwide);
 		return;
 	}
-	unset($resource, $name, $type);
+	unset($name, $type);
 	
 	/*
 	 * KBoard 3.2
@@ -936,17 +917,16 @@ function kboard_system_update(){
 	 * kboard_board_content `search` 컬럼 생성 확인
 	 * kboard_board_latestview, kboard_board_latestview_link 테이블 추가 생성
 	 */
-	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `search`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `search`", ARRAY_N);
 	if(!$name){
 		kboard_activation($networkwide);
 		return;
 	}
-	if(!mysql_query("SELECT 1 FROM `".KBOARD_DB_PREFIX."kboard_board_latestview`")){
+	if(!$wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}kboard_board_latestview'")){
 		kboard_activation($networkwide);
 		return;
 	}
-	unset($resource, $name);
+	unset($name);
 	
 	/*
 	 * KBoard 3.5
@@ -973,24 +953,22 @@ function kboard_system_update(){
 	 * KBoard 4.1
 	 * kboard_board_content `comment` 컬럼 생성 확인
 	 */
-	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `comment`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `comment`", ARRAY_N);
 	if(!$name){
 		kboard_activation($networkwide);
 		return;
 	}
-	unset($resource, $name);
+	unset($name);
 	
 	/*
 	 * KBoard 4.2
 	 * kboard_board_content `parent_uid` 컬럼 생성 확인
 	 */
-	$resource = kboard_query("DESCRIBE `".KBOARD_DB_PREFIX."kboard_board_content` `parent_uid`");
-	list($name) = mysql_fetch_row($resource);
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `parent_uid`", ARRAY_N);
 	if(!$name){
 		kboard_activation($networkwide);
 		return;
 	}
-	unset($resource, $name);
+	unset($name);
 }
 ?>

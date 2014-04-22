@@ -20,10 +20,10 @@ class KBLatestviewList {
 	 * @return LatestviewList
 	 */
 	public function init(){
-		$resource = kboard_query("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1");
-		list($this->total) = mysql_fetch_row($resource);
+		global $wpdb;
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1");
+		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1 ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
-		$this->resource = kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1 ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		return $this;
 	}
 	
@@ -33,14 +33,16 @@ class KBLatestviewList {
 	 */
 	public function hasNext(){
 		if(!$this->resource) $this->init();
-		$this->row = mysql_fetch_object($this->resource);
+		$this->row = current($this->resource);
 		
 		if($this->row){
+			next($this->resource);
 			$latestview = new KBLatestview();
 			$latestview->initWithRow($this->row);
 			return $latestview;
 		}
 		else{
+			unset($this->resource);
 			return '';
 		}
 	}
