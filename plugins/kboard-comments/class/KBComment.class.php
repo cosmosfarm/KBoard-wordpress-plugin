@@ -31,8 +31,9 @@ class KBComment {
 	 * @return KBComment
 	 */
 	public function initWithUID($uid){
+		global $wpdb;
 		$uid = intval($uid);
-		$this->row = mysql_fetch_object(kboard_query("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1"));
+		$this->row = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1");
 		return $this;
 	}
 	
@@ -51,8 +52,8 @@ class KBComment {
 	 * @return boolean
 	 */
 	public function isEditor(){
-		$resource = kboard_query("SELECT board_id FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='{$this->content_uid}'");
-		list($board_id) = mysql_fetch_row($resource);
+		global $wpdb;
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='{$this->content_uid}'");
 		$board = new KBoard($board_id);
 		
 		if($this->user_uid == $this->userdata->data->ID && $this->userdata->data->ID){
