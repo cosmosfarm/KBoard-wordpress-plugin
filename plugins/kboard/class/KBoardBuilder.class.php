@@ -36,7 +36,7 @@ class KBoardBuilder {
 		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
 		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
 		
-		$this->mod = in_array($mod, array('list', 'document', 'editor', 'remove'))?$mod:'list';
+		$this->mod = in_array($mod, array('list', 'document', 'editor', 'remove'))?$mod:apply_filters('kboard_default_build_mod', 'list');
 		$this->category1 = $_GET['category1'];
 		$this->category2 = $_GET['category2'];
 		$this->uid = $uid;
@@ -115,6 +115,8 @@ class KBoardBuilder {
 			$_data['content'] = $content->secret!='true'?$content->content:'';
 			$_data['date'] = $content->date;
 			$_data['view'] = $content->view;
+			$_data['comment'] = $content->comment;
+			$_data['like'] = $content->like;
 			$_data['thumbnail_file'] = $content->thumbnail_file;
 			$_data['thumbnail_name'] = $content->thumbnail_name;
 			$_data['category1'] = $content->category1;
@@ -280,7 +282,7 @@ class KBoardBuilder {
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				die("<script>location.href='$next_url';</script>");
+				die("<script>location.href='".apply_filters('kboard_after_executing_url', $next_url)."';</script>");
 			}
 			
 			// execute후 POST 데이터를 지우고 다시 초기화 한다.
