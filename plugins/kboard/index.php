@@ -808,7 +808,7 @@ function kboard_activation_execute(){
 	 * kboard_board_meta `content` 데이터형 longtext로 변경
 	 */
 	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `content`", ARRAY_N);
-	if(stristr($type, 'varchar')){
+	if(stristr($type, 'text')){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` CHANGE `content` `content` LONGTEXT NOT NULL");
 	}
 	unset($name, $type);

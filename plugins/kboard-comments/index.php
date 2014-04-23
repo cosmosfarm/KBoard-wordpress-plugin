@@ -43,6 +43,7 @@ function kboard_comments_list(){
 		}
 	}
 	$commentList->order = 'DESC';
+	$commentList->init();
 	include_once 'pages/comments_list.php';
 }
 
