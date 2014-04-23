@@ -58,14 +58,14 @@ function kboard_comments_builder($atts){
 }
 
 /*
- * head에 댓글 스크립트 추가
+ * 댓글 스크립트 추가
  */
-add_action('wp_head', 'kboard_comments_script');
+add_action('wp_enqueue_scripts', 'kboard_comments_script');
 function kboard_comments_script(){
 	$mod = kboard_htmlclear($_GET['mod']);
 	$uid = intval($_GET['uid']);
 	if($mod == 'document' && $uid){
-		echo '<script type="text/javascript" src="http://contents.cosmosfarm.com/wordpress/kboard-comments.js"></script>' . "\n";
+		wp_enqueue_script('kboard-comments', 'http://contents.cosmosfarm.com/wordpress/kboard-comments.js', false);
 	}
 }
 

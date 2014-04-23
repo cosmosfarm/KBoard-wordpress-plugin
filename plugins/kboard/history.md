@@ -8,6 +8,7 @@
   5. kboard_board_content 테이블 like 컬럼 생성
   6. kboard_after_executing_url 워드프레스 필터 추가
   7. kboard_default_build_mod 워드프레스 필터 추가
+  8. 버그 수정
 
 
 
