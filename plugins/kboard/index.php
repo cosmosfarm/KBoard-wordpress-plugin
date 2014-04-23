@@ -49,11 +49,6 @@ include_once 'helper/Security.helper.php';
 include_once 'helper/Functions.helper.php';
 
 /*
- * DB 오류 출력
- */
-$wpdb->show_errors();
-
-/*
  * jQuery 추가
  */
 wp_enqueue_script('jquery');
