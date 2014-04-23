@@ -121,6 +121,8 @@ function kboard_comments_skin_functions(){
  */
 add_action('admin_init', 'kboard_comments_system_update');
 function kboard_comments_system_update(){
+	global $wpdb;
+	
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
 	if(KBOARD_COMMNETS_VERSION <= get_option('kboard_comments_version')) return;
 	
