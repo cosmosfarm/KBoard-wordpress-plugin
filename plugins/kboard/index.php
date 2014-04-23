@@ -160,7 +160,9 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
+	include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 	$skin = KBoardSkin::getInstance();
+	$comment_skin = KBCommentSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -171,8 +173,8 @@ function kboard_setting(){
 	include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 	$board = new KBoard();
 	$board->setID($_GET['board_id']);
-	$skin = KBoardSkin::getInstance();
 	$meta = new KBoardMeta($board->uid);
+	$skin = KBoardSkin::getInstance();
 	$comment_skin = KBCommentSkin::getInstance();
 	include_once 'pages/kboard_setting.php';
 }
