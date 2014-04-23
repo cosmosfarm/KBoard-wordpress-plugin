@@ -495,18 +495,6 @@ function kboard_seo(){
 }
 
 /*
- * 쿼리
- */
-function kboard_query($query){
-	$resource = mysql_query($query);
-	if(mysql_errno()){
-		$error = 'MySQL 메시지 ' . mysql_errno() . ":<br>\n<b>" . mysql_error() . "</b><br>\n SQL 질의:<br>\n<b>" . $query . "</b><br>\n" . '이 오류 내용을 코스모스팜 스레드(<a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">http://www.cosmosfarm.com/threads</a>)에 알려주세요. 개인정보는 지워주세요.';
-		die($error);
-	}
-	return $resource;
-}
-
-/*
  * 권한 한글 출력
  */
 function kboard_permission($permission){
@@ -720,10 +708,11 @@ function kboard_activation_execute(){
 		`member_uid` bigint(20) unsigned NOT NULL,
 		`member_display` varchar(127) NOT NULL,
 		`title` varchar(127) NOT NULL,
-		`content` text NOT NULL,
+		`content` longtext NOT NULL,
 		`date` char(14) NOT NULL,
 		`view` int(10) unsigned NOT NULL,
 		`comment` int(10) unsigned NOT NULL,
+		`like` int(10) unsigned NOT NULL,
 		`thumbnail_file` varchar(127) NOT NULL,
 		`thumbnail_name` varchar(127) NOT NULL,
 		`category1` varchar(127) NOT NULL,
@@ -772,7 +761,7 @@ function kboard_activation_execute(){
 	 */
 	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_meta` `value`", ARRAY_N);
 	if(stristr($type, 'varchar')){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_meta` CHANGE `value` `value` text NOT NULL");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_meta` CHANGE `value` `value` TEXT NOT NULL");
 	}
 	unset($name, $type);
 	
@@ -811,6 +800,26 @@ function kboard_activation_execute(){
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `parent_uid`", ARRAY_N);
 	if(!$name){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `board_id`");
+	}
+	unset($name);
+	
+	/*
+	 * KBoard 4.5
+	 * kboard_board_meta `content` 데이터형 longtext로 변경
+	 */
+	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `content`", ARRAY_N);
+	if(stristr($type, 'varchar')){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` CHANGE `content` `content` LONGTEXT NOT NULL");
+	}
+	unset($name, $type);
+	
+	/*
+	 * KBoard 4.5
+	 * kboard_board_content `parent_uid` 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` INT UNSIGNED NOT NULL AFTER `comment`");
 	}
 	unset($name);
 }
@@ -970,6 +979,28 @@ function kboard_system_update(){
 	 * kboard_board_content `parent_uid` 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `parent_uid`", ARRAY_N);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name);
+
+	/*
+	 * KBoard 4.5
+	 * kboard_board_meta `content` 데이터형 longtext로 변경
+	 */
+	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `content`", ARRAY_N);
+	if(stristr($type, 'text')){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name, $type);
+	
+	/*
+	 * KBoard 4.5
+	 * kboard_board_content `like` 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
 	if(!$name){
 		kboard_activation($networkwide);
 		return;
