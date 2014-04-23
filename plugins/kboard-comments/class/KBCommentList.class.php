@@ -84,7 +84,7 @@ class KBCommentList {
 	 * @return Comment
 	 */
 	public function hasNext(){
-		if(!$this->resource) $this->init();
+		if(!$this->resource) return '';
 		$this->row = current($this->resource);
 		
 		if($this->row){
