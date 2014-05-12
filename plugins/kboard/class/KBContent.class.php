@@ -126,10 +126,17 @@ class KBContent {
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				$meta = new KBoardMeta($this->board_id);
 				if($meta->latest_alerts){
+					/*
+					 * http://www.cosmosfarm.com/threads/document/3025
+					 * 이메일 알람 시, 메일 제목에 보드명 추가.
+					 */
+					$board = new KBoard();
+					$board->setID($this->board_id);
+					
 					include 'KBMail.class.php';
 					$mail = new KBMail();
 					$mail->to = explode(',', $meta->latest_alerts);
-					$mail->title = $this->title;
+					$mail->title = $board->board_name.' - '.$this->title;
 					$mail->content = $this->content;
 					$mail->send();
 				}
