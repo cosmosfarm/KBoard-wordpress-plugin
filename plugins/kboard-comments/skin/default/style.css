@@ -6,7 +6,7 @@
 .kboard-comments { float: left; width: 100%; background-color: #f9f9f9; }
 .kboard-comments hr { margin: 10px 0 0 0 !important; padding: 0; height:0; border: 0; border-bottom: 1px dashed #d8d8d8; background: none; }
 .kboard-comments input[type=text],
-.kboard-comments input[type=password] { display: inline !important; margin: 0 !important; padding: 6px 2px !important; width: 60%; height: auto; font-size: 12px; border: 1px solid #eaeaea; }
+.kboard-comments input[type=password] { display: inline !important; margin: 0 !important; padding: 6px 2px !important; width: 60%; height: auto; line-height: normal; font-size: 12px; border: 1px solid #eaeaea; }
 .kboard-comments .kboard-comments-wrap { padding: 15px 20px 15px 0; }
 .kboard-comments .comments-count { clear: both; padding: 0 0 0 20px; color: #8a8a8a; font-size: 12px; }
 .kboard-comments .comments-count .comments-total-count { color: #f05726; }
