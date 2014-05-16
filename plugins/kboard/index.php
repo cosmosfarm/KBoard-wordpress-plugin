@@ -85,7 +85,7 @@ function kboard_welcome_panel(){
  */
 add_action('admin_menu', 'kboard_settings_menu');
 function kboard_settings_menu(){
-	$position = 50.5;
+	$position = 51.23456;
 	while($GLOBALS['menu'][$position]) $position++;
 	
 	// KBoard 메뉴 등록
