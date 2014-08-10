@@ -64,6 +64,8 @@ function kboard_safeiframe($data){
 	$whilelist[] = 'videofarm.daum.net';
 	$whilelist[] = 'player.vimeo.com';
 	$whilelist[] = 'w.soundcloud.com';
+	$whilelist[] = 'slideshare.net';
+	$whilelist[] = 'www.slideshare.net';
 	
 	$re = preg_match_all('/<iframe.+?src="(.+?)".+?[^>]*+>/is', $data, $matches);
 	$iframe = $matches[0];

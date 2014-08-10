@@ -2,6 +2,7 @@
 ===================
 
   1. 최신글 이메일 알림시 메일 제목에 보드명 추가 (blauen, http://www.cosmosfarm.com/threads/document/3025)
+  2. 아이프레임 허용 주소에 슬라이드쉐어(SlideShare) 추가
 
 
 
