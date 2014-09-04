@@ -95,7 +95,7 @@ img { border: 0; }
 #kboard-customer-latest table .kboard-latest-title { padding-left: 5px; }
 #kboard-customer-latest table .kboard-latest-date { width: 80px; text-align: center; }
 
-@media (max-width: 600px) {
+@media all and (max-width: 600px) {
 	#kboard-customer-list .kboard-category { width: 100%; }
 	#kboard-customer-list .kboard-category select { width: auto;}
 	#kboard-customer-list .kboard-search { clear: both; float: left; width: 100%; }
