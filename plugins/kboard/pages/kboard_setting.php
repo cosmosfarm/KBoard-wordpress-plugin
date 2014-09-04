@@ -40,7 +40,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="">페이지를 선택하세요</option>
 							<option value="">-------------------------------</option>
 							<?php foreach(get_pages() AS $key => $page):?>
-							<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?> 페이지에 자동으로 설치합니다</option>
+							<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
 							<?php endforeach?>
 						</select>
 						<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p></td>
@@ -53,7 +53,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="shortcode">최신글 숏코드(Shortcode)</label></th>
 					<td><textarea style="width: 350px" id="shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
-						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 리스트를 생성합니다.</p></td>
+						<p class="description">최신글 리스트를 생성합니다. 이 코드를 메인페이지 또는 사이드바에 입력하세요. 페이지주소 부분에 게시판이 설치된 페이지의 전체 URL을 입력 해주세요.</p></td>
 				</tr>
 				<?php endif?>
 				<tr valign="top">
@@ -62,7 +62,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
 							<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
 						</select>
-						<p class="description">특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.cosmosfarm.com/50178536050" onclick="window.open(this.href); return false;">더보기</a></p></td>
+						<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.cosmosfarm.com/50178536050" onclick="window.open(this.href); return false;">더보기</a></p></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
