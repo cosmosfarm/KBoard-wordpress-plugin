@@ -46,7 +46,7 @@ img { border: 0; }
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
 #kboard-thumbnail-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; border: 0; }
-#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; }
+#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li a { color: black; padding: 5px 10px; border: 1px solid #e0e0e0; text-decoration: none; font-size: 12px; line-height: 27px; background-color: white; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.active a { font-weight: bold; border: 1px solid #a9a9a9; color: black; text-decoration: none; }
 #kboard-thumbnail-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
@@ -80,7 +80,7 @@ img { border: 0; }
 #kboard-thumbnail-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 12px; }
 #kboard-thumbnail-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #545861; border-bottom: 1px solid #e3e3e3; background-color: #f4f4f4; font-size: 12px; }
 #kboard-thumbnail-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; }
-#kboard-thumbnail-document .kboard-detail .detail-attr .detail-name { float: left; width: 40px; font-weight: bold; color: #545861; text-align: right; }
+#kboard-thumbnail-document .kboard-detail .detail-attr .detail-name { float: left; width: 60px; font-weight: bold; color: #545861; text-align: right; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-value img { vertical-align: middle; }
 #kboard-thumbnail-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
