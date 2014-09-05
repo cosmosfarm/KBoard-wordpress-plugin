@@ -144,7 +144,7 @@ class KBCommentList {
 		$wpdb->query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `comment`=`comment`+1 WHERE `uid`='".$content_uid."'");
 		
 		//댓글 입력 액션 훅 실행
-		do_action('kboard_comments_insert', $insert_id);
+		do_action('kboard_comments_insert', $insert_id, $content_uid);
 		
 		return $insert_id;
 	}
@@ -156,9 +156,6 @@ class KBCommentList {
 	public function delete($uid){
 		global $wpdb;
 		$uid = intval($uid);
-		
-		//댓글 삭제 액션 훅 실행
-		do_action('kboard_comments_delete', $uid);
 		
 		if(empty($this->content_uid)){
 			$comment = new KBComment();
@@ -173,6 +170,9 @@ class KBCommentList {
 		
 		// 댓글 숫자를 게시물에 등록한다.
 		$wpdb->query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='".$content_uid."'");
+		
+		//댓글 삭제 액션 훅 실행
+		do_action('kboard_comments_delete', $uid, $content_uid);
 	}
 }
 ?>
