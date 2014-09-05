@@ -8,7 +8,14 @@ http://www.cosmosfarm.com/products/kboard
 
 꼭 게시판과 댓글을 함께 설치 해주세요.
 --------------------------------------
+
 KBoard 사용에 궁금하신 점은 http://www.cosmosfarm.com/threads 에 질문을 남겨주세요.
+
+
+다양한 스킨이 준비 되어 있습니다.
+--------------------------------------
+
+http://www.cosmosfarm.com/wpstore
 
 
 
@@ -16,11 +23,6 @@ Examples (사용 예제)
 --------------------
 
 1. http://www.cosmosfarm.com/demo/kboard/
-2. http://smart-k.com/?page_id=1692
-3. http://www.bluehillclinic.com/?page_id=427
-4. http://www.shoetoker.com/?page_id=1707
-5. http://tourjoin.com/%EA%B2%AC%EC%A0%81%EB%AC%B8%EC%9D%98-2/
-6. http://iphonebuyer.co.kr/?page_id=6650
 
 
 
