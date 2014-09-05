@@ -36,7 +36,7 @@ class KBoardBuilder {
 		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
 		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
 		
-		$this->mod = in_array($mod, array('list', 'document', 'editor', 'remove'))?$mod:apply_filters('kboard_default_build_mod', 'list');
+		$this->mod = in_array($mod, array('list', 'document', 'editor', 'remove'))?$mod:apply_filters('kboard_default_build_mod', 'list', $board_id);
 		$this->category1 = $_GET['category1'];
 		$this->category2 = $_GET['category2'];
 		$this->uid = $uid;
@@ -232,7 +232,7 @@ class KBoardBuilder {
 			}
 			
 			// kboard_content 필터 실행
-			$content->content = apply_filters('kboard_content', $content->content);
+			$content->content = apply_filters('kboard_content', $content->content, $this->board_id);
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
 		}
@@ -282,7 +282,7 @@ class KBoardBuilder {
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				die("<script>location.href='".apply_filters('kboard_after_executing_url', $next_url)."';</script>");
+				die("<script>location.href='".apply_filters('kboard_after_executing_url', $next_url, $this->board_id)."';</script>");
 			}
 			
 			// execute후 POST 데이터를 지우고 다시 초기화 한다.

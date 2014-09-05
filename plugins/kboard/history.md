@@ -4,6 +4,7 @@
   1. 최신글 이메일 알림시 메일 제목에 보드명 추가 (blauen, http://www.cosmosfarm.com/threads/document/3025)
   2. 아이프레임 허용 주소에 슬라이드쉐어(SlideShare), 네이버 tvcast 추가
   3. 기본스킨 CSS 최적화
+  4. 필터와 액션에 게시판 ID값 넘겨주도록 기능 추가
 
 
 

@@ -409,8 +409,7 @@ function kboard_builder($args){
 	$board->setID($args['id']);
 	
 	if($board->uid){
-		$board_builder = new KBoardBuilder();
-		$board_builder->setBoardID($board->uid);
+		$board_builder = new KBoardBuilder($board->uid);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);
 		$board_builder->board = $board;
@@ -448,8 +447,7 @@ function kboard_latest_shortcode($args){
 	$board->setID($args['id']);
 	
 	if($board->uid){
-		$board_builder = new KBoardBuilder();
-		$board_builder->setBoardID($board->uid);
+		$board_builder = new KBoardBuilder($board->uid);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($args['rpp']);
 		$board_builder->setURL($args['url']);
@@ -471,8 +469,7 @@ function kboard_latestview_shortcode($args){
 	
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
-		$board_builder = new KBoardBuilder();
-		$board_builder->setBoardID($latestview->getLinkedBoard());
+		$board_builder = new KBoardBuilder($latestview->getLinkedBoard());
 		$board_builder->setSkin($latestview->skin);
 		$board_builder->setRpp($latestview->rpp);
 		$kboard_latest = $board_builder->createLatest();
@@ -551,8 +548,7 @@ function kboard_ajax_builder(){
 	$board->setID($_SESSION['kboard_board_id']);
 	
 	if($board->uid){
-		$board_builder = new KBoardBuilder();
-		$board_builder->setBoardID($board->uid);
+		$board_builder = new KBoardBuilder($board->uid);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);
 		$board_builder->board = $board;

@@ -127,8 +127,8 @@ class KBContentList {
 		if($this->col_category2) $where[] = "`category2` LIKE '$this->col_category2'";
 		
 		// kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
-		$where = apply_filters('kboard_list_where', implode(' AND ', $where));
-		$orderby = apply_filters('kboard_list_orderby', '`date` DESC');
+		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id);
+		$orderby = apply_filters('kboard_list_orderby', '`date` DESC', $this->board_id);
 		
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");

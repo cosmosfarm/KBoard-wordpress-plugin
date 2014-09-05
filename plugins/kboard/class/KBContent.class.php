@@ -104,7 +104,7 @@ class KBContent {
 			/*
 			 * 게시글 수정 액션 훅 실행
 			 */
-			do_action('kboard_document_update', $this->uid);
+			do_action('kboard_document_update', $this->uid, $this->board_id);
 			
 			return $this->uid;
 		}
@@ -144,7 +144,7 @@ class KBContent {
 				/*
 				 * 게시글 입력 액션 훅 실행
 				 */
-				do_action('kboard_document_insert', $uid);
+				do_action('kboard_document_insert', $uid, $this->board_id);
 			}
 			return $uid;
 		}
