@@ -12,7 +12,7 @@ http://www.cosmosfarm.com/products/kboard
 KBoard 사용에 궁금하신 점은 http://www.cosmosfarm.com/threads 에 질문을 남겨주세요.
 
 
-다양한 스킨이 준비 되어 있습니다.
+다양한 스킨이 준비되어 있습니다.
 --------------------------------------
 
 http://www.cosmosfarm.com/wpstore
