@@ -26,8 +26,8 @@ function kboard_pagination($current_page, $total, $limit){
 	$offset = $i + $sliding_size;
 	
 	// 윈도의 시작 $i 부터, 윈도우 마지막 까지 출력한다.
-	for($i; $i < $offset && $i < $total_page; $i++){
-		$page_name = $i+ 1;
+	for($i; $i<$offset && $i<$total_page; $i++){
+		$page_name = $i + 1;
 		// 링크는 적당히 수정
 		if($current_page != $page_name){
 			$paging .= "<li><a href=\"?pageid={$page_name}{$query_strings}\">{$page_name}</a></li>";
@@ -45,7 +45,7 @@ function kboard_pagination($current_page, $total, $limit){
 	}
 	if($current_page != $total_page){
 		$next_page = $current_page + 1;
-		$paging = "$paging<li><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>";
+		$paging = "{$paging}<li><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>";
 	}
 	
 	return $total?$paging:'<li><a>1</a></li>';
