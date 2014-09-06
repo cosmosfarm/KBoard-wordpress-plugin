@@ -232,7 +232,7 @@ class KBoardBuilder {
 			}
 			
 			// kboard_content 필터 실행
-			$content->content = apply_filters('kboard_content', $content->content, $this->board_id);
+			$content->content = apply_filters('kboard_content', $content->content, $content->uid, $this->board_id);
 			
 			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
 		}
