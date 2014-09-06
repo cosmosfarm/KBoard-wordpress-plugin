@@ -281,8 +281,8 @@ class KBoardBuilder {
 				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
-				$next_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				die("<script>location.href='".apply_filters('kboard_after_executing_url', $next_url, $this->board_id)."';</script>");
+				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
+				die("<script>location.href='".apply_filters('kboard_after_executing_url', $next_page_url, $this->board_id)."';</script>");
 			}
 			
 			// execute후 POST 데이터를 지우고 다시 초기화 한다.
