@@ -18,7 +18,7 @@ class KBComment {
 
 	public function __get($name){
 		if($name == 'content'){
-			return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}), $this->row->content_uid);
+			return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}), $this->row->uid, $this->row->content_uid);
 		}
 		else{
 			return stripslashes($this->row->{$name});
