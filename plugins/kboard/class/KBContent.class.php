@@ -558,7 +558,7 @@ class KBContent {
 			/*
 			 * 게시글 삭제 액션 훅 실행
 			 */
-			do_action('kboard_document_delete', $this->board_id);
+			do_action('kboard_document_delete', $this->uid, $this->board_id);
 		}
 	}
 	
