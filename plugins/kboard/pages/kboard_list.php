@@ -28,10 +28,13 @@
 				<tr>
 					<th class="manage-column check-column"><input type="checkbox"></th>
 					<th class="manage-column">
-						<a><span>스킨</span></a>
+						<a><span>미리보기</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>게시판</span></a>
+					</th>
+					<th class="manage-column">
+						<a><span>스킨</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>설치된 페이지</span></a>
@@ -51,10 +54,13 @@
 				<tr>
 					<th class="manage-column check-column"><input type="checkbox"></th>
 					<th class="manage-column">
-						<a><span>스킨</span></a>
+						<a><span>미리보기</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>게시판</span></a>
+					</th>
+					<th class="manage-column">
+						<a><span>스킨</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>설치된 페이지</span></a>
@@ -74,7 +80,7 @@
 				<?php if(!$board->getCount()):?>
 				<tr>
 					<th class="check-column"></th>
-					<td><a href="<?php echo KBOARD_NEW_PAGE?>">게시판을 생성하세요.</a></td>
+					<td><a href="<?php echo KBOARD_NEW_PAGE?>">게시판을 생성하세요</a></td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -88,6 +94,7 @@
 					<th class="check-column"><input type="checkbox" name="board_id[]" value="<?php echo $board->uid?>"></th>
 					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><img src="<?php echo KBOARD_URL_PATH . "/skin/{$board->skin}/thumbnail.png"?>" style="width: 100px; height: 100px;"></a></td>
 					<td><a class="row-title" href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo $board->board_name?></a></td>
+					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo $board->skin?></a></td>
 					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php 
 					$meta->setBoardID($board->uid);
 					if($meta->auto_page){
@@ -100,7 +107,7 @@
 					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo kboard_permission($board->permission_write)?></a></td>
 					<td><abbr title="<?php echo date("Y-m-d H:i", strtotime($board->created))?>"><?php echo date("Y-m-d", strtotime($board->created))?></abbr></td>
 				</tr>
-				<?php endwhile;?>
+				<?php endwhile?>
 			</tbody>
 		</table>
 		
