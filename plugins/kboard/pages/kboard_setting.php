@@ -78,6 +78,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="page_rpp">게시물 표시</label></th>
 					<td><select name="page_rpp" id="page_rpp" class="">
+							<?php if(!$board->page_rpp) $board->page_rpp=10;?>
 							<option value="1"<?php if($board->page_rpp == 1):?> selected<?php endif?>>1개</option>
 							<option value="2"<?php if($board->page_rpp == 2):?> selected<?php endif?>>2개</option>
 							<option value="3"<?php if($board->page_rpp == 3):?> selected<?php endif?>>3개</option>
