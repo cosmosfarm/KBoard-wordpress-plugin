@@ -55,14 +55,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">최신글 리스트를 생성합니다. 이 코드를 메인페이지 또는 사이드바에 입력하세요. 페이지주소 부분에 게시판이 설치된 페이지의 전체 URL을 입력 해주세요.</p></td>
 				</tr>
 				<?php endif?>
-				<tr valign="top">
-					<th scope="row"><label for="pass_autop">특정 테마 레이아웃 깨짐 방지</label></th>
-					<td><select name="pass_autop" id="pass_autop" class="">
-							<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
-							<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
-						</select>
-						<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.cosmosfarm.com/50178536050" onclick="window.open(this.href); return false;">더보기</a></p></td>
-				</tr>
+				
 				<tr valign="top">
 					<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 					<td><select name="skin" id="skin" class="">
@@ -70,7 +63,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="<?php echo $value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
 								<?php echo $value?>
 							</option>
-							<?php endforeach;?>
+							<?php endforeach?>
 						</select>
 						<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p></td>
 				</tr>
@@ -110,7 +103,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">게시글에 댓글 쓰기를 활성화 합니다. (KBoard 댓글 플러그인 사용)</p>
 						<?php else:?>
 							<select name="use_comment" id="use_comment" class="">
-									<option value="no" selected>댓글 비활성화</option>
+									<option value="" selected>비활성화</option>
 							</select>
 							<p class="description">KBoard 댓글 플러그인을 설치하세요.</p>
 						<?php endif?>
@@ -122,7 +115,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<td><select name="comment_skin" id="comment_skin" class="">
 							<?php foreach($comment_skin->list AS $key => $value):?>
 							<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
-							<?php endforeach;?>
+							<?php endforeach?>
 						</select>
 						<p class="description">댓글의 모양을 선택합니다. (KBoard 댓글 플러그인 사용)</p></td>
 				</tr>
@@ -225,7 +218,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<?php endif;?>
 						<p class="description">게시판 글 작성시 보여질 기본 양식입니다. 기본값은 빈 값입니다.</p></td>
 				</tr>
-				<?php endif?>
 				<tr valign="top">
 					<th scope="row"><label for="reply_copy_content">답글 기본 내용</label></th>
 					<td><select name="reply_copy_content" id="reply_copy_content" class="">
@@ -235,6 +227,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</select>
 						<p class="description">답글 작성시 원글의 내용을 가져오거나 본문 기본 양식을 보여줍니다.</p></td>
 				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="pass_autop">특정 테마 레이아웃 깨짐 방지</label></th>
+					<td><select name="pass_autop" id="pass_autop" class="">
+							<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
+							<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
+						</select>
+						<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.cosmosfarm.com/50178536050" onclick="window.open(this.href); return false;">더보기</a></p></td>
+				</tr>
+				<?php endif?>
 			</tbody>
 		</table>
 		<p class="submit">
