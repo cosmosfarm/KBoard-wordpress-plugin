@@ -37,8 +37,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="auto_page">게시판 자동 설치</label></th>
 					<td><select name="auto_page" id="auto_page" class="">
-							<option value="">페이지를 선택하세요</option>
-							<option value="">-------------------------------</option>
+							<option value="">— 선택하기 —</option>
 							<?php foreach(get_pages() AS $key => $page):?>
 							<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
 							<?php endforeach?>
