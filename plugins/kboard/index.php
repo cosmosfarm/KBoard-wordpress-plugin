@@ -764,7 +764,7 @@ function kboard_activation_execute(){
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `search`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` CHAR(1) NOT NULL AFTER `notice`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` CHAR(1) default NULL AFTER `notice`");
 	}
 	unset($name);
 	
@@ -774,7 +774,7 @@ function kboard_activation_execute(){
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `comment`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `comment` INT UNSIGNED NOT NULL AFTER `view`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `comment` int(10) unsigned default NULL AFTER `view`");
 	}
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		// comment 컬럼에 댓글 입력 숫자를 등록한다.
@@ -812,7 +812,7 @@ function kboard_activation_execute(){
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` INT UNSIGNED NOT NULL AFTER `comment`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` int(10) unsigned default NULL AFTER `comment`");
 	}
 	unset($name);
 }

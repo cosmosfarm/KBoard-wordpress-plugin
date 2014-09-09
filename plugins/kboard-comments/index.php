@@ -211,16 +211,6 @@ function kboard_comments_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_comments` ADD `parent_uid` bigint(20) unsigned default NULL AFTER `content_uid`");
 	}
 	unset($name);
-	
-	/*
-	 * KBoard 4.5
-	 * kboard_board_content `parent_uid` 컬럼 생성 확인
-	 */
-	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
-	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` INT UNSIGNED NOT NULL AFTER `comment`");
-	}
-	unset($name);
 }
 
 /*
