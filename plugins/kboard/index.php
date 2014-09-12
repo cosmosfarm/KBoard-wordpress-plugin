@@ -156,7 +156,7 @@ function kboard_list(){
  */
 function kboard_new(){
 	$skin = KBoardSkin::getInstance();
-	if(file_exists(WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php')){
+	if(defined('KBOARD_COMMNETS_VERSION')){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 		$comment_skin = KBCommentSkin::getInstance();
 	}
@@ -171,7 +171,7 @@ function kboard_setting(){
 	$board->setID($_GET['board_id']);
 	$meta = new KBoardMeta($board->uid);
 	$skin = KBoardSkin::getInstance();
-	if(file_exists(WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php')){
+	if(defined('KBOARD_COMMNETS_VERSION')){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 		$comment_skin = KBCommentSkin::getInstance();
 	}
