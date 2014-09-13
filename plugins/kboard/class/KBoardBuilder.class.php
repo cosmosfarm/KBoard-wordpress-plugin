@@ -69,7 +69,7 @@ class KBoardBuilder {
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
 		
-		// ajax 요청에서 사용될 게시판 id는 세션에 저장한다. 외부 요청 불허
+		// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 		$_SESSION['kboard_board_id'] = $this->board_id;
 	}
 	
@@ -135,6 +135,11 @@ class KBoardBuilder {
 	 * @return string
 	 */
 	public function create(){
+		if($this->meta->view_iframe && !intval($_GET['kboard_id'])){
+			$url = new KBUrl();
+			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%;" scrolling="no"></iframe>';
+		}
+		
 		if($this->meta->pass_autop == 'enable'){
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
 			return '';

@@ -223,6 +223,7 @@ function kboard_update(){
 		$meta->shortcode_execute = $_POST['shortcode_execute'];
 		$meta->autolink = $_POST['autolink'];
 		$meta->reply_copy_content = $_POST['reply_copy_content'];
+		$meta->view_iframe = $_POST['view_iframe'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
@@ -436,7 +437,7 @@ add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post, $wpdb;
 	if(is_page($post->ID)){
-		$board_id = $wpdb->get_var("SELECT `board_id` FROM ".KBOARD_DB_PREFIX."kboard_board_meta WHERE `key`='auto_page' AND `value`='$post->ID'");
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
 	return $content;
