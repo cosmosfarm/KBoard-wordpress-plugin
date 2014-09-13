@@ -38,6 +38,7 @@ include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
 include_once 'class/KBSeo.class.php';
 include_once 'class/KBStore.class.php';
+include_once 'class/KBTemplate.class.php';
 include_once 'class/KBUrl.class.php';
 include_once 'class/KBUpgrader.class.php';
 include_once 'class/KBRouter.class.php';
@@ -54,12 +55,15 @@ include_once 'helper/Functions.helper.php';
 wp_enqueue_script('jquery');
 
 /*
- * KBoard Router
+ * KBoard 시작
  */
-add_action('init', 'kboard_router');
-function kboard_router(){
+add_action('init', 'kboard_init');
+function kboard_init(){
 	$router = new KBRouter();
 	$router->process();
+	
+	$template = new KBTemplate();
+	add_action('template_redirect', array($template, 'templateSwitch'), 1);
 }
 
 /*
