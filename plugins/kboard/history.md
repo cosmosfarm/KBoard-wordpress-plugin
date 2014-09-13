@@ -4,7 +4,7 @@
   1. 최신글 이메일 알림시 메일 제목에 보드명 추가 (blauen, http://www.cosmosfarm.com/threads/document/3025)
   2. 아이프레임 허용 주소에 슬라이드쉐어(SlideShare), 네이버 tvcast 추가
   3. 기본스킨 CSS 최적화
-  4. 필터와 액션에 게시판 ID값 넘겨주도록 기능 추가
+  4. 필터와 액션에 게시판 ID값 넘겨주도록 기능 추가 (설명: http://www.cosmosfarm.com/products/kboard/hooks)
   5. kboard_document_delete 액션에 게시글 번호 넘겨주도록 수정돼 사용법 변경됨
   6. 고급 사용자용 고유주소 변경
   7. 아이프레임으로 보기 기능 추가 (원페이지 테마 또는 게시판이 심하게 깨질 때 사용)
