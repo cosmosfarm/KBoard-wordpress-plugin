@@ -196,7 +196,8 @@ class KBoardBuilder {
 		$board = $this->board;
 		$boardBuilder = $this;
 		
-		if(!$this->board->isReader($content->member_uid, $content->secret) && $content->notice != 'true'){
+		$allow_document = false;
+		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if($this->board->permission_write=='all' && ($this->board->permission_read=='all' || $this->board->permission_read=='author')){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
 					include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
