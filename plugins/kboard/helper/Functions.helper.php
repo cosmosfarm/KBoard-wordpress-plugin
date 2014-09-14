@@ -141,4 +141,70 @@ function kboard_mime_type($filename){
 	if($mime_type) return $mime_type;
 	else return 'application/octet-stream';
 }
+
+/**
+ * 권한을 한글로 출력한다.
+ * @param string $permission
+ * @return string
+ */
+function kboard_permission($permission){
+	if($permission == 'all'){
+		return '제한없음';
+	}
+	else if($permission == 'author'){
+		return '로그인 사용자';
+	}
+	else if($permission == 'editor'){
+		return '선택된 관리자';
+	}
+	else if($permission == 'administrator'){
+		return '최고관리자';
+	}
+	else{
+		return $permission;
+	}
+}
+
+/**
+ * Captcha 이미지를 생성하고 이미지 주소를 반환한다.
+ * @return string
+ */
+function kboard_captcha(){
+	include_once KBOARD_DIR_PATH . '/class/KBCaptcha.class.php';
+	$captcha = new KBCaptcha();
+	return $captcha->createImage();
+}
+
+/**
+ * 이미지 사이즈를 조절한다.
+ * @param string $image_src
+ * @param int $width
+ * @param int $height
+ * @return string
+ */
+function kboard_resize($image_src, $width, $height){
+	$upload_dir = wp_upload_dir();
+	$resize_folder = str_replace('/wp-content/uploads', '', str_replace(get_site_url(), '', dirname($image_src)));
+	
+	$basename = basename($image_src);
+	$fileinfo = pathinfo($basename);
+	$resize_name = basename($image_src, '.'.$fileinfo['extension']) . "-{$width}X$height.{$fileinfo['extension']}";
+	
+	$new_image = $upload_dir['basedir'] . "{$resize_folder}/{$resize_name}";
+	$new_image_src = content_url("uploads{$resize_folder}/{$resize_name}");
+	
+	if(file_exists($new_image)){
+		return $new_image_src;
+	}
+	
+	$image_editor = wp_get_image_editor($upload_dir['basedir'] . "{$resize_folder}/{$basename}");
+	if(!is_wp_error($image_editor)){
+		$image_editor->resize($width, $height, true);
+		$image_editor->save($new_image);
+		return $new_image_src;
+	}
+	else{
+		return $image_src;
+	}
+}
 ?>
