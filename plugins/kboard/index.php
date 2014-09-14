@@ -59,11 +59,21 @@ wp_enqueue_script('jquery');
  */
 add_action('init', 'kboard_init');
 function kboard_init(){
+	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
 	
+	// 템플릿 등록
 	$template = new KBTemplate();
 	add_action('template_redirect', array($template, 'templateSwitch'), 1);
+	
+	// ajax 등록
+	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
+	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
+	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
+	
+	// SEO를 위해서 head에 정보 출력
+	$seo = new KBSeo();
 }
 
 /*
@@ -490,44 +500,6 @@ function kboard_latestview_shortcode($args){
 }
 
 /*
- * KBoard SEO를 적용한다.
- */
-add_action('plugins_loaded', 'kboard_seo', 1);
-function kboard_seo(){
-	if(!is_admin()) $seo = new KBSeo();
-}
-
-/*
- * 권한 한글 출력
- */
-function kboard_permission($permission){
-	if($permission == 'all'){
-		return '제한없음';
-	}
-	else if($permission == 'author'){
-		return '로그인 사용자';
-	}
-	else if($permission == 'editor'){
-		return '선택된 관리자';
-	}
-	else if($permission == 'administrator'){
-		return '최고관리자';
-	}
-	else{
-		return $permission;
-	}
-}
-
-/*
- * Captcha 이미지
- */
-function kboard_captcha(){
-	include_once 'class/KBCaptcha.class.php';
-	$captcha = new KBCaptcha();
-	return $captcha->createImage();
-}
-
-/*
  * 언어 파일 추가
  */
 add_action('plugins_loaded', 'kboard_languages');
@@ -535,16 +507,6 @@ function kboard_languages(){
 	$domain = 'kboard';
 	$locale = apply_filters('plugin_locale', get_locale(), $domain);
 	load_plugin_textdomain($domain, false, dirname(plugin_basename(__FILE__)).'/languages/');
-}
-
-/*
- * AJAX 초기화
- */
-add_action('init', 'kboard_ajax');
-function kboard_ajax(){
-	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
-	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
-	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
 }
 
 /*
