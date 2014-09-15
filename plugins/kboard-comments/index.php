@@ -97,12 +97,9 @@ function kboard_comments_admin_notices(){
 add_action('wp_enqueue_scripts', 'kboard_comments_style', 999);
 function kboard_comments_style(){
 	global $wpdb;
-	if(!is_admin()){
-		$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
-		foreach($result as $row){
-			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH.'/skin/'.$row->value.'/style.css', array(), KBOARD_COMMNETS_VERSION);
-			if(file_exists(KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php')) include_once KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php';
-		}
+	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
+	foreach($result as $row){
+		wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH.'/skin/'.$row->value.'/style.css', array(), KBOARD_COMMNETS_VERSION);
 	}
 }
 

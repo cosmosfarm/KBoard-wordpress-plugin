@@ -7,6 +7,8 @@
 			<div class="comments-list-content" itemprop="description">
 				<?php echo nl2br($comment->content)?>
 			</div>
+			
+			<?php if($commentBuilder->isWriter()):?>
 			<div class="comments-list-controller">
 				<span>
 					<?php if($comment->isEditor()):?>
@@ -19,7 +21,10 @@
 				<span>
 					<a href="#" onclick="return kboard_comments_reply(this, '#kboard_comments_reply_form_<?php echo $comment->uid?>', '#kboard_comments_form');" class="kboard-reply"><?php echo __('Reply', 'kboard-comments')?></a>
 				</span>
+				
 			</div>
+			<?php endif?>
+			
 			<hr>
 			
 			<!-- 댓글 리스트 시작 -->
