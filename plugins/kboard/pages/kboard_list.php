@@ -46,6 +46,9 @@
 						<a><span>쓰기권한</span></a>
 					</th>
 					<th class="manage-column">
+						<a><span>댓글쓰기권한</span></a>
+					</th>
+					<th class="manage-column">
 						<a><span>생성일자</span></a>
 					</th>
 				</tr>
@@ -70,6 +73,9 @@
 					</th>
 					<th class="manage-column">
 						<a><span>쓰기권한</span></a>
+					</th>
+					<th class="manage-column">
+						<a><span>댓글쓰기권한</span></a>
 					</th>
 					<th class="manage-column">
 						<a><span>생성일자</span></a>
@@ -105,6 +111,7 @@
 					?></a></td>
 					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo kboard_permission($board->permission_read)?></a></td>
 					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo kboard_permission($board->permission_write)?></a></td>
+					<td><a href="<?php echo KBOARD_SETTING_PAGE?>&board_id=<?php echo $board->uid?>" title="편집"><?php echo $meta->permission_comment_write?kboard_permission('author'):kboard_permission('all')?></a></td>
 					<td><abbr title="<?php echo date("Y-m-d H:i", strtotime($board->created))?>"><?php echo date("Y-m-d", strtotime($board->created))?></abbr></td>
 				</tr>
 				<?php endwhile?>
