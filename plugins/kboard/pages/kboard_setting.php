@@ -154,16 +154,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 					<?php endif?>
 					<tr valign="top">
-						<th scope="row"><label for="shortcode_execute">게시글 본문 숏코드(Shortcode) 실행</label></th>
-						<td>
-							<select name="shortcode_execute" id="shortcode_execute" class="">
-								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
-							</select>
-							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.cosmosfarm.com/50179426321" onclick="window.open(this.href); return false;">더보기</a></p>
-						</td>
-					</tr>
-					<tr valign="top">
 						<th scope="row"><label for="use_category">카테고리 사용</label></th>
 						<td>
 							<select name="use_category" id="use_category" class="">
@@ -201,6 +191,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
+					<tr valign="top">
+						<th scope="row"><label for="admin_user">선택된 관리자</label></th>
+						<td>
+							<input type="text" style="width: 350px;" name="admin_user" id="admin_user" value="<?php echo $board->admin_user?>">
+							<p class="description">사용자 아이디를 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
+						</td>
+					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="permission_read">읽기권한</label></th>
 						<td>
@@ -240,10 +237,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="admin_user">선택된 관리자</label></th>
+						<th scope="row"><label for="permission_comment_write">댓글쓰기권한</label></th>
 						<td>
-							<input type="text" style="width: 350px;" name="admin_user" id="admin_user" value="<?php echo $board->admin_user?>">
-							<p class="description">사용자 아이디를 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
+							<select name="permission_comment_write" id="permission_comment_write" class="">
+								<option value=""<?php if(!$meta->permission_comment_write):?> selected<?php endif?>>
+									<?php echo kboard_permission('all')?>
+								</option>
+								<option value="1"<?php if($meta->permission_comment_write == '1'):?> selected<?php endif?>>
+									<?php echo kboard_permission('author')?>
+								</option>
+							</select>
 						</td>
 					</tr>
 				</tbody>
@@ -254,6 +257,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
+					<tr valign="top">
+						<th scope="row"><label for="shortcode_execute">게시글 숏코드(Shortcode) 실행</label></th>
+						<td>
+							<select name="shortcode_execute" id="shortcode_execute" class="">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.cosmosfarm.com/50179426321" onclick="window.open(this.href); return false;">더보기</a></p>
+						</td>
+					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="default_content">본문 기본 양식</label></th>
 						<td>

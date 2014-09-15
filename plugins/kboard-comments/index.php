@@ -52,10 +52,12 @@ function kboard_comments_list(){
  */
 add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
-	$comments_builder = new KBCommentsBuilder();
-	$comments_builder->content_uid = $atts['content_uid'];
-	if($atts['skin']) $comments_builder->setSkin($atts['skin']);
-	return $comments_builder->create();
+	$commentBuilder = new KBCommentsBuilder();
+	$commentBuilder->board_id = $atts['board_id'];
+	$commentBuilder->content_uid = $atts['content_uid'];
+	$commentBuilder->permission_comment_write = $atts['permission_comment_write'];
+	$commentBuilder->setSkin($atts['skin']);
+	return $commentBuilder->create();
 }
 
 /*

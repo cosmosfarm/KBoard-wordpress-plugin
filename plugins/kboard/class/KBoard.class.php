@@ -125,15 +125,17 @@ class KBoard {
 	public function buildComment($content_uid){
 		if($this->id && $content_uid && $this->isComment()){
 			$meta = new KBoardMeta($this->id);
-			$atts['content_uid'] = $content_uid;
-			$atts['skin'] = $meta->comment_skin;
-			return kboard_comments_builder($atts);
+			$args['board_id'] = $this->id;
+			$args['content_uid'] = $content_uid;
+			$args['skin'] = $meta->comment_skin;
+			$args['permission_comment_write'] = $meta->permission_comment_write;
+			return kboard_comments_builder($args);
 		}
 		return '';
 	}
 	
 	/**
-	 * 글 읽기 권한이 있는 사용자 인지 확인한다.
+	 * 글 읽기 권한이 있는 사용자인지 확인한다.
 	 * @param int $writer_uid
 	 * @param string $secret
 	 * @return boolean
@@ -168,7 +170,7 @@ class KBoard {
 	}
 	
 	/**
-	 * 글 쓰기 권한이 있는 사용자 인지 확인한다.
+	 * 글 쓰기 권한이 있는 사용자인지 확인한다.
 	 * @return boolean
 	 */
 	public function isWriter(){
@@ -197,7 +199,7 @@ class KBoard {
 	}
 	
 	/**
-	 * 글 수정 권한이 있는 사용자 인지 확인한다.
+	 * 글 수정 권한이 있는 사용자인지 확인한다.
 	 * @param int $writer_uid
 	 * @return boolean
 	 */

@@ -7,9 +7,11 @@
  */
 class KBCommentsBuilder {
 	
+	var $board_id;
 	var $content_uid;
 	var $skin;
 	var $skin_path;
+	var $permission_comment_write;
 	var $userdata;
 	
 	public function __construct(){
@@ -65,6 +67,22 @@ class KBCommentsBuilder {
 		if($parent_uid) $commentList->initWithParentUID($parent_uid);
 		else $commentList->initWithUID($this->content_uid);
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/$template";
+	}
+	
+	/**
+	 * 댓글 쓰기 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isWriter(){
+		if(!$this->permission_comment_write){
+			return true;
+		}
+		else if($this->permission_comment_write=='1' && is_user_logged_in()){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 ?>

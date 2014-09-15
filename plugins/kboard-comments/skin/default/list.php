@@ -12,6 +12,7 @@
 		<?php $commentBuilder->buildTreeList('list-template.php')?>
 		<!-- 댓글 리스트 끝 -->
 		
+		<?php if($commentBuilder->isWriter()):?>
 		<!-- 댓글 입력 폼 시작 -->
 		<form action="<?php echo $commentURL->getInsertURL()?>" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
 			<input type="hidden" name="content_uid" value="<?php echo $commentList->content_uid?>">
@@ -38,7 +39,7 @@
 			</div>
 		</form>
 		<!-- 댓글 입력 폼 끝 -->
-		
+		<?php endif?>
 	</div>
 </div>
 
