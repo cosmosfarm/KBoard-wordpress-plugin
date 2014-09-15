@@ -3,8 +3,6 @@
  * @author http://www.cosmosfarm.com/
  */
 
-.subsubsub .current a { color: black; }
-
 .kbstore-thumbnail { width: 100px; }
 .kbstore-title { width: 250px; }
 .kbstore-category { width: 150px; }
@@ -21,3 +19,7 @@
 
 .tab-kboard-setting { display: none; }
 .tab-kboard-setting-active { display: block; }
+
+.kboard-admin-pagination li { float: left; padding-left: 3px; }
+.kboard-admin-pagination li a { display: block; padding: 0 10px 3px; background: #eee; background: rgba(0,0,0,.05); text-decoration: none; }
+.kboard-admin-pagination li.active a { font-weight: bold; }
