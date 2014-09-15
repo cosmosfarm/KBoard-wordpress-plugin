@@ -14,6 +14,8 @@ class KBCommentList {
 	var $resource;
 	var $row;
 	var $order = 'ASC';
+	var $rpp = 20;
+	var $page = 1;
 	
 	public function __construct($content_uid=''){
 		global $user_ID;
@@ -30,7 +32,7 @@ class KBCommentList {
 			$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `content_uid`='$this->content_uid' AND `parent_uid`<=0 ORDER BY `uid` $this->order");
 		}
 		else{
-			$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1 ORDER BY `uid` $this->order");
+			$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE 1 ORDER BY `uid` $this->order LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		}
 		return $this->resource;
 	}

@@ -20,6 +20,11 @@
 				</select>
 				<input type="submit" name="" id="doaction" class="button-secondary action" value="적용">
 			</div>
+			<div class="alignright">
+				<ul class="kboard-admin-pagination">
+					<?php echo kboard_pagination($commentList->page, $commentList->getCount(), $commentList->rpp)?>
+				</ul>
+			</div>
 		</div>
 		
 		<table class="wp-list-table widefat fixed">
@@ -92,6 +97,8 @@
 			</tbody>
 		</table>
 		
+		
+		
 		<div class="tablenav bottom">
 			<div class="alignleft actions">
 				<select name="action2">
@@ -99,6 +106,11 @@
 					<option value="remove">댓글 삭제</option>
 				</select>
 				<input type="submit" name="" id="doaction" class="button-secondary action" value="적용">
+			</div>
+			<div class="alignright">
+				<ul class="kboard-admin-pagination">
+					<?php echo kboard_pagination($commentList->page, $commentList->getCount(), $commentList->rpp)?>
+				</ul>
 			</div>
 		</div>
 	</form>

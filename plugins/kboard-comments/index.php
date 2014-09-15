@@ -42,7 +42,9 @@ function kboard_comments_list(){
 			$commentList->delete($value);
 		}
 	}
+	
 	$commentList->order = 'DESC';
+	$commentList->page = intval($_GET['pageid'])?intval($_GET['pageid']):1;
 	$commentList->init();
 	include_once 'pages/comments_list.php';
 }
