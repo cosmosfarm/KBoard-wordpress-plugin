@@ -7,13 +7,17 @@
 	<title><?php echo __('WordPress')?> KBoard <?php echo KBOARD_VERSION?></title>
 	<link rel="stylesheet" id="font-awesome-ie7-css"  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all">
 	<!--[if lte IE 7]><link rel="stylesheet" id=""  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome-ie7.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all"><![endif]-->
+	
 	<?php
+	// 게시판 스킨 스타일 파일 추가
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() AS $key => $value):
 	?>
 	<link rel="stylesheet" id="kboard-skin-<?php echo $value?>-css"  href='<?php echo KBOARD_URL_PATH?>/skin/<?php echo $value?>/style.css?ver=<?php echo KBOARD_VERSION?>' type="text/css" media="all">
 	<?php endforeach?>
+	
 	<?php
+	// 댓글 스킨 스타일 파일 추가
 	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
 	foreach($result as $row):
 	?>
