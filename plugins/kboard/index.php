@@ -245,7 +245,13 @@ function kboard_update(){
 			$meta->auto_page = '';
 		}
 	}
-	die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');
+	
+	if($_POST['board_id']){
+		die('<script>history.go(-1);</script>');
+	}
+	else{
+		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');
+	}
 }
 
 /*
@@ -575,7 +581,7 @@ function kboard_style(){
 	}
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() AS $key => $value){
-		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css');
+		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css', array(), KBOARD_VERSION);
 	}
 }
 
@@ -584,7 +590,7 @@ function kboard_style(){
  */
 add_action('admin_enqueue_scripts', 'kboard_admin_style', 999);
 function kboard_admin_style(){
-	wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css');
+	wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css', array(), KBOARD_VERSION);
 }
 
 /*
