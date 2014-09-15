@@ -369,7 +369,7 @@ class KBContent {
 			if($original_name){
 				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$uid'");
 				if($present_file){
-					unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
+					@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
 					$this->_update_attach($uid, $key, $file_path, $original_name);
 				}
 				else{
@@ -418,7 +418,8 @@ class KBContent {
 		global $wpdb;
 		$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid'");
 		foreach($result as $file){
-			unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
+			$this->deleteResizeImage(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
+			@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
 		}
 		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid'");
 	}
@@ -433,8 +434,8 @@ class KBContent {
 			$key = addslashes($key);
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$this->uid'");
 			if($file){
-				@unlink(KBOARD_WORDPRESS_ROOT . $file);
-				$this->_update_attach($this->uid, $key, '', '');
+				$this->deleteResizeImage(KBOARD_WORDPRESS_ROOT . stripslashes($file));
+				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file));
 			}
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 		}
@@ -515,11 +516,10 @@ class KBContent {
 			$file = new KBFileHandler();
 			$file->setPath($this->thumbnail_store_path);
 			$upload = $file->upload('thumbnail');
+			$original_name = addslashes($upload['original_name']);
+			$file = addslashes($upload['path'] . $upload['stored_name']);
 			
-			$original_name = $upload['original_name'];
-			$file = $upload['path'] . $upload['stored_name'];
-			
-			if($upload['original_name']){
+			if($original_name){
 				$this->removeThumbnail($uid);
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='$file', `thumbnail_name`='$original_name' WHERE `uid`='$uid'");
 			}
@@ -534,7 +534,8 @@ class KBContent {
 		if($this->uid){
 			$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid' LIMIT 1");
 			if($content->thumbnail_file){
-				@unlink(KBOARD_WORDPRESS_ROOT . $content->thumbnail_file);
+				$this->deleteResizeImage(KBOARD_WORDPRESS_ROOT . stripslashes($content->thumbnail_file));
+				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($content->thumbnail_file));
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
 			}
 		}
@@ -634,6 +635,28 @@ class KBContent {
 			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`<'$this->uid' ORDER BY `uid` DESC LIMIT 1");
 		}
 		return intval($uid);
+	}
+	
+	/**
+	 * 리사이즈 이미지를 지운다.
+	 * @param string $image
+	 */
+	public function deleteResizeImage($image){
+		$size = getimagesize($image);
+		if($size){
+			$fileinfo = pathinfo($image);
+			$original_name = basename($image, '.'.$fileinfo['extension']).'-';
+			$dir = dirname($image);
+			if($dh = @opendir($dir)){
+				while(($file = readdir($dh)) !== false){
+					if($file == "." || $file == "..") continue;
+					if(strpos($file, $original_name) !== false){
+						@unlink($dir . '/' . $file);
+					}
+				}
+			}
+			closedir($dh);
+		}
 	}
 	
 	/**

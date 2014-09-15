@@ -12,7 +12,7 @@ class KBCommentSkin {
 	
 	private function __construct(){
 		$dir = KBOARD_COMMENTS_DIR_PATH . '/skin';
-		if ($dh = @opendir($dir)){
+		if($dh = @opendir($dir)){
 			while(($file = readdir($dh)) !== false){
 				if($file == "." || $file == "..") continue;
 				$this->list[] = $file;

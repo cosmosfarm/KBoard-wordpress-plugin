@@ -12,7 +12,7 @@ class KBoardSkin {
 	
 	private function __construct(){
 		$dir = KBOARD_DIR_PATH . '/skin';
-		if ($dh = @opendir($dir)){
+		if($dh = @opendir($dir)){
 			while(($file = readdir($dh)) !== false){
 				if($file == "." || $file == "..") continue;
 				$this->list[] = $file;
