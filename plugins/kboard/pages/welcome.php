@@ -53,7 +53,6 @@
 	</div>
 </div>
 
-<script src="<?php echo plugins_url('cosmosfarm-apis.js', __FILE__)?>"></script>
 <script>
 window.onload = function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo $_SESSION['cosmosfarm_access_token']?>');

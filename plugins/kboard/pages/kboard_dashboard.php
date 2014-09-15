@@ -13,7 +13,7 @@
 </div>
 
 <h2 class="nav-tab-wrapper">
-	<a href="#" class="nav-tab" onclick="return false;">시스템 설정</a>
+	<a href="#" class="nav-tab nav-tab-active" onclick="return false;">시스템 설정</a>
 </h2>
 
 <ul id="kboard-dashboard-options">

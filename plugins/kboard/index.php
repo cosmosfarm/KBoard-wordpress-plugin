@@ -590,6 +590,7 @@ function kboard_style(){
  */
 add_action('admin_enqueue_scripts', 'kboard_admin_style', 999);
 function kboard_admin_style(){
+	wp_enqueue_script("kboard-cosmosfarm-apis", KBOARD_URL_PATH.'/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
 	wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css', array(), KBOARD_VERSION);
 }
 

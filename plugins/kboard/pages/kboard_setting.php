@@ -326,6 +326,7 @@ function kboard_setting_tab_init(){
 	kboard_setting_tab_chnage(index);
 };
 kboard_setting_tab_init();
+
 function kboard_setting_tab_chnage(index){
 	jQuery('.tab-kboard').removeClass('nav-tab-active').eq(index).addClass('nav-tab-active');
 	jQuery('.tab-kboard-setting').removeClass('tab-kboard-setting-active').eq(index).addClass('tab-kboard-setting-active');

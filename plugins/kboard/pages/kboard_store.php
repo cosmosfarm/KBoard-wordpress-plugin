@@ -9,17 +9,19 @@
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
 	</h2>
 	
-	<ul class="subsubsub">
-		<li class="<?php if($category==''):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store')?>">모두</a> |</li>
-		<li class="<?php if($category=='kboard'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=kboard')?>">KBoard 스킨</a> |</li>
-		<li class="<?php if($category=='theme'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=theme')?>">테마</a> |</li>
-		<li class="<?php if($category=='plugin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=plugin')?>">플러그인</a> |</li>
-		<li class="<?php if($category=='widget'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=widget')?>">위젯</a> |</li>
-		<li class="<?php if($category=='mobile'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=mobile')?>">모바일</a> |</li>
-		<li class="<?php if($category=='admin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=admin')?>">관리자용</a> |</li>
-		<li class="<?php if($category=='social'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=social')?>">소셜</a> |</li>
-		<li class="<?php if($category=='design'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=design')?>">디자인소스</a></li>
-	</ul>
+	<div class="wp-filter">
+		<ul class="filter-links">
+			<li class="<?php if($category==''):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store')?>">모두</a></li>
+			<li class="<?php if($category=='kboard'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=kboard')?>">KBoard 스킨</a></li>
+			<li class="<?php if($category=='theme'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=theme')?>">테마</a></li>
+			<li class="<?php if($category=='plugin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=plugin')?>">플러그인</a></li>
+			<li class="<?php if($category=='widget'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=widget')?>">위젯</a></li>
+			<li class="<?php if($category=='mobile'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=mobile')?>">모바일</a></li>
+			<li class="<?php if($category=='admin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=admin')?>">관리자용</a></li>
+			<li class="<?php if($category=='social'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=social')?>">소셜</a></li>
+			<li class="<?php if($category=='design'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=design')?>">디자인소스</a></li>
+		</ul>
+	</div>
 	
 	<table class="wp-list-table widefat fixed">
 		<thead>
@@ -64,7 +66,6 @@
 	</table>
 </div>
 
-<script src="<?php echo plugins_url('cosmosfarm-apis.js', __FILE__)?>"></script>
 <script>
 var cf_login_status;
 var cf_list_page = 1;
