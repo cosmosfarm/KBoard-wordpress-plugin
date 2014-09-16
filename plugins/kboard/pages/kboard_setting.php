@@ -66,7 +66,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="skin" id="skin" class="">
 								<?php
-								if(!isset($board->skin)) $board->skin = 'default';
+								if(!$board->skin) $board->skin = 'default';
 								foreach($skin->list AS $key => $value):
 								?>
 								<option value="<?php echo $value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
@@ -127,7 +127,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="comment_skin" id="comment_skin" class="">
 								<?php
-								if(!isset($meta->comment_skin)) $meta->comment_skin = 'default';
+								if(!$meta->comment_skin) $meta->comment_skin = 'default';
 								foreach($comment_skin->list AS $key => $value):
 								?>
 								<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
