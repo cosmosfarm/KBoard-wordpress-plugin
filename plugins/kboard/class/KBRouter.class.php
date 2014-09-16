@@ -35,7 +35,21 @@ class KBRouter {
 	 * 게시물 본문 페이지로 이동한다.
 	 * @param int $content_uid
 	 */
-	private function contentRedirect($content_uid){
+	public function contentRedirect($content_uid){
+		$content_url = $this->getContentURL($content_uid);
+		if($content_url){
+			header("Location:{$content_url}");
+			exit;
+		}
+		$this->error();
+	}
+	
+	/**
+	 * 게시물 본문 페이지 주소를 반환한다.
+	 * @param int $content_uid
+	 * @return string
+	 */
+	public function getContentURL($content_uid){
 		global $wpdb;
 		$content = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='$content_uid'");
 		if($content->board_id){
@@ -45,27 +59,38 @@ class KBRouter {
 			else {
 				$page_id = $wpdb->get_var("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE `post_content` LIKE '%[kboard id={$content->board_id}]%' AND `post_type`='page'");
 			}
-				
+			
 			if($page_id){
 				$url = new KBUrl();
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath( get_permalink($page_id) );
 			}
 			else{
-				$board_url = plugins_url("board.php?board_id={$content->board_id}&mod=document&uid={$content->uid}", __FILE__);
+				$board_url = site_url("?kboard_id={$content->board_id}&mod=document&uid={$content->uid}");
 			}
-				
-			header("Location:{$board_url}");
-			exit;
+			return $board_url;
 		}
-		
-		$this->error();
+		return '';
 	}
 	
 	/**
 	 * 게시판 목록 페이지로 이동한다.
 	 * @param int $board_id
 	 */
-	private function boardRedirect($board_id){
+	public function boardRedirect($board_id){
+		$board_url = $this->getBoardURL($board_id);
+		if($board_url){
+			header("Location:{$board_url}");
+			exit;
+		}
+		$this->error();
+	}
+	
+	/**
+	 * 게시판 목록 페이지 주소를 반환한다.
+	 * @param int $board_id
+	 * @return string
+	 */
+	public function getBoardURL($board_id){
 		global $wpdb;
 		$board = new KBoard($board_id);
 		if($board->uid){
@@ -81,14 +106,11 @@ class KBRouter {
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->toStringWithPath( get_permalink($page_id) );
 			}
 			else{
-				$board_url = plugins_url("board.php?board_id={$board_id}", __FILE__);
+				$board_url = site_url("?kboard_id={$board_id}");
 			}
-			
-			header("Location:{$board_url}");
-			exit;
+			return $board_url;
 		}
-		
-		$this->error();
+		return '';
 	}
 	
 	/**
