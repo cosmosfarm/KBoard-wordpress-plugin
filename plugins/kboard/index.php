@@ -576,8 +576,8 @@ add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
 	if(!get_option('kboard_fontawesome')){
 		global $wp_styles;
-		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css');
-		wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css');
+		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css', array(), KBOARD_VERSION);
+		wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css', array(), KBOARD_VERSION);
 		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 	}
 	$skin = KBoardSkin::getInstance();

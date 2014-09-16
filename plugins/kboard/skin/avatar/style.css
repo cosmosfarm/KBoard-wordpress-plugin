@@ -8,13 +8,13 @@ img { border: 0; }
 
 .kboard-avatar-button-small,
 .kboard-avatar-button-small:link,
-.kboard-avatar-button-small:visited { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 12px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #545861 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
+.kboard-avatar-button-small:visited { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 .kboard-avatar-button-small:hover,
 .kboard-avatar-button-small:focus,
-.kboard-avatar-button-small:active { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 12px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #323239 !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
+.kboard-avatar-button-small:active { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 
-.kboard-avatar-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 12px; }
-.kboard-avatar-poweredby a { color: gray; }
+.kboard-avatar-poweredby { float: left; padding-bottom: 15px; width: 100%; }
+.kboard-avatar-poweredby a { font-size: 13px; text-decoration: none; color: gray; }
 
 #kboard-avatar-list { margin: 0 auto; width: 99%; }
 #kboard-avatar-list .kboard-header { float: left; margin-top: 0; width: 100%; }
@@ -24,7 +24,7 @@ img { border: 0; }
 #kboard-avatar-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 80px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; box-shadow: none; }
 #kboard-avatar-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 120px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; box-shadow: none; }
 #kboard-avatar-list .kboard-list { float: left; width: 100%; background-color: white; }
-#kboard-avatar-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; border-top: 2px solid #545861; font-size: 12px; border-collapse: collapse; }
+#kboard-avatar-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
 #kboard-avatar-list .kboard-list table a { color: black; text-decoration: none; border: 0; }
 #kboard-avatar-list .kboard-list table tr { border: 0; }
 #kboard-avatar-list .kboard-list table td { padding: 10px 0; text-align: center; vertical-align: middle; }
@@ -35,7 +35,7 @@ img { border: 0; }
 #kboard-avatar-list .kboard-list table td.kboard-list-user img { display: inline; margin: 0; width: 32px; height: 32px; vertical-align: middle; }
 #kboard-avatar-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-avatar-list .kboard-list table td.kboard-list-view { width: 55px; }
-#kboard-avatar-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 1px solid #545861; }
+#kboard-avatar-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #e3e3e3; }
 #kboard-avatar-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #e3e3e3; }
 #kboard-avatar-list .kboard-list tbody tr:hover { background-color: #f7f7f7; }
 #kboard-avatar-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
@@ -45,16 +45,16 @@ img { border: 0; }
 #kboard-avatar-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-avatar-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; border: 0; }
 #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
-#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li a { color: black; padding: 5px 10px; border: 1px solid #e0e0e0; text-decoration: none; font-size: 12px; line-height: 27px; background-color: white; }
-#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active a { font-weight: bold; border: 1px solid #a9a9a9; color: black; text-decoration: none; }
+#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; line-height: 27px; color: #999999; background-color: white; }
+#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active a { border: 1px solid #d9534f; color: white; background-color: #d9534f; text-decoration: none; }
 #kboard-avatar-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 
 #kboard-avatar-editor { margin: 0 auto; width: 99%; }
 #kboard-avatar-editor select,
 #kboard-avatar-editor input { width: auto; height: auto; box-shadow: none; }
-#kboard-avatar-editor .kboard-header { float: left; width: 100%; border-top: 2px solid #545861; line-height: 0; }
+#kboard-avatar-editor .kboard-header { float: left; width: 100%; border-top: 1px solid #e3e3e3; line-height: 0; }
 #kboard-avatar-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; border-bottom: 1px solid #e3e3e3; background-color: white; }
-#kboard-avatar-editor .kboard-attr-title { float: left; border-bottom: 1px solid #545861; }
+#kboard-avatar-editor .kboard-attr-title { float: left; border-bottom: 1px solid #e3e3e3; }
 #kboard-avatar-editor .kboard-attr-title input { display: inline-block; padding: 6px 2px; font-size: 12px; width: 50%; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-avatar-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 95px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
 #kboard-avatar-editor .kboard-attr-row .attr-name img { display: inline; max-width: 100%; vertical-align: middle; }
@@ -74,9 +74,9 @@ img { border: 0; }
 #kboard-avatar-document { margin: 0 auto; width: 99%; }
 #kboard-avatar-document .kboard-header { float: left; margin-top: 0; width: 100%; }
 #kboard-avatar-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
-#kboard-avatar-document .kboard-title { float: left; width: 100%; border-top: 2px solid #545861; }
-#kboard-avatar-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 12px; }
-#kboard-avatar-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #545861; border-bottom: 1px solid #e3e3e3; background-color: #f4f4f4; font-size: 12px; }
+#kboard-avatar-document .kboard-title { float: left; width: 100%; }
+#kboard-avatar-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 33px; font-weight: 300; }
+#kboard-avatar-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background-color: #f9f9f9; font-size: 12px; }
 #kboard-avatar-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-name { float: left; width: 60px; font-weight: bold; color: #545861; text-align: right; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
@@ -105,7 +105,7 @@ img { border: 0; }
 	#kboard-avatar-list .kboard-search select { width: 80px; }
 	#kboard-avatar-list .kboard-search input { width: 80px; }
 	#kboard-avatar-list .kboard-list table td.kboard-list-uid { width: 50px; }
-	#kboard-avatar-list .kboard-list table td.kboard-list-date { width: 65px; }
+	#kboard-avatar-list .kboard-list table td.kboard-list-date { width: 70px; }
 	#kboard-avatar-list .kboard-list td.kboard-list-user,
 	#kboard-avatar-list .kboard-list td.kboard-list-view { display: none; }
 	
