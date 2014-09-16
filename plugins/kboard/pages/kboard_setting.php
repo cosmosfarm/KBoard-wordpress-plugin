@@ -65,7 +65,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 						<td>
 							<select name="skin" id="skin" class="">
-								<?php foreach($skin->list AS $key => $value):?>
+								<?php
+								if(!isset($board->skin)) $board->skin = 'default';
+								foreach($skin->list AS $key => $value):
+								?>
 								<option value="<?php echo $value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
 									<?php echo $value?>
 								</option>
@@ -123,7 +126,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
 						<td>
 							<select name="comment_skin" id="comment_skin" class="">
-								<?php foreach($comment_skin->list AS $key => $value):?>
+								<?php
+								if(!isset($meta->comment_skin)) $meta->comment_skin = 'default';
+								foreach($comment_skin->list AS $key => $value):
+								?>
 								<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
 								<?php endforeach?>
 							</select>
