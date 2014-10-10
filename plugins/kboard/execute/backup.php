@@ -10,6 +10,7 @@ include KBOARD_DIR_PATH.'/class/KBBackup.class.php';
 $backup = new KBBackup();
 
 $tables = $backup->getTables();
+$data = '';
 foreach($tables AS $key => $value){
 	$data .= $backup->getXml($value);
 }

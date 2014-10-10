@@ -60,7 +60,7 @@ class KBBackup {
 		
 		// 테이블 이름에서 PREFIX를 지운다.
 		$table = str_replace($wpdb->prefix, '', $table);
-		$xml .= "<$table>\n";
+		$xml = "<$table>\n";
 		foreach($result as $row){
 			$xml .= "\t<data>\n";
 			
