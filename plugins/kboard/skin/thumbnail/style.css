@@ -77,7 +77,7 @@ img { border: 0; }
 #kboard-thumbnail-document .kboard-header { float: left; margin-top: 0; width: 100%; }
 #kboard-thumbnail-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
 #kboard-thumbnail-document .kboard-title { float: left; width: 100%; }
-#kboard-thumbnail-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 33px; font-weight: 300; }
+#kboard-thumbnail-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 22px; font-weight: 500; line-height: 30px; }
 #kboard-thumbnail-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background-color: #f9f9f9; font-size: 12px; }
 #kboard-thumbnail-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-name { float: left; width: 60px; font-weight: bold; color: #545861; text-align: right; }
