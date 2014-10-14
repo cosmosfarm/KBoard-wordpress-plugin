@@ -15,12 +15,27 @@ class KBSeo {
 		if($mod == 'document' && $uid){
 			$this->content = new KBContent();
 			$this->content->initWithUID($uid);
+			if($this->content->uid){
+				add_filter('wp_title', array($this, 'title'), 1);
 				
-			add_filter('wp_title', array($this, 'title'), 1);
-			add_action('kboard_head', array($this, 'ogp'), 2);
-			add_action('kboard_head', array($this, 'description'), 3);
-			add_action('kboard_head', array($this, 'author'), 4);
-			add_action('kboard_head', array($this, 'date'), 5);
+				$is_display = false;
+				$board = new KBoard($this->content->board_id);
+				if($board->isReader($this->content->member_uid, $this->content->secret)){
+					$is_display = true;
+				}
+				else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
+					if($board->isConfirm($this->content->password, $this->content->uid)){
+						$is_display = true;
+					}
+				}
+				
+				if($is_display){
+					add_action('kboard_head', array($this, 'ogp'), 2);
+					add_action('kboard_head', array($this, 'description'), 3);
+					add_action('kboard_head', array($this, 'author'), 4);
+					add_action('kboard_head', array($this, 'date'), 5);
+				}
+			}
 		}
 		add_action('kboard_head', array($this, 'rss'), 6);
 		add_action('wp_head', array($this, 'head'), 1);
