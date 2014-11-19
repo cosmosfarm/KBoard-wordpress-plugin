@@ -33,7 +33,7 @@ class KBComment {
 	public function initWithUID($uid){
 		global $wpdb;
 		$uid = intval($uid);
-		$this->row = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_comments` WHERE `uid`='$uid' LIMIT 1");
+		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid' LIMIT 1");
 		return $this;
 	}
 	
@@ -53,7 +53,7 @@ class KBComment {
 	 */
 	public function isEditor(){
 		global $wpdb;
-		$board_id = $wpdb->get_var("SELECT `board_id` FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='{$this->content_uid}'");
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->content_uid}'");
 		$board = new KBoard($board_id);
 		
 		if($this->user_uid == $this->userdata->data->ID && $this->userdata->data->ID){

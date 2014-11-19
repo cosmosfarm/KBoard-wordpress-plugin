@@ -21,8 +21,8 @@ class KBLatestviewList {
 	 */
 	public function init(){
 		global $wpdb;
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1");
-		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE 1 ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_latestview` WHERE 1");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview` WHERE 1 ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
 		return $this;
 	}

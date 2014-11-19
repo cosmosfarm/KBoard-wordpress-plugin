@@ -554,7 +554,9 @@ class KBContent {
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid'");
 			$this->deletePost($this->getPostID());
 			$this->deleteReply($this->uid);
-			if(defined('KBOARD_COMMNETS_VERSION')) $wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->uid'");
+			if(defined('KBOARD_COMMNETS_VERSION')){
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->uid'");
+			}
 			
 			/*
 			 * 게시글 삭제 액션 훅 실행

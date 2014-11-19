@@ -34,7 +34,7 @@ class KBoard {
 	public function setID($id){
 		global $wpdb;
 		$id = intval($id);
-		$this->row = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE `uid`='$id'");
+		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$id'");
 		$this->id = $id;
 		return $this;
 	}
@@ -53,8 +53,8 @@ class KBoard {
 	 */
 	public function getList(){
 		global $wpdb;
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1");
-		$this->resource = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE 1 ORDER BY `uid` DESC");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_setting` WHERE 1");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE 1 ORDER BY `uid` DESC");
 		return $this->resource;
 	}
 	
@@ -282,8 +282,8 @@ class KBoard {
 		while($content = $list->hasNext()){
 			$content->remove();
 		}
-		$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_setting` WHERE `uid`='$uid'");
-		$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `board_id`='$uid'");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$uid'");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$uid'");
 	}
 }
 ?>

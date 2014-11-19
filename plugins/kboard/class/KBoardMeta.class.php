@@ -24,7 +24,7 @@ class KBoardMeta {
 				return stripslashes($this->meta->{$name});
 			}
 			else{
-				$this->meta->{$name} = $wpdb->get_var("SELECT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
+				$this->meta->{$name} = $wpdb->get_var("SELECT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
 				return stripslashes($this->meta->{$name});
 			}
 		}
@@ -36,7 +36,7 @@ class KBoardMeta {
 		if($this->board_id){
 			$name = addslashes($name);
 			$value = addslashes($value);
-			$wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
 			$this->meta->{$name} = $value;
 		}
 	}
@@ -55,7 +55,7 @@ class KBoardMeta {
 	 */
 	public function clear(){
 		global $wpdb;
-		$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `value`=''");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `value`=''");
 	}
 }
 ?>

@@ -51,13 +51,13 @@ class KBRouter {
 	 */
 	public function getContentURL($content_uid){
 		global $wpdb;
-		$content = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_content` WHERE `uid`='$content_uid'");
+		$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$content_uid'");
 		if($content->board_id){
 			$meta = new KBoardMeta($content->board_id);
 			
 			if($meta->auto_page) $page_id = $meta->auto_page;
 			else {
-				$page_id = $wpdb->get_var("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE `post_content` LIKE '%[kboard id={$content->board_id}]%' AND `post_type`='page'");
+				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$content->board_id}]%' AND `post_type`='page'");
 			}
 			
 			if($page_id){
@@ -96,9 +96,11 @@ class KBRouter {
 		if($board->uid){
 			$meta = new KBoardMeta($board_id);
 			
-			if($meta->auto_page) $page_id = $meta->auto_page;
-			else {
-				$page_id = $wpdb->get_var("SELECT `ID` FROM `".KBOARD_DB_PREFIX."posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
+			if($meta->auto_page){
+				$page_id = $meta->auto_page;
+			}
+			else{
+				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
 			}
 			
 			if($page_id){

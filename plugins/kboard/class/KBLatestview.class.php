@@ -35,7 +35,7 @@ class KBLatestview {
 	public function initWithUID($uid){
 		global $wpdb;
 		$uid = intval($uid);
-		$this->row = $wpdb->get_row("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$uid'");
+		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview` WHERE `uid`='$uid'");
 		return $this;
 	}
 	
@@ -54,7 +54,7 @@ class KBLatestview {
 	public function create(){
 		global $wpdb;
 		$date = date("YmdHis", current_time('timestamp'));
-		$result = $wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
+		$result = $wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
 		$this->uid = $wpdb->insert_id;
 		return $this->uid;
 	}
@@ -71,7 +71,7 @@ class KBLatestview {
 					$data[] = "`$key`='$value'";
 				}
 			}
-			if($data) $wpdb->query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid' LIMIT 1");
+			if($data) $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid' LIMIT 1");
 		}
 	}
 	
@@ -81,8 +81,8 @@ class KBLatestview {
 	public function delete(){
 		global $wpdb;
 		if($this->uid){
-			$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview` WHERE `uid`='$this->uid' LIMIT 1");
-			$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview` WHERE `uid`='$this->uid' LIMIT 1");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
 		}
 	}
 	
@@ -94,7 +94,7 @@ class KBLatestview {
 		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid && !$this->isLinked($board_id)){
-			$wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_latestview_link` (`latestview_uid`, `board_id`) VALUE ('$this->uid', '$board_id')");
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview_link` (`latestview_uid`, `board_id`) VALUE ('$this->uid', '$board_id')");
 		}
 	}
 	
@@ -106,7 +106,7 @@ class KBLatestview {
 		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid){
-			$wpdb->query("DELETE FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id' LIMIT 1");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id' LIMIT 1");
 		}
 	}
 	
@@ -116,7 +116,7 @@ class KBLatestview {
 	public function getLinkedBoard(){
 		global $wpdb;
 		$list = array();
-		$result = $wpdb->get_results("SELECT * FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
+		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
 		foreach($result as $row){
 			$list[] = $row->board_id;
 		}
@@ -130,7 +130,7 @@ class KBLatestview {
 		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid){
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM `".KBOARD_DB_PREFIX."kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'");
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'");
 		}
 		if(intval($count)) return true;
 		else return false;
