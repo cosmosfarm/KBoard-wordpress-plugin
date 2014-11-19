@@ -251,7 +251,7 @@ function kboard_update(){
 	}
 	
 	if($_POST['board_id']){
-		die('<script>history.go(-1);</script>');
+		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '#tab-kboard-setting-' . intval($_POST['tab_kboard_setting']) . '"</script>');
 	}
 	else{
 		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');

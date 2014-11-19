@@ -14,6 +14,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 	</h2>
 	<form action="<?php echo KBOARD_UPDATE_ACTION?>" method="post">
 		<input type="hidden" name="board_id" value="<?php echo $board->uid?>">
+		<input type="hidden" name="tab_kboard_setting" value="">
 		
 		<h2 class="nav-tab-wrapper">
 			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab<?php if(1):?> nav-tab-active<?php endif?>" onclick="kboard_setting_tab_chnage(0);">기본설정</a>
@@ -349,5 +350,6 @@ kboard_setting_tab_init();
 function kboard_setting_tab_chnage(index){
 	jQuery('.tab-kboard').removeClass('nav-tab-active').eq(index).addClass('nav-tab-active');
 	jQuery('.tab-kboard-setting').removeClass('tab-kboard-setting-active').eq(index).addClass('tab-kboard-setting-active');
+	jQuery('input[name=tab_kboard_setting]').val(index);
 }
 </script>
