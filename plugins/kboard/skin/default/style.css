@@ -8,10 +8,10 @@ img { border: 0; }
 
 .kboard-default-button-small,
 .kboard-default-button-small:link,
-.kboard-default-button-small:visited { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
+.kboard-default-button-small:visited { position: relative; display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 .kboard-default-button-small:hover,
 .kboard-default-button-small:focus,
-.kboard-default-button-small:active { display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
+.kboard-default-button-small:active { position: relative; display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 
 .kboard-default-poweredby { float: left; padding-bottom: 15px; width: 100%; }
 .kboard-default-poweredby a { font-size: 13px; text-decoration: none; color: gray; }
