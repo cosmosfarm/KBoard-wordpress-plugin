@@ -1,0 +1,4 @@
+name: 아바타 스킨
+type: kboard-skin
+version: 4.7
+link: http://www.cosmosfarm.com/products/kboard

@@ -1,0 +1,4 @@
+name: 기본 스킨
+type: comments-skin
+version: 3.9
+link: http://www.cosmosfarm.com/products/kboard
