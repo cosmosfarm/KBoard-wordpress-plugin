@@ -48,6 +48,6 @@ function kboard_pagination($current_page, $total, $limit){
 		$paging = "{$paging}<li><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>";
 	}
 	
-	return $total?$paging:'<li><a>1</a></li>';
+	return $total?$paging:'<li><a href="#" onclick="return false;">1</a></li>';
 }
 ?>
