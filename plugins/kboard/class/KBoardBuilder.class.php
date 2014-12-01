@@ -207,10 +207,10 @@ class KBoardBuilder {
 				}
 			}
 			else if(!$user_ID){
-				die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="'.wp_login_url().'";</script>');
+				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="'.wp_login_url($_SERVER['REQUEST_URI']).'";</script>';
 			}
 			else{
-				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
 			}
 		}
 		else{
