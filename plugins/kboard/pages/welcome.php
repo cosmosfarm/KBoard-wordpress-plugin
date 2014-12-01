@@ -56,7 +56,7 @@
 <script>
 window.onload = function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo $_SESSION['cosmosfarm_access_token']?>');
-	cosmosfarm.getWpstoreProducts('', 1, 5, function(res){
+	cosmosfarm.getWpstoreProducts('', 1, 7, function(res){
 		if(res.length > 0){
 			var products = document.getElementById('cf-wpstore-products');
 			products.innerHTML = '';
@@ -74,12 +74,12 @@ function cf_oauthStatus(upgrade_url){
 			}
 		}
 		else{
-			if(confirm('Access Token이 만료되어 재발급 받아야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+			if(confirm('Access Token이 만료되어 재발급 받아야합니다. 코스모스팜 홈페이지로 이동합니다.')){
 				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_dashboard')?>');
 			}
 		}
 	}, function(res){
-		if(confirm('업데이트를 진행 하시려면 코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+		if(confirm('자동 업그레이드를 진행 하시려면 코스모스팜에 로그인 해야합니다. 코스모스팜 홈페이지로 이동합니다.')){
 			location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_dashboard')?>');
 		}
 	});
