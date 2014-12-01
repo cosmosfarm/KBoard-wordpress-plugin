@@ -433,9 +433,23 @@ function kboard_content_list(){
 	include_once 'class/KBContentListTable.class.php';
 	$table = new KBContentListTable();
 	$action = $table->current_action();
-	if($action=='delete' && isset($_POST['uid'])){
-		foreach($_POST['uid'] as $key=>$value){
-			//$this->action->delete_repo($value);
+	if(isset($_POST['uid'])){
+		$content = new KBContent();
+		if($action == 'board_change'){
+			foreach($_POST['uid'] as $key=>$value){
+				$board_id = $_POST['board_id_'.$value];
+				if($board_id){
+					$content->initWithUID($value);
+					$content->board_id = $board_id;
+					$content->updateContent();
+				}
+			}
+		}
+		else if($action == 'delete'){
+			foreach($_POST['uid'] as $key=>$value){
+				$content->initWithUID($value);
+				$content->remove();
+			}
 		}
 	}
 	$table->prepare_items();

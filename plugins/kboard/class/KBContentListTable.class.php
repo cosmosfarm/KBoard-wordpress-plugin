@@ -23,7 +23,7 @@ class KBContentListTable extends WP_List_Table {
 		$this->board->getList();
 		
 		$list = new KBContentList();
-		$list->rpp = 1;
+		$list->rpp = 20;
 		$list->page = $this->get_pagenum();
 		$list->initWithKeyword($_GET['s']);
 		$this->items = $list->resource;
@@ -49,7 +49,10 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	function get_bulk_actions(){
-		return array('delete' => '삭제');
+		return array(
+				'board_change' => '게시판 변경',
+				'delete' => '삭제'
+		);
 	}
 	
 	public function display_rows(){
@@ -66,11 +69,16 @@ class KBContentListTable extends WP_List_Table {
 		echo '</th>';
 		
 		echo '<td class="kboard-content-list-board">';
-		echo '<select class="kboard-id-select" name="board_id_'.$item->uid.'">';
-		while($this->board->hasNext()){
-			echo '<option value="'.$this->board->uid.'"'.($item->board_id==$this->board->uid?' selected':'').'>'.$this->board->board_name.'</option>';
+		if($item->board_id){
+			echo '<select class="kboard-id-select" name="board_id_'.$item->uid.'">';
+			while($this->board->hasNext()){
+				echo '<option value="'.$this->board->uid.'"'.($item->board_id==$this->board->uid?' selected':'').'>'.$this->board->board_name.'</option>';
+			}
+			echo '</select>';
 		}
-		echo '</select>';
+		else{
+			echo '답글입니다.';
+		}
 		echo '</td>';
 		
 		echo '<td class="kboard-content-list-title">';

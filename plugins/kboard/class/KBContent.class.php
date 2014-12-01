@@ -96,7 +96,7 @@ class KBContent {
 		
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
-			$this->_updateContent();
+			$this->updateContent();
 			$this->setThumbnail($this->uid);
 			$this->update_options($this->uid);
 			$this->update_attach($this->uid);
@@ -117,7 +117,7 @@ class KBContent {
 			}
 			
 			// 신규게시물 등록
-			$uid = $this->_insertContent();
+			$uid = $this->insertContent();
 			if($uid){
 				$this->setThumbnail($uid);
 				$this->update_options($uid);
@@ -155,7 +155,7 @@ class KBContent {
 	 * 게시글을 등록한다.
 	 * @return int
 	 */
-	private function _insertContent(){
+	public function insertContent(){
 		global $user_ID, $wpdb;
 		$userdata = get_userdata($user_ID);
 		
@@ -171,7 +171,7 @@ class KBContent {
 		$data['member_display'] = $this->member_display?$this->member_display:$userdata->data->display_name;
 		$data['title'] = $this->title;
 		$data['content'] = $this->content;
-		$data['date'] = date("YmdHis", current_time('timestamp'));
+		$data['date'] = date('YmdHis', current_time('timestamp'));
 		$data['view'] = 0;
 		$data['comment'] = 0;
 		$data['like'] = 0;
@@ -201,7 +201,7 @@ class KBContent {
 	/**
 	 * 게시글 정보를 수정한다.
 	 */
-	private function _updateContent(){
+	public function updateContent(){
 		global $wpdb;
 		if($this->uid){
 			if($this->parent_uid){
@@ -217,6 +217,9 @@ class KBContent {
 			$data['title'] = $this->title;
 			$data['content'] = $this->content;
 			$data['date'] = $this->date;
+			$data['view'] = $this->view;
+			$data['comment'] = $this->comment;
+			$data['like'] = $this->like;
 			$data['category1'] = $this->category1;
 			$data['category2'] = $this->category2;
 			$data['secret'] = $this->secret;
