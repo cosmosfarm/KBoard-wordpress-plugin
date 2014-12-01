@@ -51,21 +51,31 @@ class KBRouter {
 	 */
 	public function getContentURL($content_uid){
 		global $wpdb;
-		$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$content_uid'");
+		$content_uid = intval($content_uid);
+		$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$content_uid}'");
+		
 		if($content->board_id){
-			$meta = new KBoardMeta($content->board_id);
+			$board_id = $content->board_id;
+		}
+		else{
+			$parent_content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$content->parent_uid}'");
+			$board_id = $parent_content->board_id;
+		}
+		
+		if($board_id && $content->uid){
+			$meta = new KBoardMeta($board_id);
 			
 			if($meta->auto_page) $page_id = $meta->auto_page;
 			else {
-				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$content->board_id}]%' AND `post_type`='page'");
+				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
 			}
 			
 			if($page_id){
 				$url = new KBUrl();
-				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath( get_permalink($page_id) );
+				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath(get_permalink($page_id));
 			}
 			else{
-				$board_url = get_site_url("?kboard_id={$content->board_id}&mod=document&uid={$content->uid}");
+				$board_url = get_site_url("?kboard_id={$board_id}&mod=document&uid={$content->uid}");
 			}
 			return $board_url;
 		}
@@ -92,6 +102,7 @@ class KBRouter {
 	 */
 	public function getBoardURL($board_id){
 		global $wpdb;
+		$board_id = intval($board_id);
 		$board = new KBoard($board_id);
 		if($board->uid){
 			$meta = new KBoardMeta($board_id);
