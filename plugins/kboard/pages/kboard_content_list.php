@@ -11,7 +11,7 @@
 		<input type="hidden" name="page" value="kboard_content_list">
 		<?php $table->search_box('검색', 'kboard_content_list_search')?>
 	</form>
-	<form medhod="post">
+	<form method="post">
 		<?php $table->display()?>
 	</form>
 </div>
