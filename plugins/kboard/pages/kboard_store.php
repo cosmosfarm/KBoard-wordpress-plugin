@@ -1,6 +1,6 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
-	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?php echo plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
+	<div class="kboard-header-logo"></div>
 	<h2>
 		스토어
 		<a href="#" class="add-new-h2 kbstore-login-button"></a>

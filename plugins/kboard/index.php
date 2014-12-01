@@ -29,6 +29,7 @@ define('KBOARD_BACKUP_ACTION', plugins_url('/execute/backup.php', __FILE__));
 define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 define('KBOARD_LATESTVIEW_ACTION', admin_url('/admin.php?page=kboard_latestview_update'));
+define('KBOARD_CONTENT_LIST_PAGE', admin_url('/admin.php?page=kboard_content_list'));
 
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
@@ -110,6 +111,7 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '최신글 뷰 목록', 'administrator', 'kboard_latestview', 'kboard_latestview');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '최신글 뷰 생성', 'administrator', 'kboard_latestview_new', 'kboard_latestview_new');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '백업 및 복구', 'administrator', 'kboard_backup', 'kboard_backup');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '전체 게시글', 'administrator', 'kboard_content_list', 'kboard_content_list');
 	
 	// 표시되지 않는 페이지
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 수정', 'administrator', 'kboard_update', 'kboard_update');
@@ -385,7 +387,7 @@ function kboard_upgrade(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
@@ -396,35 +398,48 @@ function kboard_upgrade(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/plugins.php') . '"</script>');
+		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");location.href="' . admin_url('/plugins.php') . '"</script>');
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
-		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/themes.php') . '"</script>');
+		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");location.href="' . admin_url('/themes.php') . '"</script>');
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
-		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
-		die('<script>alert("완료 되었습니다.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
 	else{
 		die('<script>alert("설치에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
+}
+
+function kboard_content_list(){
+	include_once 'class/KBContentListTable.class.php';
+	$table = new KBContentListTable();
+	$action = $table->current_action();
+	if($action=='delete' && isset($_POST['uid'])){
+		foreach($_POST['uid'] as $key=>$value){
+			//$this->action->delete_repo($value);
+		}
+	}
+	$table->prepare_items();
+	include_once 'pages/kboard_content_list.php';
 }
 
 /*
@@ -432,7 +447,7 @@ function kboard_upgrade(){
  */
 add_shortcode('kboard', 'kboard_builder');
 function kboard_builder($args){
-	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
+	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	
 	$board = new KBoard();
 	$board->setID($args['id']);
@@ -468,8 +483,8 @@ function kboard_auto_builder($content){
  */
 add_shortcode('kboard_latest', 'kboard_latest_shortcode');
 function kboard_latest_shortcode($args){
-	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
-	else if(!$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수 입니다.';
+	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
+	else if(!$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수입니다.';
 	if(!$args['rpp']) $args['rpp'] = 5;
 	
 	$board = new KBoard();
@@ -494,7 +509,7 @@ function kboard_latest_shortcode($args){
  */
 add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
 function kboard_latestview_shortcode($args){
-	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수 입니다.';
+	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
@@ -523,7 +538,7 @@ function kboard_languages(){
  * 비동기 게시판 빌더
  */
 function kboard_ajax_builder(){
-	if(!$_SESSION['kboard_board_id']) die('KBoard 알림 :: id=null, 아이디값은 필수 입니다.');
+	if(!$_SESSION['kboard_board_id']) die('KBoard 알림 :: id=null, 아이디값은 필수입니다.');
 	
 	$board = new KBoard();
 	$board->setID($_SESSION['kboard_board_id']);

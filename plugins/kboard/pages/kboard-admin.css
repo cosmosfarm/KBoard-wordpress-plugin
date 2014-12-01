@@ -3,6 +3,8 @@
  * @author http://www.cosmosfarm.com/
  */
 
+.kboard-header-logo  {float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(../images/icon-big.png) left top no-repeat; }
+
 .kbstore-thumbnail { width: 100px; }
 .kbstore-title { width: 250px; }
 .kbstore-category { width: 150px; }
@@ -23,3 +25,21 @@
 .kboard-admin-pagination li { float: left; padding-left: 3px; }
 .kboard-admin-pagination li a { display: block; padding: 0 10px 3px; background: #eee; background: rgba(0,0,0,.05); text-decoration: none; }
 .kboard-admin-pagination li.active a { font-weight: bold; }
+
+.link-control-area { float: left; width: 100%; }
+.link-control-area p { margin: 0; text-align: center; }
+.link-control-area select { width: 200px; }
+.link-control-area .link-control-area-left { float: left; }
+.link-control-area .link-control-area-center { float: left; padding: 45px 5px 0 5px; }
+.link-control-area .link-control-area-right { float: left; }
+.latestview-preview { width: 300px; border: 1px solid gray; }
+
+.wp-list-table .column-board { width: 150px; }
+.wp-list-table .column-member { width: 100px; }
+.wp-list-table .column-view { width: 100px; }
+.wp-list-table .column-secret { width: 100px; }
+.wp-list-table .column-notice { width: 100px; }
+.wp-list-table .column-date { width: 100px; }
+
+.wp-list-table .kboard-content-list-board select { width: 100%; }
+.wp-list-table .kboard-content-list-title h4 { float: left; margin: 0; }

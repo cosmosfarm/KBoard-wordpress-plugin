@@ -4,17 +4,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 	die('<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 }
 ?>
-<style>
-.link-control-area { float: left; width: 100%; }
-.link-control-area p { margin: 0; text-align: center; }
-.link-control-area select { width: 200px; }
-.link-control-area .link-control-area-left { float: left; }
-.link-control-area .link-control-area-center { float: left; padding: 45px 5px 0 5px; }
-.link-control-area .link-control-area-right { float: left; }
-.latestview-preview { width: 300px; border: 1px solid gray; }
-</style>
 <div class="wrap">
-	<div style="float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(<?php echo plugins_url('kboard/images/icon-big.png')?>) left top no-repeat;"></div>
+	<div class="kboard-header-logo"></div>
 	<h2>
 		KBoard : 최신글 뷰 관리
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>

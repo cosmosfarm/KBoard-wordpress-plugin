@@ -14,10 +14,10 @@ class KBContentList {
 	var $col_category2;
 	var $rpp = 10;
 	var $page = 1;
+	var $resource;
+	var $resource_notice;
+	var $resource_reply;
 	
-	private $resource;
-	private $resource_notice;
-	private $resource_reply;
 	private $row;
 	
 	public function __construct($board_id=''){
@@ -32,6 +32,20 @@ class KBContentList {
 		global $wpdb;
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE 1");
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE 1 ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->index = $this->total;
+		return $this;
+	}
+	
+	/**
+	 * 모든 게시판의 내용을 반환한다.
+	 * @return KBContentList
+	 */
+	public function initWithKeyword($keyword=''){
+		global $wpdb;
+		if($keyword) $where = "`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%'";
+		else $where = '1';
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
 		return $this;
 	}
