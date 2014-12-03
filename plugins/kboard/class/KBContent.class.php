@@ -128,7 +128,7 @@ class KBContent {
 				if($meta->latest_alerts){
 					/*
 					 * http://www.cosmosfarm.com/threads/document/3025
-					 * 이메일 알람 시, 메일 제목에 보드명 추가.
+					 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
 					 */
 					$board = new KBoard();
 					$board->setID($this->board_id);
@@ -137,7 +137,7 @@ class KBContent {
 					include 'KBMail.class.php';
 					$mail = new KBMail();
 					$mail->to = explode(',', $meta->latest_alerts);
-					$mail->title = $board->board_name.' - '.$this->title;
+					$mail->title = '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title;
 					$mail->content = $this->content;
 					$mail->url = $url->getDocumentRedirect($uid);
 					$mail->send();
