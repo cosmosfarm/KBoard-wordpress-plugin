@@ -132,12 +132,14 @@ class KBContent {
 					 */
 					$board = new KBoard();
 					$board->setID($this->board_id);
+					$url = new KBUrl();
 					
 					include 'KBMail.class.php';
 					$mail = new KBMail();
 					$mail->to = explode(',', $meta->latest_alerts);
 					$mail->title = $board->board_name.' - '.$this->title;
 					$mail->content = $this->content;
+					$mail->url = $url->getDocumentRedirect($uid);
 					$mail->send();
 				}
 				

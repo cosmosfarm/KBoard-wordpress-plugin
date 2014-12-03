@@ -17,7 +17,7 @@ class KBMail {
 		
 		$headers = "From: " . get_option('admin_email') . "\r\n";
 		$title = '[' . __('KBoard new document', 'kboard') . '] ' . $this->title;
-		$message = $this->content . '<p><a href="' . $this->url . '" target="_blank">' . $this->url . '</a><p>';
+		$message = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", nl2br($this->content)) . '<p><a href="' . $this->url . '" target="_blank">' . $this->url . '</a><p>';
 		$result = wp_mail($this->to, $title, $message, $headers, $attachments);
 		
 		remove_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
