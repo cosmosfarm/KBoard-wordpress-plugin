@@ -18,7 +18,6 @@ class KBoardBuilder {
 	var $board;
 	
 	private $meta;
-	private $skin_path;
 	
 	public function __construct($board_id=''){
 		$_GET['uid'] = intval($_GET['uid']);
@@ -106,7 +105,6 @@ class KBoardBuilder {
 	 */
 	public function getJsonList(){
 		$list = $this->getList();
-		$data = array();
 		while($content = $list->hasNext()){
 			$_data['uid'] = $content->uid;
 			$_data['member_uid'] = $content->member_uid;
@@ -207,7 +205,7 @@ class KBoardBuilder {
 				}
 			}
 			else if(!$user_ID){
-				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="'.wp_login_url($_SERVER['REQUEST_URI']).'";</script>';
+				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
@@ -254,7 +252,7 @@ class KBoardBuilder {
 		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
-			if(!$user_ID && !$_POST['password']) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="'.$next_url.'";</script>');
+			if(!$user_ID && !$_POST['password']) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="' . $next_url . '";</script>');
 		}
 		
 		$content = new KBContent($this->board_id);
@@ -288,7 +286,7 @@ class KBoardBuilder {
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				die("<script>location.href='".apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id)."';</script>");
+				die("<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>");
 			}
 			
 			// execute후 POST 데이터를 지우고 다시 초기화 한다.
@@ -339,6 +337,7 @@ class KBoardBuilder {
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
+		$confirm_view = false;
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
@@ -358,8 +357,8 @@ class KBoardBuilder {
 		else{
 			$content->remove();
 			// 삭제뒤 게시판 리스트로 이동한다.
-			$next = $url->set('mod', 'list')->toString();
-			die("<script>location.href='$next';</script>");
+			wp_redirect($url->set('mod', 'list')->toString());
+			exit;
 		}
 	}
 	
