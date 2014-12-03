@@ -75,7 +75,7 @@ class KBRouter {
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath(get_permalink($page_id));
 			}
 			else{
-				$board_url = get_site_url() . "?kboard_id={$board_id}&mod=document&uid={$content->uid}";
+				$board_url = get_home_url() . "?kboard_id={$board_id}&mod=document&uid={$content->uid}";
 			}
 			return $board_url;
 		}
@@ -119,7 +119,7 @@ class KBRouter {
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->toStringWithPath( get_permalink($page_id) );
 			}
 			else{
-				$board_url = get_site_url() . "?kboard_id={$board_id}";
+				$board_url = get_home_url() . "?kboard_id={$board_id}";
 			}
 			return $board_url;
 		}
