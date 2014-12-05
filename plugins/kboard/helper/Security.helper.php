@@ -56,17 +56,17 @@ function kboard_safeiframe($data){
 	/*
 	 * 허가된 도메인 호스트 (화이트 리스트)
 	 */
-	$whilelist[] = 'youtube.com';
-	$whilelist[] = 'www.youtube.com';
-	$whilelist[] = 'maps.google.com';
-	$whilelist[] = 'maps.google.co.kr';
-	$whilelist[] = 'serviceapi.nmv.naver.com';
-	$whilelist[] = 'serviceapi.rmcnmv.naver.com';
-	$whilelist[] = 'videofarm.daum.net';
-	$whilelist[] = 'player.vimeo.com';
-	$whilelist[] = 'w.soundcloud.com';
-	$whilelist[] = 'slideshare.net';
-	$whilelist[] = 'www.slideshare.net';
+	$whitelist[] = 'youtube.com';
+	$whitelist[] = 'www.youtube.com';
+	$whitelist[] = 'maps.google.com';
+	$whitelist[] = 'maps.google.co.kr';
+	$whitelist[] = 'serviceapi.nmv.naver.com';
+	$whitelist[] = 'serviceapi.rmcnmv.naver.com';
+	$whitelist[] = 'videofarm.daum.net';
+	$whitelist[] = 'player.vimeo.com';
+	$whitelist[] = 'w.soundcloud.com';
+	$whitelist[] = 'slideshare.net';
+	$whitelist[] = 'www.slideshare.net';
 	
 	$re = preg_match_all('/<iframe.+?src="(.+?)".+?[^>]*+>/is', $data, $matches);
 	$iframe = $matches[0];
@@ -75,7 +75,7 @@ function kboard_safeiframe($data){
 	foreach($domain AS $key => $value){
 		$value = 'http://' . preg_replace('/^(http:\/\/|https:\/\/|\/\/)/i', '', $value);
 		$url = parse_url($value);
-		if(!in_array($url['host'], $whilelist)){
+		if(!in_array($url['host'], $whitelist)){
 			$data = str_replace($iframe[$key].'</iframe>', '', $data);
 			$data = str_replace($iframe[$key], '', $data);
 		}
