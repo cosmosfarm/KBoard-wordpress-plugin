@@ -25,20 +25,30 @@ $file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached
 
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 $path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info->file_path);
-$name = $file_info->file_name;
+$filename = str_replace(' ' ,'-', $file_info->file_name);
 
 if(!$file_info->file_path || !file_exists($path)){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
+$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
+if($ie) $filename = iconv('UTF-8', 'EUC-KR//IGNORE', $filename);
+
 header('Content-type: '.kboard_mime_type($path));
-header('Content-Disposition: attachment; filename="'.iconv('UTF-8','EUC-KR//IGNORE',str_replace(' ','-',$name)).'"');
+header('Content-Disposition: attachment; filename="'.$filename.'"');
 header('Content-Transfer-Encoding: binary');
-header('Content-length: '.filesize($path));
-header('Cache-control: private');
-header('Pragma: private');
+header('Content-length: '.sprintf('%d', filesize($path)));
 header('Expires: 0');
 
-$fp = fopen($path, "rb");
-if(!fpassthru($fp)) fclose($fp);
+if($ie){
+	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	header('Pragma: public');
+}
+else{
+	header('Pragma: no-cache');
+}
+
+$fp = fopen($path, 'rb');
+fpassthru($fp);
+fclose($fp);
 ?>
