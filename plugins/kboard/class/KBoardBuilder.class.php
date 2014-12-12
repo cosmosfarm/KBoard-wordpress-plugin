@@ -286,41 +286,42 @@ class KBoardBuilder {
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				die("<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>");
+				echo "<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>";
 			}
-			
-			// execute후 POST 데이터를 지우고 다시 초기화 한다.
-			$content->initWithUID($this->uid);
-			
-			// 내용이 없으면 등록된 기본 양식을 가져온다.
-			if(!$content->content){
-				$content->content = $this->meta->default_content;
-			}
-			
-			// 새로운 답글 쓰기에서만 실행한다.
-			if($_GET['parent_uid'] && !$content->uid && !$content->parent_uid){
-				$parent = new KBContent();
-				$parent->initWithUID($_GET['parent_uid']);
-				
-				// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
-				$content->parent_uid = $parent->uid;
-				
-				// 비밀글이면 부모 비밀번호를 가져온다.
-				if($parent->secret=='true' && !$content->notice && ($this->board->isEditor($parent->member_uid) || $this->board->isConfirm($parent->password, $parent->uid))) $content->password = $parent->password;
-				
-				// 답글 기본 내용을 설정한다.
-				if($this->meta->reply_copy_content=='1'){
-					$content->content = $parent->content;
-				}
-				else if($this->meta->reply_copy_content=='2'){
+			else{
+				// execute후 POST 데이터를 지우고 다시 초기화 한다.
+				$content->initWithUID($this->uid);
+					
+				// 내용이 없으면 등록된 기본 양식을 가져온다.
+				if(!$content->content){
 					$content->content = $this->meta->default_content;
 				}
-				else{
-					$content->content = '';
+					
+				// 새로운 답글 쓰기에서만 실행한다.
+				if($_GET['parent_uid'] && !$content->uid && !$content->parent_uid){
+					$parent = new KBContent();
+					$parent->initWithUID($_GET['parent_uid']);
+				
+					// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
+					$content->parent_uid = $parent->uid;
+				
+					// 비밀글이면 부모 비밀번호를 가져온다.
+					if($parent->secret=='true' && !$content->notice && ($this->board->isEditor($parent->member_uid) || $this->board->isConfirm($parent->password, $parent->uid))) $content->password = $parent->password;
+				
+					// 답글 기본 내용을 설정한다.
+					if($this->meta->reply_copy_content=='1'){
+						$content->content = $parent->content;
+					}
+					else if($this->meta->reply_copy_content=='2'){
+						$content->content = $this->meta->default_content;
+					}
+					else{
+						$content->content = '';
+					}
 				}
+					
+				include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
 			}
-			
-			include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
 		}
 	}
 	
