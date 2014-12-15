@@ -101,7 +101,9 @@ function kboard_comments_style(){
 	global $wpdb;
 	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
 	foreach($result as $row){
-		wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH.'/skin/'.$row->value.'/style.css', array(), KBOARD_COMMNETS_VERSION);
+		if (!empty($row->value)) {
+			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH.'/skin/'.$row->value.'/style.css', array(), KBOARD_COMMNETS_VERSION);
+		}
 	}
 }
 
