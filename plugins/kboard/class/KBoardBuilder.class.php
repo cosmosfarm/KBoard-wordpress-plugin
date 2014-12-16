@@ -16,8 +16,7 @@ class KBoardBuilder {
 	var $rpp;
 	var $url;
 	var $board;
-	
-	private $meta;
+	var $meta;
 	
 	public function __construct($board_id=''){
 		$_GET['uid'] = intval($_GET['uid']);
