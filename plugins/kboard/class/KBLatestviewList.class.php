@@ -11,9 +11,8 @@ class KBLatestviewList {
 	var $index;
 	var $rpp = 10;
 	var $page = 1;
-	
-	private $resource;
-	private $row;
+	var $resource;
+	var $row;
 	
 	/**
 	 * 모아보기 리스트를 초기화 한다.
