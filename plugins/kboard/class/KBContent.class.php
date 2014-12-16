@@ -17,8 +17,7 @@ class KBContent {
 	var $attach;
 	var $attach_store_path;
 	var $thumbnail_store_path;
-	
-	private $row;
+	var $row;
 	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
