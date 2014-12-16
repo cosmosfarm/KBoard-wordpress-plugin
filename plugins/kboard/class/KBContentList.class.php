@@ -17,8 +17,7 @@ class KBContentList {
 	var $resource;
 	var $resource_notice;
 	var $resource_reply;
-	
-	private $row;
+	var $row;
 	
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
