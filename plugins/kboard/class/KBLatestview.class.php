@@ -7,7 +7,7 @@
  */
 class KBLatestview {
 	
-	private $row;
+	var $row;
 	
 	public function __construct($uid=''){
 		$uid = intval($uid);
