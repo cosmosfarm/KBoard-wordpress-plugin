@@ -17,8 +17,17 @@ $content->initWithUID($uid);
 $board = new KBoard($content->board_id);
 
 if(!$board->isReader($content->member_uid, $content->secret)){
-	if(!$user_ID) die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="'.wp_login_url().'";</script>');
-	else die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+	if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
+		if(!$board->isConfirm($content->password, $content->uid)){
+			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+		}
+	}
+	else if(!$user_ID){
+		die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['HTTP_REFERER']) . '";</script>');
+	}
+	else{
+		die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+	}
 }
 
 $file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
