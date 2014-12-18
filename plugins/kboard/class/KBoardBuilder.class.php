@@ -134,7 +134,7 @@ class KBoardBuilder {
 	public function create(){
 		if($this->meta->view_iframe && !intval($_GET['kboard_id'])){
 			$url = new KBUrl();
-			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%;" scrolling="no"></iframe>';
+			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%;" scrolling="no" frameborder="0"></iframe>';
 		}
 		
 		if($this->meta->pass_autop == 'enable'){
