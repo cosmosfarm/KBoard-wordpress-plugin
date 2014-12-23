@@ -184,14 +184,14 @@ function kboard_captcha(){
  */
 function kboard_resize($image_src, $width, $height){
 	$upload_dir = wp_upload_dir();
-	$resize_folder = str_replace('/wp-content/uploads', '', str_replace(get_site_url(), '', dirname($image_src)));
+	$resize_folder = end(explode('/wp-content/uploads', dirname($image_src)));
 	
 	$basename = basename($image_src);
 	$fileinfo = pathinfo($basename);
-	$resize_name = basename($image_src, '.'.$fileinfo['extension']) . "-{$width}X$height.{$fileinfo['extension']}";
+	$resize_name = basename($image_src, '.'.$fileinfo['extension']) . "-{$width}x$height.{$fileinfo['extension']}";
 	
-	$new_image = $upload_dir['basedir'] . "{$resize_folder}/{$resize_name}";
-	$new_image_src = content_url("uploads{$resize_folder}/{$resize_name}");
+	$new_image = strtolower($upload_dir['basedir'] . "{$resize_folder}/{$resize_name}");
+	$new_image_src = strtolower(content_url("uploads{$resize_folder}/{$resize_name}"));
 	
 	if(file_exists($new_image)){
 		return $new_image_src;
