@@ -156,11 +156,11 @@ class KBoardBuilder {
 		$userdata = get_userdata($user_ID);
 		$url = new KBUrl();
 		$list = $this->getList();
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
 		
-		include KBOARD_DIR_PATH . "/skin/$this->skin/list.php";
+		include KBOARD_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
 	
 	/**
@@ -171,11 +171,11 @@ class KBoardBuilder {
 		$url = new KBUrl();
 		$list = new KBContentList();
 		$list->getReplyList($parent_uid);
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
 		
-		include KBOARD_DIR_PATH . "/skin/$this->skin/reply-template.php";
+		include KBOARD_DIR_PATH . "/skin/{$this->skin}/reply-template.php";
 	}
 	
 	/**
@@ -189,7 +189,7 @@ class KBoardBuilder {
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
 		
@@ -197,7 +197,7 @@ class KBoardBuilder {
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if($this->board->permission_write=='all' && ($this->board->permission_read=='all' || $this->board->permission_read=='author')){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
-					include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
+					include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 				}
 				else{
 					$allow_document = true;
@@ -237,7 +237,7 @@ class KBoardBuilder {
 			// kboard_content 필터 실행
 			$content->content = apply_filters('kboard_content', $content->content, $content->uid, $this->board_id);
 			
-			include KBOARD_DIR_PATH . "/skin/$this->skin/document.php";
+			include KBOARD_DIR_PATH . "/skin/{$this->skin}/document.php";
 		}
 	}
 	
@@ -257,7 +257,7 @@ class KBoardBuilder {
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
 		
@@ -276,7 +276,7 @@ class KBoardBuilder {
 		}
 		
 		if($confirm_view){
-			include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
+			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 		}
 		else{
 			$execute_uid = $content->execute();
@@ -319,7 +319,7 @@ class KBoardBuilder {
 					}
 				}
 					
-				include KBOARD_DIR_PATH . "/skin/$this->skin/editor.php";
+				include KBOARD_DIR_PATH . "/skin/{$this->skin}/editor.php";
 			}
 		}
 	}
@@ -350,14 +350,14 @@ class KBoardBuilder {
 		}
 		
 		if($confirm_view){
-			$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+			$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 			$board = $this->board;
-			include KBOARD_DIR_PATH . "/skin/$this->skin/confirm.php";
+			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 		}
 		else{
 			$content->remove();
 			// 삭제뒤 게시판 리스트로 이동한다.
-			wp_redirect($url->set('mod', 'list')->toString());
+			echo "<script>location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 	}
@@ -373,12 +373,12 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->rpp($this->rpp)->getList();
 		
-		$skin_path = KBOARD_URL_PATH . "/skin/$this->skin";
+		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$board_url = $this->url;
 		$boardBuilder = $this;
 		
-		include KBOARD_DIR_PATH . "/skin/$this->skin/latest.php";
+		include KBOARD_DIR_PATH . "/skin/{$this->skin}/latest.php";
 		return ob_get_clean();
 	}
 }
