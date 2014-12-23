@@ -94,8 +94,8 @@ img { border: 0; }
 #kboard-default-latest table tr { padding: 0; border: 0; }
 #kboard-default-latest table th { padding: 5px 0; border: 0; text-align: center; }
 #kboard-default-latest table td { padding: 5px 0; border: 0; border-top: 1px solid #e3e3e3; }
-#kboard-default-latest table .kboard-latest-title { padding-left: 5px; }
-#kboard-default-latest table .kboard-latest-date { width: 80px; text-align: center; }
+#kboard-default-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
+#kboard-default-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media all and (max-width: 600px) {
 	#kboard-default-list .kboard-category { width: 100%; }

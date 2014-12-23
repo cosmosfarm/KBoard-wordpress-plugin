@@ -93,8 +93,8 @@ img { border: 0; }
 #kboard-customer-latest table tr { padding: 0; border: 0; }
 #kboard-customer-latest table th { padding: 5px 0; border: 0; text-align: center; }
 #kboard-customer-latest table td { padding: 5px 0; border: 0; border-top: 1px solid #e3e3e3; }
-#kboard-customer-latest table .kboard-latest-title { padding-left: 5px; }
-#kboard-customer-latest table .kboard-latest-date { width: 80px; text-align: center; }
+#kboard-customer-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
+#kboard-customer-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media all and (max-width: 600px) {
 	#kboard-customer-list .kboard-category { width: 100%; }
