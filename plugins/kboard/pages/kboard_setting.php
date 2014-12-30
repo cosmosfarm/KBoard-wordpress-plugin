@@ -75,7 +75,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								</option>
 								<?php endforeach?>
 							</select>
-							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p>
+							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다. <a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">스킨 더보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">

@@ -12,6 +12,7 @@
 
 #kbstore-products-list td { border: 0; border-bottom: 1px solid #e1e1e1; }
 #kbstore-products-list tr:last-child td { border: 0; }
+#kbstore-products-list img { max-width: 100%; }
 #kbstore-products-list .kbstore-thumbnail-img { width: 100px; height: 100px; }
 
 #kboard-dashboard-options { margin: 0; padding: 0; }
