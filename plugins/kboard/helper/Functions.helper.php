@@ -184,20 +184,22 @@ function kboard_captcha(){
  */
 function kboard_resize($image_src, $width, $height){
 	$upload_dir = wp_upload_dir();
-	$resize_folder = end(explode('/wp-content/uploads', dirname($image_src)));
+	$dirname = dirname($image_src);
+	$dirname = explode('/wp-content/uploads', $dirname);
+	$resize_dir = end($dirname);
 	
 	$basename = basename($image_src);
 	$fileinfo = pathinfo($basename);
-	$resize_name = basename($image_src, '.'.$fileinfo['extension']) . "-{$width}x$height.{$fileinfo['extension']}";
+	$resize_name = basename($image_src, '.'.$fileinfo['extension']) . "-{$width}x{$height}.{$fileinfo['extension']}";
 	
-	$new_image = strtolower($upload_dir['basedir'] . "{$resize_folder}/{$resize_name}");
-	$new_image_src = strtolower(content_url("uploads{$resize_folder}/{$resize_name}"));
+	$new_image = strtolower($upload_dir['basedir'] . "{$resize_dir}/{$resize_name}");
+	$new_image_src = strtolower(content_url("uploads{$resize_dir}/{$resize_name}"));
 	
 	if(file_exists($new_image)){
 		return $new_image_src;
 	}
 	
-	$image_editor = wp_get_image_editor($upload_dir['basedir'] . "{$resize_folder}/{$basename}");
+	$image_editor = wp_get_image_editor($upload_dir['basedir'] . "{$resize_dir}/{$basename}");
 	if(!is_wp_error($image_editor)){
 		$image_editor->resize($width, $height, true);
 		$image_editor->save($new_image);
