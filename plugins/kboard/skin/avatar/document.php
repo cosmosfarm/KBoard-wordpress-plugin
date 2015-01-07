@@ -21,7 +21,7 @@
 				<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
 				<div class="detail-value">
 					<?php if($content->member_uid):?>
-						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_display, 32, $default, $content->member_display);?></span>
+						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 32, $default, $content->member_display);?></span>
 					<?php else:?>
 						<?php echo $content->member_display?>
 					<?php endif?>
