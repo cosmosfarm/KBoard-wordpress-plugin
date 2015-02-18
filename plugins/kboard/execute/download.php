@@ -40,24 +40,38 @@ if(!$file_info->file_path || !file_exists($path)){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
-$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
-if($ie) $filename = iconv('UTF-8', 'EUC-KR//IGNORE', $filename);
-
-header('Content-type: '.kboard_mime_type($path));
-header('Content-Disposition: attachment; filename="'.$filename.'"');
-header('Content-Transfer-Encoding: binary');
-header('Content-length: '.sprintf('%d', filesize($path)));
-header('Expires: 0');
-
-if($ie){
-	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-	header('Pragma: public');
+if(get_option('kboard_attached_copy_download')){
+	$unique_dir = uniqid();
+	$upload_dir = wp_upload_dir();
+	$temp_path = $upload_dir['basedir'] . '/kboard_temp';
+	
+	$kboard_file_handler = new KBFileHandler();
+	$kboard_file_handler->deleteWithOvertime($temp_path, 60);
+	$kboard_file_handler->mkPath("{$temp_path}/{$unique_dir}");
+	
+	copy($path, "{$temp_path}/{$unique_dir}/{$filename}");
+	header('Location:' . $upload_dir['baseurl'] . "/kboard_temp/{$unique_dir}/{$filename}");
 }
 else{
-	header('Pragma: no-cache');
+	$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
+	if($ie) $filename = iconv('UTF-8', 'EUC-KR//IGNORE', $filename);
+	
+	header('Content-type: '.kboard_mime_type($path));
+	header('Content-Disposition: attachment; filename="'.$filename.'"');
+	header('Content-Transfer-Encoding: binary');
+	header('Content-length: '.sprintf('%d', filesize($path)));
+	header('Expires: 0');
+	
+	if($ie){
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		header('Pragma: public');
+	}
+	else{
+		header('Pragma: no-cache');
+	}
+	
+	$fp = fopen($path, 'rb');
+	fpassthru($fp);
+	fclose($fp);
 }
-
-$fp = fopen($path, 'rb');
-fpassthru($fp);
-fclose($fp);
 ?>

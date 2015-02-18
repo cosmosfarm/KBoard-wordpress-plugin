@@ -202,9 +202,8 @@ function kboard_setting(){
  */
 function kboard_update(){
 	global $wpdb;
-	if(!defined('KBOARD_COMMNETS_VERSION')){
-		die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	}
+	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
+	if(!current_user_can('activate_plugins')) wp_die('KBoard : 관리 권한이 없습니다.');
 	
 	$board_id = $_POST['board_id'];
 	$board_name = addslashes($_POST['board_name']);
@@ -218,14 +217,14 @@ function kboard_update(){
 	$use_category = $_POST['use_category'];
 	$category1_list = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list']))));
 	$category2_list = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list']))));
-	$create = date("YmdHis", current_time('timestamp'));
+	$create = date('YmdHis', current_time('timestamp'));
 	
 	if(!$board_id){
-		$wpdb->query("INSERT INTO `".KBOARD_DB_PREFIX."kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
 		$board_id = $wpdb->insert_id;
 	}
 	else{
-		$wpdb->query("UPDATE `".KBOARD_DB_PREFIX."kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
 	}
 	
 	if($board_id){
@@ -243,7 +242,7 @@ function kboard_update(){
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){
-			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
+			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
 			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
 			else $meta->auto_page = $auto_page;
 		}
@@ -486,7 +485,7 @@ add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post, $wpdb;
 	if(is_page($post->ID)){
-		$board_id = $wpdb->get_var("SELECT `board_id` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
 	return $content;

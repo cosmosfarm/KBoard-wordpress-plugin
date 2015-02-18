@@ -466,12 +466,36 @@ class KBFileHandler {
 	public function delete($path){
 		if(is_file($path)) unlink($path);
 		elseif(is_dir($path)){
-			if(substr($path, strlen($path) - 1, 1) != '/') $path .= '/';
+			if(substr($path, -1) != '/') $path .= '/';
 			$dirlist = $this->getDirlist($path);
 			foreach($dirlist as $file){
 				$this->delete($path . $file);
 			}
 			rmdir($path);
+		}
+	}
+	
+	/**
+	 * 오래된 파일 및 디렉토리를 삭제한다.
+	 * @param string $path
+	 * @param int $time
+	 */
+	public function deleteWithOvertime($path, $time){
+		if(is_file($path)){
+			if(time() - filemtime($path) > $time){
+				unlink($path);
+			}
+		}
+		elseif(is_dir($path)){
+			if(substr($path, -1) != '/') $path .= '/';
+			$dirlist = $this->getDirlist($path);
+			foreach($dirlist as $file){
+				$this->deleteWithOvertime($path . $file, $time);
+			}
+			$stat = stat($path);
+			if(time() - $stat['mtime'] > $time){
+				rmdir($path);
+			}
 		}
 	}
 	
@@ -485,8 +509,8 @@ class KBFileHandler {
 			return @copy($from, $to);
 		}
 		elseif(is_dir($from)){
-			if(substr($to, strlen($to) - 1, 1) != '/') $to .= '/';
-			if(substr($from, strlen($from) - 1, 1) != '/') $from .= '/';
+			if(substr($to, -1) != '/') $to .= '/';
+			if(substr($from, -1) != '/') $from .= '/';
 			$this->mkPath($to);
 			$dirlist = $this->getDirlist($from);
 			$copy_result = true;
