@@ -77,7 +77,7 @@ img { border: 0; }
 #kboard-avatar-document .kboard-title { float: left; width: 100%; }
 #kboard-avatar-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 22px; line-height: 30px; }
 #kboard-avatar-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background-color: #f9f9f9; font-size: 12px; }
-#kboard-avatar-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; }
+#kboard-avatar-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; line-height: 32px; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-name { float: left; width: 60px; font-weight: bold; color: #545861; text-align: right; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-value img { margin: 0; width: 32px; height: 32px; vertical-align: middle; }
