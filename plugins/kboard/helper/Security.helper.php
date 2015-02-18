@@ -44,7 +44,7 @@ function kboard_xssfilter($data){
 		}
 		$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['KBOARD']['HTMLPurifier_Config']);
 	}
-	return kboard_safeiframe($data);
+	return $data;
 }
 
 /**
@@ -68,6 +68,9 @@ function kboard_safeiframe($data){
 	$whitelist[] = 'slideshare.net';
 	$whitelist[] = 'www.slideshare.net';
 	
+	// kboard_iframe_whitelist 필터
+	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);
+	
 	$re = preg_match_all('/<iframe.+?src="(.+?)".+?[^>]*+>/is', $data, $matches);
 	$iframe = $matches[0];
 	$domain = $matches[1];
@@ -89,6 +92,7 @@ function kboard_safeiframe($data){
  */
 function kboard_htmlclear($data){
 	if(is_array($data)) return array_map('kboard_htmlclear', $data);
-	return htmlspecialchars(strip_tags($data));
+	$data = strip_tags($data);
+	return htmlspecialchars($data);
 }
 ?>

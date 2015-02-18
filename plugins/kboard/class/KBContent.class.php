@@ -84,7 +84,7 @@ class KBContent {
 		$this->member_uid = intval($_POST['member_uid']);
 		$this->member_display = kboard_xssfilter(kboard_htmlclear(trim($_POST['member_display'])));
 		$this->title = kboard_xssfilter(kboard_htmlclear(trim($_POST['title'])));
-		$this->content = kboard_xssfilter(trim($_POST['kboard_content']));
+		$this->content = kboard_safeiframe(kboard_xssfilter(trim($_POST['kboard_content'])));
 		$this->date = kboard_xssfilter(kboard_htmlclear(trim($_POST['date'])));
 		$this->category1 = kboard_xssfilter(kboard_htmlclear(trim($_POST['category1'])));
 		$this->category2 = kboard_xssfilter(kboard_htmlclear(trim($_POST['category2'])));
