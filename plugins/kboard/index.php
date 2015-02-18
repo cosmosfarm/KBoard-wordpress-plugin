@@ -135,7 +135,7 @@ function kboard_settings_menu(){
  * 스토어 상품 리스트 페이지
  */
 function kboard_store(){
-	if($_GET['access_token']) $_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
+	if($_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
 	KBStore::productsList();
 }
 
@@ -143,7 +143,7 @@ function kboard_store(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	if($_GET['access_token']) $_SESSION['cosmosfarm_access_token'] = $_GET['access_token'];
+	if($_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
@@ -384,7 +384,7 @@ function kboard_upgrade(){
 			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, $_SESSION['cosmosfarm_access_token']);
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
@@ -395,31 +395,31 @@ function kboard_upgrade(){
 			}
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, $_SESSION['cosmosfarm_access_token']);
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");location.href="' . admin_url('/plugins.php') . '"</script>');
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
 		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");location.href="' . admin_url('/themes.php') . '"</script>');
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
 		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, $_SESSION['cosmosfarm_access_token']);
+		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
 		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
@@ -583,6 +583,19 @@ function kboard_system_option_update(){
 		}
 	}
 	exit;
+}
+
+/*
+ * 액세스 토큰 저장
+ */
+function kboard_set_cosmosfarm_access_token($new_access_token){
+	$option_name = 'cosmosfarm_access_token';
+	if(get_option($option_name) !== false){
+		update_option($option_name, $new_access_token);
+	}
+	else{
+		add_option($option_name, $new_access_token, null, 'no');
+	}
 }
 
 /*
