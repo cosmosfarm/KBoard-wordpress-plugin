@@ -12,7 +12,7 @@
 		<li class="all"><a href="<?php echo KBOARD_LIST_PAGE?>" class="current">모두 <span class="count">(<?php echo $board->getCount()?>)</span></a></li>
 	</ul>
 	
-	<form action="<?php echo KBOARD_LIST_PAGE?>" method="post">
+	<form action="" method="post">
 		<div class="tablenav top">
 			<div class="alignleft actions">
 				<select name="action">

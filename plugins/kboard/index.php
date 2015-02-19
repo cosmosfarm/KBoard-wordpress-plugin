@@ -26,9 +26,7 @@ define('KBOARD_LATESTVIEW_PAGE', admin_url('/admin.php?page=kboard_latestview'))
 define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('/admin.php?page=kboard_latestview_new'));
 define('KBOARD_BACKUP_PAGE', admin_url('/admin.php?page=kboard_backup'));
 define('KBOARD_BACKUP_ACTION', plugins_url('/execute/backup.php', __FILE__));
-define('KBOARD_UPDATE_ACTION', admin_url('/admin.php?page=kboard_update'));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
-define('KBOARD_LATESTVIEW_ACTION', admin_url('/admin.php?page=kboard_latestview_update'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('/admin.php?page=kboard_content_list'));
 
 include_once 'class/KBoardBuilder.class.php';
@@ -114,8 +112,6 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '전체 게시글', 'administrator', 'kboard_content_list', 'kboard_content_list');
 	
 	// 표시되지 않는 페이지
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 수정', 'administrator', 'kboard_update', 'kboard_update');
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '최신글 뷰 수정', 'administrator', 'kboard_latestview_update', 'kboard_latestview_update');
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 스토어 메뉴 등록
@@ -200,6 +196,7 @@ function kboard_setting(){
 /*
  * 게시판 정보 수정
  */
+add_action('admin_post_kboard_update_action', 'kboard_update');
 function kboard_update(){
 	global $wpdb;
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
@@ -299,12 +296,12 @@ function kboard_latestview_new(){
 /*
  * 최신글 뷰 수정
  */
+add_action('admin_post_kboard_latestview_action', 'kboard_latestview_update');
 function kboard_latestview_update(){
-	if(!defined('KBOARD_COMMNETS_VERSION')){
-		die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	}
+	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
+	if(!current_user_can('activate_plugins')) wp_die('KBoard : 관리 권한이 없습니다.');
 	
-	$latestview_uid = $_POST['latestview_uid'];
+	$latestview_uid = intval($_POST['latestview_uid']);
 	$latestview_link = $_POST['latestview_link'];
 	$latestview_unlink = $_POST['latestview_unlink'];
 	$name = $_POST['name'];
@@ -336,7 +333,7 @@ function kboard_latestview_update(){
 		}
 	}
 	
-	die('<script>location.href="' . KBOARD_LATESTVIEW_PAGE . '&latestview_uid=' . $latestview_uid . '"</script>');
+	die('<script>location.href="' . admin_url("/admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
 }
 
 /*

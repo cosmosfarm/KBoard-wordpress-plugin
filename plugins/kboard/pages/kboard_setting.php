@@ -12,7 +12,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">커뮤니티</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
 	</h2>
-	<form action="<?php echo KBOARD_UPDATE_ACTION?>" method="post">
+	<form action="<?php echo admin_url('/admin-post.php')?>" method="post">
+		<input type="hidden" name="action" value="kboard_update_action">
 		<input type="hidden" name="board_id" value="<?php echo $board->uid?>">
 		<input type="hidden" name="tab_kboard_setting" value="">
 		
