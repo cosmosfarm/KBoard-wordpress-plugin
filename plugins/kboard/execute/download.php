@@ -14,16 +14,33 @@ if(!$uid || !$file){
 
 $content = new KBContent();
 $content->initWithUID($uid);
-$board = new KBoard($content->board_id);
+
+if($content->parent_uid){
+	$parent = new KBContent();
+	$parent->initWithUID($content->getTopContentUID());
+	$board = new KBoard($parent->board_id);
+}
+else{
+	$board = new KBoard($content->board_id);
+}
 
 if(!$board->isReader($content->member_uid, $content->secret)){
-	if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
-		if(!$board->isConfirm($content->password, $content->uid)){
-			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
-		}
-	}
-	else if(!$user_ID){
+	if(!$user_ID && $board->permission_read == 'author'){
 		die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['HTTP_REFERER']) . '";</script>');
+	}
+	else if($content->secret && in_array($board->permission_write, array('all', 'author')) && in_array($board->permission_read, array('all', 'author'))){
+		if(!$board->isConfirm($content->password, $content->uid)){
+			if($content->parent_uid){
+				$parent = new KBContent();
+				$parent->initWithUID($content->getTopContentUID());
+				if(!$board->isConfirm($parent->password, $content->uid)){
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+				}
+			}
+			else{
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			}
+		}
 	}
 	else{
 		die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');

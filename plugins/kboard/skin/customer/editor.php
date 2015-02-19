@@ -49,7 +49,7 @@
 		<?php if($board->isAdmin()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Notice', 'kboard')?></label>
-			<div class="attr-value"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>><?php if($content->password):?><input type="hidden" name="password" value="<?php echo $content->password?>"><?php endif?></div>
+			<div class="attr-value"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>></div>
 		</div>
 		<?php elseif($board->isWriter() && $board->permission_write=='all'):?>
 		<div class="kboard-attr-row">

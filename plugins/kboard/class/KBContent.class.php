@@ -185,7 +185,7 @@ class KBContent {
 		$data['thumbnail_name'] = '';
 		$data['password'] = $this->password?$this->password:'';
 		
-		foreach($data AS $key => $value){
+		foreach($data as $key => $value){
 			$value = addslashes($value);
 			$insert_key[] = "`$key`";
 			$insert_data[] = "'$value'";
@@ -228,7 +228,7 @@ class KBContent {
 			$data['search'] = $this->search;
 			if($this->password) $data['password'] = $this->password;
 			
-			foreach($data AS $key => $value){
+			foreach($data as $key => $value){
 				$value = addslashes($value);
 				$update[] = "`$key`='$value'";
 			}
@@ -350,7 +350,7 @@ class KBContent {
 		
 		// 업로드된 파일이 있는지 확인한다. 없으면 중단
 		$upload_checker = false;
-		foreach($_FILES AS $key => $value){
+		foreach($_FILES as $key => $value){
 			if(!strstr($key, $this->skin_attach_prefix)) continue;
 			if($_FILES[$key]['tmp_name']){
 				$upload_checker = true;
@@ -362,7 +362,7 @@ class KBContent {
 		$file = new KBFileHandler();
 		$file->setPath($this->attach_store_path);
 		
-		foreach($_FILES AS $key => $value){
+		foreach($_FILES as $key => $value){
 			if(!strstr($key, $this->skin_attach_prefix)) continue;
 			$key = str_replace($this->skin_attach_prefix, '', $key);
 			
@@ -451,7 +451,7 @@ class KBContent {
 	 */
 	function update_options($uid){
 		global $wpdb;
-		foreach($_REQUEST AS $key => $value){
+		foreach($_REQUEST as $key => $value){
 			if(strstr($key, $this->skin_option_prefix)){
 				
 				$key = addslashes(kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key)));
@@ -663,6 +663,19 @@ class KBContent {
 			}
 			closedir($dh);
 		}
+	}
+	
+	/**
+	 * 최상위 부모 UID를 반환한다.
+	 * @return int
+	 */
+	public function getTopContentUID(){
+		if($this->parent_uid){
+			$content = new KBContent();
+			$content->initWithUID($this->parent_uid);
+			return $content->getTopContentUID();
+		}
+		return $this->uid;
 	}
 	
 	/**

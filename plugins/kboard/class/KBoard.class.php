@@ -155,7 +155,7 @@ class KBoard {
 				// 최고관리자 허용
 				return true;
 			}
-			else if(($this->permission_read == 'all' || $this->permission_read == 'author' || $this->permission_read == 'editor') && @in_array($this->userdata->data->user_login, $admin_user)){
+			else if(in_array($this->permission_read, array('all', 'author', 'editor')) && @in_array($this->userdata->data->user_login, $admin_user)){
 				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
 				return true;
 			}
@@ -223,20 +223,26 @@ class KBoard {
 	 * 게시글 비밀번호와 일치하는지 확인한다.
 	 * @param string $password
 	 * @param int $content_uid
+	 * @param boolean $reauth
 	 * @return boolean
 	 */
-	public function isConfirm($password, $content_uid){
-		if(!$password || $this->permission_write != 'all'){
-			return false;
-		}
+	public function isConfirm($password, $content_uid, $reauth=false){
+		if(!$password || !$content_uid) return false;
 		
-		if($_POST['password'] == $password || $_SESSION['kboard_confirm'][$content_uid] == $password){
+		if($reauth){
+			if($_POST['password'] == $password){
+				$_SESSION['kboard_confirm'][$content_uid] = $password;
+				return true;
+			}
+		}
+		else if($_SESSION['kboard_confirm'][$content_uid] == $password){
+			return true;
+		}
+		else if($_POST['password'] == $password){
 			$_SESSION['kboard_confirm'][$content_uid] = $password;
 			return true;
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	/**

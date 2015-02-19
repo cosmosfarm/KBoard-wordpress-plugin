@@ -153,7 +153,7 @@ class KBoardBuilder {
 	 */
 	public function builderList(){
 		global $user_ID;
-		$userdata = get_userdata($user_ID);
+		
 		$url = new KBUrl();
 		$list = $this->getList();
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
@@ -183,9 +183,8 @@ class KBoardBuilder {
 	 */
 	public function builderDocument(){
 		global $user_ID;
-		$userdata = get_userdata($user_ID);
-		$url = new KBUrl();
 		
+		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
@@ -195,16 +194,28 @@ class KBoardBuilder {
 		
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
-			if($this->board->permission_write=='all' && ($this->board->permission_read=='all' || $this->board->permission_read=='author')){
+			if(!$user_ID && $this->board->permission_read == 'author'){
+				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
+			}
+			else if($content->secret && in_array($this->board->permission_write, array('all', 'author')) && in_array($this->board->permission_read, array('all', 'author'))){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
-					include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+					if($content->parent_uid){
+						$parent = new KBContent();
+						$parent->initWithUID($content->getTopContentUID());
+						if(!$this->board->isConfirm($parent->password, $content->uid)){
+							include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+						}
+						else{
+							$allow_document = true;
+						}
+					}
+					else{
+						include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+					}
 				}
 				else{
 					$allow_document = true;
 				}
-			}
-			else if(!$user_ID){
-				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
@@ -246,9 +257,8 @@ class KBoardBuilder {
 	 */
 	public function builderEditor(){
 		global $user_ID;
-		$userdata = get_userdata($user_ID);
-		$url = new KBUrl();
 		
+		$url = new KBUrl();
 		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
 			if(!$user_ID && !$_POST['password']) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="' . $next_url . '";</script>');
@@ -261,12 +271,13 @@ class KBoardBuilder {
 		$board = $this->board;
 		$boardBuilder = $this;
 		
+		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){
 			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
-				if(!$this->board->isConfirm($content->password, $content->uid)){
+				if(!$this->board->isConfirm($content->password, $content->uid, true)){
 					$confirm_view = true;
 				}
 			}
@@ -282,7 +293,7 @@ class KBoardBuilder {
 			$execute_uid = $content->execute();
 			if($execute_uid){
 				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
-				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
+				if($content->password) $this->board->isConfirm($content->password, $execute_uid, true);
 				
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 				echo "<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>";
@@ -303,9 +314,6 @@ class KBoardBuilder {
 				
 					// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
 					$content->parent_uid = $parent->uid;
-				
-					// 비밀글이면 부모 비밀번호를 가져온다.
-					if($parent->secret=='true' && !$content->notice && ($this->board->isEditor($parent->member_uid) || $this->board->isConfirm($parent->password, $parent->uid))) $content->password = $parent->password;
 				
 					// 답글 기본 내용을 설정한다.
 					if($this->meta->reply_copy_content=='1'){
@@ -340,7 +348,7 @@ class KBoardBuilder {
 		$confirm_view = false;
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
-				if(!$this->board->isConfirm($content->password, $content->uid)){
+				if(!$this->board->isConfirm($content->password, $content->uid, true)){
 					$confirm_view = true;
 				}
 			}
