@@ -202,7 +202,7 @@ class KBoardBuilder {
 					if($content->parent_uid){
 						$parent = new KBContent();
 						$parent->initWithUID($content->getTopContentUID());
-						if(!$this->board->isConfirm($parent->password, $content->uid)){
+						if(!$this->board->isConfirm($parent->password, $parent->uid)){
 							include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 						}
 						else{
@@ -277,7 +277,7 @@ class KBoardBuilder {
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all'){
-				if(!$this->board->isConfirm($content->password, $content->uid, true)){
+				if(!$this->board->isConfirm($content->password, $content->uid)){
 					$confirm_view = true;
 				}
 			}
@@ -293,7 +293,7 @@ class KBoardBuilder {
 			$execute_uid = $content->execute();
 			if($execute_uid){
 				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
-				if($content->password) $this->board->isConfirm($content->password, $execute_uid, true);
+				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 				echo "<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>";

@@ -16,7 +16,15 @@ if(!strstr($_SERVER['HTTP_REFERER'], basename(__file__))) $_SESSION['redirect_ur
 
 $content = new KBContent();
 $content->initWithUID($uid);
-$board = new KBoard($content->board_id);
+
+if($content->parent_uid){
+	$parent = new KBContent();
+	$parent->initWithUID($content->getTopContentUID());
+	$board = new KBoard($parent->board_id);
+}
+else{
+	$board = new KBoard($content->board_id);
+}
 
 if(!$board->isEditor($content->member_uid)){
 	if($board->permission_write=='all'){
@@ -26,9 +34,6 @@ if(!$board->isEditor($content->member_uid)){
 			include KBOARD_DIR_PATH . "/skin/$board->skin/confirm.php";
 			exit;
 		}
-	}
-	elseif(!$user_ID){
-		die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="'.wp_login_url().'";</script>');
 	}
 	else{
 		die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');

@@ -33,7 +33,7 @@ if(!$board->isReader($content->member_uid, $content->secret)){
 			if($content->parent_uid){
 				$parent = new KBContent();
 				$parent->initWithUID($content->getTopContentUID());
-				if(!$board->isConfirm($parent->password, $content->uid)){
+				if(!$board->isConfirm($parent->password, $parent->uid)){
 					die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 				}
 			}
