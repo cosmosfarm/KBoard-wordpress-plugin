@@ -22,6 +22,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(1);">권한설정</a>
 			<?php if($board->uid):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(2);">고급설정</a>
+			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(3);">소셜댓글</a>
 			<?php endif?>
 		</h2>
 		
@@ -328,6 +329,49 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="1"<?php if($meta->view_iframe):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">문제가 없다면 활성화 하지 마세요. 원페이지 테마 또는 게시판이 심하게 깨질 때 아이프레임으로 보기를 사용해주세요.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							먼저 <a href="http://www.cosmosfarm.com/plugin/comments" onclick="window.open(this.href);return false;">소셜댓글 플러그인</a> 관리사이트에서 이 워드프레스 사이트를 <a href="http://www.cosmosfarm.com/plugin/comments/create" onclick="window.open(this.href);return false;">등록</a>해주세요.
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="comments_plugin_id">소셜댓글 플러그인 ID</label></th>
+						<td>
+							<input type="text" name="comments_plugin_id" id="comments_plugin_id" value="<?php echo $meta->comments_plugin_id?>">
+							<p class="description"><a href="http://www.cosmosfarm.com/plugin/comments/sites" onclick="window.open(this.href);return false;">등록된 사이트</a> » 설치하기 페이지에 나와있는 ID값을 입력해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="use_comments_plugin">소셜댓글 플러그인 사용</label></th>
+						<td>
+							<select name="use_comments_plugin" id="use_comments_plugin">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->use_comments_plugin):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">게시판에 KBoard 댓글을 비활성화 하고 소셜댓글 플러그인을 사용합니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="comments_plugin_row">댓글 표시</label></th>
+						<td>
+							<select name="comments_plugin_row" id="comments_plugin_row" class="">
+								<?php if(!$meta->comments_plugin_row) $meta->comments_plugin_row=10;?>
+								<option value="10"<?php if($meta->comments_plugin_row == 10):?> selected<?php endif?>>10개</option>
+								<option value="20"<?php if($meta->comments_plugin_row == 20):?> selected<?php endif?>>20개</option>
+								<option value="30"<?php if($meta->comments_plugin_row == 30):?> selected<?php endif?>>30개</option>
+								<option value="50"<?php if($meta->comments_plugin_row == 50):?> selected<?php endif?>>50개</option>
+								<option value="100"<?php if($meta->comments_plugin_row == 100):?> selected<?php endif?>>100개</option>
+							</select>
+							<p class="description">한 페이지에 보여지는 댓글 숫자를 정합니다.</p>
 						</td>
 					</tr>
 				</tbody>

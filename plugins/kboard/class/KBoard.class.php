@@ -125,11 +125,18 @@ class KBoard {
 	public function buildComment($content_uid){
 		if($this->id && $content_uid && $this->isComment()){
 			$meta = new KBoardMeta($this->id);
-			$args['board_id'] = $this->id;
-			$args['content_uid'] = $content_uid;
-			$args['skin'] = $meta->comment_skin;
-			$args['permission_comment_write'] = $meta->permission_comment_write;
-			return kboard_comments_builder($args);
+			
+			if($meta->comments_plugin_id && $meta->use_comments_plugin){
+				$template = new KBTemplate();
+				return $template->comments_plugin($meta);
+			}
+			else{
+				$args['board_id'] = $this->id;
+				$args['content_uid'] = $content_uid;
+				$args['skin'] = $meta->comment_skin;
+				$args['permission_comment_write'] = $meta->permission_comment_write;
+				return kboard_comments_builder($args);
+			}
 		}
 		return '';
 	}
@@ -273,7 +280,11 @@ class KBoard {
 	 */
 	public function isComment(){
 		if(defined('KBOARD_COMMNETS_VERSION') && $this->use_comment) return true;
-		else return false;
+		
+		$meta = new KBoardMeta($this->id);
+		if($meta->comments_plugin_id && $meta->use_comments_plugin) return true;
+		
+		return false;
 	}
 	
 	/**

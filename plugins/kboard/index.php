@@ -236,6 +236,9 @@ function kboard_update(){
 		$meta->reply_copy_content = $_POST['reply_copy_content'];
 		$meta->view_iframe = $_POST['view_iframe'];
 		$meta->permission_comment_write = $_POST['permission_comment_write'];
+		$meta->comments_plugin_id = $_POST['comments_plugin_id'];
+		$meta->use_comments_plugin = $_POST['use_comments_plugin'];
+		$meta->comments_plugin_row = $_POST['comments_plugin_row'];
 		
 		$auto_page = $_POST['auto_page'];
 		if($auto_page){

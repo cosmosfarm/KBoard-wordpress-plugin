@@ -27,5 +27,12 @@ class KBTemplate {
 			exit;
 		}
 	}
+	
+	public function comments_plugin($meta){
+		ob_start();
+		$url = new KBUrl();
+		include KBOARD_DIR_PATH . '/template/comments_plugin.php';
+		return ob_get_clean();
+	}
 }
 ?>
