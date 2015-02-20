@@ -590,7 +590,12 @@ class KBContent {
 	 */
 	public function getCommentsCount($prefix='(', $endfix=')'){
 		if($this->uid){
-			if($this->comment) return "{$prefix}{$this->comment}{$endfix}";
+			$meta = new KBoardMeta($this->board_id);
+			if($meta->comments_plugin_id && $meta->use_comments_plugin){
+				$url = new KBUrl();
+				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.site_url($url->set('uid', $this->uid)->set('mod', 'document')->toString()).'"></span>';
+			}
+			else if($this->comment) return "{$prefix}{$this->comment}{$endfix}";
 		}
 		return '';
 	}
