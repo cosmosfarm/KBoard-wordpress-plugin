@@ -133,7 +133,7 @@ class KBContent {
 					$board->setID($this->board_id);
 					$url = new KBUrl();
 					
-					include 'KBMail.class.php';
+					include_once 'KBMail.class.php';
 					$mail = new KBMail();
 					$mail->to = explode(',', $meta->latest_alerts);
 					$mail->title = '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title;
