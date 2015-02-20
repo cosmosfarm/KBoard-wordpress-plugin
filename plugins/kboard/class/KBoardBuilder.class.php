@@ -270,8 +270,9 @@ class KBoardBuilder {
 			if(!$user_ID && !$_POST['password']) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="' . $next_url . '";</script>');
 		}
 		
-		$content = new KBContent($this->board_id);
+		$content = new KBContent();
 		$content->initWithUID($this->uid);
+		$content->setBoardID($this->board_id);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;

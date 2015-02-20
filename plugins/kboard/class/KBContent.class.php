@@ -160,14 +160,8 @@ class KBContent {
 		global $user_ID, $wpdb;
 		$userdata = get_userdata($user_ID);
 		
-		if($this->parent_uid){
-			$data['board_id'] = 0;
-			$data['parent_uid'] = $this->parent_uid;
-		}
-		else{
-			$data['board_id'] = $this->board_id;
-			$data['parent_uid'] = 0;
-		}
+		$data['board_id'] = $this->board_id;
+		$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
 		$data['member_uid'] = intval($userdata->data->ID);
 		$data['member_display'] = $this->member_display?$this->member_display:$userdata->data->display_name;
 		$data['title'] = $this->title;
@@ -184,6 +178,11 @@ class KBContent {
 		$data['thumbnail_file'] = '';
 		$data['thumbnail_name'] = '';
 		$data['password'] = $this->password?$this->password:'';
+		
+		/*
+		 * 입력할 데이터 필터
+		 */
+		$data = apply_filters('kboard_insert_data', $data, $this->board_id);
 		
 		foreach($data as $key => $value){
 			$value = addslashes($value);
@@ -205,14 +204,8 @@ class KBContent {
 	public function updateContent(){
 		global $wpdb;
 		if($this->uid){
-			if($this->parent_uid){
-				$data['board_id'] = 0;
-				$data['parent_uid'] = $this->parent_uid;
-			}
-			else{
-				$data['board_id'] = $this->board_id;
-				$data['parent_uid'] = 0;
-			}
+			$data['board_id'] = $this->board_id;
+			$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
 			$data['member_uid'] = $this->member_uid;
 			$data['member_display'] = $this->member_display;
 			$data['title'] = $this->title;
@@ -227,6 +220,11 @@ class KBContent {
 			$data['notice'] = $this->notice;
 			$data['search'] = $this->search;
 			if($this->password) $data['password'] = $this->password;
+			
+			/*
+			 * 수정할 데이터 필터
+			 */
+			$data = apply_filters('kboard_update_data', $data, $this->board_id);
 			
 			foreach($data as $key => $value){
 				$value = addslashes($value);
