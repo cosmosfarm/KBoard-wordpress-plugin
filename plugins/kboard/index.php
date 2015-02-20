@@ -698,10 +698,10 @@ function kboard_activation_execute(){
 		`use_editor` varchar(5) NOT NULL,
 		`permission_read` varchar(127) NOT NULL,
 		`permission_write` varchar(127) NOT NULL,
-		`admin_user` varchar(127) NOT NULL,
+		`admin_user` text NOT NULL,
 		`use_category` varchar(5) NOT NULL,
-		`category1_list` varchar(127) NOT NULL,
-		`category2_list` varchar(127) NOT NULL,
+		`category1_list` text NOT NULL,
+		`category2_list` text NOT NULL,
 		`page_rpp` int(10) unsigned NOT NULL,
 		`created` char(14) NOT NULL,
 		PRIMARY KEY (`uid`)

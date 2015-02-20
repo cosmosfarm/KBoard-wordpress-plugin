@@ -9,10 +9,6 @@ class KBContentListTable extends WP_List_Table {
 	
 	var $board;
 	
-	public function __construct(){
-		
-	}
-	
 	public function prepare_items(){
 		$columns = $this->get_columns();
 		$hidden = array();

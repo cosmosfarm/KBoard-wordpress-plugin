@@ -175,7 +175,7 @@ class KBContentList {
 	 * @return KBContent
 	 */
 	public function hasNext(){
-		if(!$this->resource) $this->getList();
+		if(!$this->resource) return '';
 		$this->row = current($this->resource);
 		
 		if($this->row){
@@ -263,7 +263,7 @@ class KBContentList {
 	 * @return KBContent
 	 */
 	public function hasNextReply(){
-		if(!$this->resource_reply) return;
+		if(!$this->resource_reply) return '';
 		$this->row = current($this->resource_reply);
 	
 		if($this->row){
