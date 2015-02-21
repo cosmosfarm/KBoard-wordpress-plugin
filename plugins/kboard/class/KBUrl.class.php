@@ -8,8 +8,11 @@
 class KBUrl {
 	
 	private $data;
+	private $path;
 	
 	public function __construct(){
+		$this->data = array();
+		$this->path = ''; 
 		return $this->init();
 	}
 	
@@ -22,6 +25,22 @@ class KBUrl {
 		$this->data['mod'] = null;
 		$this->data['uid'] = null;
 		$this->data['parent_uid'] = null;
+		return $this;
+	}
+	
+	/**
+	 * 경로를 입력받는다.
+	 * @param string $path
+	 */
+	public function setPath($path){
+		$url = parse_url($path);
+		$query  = explode('&', html_entity_decode($url['query']));
+		foreach($query as $value){
+			list($key, $value) = explode('=', $value);
+			// 중복된 get 값이 있으면 덮어 씌운다.
+			if($value) $this->set($key, $value);
+		}
+		$this->path = $url['path'];
 		return $this;
 	}
 	
@@ -55,8 +74,13 @@ class KBUrl {
 	public function toString(){
 		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
-		$url = parse_url($_SERVER['REQUEST_URI']);
-		return $url['path'] . '?' . $query_strings;
+		if($this->path){
+			return $this->path . '?' . $query_strings;
+		}
+		else{
+			$url = parse_url($_SERVER['REQUEST_URI']);
+			return $url['path'] . '?' . $query_strings;
+		}
 	}
 
 	/**
@@ -150,6 +174,13 @@ class KBUrl {
 	public function getBoardRedirect($uid){
 		$uid = intval($uid);
 		return site_url() . '?kboard_redirect=' . $uid;
+	}
+	
+	/**
+	 * 글 저장 페이지 URL을 반환한다.
+	 */
+	public function getContentEditorExecute(){
+		return admin_url('/admin-post.php');
 	}
 }
 ?>

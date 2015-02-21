@@ -1,11 +1,15 @@
 <div id="kboard-customer-editor">
-	<form method="post" action="<?php echo $url->toString()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
+	<form method="post" action="<?php echo $url->getContentEditorExecute()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
+		<?php wp_nonce_field('kboard-editor-execute', 'kboard-editor-execute-nonce');?>
+		<input type="hidden" name="action" value="kboard_editor_execute">
 		<input type="hidden" name="mod" value="editor">
 		<input type="hidden" name="uid" value="<?php echo $content->uid?>">
+		<input type="hidden" name="board_id" value="<?php echo $content->board_id?>">
 		<input type="hidden" name="parent_uid" value="<?php echo $content->parent_uid?>">
 		<input type="hidden" name="member_uid" value="<?php echo $content->member_uid?>">
 		<input type="hidden" name="member_display" value="<?php echo $content->member_display?>">
 		<input type="hidden" name="date" value="<?php echo $content->date?>">
+		
 		<div class="kboard-header"></div>
 		
 		<div class="kboard-attr-row kboard-attr-title">

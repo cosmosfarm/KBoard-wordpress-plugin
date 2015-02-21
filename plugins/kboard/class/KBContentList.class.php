@@ -134,6 +134,7 @@ class KBContentList {
 		else $where[] = "`board_id`='$this->board_id'";
 		
 		$where[] = "`notice` LIKE ''";
+		$where[] = "`parent_uid`='0'";
 		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
 		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
 		if($this->col_category1) $where[] = "`category1` LIKE '$this->col_category1'";

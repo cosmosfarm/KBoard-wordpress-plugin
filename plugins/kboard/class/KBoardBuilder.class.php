@@ -303,7 +303,7 @@ class KBoardBuilder {
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
 				
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				echo "<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>";
+				die("<script>location.href='" . apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id) . "';</script>");
 			}
 			else{
 				// execute후 POST 데이터를 지우고 다시 초기화 한다.

@@ -32,6 +32,7 @@ define('KBOARD_CONTENT_LIST_PAGE', admin_url('/admin.php?page=kboard_content_lis
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
+include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
@@ -61,6 +62,10 @@ function kboard_init(){
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
+	
+	// 컨트롤러 등록
+	$controller = new KBController();
+	$controller->init();
 	
 	// 템플릿 등록
 	$template = new KBTemplate();
