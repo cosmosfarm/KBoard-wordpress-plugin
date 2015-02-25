@@ -26,6 +26,8 @@
 	
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
+	<script src="<?php echo includes_url('/js/jquery/jquery.js')?>"></script>
+	<script src="<?php echo includes_url('/js/jquery/jquery-migrate.min.js')?>"></script>
 	<style>#wpadminbar {display: none;}</style>
 </head>
 <body>

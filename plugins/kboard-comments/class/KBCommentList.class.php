@@ -29,7 +29,7 @@ class KBCommentList {
 	public function init(){
 		global $wpdb;
 		if($this->content_uid){
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->content_uid' AND `parent_uid`<=0 ORDER BY `uid` $this->order");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->content_uid' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `uid` $this->order");
 		}
 		else{
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `uid` $this->order LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
