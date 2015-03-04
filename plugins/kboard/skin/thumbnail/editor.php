@@ -55,7 +55,7 @@
 			<label class="attr-name"><?php echo __('Notice', 'kboard')?></label>
 			<div class="attr-value"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>></div>
 		</div>
-		<?php elseif($board->isWriter() && $board->permission_write=='all'):?>
+		<?php elseif(!is_user_logged_in()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Author', 'kboard')?></label>
 			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?$content->member_display:$userdata->data->display_name?>"></div>
