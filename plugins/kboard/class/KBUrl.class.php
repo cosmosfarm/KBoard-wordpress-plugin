@@ -25,6 +25,7 @@ class KBUrl {
 		$this->data['mod'] = null;
 		$this->data['uid'] = null;
 		$this->data['parent_uid'] = null;
+		$this->data['kboard_controller'] = null;
 		return $this;
 	}
 	
@@ -180,7 +181,20 @@ class KBUrl {
 	 * 글 저장 페이지 URL을 반환한다.
 	 */
 	public function getContentEditorExecute(){
-		return admin_url('/admin-post.php');
+		return site_url() . '?kboard_controller=editor_execute';
+	}
+	
+	/**
+	 * 소셜댓글 플러그인에서 사용할 게시글 주소를 반환한다.
+	 * @param int $uid
+	 * @return string
+	 */
+	public function getCommentsPluginURLWithUID($uid){
+		$uid = intval($uid);
+		if($uid){
+			return $this->getDocumentRedirect($uid);
+		}
+		return '';
 	}
 }
 ?>

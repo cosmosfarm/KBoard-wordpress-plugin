@@ -12,8 +12,9 @@ class KBController {
 	}
 	
 	public function init(){
-		add_action('admin_post_kboard_editor_execute', array($this, 'editorExecute'));
-		add_action('admin_post_nopriv_kboard_editor_execute', array($this, 'editorExecute'));
+		if($_GET['kboard_controller'] == 'editor_execute'){
+			add_action('template_redirect', array($this, 'editorExecute'));
+		}
 	}
 	
 	public function editorExecute(){

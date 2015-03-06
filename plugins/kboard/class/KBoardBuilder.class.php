@@ -69,6 +69,13 @@ class KBoardBuilder {
 		
 		// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 		$_SESSION['kboard_board_id'] = $this->board_id;
+		
+		// 소셜댓글 플러그인 생성
+		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
+			add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
+			wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
+			wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
+		}
 	}
 	
 	/**
@@ -132,12 +139,6 @@ class KBoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
-			add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
-			wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
-			wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
-		}
-		
 		if($this->meta->view_iframe && !intval($_GET['kboard_id'])){
 			$url = new KBUrl();
 			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%;" scrolling="no" frameborder="0"></iframe>';

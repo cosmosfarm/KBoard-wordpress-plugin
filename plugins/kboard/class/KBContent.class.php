@@ -591,7 +591,7 @@ class KBContent {
 			$meta = new KBoardMeta($this->board_id);
 			if($meta->comments_plugin_id && $meta->use_comments_plugin){
 				$url = new KBUrl();
-				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.site_url($url->set('uid', $this->uid)->set('mod', 'document')->toString()).'"></span>';
+				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.$url->getCommentsPluginURLWithUID($this->uid).'"></span>';
 			}
 			else if($this->comment) return "{$prefix}{$this->comment}{$endfix}";
 		}
