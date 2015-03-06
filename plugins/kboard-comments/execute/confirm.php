@@ -21,7 +21,8 @@ if(!$comment->uid){
 	<meta charset="UTF-8">
 	<meta name="author" content="http://www.cosmosfarm.com/">
 	<title>KBoard - <?php echo __('Password confirmation', 'kboard-comments')?></title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="<?php echo includes_url('/js/jquery/jquery.js')?>"></script>
+	<script src="<?php echo includes_url('/js/jquery/jquery-migrate.min.js')?>"></script>
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<style>
 		body { background-color: #f9f9f9; }
