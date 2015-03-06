@@ -41,12 +41,9 @@
 			parent.document.getElementById("kboard-iframe-<?php echo $board_id?>").style.height = kboard.offsetHeight + "px";
 		}
 	}
-	window.onload = function(){
+	setInterval(function(){
 		kboard_iframe_resize();
-	}
-	setTimeout(function(){
-		kboard_iframe_resize();
-	}, 1000);
+	}, 100);
 	</script>
 	<?php wp_footer()?>
 </body>
