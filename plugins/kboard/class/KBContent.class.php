@@ -122,7 +122,8 @@ class KBContent {
 			// captcha 코드 확인
 			include_once 'KBCaptcha.class.php';
 			$captcha = new KBCaptcha();
-			if(!$captcha->textCheck($_POST['captcha'])){
+			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
+			if(!$captcha->textCheck($captcha_text)){
 				die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
 			}
 			

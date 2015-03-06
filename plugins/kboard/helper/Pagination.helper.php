@@ -11,7 +11,8 @@ function kboard_pagination($current_page, $total, $limit){
 			$query_strings[] = kboard_xssfilter(kboard_htmlclear(trim($key))).'='.kboard_xssfilter(kboard_htmlclear(trim($value)));
 		}
 	}
-	if($query_strings) $query_strings = '&' . implode('&', $query_strings);
+	if(isset($query_strings) && $query_strings) $query_strings = '&' . implode('&', $query_strings);
+	else $query_strings = '';
 	
 	$sliding_size = 10;
 	$total_page = ceil($total/$limit);

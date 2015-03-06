@@ -11,7 +11,7 @@ class KBStore {
 	 * 상품 리스트 페이지
 	 */
 	public static function productsList(){
-		$category = kboard_htmlclear($_GET['kbstore_category']);
+		$category = isset($_GET['kbstore_category'])?kboard_htmlclear($_GET['kbstore_category']):'';
 		include KBOARD_DIR_PATH . '/pages/kboard_store.php';
 	}
 }

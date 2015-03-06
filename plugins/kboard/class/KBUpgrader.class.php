@@ -43,6 +43,7 @@ final class KBUpgrader {
 		$host = self::$sever_host;
 		$fp = @fsockopen($host, 80, $errno, $errstr, 3);
 		if($fp){
+			$output = '';
 			fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
 			while(!feof($fp)){
 				$output .= fgets($fp, 1024);
@@ -63,12 +64,12 @@ final class KBUpgrader {
 	 * @return string
 	 */
 	static public function getLatestVersion(){
-		if($_SESSION['kboard_latest_version']){
+		if(isset($_SESSION['kboard_latest_version']) && $_SESSION['kboard_latest_version']){
 			self::$latest_version = $_SESSION['kboard_latest_version'];
 		}
 		else if(!self::$latest_version){
 			$data = self::connect(self::$CONNECT_VERSION.'?version='.KBOARD_VERSION);
-			if($data->error){
+			if(isset($data->error) && $data->error){
 				echo 'null';
 			}
 			else{

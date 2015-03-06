@@ -12,8 +12,8 @@ class KBController {
 	}
 	
 	public function init(){
-		$kboard_controller = isset($_GET['kboard_controller'])?$_GET['kboard_controller']:'';
-		if($kboard_controller == 'editor_execute'){
+		$action = isset($_POST['action'])?$_POST['action']:'';
+		if($action == 'kboard_editor_execute'){
 			add_action('template_redirect', array($this, 'editorExecute'));
 		}
 	}
@@ -21,7 +21,7 @@ class KBController {
 	public function editorExecute(){
 		global $user_ID;
 		
-		if(isset($_POST['kboard-editor-execute-nonce']) || wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
+		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
 			$uid = intval($_POST['uid']);
 			$board_id = intval($_POST['board_id']);
 			
@@ -59,7 +59,7 @@ class KBController {
 			if($content->password) $board->isConfirm($content->password, $execute_uid);
 			
 			$url = new KBUrl();
-			$next_page_url = $url->setPath($_SERVER['HTTP_REFERER'])->set('uid', $execute_uid)->set('mod', 'document')->toString();
+			$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 			$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $board_id);
 			wp_redirect($next_page_url);
 		}

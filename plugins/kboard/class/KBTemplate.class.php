@@ -28,6 +28,11 @@ class KBTemplate {
 		}
 	}
 	
+	/**
+	 * 소셜댓글 플러그인을 출력한다.
+	 * @param KBoardMeta $meta
+	 * @return string
+	 */
 	public function comments_plugin($meta){
 		ob_start();
 		$url = new KBUrl();

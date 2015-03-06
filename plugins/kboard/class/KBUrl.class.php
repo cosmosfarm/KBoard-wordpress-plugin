@@ -35,13 +35,15 @@ class KBUrl {
 	 */
 	public function setPath($path){
 		$url = parse_url($path);
-		$query  = explode('&', html_entity_decode($url['query']));
-		foreach($query as $value){
-			list($key, $value) = explode('=', $value);
-			// 중복된 get 값이 있으면 덮어 씌운다.
-			if($value) $this->set($key, $value);
+		if(isset($url['query'])){
+			$query  = explode('&', html_entity_decode($url['query']));
+			foreach($query as $value){
+				list($key, $value) = explode('=', $value);
+				// 중복된 get 값이 있으면 덮어 씌운다.
+				if($value) $this->set($key, $value);
+			}
 		}
-		$this->path = $url['path'];
+		$this->path = isset($url['path'])?$url['path']:'';
 		return $this;
 	}
 	
@@ -51,7 +53,7 @@ class KBUrl {
 	 */
 	public function getCleanQueryStrings(){
 		$query_strings = array();
-		foreach($this->data AS $key => $value){
+		foreach($this->data as $key => $value){
 			if($value) $query_strings[$key] = kboard_xssfilter(kboard_htmlclear(trim($key))).'='.kboard_xssfilter(kboard_htmlclear(trim($value)));
 		}
 		return implode('&', $query_strings);
@@ -96,11 +98,13 @@ class KBUrl {
 		
 		// 입력받은 경로를 처리한다.
 		$url = parse_url($path);
-		$query  = explode('&', html_entity_decode($url['query']));
-		foreach($query as $value){
-			list($key, $value) = explode('=', $value);
-			// 중복된 get 값이 있으면 덮어 씌운다.
-			if($value) $this->set($key, $value);
+		if(isset($url['query'])){
+			$query  = explode('&', html_entity_decode($url['query']));
+			foreach($query as $value){
+				list($key, $value) = explode('=', $value);
+				// 중복된 get 값이 있으면 덮어 씌운다.
+				if($value) $this->set($key, $value);
+			}
 		}
 		
 		$query_strings = $this->getCleanQueryStrings();
@@ -113,7 +117,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function toInput(){
-		foreach($this->data AS $key => $value){
+		foreach($this->data as $key => $value){
 			if($value) $input[] = '<input type="hidden" name="' . kboard_xssfilter(kboard_htmlclear(trim($key))) .'" value="' . kboard_xssfilter(kboard_htmlclear(trim($value))) . '">';
 		}
 		$this->init();
@@ -181,7 +185,7 @@ class KBUrl {
 	 * 글 저장 페이지 URL을 반환한다.
 	 */
 	public function getContentEditorExecute(){
-		return site_url() . '?kboard_controller=editor_execute';
+		return '';
 	}
 	
 	/**
