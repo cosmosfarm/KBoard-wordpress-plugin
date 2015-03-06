@@ -15,9 +15,7 @@ if($kboard_xssfilter_active){
 	}
 	
 	// HTMLPurifier 설정 캐시 경로 디렉토리 생성
-	$kboard_file_handler = new KBFileHandler();
-	$kboard_file_handler->mkPath(WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
-	unset($kboard_file_handler);
+	wp_mkdir_p(WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
 }
 
 /**
@@ -28,7 +26,7 @@ function kboard_xssfilter($data){
 	global $kboard_xssfilter_active;
 	if(is_array($data)) return array_map('kboard_xssfilter', $data);
 	if($kboard_xssfilter_active){
-		if(!$GLOBALS['KBOARD']['HTMLPurifier'] || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
+		if(!isset($GLOBALS['KBOARD']) || !isset($GLOBALS['KBOARD']['HTMLPurifier']) && !$GLOBALS['KBOARD']['HTMLPurifier'] || !isset($GLOBALS['KBOARD']['HTMLPurifier_Config']) || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
 			$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
 			$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 			$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');

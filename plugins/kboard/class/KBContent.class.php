@@ -25,7 +25,12 @@ class KBContent {
 	}
 	
 	public function __get($name){
-		return stripslashes($this->row->{$name});
+		if(isset($this->row->{$name})){
+			return stripslashes($this->row->{$name});
+		}
+		else{
+			return '';
+		}
 	}
 	
 	public function __set($name, $value){
@@ -41,8 +46,8 @@ class KBContent {
 		
 		// 첨부파일 업로드 경로를 만든다.
 		$upload_dir = wp_upload_dir();
-		$this->attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/$board_id/" . date("Ym", current_time('timestamp')) . '/';
-		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/$board_id/" . date("Ym", current_time('timestamp')) . '/';
+		$this->attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/$board_id/" . current_time('Ym') . '/';
+		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/$board_id/" . current_time('Ym') . '/';
 	}
 	
 	/**
@@ -57,6 +62,9 @@ class KBContent {
 			$this->setBoardID($this->row->board_id);
 			$this->initOptions();
 			$this->initAttachedFiles();
+		}
+		else{
+			$this->row = new stdClass();
 		}
 		return $this;
 	}
@@ -73,6 +81,9 @@ class KBContent {
 			$this->initOptions();
 			$this->initAttachedFiles();
 		}
+		else{
+			$this->row = new stdClass();
+		}
 		return $this;
 	}
 	
@@ -80,18 +91,18 @@ class KBContent {
 	 * 게시글을 등록/수정한다.
 	 */
 	public function execute(){
-		$this->parent_uid = intval($_POST['parent_uid']);
-		$this->member_uid = intval($_POST['member_uid']);
-		$this->member_display = kboard_xssfilter(kboard_htmlclear(trim($_POST['member_display'])));
-		$this->title = kboard_xssfilter(kboard_htmlclear(trim($_POST['title'])));
-		$this->content = kboard_safeiframe(kboard_xssfilter(trim($_POST['kboard_content'])));
-		$this->date = kboard_xssfilter(kboard_htmlclear(trim($_POST['date'])));
-		$this->category1 = kboard_xssfilter(kboard_htmlclear(trim($_POST['category1'])));
-		$this->category2 = kboard_xssfilter(kboard_htmlclear(trim($_POST['category2'])));
-		$this->secret = kboard_xssfilter(kboard_htmlclear(trim($_POST['secret'])));
-		$this->notice = kboard_xssfilter(kboard_htmlclear(trim($_POST['notice'])));
-		$this->search = intval(($this->secret=='true' && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']);
-		$this->password = kboard_xssfilter(kboard_htmlclear(trim($_POST['password'])));
+		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
+		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
+		$this->member_display = isset($_POST['member_display'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['member_display']))):'';
+		$this->title = isset($_POST['title'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['title']))):'';
+		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['kboard_content']))):'';
+		$this->date = isset($_POST['date'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['date']))):'';
+		$this->category1 = isset($_POST['category1'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['category1']))):'';
+		$this->category2 = isset($_POST['category2'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['category2']))):'';
+		$this->secret = isset($_POST['secret'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['secret']))):'';
+		$this->notice = isset($_POST['notice'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['notice']))):'';
+		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'3';
+		$this->password = isset($_POST['password'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['password']))):'';
 		
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
@@ -166,7 +177,7 @@ class KBContent {
 		$data['member_display'] = $this->member_display?$this->member_display:$userdata->data->display_name;
 		$data['title'] = $this->title;
 		$data['content'] = $this->content;
-		$data['date'] = date('YmdHis', current_time('timestamp'));
+		$data['date'] = current_time('YmdHis');
 		$data['view'] = 0;
 		$data['comment'] = 0;
 		$data['like'] = 0;
@@ -257,7 +268,7 @@ class KBContent {
 			$kboard_post = array(
 				'post_author'   => $member_uid,
 				'post_title'    => $this->title,
-				'post_content'  => ($this->secret=='true' || $this->search==2)?'':$this->content,
+				'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
 				'post_status'   => 'publish',
 				'comment_status'=> 'closed',
 				'ping_status'   => 'closed',
@@ -280,7 +291,7 @@ class KBContent {
 				'ID'            => $post_id,
 				'post_author'   => $member_uid,
 				'post_title'    => $this->title,
-				'post_content'  => ($this->secret=='true' || $this->search==2)?'':$this->content,
+				'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
 				'post_parent'   => $this->board_id
 			);
 			wp_update_post($kboard_post);

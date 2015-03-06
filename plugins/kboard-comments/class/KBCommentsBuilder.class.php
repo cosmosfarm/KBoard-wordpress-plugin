@@ -27,7 +27,7 @@ class KBCommentsBuilder {
 	 */
 	public function setSkin($skin){
 		$this->skin = $skin;
-		$this->skin_path = KBOARD_COMMENTS_URL_PATH . "/skin/$skin";
+		$this->skin_path = KBOARD_COMMENTS_URL_PATH . "/skin/{$skin}";
 		return $this;
 	}
 	
@@ -47,7 +47,11 @@ class KBCommentsBuilder {
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
 		$commentBuilder = $this;
-		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/list.php";
+		
+		$member_uid = isset($userdata->data->ID)?$userdata->data->ID:'';
+		$member_display = isset($userdata->data->display_name)?$userdata->data->display_name:'';
+		
+		include KBOARD_COMMENTS_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
 	
 	/**
@@ -64,9 +68,11 @@ class KBCommentsBuilder {
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList();
 		$commentBuilder = $this;
+		
 		if($parent_uid) $commentList->initWithParentUID($parent_uid);
 		else $commentList->initWithUID($this->content_uid);
-		include KBOARD_COMMENTS_DIR_PATH . "/skin/$this->skin/$template";
+		
+		include KBOARD_COMMENTS_DIR_PATH . "/skin/{$this->skin}/{$template}";
 	}
 	
 	/**

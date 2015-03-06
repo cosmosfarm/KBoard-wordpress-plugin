@@ -12,7 +12,8 @@ class KBController {
 	}
 	
 	public function init(){
-		if($_GET['kboard_controller'] == 'editor_execute'){
+		$kboard_controller = isset($_GET['kboard_controller'])?$_GET['kboard_controller']:'';
+		if($kboard_controller == 'editor_execute'){
 			add_action('template_redirect', array($this, 'editorExecute'));
 		}
 	}

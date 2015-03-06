@@ -13,13 +13,14 @@ class KBCaptcha {
 	public function createImage(){
 		if(!isset($_SESSION['kboard_captcha'])) $_SESSION['kboard_captcha'] = array();
 		
-		$captcha_folder = WP_CONTENT_DIR . '/uploads/kboard_captcha/';
-		$captcha_name = uniqid() . '.png';
+		$captcha_folder = WP_CONTENT_DIR.'/uploads/kboard_captcha/';
+		$captcha_name = uniqid('captcha_').'.png';
 		
-		$file_handler = new KBFileHandler();
-		$file_handler->mkPath($captcha_folder);
+		// 디렉토리 생성
+		wp_mkdir_p($captcha_folder);
 		
 		// 1시간이 지난 이미지는 삭제한다.
+		$file_handler = new KBFileHandler();
 		$captcha_files = $file_handler->getDirlist($captcha_folder);
 		foreach($captcha_files as $file){
 			$filetime = @filemtime($captcha_folder . $file);

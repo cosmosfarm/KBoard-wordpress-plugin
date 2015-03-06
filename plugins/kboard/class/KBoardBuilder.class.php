@@ -19,17 +19,18 @@ class KBoardBuilder {
 	var $meta;
 	
 	public function __construct($board_id=''){
-		$_GET['uid'] = intval($_GET['uid']);
-		$_GET['parent_uid'] = intval($_GET['parent_uid']);
-		$_GET['pageid'] = intval($_GET['pageid']);
-		$_GET['mod'] = kboard_xssfilter(kboard_htmlclear($_GET['mod']));
-		$_GET['category1'] = kboard_xssfilter(kboard_htmlclear($_GET['category1']));
-		$_GET['category2'] = kboard_xssfilter(kboard_htmlclear($_GET['category2']));
-		$_GET['keyword'] = kboard_xssfilter(kboard_htmlclear($_GET['keyword']));
-		$_GET['target'] = kboard_xssfilter(kboard_htmlclear($_GET['target']));
+		$_GET['uid'] = isset($_GET['uid'])?intval($_GET['uid']):'';
+		$_GET['parent_uid'] = isset($_GET['parent_uid'])?intval($_GET['parent_uid']):'';
+		$_GET['pageid'] = isset($_GET['pageid'])?intval($_GET['pageid']):'';
+		$_GET['mod'] = isset($_GET['mod'])?kboard_xssfilter(kboard_htmlclear($_GET['mod'])):'';
+		$_GET['category1'] = isset($_GET['category1'])?kboard_xssfilter(kboard_htmlclear($_GET['category1'])):'';
+		$_GET['category2'] = isset($_GET['category2'])?kboard_xssfilter(kboard_htmlclear($_GET['category2'])):'';
+		$_GET['keyword'] = isset($_GET['keyword'])?kboard_xssfilter(kboard_htmlclear($_GET['keyword'])):'';
+		$_GET['target'] = isset($_GET['target'])?kboard_xssfilter(kboard_htmlclear($_GET['target'])):'';
+		$_GET['kboard_id'] = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		
-		$_POST['uid'] = intval($_POST['uid']);
-		$_POST['mod'] = kboard_xssfilter(kboard_htmlclear($_POST['mod']));
+		$_POST['uid'] = isset($_POST['uid'])?intval($_POST['uid']):'';
+		$_POST['mod'] = isset($_POST['mod'])?kboard_xssfilter(kboard_htmlclear($_POST['mod'])):'';
 		
 		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
 		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
@@ -266,9 +267,9 @@ class KBoardBuilder {
 		global $user_ID;
 		
 		$url = new KBUrl();
-		if($this->board->isWriter() && $this->board->permission_write=='all' && $_POST['title']){
+		if($this->board->isWriter() && $this->board->permission_write=='all' && isset($_POST['title']) && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
-			if(!$user_ID && !$_POST['password']) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="' . $next_url . '";</script>');
+			if(!$user_ID && (!isset($_POST['password']) || !$_POST['password'])) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="' . $next_url . '";</script>');
 		}
 		
 		$content = new KBContent();

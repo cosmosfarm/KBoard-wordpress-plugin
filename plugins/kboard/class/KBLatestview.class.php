@@ -20,7 +20,12 @@ class KBLatestview {
 	}
 	
 	public function __get($name){
-		return stripslashes($this->row->{$name});
+		if(isset($this->row->{$name})){
+			return stripslashes($this->row->{$name});
+		}
+		else{
+			return '';
+		}
 	}
 	
 	public function __set($name, $value){

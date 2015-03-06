@@ -114,7 +114,7 @@ class KBBackup {
 		foreach($array['kboard'] AS $table => $rows){
 			
 			// 테이블에 입력될 데이터가 한 개인지 여러개 인지 확인한다.
-			if(is_array($rows['data'])){
+			if(isset($rows['data']) && is_array($rows['data'])){
 				$keys = array_keys($rows['data']);
 				if(reset($keys) == '0') $data = $rows['data'];
 				else $data = $rows;
@@ -154,7 +154,7 @@ class KBBackup {
 					/*
 					 * search 값이 있을경우 post 테이블에 내용을 입력한다.
 					 */
-					if($row['search']['@cdata']==1 || $row['search']['@cdata']==2){
+					if(isset($row['search']) && ($row['search']['@cdata']==1 || $row['search']['@cdata']==2)){
 						if($wpdb->insert_id){
 							$kboard_post = array(
 								'post_author'   => $row['member_uid']['@cdata'],

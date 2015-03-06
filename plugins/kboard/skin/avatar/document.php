@@ -29,7 +29,7 @@
 			</div>
 			<div class="detail-attr detail-date">
 				<div class="detail-name"><?php echo __('Date', 'kboard')?></div>
-				<div class="detail-value"><?php echo date("Y-m-d H:i", strtotime($content->date))?></div>
+				<div class="detail-value"><?php echo date('Y-m-d H:i', strtotime($content->date))?></div>
 			</div>
 			<div class="detail-attr detail-view">
 				<div class="detail-name"><?php echo __('Views', 'kboard')?></div>
@@ -45,13 +45,13 @@
 			</div>
 		</div>
 		
-		<?php if($content->attach->file1[0]):?>
+		<?php if(isset($content->attach->file1)):?>
 		<div class="kboard-attach">
 			<?php echo __('Attachment', 'kboard')?> : <a href="<?php echo $url->getDownloadURLWithAttach($content->uid, 'file1')?>"><?php echo $content->attach->file1[1]?></a>
 		</div>
 		<?php endif?>
 		
-		<?php if($content->attach->file2[0]):?>
+		<?php if(isset($content->attach->file2)):?>
 		<div class="kboard-attach">
 			<?php echo __('Attachment', 'kboard')?> : <a href="<?php echo $url->getDownloadURLWithAttach($content->uid, 'file2')?>"><?php echo $content->attach->file2[1]?></a>
 		</div>

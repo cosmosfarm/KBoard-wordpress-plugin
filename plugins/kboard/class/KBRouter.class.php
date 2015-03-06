@@ -11,8 +11,8 @@ class KBRouter {
 	 * 라우터 시작
 	 */
 	public function process(){
-		$content_uid = intval($_GET['kboard_content_redirect']);
-		$board_id = intval($_GET['kboard_redirect']);
+		$content_uid = isset($_GET['kboard_content_redirect'])?intval($_GET['kboard_content_redirect']):'';
+		$board_id = isset($_GET['kboard_redirect'])?intval($_GET['kboard_redirect']):'';
 		
 		if($content_uid){
 			$this->contentRedirect($content_uid);

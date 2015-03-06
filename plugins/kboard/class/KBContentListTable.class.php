@@ -15,13 +15,15 @@ class KBContentListTable extends WP_List_Table {
 		$sortable = array();
 		$this->_column_headers = array($columns, $hidden, $sortable);
 		
-		$this->board = new KBoard($item->board_id);
+		$this->board = new KBoard();
 		$this->board->getList();
+		
+		$keyword = isset($_GET['s'])?$_GET['s']:'';
 		
 		$list = new KBContentList();
 		$list->rpp = 20;
 		$list->page = $this->get_pagenum();
-		$list->initWithKeyword($_GET['s']);
+		$list->initWithKeyword($keyword);
 		$this->items = $list->resource;
 		
 		$this->set_pagination_args(array('total_items'=>$list->total, 'per_page'=>$list->rpp));

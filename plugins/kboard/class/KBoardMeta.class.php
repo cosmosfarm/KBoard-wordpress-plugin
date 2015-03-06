@@ -13,6 +13,7 @@ class KBoardMeta {
 	public function __construct($board_id=''){
 		$this->clear();
 		$this->meta = new stdClass();
+		$this->board_id = 0;
 		if($board_id) $this->setBoardID($board_id);
 	}
 	
@@ -20,7 +21,7 @@ class KBoardMeta {
 		global $wpdb;
 		if($this->board_id){
 			$name = addslashes($name);
-			if($this->meta->{$name}){
+			if(isset($this->meta->{$name})){
 				return stripslashes($this->meta->{$name});
 			}
 			else{

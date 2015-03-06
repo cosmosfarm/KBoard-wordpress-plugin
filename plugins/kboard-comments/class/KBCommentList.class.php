@@ -137,7 +137,7 @@ class KBCommentList {
 		$user_display = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
 		$content = addslashes(kboard_xssfilter(trim($content)));
 		$password = addslashes(kboard_xssfilter(kboard_htmlclear(trim($password))));
-		$created = date("YmdHis", current_time('timestamp'));
+		$created = current_time('YmdHis');
 		
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `created`, `password`) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
 		$insert_id = $wpdb->insert_id;

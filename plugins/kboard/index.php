@@ -50,11 +50,6 @@ include_once 'helper/Security.helper.php';
 include_once 'helper/Functions.helper.php';
 
 /*
- * jQuery 추가
- */
-wp_enqueue_script('jquery');
-
-/*
  * KBoard 시작
  */
 add_action('init', 'kboard_init');
@@ -104,7 +99,6 @@ function kboard_welcome_panel(){
 add_action('admin_menu', 'kboard_settings_menu');
 function kboard_settings_menu(){
 	$position = 51.23456;
-	while($GLOBALS['menu'][$position]) $position++;
 	
 	// KBoard 메뉴 등록
 	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $position);
@@ -120,7 +114,7 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 스토어 메뉴 등록
-	while($GLOBALS['menu'][$position]) $position++;
+	$position++;
 	add_menu_page('스토어', '스토어', 'administrator', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $position);
 	add_submenu_page('kboard_store', '스토어', '스토어', 'administrator', 'kboard_store');
 	
@@ -136,7 +130,7 @@ function kboard_settings_menu(){
  * 스토어 상품 리스트 페이지
  */
 function kboard_store(){
-	if($_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
+	if(isset($_GET['access_token']) && $_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
 	KBStore::productsList();
 }
 
@@ -144,7 +138,7 @@ function kboard_store(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	if($_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
+	if(isset($_GET['access_token']) && $_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
@@ -153,14 +147,14 @@ function kboard_dashboard(){
  * 게시판 목록 페이지
  */
 function kboard_list(){
-	if($_GET['board_id']){
+	if(isset($_GET['board_id']) && $_GET['board_id']){
 		kboard_setting();
 	}
 	else{
 		$board = new KBoard();
-		$action = $_POST['action'];
-		$action2 = $_POST['action2'];
-		if(($action=='remove' || $action2=='remove') && $_POST['board_id']){			
+		$action = isset($_POST['action'])?$_POST['action']:'';
+		$action2 = isset($_POST['action2'])?$_POST['action2']:'';
+		if(($action=='remove' || $action2=='remove') && isset($_POST['board_id']) && $_POST['board_id']){			
 			foreach($_POST['board_id'] AS $key => $value){
 				$board->remove($value);
 			}
@@ -176,6 +170,8 @@ function kboard_list(){
  */
 function kboard_new(){
 	$skin = KBoardSkin::getInstance();
+	$board = new KBoard();
+	$meta = new KBoardMeta();
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 		$comment_skin = KBCommentSkin::getInstance();
@@ -187,8 +183,8 @@ function kboard_new(){
  * 게시판 목록 페이지
  */
 function kboard_setting(){
-	$board = new KBoard();
-	$board->setID($_GET['board_id']);
+	$board_id = isset($_GET['board_id'])?$_GET['board_id']:'';
+	$board = new KBoard($board_id);
 	$meta = new KBoardMeta($board->uid);
 	$skin = KBoardSkin::getInstance();
 	if(defined('KBOARD_COMMNETS_VERSION')){
@@ -207,19 +203,19 @@ function kboard_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	if(!current_user_can('activate_plugins')) wp_die('KBoard : 관리 권한이 없습니다.');
 	
-	$board_id = $_POST['board_id'];
-	$board_name = addslashes($_POST['board_name']);
-	$skin = $_POST['skin'];
-	$page_rpp = $_POST['page_rpp'];
-	$use_comment = $_POST['use_comment'];
-	$use_editor = $_POST['use_editor'];
-	$permission_read = $_POST['permission_read'];
-	$permission_write = $_POST['permission_write'];
-	$admin_user = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['admin_user']))));
-	$use_category = $_POST['use_category'];
-	$category1_list = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list']))));
-	$category2_list = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list']))));
-	$create = date('YmdHis', current_time('timestamp'));
+	$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+	$board_name = isset($_POST['board_name'])?addslashes($_POST['board_name']):'';
+	$skin = isset($_POST['skin'])?$_POST['skin']:'';
+	$page_rpp = isset($_POST['page_rpp'])?$_POST['page_rpp']:'';
+	$use_comment = isset($_POST['use_comment'])?$_POST['use_comment']:'';
+	$use_editor = isset($_POST['use_editor'])?$_POST['use_editor']:'';
+	$permission_read = isset($_POST['permission_read'])?$_POST['permission_read']:'';
+	$permission_write = isset($_POST['permission_write'])?$_POST['permission_write']:'';
+	$admin_user = isset($_POST['admin_user'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['admin_user'])))):'';
+	$use_category = isset($_POST['use_category'])?$_POST['use_category']:'';
+	$category1_list = isset($_POST['category1_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list'])))):'';
+	$category2_list = isset($_POST['category2_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list'])))):'';
+	$create = current_time('YmdHis');
 	
 	if(!$board_id){
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
@@ -231,21 +227,21 @@ function kboard_update(){
 	
 	if($board_id){
 		$meta = new KBoardMeta($board_id);
-		$meta->use_direct_url = $_POST['use_direct_url'];
-		$meta->latest_alerts = implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['latest_alerts']))));
-		$meta->comment_skin = $use_comment?$_POST['comment_skin']:'';
-		$meta->default_content = $_POST['default_content'];
-		$meta->pass_autop = $_POST['pass_autop'];
-		$meta->shortcode_execute = $_POST['shortcode_execute'];
-		$meta->autolink = $_POST['autolink'];
-		$meta->reply_copy_content = $_POST['reply_copy_content'];
-		$meta->view_iframe = $_POST['view_iframe'];
-		$meta->permission_comment_write = $_POST['permission_comment_write'];
-		$meta->comments_plugin_id = $_POST['comments_plugin_id'];
-		$meta->use_comments_plugin = $_POST['use_comments_plugin'];
-		$meta->comments_plugin_row = $_POST['comments_plugin_row'];
+		$meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
+		$meta->latest_alerts = isset($_POST['latest_alerts'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['latest_alerts'])))):'';
+		$meta->comment_skin = ($use_comment && isset($_POST['comment_skin']))?$_POST['comment_skin']:'';
+		$meta->default_content = isset($_POST['default_content'])?$_POST['default_content']:'';
+		$meta->pass_autop = isset($_POST['pass_autop'])?$_POST['pass_autop']:'';
+		$meta->shortcode_execute = isset($_POST['shortcode_execute'])?$_POST['shortcode_execute']:'';
+		$meta->autolink = isset($_POST['autolink'])?$_POST['autolink']:'';
+		$meta->reply_copy_content = isset($_POST['reply_copy_content'])?$_POST['reply_copy_content']:'';
+		$meta->view_iframe = isset($_POST['view_iframe'])?$_POST['view_iframe']:'';
+		$meta->permission_comment_write = isset($_POST['permission_comment_write'])?$_POST['permission_comment_write']:'';
+		$meta->comments_plugin_id = isset($_POST['comments_plugin_id'])?$_POST['comments_plugin_id']:'';
+		$meta->use_comments_plugin = isset($_POST['use_comments_plugin'])?$_POST['use_comments_plugin']:'';
+		$meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
 		
-		$auto_page = $_POST['auto_page'];
+		$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
 		if($auto_page){
 			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
 			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
@@ -256,8 +252,9 @@ function kboard_update(){
 		}
 	}
 	
-	if($_POST['board_id']){
-		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '#tab-kboard-setting-' . intval($_POST['tab_kboard_setting']) . '"</script>');
+	if($board_id){
+		$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?intval($_POST['tab_kboard_setting']):'';
+		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '#tab-kboard-setting-' . $tab_kboard_setting . '"</script>');
 	}
 	else{
 		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');
@@ -268,7 +265,7 @@ function kboard_update(){
  * 최신글 뷰
  */
 function kboard_latestview(){
-	if($_GET['latestview_uid']){
+	if(isset($_GET['latestview_uid']) && $_GET['latestview_uid']){
 		$skin = KBoardSkin::getInstance();
 		$latestview = new KBLatestview();
 		$latestview->initWithUID($_GET['latestview_uid']);
@@ -277,9 +274,9 @@ function kboard_latestview(){
 		include_once 'pages/kboard_latestview_setting.php';
 	}
 	else{
-		$action = $_POST['action'];
-		$action2 = $_POST['action2'];
-		if(($action=='remove' || $action2=='remove') && $_POST['latestview_uid']){
+		$action = isset($_POST['action'])?$_POST['action']:'';
+		$action2 = isset($_POST['action2'])?$_POST['action2']:'';
+		if(($action=='remove' || $action2=='remove') && isset($_POST['latestview_uid']) && $_POST['latestview_uid']){
 			$latestview = new KBLatestview();
 			foreach($_POST['latestview_uid'] AS $key => $uid){
 				$latestview->initWithUID($uid);
@@ -298,6 +295,7 @@ function kboard_latestview(){
  */
 function kboard_latestview_new(){
 	$skin = KBoardSkin::getInstance();
+	$latestview = new KBLatestview();
 	include_once 'pages/kboard_latestview_setting.php';
 }
 
@@ -348,10 +346,10 @@ function kboard_latestview_update(){
  * 게시판 백업 및 복구 페이지
  */
 function kboard_backup(){
-	include 'class/KBBackup.class.php';
+	include_once 'class/KBBackup.class.php';
 	$backup = new KBBackup();
 	
-	if($_GET['action'] == 'upload'){
+	if(isset($_GET['action']) && $_GET['action'] == 'upload'){
 		$xmlfile = WP_CONTENT_DIR . '/uploads/' . basename($_FILES['kboard_backup_xml_file']['name']);
 		if(move_uploaded_file($_FILES['kboard_backup_xml_file']['tmp_name'], $xmlfile)){
 			$file_extension = explode('.', $xmlfile);
@@ -378,9 +376,9 @@ function kboard_backup(){
 function kboard_upgrade(){
 	if(!current_user_can('activate_plugins')) wp_die('KBoard : 설치 권한이 없습니다.');
 	
-	$action = kboard_htmlclear($_GET['action']);
-	$download_url = kboard_htmlclear($_GET['download_url']);
-	$download_version = kboard_htmlclear($_GET['download_version']);
+	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
+	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
+	$download_version = isset($_GET['download_version'])?kboard_htmlclear($_GET['download_version']):'';
 	$form_url = wp_nonce_url(admin_url("/admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
 	$upgrader = KBUpgrader::getInstance();
 	
@@ -556,7 +554,7 @@ function kboard_languages(){
  * 비동기 게시판 빌더
  */
 function kboard_ajax_builder(){
-	if(!$_SESSION['kboard_board_id']) die('KBoard 알림 :: id=null, 아이디값은 필수입니다.');
+	if(!isset($_SESSION['kboard_board_id']) || !$_SESSION['kboard_board_id']) die('KBoard 알림 :: id=null, 아이디값은 필수입니다.');
 	
 	$board = new KBoard();
 	$board->setID($_SESSION['kboard_board_id']);
@@ -623,6 +621,7 @@ function kboard_admin_notices(){
  */
 add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
+	wp_enqueue_script('jquery');
 	if(!get_option('kboard_fontawesome')){
 		global $wp_styles;
 		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css', array(), KBOARD_VERSION);

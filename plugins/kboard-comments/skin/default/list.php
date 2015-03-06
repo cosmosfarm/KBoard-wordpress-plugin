@@ -16,13 +16,13 @@
 		<!-- 댓글 입력 폼 시작 -->
 		<form action="<?php echo $commentURL->getInsertURL()?>" method="post" id="kboard_comments_form" onsubmit="return kboard_comments_execute(this);">
 			<input type="hidden" name="content_uid" value="<?php echo $commentList->content_uid?>">
-			<input type="hidden" name="member_uid" value="<?php echo $userdata->data->ID?>">
+			<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
 			<div class="kboard-comments-form">
-				<?php if($userdata->data->ID):?>
+				<?php if(is_user_logged_in()):?>
 				<input type="hidden" name="member_display" value="<?php echo $userdata->data->display_name?>">
 				<?php else:?>
 				<div class="comments-username">
-					<label class="comments-username-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label> <input type="text" id="comments_member_display" name="member_display" value="<?php echo $userdata->data->display_name?>">
+					<label class="comments-username-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label> <input type="text" id="comments_member_display" name="member_display" value="<?php echo $member_display?>">
 				</div>
 				<div class="comments-password">
 					<label class="comments-password-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label> <input type="password" id="comments_password" name="password" value="">

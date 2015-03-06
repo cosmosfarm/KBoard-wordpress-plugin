@@ -2,17 +2,28 @@
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
+$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
+
 header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+if(!stristr($referer, $host)) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
 
 $uid = intval($_GET['uid']);
-$file = addslashes(kboard_xssfilter(kboard_htmlclear(trim($_GET['file']))));
+if(isset($_GET['file'])){
+	$file = trim($_GET['file']);
+	$file = kboard_htmlclear($file);
+	$file = kboard_xssfilter($file);
+	$file = addslashes($file);
+}
+else{
+	$file = '';
+}
 
 if(!$uid || !$file){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 }
 
-if(!strstr($_SERVER['HTTP_REFERER'], basename(__file__))) $_SESSION['redirect_uri'] = $_SERVER['HTTP_REFERER'];
+if(!strstr($referer, basename(__file__))) $_SESSION['redirect_uri'] = $referer;
 
 $content = new KBContent();
 $content->initWithUID($uid);
@@ -43,5 +54,5 @@ if(!$board->isEditor($content->member_uid)){
 if($file == 'thumbnail') $content->removeThumbnail();
 else $content->removeAttached($file);
 
-header("Location:" . $_SESSION['redirect_uri']);
+header("Location:".$_SESSION['redirect_uri']);
 ?>

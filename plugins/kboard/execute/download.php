@@ -2,11 +2,22 @@
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
-header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 
-$uid = intval($_GET['uid']);
-$file = addslashes(kboard_xssfilter(kboard_htmlclear(trim($_GET['file']))));
+header("Content-Type: text/html; charset=UTF-8");
+if(!stristr($referer, $host)) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+
+$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
+if(isset($_GET['file'])){
+	$file = trim($_GET['file']);
+	$file = kboard_htmlclear($file);
+	$file = kboard_xssfilter($file);
+	$file = addslashes($file);
+}
+else{
+	$file = '';
+}
 
 if(!$uid || !$file){
 	die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
@@ -26,7 +37,7 @@ else{
 
 if(!$board->isReader($content->member_uid, $content->secret)){
 	if(!$user_ID && $board->permission_read == 'author'){
-		die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['HTTP_REFERER']) . '";</script>');
+		die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($referer) . '";</script>');
 	}
 	else if($content->secret && in_array($board->permission_write, array('all', 'author')) && in_array($board->permission_read, array('all', 'author'))){
 		if(!$board->isConfirm($content->password, $content->uid)){

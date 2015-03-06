@@ -2,7 +2,7 @@
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
-$uid = intval($_GET['uid']);
+$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 
 if(!$uid){
 	die("<script>alert('".__('No UID of comments.', 'kboard-comments')."');window.close();</script>");
@@ -30,9 +30,9 @@ if(!$comment->uid){
 	</style>
 	<script>
 		function password_checker(form){
-			if(!$('input[name=password]').val()){
+			if(!jQuery('input[name=password]').val()){
 				alert('<?php echo __('Please enter a password.', 'kboard-comments')?>');
-				$('input[name=password]').focus();
+				jQuery('input[name=password]').focus();
 				return false;
 			}
 			return true;

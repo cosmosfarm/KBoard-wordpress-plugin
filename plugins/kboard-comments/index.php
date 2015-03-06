@@ -35,16 +35,16 @@ function kboard_comments_settings_menu(){
 function kboard_comments_list(){
 	kboard_comments_system_update();
 	$commentList = new KBCommentList();
-	$action = $_POST['action'];
-	$action2 = $_POST['action2'];
-	if(($action=='remove' || $action2=='remove') && $_POST['comment_uid']){
+	$action = isset($_POST['action'])?$_POST['action']:'';
+	$action2 = isset($_POST['action2'])?$_POST['action2']:'';
+	if(($action=='remove' || $action2=='remove') && isset($_POST['comment_uid']) && $_POST['comment_uid']){
 		foreach($_POST['comment_uid'] AS $key => $value){
 			$commentList->delete($value);
 		}
 	}
 	
 	$commentList->order = 'DESC';
-	$commentList->page = intval($_GET['pageid'])?intval($_GET['pageid']):1;
+	$commentList->page = isset($_GET['pageid'])?intval($_GET['pageid']):1;
 	$commentList->init();
 	include_once 'pages/comments_list.php';
 }
@@ -67,8 +67,8 @@ function kboard_comments_builder($atts){
  */
 add_action('wp_enqueue_scripts', 'kboard_comments_script');
 function kboard_comments_script(){
-	$mod = kboard_htmlclear($_GET['mod']);
-	$uid = intval($_GET['uid']);
+	$mod = isset($_GET['mod'])?kboard_htmlclear($_GET['mod']):'';
+	$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 	if($mod == 'document' && $uid){
 		wp_enqueue_script('kboard-comments', 'http://contents.cosmosfarm.com/wordpress/kboard-comments.js', array(), KBOARD_COMMNETS_VERSION);
 	}

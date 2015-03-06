@@ -58,7 +58,7 @@
 		<?php elseif(!is_user_logged_in()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Author', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?$content->member_display:$userdata->data->display_name?>"></div>
+			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?>"></div>
 		</div>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
@@ -89,14 +89,14 @@
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Attachment', 'kboard')?></label>
 			<div class="attr-value">
-				<?php if($content->attach->file1[0]):?><?php echo $content->attach->file1[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file1');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
+				<?php if(isset($content->attach->file1)):?><?php echo $content->attach->file1[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file1');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
 				<input type="file" name="kboard_attach_file1">
 			</div>
 		</div>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Attachment', 'kboard')?></label>
 			<div class="attr-value">
-				<?php if($content->attach->file2[0]):?><?php echo $content->attach->file2[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file2');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
+				<?php if(isset($content->attach->file2)):?><?php echo $content->attach->file2[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file2');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
 				<input type="file" name="kboard_attach_file2">
 			</div>
 		</div>

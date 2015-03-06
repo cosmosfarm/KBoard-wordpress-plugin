@@ -17,11 +17,16 @@ class KBComment {
 	}
 
 	public function __get($name){
-		if($name == 'content'){
-			return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}), $this->row->uid, $this->row->content_uid);
+		if(isset($this->row->{$name})){
+			if($name == 'content'){
+				return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}), $this->row->uid, $this->row->content_uid);
+			}
+			else{
+				return stripslashes($this->row->{$name});
+			}
 		}
 		else{
-			return stripslashes($this->row->{$name});
+			return '';
 		}
 	}
 	
@@ -56,7 +61,7 @@ class KBComment {
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->content_uid}'");
 		$board = new KBoard($board_id);
 		
-		if($this->user_uid == $this->userdata->data->ID && $this->userdata->data->ID){
+		if(isset($this->userdata->data->ID) && $this->user_uid == $this->userdata->data->ID){
 			// 본인인 경우
 			return true;
 		}

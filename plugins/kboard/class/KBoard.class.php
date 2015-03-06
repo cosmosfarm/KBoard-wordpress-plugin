@@ -19,11 +19,20 @@ class KBoard {
 		global $user_ID;
 		$this->row = new stdClass();
 		$this->userdata = get_userdata($user_ID);
+		if(!isset($this->userdata->roles)) $this->userdata->roles = array();
+		if(!isset($this->userdata->data)) $this->userdata->data = new stdClass();
+		if(!isset($this->userdata->data->ID)) $this->userdata->data->ID = '';
+		if(!isset($this->userdata->data->user_login)) $this->userdata->data->user_login = '';
 		if($id) $this->setID($id);
 	}
 	
 	public function __get($name){
-		return $this->row->{$name};
+		if(isset($this->row->{$name})){
+			return $this->row->{$name};
+		}
+		else{
+			return '';
+		}
 	}
 	
 	/**
@@ -236,16 +245,18 @@ class KBoard {
 	public function isConfirm($password, $content_uid, $reauth=false){
 		if(!$password || !$content_uid) return false;
 		
+		$submitted_password = isset($_POST['password'])?$_POST['password']:'';
+		
 		if($reauth){
-			if($_POST['password'] == $password){
+			if($submitted_password == $password){
 				$_SESSION['kboard_confirm'][$content_uid] = $password;
 				return true;
 			}
 		}
-		else if($_SESSION['kboard_confirm'][$content_uid] == $password){
+		else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$content_uid]) && $_SESSION['kboard_confirm'][$content_uid] == $password){
 			return true;
 		}
-		else if($_POST['password'] == $password){
+		else if($submitted_password == $password){
 			$_SESSION['kboard_confirm'][$content_uid] = $password;
 			return true;
 		}

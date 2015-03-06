@@ -11,7 +11,7 @@ class KBTemplate {
 	 * 템플릿 페이지를 요청한다.
 	 */
 	public function templateSwitch(){
-		$kboard_id = intval($_GET['kboard_id']);
+		$kboard_id = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		if($kboard_id) $this->board($kboard_id);
 	}
 	
@@ -22,7 +22,7 @@ class KBTemplate {
 	public function board($board_id){
 		global $wpdb;
 		$meta = new KBoardMeta($board_id);
-		if($meta->use_direct_url || $_SESSION['kboard_board_id']){
+		if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
 			include_once KBOARD_DIR_PATH . '/template/board.php';
 			exit;
 		}
