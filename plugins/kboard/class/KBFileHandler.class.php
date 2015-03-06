@@ -93,19 +93,19 @@ class KBFileHandler {
 	 * 파일명중 확장자를 분리해준다.
 	 * @param string $file_Name
 	 */
-	private function explodeExtension($file_Name){
-		$this->file_extension = strtolower(end(explode('.', $file_Name)));
+	private function explodeExtension($file_name){
+		$this->file_extension = strtolower(end(explode('.', $file_name)));
 	}
 	
 	/**
 	 * 파일 확장자를 확인한다.
 	 * @param string $file_Name
 	 */
-	private function checkExtension($file_Name){
-		if(!count($this->file_extension)){
-			$this->explodeExtension($file_Name);
+	private function checkExtension($file_name){
+		if(!isset($this->file_extension) || !$this->file_extension){
+			$this->explodeExtension($file_name);
 		}
-		for($i=0;$i <= count($this->extension);$i++){
+		for($i=0; $i<count($this->extension); $i++){
 			if(!strcmp($this->extension[$i], $this->file_extension)){
 				return true;
 				break;
@@ -132,7 +132,7 @@ class KBFileHandler {
 	private function makeUniqueName(){
 		srand((double)microtime()*1000000);
 		$random = rand(1000000,2000000);
-		$date = date('Ymdhis');
+		$date = current_time('Ymdhis');
 		$this->file_unique_name = "{$date}{$random}.{$this->file_extension}";
 	}
 	
@@ -140,14 +140,13 @@ class KBFileHandler {
 	 * 파일 중복 체크한다.
 	 */
 	private function checkOverlap(){
-		if(file_exists("{$this->path}/{$this->file_unique_name}") || $this->file_unique_name){
-			return false;
-			exit;
+		if(isset($this->file_unique_name) && file_exists("{$this->path}/{$this->file_unique_name}")){
+			return true;
 		}
-		if(!$this->file_unique_name){
+		if(!isset($this->file_unique_name) || !$this->file_unique_name){
 			$this->makeUniqueName();
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -161,12 +160,18 @@ class KBFileHandler {
 	
 	/**
 	 * 작업을 롤백한다.
-	 * @param int $i
 	 */
-	private function rollback($i){
-		if($i > 1){
-			for($i=$i-1;$i>=0;$i--){
-				$this->remove($this->files['re_name']);
+	private function rollback(){
+		foreach($_FILES as $key=>$file){
+			if(isset($file['tmp_name']) && is_array($file['tmp_name'])){
+				foreach($file['tmp_name'] as $key=>$sub_file){
+					if(isset($sub_file['tmp_name']) && $sub_file['tmp_name']){
+						unlink($sub_file['tmp_name']);
+					}
+				}
+			}
+			else if(isset($file['tmp_name']) && $file['tmp_name']){
+				unlink($file['tmp_name']);
 			}
 		}
 	}
@@ -190,7 +195,17 @@ class KBFileHandler {
 		
 		if(!$this->path) die('KBFileHandler->upload() :: 디렉토리 경로가 없습니다.');
 		
-		$file_input = $_FILES[$name];
+		if(!isset($_FILES[$name])){
+			return array(
+					'stored_name' => '',
+					'original_name' => '',
+					'temp_name' => '',
+					'error' => '',
+					'type' => '',
+					'size' => '',
+					'path' => ''
+			);
+		}
 		
 		if(count($extension)<=0 || !is_array($extension)){
 			$extension = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'zip', '7z', 'hwp', 'ppt', 'xls', 'doc', 'txt', 'pdf', 'xlsx', 'pptx', 'docx');
@@ -200,7 +215,8 @@ class KBFileHandler {
 		$this->extension_type = $extension_type;
 		$this->limit_file_size = $limit_file_size;
 		
-		if(count($file_input['name']) > 1) $files = $this->multipleUpload($file_input);
+		$file_input = $_FILES[$name];
+		if(is_array($file_input['tmp_name'])) $files = $this->multipleUpload($file_input);
 		else $files = $this->singleUpload($file_input);
 		
 		unset($this->file_unique_name);
@@ -219,7 +235,7 @@ class KBFileHandler {
 			// HTTP POST를 통하여 업로드 된 파일인지 체크
 			if(!is_uploaded_file($file['tmp_name'])){
 				echo "<script>alert('파일이 올바르게 업로드 되지 않았습니다.');history.go(-1);</script>";
-				$this->rollback($i);
+				$this->rollback();
 				exit;
 			}
 			
@@ -227,37 +243,36 @@ class KBFileHandler {
 			$temps = $this->checkExtension($file['name']);
 			if( ($temps && !$this->extension_type) || (!$temps && $this->extension_type) ){
 				echo "<script>alert('업로드 가능한 파일 확장자가 아닙니다.');history.go(-1);</script>";
-				$this->rollback($i);
+				$this->rollback();
 				exit;
 			}
 			
 			// 파일 사이즈 체크
 			if(!$this->checkFileSize($file['size'])){
 				echo "<script>alert('업로드 파일 용량이 너무 큽니다.');history.go(-1);</script>";
-				$this->rollback($i);
+				$this->rollback();
 				exit;
 			}
 			
 			// 오류 체크
 			if(!$this->checkError($file['error'])){
 				echo "<script>alert('업로드 중 오류가 발생했습니다.');history.go(-1);</script>";
-				$this->rollback($i);
+				$this->rollback();
 				exit;
 			}
 			
 			// 파일 중복 체크
-			if(!$this->checkOverlap()){
-				echo "<script>alert('같은 파일이 이미 업로드 되어 있습니다.');history.go(-1);</script>";
+			if($this->checkOverlap()){
 				$this->makeUniqueName();
 			}
 			
 			if(!@move_uploaded_file($file['tmp_name'], KBOARD_WORDPRESS_ROOT . $this->path. '/' .$this->file_unique_name)){
 				echo "<script>alert('".$file['tmp_name'] . " 파일 업로드 중 오류가 발생 했습니다 : ". $this->path . '/' . $this->file_unique_name."');history.go(-1);</script>";
-				$this->rollback($i);
+				$this->rollback();
 				exit;
 			}
 			
-			$files = array(
+			return array(
 					'stored_name' => $this->file_unique_name,
 					'original_name' => $file['name'],
 					'temp_name' => $file['tmp_name'],
@@ -267,7 +282,15 @@ class KBFileHandler {
 					'path' => $this->path
 			);
 		}
-		return $files;
+		return array(
+				'stored_name' => '',
+				'original_name' => '',
+				'temp_name' => '',
+				'error' => '',
+				'type' => '',
+				'size' => '',
+				'path' => ''
+		);
 	}
 	
 	/**
@@ -282,7 +305,7 @@ class KBFileHandler {
 				// HTTP POST를 통하여 업로드 된 파일인지 체크
 				if(!is_uploaded_file($file['tmp_name'][$i])){
 					echo "<script>alert('파일이 올바르게 업로드 되지 않았습니다.');history.go(-1);</script>";
-					$this->rollback($i);
+					$this->rollback();
 					exit;
 				}
 				
@@ -291,33 +314,32 @@ class KBFileHandler {
 				$temps = $this->checkExtension($file['name'][$i]);
 				if( (!$temps && !$this->extension_type) || ($temps && $this->extension_type) ){
 					echo "<script>alert('업로드 가능한 파일 확장자가 아닙니다.');history.go(-1);</script>";
-					$this->rollback($i);
+					$this->rollback();
 					exit;
 				}
 				
 				// 파일 사이즈 체크
 				if(!$this->checkFileSize($file['size'][$i])){
 					echo "<script>alert('업로드 파일 용량이 너무 큽니다.');history.go(-1);</script>";
-					$this->rollback($i);
+					$this->rollback();
 					exit;
 				}
 				
 				// 오류 체크
 				if(!$this->checkError($file['error'][$i])){
 					echo "<script>alert('업로드 중 오류가 발생했습니다.');history.go(-1);</script>";
-					$this->rollback($i);
+					$this->rollback();
 					exit;
 				}
 				
 				// 파일 중복 체크
-				if(!$this->checkOverlap()){
-					echo "<script>alert('같은 파일이 이미 업로드 되어 있습니다.');history.go(-1);</script>";
+				if($this->checkOverlap()){
 					$this->makeUniqueName();
 				}
 				
 				if(!@move_uploaded_file($file['tmp_name'][$i], KBOARD_WORDPRESS_ROOT . $this->path. "/" .$this->file_unique_name)){
 					echo "<script>alert('".$file['tmp_name'][$i] . " 파일 업로드 중 오류가 발생 했습니다 : ". $this->path . "/" . $this->file_unique_name."');history.go(-1);</script>";
-					$this->rollback($i);
+					$this->rollback();
 					exit;
 				}
 				
@@ -331,9 +353,19 @@ class KBFileHandler {
 						'path' => $this->path
 				);
 			}
+			else{
+				$files[$i] = array(
+						'stored_name' => '',
+						'original_name' => '',
+						'temp_name' => '',
+						'error' => '',
+						'type' => '',
+						'size' => '',
+						'path' => ''
+				);
+			}
 		}
-		
-		return $files;
+		return isset($files)?$files:array();
 	}
 	
 	/**
