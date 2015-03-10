@@ -19,7 +19,7 @@ if($kboard_xssfilter_active){
 }
 
 /**
- * Cross-site scripting (XSS) 공격을 방어하기 위해서 위험 문자열을 제거한다.
+ * Cross-site scripting (XSS) 공격을 방어하기 위해서 위험한 문자열을 제거한다.
  * @param string $data
  */
 function kboard_xssfilter($data){
@@ -28,13 +28,18 @@ function kboard_xssfilter($data){
 	if($kboard_xssfilter_active){
 		if(!isset($GLOBALS['KBOARD']) || !isset($GLOBALS['KBOARD']['HTMLPurifier']) && !$GLOBALS['KBOARD']['HTMLPurifier'] || !isset($GLOBALS['KBOARD']['HTMLPurifier_Config']) || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
 			$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
-			$HTMLPurifier_Config->set('HTML.SafeIframe', true);
+			$HTMLPurifier_Config->set('URI.AllowedSchemes', array('http'=>true,'https'=>true,'mailto'=>true));
 			$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
-			$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
+			$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 			$HTMLPurifier_Config->set('HTML.SafeObject', true);
 			$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
+			$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
+			$HTMLPurifier_Config->set('HTML.FlashAllowFullScreen', true);
+			$HTMLPurifier_Config->set('HTML.AllowedElements','img,div,a,strong,font,span,em,br,p,u,i,b,sup,sub,small,table,thead,tbody,tfoot,tr,td,th,caption,pre,code,ul,li,ol,big,code,blockquote,center,canvas,hr,h1,h2,h3,h4,h5,h6,iframe');
+			$HTMLPurifier_Config->set('HTML.AllowedAttributes', 'a.href,a.target,img.src,iframe.src,iframe.frameborder,iframe.allowfullscreen,*.id,*.alt,*.style,*.class,*.title,*.width,*.height,*.border,*.colspan,*.rowspan');
 			$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
 			$HTMLPurifier_Config->set('Output.FlashCompat', true);
+			$HTMLPurifier_Config->set('Core.RemoveInvalidImg', true);
 			$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
 			$GLOBALS['KBOARD']['HTMLPurifier_Config'] = $HTMLPurifier_Config;
 			$GLOBALS['KBOARD']['HTMLPurifier'] = HTMLPurifier::getInstance();
@@ -54,6 +59,8 @@ function kboard_safeiframe($data){
 	/*
 	 * 허가된 도메인 호스트 (화이트 리스트)
 	 */
+	$whitelist[] = 'google.com';
+	$whitelist[] = 'www.google.com';
 	$whitelist[] = 'youtube.com';
 	$whitelist[] = 'www.youtube.com';
 	$whitelist[] = 'maps.google.com';
@@ -65,6 +72,9 @@ function kboard_safeiframe($data){
 	$whitelist[] = 'w.soundcloud.com';
 	$whitelist[] = 'slideshare.net';
 	$whitelist[] = 'www.slideshare.net';
+	$whitelist[] = 'channel.pandora.tv';
+	$whitelist[] = 'mgoon.com';
+	$whitelist[] = 'www.mgoon.com';
 	
 	// kboard_iframe_whitelist 필터
 	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);
