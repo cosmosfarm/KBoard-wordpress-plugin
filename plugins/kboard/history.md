@@ -4,6 +4,7 @@
   1. 스킨 CSS 수정
   2. kboard_xssfilter 설정 변경
   3. kboard_safeiframe 허용 도메인 추가
+  4. 버그 수정
 
 
 4.9
