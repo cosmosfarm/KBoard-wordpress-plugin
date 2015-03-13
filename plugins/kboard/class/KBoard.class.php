@@ -18,7 +18,7 @@ class KBoard {
 	public function __construct($id=''){
 		global $user_ID;
 		$this->row = new stdClass();
-		$this->userdata = get_userdata($user_ID);
+		$this->userdata = $user_ID?get_userdata($user_ID):new stdClass();
 		if(!isset($this->userdata->roles)) $this->userdata->roles = array();
 		if(!isset($this->userdata->data)) $this->userdata->data = new stdClass();
 		if(!isset($this->userdata->data->ID)) $this->userdata->data->ID = '';
