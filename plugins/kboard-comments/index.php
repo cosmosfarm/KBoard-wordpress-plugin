@@ -4,7 +4,7 @@ Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
 Version: 4.1
-Author: Cosmosfarm
+Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
 
