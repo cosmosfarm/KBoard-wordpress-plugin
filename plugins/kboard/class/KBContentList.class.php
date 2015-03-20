@@ -236,7 +236,7 @@ class KBContentList {
 	public function hasNextNotice(){
 		if(!$this->resource_notice) $this->getNoticeList();
 		$this->row = current($this->resource_notice); 
-	
+		
 		if($this->row){
 			next($this->resource_notice);
 			$content = new KBContent();

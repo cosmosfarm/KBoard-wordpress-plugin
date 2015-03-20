@@ -18,7 +18,7 @@ class KBCommentUrl {
 	 * @param string $comment_uid
 	 */
 	public function setCommentUID($comment_uid){
-		$this->comment_uid = $comment_uid;
+		$this->comment_uid = intval($comment_uid);
 	}
 	
 	/**
