@@ -49,6 +49,8 @@ img { border: 0; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; line-height: 27px; color: #999999; background-color: white; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.active a { border: 1px solid #d9534f; color: white; background-color: #d9534f; text-decoration: none; }
+#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
+#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-thumbnail-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 
 #kboard-thumbnail-editor { margin: 0 auto; width: 99%; }
@@ -63,7 +65,7 @@ img { border: 0; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value { font-size: 12px; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; min-width: 130px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value input[type=text],
-#kboard-thumbnail-editor .kboard-attr-row .attr-value input[type=password] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-value input[type=password] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: normal; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value input[type=radio],
 #kboard-thumbnail-editor .kboard-attr-row .attr-value input[type=checkbox] { margin-top: 8px; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value input[type=file] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border: 0; }
