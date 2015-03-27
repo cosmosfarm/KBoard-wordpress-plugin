@@ -99,7 +99,7 @@ function kboard_welcome_panel(){
 add_action('admin_menu', 'kboard_settings_menu');
 function kboard_settings_menu(){
 	$position = 51.23456;
-	while($GLOBALS['menu'][$position]) $position++;
+	while(isset($GLOBALS['menu'][$position]) && $GLOBALS['menu'][$position]) $position++;
 	
 	// KBoard 메뉴 등록
 	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $position);
