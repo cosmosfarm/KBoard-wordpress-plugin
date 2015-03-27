@@ -54,7 +54,7 @@ class KBUrl {
 	public function getCleanQueryStrings(){
 		$query_strings = array();
 		foreach($this->data as $key => $value){
-			if($value) $query_strings[$key] = urlencode(addslashes(kboard_xssfilter(kboard_htmlclear(trim($key))))).'='.urlencode(addslashes(kboard_xssfilter(kboard_htmlclear(trim($value)))));
+			if($value) $query_strings[$key] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
 		}
 		return implode('&', $query_strings);
 	}
@@ -118,7 +118,7 @@ class KBUrl {
 	 */
 	public function toInput(){
 		foreach($this->data as $key => $value){
-			if($value) $input[] = '<input type="hidden" name="' . kboard_xssfilter(kboard_htmlclear(trim($key))) .'" value="' . kboard_xssfilter(kboard_htmlclear(trim($value))) . '">';
+			if($value) $input[] = '<input type="hidden" name="' . addslashes(kboard_xssfilter(kboard_htmlclear(trim($key)))) .'" value="' . addslashes(kboard_xssfilter(kboard_htmlclear(trim($value)))) . '">';
 		}
 		$this->init();
 		return @implode('', $input);
