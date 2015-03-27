@@ -54,7 +54,7 @@ class KBUrl {
 	public function getCleanQueryStrings(){
 		$query_strings = array();
 		foreach($this->data as $key => $value){
-			if($value) $query_strings[$key] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
+			if($value) $query_strings[$key] = urlencode(addslashes(kboard_xssfilter(kboard_htmlclear(trim($key))))).'='.urlencode(addslashes(kboard_xssfilter(kboard_htmlclear(trim($value)))));
 		}
 		return implode('&', $query_strings);
 	}

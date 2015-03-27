@@ -22,15 +22,15 @@ class KBoardBuilder {
 		$_GET['uid'] = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$_GET['parent_uid'] = isset($_GET['parent_uid'])?intval($_GET['parent_uid']):'';
 		$_GET['pageid'] = isset($_GET['pageid'])?intval($_GET['pageid']):'';
-		$_GET['mod'] = isset($_GET['mod'])?kboard_xssfilter(kboard_htmlclear($_GET['mod'])):'';
-		$_GET['category1'] = isset($_GET['category1'])?kboard_xssfilter(kboard_htmlclear($_GET['category1'])):'';
-		$_GET['category2'] = isset($_GET['category2'])?kboard_xssfilter(kboard_htmlclear($_GET['category2'])):'';
-		$_GET['keyword'] = isset($_GET['keyword'])?kboard_xssfilter(kboard_htmlclear($_GET['keyword'])):'';
-		$_GET['target'] = isset($_GET['target'])?kboard_xssfilter(kboard_htmlclear($_GET['target'])):'';
+		$_GET['mod'] = isset($_GET['mod'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['mod']))):'';
+		$_GET['category1'] = isset($_GET['category1'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['category1']))):'';
+		$_GET['category2'] = isset($_GET['category2'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['category2']))):'';
+		$_GET['keyword'] = isset($_GET['keyword'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['keyword']))):'';
+		$_GET['target'] = isset($_GET['target'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['target']))):'';
 		$_GET['kboard_id'] = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		
 		$_POST['uid'] = isset($_POST['uid'])?intval($_POST['uid']):'';
-		$_POST['mod'] = isset($_POST['mod'])?kboard_xssfilter(kboard_htmlclear($_POST['mod'])):'';
+		$_POST['mod'] = isset($_POST['mod'])?addslashes(kboard_xssfilter(kboard_htmlclear($_POST['mod']))):'';
 		
 		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
 		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
