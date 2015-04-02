@@ -72,7 +72,7 @@ class KBoardBuilder {
 		$_SESSION['kboard_board_id'] = $this->board_id;
 		
 		// 소셜댓글 플러그인 생성
-		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
+		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
 			add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
 			wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
 			wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
