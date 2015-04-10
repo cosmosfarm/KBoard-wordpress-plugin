@@ -3,12 +3,12 @@
  */
 
 var console = window.console || { log: function() {} };
-jQuery.fn.exists = function(){
-	return this.length>0;
-}
 
 function kboard_comments_execute(form){
-	var $ = jQuery;
+	var $ = jQuery.noConflict();
+	jQuery.fn.exists = function(){
+		return this.length>0;
+	};
 	
 	if($('input[name=member_display]', form).exists() && !$('input[name=member_display]', form).val()){
 		alert(kboard_comments_localize.please_enter_a_author);
