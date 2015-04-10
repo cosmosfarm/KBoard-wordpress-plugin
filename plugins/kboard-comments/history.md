@@ -1,7 +1,8 @@
 4.1
 ===================
 
-  1. 버그 수정
+  1. jQuery.fn 으로 확장하는 함수끼리의 충돌 막기 (mgsmurf, https://github.com/mgsmurf)
+  2. 버그 수정
 
 
 
