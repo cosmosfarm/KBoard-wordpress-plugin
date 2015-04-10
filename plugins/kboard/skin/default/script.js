@@ -3,12 +3,12 @@
  */
 
 var console = window.console || { log: function() {} };
-jQuery.fn.exists = function(){
-	return this.length>0;
-}
 
 function kboard_editor_execute(form){
-	var $ = jQuery;
+	var $ = jQuery.noConflict();
+	jQuery.fn.exists = function(){
+		return this.length>0;
+	};
 	
 	if(!$('input[name=title]', form).val()){
 		alert(kboard_localize.please_enter_a_title);
