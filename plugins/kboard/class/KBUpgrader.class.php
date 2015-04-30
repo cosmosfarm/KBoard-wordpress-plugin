@@ -9,7 +9,7 @@ final class KBUpgrader {
 	
 	static private $instance;
 	static private $latest_version;
-	static private $sever_host = 'cosmosfarm.com';
+	static private $sever_host = 'www.cosmosfarm.com';
 	
 	static $CONNECT_LOGIN_STATUS = 'http://www.cosmosfarm.com/accounts/loginstatus';
 	static $CONNECT_VERSION = 'http://www.cosmosfarm.com/wpstore/kboard/version';
@@ -24,7 +24,7 @@ final class KBUpgrader {
 	private function __construct(){
 		
 	}
-
+	
 	/**
 	 * 인스턴스를 반환한다.
 	 * @return KBUpgrader
