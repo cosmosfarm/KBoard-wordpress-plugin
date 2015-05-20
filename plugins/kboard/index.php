@@ -630,7 +630,7 @@ function kboard_style(){
 		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 	}
 	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() AS $key => $value){
+	foreach($skin->getActiveList() as $key => $value){
 		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css', array(), KBOARD_VERSION);
 	}
 }
@@ -650,7 +650,7 @@ function kboard_admin_style(){
 add_action('init', 'kboard_skin_functions');
 function kboard_skin_functions(){
 	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() AS $key => $value){
+	foreach($skin->getActiveList() as $key => $value){
 		if(file_exists(KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php')) include_once KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php';
 	}
 }

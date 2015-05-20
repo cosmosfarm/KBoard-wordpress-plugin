@@ -39,7 +39,7 @@
 		
 		<div class="kboard-content" itemprop="description">
 			<div class="content-view">
-				<?php if($content->thumbnail_file):?><p class="thumbnail-area"><img src="<?php echo get_site_url() . $content->thumbnail_file?>" alt=""></p><?php endif;?>
+				<?php if($content->thumbnail_file):?><p class="thumbnail-area"><img src="<?php site_url($content->thumbnail_file)?>" alt=""></p><?php endif;?>
 				
 				<?php echo $content->content?>
 			</div>

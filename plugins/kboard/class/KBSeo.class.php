@@ -67,6 +67,10 @@ class KBSeo {
 		echo "\n";
 		echo '<meta property="og:description" content="'.kboard_htmlclear($this->content->content).'">';
 		echo "\n";
+		if($this->content->thumbnail_file){
+			echo '<meta property="og:image" content="'.site_url($this->content->thumbnail_file).'">';
+			echo "\n";
+		}
 	}
 	
 	/**
