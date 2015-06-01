@@ -25,7 +25,7 @@ class KBoardBuilder {
 		$_GET['mod'] = isset($_GET['mod'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['mod']))):'';
 		$_GET['category1'] = isset($_GET['category1'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['category1']))):'';
 		$_GET['category2'] = isset($_GET['category2'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['category2']))):'';
-		$_GET['keyword'] = isset($_GET['keyword'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['keyword']))):'';
+		$_GET['keyword'] = isset($_GET['keyword'])?addslashes(str_replace(array('/', '\\', '"', '\'', ':', '+', '-', '=', '`', '[', ']', '{', '}', '(', ')', '<', '>'), '', kboard_xssfilter(kboard_htmlclear($_GET['keyword'])))):'';
 		$_GET['target'] = isset($_GET['target'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['target']))):'';
 		$_GET['kboard_id'] = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		
