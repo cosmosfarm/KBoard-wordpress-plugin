@@ -8,7 +8,7 @@
 class KBCommentSkin {
 	
 	static private $instance;
-	static $list;
+	private $list;
 	
 	private function __construct(){
 		$dir = KBOARD_COMMENTS_DIR_PATH . '/skin';
@@ -28,6 +28,15 @@ class KBCommentSkin {
 	static public function getInstance(){
 		if(!self::$instance) self::$instance = new KBCommentSkin();
 		return self::$instance;
+	}
+	
+	/**
+	 * 모든 스킨 리스트를 반환한다.
+	 * @return array
+	 */
+	public function getList(){
+		if($this->list) return $this->list;
+		else array();
 	}
 }
 ?>

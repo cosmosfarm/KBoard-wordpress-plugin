@@ -41,7 +41,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="auto_page" id="auto_page" class="">
 								<option value="">— 선택하기 —</option>
-								<?php foreach(get_pages() AS $key => $page):?>
+								<?php foreach(get_pages() as $key => $page):?>
 								<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
 								<?php endforeach?>
 							</select>
@@ -70,7 +70,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="skin" id="skin" class="">
 								<?php
 								if(!$board->skin) $board->skin = 'default';
-								foreach($skin->list AS $key => $value):
+								foreach($skin->getList() as $key => $value):
 								?>
 								<option value="<?php echo $value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
 									<?php echo $value?>
@@ -131,7 +131,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="comment_skin" id="comment_skin" class="">
 								<?php
 								if(!$meta->comment_skin) $meta->comment_skin = 'default';
-								foreach($comment_skin->list AS $key => $value):
+								foreach($comment_skin->getList() as $key => $value):
 								?>
 								<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
 								<?php endforeach?>

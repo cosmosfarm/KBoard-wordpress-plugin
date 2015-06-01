@@ -8,7 +8,7 @@
 class KBoardSkin {
 	
 	static private $instance;
-	static $list;
+	private $list;
 	
 	private function __construct(){
 		$dir = KBOARD_DIR_PATH . '/skin';
@@ -31,17 +31,25 @@ class KBoardSkin {
 	}
 	
 	/**
+	 * 모든 스킨 리스트를 반환한다.
+	 * @return array
+	 */
+	public function getList(){
+		if($this->list) return $this->list;
+		else array();
+	}
+	
+	/**
 	 * 사용 중인 스킨 리스트를 반환한다.
 	 * @return array
 	 */
 	public function getActiveList(){
 		global $wpdb;
-		$list = array();
 		$result = $wpdb->get_results("SELECT `skin` FROM `{$wpdb->prefix}kboard_board_setting` UNION SELECT `skin` FROM `{$wpdb->prefix}kboard_board_latestview`");
 		foreach($result as $row){
 			$list[] = stripslashes($row->skin);
 		}
-		return $list;
+		return isset($list) && $list?$list:array();
 	}
 }
 ?>
