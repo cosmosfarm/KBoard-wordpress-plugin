@@ -29,15 +29,30 @@ class KBTemplate {
 	}
 	
 	/**
-	 * 소셜댓글 플러그인을 출력한다.
+	 * 코스모스팜 소셜댓글 출력한다.
 	 * @param KBoardMeta $meta
 	 * @return string
 	 */
 	public function comments_plugin($meta){
 		ob_start();
 		$url = new KBUrl();
+		$template = $this;
 		include KBOARD_DIR_PATH . '/template/comments_plugin.php';
 		return ob_get_clean();
+	}
+	
+	/**
+	 * 코스모스팜 소셜댓글의 회원연동 API 토큰을 반환한다.
+	 * @return string
+	 */
+	public function get_comments_access_token(){
+		if(defined('COSMOSFARM_COMMENTS_VERSION')){
+			$comments = new Cosmosfarm_Comments_Core();
+			return $comments->get_access_token();
+		}
+		else{
+			return '';
+		}
 	}
 }
 ?>

@@ -11,7 +11,7 @@
 	<?php
 	// 게시판 스킨 스타일 파일 추가
 	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() AS $key=>$value): if(!empty($value)):
+	foreach($skin->getActiveList() as $key=>$value): if(!empty($value)):
 	?>
 	<link rel="stylesheet" id="kboard-skin-<?php echo $value?>-css"  href='<?php echo KBOARD_URL_PATH?>/skin/<?php echo $value?>/style.css?ver=<?php echo KBOARD_VERSION?>' type="text/css" media="all">
 	<?php endif; endforeach;?>
