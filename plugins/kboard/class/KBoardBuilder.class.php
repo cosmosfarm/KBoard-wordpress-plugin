@@ -210,11 +210,16 @@ class KBoardBuilder {
 					if($content->parent_uid){
 						$parent = new KBContent();
 						$parent->initWithUID($content->getTopContentUID());
-						if(!$this->board->isConfirm($parent->password, $parent->uid)){
-							include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+						if($this->board->isReader($parent->member_uid, $content->secret)){
+							$allow_document = true;
 						}
 						else{
-							$allow_document = true;
+							if(!$this->board->isConfirm($parent->password, $parent->uid)){
+								include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+							}
+							else{
+								$allow_document = true;
+							}
 						}
 					}
 					else{
