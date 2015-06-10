@@ -9,8 +9,8 @@ Author URI: http://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
-if(!function_exists('is_plugin_active')) include_once ABSPATH.'wp-admin/includes/plugin.php';
-if(is_plugin_active('kboard/index.php')){
+if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
 define('KBOARD_COMMNETS_VERSION', '4.1');
 define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
