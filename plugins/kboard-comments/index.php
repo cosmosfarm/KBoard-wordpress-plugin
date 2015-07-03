@@ -169,10 +169,6 @@ register_activation_hook(__FILE__, 'kboard_comments_activation');
 function kboard_comments_activation($networkwide){
 	global $wpdb;
 	
-	if(!defined('KBOARD_VERSION')){
-		die('KBoard 댓글 알림 :: 먼저 KBoard 게시판 플러그인을 설치하고 활성화 해주세요. http://www.cosmosfarm.com/ 에서 다운로드 가능합니다.');
-	}
-	
 	if(function_exists('is_multisite') && is_multisite()){
 		if($networkwide){
 			$old_blog = $wpdb->blogid;
