@@ -31,7 +31,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<select name="skin" id="skin">
 							<?php
 							if(!$latestview->skin) $latestview->skin = 'default';
-							foreach($skin->list AS $key => $value):
+							foreach($skin->getList() as $key => $value):
 							?>
 							<option value="<?php echo $value?>"<?php if($latestview->skin == $value):?> selected<?php endif?>>
 								<?php echo $value?>
@@ -120,33 +120,30 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 </div>
 <script>
 function push_board(){
-	var $ = jQuery;
-	$('option:selected', '#unlink').each(function(){
-		$('#link').append(this);
+	jQuery('option:selected', '#unlink').each(function(){
+		jQuery('#link').append(this);
 	});
 	return false;
 }
 function pop_board(){
-	var $ = jQuery;
-	$('option:selected', '#link').each(function(){
-		$('#unlink').append(this);
+	jQuery('option:selected', '#link').each(function(){
+		jQuery('#unlink').append(this);
 	});
 	return false;
 }
 function latestview_submit(){
-	var $ = jQuery;
 	var link = '';
 	var unlink = '';
 	
-	$('option', '#link').each(function(){
-		link += ',' + $(this).val();
+	jQuery('option', '#link').each(function(){
+		link += ',' + jQuery(this).val();
 	});
-	$('input[name=latestview_link]').val(link);
+	jQuery('input[name=latestview_link]').val(link);
 	
-	$('option', '#unlink').each(function(){
-		unlink += ',' + $(this).val();
+	jQuery('option', '#unlink').each(function(){
+		unlink += ',' + jQuery(this).val();
 	});
-	$('input[name=latestview_unlink]').val(unlink);
+	jQuery('input[name=latestview_unlink]').val(unlink);
 	
 	return true;
 }
