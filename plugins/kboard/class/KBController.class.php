@@ -7,10 +7,6 @@
  */
 class KBController {
 	
-	public function __construct(){
-		//header("Content-Type: text/html; charset=UTF-8");
-	}
-	
 	public function init(){
 		$action = isset($_POST['action'])?$_POST['action']:'';
 		if($action == 'kboard_editor_execute'){
@@ -22,6 +18,8 @@ class KBController {
 		global $user_ID;
 		
 		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
+			header("Content-Type: text/html; charset=UTF-8");
+			
 			$uid = intval($_POST['uid']);
 			$board_id = intval($_POST['board_id']);
 			
