@@ -16,7 +16,7 @@ img { border: 0; }
 .kboard-thumbnail-poweredby { float: left; padding-bottom: 15px; width: 100%; }
 .kboard-thumbnail-poweredby a { font-size: 13px; text-decoration: none; color: gray; }
 
-#kboard-thumbnail-list { margin: 0 auto; width: 99%; }
+#kboard-thumbnail-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-thumbnail-list .kboard-header { float: left; margin-top: 0; width: 100%; }
 #kboard-thumbnail-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
 #kboard-thumbnail-list .kboard-category select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 120px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; box-shadow: none; }
@@ -53,7 +53,7 @@ img { border: 0; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-thumbnail-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 
-#kboard-thumbnail-editor { margin: 0 auto; width: 99%; }
+#kboard-thumbnail-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-thumbnail-editor select,
 #kboard-thumbnail-editor input { display: inline; width: auto; height: auto; }
 #kboard-thumbnail-editor .kboard-header { float: left; width: 100%; border-top: 1px solid #e3e3e3; line-height: 0; }
@@ -75,7 +75,7 @@ img { border: 0; }
 #kboard-thumbnail-editor .kboard-control .left { position: static; float: left; }
 #kboard-thumbnail-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
 
-#kboard-thumbnail-document { margin: 0 auto; width: 99%; }
+#kboard-thumbnail-document { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-thumbnail-document .kboard-header { float: left; margin-top: 0; width: 100%; }
 #kboard-thumbnail-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
 #kboard-thumbnail-document .kboard-title { float: left; width: 100%; }
