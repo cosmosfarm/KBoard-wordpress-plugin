@@ -1,4 +1,5 @@
 <?php
+if(!defined('ABSPATH')) exit;
 /**
  * KBoard 게시글 본문 자동링크
  * @link www.cosmosfarm.com

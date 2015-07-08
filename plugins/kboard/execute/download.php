@@ -2,11 +2,17 @@
 list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
 include $path.DIRECTORY_SEPARATOR.'wp-load.php';
 
+header('Content-Type: text/html; charset=UTF-8');
 $referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 $host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-
-header("Content-Type: text/html; charset=UTF-8");
-if(!stristr($referer, $host)) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+if($referer){
+	$url = parse_url($referer);
+	$referer_host = $url['host'];
+}
+else{
+	wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+}
+if(!in_array($referer_host, array($host))) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
 
 $uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 if(isset($_GET['file'])){

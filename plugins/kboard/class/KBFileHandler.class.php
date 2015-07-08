@@ -52,10 +52,15 @@ class KBFileHandler {
 	 * @param string $path
 	 * @param boolean $mk
 	 */
-	function checkPath($path, $mk = true){
+	function checkPath($path, $mk=true){
 		$path = KBOARD_WORDPRESS_ROOT . $this->addFirstSlash($path);
+		if($mk) wp_mkdir_p($path);
 		if(!file_exists($path)){
-			return $mk?$this->mkPath($path):false;
+			return false;
+		}
+		else if(!is_writable($path)){
+			@chmod($path, 0777);
+			return true;
 		}
 		return true;
 	}
@@ -108,7 +113,6 @@ class KBFileHandler {
 		for($i=0; $i<count($this->extension); $i++){
 			if(!strcmp($this->extension[$i], $this->file_extension)){
 				return true;
-				break;
 			}
 		}
 		return false;
@@ -121,7 +125,6 @@ class KBFileHandler {
 	private function checkFileSize($file_Size){
 		if($this->limit_file_size < $file_Size){
 			return false;
-			exit;
 		}
 		return true;
 	}
@@ -193,7 +196,7 @@ class KBFileHandler {
 		 $limit_file_size : 업로드 할수 있는 파일용량 제한 - (1메가 = 1048576)
 		*/
 		
-		if(!$this->path) die('KBFileHandler->upload() :: 디렉토리 경로가 없습니다.');
+		if(!$this->path) die('KBFileHandler->upload() :: 디렉토리 경로가 없거나 하위 디렉토리에 쓰기 권한이 없습니다.');
 		
 		if(!isset($_FILES[$name])){
 			return array(

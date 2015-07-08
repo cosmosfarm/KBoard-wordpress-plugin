@@ -1,4 +1,5 @@
 <?php
+if(!defined('ABSPATH')) exit;
 /**
  * KBoard 워드프레스 게시판 사용자 함수
  * @link www.cosmosfarm.com
