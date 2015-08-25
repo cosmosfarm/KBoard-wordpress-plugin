@@ -6,7 +6,7 @@
 	</div>
 	<div style="float: right;"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width: 500px; height:60px;" allowTransparency="true"></iframe></div>
 	<div class="welcome-panel-column-container">
-		<div class="welcome-panel-column">
+		<div class="welcome-panel-column" style="overflow:hidden;">
 			<h4>KBoard 버전</h4>
 			<ul>
 				<li>
@@ -25,11 +25,7 @@
 					<?php endif?>
 				</li>
 			</ul>
-			<h4>KBoard 백업</h4>
-			<ul>
-				<li><a href="<?php echo KBOARD_BACKUP_ACTION?>" class="button">데이터 백업</a></li>
-				<li><a href="<?php echo KBOARD_BACKUP_PAGE?>" class="button">데이터 복구</a></li>
-			</ul>
+			<iframe src="//www.cosmosfarm.com/welcome/kboard_ads" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none;"></iframe>
 		</div>
 		<div class="welcome-panel-column">
 			<h4>워드프레스 스토어</h4>
@@ -67,7 +63,7 @@ window.onload = function(){
 	});
 };
 function cf_upgrade(){
-	if(confirm('설치 및 업그레이드는 KBoard 게시판 설치도구를 이용해주세요. 해당 플러그인을 설치 하시겠습니까?')){
+	if(confirm('설치 및 업그레이드는 KBoard 게시판 설치도구를 사용해주세요. 다음 페이지에서 플러그인을 설치해주세요.')){
 		location.href = '<?php echo admin_url('/plugin-install.php?tab=search&s=kboard-downloader');?>';
 	}
 	return false;
