@@ -2,7 +2,9 @@
 ===================
 
   1. jQuery.fn 으로 확장하는 함수끼리의 충돌 막기 (mgsmurf, https://github.com/mgsmurf)
-  2. 버그 수정
+  2. KBCommentController 클래스 추가
+  3. KBCommentTemplate 클래스 추가 
+  4. 버그 수정
 
 
 

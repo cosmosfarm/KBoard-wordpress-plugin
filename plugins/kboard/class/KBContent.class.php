@@ -1,6 +1,6 @@
 <?php
 /**
- * KBoard 워드프레스 게시판 게시물
+ * KBoard 게시글
  * @link www.cosmosfarm.com
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
@@ -110,6 +110,7 @@ class KBContent {
 			$this->setThumbnail($this->uid);
 			$this->update_options($this->uid);
 			$this->update_attach($this->uid);
+			$this->addMediaRelationships($this->uid);
 			
 			/*
 			 * 게시글 수정 액션 훅 실행
@@ -133,6 +134,7 @@ class KBContent {
 				$this->setThumbnail($uid);
 				$this->update_options($uid);
 				$this->update_attach($uid);
+				$this->addMediaRelationships($uid);
 				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				$meta = new KBoardMeta($this->board_id);
@@ -432,7 +434,7 @@ class KBContent {
 		global $wpdb;
 		$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid'");
 		foreach($result as $file){
-			$this->deleteResizeImage(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
+			kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
 			@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
 		}
 		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid'");
@@ -448,7 +450,7 @@ class KBContent {
 			$key = addslashes($key);
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$this->uid'");
 			if($file){
-				$this->deleteResizeImage(KBOARD_WORDPRESS_ROOT . stripslashes($file));
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($file));
 				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file));
 			}
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
@@ -541,21 +543,6 @@ class KBContent {
 	}
 	
 	/**
-	 * 썸네일 파일을 삭제한다.
-	 */
-	public function removeThumbnail(){
-		global $wpdb;
-		if($this->uid){
-			$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid' LIMIT 1");
-			if($content->thumbnail_file){
-				$this->deleteResizeImage(KBOARD_WORDPRESS_ROOT . stripslashes($content->thumbnail_file));
-				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($content->thumbnail_file));
-				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
-			}
-		}
-	}
-	
-	/**
 	 * 게시글을 삭제한다.
 	 * @param string $next
 	 */
@@ -573,9 +560,30 @@ class KBContent {
 			}
 			
 			/*
+			 * 미디어 파일을 삭제한다.
+			 */
+			$media = new KBContentMedia();
+			$media->deleteWithContentUID($this->uid);
+			
+			/*
 			 * 게시글 삭제 액션 훅 실행
 			 */
 			do_action('kboard_document_delete', $this->uid, $this->board_id);
+		}
+	}
+	
+	/**
+	 * 썸네일 파일을 삭제한다.
+	 */
+	public function removeThumbnail(){
+		global $wpdb;
+		if($this->uid){
+			$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid' LIMIT 1");
+			if($content->thumbnail_file){
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($content->thumbnail_file));
+				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($content->thumbnail_file));
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
+			}
 		}
 	}
 	
@@ -659,28 +667,6 @@ class KBContent {
 	}
 	
 	/**
-	 * 리사이즈 이미지를 지운다.
-	 * @param string $image
-	 */
-	public function deleteResizeImage($image){
-		$size = getimagesize($image);
-		if($size){
-			$fileinfo = pathinfo($image);
-			$original_name = basename($image, '.'.$fileinfo['extension']).'-';
-			$dir = dirname($image);
-			if($dh = @opendir($dir)){
-				while(($file = readdir($dh)) !== false){
-					if($file == "." || $file == "..") continue;
-					if(strpos($file, $original_name) !== false){
-						@unlink($dir . '/' . $file);
-					}
-				}
-			}
-			closedir($dh);
-		}
-	}
-	
-	/**
 	 * 최상위 부모 UID를 반환한다.
 	 * @return int
 	 */
@@ -691,6 +677,17 @@ class KBContent {
 			return $content->getTopContentUID();
 		}
 		return $this->uid;
+	}
+	
+	/**
+	 * 게시글과 미디어의 관계를 입력한다.
+	 * @param int $uid
+	 */
+	public function addMediaRelationships($uid){
+		$media = new KBContentMedia();
+		$media->content_uid = $uid;
+		$media->media_group = kboard_htmlclear(isset($_POST['media_group'])?$_POST['media_group']:'');
+		$media->addRelationships();
 	}
 	
 	/**

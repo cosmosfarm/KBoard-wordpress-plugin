@@ -8,7 +8,6 @@
 class KBCommentList {
 	
 	var $total;
-	var $userdata;
 	var $content_uid;
 	var $parent_uid;
 	var $resource;
@@ -18,8 +17,6 @@ class KBCommentList {
 	var $page = 1;
 	
 	public function __construct($content_uid=''){
-		global $user_ID;
-		$this->userdata = get_userdata($user_ID);
 		if($content_uid) $this->setContentUID($content_uid);
 	}
 	

@@ -24,13 +24,13 @@ define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_list'));
 define('KBOARD_LATESTVIEW_PAGE', admin_url('/admin.php?page=kboard_latestview'));
 define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('/admin.php?page=kboard_latestview_new'));
 define('KBOARD_BACKUP_PAGE', admin_url('/admin.php?page=kboard_backup'));
-define('KBOARD_BACKUP_ACTION', plugins_url('/execute/backup.php', __FILE__));
 define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('/admin.php?page=kboard_content_list'));
 
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
+include_once 'class/KBContentMedia.class.php';
 include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
 include_once 'class/KBoardMeta.class.php';
@@ -49,21 +49,20 @@ include_once 'helper/Security.helper.php';
 include_once 'helper/Functions.helper.php';
 
 /*
- * KBoard 시작
+ * KBoard 게시판 시작
  */
 add_action('init', 'kboard_init');
 function kboard_init(){
+	
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
 	
-	// 컨트롤러 등록
+	// 컨트롤러 시작
 	$controller = new KBController();
-	$controller->init();
 	
-	// 템플릿 등록
+	// 템플릿 시작
 	$template = new KBTemplate();
-	add_action('template_redirect', array($template, 'templateSwitch'), 1);
 	
 	// ajax 등록
 	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
@@ -72,6 +71,36 @@ function kboard_init(){
 	
 	// SEO를 위해서 head에 정보 출력
 	$seo = new KBSeo();
+	
+	if(!is_admin()){
+		add_action('media_buttons_context',  'kboard_editor_button');
+		add_filter('mce_buttons', 'kboard_register_media_button');
+		add_filter('mce_external_plugins', 'kboard_add_media_button');
+	}
+}
+
+/*
+ * 글쓰기 에디터에 이미지 추가하기 버튼을 추가한다.
+ */
+function kboard_editor_button($context){
+	$context .= ' <button type="button" class="button" onclick="kboard_editor_open_media()">KBoard 이미지 삽입하기</button>';
+	return $context;
+}
+
+/*
+ * 글쓰기 에디터에 이미지 버튼을 등록한다.
+ */
+function kboard_register_media_button($buttons){
+	array_push($buttons, 'kboard_media');
+	return $buttons;
+}
+
+/*
+ * 글쓰기 에디터에 이미지 버튼을 추가한다.
+ */
+function kboard_add_media_button($plugin_array){
+	$plugin_array['kboard_media_button_script'] = plugins_url('/template/js/editor_media_button.js', __FILE__);
+	return $plugin_array;
 }
 
 /*
@@ -775,6 +804,23 @@ function kboard_activation_execute(){
 		UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
 	) DEFAULT CHARSET=utf8");
 	
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida` (
+		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+		`media_group` varchar(127) DEFAULT NULL,
+		`date` char(14) DEFAULT NULL,
+		`file_path` varchar(127) DEFAULT NULL,
+		`file_name` varchar(127) DEFAULT NULL,
+		PRIMARY KEY (`uid`),
+		KEY `media_group` (`media_group`)
+	) DEFAULT CHARSET=utf8");
+	
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida_relationships` (
+		`content_uid` bigint(20) unsigned NOT NULL,
+		`media_uid` bigint(20) unsigned NOT NULL,
+		UNIQUE KEY `content_uid` (`content_uid`,`media_uid`),
+		KEY `media_uid` (`media_uid`)
+	) DEFAULT CHARSET=utf8");
+	
 	/*
 	 * KBoard 2.9
 	 * kboard_board_meta `value` 데이터형 text로 변경
@@ -883,7 +929,10 @@ function kboard_uninstall_execute(){
 		`{$wpdb->prefix}kboard_board_setting`,
 		`{$wpdb->prefix}kboard_board_meta`,
 		`{$wpdb->prefix}kboard_board_latestview`,
-		`{$wpdb->prefix}kboard_board_latestview_link`");
+		`{$wpdb->prefix}kboard_board_latestview_link`
+		`{$wpdb->prefix}kboard_meida`
+		`{$wpdb->prefix}kboard_meida_relationships`
+	");
 }
 
 /*
@@ -1026,5 +1075,14 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
+	
+	/*
+	 * KBoard 5.0
+	 * kboard_meida, kboard_meida_relationships 테이블 추가 생성
+	 */
+	if(!$wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}kboard_meida'")){
+		kboard_activation($networkwide);
+		return;
+	}
 }
 ?>

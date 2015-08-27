@@ -35,7 +35,7 @@
 			<form action="<?php echo $commentURL->getInsertURL()?>" method="post" id="kboard_comments_reply_form_<?php echo $comment->uid?>" class="comments-reply-form" onsubmit="return kboard_comments_execute(this);">
 				<input type="hidden" name="content_uid" value="<?php echo $comment->content_uid?>">
 				<input type="hidden" name="parent_uid" value="<?php echo $comment->uid?>">
-				<input type="hidden" name="member_uid" value="<?php echo $userdata->data->ID?>">
+				<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
 			</form>
 			<!-- 댓글 입력 폼 끝 -->
 		</li>

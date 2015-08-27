@@ -26,7 +26,8 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getInsertURL(){
-		return plugins_url().'/kboard-comments/execute/insert.php';
+		return site_url("?action=kboard_comment_insert");
+		//return plugins_url("/kboard-comments/execute/insert.php");
 	}
 	
 	/**
@@ -34,7 +35,8 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getDeleteURL(){
-		return plugins_url().'/kboard-comments/execute/delete.php?uid='.$this->comment_uid;
+		return site_url("?action=kboard_comment_delete&uid={$this->comment_uid}");
+		//return plugins_url("/kboard-comments/execute/delete.php?uid={$this->comment_uid}");
 	}
 	
 	/**
@@ -42,7 +44,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getConfirmURL(){
-		return plugins_url().'/kboard-comments/execute/confirm.php?uid='.$this->comment_uid;
+		return site_url("?action=kboard_comment_confirm&uid={$this->comment_uid}");
 	}
 }
 ?>

@@ -20,9 +20,8 @@ class KBoard {
 		$this->row = new stdClass();
 		$this->userdata = $user_ID?get_userdata($user_ID):new stdClass();
 		if(!isset($this->userdata->roles)) $this->userdata->roles = array();
-		if(!isset($this->userdata->data)) $this->userdata->data = new stdClass();
-		if(!isset($this->userdata->data->ID)) $this->userdata->data->ID = '';
-		if(!isset($this->userdata->data->user_login)) $this->userdata->data->user_login = '';
+		if(!isset($this->userdata->ID)) $this->userdata->ID = '';
+		if(!isset($this->userdata->user_login)) $this->userdata->user_login = '';
 		if($id) $this->setID($id);
 	}
 	
@@ -162,8 +161,8 @@ class KBoard {
 		if($this->permission_read == 'all' && !$secret){
 			return true;
 		}
-		else if($this->userdata->data->ID){
-			if($writer_uid == $this->userdata->data->ID){
+		else if($this->userdata->ID){
+			if($writer_uid == $this->userdata->ID){
 				// 본인인 경우
 				return true;
 			}
@@ -171,7 +170,7 @@ class KBoard {
 				// 최고관리자 허용
 				return true;
 			}
-			else if(in_array($this->permission_read, array('all', 'author', 'editor')) && @in_array($this->userdata->data->user_login, $admin_user)){
+			else if(in_array($this->permission_read, array('all', 'author', 'editor')) && @in_array($this->userdata->user_login, $admin_user)){
 				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
 				return true;
 			}
@@ -195,12 +194,12 @@ class KBoard {
 		if($this->permission_write == 'all'){
 			return true;
 		}
-		else if($this->userdata->data->ID){
+		else if($this->userdata->ID){
 			if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
 				// 최고관리자 허용
 				return true;
 			}
-			else if($this->permission_write == 'editor' && @in_array($this->userdata->data->user_login, $admin_user)){
+			else if($this->permission_write == 'editor' && @in_array($this->userdata->user_login, $admin_user)){
 				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
 				return true;
 			}
@@ -220,8 +219,8 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isEditor($writer_uid){
-		if($this->userdata->data->ID){
-			if($writer_uid == $this->userdata->data->ID){
+		if($this->userdata->ID){
+			if($writer_uid == $this->userdata->ID){
 				// 본인인 경우
 				return true;
 			}
@@ -270,12 +269,12 @@ class KBoard {
 	public function isAdmin(){
 		$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
 		
-		if($this->userdata->data->ID){
+		if($this->userdata->ID){
 			if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
 				// 최고관리자 허용
 				return true;
 			}
-			else if(@in_array($this->userdata->data->user_login, $admin_user)){
+			else if(@in_array($this->userdata->user_login, $admin_user)){
 				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
 				return true;
 			}

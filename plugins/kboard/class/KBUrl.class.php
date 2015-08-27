@@ -25,7 +25,6 @@ class KBUrl {
 		$this->data['mod'] = null;
 		$this->data['uid'] = null;
 		$this->data['parent_uid'] = null;
-		$this->data['kboard_controller'] = null;
 		return $this;
 	}
 	
@@ -53,7 +52,7 @@ class KBUrl {
 	 */
 	public function getCleanQueryStrings(){
 		$query_strings = array();
-		foreach($this->data as $key => $value){
+		foreach($this->data as $key=>$value){
 			if($value) $query_strings[$key] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
 		}
 		return implode('&', $query_strings);
@@ -117,7 +116,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function toInput(){
-		foreach($this->data as $key => $value){
+		foreach($this->data as $key=>$value){
 			if($value) $input[] = '<input type="hidden" name="' . addslashes(kboard_xssfilter(kboard_htmlclear(trim($key)))) .'" value="' . addslashes(kboard_xssfilter(kboard_htmlclear(trim($value)))) . '">';
 		}
 		$this->init();
@@ -131,7 +130,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getDeleteURLWithAttach($uid, $key='thumbnail'){
-		return plugins_url() . "/kboard/execute/delete.php?uid={$uid}&file={$key}";
+		return site_url("?action=kboard_file_delete&uid={$uid}&file={$key}");
 	}
 	
 	/**
@@ -141,7 +140,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getDownloadURLWithAttach($uid, $key){
-		return plugins_url() . "/kboard/execute/download.php?uid={$uid}&file={$key}";
+		return site_url("?action=kboard_file_download&uid={$uid}&file={$key}");
 	}
 	
 	/**
@@ -168,7 +167,7 @@ class KBUrl {
 	 */
 	public function getDocumentRedirect($uid){
 		$uid = intval($uid);
-		return site_url() . '?kboard_content_redirect=' . $uid;
+		return site_url("?kboard_content_redirect={$uid}");
 	}
 	
 	/**
@@ -178,7 +177,7 @@ class KBUrl {
 	 */
 	public function getBoardRedirect($uid){
 		$uid = intval($uid);
-		return site_url() . '?kboard_redirect=' . $uid;
+		return site_url("?kboard_redirect={$uid}");
 	}
 	
 	/**

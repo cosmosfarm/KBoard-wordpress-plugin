@@ -19,9 +19,25 @@ define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
 define('KBOARD_COMMENTS_LIST_PAGE', admin_url('/admin.php?page=kboard_comments_list'));
 
 include_once 'class/KBComment.class.php';
+include_once 'class/KBCommentController.class.php';
 include_once 'class/KBCommentList.class.php';
 include_once 'class/KBCommentsBuilder.class.php';
 include_once 'class/KBCommentSkin.class.php';
+include_once 'class/KBCommentTemplate.class.php';
+include_once 'class/KBCommentUrl.class.php';
+
+/*
+ * KBoard 댓글 시작
+ */
+add_action('init', 'kboard_comments_init');
+function kboard_comments_init(){
+	
+	// 컨트롤러 시작
+	$comment_controller = new KBCommentController();
+	
+	// 템플릿 시작
+	$comment_template = new KBCommentTemplate();
+}
 
 /*
  * 관리자메뉴에 추가

@@ -210,4 +210,26 @@ function kboard_resize($image_src, $width, $height){
 		return $image_src;
 	}
 }
+
+/**
+ * 리사이즈 이미지를 지운다.
+ * @param string $image_src
+ */
+function kbaord_delete_resize($image_src){
+	$size = getimagesize($image_src);
+	if($size){
+		$fileinfo = pathinfo($image_src);
+		$original_name = basename($image_src, '.'.$fileinfo['extension']).'-';
+		$dir = dirname($image_src);
+		if($dh = @opendir($dir)){
+			while(($file = readdir($dh)) !== false){
+				if($file == "." || $file == "..") continue;
+				if(strpos($file, $original_name) !== false){
+					@unlink($dir . '/' . $file);
+				}
+			}
+		}
+		closedir($dh);
+	}
+}
 ?>

@@ -12,11 +12,8 @@ class KBCommentsBuilder {
 	var $skin;
 	var $skin_path;
 	var $permission_comment_write;
-	var $userdata;
 	
 	public function __construct(){
-		global $user_ID;
-		$this->userdata = get_userdata($user_ID);
 		$this->setSkin('default');
 	}
 	
@@ -37,19 +34,18 @@ class KBCommentsBuilder {
 	 */
 	public function create(){
 		global $user_ID;
-		$userdata = get_userdata($user_ID);
+		$userdata = $user_ID?get_userdata($user_ID):new stdClass();
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
 		
 		if(!$this->content_uid) return 'KBoard 댓글 알림 :: content_uid=null, content_uid값은 필수 입니다.';
 		
-		include_once 'KBCommentUrl.class.php';
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
 		$commentBuilder = $this;
 		
-		$member_uid = isset($userdata->data->ID)?$userdata->data->ID:'';
-		$member_display = isset($userdata->data->display_name)?$userdata->data->display_name:'';
+		$member_uid = isset($userdata->ID)?$userdata->ID:'';
+		$member_display = isset($userdata->display_name)?$userdata->display_name:'';
 		
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
@@ -61,13 +57,16 @@ class KBCommentsBuilder {
 	 */
 	public function buildTreeList($template, $parent_uid=''){
 		global $user_ID;
-		$userdata = get_userdata($user_ID);
+		$userdata = $user_ID?get_userdata($user_ID):new stdClass();
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
 		
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList();
 		$commentBuilder = $this;
+		
+		$member_uid = isset($userdata->ID)?$userdata->ID:'';
+		$member_display = isset($userdata->display_name)?$userdata->display_name:'';
 		
 		if($parent_uid) $commentList->initWithParentUID($parent_uid);
 		else $commentList->initWithUID($this->content_uid);

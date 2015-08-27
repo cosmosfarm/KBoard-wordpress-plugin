@@ -31,7 +31,7 @@
 	<style>#wpadminbar {display: none;}</style>
 </head>
 <body>
-	<div id="kboard" style="float: left; width: 100%; min-height: 250px;">
+	<div id="kboard" style="float:left;width:100%;min-height:250px">
 		<?php echo kboard_builder(array('id'=>$board_id))?>
 	</div>
 	<script>

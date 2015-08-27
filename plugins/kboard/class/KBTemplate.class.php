@@ -7,10 +7,19 @@
  */
 class KBTemplate {
 	
+	public function __construct(){
+		$action = isset($_GET['action'])?$_GET['action']:'';
+		if($action == 'kboard_media'){
+			add_action('template_redirect', array($this, 'media'));
+		}
+		
+		add_action('template_redirect', array($this, 'boardSwitch'));
+	}
+	
 	/**
-	 * 템플릿 페이지를 요청한다.
+	 * 게시판 페이지를 요청한다.
 	 */
-	public function templateSwitch(){
+	public function boardSwitch(){
 		$kboard_id = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		if($kboard_id) $this->board($kboard_id);
 	}
@@ -53,6 +62,19 @@ class KBTemplate {
 		else{
 			return '';
 		}
+	}
+	
+	/**
+	 * 이미지 추가하기 팝업창 화면을 출력한다.
+	 */
+	public function media(){
+		$media = new KBContentMedia();
+		$media->board_id = intval(isset($_GET['board_id'])?$_GET['board_id']:'');
+		$media->content_uid = intval(isset($_GET['content_uid'])?$_GET['content_uid']:'');
+		$media->media_group = kboard_htmlclear(isset($_GET['media_group'])?$_GET['media_group']:'');
+		
+		include_once KBOARD_DIR_PATH . '/template/media.php';
+		exit;
 	}
 }
 ?>

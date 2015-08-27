@@ -1,6 +1,6 @@
 <?php
 /**
- * KBoard 워드프레스 게시판 게시물 리스트 테이블
+ * KBoard 게시글 관리자 리스트 테이블
  * @link www.cosmosfarm.com
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html

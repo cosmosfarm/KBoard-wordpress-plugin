@@ -5,7 +5,9 @@
   2. kboard_xssfilter 설정 변경
   3. kboard_safeiframe 허용 도메인 추가
   4. jQuery.fn 으로 확장하는 함수끼리의 충돌 막기 (mgsmurf, https://github.com/mgsmurf)
-  5. 버그 수정
+  5. 글작성시 본문에 이미지 삽입하기 기능 추가
+  6. KBController 클래스에 기능 추가
+  7. 버그 수정
 
 
 4.9

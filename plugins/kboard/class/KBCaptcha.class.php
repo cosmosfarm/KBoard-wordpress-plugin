@@ -59,10 +59,7 @@ class KBCaptcha {
 	 * @return boolean
 	 */
 	public function textCheck($text){
-		global $user_ID;
-		$userdata = get_userdata($user_ID);
-		
-		if($userdata->data->ID){
+		if(is_user_logged_in()){
 			return true;
 		}
 		else if(!isset($_SESSION['kboard_captcha'])){

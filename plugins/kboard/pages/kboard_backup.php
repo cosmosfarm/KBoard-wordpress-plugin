@@ -14,7 +14,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="board_name">복원파일 다운로드</label></th>
 					<td>
-						<a href="<?php echo KBOARD_BACKUP_ACTION?>" class="button-primary">xml 파일 다운로드</a>
+						<a href="<?php echo site_url('?action=kboard_backup')?>" class="button-primary">xml 파일 다운로드</a>
 						<p class="description">KBoard 데이터 파일을 다운로드 받습니다. 파일은 xml 파일이며 복구하기를 통해 백업된 상태로 되돌릴 수 있습니다.</p>
 					</td>
 				</tr>

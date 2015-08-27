@@ -42,8 +42,7 @@ function kboard_comments_open_confirm(url){
 }
 
 function kboard_comments_reply(obj, form_id, cancel_id){
-	var $ = jQuery;
-	
+	var $ = jQuery.noConflict();
 	if($(obj).hasClass('kboard-reply-active')){
 		$(cancel_id).append($('.kboard-comments-form'));
 		$('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');

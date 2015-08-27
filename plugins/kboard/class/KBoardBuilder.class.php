@@ -77,6 +77,12 @@ class KBoardBuilder {
 			wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
 			wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
 		}
+		
+		// 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
+		add_action('wp_footer', array($this, 'footerAddMediaGroup'));
+		
+		// 게시글 고유번호를 출력한다.
+		add_action('wp_footer', array($this, 'footerAddContentUID'));
 	}
 	
 	/**
@@ -409,6 +415,20 @@ class KBoardBuilder {
 	 */
 	public function footerAddPluginInfo(){
 		echo "<script>var cosmosfarm_comments_plugin_id='{$this->meta->comments_plugin_id}';</script>\n";
+	}
+	
+	/**
+	 * 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
+	 */
+	public function footerAddMediaGroup(){
+		echo "<script>var kbaord_media_group='".uniqid()."';</script>\n";
+	}
+	
+	/**
+	 * 게시글 고유번호를 출력한다.
+	 */
+	public function footerAddContentUID(){
+		echo "<script>var kbaord_content_uid='{$this->uid}';</script>\n";
 	}
 }
 ?>
