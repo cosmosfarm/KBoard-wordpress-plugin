@@ -88,7 +88,7 @@ img { border: 0; }
 #kboard-customer-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
 #kboard-customer-document .kboard-comments-area { float: left; width: 100%; }
 #kboard-customer-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
-#kboard-customer-document .kboard-document-navi a { text-decoration: none; border: 0; }
+#kboard-customer-document .kboard-document-navi a { text-decoration: none; border: 0; font-size: 13px; }
 #kboard-customer-document .kboard-document-navi .kboard-top-document { float: left; width: 50%; }
 #kboard-customer-document .kboard-document-navi .kboard-bottom-document { float: right; width: 50%; text-align: right; }
 #kboard-customer-document .kboard-control { float: left; padding: 15px 0;  width: 100%; }
