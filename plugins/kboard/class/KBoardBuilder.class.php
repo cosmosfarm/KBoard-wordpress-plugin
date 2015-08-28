@@ -82,6 +82,9 @@ class KBoardBuilder {
 		add_action('wp_footer', array($this, 'footerAddMediaGroup'));
 		
 		// 게시글 고유번호를 출력한다.
+		add_action('wp_footer', array($this, 'footerAddBoardID'));
+		
+		// 게시글 고유번호를 출력한다.
 		add_action('wp_footer', array($this, 'footerAddContentUID'));
 	}
 	
@@ -422,6 +425,13 @@ class KBoardBuilder {
 	 */
 	public function footerAddMediaGroup(){
 		echo "<script>var kbaord_media_group='".uniqid()."';</script>\n";
+	}
+	
+	/**
+	 * 게시판 번호를 출력한다.
+	 */
+	public function footerAddBoardID(){
+		echo "<script>var kbaord_board_id='{$this->board_id}';</script>\n";
 	}
 	
 	/**

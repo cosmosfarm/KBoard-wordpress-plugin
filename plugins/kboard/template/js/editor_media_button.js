@@ -21,10 +21,9 @@
 function kboard_editor_open_media(){
 	var w = 900;
 	var h = 500;
-	var board_id = jQuery('[name="board_id"]').val();
 	
-	if(board_id){
-		window.open('/?action=kboard_media&board_id='+board_id+'&media_group='+kbaord_media_group+'&content_uid='+kbaord_content_uid, 'kboard_media', 'width='+w+',height='+h+',left='+(screen.availWidth-w)*0.5+',top='+(screen.availHeight-h)*0.5);
+	if(kbaord_board_id){
+		window.open('?action=kboard_media&board_id='+kbaord_board_id+'&media_group='+kbaord_media_group+'&content_uid='+kbaord_content_uid, 'kboard_media', 'width='+w+',height='+h+',left='+(screen.availWidth-w)*0.5+',top='+(screen.availHeight-h)*0.5);
 		
 		if(!jQuery('input[name=media_group]').filter(function(){return this.value==kbaord_media_group}).length){
 			jQuery('[name="board_id"]').parents('form').append(jQuery('<input type="hidden" name="media_group">').val(kbaord_media_group));
