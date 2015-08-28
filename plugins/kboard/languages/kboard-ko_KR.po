@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
 "POT-Creation-Date: 2014-02-02 00:53+0900\n"
-"PO-Revision-Date: 2014-02-09 12:59+0900\n"
+"PO-Revision-Date: 2015-08-28 13:48+0900\n"
 "Last-Translator: Cosmosfarm <contact@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
@@ -444,7 +444,7 @@ msgstr "제목만 검색허용 (비밀글)"
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/download/editor.php:116
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/thumbnail/editor.php:106
 msgid "Exclusion"
-msgstr "통함검색 제외"
+msgstr "통합검색 제외"
 
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:114
 #: C:\Users\Âù\Documents\workspace\KBoard-wordpress-plugin\plugins\kboard/skin/avatar/editor.php:117
