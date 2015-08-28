@@ -25,7 +25,7 @@
 					<?php endif?>
 				</li>
 			</ul>
-			<iframe src="//www.cosmosfarm.com/welcome/kboard_ads" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none;"></iframe>
+			<iframe src="http://www.cosmosfarm.com/welcome/kboard_ads" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none;"></iframe>
 		</div>
 		<div class="welcome-panel-column">
 			<h4>워드프레스 스토어</h4>
