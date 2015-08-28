@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		
-		<table class="wp-list-table widefat fixed">
+		<table class="wp-list-table widefat striped fixed">
 			<thead>
 				<tr>
 					<th class="manage-column check-column"><input type="checkbox"></th>

@@ -929,8 +929,8 @@ function kboard_uninstall_execute(){
 		`{$wpdb->prefix}kboard_board_setting`,
 		`{$wpdb->prefix}kboard_board_meta`,
 		`{$wpdb->prefix}kboard_board_latestview`,
-		`{$wpdb->prefix}kboard_board_latestview_link`
-		`{$wpdb->prefix}kboard_meida`
+		`{$wpdb->prefix}kboard_board_latestview_link`,
+		`{$wpdb->prefix}kboard_meida`,
 		`{$wpdb->prefix}kboard_meida_relationships`
 	");
 }
