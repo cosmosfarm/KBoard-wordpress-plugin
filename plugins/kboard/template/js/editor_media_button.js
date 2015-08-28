@@ -7,7 +7,7 @@
 		init:function(ed, url){
 			ed.addButton('kboard_media', {
 				title : 'KBoard 이미지 삽입하기',
-				image : '../wp-content/plugins/kboard/images/media-button-icon.png',
+				image : kbaord_plugin_url+'/images/media-button-icon.png',
 				onclick : kboard_editor_open_media
 			});
 		},

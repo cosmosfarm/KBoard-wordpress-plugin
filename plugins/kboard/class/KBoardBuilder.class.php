@@ -81,6 +81,9 @@ class KBoardBuilder {
 		// 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
 		add_action('wp_footer', array($this, 'footerAddMediaGroup'));
 		
+		// 플러그인 주소를 출력한다.
+		add_action('wp_footer', array($this, 'footerAddPluginURL'));
+		
 		// 게시글 고유번호를 출력한다.
 		add_action('wp_footer', array($this, 'footerAddBoardID'));
 		
@@ -425,6 +428,13 @@ class KBoardBuilder {
 	 */
 	public function footerAddMediaGroup(){
 		echo "<script>var kbaord_media_group='".uniqid()."';</script>\n";
+	}
+	
+	/**
+	 * 플러그인 주소를 출력한다.
+	 */
+	public function footerAddPluginURL(){
+		echo "<script>var kbaord_plugin_url='".KBOARD_URL_PATH."';</script>\n";
 	}
 	
 	/**
