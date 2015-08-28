@@ -641,6 +641,9 @@ class KBContent {
 		if($this->uid){
 			$post_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_name`='$this->uid' AND `post_type`='kboard'");
 		}
+		else{
+			$post_id = 0;
+		}
 		return intval($post_id);
 	}
 	
@@ -652,6 +655,9 @@ class KBContent {
 		if($this->uid){
 			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`>'$this->uid' ORDER BY `uid` ASC LIMIT 1");
 		}
+		else{
+			$uid = 0;
+		}
 		return intval($uid);
 	}
 	
@@ -662,6 +668,9 @@ class KBContent {
 		global $wpdb;
 		if($this->uid){
 			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`<'$this->uid' ORDER BY `uid` DESC LIMIT 1");
+		}
+		else{
+			$uid = 0;
 		}
 		return intval($uid);
 	}

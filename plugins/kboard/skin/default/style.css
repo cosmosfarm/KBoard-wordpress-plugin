@@ -83,11 +83,15 @@ img { border: 0; }
 #kboard-default-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
 #kboard-default-document .kboard-detail .detail-attr .detail-value img { vertical-align: middle; }
 #kboard-default-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
-#kboard-thumbnail-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
-#kboard-thumbnail-document .kboard-content .content-view img { margin-top: 0; margin-bottom: 0; max-width: 100%; }
+#kboard-default-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
+#kboard-default-document .kboard-content .content-view img { margin-top: 0; margin-bottom: 0; max-width: 100%; }
 #kboard-default-document .kboard-content .content-view .thumbnail-area { text-align: center; }
 #kboard-default-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
 #kboard-default-document .kboard-comments-area { float: left; width: 100%; }
+#kboard-default-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
+#kboard-default-document .kboard-document-navi a { text-decoration: none; border: 0; }
+#kboard-default-document .kboard-document-navi .kboard-top-document { float: left; width: 50%; }
+#kboard-default-document .kboard-document-navi .kboard-bottom-document { float: right; width: 50%; text-align: right; }
 #kboard-default-document .kboard-control { float: left; padding: 15px 0;  width: 100%; }
 #kboard-default-document .kboard-control .left { position: static; float: left; }
 #kboard-default-document .kboard-control .right { position: static; float: right; text-align: right; }
@@ -115,4 +119,6 @@ img { border: 0; }
 	#kboard-default-editor .kboard-attr-row input[type=password] { width: 50%; }
 	
 	#kboard-default-document .kboard-detail .detail-attr { clear: both; }
+	#kboard-default-document .kboard-document-navi .kboard-top-document { width: 100%; }
+	#kboard-default-document .kboard-document-navi .kboard-bottom-document { float: left; width: 100%; text-align: left; }
 }

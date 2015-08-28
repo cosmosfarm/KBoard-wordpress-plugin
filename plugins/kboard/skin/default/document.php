@@ -56,11 +56,33 @@
 	<div class="kboard-comments-area"><?php echo $board->buildComment($content->uid)?></div>
 	<?php endif?>
 	
+	<div class="kboard-document-navi">
+		<div class="kboard-top-document cut_strings">
+			<?php
+			$top_content_uid = $content->getNextUID();
+			if($top_content_uid):
+			$top_content = new KBContent();
+			$top_content->initWithUID($top_content_uid);
+			?>
+			<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>"><?php echo $top_content->title?></a>
+			<?php endif?>
+		</div>
+		
+		<div class="kboard-bottom-document cut_strings">
+			<?php
+			$bottom_content_uid = $content->getPrevUID();
+			if($bottom_content_uid):
+			$bottom_content = new KBContent();
+			$bottom_content->initWithUID($bottom_content_uid);
+			?>
+			<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>"><?php echo $bottom_content->title?></a>
+			<?php endif?>
+		</div>
+	</div>
+	
 	<div class="kboard-control">
 		<div class="left">
 			<a href="<?php echo $url->toString()?>" class="kboard-default-button-small"><?php echo __('List', 'kboard')?></a>
-			<a href="<?php echo $url->getDocumentURLWithUID($content->getPrevUID())?>" class="kboard-default-button-small"><?php echo __('Prev', 'kboard')?></a>
-			<a href="<?php echo $url->getDocumentURLWithUID($content->getNextUID())?>" class="kboard-default-button-small"><?php echo __('Next', 'kboard')?></a>
 			<?php if($board->isWriter() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-default-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
 		</div>
 		<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
