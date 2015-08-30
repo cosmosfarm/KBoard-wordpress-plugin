@@ -34,17 +34,7 @@
 			</ul>
 		</div>
 		<div class="welcome-panel-column">
-			<h4>코스모스팜 고객지원</h4>
-			<ul>
-				<li><a href="http://www.cosmosfarm.com/support" onclick="window.open(this.href); return false;">새로운 기능 및 오류 수정 기술지원 받기</a></li>
-				<li><a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">다른 사용자에게서 문제 해결 방법을 확인하기</a></li>
-				<li><a href="http://blog.cosmosfarm.com/" onclick="window.open(this.href); return false;">최신 정보 및 새로운 사용법 알아보기</a></li>
-			</ul>
-			<h4>스토어 신규 등록</h4>
-			<p>
-				KBoard 스킨, 플러그인, 테마등 등록 접수 받습니다.<br>
-				<a href="mailto:support@cosmosfarm.com" onclick="window.open(this.href); return false;" class="button">이메일로 등록 접수 및 제휴 문의하기</a>
-			</p>
+			<iframe src="http://www.cosmosfarm.com/display/size/250_250" frameborder="0" scrolling="no" style="margin-top:20px;width:250px;height:250px;border:none;"></iframe>
 		</div>
 	</div>
 </div>
