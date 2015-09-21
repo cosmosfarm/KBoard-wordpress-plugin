@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>관리자 페이지</title>
+	<meta name="viewport" content="width=device-width">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
