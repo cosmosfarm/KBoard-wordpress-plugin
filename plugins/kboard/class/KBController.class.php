@@ -124,7 +124,7 @@ class KBController {
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
 			$url = parse_url($referer);
-			$referer_host = $url['host'];
+			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
 		}
 		else{
 			wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
@@ -186,12 +186,11 @@ class KBController {
 	 */
 	public function fileDownload(){
 		global $wpdb;
-		header('Content-Type: text/html; charset=UTF-8');
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
 			$url = parse_url($referer);
-			$referer_host = $url['host'];
+			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
 		}
 		else{
 			wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
@@ -306,7 +305,7 @@ class KBController {
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
 			$url = parse_url($referer);
-			$referer_host = $url['host'];
+			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
 		}
 		else{
 			wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
