@@ -18,7 +18,7 @@
 	
 	<?php
 	// 댓글 스킨 스타일 파일 추가
-	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `".KBOARD_DB_PREFIX."kboard_board_meta` WHERE `key`='comment_skin'");
+	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
 	foreach($result as $row): if(!empty($row->value)):
 	?>
 	<link rel="stylesheet" id="kboard-comments-skin-<?php echo $row->value?>-css"  href='<?php echo KBOARD_COMMENTS_URL_PATH?>/skin/<?php echo $row->value?>/style.css?ver=<?php echo KBOARD_COMMNETS_VERSION?>' type="text/css" media="all">
