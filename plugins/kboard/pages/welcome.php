@@ -53,9 +53,15 @@ window.onload = function(){
 	});
 };
 function cf_upgrade(){
-	if(confirm('설치 및 업그레이드는 KBoard 게시판 설치도구를 사용해주세요. 다음 페이지에서 플러그인을 설치해주세요.')){
-		location.href = '<?php echo admin_url('/plugin-install.php?tab=search&s=kboard-downloader');?>';
+	<?php if(defined('KBOARD_DOWNLOADER_VERSION')):?>
+	if(confirm('다음 페이지에서 플러그인 모두를 업그레이드해주세요.')){
+		location.href = '<?php echo admin_url('admin.php?page=kboard_downloader_main');?>';
 	}
+	<?php else:?>
+	if(confirm('KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요.')){
+		location.href = '<?php echo admin_url('plugin-install.php?tab=search&s=kboard-downloader');?>';
+	}
+	<?php endif?>
 	return false;
 }
 function cf_oauthStatus(upgrade_url){
