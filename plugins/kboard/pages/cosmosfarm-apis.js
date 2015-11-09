@@ -5,7 +5,7 @@
 var cosmosfarm = {
 	app_id:'',
 	access_token:'',
-	api_url:'http://www.cosmosfarm.com/apis',
+	api_url:'//www.cosmosfarm.com/apis',
 	callback_index:0,
 	init:function(app_id, access_token){
 		this.app_id = app_id;
