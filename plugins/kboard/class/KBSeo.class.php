@@ -30,6 +30,7 @@ class KBSeo {
 				}
 				
 				if($is_display){
+					remove_action('wp_head', 'rel_canonical');
 					remove_action('wp_head', 'wp_shortlink_wp_head');
 					add_action('kboard_head', array($this, 'ogp'), 2);
 					add_action('kboard_head', array($this, 'description'), 3);
