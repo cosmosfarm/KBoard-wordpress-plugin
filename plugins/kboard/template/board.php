@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<title><?php echo __('WordPress')?> KBoard <?php echo KBOARD_VERSION?></title>
 	<link rel="stylesheet" id="font-awesome-ie7-css"  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all">
 	<!--[if lte IE 7]><link rel="stylesheet" id=""  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome-ie7.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all"><![endif]-->
