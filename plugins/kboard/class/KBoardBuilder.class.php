@@ -18,7 +18,7 @@ class KBoardBuilder {
 	var $board;
 	var $meta;
 	
-	public function __construct($board_id=''){
+	public function __construct($board_id='', $is_latest=false){
 		$_GET['uid'] = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$_GET['parent_uid'] = isset($_GET['parent_uid'])?intval($_GET['parent_uid']):'';
 		$_GET['pageid'] = isset($_GET['pageid'])?intval($_GET['pageid']):'';
@@ -41,7 +41,7 @@ class KBoardBuilder {
 		$this->uid = $uid;
 		$this->skin = 'default';
 		
-		if($board_id) $this->setBoardID($board_id);
+		if($board_id) $this->setBoardID($board_id, $is_latest);
 	}
 	
 	/**
@@ -64,31 +64,33 @@ class KBoardBuilder {
 	 * 게시판 ID를 설정한다.
 	 * @param int $board_id
 	 */
-	public function setBoardID($board_id){
+	public function setBoardID($board_id, $is_latest=false){
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
 		
-		// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
-		$_SESSION['kboard_board_id'] = $this->board_id;
-		
-		// 소셜댓글 플러그인 생성
-		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
-			add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
-			wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
-			wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
+		if(!$is_latest){
+			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
+			$_SESSION['kboard_board_id'] = $this->board_id;
+			
+			// 소셜댓글 플러그인 생성
+			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
+				add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
+				wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
+				wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
+			}
+			
+			// 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
+			add_action('wp_footer', array($this, 'footerAddMediaGroup'));
+			
+			// 플러그인 주소를 출력한다.
+			add_action('wp_footer', array($this, 'footerAddPluginURL'));
+			
+			// 게시글 고유번호를 출력한다.
+			add_action('wp_footer', array($this, 'footerAddBoardID'));
+			
+			// 게시글 고유번호를 출력한다.
+			add_action('wp_footer', array($this, 'footerAddContentUID'));
 		}
-		
-		// 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
-		add_action('wp_footer', array($this, 'footerAddMediaGroup'));
-		
-		// 플러그인 주소를 출력한다.
-		add_action('wp_footer', array($this, 'footerAddPluginURL'));
-		
-		// 게시글 고유번호를 출력한다.
-		add_action('wp_footer', array($this, 'footerAddBoardID'));
-		
-		// 게시글 고유번호를 출력한다.
-		add_action('wp_footer', array($this, 'footerAddContentUID'));
 	}
 	
 	/**
@@ -441,7 +443,7 @@ class KBoardBuilder {
 	 * 게시판 번호를 출력한다.
 	 */
 	public function footerAddBoardID(){
-		echo "<script>var kbaord_board_id='{$this->board_id}';</script>\n";
+		echo "<script>var kbaord_board_id='{$_SESSION['kboard_board_id']}';</script>\n";
 	}
 	
 	/**

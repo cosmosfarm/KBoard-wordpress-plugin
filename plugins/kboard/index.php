@@ -536,7 +536,7 @@ function kboard_latest_shortcode($args){
 	$board->setID($args['id']);
 	
 	if($board->uid){
-		$board_builder = new KBoardBuilder($board->uid);
+		$board_builder = new KBoardBuilder($board->uid, true);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($args['rpp']);
 		$board_builder->setURL($args['url']);
@@ -558,7 +558,7 @@ function kboard_latestview_shortcode($args){
 	
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
-		$board_builder = new KBoardBuilder($latestview->getLinkedBoard());
+		$board_builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
 		$board_builder->setSkin($latestview->skin);
 		$board_builder->setRpp($latestview->rpp);
 		$kboard_latest = $board_builder->createLatest();
