@@ -76,6 +76,9 @@ function kboard_safeiframe($data){
 	$whitelist[] = 'channel.pandora.tv';
 	$whitelist[] = 'mgoon.com';
 	$whitelist[] = 'www.mgoon.com';
+	$whitelist[] = 'tudou.com';
+	$whitelist[] = 'www.tudou.com';
+	$whitelist[] = 'player.youku.com';
 	
 	// kboard_iframe_whitelist 필터
 	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);
