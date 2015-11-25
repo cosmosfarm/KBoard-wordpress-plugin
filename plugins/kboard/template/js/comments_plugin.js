@@ -5,13 +5,12 @@ jQuery(document).ready(function($){
 	if(cosmosfarm_comments_plugin_id){
 		cosmosfarm_comments.init({plugin_id:cosmosfarm_comments_plugin_id});
 		$('.cosmosfarm-comments-plugin-count').each(function(){
-			var count = $(this);
-			var url = count.attr('data-url');
+			var count_obj = $(this);
+			var url = count_obj.attr('data-url');
 			if(url){
 				cosmosfarm_comments.count(url, function(res){
-					if(res.count){
-						count.text('(' + res.count + ')');
-					}
+					var count = res.count?res.count:count_obj.attr('data-default').toString();
+					if(count) count_obj.text(count_obj.attr('data-prefix') + count + count_obj.attr('data-endfix'));
 				});
 			}
 		});

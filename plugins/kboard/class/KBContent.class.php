@@ -604,16 +604,20 @@ class KBContent {
 	 * 게시글의 댓글 개수를 반환한다.
 	 * @param string $prefix
 	 * @param string $endfix
+	 * @param string $default
 	 * @return string
 	 */
-	public function getCommentsCount($prefix='(', $endfix=')'){
+	public function getCommentsCount($prefix='(', $endfix=')', $default=''){
 		if($this->uid){
 			$meta = new KBoardMeta($this->board_id);
 			if($meta->comments_plugin_id && $meta->use_comments_plugin){
 				$url = new KBUrl();
-				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.$url->getCommentsPluginURLWithUID($this->uid).'"></span>';
+				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.$url->getCommentsPluginURLWithUID($this->uid).'" data-prefix="'.$prefix.'" data-endfix="'.$endfix.'" data-default="'.$default.'"></span>';
 			}
-			else if($this->comment) return "{$prefix}{$this->comment}{$endfix}";
+			else if($this->comment || $default){
+				$count = $this->comment?$this->comment:$default;
+				return "{$prefix}{$count}{$endfix}";
+			}
 		}
 		return '';
 	}
