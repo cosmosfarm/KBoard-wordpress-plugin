@@ -65,20 +65,24 @@ class KBoardBuilder {
 	 * @param int $board_id
 	 */
 	public function setBoardID($board_id, $is_latest=false){
+		global $check_comments_plugin_once;
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
 		
-		if(!$is_latest){
-			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
-			$_SESSION['kboard_board_id'] = $this->board_id;
-			
-			// 소셜댓글 플러그인 생성
+		// 소셜댓글 플러그인 생성
+		if(!$check_comments_plugin_once){
 			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
 				add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
 				wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
 				wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
 			}
-			
+			$check_comments_plugin_once = true;
+		}
+		
+		if(!$is_latest){
+			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
+			$_SESSION['kboard_board_id'] = $this->board_id;
+						
 			// 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
 			add_action('wp_footer', array($this, 'footerAddMediaGroup'));
 			
