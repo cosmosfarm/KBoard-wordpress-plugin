@@ -21,7 +21,7 @@ function kboard_pagination($current_page, $total, $limit){
 	$i = 0;
 	
 	if($current_page > $sliding_size){
-		$i = $current_page - ($current_page % $sliding_size);
+		$i = ($current_page-1) - (($current_page-1) % $sliding_size);
 	}
 	
 	// offset은 윈도의 마지막 페이지 번호다.
