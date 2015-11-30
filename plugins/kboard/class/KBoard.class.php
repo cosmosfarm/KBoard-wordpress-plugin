@@ -14,6 +14,7 @@ class KBoard {
 	var $category;
 	var $category_row;
 	var $userdata;
+	var $meta;
 	
 	public function __construct($id=''){
 		global $user_ID;
@@ -43,7 +44,14 @@ class KBoard {
 		global $wpdb;
 		$id = intval($id);
 		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$id'");
-		$this->id = $id;
+		if($this->row->uid){
+			$this->id = $this->row->uid;
+			$this->meta = new KBoardMeta($this->id);
+		}
+		else{
+			$this->id = 0;
+			$this->meta = new KBoardMeta();
+		}
 		return $this;
 	}
 	
@@ -132,17 +140,15 @@ class KBoard {
 	 */
 	public function buildComment($content_uid){
 		if($this->id && $content_uid && $this->isComment()){
-			$meta = new KBoardMeta($this->id);
-			
-			if($meta->comments_plugin_id && $meta->use_comments_plugin){
+			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
 				$template = new KBTemplate();
-				return $template->comments_plugin($meta);
+				return $template->comments_plugin($this->meta);
 			}
 			else{
 				$args['board_id'] = $this->id;
 				$args['content_uid'] = $content_uid;
-				$args['skin'] = $meta->comment_skin;
-				$args['permission_comment_write'] = $meta->permission_comment_write;
+				$args['skin'] = $this->meta->comment_skin;
+				$args['permission_comment_write'] = $this->meta->permission_comment_write;
 				return kboard_comments_builder($args);
 			}
 		}
@@ -166,7 +172,7 @@ class KBoard {
 				// 본인인 경우
 				return true;
 			}
-			else if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
+			else if(@in_array('administrator', $this->userdata->roles)){
 				// 최고관리자 허용
 				return true;
 			}
@@ -178,10 +184,14 @@ class KBoard {
 				// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
 				return true;
 			}
+			else if($this->permission_read == 'roles' && !$secret){
+				// 직접선택 권한일때, 선택된 역할의 사용자 허용
+				if(array_intersect($this->getReadRoles(), $this->userdata->roles)){
+					return true;
+				}
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	/**
@@ -195,7 +205,7 @@ class KBoard {
 			return true;
 		}
 		else if($this->userdata->ID){
-			if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
+			if(@in_array('administrator', $this->userdata->roles)){
 				// 최고관리자 허용
 				return true;
 			}
@@ -207,10 +217,14 @@ class KBoard {
 				// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
 				return true;
 			}
+			else if($this->permission_write == 'roles'){
+				// 직접선택 권한일때, 선택된 역할의 사용자 허용
+				if(array_intersect($this->getWriteRoles(), $this->userdata->roles)){
+					return true;
+				}
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	/**
@@ -229,9 +243,7 @@ class KBoard {
 				return true;
 			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	/**
@@ -267,10 +279,10 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isAdmin(){
-		$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
-		
 		if($this->userdata->ID){
-			if(@in_array('administrator', $this->userdata->roles) || @in_array('editor', $this->userdata->roles)){
+			$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
+			
+			if(@in_array('administrator', $this->userdata->roles)){
 				// 최고관리자 허용
 				return true;
 			}
@@ -279,9 +291,7 @@ class KBoard {
 				return true;
 			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	/**
@@ -290,11 +300,47 @@ class KBoard {
 	 */
 	public function isComment(){
 		if(defined('KBOARD_COMMNETS_VERSION') && $this->use_comment) return true;
-		
-		$meta = new KBoardMeta($this->id);
-		if($meta->comments_plugin_id && $meta->use_comments_plugin) return true;
-		
+		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin) return true;
 		return false;
+	}
+	
+	/**
+	 * 읽기권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getReadRoles(){
+		if($this->meta->permission_read_roles){
+			return unserialize($this->meta->permission_read_roles);
+		}
+		else{
+			return array();
+		}
+	}
+	
+	/**
+	 * 쓰기권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getWriteRoles(){
+		if($this->meta->permission_write_roles){
+			return unserialize($this->meta->permission_write_roles);
+		}
+		else{
+			return array();
+		}
+	}
+	
+	/**
+	 * 댓글쓰기권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getCommentRoles(){
+		if($this->meta->permission_comment_write_roles){
+			return unserialize($this->meta->permission_comment_write_roles);
+		}
+		else{
+			return array();
+		}
 	}
 	
 	/**

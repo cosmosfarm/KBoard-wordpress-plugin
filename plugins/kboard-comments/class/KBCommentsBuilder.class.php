@@ -79,15 +79,24 @@ class KBCommentsBuilder {
 	 * @return boolean
 	 */
 	public function isWriter(){
+		global $user_ID;
+		
 		if(!$this->permission_comment_write){
 			return true;
 		}
-		else if($this->permission_comment_write=='1' && is_user_logged_in()){
-			return true;
+		else if(is_user_logged_in()){
+			if($this->permission_comment_write=='1'){
+				return true;
+			}
+			else if($this->permission_comment_write=='roles'){
+				$board = new KBoard($this->board_id);
+				$userdata = $user_ID?get_userdata($user_ID):new stdClass();
+				if(isset($userdata->roles) && array_intersect($board->getCommentRoles(), $userdata->roles)){
+					return true;
+				}
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 }
 ?>

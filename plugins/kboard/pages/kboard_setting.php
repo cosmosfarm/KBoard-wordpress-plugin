@@ -8,18 +8,19 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 	<div class="kboard-header-logo"></div>
 	<h2>
 		KBoard : 게시판 관리
-		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href); return false;">홈페이지</a>
-		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">커뮤니티</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
-		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href); return false;">블로그</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href);return false;">홈페이지</a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href);return false;">커뮤니티</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;">고객지원</a>
+		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;">블로그</a>
 	</h2>
-	<form action="<?php echo admin_url('/admin-post.php')?>" method="post">
+	<form action="<?php echo admin_url('admin-post.php')?>" method="post">
+		<?php wp_nonce_field('kboard-setting-execute', 'kboard-setting-execute-nonce');?>
 		<input type="hidden" name="action" value="kboard_update_action">
 		<input type="hidden" name="board_id" value="<?php echo $board->uid?>">
 		<input type="hidden" name="tab_kboard_setting" value="">
 		
 		<h2 class="nav-tab-wrapper">
-			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab<?php if(1):?> nav-tab-active<?php endif?>" onclick="kboard_setting_tab_chnage(0);">기본설정</a>
+			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab nav-tab-active" onclick="kboard_setting_tab_chnage(0);">기본설정</a>
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(1);">권한설정</a>
 			<?php if($board->uid):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(2);">고급설정</a>
@@ -40,7 +41,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="auto_page">게시판 자동 설치</label></th>
 						<td>
-							<select name="auto_page" id="auto_page" class="">
+							<select name="auto_page" id="auto_page">
 								<option value="">— 선택하기 —</option>
 								<?php foreach(get_pages() as $key => $page):?>
 								<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
@@ -68,7 +69,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 						<td>
-							<select name="skin" id="skin" class="">
+							<select name="skin" id="skin">
 								<?php
 								if(!$board->skin) $board->skin = 'default';
 								foreach($skin->getList() as $key => $value):
@@ -84,7 +85,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="page_rpp">게시물 표시</label></th>
 						<td>
-							<select name="page_rpp" id="page_rpp" class="">
+							<select name="page_rpp" id="page_rpp">
 								<?php if(!$board->page_rpp) $board->page_rpp=10;?>
 								<option value="1"<?php if($board->page_rpp == 1):?> selected<?php endif?>>1개</option>
 								<option value="2"<?php if($board->page_rpp == 2):?> selected<?php endif?>>2개</option>
@@ -112,13 +113,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="use_comment">댓글 사용</label></th>
 						<td>
 							<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
-								<select name="use_comment" id="use_comment" class="">
+								<select name="use_comment" id="use_comment">
 										<option value="">비활성화</option>
 										<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>활성화</option>
 								</select>
 								<p class="description">게시글에 댓글 쓰기를 활성화 합니다. (KBoard 댓글 플러그인 사용)</p>
 							<?php else:?>
-								<select name="use_comment" id="use_comment" class="">
+								<select name="use_comment" id="use_comment">
 										<option value="" selected>비활성화</option>
 								</select>
 								<p class="description">KBoard 댓글 플러그인을 설치하세요.</p>
@@ -129,7 +130,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
 						<td>
-							<select name="comment_skin" id="comment_skin" class="">
+							<select name="comment_skin" id="comment_skin">
 								<?php
 								if(!$meta->comment_skin) $meta->comment_skin = 'default';
 								foreach($comment_skin->getList() as $key => $value):
@@ -144,7 +145,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="use_editor">글 작성 에디터</label></th>
 						<td>
-							<select name="use_editor" id="use_editor" class="">
+							<select name="use_editor" id="use_editor">
 								<option value="">textarea 사용</option>
 								<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>워드프레스 내장 에디터 사용</option>
 							</select>
@@ -155,7 +156,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="autolink">게시글 본문 자동링크 사용</label></th>
 						<td>
-							<select name="autolink" id="autolink" class="">
+							<select name="autolink" id="autolink">
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->autolink == '1'):?> selected<?php endif?>>활성화</option>
 							</select>
@@ -166,7 +167,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="use_category">카테고리 사용</label></th>
 						<td>
-							<select name="use_category" id="use_category" class="">
+							<select name="use_category" id="use_category">
 								<option value="">비활성화</option>
 								<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>활성화</option>
 							</select>
@@ -211,7 +212,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="permission_read">읽기권한</label></th>
 						<td>
-							<select name="permission_read" id="permission_read" class="">
+							<select name="permission_read" id="permission_read" onchange="kboard_permission_roles_view('.kboard-permission-read-roles-view', this.value)">
 								<option value="all"<?php if($board->permission_read == 'all'):?> selected<?php endif?>>
 									<?php echo kboard_permission('all')?>
 								</option>
@@ -224,13 +225,24 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="administrator"<?php if($board->permission_read == 'administrator'):?> selected<?php endif?>>
 									<?php echo kboard_permission('administrator')?>
 								</option>
+								<option value="roles"<?php if($board->permission_read == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
 							</select>
+							
+							<div class="kboard-permission-read-roles-view<?php if($board->permission_read != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_read_roles" value="">
+								<?php $read_roles = $board->getReadRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_read_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $read_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="permission_write">쓰기권한</label></th>
 						<td>
-							<select name="permission_write" id="permission_write" class="">
+							<select name="permission_write" id="permission_write" onchange="kboard_permission_roles_view('.kboard-permission-write-roles-view', this.value)">
 								<option value="all"<?php if($board->permission_read == 'all'):?> selected<?php endif?>>
 									<?php echo kboard_permission('all')?>
 								</option>
@@ -243,20 +255,42 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="administrator"<?php if($board->permission_write == 'administrator'):?> selected<?php endif?>>
 									<?php echo kboard_permission('administrator')?>
 								</option>
+								<option value="roles"<?php if($board->permission_write == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
 							</select>
+							
+							<div class="kboard-permission-write-roles-view<?php if($board->permission_write != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_write_roles" value="">
+								<?php $write_roles = $board->getWriteRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_write_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $write_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="permission_comment_write">댓글쓰기권한</label></th>
 						<td>
-							<select name="permission_comment_write" id="permission_comment_write" class="">
+							<select name="permission_comment_write" id="permission_comment_write" onchange="kboard_permission_roles_view('.kboard-permission-comment-write-roles-view', this.value)">
 								<option value=""<?php if(!$meta->permission_comment_write):?> selected<?php endif?>>
 									<?php echo kboard_permission('all')?>
 								</option>
 								<option value="1"<?php if($meta->permission_comment_write == '1'):?> selected<?php endif?>>
 									<?php echo kboard_permission('author')?>
 								</option>
+								<option value="roles"<?php if($meta->permission_comment_write == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
 							</select>
+							
+							<div class="kboard-permission-comment-write-roles-view<?php if($meta->permission_comment_write != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_comment_write_roles" value="">
+								<?php $comment_roles = $board->getCommentRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_comment_write_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $comment_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
 						</td>
 					</tr>
 				</tbody>
@@ -270,20 +304,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="shortcode_execute">게시글 숏코드(Shortcode) 실행</label></th>
 						<td>
-							<select name="shortcode_execute" id="shortcode_execute" class="">
+							<select name="shortcode_execute" id="shortcode_execute">
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.cosmosfarm.com/50179426321" onclick="window.open(this.href); return false;">더보기</a></p>
+							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.naver.com/chan2rrj/50179426321" onclick="window.open(this.href);return false;">더보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="default_content">본문 기본 양식</label></th>
 						<td>
 							<?php if($board->use_editor):?>
-								<?php wp_editor($meta->default_content, 'default_content'); ?>
+								<?php wp_editor($meta->default_content, 'default_content')?>
 							<?php else:?>
-								<textarea name="default_content" id="default_content" style="width: 600px; height: 300px; max-width: 100%;"><?php echo $meta->default_content?></textarea>
+								<textarea name="default_content" id="default_content" style="width:600px;max-width:100%;height:300px;"><?php echo $meta->default_content?></textarea>
 							<?php endif;?>
 							<p class="description">게시판 글 작성시 보여질 기본 양식입니다. 기본값은 빈 값입니다.</p>
 						</td>
@@ -291,7 +325,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="reply_copy_content">답글 기본 내용</label></th>
 						<td>
-							<select name="reply_copy_content" id="reply_copy_content" class="">
+							<select name="reply_copy_content" id="reply_copy_content">
 								<option value="">빈 내용</option>
 								<option value="1"<?php if($meta->reply_copy_content == '1'):?> selected<?php endif?>>원글 내용</option>
 								<option value="2"<?php if($meta->reply_copy_content == '2'):?> selected<?php endif?>>본문 기본 양식</option>
@@ -315,11 +349,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="pass_autop">특정 테마 레이아웃 깨짐 방지</label></th>
 						<td>
-							<select name="pass_autop" id="pass_autop" class="">
+							<select name="pass_autop" id="pass_autop">
 								<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
 								<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.cosmosfarm.com/50178536050" onclick="window.open(this.href); return false;">더보기</a></p>
+							<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.naver.com/chan2rrj/50178536050" onclick="window.open(this.href);return false;">더보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -330,6 +364,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="1"<?php if($meta->view_iframe):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">문제가 없다면 활성화 하지 마세요. 원페이지 테마 또는 게시판이 심하게 깨질 때 아이프레임으로 보기를 사용해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="conversion_tracking_code">전환추적 코드</label></th>
+						<td>
+							<textarea name="conversion_tracking_code" id="conversion_tracking_code" style="width:600px;max-width:100%;height:100px;"><?php echo $meta->conversion_tracking_code?></textarea>
+							<p class="description">게시글 등록 전환추적을 위한 코드(HTML 태그 또는 자바스크립트 소스)를 입력해주세요. 이 코드가 존재하면 새로운 게시글이 저장된 직후 실행됩니다.</p>
 						</td>
 					</tr>
 				</tbody>
@@ -364,7 +405,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="comments_plugin_row">댓글 표시</label></th>
 						<td>
-							<select name="comments_plugin_row" id="comments_plugin_row" class="">
+							<select name="comments_plugin_row" id="comments_plugin_row">
 								<?php if(!$meta->comments_plugin_row) $meta->comments_plugin_row=10;?>
 								<option value="10"<?php if($meta->comments_plugin_row == 10):?> selected<?php endif?>>10개</option>
 								<option value="20"<?php if($meta->comments_plugin_row == 20):?> selected<?php endif?>>20개</option>
@@ -397,5 +438,14 @@ function kboard_setting_tab_chnage(index){
 	jQuery('.tab-kboard').removeClass('nav-tab-active').eq(index).addClass('nav-tab-active');
 	jQuery('.tab-kboard-setting').removeClass('tab-kboard-setting-active').eq(index).addClass('tab-kboard-setting-active');
 	jQuery('input[name=tab_kboard_setting]').val(index);
+}
+
+function kboard_permission_roles_view(bind, value){
+	if(value == 'roles'){
+		jQuery(bind).removeClass('kboard-hide');
+	}
+	else{
+		jQuery(bind).addClass('kboard-hide');
+	}
 }
 </script>

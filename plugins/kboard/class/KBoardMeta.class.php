@@ -20,13 +20,13 @@ class KBoardMeta {
 	public function __get($name){
 		global $wpdb;
 		if($this->board_id){
-			$name = addslashes($name);
+			$name = esc_sql($name);
 			if(isset($this->meta->{$name})){
-				return stripslashes($this->meta->{$name});
+				return $this->meta->{$name};
 			}
 			else{
 				$this->meta->{$name} = $wpdb->get_var("SELECT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
-				return stripslashes($this->meta->{$name});
+				return $this->meta->{$name};
 			}
 		}
 		return '';
@@ -35,8 +35,8 @@ class KBoardMeta {
 	public function __set($name, $value){
 		global $wpdb;
 		if($this->board_id){
-			$name = addslashes($name);
-			$value = addslashes($value);
+			$name = esc_sql($name);
+			$value = esc_sql($value);
 			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
 			$this->meta->{$name} = $value;
 		}

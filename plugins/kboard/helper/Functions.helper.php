@@ -161,6 +161,9 @@ function kboard_permission($permission){
 	else if($permission == 'administrator'){
 		return '최고관리자';
 	}
+	else if($permission == 'roles'){
+		return '직접선택';
+	}
 	else{
 		return $permission;
 	}

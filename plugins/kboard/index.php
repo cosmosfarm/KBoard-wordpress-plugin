@@ -232,29 +232,29 @@ function kboard_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	if(!current_user_can('activate_plugins')) wp_die('KBoard : 관리 권한이 없습니다.');
 	
-	$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
-	$board_name = isset($_POST['board_name'])?addslashes($_POST['board_name']):'';
-	$skin = isset($_POST['skin'])?$_POST['skin']:'';
-	$page_rpp = isset($_POST['page_rpp'])?$_POST['page_rpp']:'';
-	$use_comment = isset($_POST['use_comment'])?$_POST['use_comment']:'';
-	$use_editor = isset($_POST['use_editor'])?$_POST['use_editor']:'';
-	$permission_read = isset($_POST['permission_read'])?$_POST['permission_read']:'';
-	$permission_write = isset($_POST['permission_write'])?$_POST['permission_write']:'';
-	$admin_user = isset($_POST['admin_user'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['admin_user'])))):'';
-	$use_category = isset($_POST['use_category'])?$_POST['use_category']:'';
-	$category1_list = isset($_POST['category1_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list'])))):'';
-	$category2_list = isset($_POST['category2_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list'])))):'';
-	$create = current_time('YmdHis');
-	
-	if(!$board_id){
-		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
-		$board_id = $wpdb->insert_id;
-	}
-	else{
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
-	}
-	
-	if($board_id){
+	if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
+		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+		$board_name = isset($_POST['board_name'])?addslashes($_POST['board_name']):'';
+		$skin = isset($_POST['skin'])?$_POST['skin']:'';
+		$page_rpp = isset($_POST['page_rpp'])?$_POST['page_rpp']:'';
+		$use_comment = isset($_POST['use_comment'])?$_POST['use_comment']:'';
+		$use_editor = isset($_POST['use_editor'])?$_POST['use_editor']:'';
+		$permission_read = isset($_POST['permission_read'])?$_POST['permission_read']:'';
+		$permission_write = isset($_POST['permission_write'])?$_POST['permission_write']:'';
+		$admin_user = isset($_POST['admin_user'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['admin_user'])))):'';
+		$use_category = isset($_POST['use_category'])?$_POST['use_category']:'';
+		$category1_list = isset($_POST['category1_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list'])))):'';
+		$category2_list = isset($_POST['category2_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list'])))):'';
+		$create = current_time('YmdHis');
+		
+		if(!$board_id){
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+			$board_id = $wpdb->insert_id;
+		}
+		else{
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
+		}
+		
 		$meta = new KBoardMeta($board_id);
 		$meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
 		$meta->latest_alerts = isset($_POST['latest_alerts'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['latest_alerts'])))):'';
@@ -269,25 +269,41 @@ function kboard_update(){
 		$meta->comments_plugin_id = isset($_POST['comments_plugin_id'])?$_POST['comments_plugin_id']:'';
 		$meta->use_comments_plugin = isset($_POST['use_comments_plugin'])?$_POST['use_comments_plugin']:'';
 		$meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
+		$meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
+		
+		if(isset($_POST['permission_read_roles'])){
+			$meta->permission_read_roles = serialize($_POST['permission_read_roles']);
+		}
+		if(isset($_POST['permission_write_roles'])){
+			$meta->permission_write_roles = serialize($_POST['permission_write_roles']);
+		}
+		if(isset($_POST['permission_comment_write_roles'])){
+			$meta->permission_comment_write_roles = serialize($_POST['permission_comment_write_roles']);
+		}
 		
 		$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
 		if($auto_page){
 			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
-			if($auto_page_board_id && $auto_page_board_id != $board_id) echo '<script>alert("선택하신 페이지에 이미 연결된 게시판이 존재합니다.")</script>';
-			else $meta->auto_page = $auto_page;
+			if($auto_page_board_id && $auto_page_board_id != $board_id){
+				$meta->auto_page = '';
+				echo '<script>alert("게시판 자동 설치 페이지에 이미 연결된 게시판이 존재합니다. 페이지당 하나의 게시판만 설치 가능합니다.");history.go(-1);</script>';
+				exit;
+			}
+			else{
+				$meta->auto_page = $auto_page;
+			}
 		}
 		else{
 			$meta->auto_page = '';
 		}
-	}
-	
-	if($board_id){
-		$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?intval($_POST['tab_kboard_setting']):'';
-		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '#tab-kboard-setting-' . $tab_kboard_setting . '"</script>');
+		
+		$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
+		wp_redirect(admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting));
 	}
 	else{
-		die('<script>location.href="' . KBOARD_SETTING_PAGE . '&board_id=' . $board_id . '"</script>');
+		wp_redirect(admin_url('admin.php?page=kboard_dashboard'));
 	}
+	exit;
 }
 
 /*

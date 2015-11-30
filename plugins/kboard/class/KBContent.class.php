@@ -18,6 +18,7 @@ class KBContent {
 	var $attach_store_path;
 	var $thumbnail_store_path;
 	var $row;
+	var $execute_action;
 	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
@@ -66,6 +67,7 @@ class KBContent {
 		else{
 			$this->row = new stdClass();
 		}
+		$this->execute_action = '';
 		return $this;
 	}
 	
@@ -84,6 +86,7 @@ class KBContent {
 		else{
 			$this->row = new stdClass();
 		}
+		$this->execute_action = '';
 		return $this;
 	}
 	
@@ -116,6 +119,8 @@ class KBContent {
 			 * 게시글 수정 액션 훅 실행
 			 */
 			do_action('kboard_document_update', $this->uid, $this->board_id);
+			
+			$this->execute_action = 'update';
 			
 			return $this->uid;
 		}
@@ -161,6 +166,9 @@ class KBContent {
 				 */
 				do_action('kboard_document_insert', $uid, $this->board_id);
 			}
+			
+			$this->execute_action = 'insert';
+			
 			return $uid;
 		}
 		return '';
@@ -199,7 +207,7 @@ class KBContent {
 		$data = apply_filters('kboard_insert_data', $data, $this->board_id);
 		
 		foreach($data as $key => $value){
-			$value = addslashes($value);
+			$value = esc_sql($value);
 			$insert_key[] = "`$key`";
 			$insert_data[] = "'$value'";
 		}
@@ -241,7 +249,7 @@ class KBContent {
 			$data = apply_filters('kboard_update_data', $data, $this->board_id);
 			
 			foreach($data as $key => $value){
-				$value = addslashes($value);
+				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
 			}
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");

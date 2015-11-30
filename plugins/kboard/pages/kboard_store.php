@@ -4,23 +4,23 @@
 	<h2>
 		스토어
 		<a href="#" class="add-new-h2 kbstore-login-button"></a>
-		<a href="http://www.cosmosfarm.com/wpstore" class="add-new-h2" onclick="window.open(this.href); return false;">스토어 홈페이지</a>
-		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href); return false;">커뮤니티</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href); return false;">고객지원</a>
-		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href); return false;">블로그</a>
+		<a href="http://www.cosmosfarm.com/wpstore" class="add-new-h2" onclick="window.open(this.href);return false;">스토어 홈페이지</a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href);return false;">커뮤니티</a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;">고객지원</a>
+		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;">블로그</a>
 	</h2>
 	
 	<div class="wp-filter">
 		<ul class="filter-links">
-			<li class="<?php if($category==''):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store')?>">모두</a></li>
-			<li class="<?php if($category=='kboard'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=kboard')?>">KBoard 스킨</a></li>
-			<li class="<?php if($category=='theme'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=theme')?>">테마</a></li>
-			<li class="<?php if($category=='plugin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=plugin')?>">플러그인</a></li>
-			<li class="<?php if($category=='widget'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=widget')?>">위젯</a></li>
-			<li class="<?php if($category=='mobile'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=mobile')?>">모바일</a></li>
-			<li class="<?php if($category=='admin'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=admin')?>">관리자용</a></li>
-			<li class="<?php if($category=='social'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=social')?>">소셜</a></li>
-			<li class="<?php if($category=='design'):?>current<?php endif?>"><a href="<?php echo admin_url('/admin.php?page=kboard_store&kbstore_category=design')?>">디자인소스</a></li>
+			<li class="<?php if($category==''):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store')?>">모두</a></li>
+			<li class="<?php if($category=='kboard'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">KBoard 스킨</a></li>
+			<li class="<?php if($category=='theme'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=theme')?>">테마</a></li>
+			<li class="<?php if($category=='plugin'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=plugin')?>">플러그인</a></li>
+			<li class="<?php if($category=='widget'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=widget')?>">위젯</a></li>
+			<li class="<?php if($category=='mobile'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=mobile')?>">모바일</a></li>
+			<li class="<?php if($category=='admin'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=admin')?>">관리자용</a></li>
+			<li class="<?php if($category=='social'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=social')?>">소셜</a></li>
+			<li class="<?php if($category=='design'):?>current<?php endif?>"><a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=design')?>">디자인소스</a></li>
 		</ul>
 	</div>
 	

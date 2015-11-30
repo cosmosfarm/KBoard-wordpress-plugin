@@ -130,7 +130,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getDeleteURLWithAttach($uid, $key='thumbnail'){
-		return site_url("?action=kboard_file_delete&uid={$uid}&file={$key}");
+		return home_url("?action=kboard_file_delete&uid={$uid}&file={$key}");
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getDownloadURLWithAttach($uid, $key){
-		return site_url("?action=kboard_file_download&uid={$uid}&file={$key}");
+		return home_url("?action=kboard_file_download&uid={$uid}&file={$key}");
 	}
 	
 	/**
@@ -167,7 +167,7 @@ class KBUrl {
 	 */
 	public function getDocumentRedirect($uid){
 		$uid = intval($uid);
-		return site_url("?kboard_content_redirect={$uid}");
+		return home_url("?kboard_content_redirect={$uid}");
 	}
 	
 	/**
@@ -177,7 +177,7 @@ class KBUrl {
 	 */
 	public function getBoardRedirect($uid){
 		$uid = intval($uid);
-		return site_url("?kboard_redirect={$uid}");
+		return home_url("?kboard_redirect={$uid}");
 	}
 	
 	/**

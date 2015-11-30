@@ -28,7 +28,6 @@
 	<fieldset>
 		<legend>이미지 업로드</legend>
 		<input type="file" name="kboard_media_file" onchange="jQuery('#kboard-media-form').submit()">
-		<button class="ui-button ui-state-default ui-button-text-only" role="button"><span class="ui-button-text">업로드</span></button>
 	</fieldset>
 </form>
 
@@ -68,9 +67,9 @@ function kboard_media_form_execute(form){
 	return true;
 }
 function kboard_image_checker(value){
-    var extension = "\.(bmp|gif|jpg|jpeg|png)$";
-    if((new RegExp(extension, "i")).test(value)) return true;
-    return false;
+	var extension = "\.(bmp|gif|jpg|jpeg|png)$";
+	if((new RegExp(extension, "i")).test(value)) return true;
+	return false;
 }
 </script>
 </body>

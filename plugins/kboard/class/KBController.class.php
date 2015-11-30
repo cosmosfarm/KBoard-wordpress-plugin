@@ -38,13 +38,13 @@ class KBController {
 		global $user_ID;
 		
 		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
-			header("Content-Type: text/html; charset=UTF-8");
+			header('Content-Type: text/html; charset=UTF-8');
 			
 			$uid = intval(isset($_POST['uid'])?$_POST['uid']:'');
 			$board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
 			
 			$board = new KBoard($board_id);
-			if(!$board->uid){
+			if(!$board->id){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
 			
@@ -79,6 +79,14 @@ class KBController {
 			$url = new KBUrl();
 			$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 			$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $board_id);
+			
+			if($content->execute_action == 'insert'){
+				if($board->meta->conversion_tracking_code){
+					echo $board->meta->conversion_tracking_code;
+					echo "<script>location.href='{$next_page_url}';</script>";
+					exit;
+				}
+			}
 			wp_redirect($next_page_url);
 		}
 		else{
@@ -92,7 +100,7 @@ class KBController {
 	 */
 	public function mediaUpload(){
 		if(isset($_POST['kboard-media-upload-nonce']) && wp_verify_nonce($_POST['kboard-media-upload-nonce'], 'kboard-media-upload')){
-			header("Content-Type: text/html; charset=UTF-8");
+			header('Content-Type: text/html; charset=UTF-8');
 			
 			$media = new KBContentMedia();
 			$media->board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
