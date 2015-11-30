@@ -35,7 +35,7 @@ function kboard_pagination($current_page, $total, $limit){
 			$paging .= "<li><a href=\"?pageid={$page_name}{$query_strings}\">{$page_name}</a></li>";
 		}
 		else{
-			$paging .= "<li class=\"active\"><a href=\"?pageid={$page_name}{$query_strings}\">{$page_name}</a></li>";
+			$paging .= "<li class=\"active\"><a href=\"?pageid={$page_name}{$query_strings}\" onclick=\"return false\">{$page_name}</a></li>";
 		}
 	}
 	
@@ -43,13 +43,13 @@ function kboard_pagination($current_page, $total, $limit){
 	// 처음과 마지막 페이지가 아니라면 링크를 걸어주면 된다.
 	if($current_page != 1){
 		$prev_page = $current_page - 1;
-		$paging = "<li><a href=\"?pageid=1{$query_strings}\">처음</a></li>" . "<li><a href=\"?pageid={$prev_page}{$query_strings}\">«</a></li>{$paging}";
+		$paging = "<li class=\"first-page\"><a href=\"?pageid=1{$query_strings}\">처음</a></li>" . "<li class=\"prev-page\"><a href=\"?pageid={$prev_page}{$query_strings}\">«</a></li>{$paging}";
 	}
 	if($current_page != $total_page){
 		$next_page = $current_page + 1;
-		$paging = "{$paging}<li><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>" . "<li><a href=\"?pageid={$total_page}{$query_strings}\">마지막</a></li>";
+		$paging = "{$paging}<li class=\"next-page\"><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>" . "<li class=\"last-page\"><a href=\"?pageid={$total_page}{$query_strings}\">마지막</a></li>";
 	}
 	
-	return $total?$paging:'<li class="active"><a href="#" onclick="return false;">1</a></li>';
+	return $total?$paging:'<li class="active"><a href="#" onclick="return false">1</a></li>';
 }
 ?>

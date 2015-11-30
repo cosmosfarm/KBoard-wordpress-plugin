@@ -42,10 +42,10 @@ img { border: 0; }
 #kboard-default-list .kboard-list tbody td.kboard-list-title { text-align: left; }
 #kboard-default-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
 #kboard-default-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
-#kboard-default-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0 0 1px 0; width: 100%; list-style: none; text-align: center; border: 0; }
-#kboard-default-list .kboard-pagination .kboard-pagination-pages li { display: inline; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
-#kboard-default-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; line-height: 27px; color: #999999; background-color: white; }
-#kboard-default-list .kboard-pagination .kboard-pagination-pages li.active a { border: 1px solid #d9534f; color: white; background-color: #d9534f; text-decoration: none; }
+#kboard-default-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; line-height: 40px; list-style: none; text-align: center; border: 0; }
+#kboard-default-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
+#kboard-default-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; color: #999999; background-color: white; }
+#kboard-default-list .kboard-pagination .kboard-pagination-pages li.active a { border: 1px solid #d9534f; color: white; background-color: #d9534f; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-default-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
@@ -113,7 +113,15 @@ img { border: 0; }
 	#kboard-default-list .kboard-list table td.kboard-list-date { width: 70px; }
 	#kboard-default-list .kboard-list td.kboard-list-user,
 	#kboard-default-list .kboard-list td.kboard-list-view { display: none; }
-	
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li { display: none; }
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.first-page,
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.last-page { display: inline-block; }
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.prev-page,
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.next-page { display: inline-block; }
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 6px 18px; }
+	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
+
 	#kboard-default-editor .kboard-attr-row input[type=text],
 	#kboard-default-editor .kboard-attr-row input[type=file],
 	#kboard-default-editor .kboard-attr-row input[type=password] { width: 50%; }
