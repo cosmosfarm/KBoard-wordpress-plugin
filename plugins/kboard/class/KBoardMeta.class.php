@@ -22,11 +22,11 @@ class KBoardMeta {
 		if($this->board_id){
 			$name = esc_sql($name);
 			if(isset($this->meta->{$name})){
-				return $this->meta->{$name};
+				return stripslashes($this->meta->{$name});
 			}
 			else{
 				$this->meta->{$name} = $wpdb->get_var("SELECT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
-				return $this->meta->{$name};
+				return stripslashes($this->meta->{$name});
 			}
 		}
 		return '';
