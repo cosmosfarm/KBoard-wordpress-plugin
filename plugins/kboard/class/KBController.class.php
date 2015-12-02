@@ -128,6 +128,7 @@ class KBController {
 	 */
 	public function fileDelete(){
 		header('Content-Type: text/html; charset=UTF-8');
+		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
@@ -195,8 +196,8 @@ class KBController {
 	public function fileDownload(){
 		global $wpdb;
 		
-		// 검색엔진 수집 금지
-		header('X-Robots-Tag: noindex, nofollow', true);
+		header('X-Robots-Tag: noindex, nofollow', true); // 검색엔진 수집 금지
+		header('Content-Type: text/html; charset=UTF-8');
 		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
@@ -313,6 +314,7 @@ class KBController {
 	 */
 	public function backup(){
 		header('Content-Type: text/html; charset=UTF-8');
+		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
