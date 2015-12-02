@@ -31,7 +31,7 @@ class KBContentMedia {
 		global $wpdb;
 		
 		$this->content_uid = intval($this->content_uid);
-		$this->media_group = addslashes($this->media_group);
+		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->content_uid && $this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' OR `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
@@ -53,22 +53,30 @@ class KBContentMedia {
 		global $wpdb;
 		
 		$this->board_id = intval($this->board_id);
-		$this->media_group = addslashes($this->media_group);
+		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->board_id && $this->media_group){
 			$upload_dir = wp_upload_dir();
 			$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . current_time('Ym') . '/';
+
 			
 			$file = new KBFileHandler();
 			$file->setPath($attach_store_path);
 			
-			$upload = $file->upload('kboard_media_file');
-			$file_name = addslashes($upload['original_name']);
-			$file_path = addslashes($upload['path'] . $upload['stored_name']);
+			$upload_results = $file->upload('kboard_media_file');
 			
-			if($file_name){
-				$date = current_time('YmdHis');
-				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`) VALUE ('{$this->media_group}', '$date', '$file_path', '$file_name')");
+			if(!is_array($upload_results)){
+				$upload_results = array($upload_results);
+			}
+			
+			foreach($upload_results as $upload){
+				$file_name = esc_sql($upload['original_name']);
+				$file_path = esc_sql($upload['path'] . $upload['stored_name']);
+					
+				if($file_name){
+					$date = current_time('YmdHis');
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`) VALUE ('{$this->media_group}', '$date', '$file_path', '$file_name')");
+				}	
 			}
 		}
 	}
@@ -80,7 +88,7 @@ class KBContentMedia {
 		global $wpdb;
 		
 		$this->content_uid = intval($this->content_uid);
-		$this->media_group = addslashes($this->media_group);
+		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->content_uid && $this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` WHERE `media_group`='{$this->media_group}'");
