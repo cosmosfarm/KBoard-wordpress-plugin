@@ -17,15 +17,15 @@ define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
 define('KBOARD_DIR_PATH', dirname(__FILE__));
 define('KBOARD_URL_PATH', plugins_url('', __FILE__));
-define('KBOARD_DASHBOARD_PAGE', admin_url('/admin.php?page=kboard_dashboard'));
-define('KBOARD_LIST_PAGE', admin_url('/admin.php?page=kboard_list'));
-define('KBOARD_NEW_PAGE', admin_url('/admin.php?page=kboard_new'));
-define('KBOARD_SETTING_PAGE', admin_url('/admin.php?page=kboard_list'));
-define('KBOARD_LATESTVIEW_PAGE', admin_url('/admin.php?page=kboard_latestview'));
-define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('/admin.php?page=kboard_latestview_new'));
-define('KBOARD_BACKUP_PAGE', admin_url('/admin.php?page=kboard_backup'));
-define('KBOARD_UPGRADE_ACTION', admin_url('/admin.php?page=kboard_upgrade'));
-define('KBOARD_CONTENT_LIST_PAGE', admin_url('/admin.php?page=kboard_content_list'));
+define('KBOARD_DASHBOARD_PAGE', admin_url('admin.php?page=kboard_dashboard'));
+define('KBOARD_LIST_PAGE', admin_url('admin.php?page=kboard_list'));
+define('KBOARD_NEW_PAGE', admin_url('admin.php?page=kboard_new'));
+define('KBOARD_SETTING_PAGE', admin_url('admin.php?page=kboard_list'));
+define('KBOARD_LATESTVIEW_PAGE', admin_url('admin.php?page=kboard_latestview'));
+define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('admin.php?page=kboard_latestview_new'));
+define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
+define('KBOARD_UPGRADE_ACTION', admin_url('admin.php?page=kboard_upgrade'));
+define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
 
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
@@ -51,8 +51,13 @@ include_once 'helper/Functions.helper.php';
 /*
  * KBoard 게시판 시작
  */
-add_action('init', 'kboard_init');
+add_action('init', 'kboard_init', 0);
 function kboard_init(){
+	
+	// 애드온 파일 로딩
+	foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
+		include_once $filename;
+	}
 	
 	// 게시판 페이지 이동
 	$router = new KBRouter();

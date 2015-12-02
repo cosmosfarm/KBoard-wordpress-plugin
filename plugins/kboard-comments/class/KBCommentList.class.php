@@ -166,6 +166,9 @@ class KBCommentList {
 			$this->setContentUID($content_uid);
 		}
 		
+		// 댓글 삭제 액션 훅 실행
+		do_action('kboard_comments_delete', $uid, $content_uid);
+		
 		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid'");
 		
 		// 게시물의 댓글 숫자를 변경한다.
@@ -173,9 +176,6 @@ class KBCommentList {
 		
 		// 자식 댓글을 삭제한다.
 		$this->deleteChildren($uid);
-		
-		// 댓글 삭제 액션 훅 실행
-		do_action('kboard_comments_delete', $uid, $content_uid);
 	}
 	
 	/**

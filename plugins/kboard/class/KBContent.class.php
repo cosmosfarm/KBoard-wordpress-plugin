@@ -115,9 +115,7 @@ class KBContent {
 			$this->update_attach($this->uid);
 			$this->addMediaRelationships($this->uid);
 			
-			/*
-			 * 게시글 수정 액션 훅 실행
-			 */
+			// 게시글 수정 액션 훅 실행
 			do_action('kboard_document_update', $this->uid, $this->board_id);
 			
 			$this->execute_action = 'update';
@@ -161,9 +159,7 @@ class KBContent {
 					$mail->send();
 				}
 				
-				/*
-				 * 게시글 입력 액션 훅 실행
-				 */
+				// 게시글 입력 액션 훅 실행
 				do_action('kboard_document_insert', $uid, $this->board_id);
 			}
 			
@@ -557,6 +553,11 @@ class KBContent {
 	public function remove(){
 		global $wpdb;
 		if($this->uid){
+			/*
+			 * 게시글 삭제 액션 훅 실행
+			 */
+			do_action('kboard_document_delete', $this->uid, $this->board_id);
+			
 			$this->_remove_option($this->uid);
 			$this->_remove_all_attached($this->uid);
 			$this->removeThumbnail();
@@ -572,11 +573,6 @@ class KBContent {
 			 */
 			$media = new KBContentMedia();
 			$media->deleteWithContentUID($this->uid);
-			
-			/*
-			 * 게시글 삭제 액션 훅 실행
-			 */
-			do_action('kboard_document_delete', $this->uid, $this->board_id);
 		}
 	}
 	
