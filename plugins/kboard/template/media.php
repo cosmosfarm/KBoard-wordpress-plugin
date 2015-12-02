@@ -16,7 +16,7 @@
 		.media-item { display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
 		.media-item.selected-item { padding: 4px; border: 1px solid #0073ea; }
 		.media-control { padding-top: 5px; text-align: center; }
-		.kboard-loading { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
+		.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
 		.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
 		.kboard-hide { display: none; }
 	</style>
