@@ -194,6 +194,10 @@ class KBController {
 	 */
 	public function fileDownload(){
 		global $wpdb;
+		
+		// 검색엔진 수집 금지
+		header("X-Robots-Tag: noindex, nofollow", true);
+		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
