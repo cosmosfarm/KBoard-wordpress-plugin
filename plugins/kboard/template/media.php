@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>관리자 페이지</title>
+	<title>KBoard 이미지 삽입하기</title>
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -11,47 +11,83 @@
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css">
 	<style>
-		fieldset { border: 1px solid gray; }
-		.media-wrap { overflow: hidden; }
-		.media-item { display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
-		.media-item.selected-item { padding: 4px; border: 1px solid #0073ea; }
-		.media-control { padding-top: 5px; text-align: center; }
+		* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
+		html,body { margin: 0; padding: 0; }
+		.kboard-media-header { padding: 0 20px; font-size: 20px; overflow: hidden; }
+		.kboard-media-header .title { float: left; line-height: 64px; }
+		.kboard-media-header .controller { float: left; line-height: 64px; }
+		.kboard-media-header .header-button { margin: 0; padding: 0; margin-left: 20px; height: 40px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
+		.kboard-media-header .header-button img { vertical-align: middle; }
+		.media-wrap { padding: 0 10px; overflow: hidden; }
+		.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
+		.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
+		.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; }
+		.media-wrap .media-item .media-image-wrap { width: 150px; }
+		.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; }
+		.media-wrap .media-item .media-control { text-align: center; }
+		.media-wrap .media-item .media-control input { display: none; }
+		.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
+		.media-wrap .media-item.selected-item { padding: 5px; border: 0px solid #0073ea; }
+		.media-wrap .media-item.selected-item .selected-media { display: block; }
+		.media-wrap .media-item.selected-item .media-image-wrap { width: 130px; padding: 10px; background-color: #eeeeee; }
+		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 130px; }
 		.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
 		.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
 		.kboard-hide { display: none; }
+		
+		@media screen and (max-width: 600px) {
+		.kboard-media-header { line-height: normal; }
+		.kboard-media-header .title { float: none; text-align: center; }
+		.kboard-media-header .controller { float: none; line-height: 30px; text-align: center; }
+		.media-wrap .media-item { float: none; }
+		.media-wrap .media-item .media-image-wrap { width: auto; }
+		.media-wrap .media-item .media-image-wrap .media-image { height: 200px; }
+		.media-wrap .media-item.selected-item .media-image-wrap { width: auto; }
+		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 180px; }
+		}
 	</style>
 </head>
 <body>
-<form id="kboard-media-form" enctype="multipart/form-data" method="post" onsubmit="return kboard_media_form_execute(this)">
+<form id="kboard-media-form" enctype="multipart/form-data" method="post" onsubmit="return kboard_media_form_execute(this)" data-allow="gif|jpg|jpeg|png">
 	<?php wp_nonce_field('kboard-media-upload', 'kboard-media-upload-nonce');?>
 	<input type="hidden" name="action" value="kboard_media_upload">
 	<input type="hidden" name="board_id" value="<?php echo $media->board_id?>">
 	<input type="hidden" name="content_uid" value="<?php echo $media->content_uid?>">
 	<input type="hidden" name="media_group" value="<?php echo $media->media_group?>">
 	<input type="hidden" name="media_uid" value="">
-	<fieldset>
-		<legend>이미지 업로드</legend>
-		<input type="file" name="kboard_media_file[]" onchange="jQuery('#kboard-media-form').submit()" accept="image/*" multiple>
-		<button class="ui-button ui-state-default ui-button-text-only" role="button"><span class="ui-button-text">업로드</span></button>
-		<button class="ui-button ui-state-default ui-button-text-only selected-insert-button kboard-hide" role="button" onclick="kboard_selected_media_insert();return false;"><span class="ui-button-text">선택 삽입</span></button>
-	</fieldset>
+	
+	<div class="kboard-media-header">
+		<div class="title">KBoard 이미지 삽입하기</div>
+		<div class="controller">
+			<button type="button" class="header-button upload-button" data-name="kboard_media_file[]" title="이미지 선택하기"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> 업로드</button>
+			<button type="button" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();" title="선택된 이미지 삽입하기"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> 선택 삽입</button>
+			<button type="button" class="header-button" onclick="window.close();" title="창닫기">창닫기</button>
+		</div>
+	</div>
 </form>
 
 <div class="media-wrap">
-	<?php foreach($media->getList() as $key=>$row):?>
+	<?php $index=0; foreach($media->getList() as $key=>$row): $index++;?>
 	<label class="media-item" data-media-uid="<?php echo $row->uid?>">
-		<div class="media-image" style="background-image:url(<?php echo site_url($row->file_path)?>);background-size:cover;width:150px;height:150px"></div>
+		<img class="selected-media" src="<?php echo KBOARD_URL_PATH?>/images/selected-media.png" alt="선택됨">
+		<div class="media-image-wrap">
+			<div class="media-image" style="background-image:url(<?php echo site_url($row->file_path)?>);background-size:cover"></div>
+		</div>
 		<div class="media-control">
 			<input type="checkbox" name="media_src" value="<?php echo site_url($row->file_path)?>" data-media-uid="<?php echo $row->uid?>" onchange="kboard_media_select()">
-			<button class="ui-button ui-state-default ui-button-text-only" role="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path)?>');return false;"><span class="ui-button-text">삽입</span></button>
-			<button class="ui-button ui-state-default ui-button-text-only" role="button" onclick="kboard_media_delete('<?php echo $row->uid?>');return false;"><span class="ui-button-text">삭제</span></button>
+			<button type="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path)?>');" title="삽입">삽입</button>
+			<button type="button" onclick="kboard_media_delete('<?php echo $row->uid?>');" title="삭제">삭제</button>
 		</div>
 	</label>
 	<?php endforeach?>
+	
+	<?php if(!$index):?>
+	<div class="no-media">업로드된 이미지가 없습니다.<br>업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D</div>
+	<?php endif?>
 </div>
 
 <div class="kboard-loading kboard-hide">
-	<img src="<?php echo KBOARD_URL_PATH?>/images/loading2.gif">
+	<img src="<?php echo KBOARD_URL_PATH?>/images/loading2.gif" alt="로딩중">
 </div>
 
 <script>
@@ -69,16 +105,20 @@ function kboard_media_select(){
 	});
 }
 function kboard_selected_media_insert(){
+	var total = jQuery('input[name=media_src]:checked').length;
+	var index = 0;
 	jQuery('input[name=media_src]:checked').each(function(){
 		var media_src = jQuery(this).val();
 		if(media_src) opener.kboard_editor_insert_media(media_src);
+		if(++index == total){
+			if(confirm('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?')) window.close();
+		}
 	});
-	alert('선택한 이미지를 본문에 삽입했습니다.');
 }
 function kboard_media_insert(media_src){
 	if(media_src){
 		opener.kboard_editor_insert_media(media_src);
-		alert('선택한 이미지를 본문에 삽입했습니다.');
+		if(confirm('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?')) window.close();
 	}
 }
 function kboard_media_delete(media_uid){
@@ -91,18 +131,55 @@ function kboard_media_delete(media_uid){
 	}
 }
 function kboard_media_form_execute(form){
-	if(jQuery('input[name=kboard_media_file]', form).val() && !kboard_image_checker(jQuery('input[name=kboard_media_file]', form).val())){
-		alert('이미지 파일만 첨부하실 수 있습니다.');
-		return false;
-	}
 	jQuery('.kboard-loading').removeClass('kboard-hide');
 	return true;
 }
-function kboard_image_checker(value){
-	var extension = "\.(bmp|gif|jpg|jpeg|png)$";
-	if((new RegExp(extension, "i")).test(value)) return true;
-	return false;
-}
+jQuery(document).ready(function($){
+	$('.upload-button').each(function(){
+		var button = $(this);
+		var allow = $('form').attr('data-allow');
+		var input = function(){
+			var obj = $('<input type="file" accept="image/*" multiple>').attr('name', $(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).hide().change(function(){
+				var extension = "\.("+allow+")$";
+				var files = $(this).get(0).files;
+				var total = files.length;
+				var index = 0;
+				$.each(files, function(i, file){
+					if(!(new RegExp(extension, "i")).test(file.name)){
+						alert('이미지 파일만 업로드 가능합니다.');
+						$(input).remove();
+						event(input());
+						return false;
+					}
+					else{
+						index++;
+					}
+					if(index == total){
+						jQuery('#kboard-media-form').submit();
+					}
+				});
+			});
+			return obj;
+		}
+		var event = function(event_input){
+			$(button).css({'position':'relative', 'overflow':'hidden'}).append(event_input).on('mousemove', function(event){
+				var left = event.pageX - $(this).offset().left - $(event_input).width() + 10;
+				var top = event.pageY - $(this).offset().top - 10;
+				event_input.css({'left':left, 'top':top});
+			}).hover(function(){
+				event_input.show();
+			}, function(){
+				event_input.hide();
+			}).keydown(function(e){
+				if(e.keyCode == 13){
+					e.preventDefault();
+					$('input[type=file]', button)[0].click();
+				}
+			});
+		}
+		event(input());
+	});
+});
 </script>
 </body>
 </html>
