@@ -6,6 +6,7 @@
 	<title>KBoard 이미지 삽입하기</title>
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="robots" content="noindex">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -20,6 +21,7 @@
 		.kboard-media-header .header-button img { vertical-align: middle; }
 		.media-wrap { padding: 0 10px; overflow: hidden; }
 		.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
+		.media-wrap .no-media a { color: #757575; text-decoration: none; }
 		.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
 		.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; }
 		.media-wrap .media-item .media-image-wrap { width: 150px; }
@@ -82,7 +84,7 @@
 	<?php endforeach?>
 	
 	<?php if(!$index):?>
-	<div class="no-media">업로드된 이미지가 없습니다.<br>업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D</div>
+	<div class="no-media">업로드된 이미지가 없습니다.<br>업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D<br><a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a></div>
 	<?php endif?>
 </div>
 

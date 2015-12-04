@@ -196,7 +196,7 @@ class KBController {
 	public function fileDownload(){
 		global $wpdb;
 		
-		header('X-Robots-Tag: noindex, nofollow', true); // 검색엔진 수집 금지
+		header('X-Robots-Tag: noindex', true); // 검색엔진 수집 금지
 		header('Content-Type: text/html; charset=UTF-8');
 		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';

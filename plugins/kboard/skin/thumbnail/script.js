@@ -5,29 +5,28 @@
 var console = window.console || { log: function() {} };
 
 function kboard_editor_execute(form){
-	var $ = jQuery.noConflict();
 	jQuery.fn.exists = function(){
 		return this.length>0;
 	};
 	
-	if(!$('input[name=title]', form).val()){
+	if(!jQuery('input[name=title]', form).val()){
 		alert(kboard_localize.please_enter_a_title);
-		$('input[name=title]', form).focus();
+		jQuery('input[name=title]', form).focus();
 		return false;
 	}
-	else if($('input[name=member_display]', form).eq(1).exists() && !$('input[name=member_display]', form).eq(1).val()){
+	else if(jQuery('input[name=member_display]', form).eq(1).exists() && !jQuery('input[name=member_display]', form).eq(1).val()){
 		alert(kboard_localize.please_enter_a_author);
-		$('[name=member_display]', form).eq(1).focus();
+		jQuery('[name=member_display]', form).eq(1).focus();
 		return false;
 	}
-	else if($('input[name=password]', form).exists() && !$('input[name=password]', form).val()){
+	else if(jQuery('input[name=password]', form).exists() && !jQuery('input[name=password]', form).val()){
 		alert(kboard_localize.please_enter_a_password);
-		$('input[name=password]', form).focus();
+		jQuery('input[name=password]', form).focus();
 		return false;
 	}
-	else if($('input[name=captcha]', form).exists() && !$('input[name=captcha]', form).val()){
+	else if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
 		alert(kboard_localize.please_enter_the_CAPTCHA_code);
-		$('input[name=captcha]', form).focus();
+		jQuery('input[name=captcha]', form).focus();
 		return false;
 	}
 	

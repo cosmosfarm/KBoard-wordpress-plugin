@@ -1,4 +1,4 @@
 name: 커스터머 스킨
 type: kboard-skin
-version: 5.0
+version: 5.1
 link: http://www.cosmosfarm.com/products/kboard
