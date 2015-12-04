@@ -14,10 +14,11 @@
 	<style>
 		* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
 		html,body { margin: 0; padding: 0; }
+		img { border: 0; }
 		.kboard-media-header { padding: 0 20px; font-size: 20px; overflow: hidden; }
-		.kboard-media-header .title { float: left; line-height: 64px; }
+		.kboard-media-header .title { float: left; padding-right: 10px; line-height: 64px; }
 		.kboard-media-header .controller { float: left; line-height: 64px; }
-		.kboard-media-header .header-button { margin: 0; padding: 0; margin-left: 20px; height: 40px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
+		.kboard-media-header .header-button { display: inline-block; *display: inline; zoom: 1; vertical-align: middle; margin: 0; padding: 0; padding: 0 10px; line-height: 40px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
 		.kboard-media-header .header-button img { vertical-align: middle; }
 		.media-wrap { padding: 0 10px; overflow: hidden; }
 		.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
@@ -35,11 +36,11 @@
 		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 130px; }
 		.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
 		.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
-		.kboard-hide { display: none; }
+		.kboard-hide { display: none !important; }
 		
 		@media screen and (max-width: 600px) {
 		.kboard-media-header { line-height: normal; }
-		.kboard-media-header .title { float: none; text-align: center; }
+		.kboard-media-header .title { float: none; padding-right: 0; text-align: center; }
 		.kboard-media-header .controller { float: none; line-height: 30px; text-align: center; }
 		.media-wrap .media-item { float: none; }
 		.media-wrap .media-item .media-image-wrap { width: auto; }
@@ -61,9 +62,9 @@
 	<div class="kboard-media-header">
 		<div class="title">KBoard 이미지 삽입하기</div>
 		<div class="controller">
-			<button type="button" class="header-button upload-button" data-name="kboard_media_file[]" title="이미지 선택하기"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> 업로드</button>
-			<button type="button" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();" title="선택된 이미지 삽입하기"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> 선택 삽입</button>
-			<button type="button" class="header-button" onclick="window.close();" title="창닫기">창닫기</button>
+			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="이미지 선택하기" style=""><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> 업로드</a>
+			<a href="javascript:void(0)" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();return false;" title="선택된 이미지 삽입하기"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> 선택 삽입</a>
+			<a href="javascript:void(0)" class="header-button" onclick="window.close();return false;" title="창닫기">창닫기</a>
 		</div>
 	</div>
 </form>
@@ -144,22 +145,35 @@ jQuery(document).ready(function($){
 			var obj = $('<input type="file" accept="image/*" multiple>').attr('name', $(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).hide().change(function(){
 				var extension = "\.("+allow+")$";
 				var files = $(this).get(0).files;
-				var total = files.length;
-				var index = 0;
-				$.each(files, function(i, file){
-					if(!(new RegExp(extension, "i")).test(file.name)){
+				if(files){
+					var total = files.length;
+					var index = 0;
+					$.each(files, function(i, file){
+						if(!(new RegExp(extension, "i")).test(file.name)){
+							alert('이미지 파일만 업로드 가능합니다.');
+							$(input).remove();
+							event(input());
+							return false;
+						}
+						else{
+							index++;
+						}
+						if(index == total){
+							jQuery('#kboard-media-form').submit();
+						}
+					});
+				}
+				else{
+					if(!(new RegExp(extension, "i")).test($(this).val())){
 						alert('이미지 파일만 업로드 가능합니다.');
 						$(input).remove();
 						event(input());
 						return false;
 					}
 					else{
-						index++;
-					}
-					if(index == total){
 						jQuery('#kboard-media-form').submit();
 					}
-				});
+				}
 			});
 			return obj;
 		}
