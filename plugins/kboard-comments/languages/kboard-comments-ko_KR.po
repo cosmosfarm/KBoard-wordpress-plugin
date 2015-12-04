@@ -1,113 +1,108 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2014-09-15 17:37+0900\n"
-"PO-Revision-Date: 2014-09-15 17:38+0900\n"
-"Last-Translator: Cosmosfarm <contact@cosmosfarm.com>\n"
+"POT-Creation-Date: 2015-12-05 01:10+0900\n"
+"PO-Revision-Date: 2015-12-05 01:10+0900\n"
+"Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:8
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:12
-msgid "No UID of comments."
-msgstr "댓글 고유번호가 없습니다."
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:15
-msgid "It is a comment does not exist."
-msgstr "존재하지 않는 댓글 입니다."
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:23
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:45
-msgid "Password confirmation"
-msgstr "비밀번호 확인"
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:34
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:17
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:49
-msgid "Please enter a password."
-msgstr "비밀번호를 입력해주세요."
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/confirm.php:47
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:37
-msgid "Submit"
-msgstr "입력"
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:6
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:7
+#: class/KBCommentController.class.php:28
+#: class/KBCommentController.class.php:86
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:15
-msgid "Please Log in to continue."
-msgstr "로그인 하셔야 사용할 수 있습니다."
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/delete.php:21
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:34
-msgid "You do not have permission."
-msgstr "권한이 없습니다."
-
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:14
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:48
+#: class/KBCommentController.class.php:47 skin/default/list.php:48
 msgid "Please enter a author."
 msgstr "작성자명을 입력해주세요."
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:20
+#: class/KBCommentController.class.php:50 skin/default/list.php:49
+#: template/confirm.php:45
+msgid "Please enter a password."
+msgstr "비밀번호를 입력해주세요."
+
+#: class/KBCommentController.class.php:53
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:23
+#: class/KBCommentController.class.php:56
 msgid "No document UID."
 msgstr "게시물 고유번호가 없습니다."
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/execute/insert.php:26
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:51
+#: class/KBCommentController.class.php:59 skin/default/list.php:51
 msgid "Type the content of the comment."
 msgstr "댓글 내용을 입력해주세요."
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
+#: class/KBCommentController.class.php:67
+#: class/KBCommentController.class.php:102
+msgid "You do not have permission."
+msgstr "권한이 없습니다."
+
+#: class/KBCommentController.class.php:93 template/confirm.php:6
+msgid "No UID of comments."
+msgstr "댓글 고유번호가 없습니다."
+
+#: class/KBCommentController.class.php:96
+msgid "Please Log in to continue."
+msgstr "로그인 하셔야 사용할 수 있습니다."
+
+#: skin/default/list-template.php:15
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:13
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:15
+#: skin/default/list-template.php:15 skin/default/list-template.php:17
 msgid "Delete"
 msgstr "삭제"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list-template.php:20
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:52
+#: skin/default/list-template.php:22 skin/default/list.php:52
 msgid "Reply"
 msgstr "답글"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:6
+#: skin/default/list.php:6
 msgid "Total Reply"
 msgstr "전체"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:6
+#: skin/default/list.php:6
 msgid "Count"
 msgstr "개"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:25
+#: skin/default/list.php:25
 msgid "Author"
 msgstr "작성자"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:28
+#: skin/default/list.php:28
 msgid "Password"
 msgstr "비밀번호"
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:50
+#: skin/default/list.php:37 template/confirm.php:39
+msgid "Submit"
+msgstr "입력"
+
+#: skin/default/list.php:50
 msgid "Please enter the CAPTCHA code."
 msgstr "옆에 보이는 보안코드를 입력해주세요."
 
-#: C:\Users\cosmosfarm\workspace\KBoard-wordpress-plugin\plugins\kboard-comments/skin/default/list.php:53
+#: skin/default/list.php:53
 msgid "Cancel"
 msgstr "취소"
+
+#: template/confirm.php:13
+msgid "It is a comment does not exist."
+msgstr "존재하지 않는 댓글 입니다."
+
+#: template/confirm.php:24 template/confirm.php:37
+msgid "Password confirmation"
+msgstr "비밀번호 확인"
 
 #~ msgid "WordPress"
 #~ msgstr "워드프레스"
@@ -136,15 +131,10 @@ msgstr "취소"
 #~ msgid "Unable to connect to Cosmosfarm server."
 #~ msgstr "코스모스팜 서버에 접속할 수 없습니다."
 
-#~ msgid ""
-#~ "Unable to connect to the update server, Cosmosfarm account please connect "
-#~ "again."
-#~ msgstr ""
-#~ "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
+#~ msgid "Unable to connect to the update server, Cosmosfarm account please connect again."
+#~ msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
 
-#~ msgid ""
-#~ "Download file is decompression failed, please check directory and file "
-#~ "permissions."
+#~ msgid "Download file is decompression failed, please check directory and file permissions."
 #~ msgstr "다운로드 파일 압축 해제 실패, 디렉토리 및 파일 권한을 확인하십시오."
 
 #~ msgid "File copy failed, directory requires write permission."
@@ -249,9 +239,7 @@ msgstr "취소"
 #~ msgid "Update the server connection fails, please reconnect the Cosmosfarm."
 #~ msgstr "업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요."
 
-#~ msgid ""
-#~ "Failure to decompress the file, check the permissions of directories and "
-#~ "files."
+#~ msgid "Failure to decompress the file, check the permissions of directories and files."
 #~ msgstr "파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요."
 
 #~ msgid "File copy failed"
