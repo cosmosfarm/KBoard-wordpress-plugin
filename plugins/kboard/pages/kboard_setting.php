@@ -44,9 +44,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="auto_page" id="auto_page">
 								<option value="">— 선택하기 —</option>
 								<?php foreach(get_pages() as $key => $page):?>
-								<option value="<?php echo $page->ID?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
+								<option value="<?php echo $page->ID?>" data-permalink="<?php echo esc_url(get_permalink($page->ID))?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
 								<?php endforeach?>
 							</select>
+							<button type="button" class="button button-small" onclick="kboard_open_page()">페이지 보기</button>
 							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p>
 						</td>
 					</tr>
@@ -433,19 +434,23 @@ function kboard_setting_tab_init(){
 	kboard_setting_tab_chnage(index);
 };
 kboard_setting_tab_init();
-
 function kboard_setting_tab_chnage(index){
 	jQuery('.tab-kboard').removeClass('nav-tab-active').eq(index).addClass('nav-tab-active');
 	jQuery('.tab-kboard-setting').removeClass('tab-kboard-setting-active').eq(index).addClass('tab-kboard-setting-active');
 	jQuery('input[name=tab_kboard_setting]').val(index);
 }
-
 function kboard_permission_roles_view(bind, value){
 	if(value == 'roles'){
 		jQuery(bind).removeClass('kboard-hide');
 	}
 	else{
 		jQuery(bind).addClass('kboard-hide');
+	}
+}
+function kboard_open_page(){
+	var permalink = jQuery('option:selected', 'select[name=auto_page]').data('permalink');
+	if(permalink){
+		window.open(permalink);
 	}
 }
 </script>

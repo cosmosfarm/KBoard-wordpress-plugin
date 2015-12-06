@@ -705,6 +705,26 @@ function kboard_skin_functions(){
 }
 
 /*
+ * 툴바에 게시판 설정페이지 링크를 추가한다.
+ */
+add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);
+function kboard_add_toolbar_link($wp_admin_bar){
+	global $post, $wpdb;
+	if($post->ID && current_user_can('activate_plugins') && !is_admin()){
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
+		if($board_id){
+			$args = array(
+					'id'    => 'kboard-setting-page',
+					'title' => 'KBoard 게시판 설정',
+					'href'  => admin_url("admin.php?page=kboard_list&board_id={$board_id}"),
+					'meta'  => array('class' => 'kboard-setting-page')
+			);
+			$wp_admin_bar->add_node($args);
+		}
+	}
+}
+
+/*
  * 활성화
  */
 register_activation_hook(__FILE__, 'kboard_activation');
