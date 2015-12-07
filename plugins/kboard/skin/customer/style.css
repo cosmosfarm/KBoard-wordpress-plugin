@@ -8,21 +8,20 @@ img { border: 0; }
 
 .kboard-customer-button-small,
 .kboard-customer-button-small:link,
-.kboard-customer-button-small:visited { position: relative; display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
+.kboard-customer-button-small:visited { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 .kboard-customer-button-small:hover,
 .kboard-customer-button-small:focus,
-.kboard-customer-button-small:active { position: relative; display: inline-block; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
+.kboard-customer-button-small:active { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0 !important; padding: 0 10px !important; height: 28px; line-height: 28px; font-size: 13px !important; font-weight: normal; color: white !important; background-image: none !important; background-color: #428bca !important; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none !important; }
 
-.kboard-customer-poweredby { float: left; padding-bottom: 15px; width: 100%; }
-.kboard-customer-poweredby a { font-size: 13px; text-decoration: none; color: gray; }
+.kboard-customer-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; }
 
 #kboard-customer-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-customer-list .kboard-header { float: left; margin-top: 0; width: 100%; }
 #kboard-customer-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
-#kboard-customer-list .kboard-category select { display: inline-block; margin: 0; padding: 5px 2px; font-size: 12px; width: 120px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; box-shadow: none; }
+#kboard-customer-list .kboard-category select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; font-size: 12px; width: 120px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; box-shadow: none; }
 #kboard-customer-list .kboard-search { float: right; padding-bottom: 5px; width: 50%; text-align: right; }
-#kboard-customer-list .kboard-search select { display: inline-block; margin: 0; padding: 5px 2px; width: 80px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; box-shadow: none; }
-#kboard-customer-list .kboard-search input { display: inline-block; margin: 0; padding: 6px 2px; width: 120px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; box-shadow: none; }
+#kboard-customer-list .kboard-search select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; width: 80px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; box-shadow: none; }
+#kboard-customer-list .kboard-search input { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 6px 2px; width: 120px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; box-shadow: none; }
 #kboard-customer-list .kboard-list { float: left; width: 100%; background-color: white; }
 #kboard-customer-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
 #kboard-customer-list .kboard-list table a { color: black; text-decoration: none; border: 0; }
@@ -78,8 +77,8 @@ img { border: 0; }
 #kboard-customer-document .kboard-title { float: left; width: 100%; }
 #kboard-customer-document .kboard-title p { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 22px; line-height: 30px; }
 #kboard-customer-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background-color: #f9f9f9; font-size: 12px; }
-#kboard-customer-document .kboard-detail .detail-attr { display: inline-block; float: left; margin: 0; padding: 12px 35px 12px 22px; }
-#kboard-customer-document .kboard-detail .detail-attr .detail-name { float: left; width: 60px; font-weight: bold; color: #545861; text-align: right; }
+#kboard-customer-document .kboard-detail .detail-attr { display: inline-block; *display: inline; zoom: 1; float: left; margin: 0; padding: 12px 35px 12px 22px; }
+#kboard-customer-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; text-align: right; }
 #kboard-customer-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
 #kboard-customer-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
 #kboard-customer-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
@@ -114,12 +113,12 @@ img { border: 0; }
 	#kboard-customer-list .kboard-list td.kboard-list-view { display: none; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li { display: none; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.first-page,
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.last-page { display: inline-block; }
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.last-page { display: inline-block; *display: inline; zoom: 1; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.prev-page,
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page { display: inline-block; }
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page { display: inline-block; *display: inline; zoom: 1; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 6px 18px; }
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; *display: inline; zoom: 1; }
 	
 	#kboard-customer-editor .kboard-attr-row input[type=text],
 	#kboard-customer-editor .kboard-attr-row input[type=file],
