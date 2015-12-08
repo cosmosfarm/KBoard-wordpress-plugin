@@ -17,12 +17,11 @@ class KBBackup {
 	 */
 	public function getTables(){
 		global $wpdb;
-		$tables = array();
 		$tables_result = $wpdb->get_results('SHOW TABLES', ARRAY_N);
 		foreach($tables_result as $table){
 			if(stristr($table[0], $wpdb->prefix.'kboard_')) $tables[] = $table[0];
 		}
-		return $tables;
+		return isset($tables)?$tables:array();
 	}
 	
 	/**
@@ -36,7 +35,6 @@ class KBBackup {
 		$sql = "TRUNCATE TABLE `$table`;\n";
 		foreach($result as $row){
 			$columns = count($row);
-			$value = array();
 			$sql .= "INSERT INTO `$table` VALUE (";
 			for($i=0; $i<$columns; $i++){
 				if($row[$i]) $value[] = "'$row[$i]'";
@@ -64,8 +62,7 @@ class KBBackup {
 		foreach($result as $row){
 			$xml .= "\t<data>\n";
 			
-			$value = array();
-			foreach($row AS $key => $value){
+			foreach($row as $key => $value){
 				$xml .= "\t\t<$key>";
 				$xml .= "<![CDATA[".stripslashes($value)."]]>";
 				$xml .= "</$key>\n";
@@ -111,7 +108,7 @@ class KBBackup {
 		$xml = file_get_contents($file);
 		$array = XML2Array::createArray($xml);
 		
-		foreach($array['kboard'] AS $table => $rows){
+		foreach($array['kboard'] as $table=>$rows){
 			
 			// 테이블에 입력될 데이터가 한 개인지 여러개 인지 확인한다.
 			if(isset($rows['data']) && is_array($rows['data'])){
@@ -133,7 +130,7 @@ class KBBackup {
 				// 새로운 content를 입력하기 위해서 posts테이블에 입력된 content를 삭제한다.
 				if(stristr($table, 'kboard_board_content')) $wpdb->query("DELETE FROM `{$wpdb->prefix}posts` WHERE `post_type`='kboard'");
 				
-				foreach($data AS $key => $row){
+				foreach($data as $key => $row){
 					$keys = array_keys($row);
 					$row_count = count($row);
 					
@@ -145,7 +142,7 @@ class KBBackup {
 					
 					$value = array();
 					for($i=0; $i<$row_count; $i++){
-						$value[] = "'".addslashes($row[$keys[$i]]['@cdata'])."'";
+						$value[] = "'".esc_sql($row[$keys[$i]]['@cdata'])."'";
 					}
 					$value = implode(',', $value);
 					
@@ -158,8 +155,8 @@ class KBBackup {
 						if($wpdb->insert_id){
 							$kboard_post = array(
 								'post_author'   => $row['member_uid']['@cdata'],
-								'post_title'    => addslashes($row['title']['@cdata']),
-								'post_content'  => addslashes(($row['secret']['@cdata']=='true' || $row['search']['@cdata']==2)?'':$row['content']['@cdata']),
+								'post_title'    => esc_sql($row['title']['@cdata']),
+								'post_content'  => esc_sql(($row['secret']['@cdata']=='true' || $row['search']['@cdata']==2)?'':$row['content']['@cdata']),
 								'post_status'   => 'publish',
 								'comment_status'=> 'closed',
 								'ping_status'   => 'closed',

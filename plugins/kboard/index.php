@@ -710,7 +710,7 @@ function kboard_skin_functions(){
 add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);
 function kboard_add_toolbar_link($wp_admin_bar){
 	global $post, $wpdb;
-	if($post->ID && current_user_can('activate_plugins') && !is_admin()){
+	if(!is_admin() && current_user_can('activate_plugins') && isset($post->ID) && $post->ID){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
 		if($board_id){
 			$args = array(
