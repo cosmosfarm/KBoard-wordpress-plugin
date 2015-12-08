@@ -16,7 +16,7 @@ class KBSeo {
 			$this->content = new KBContent();
 			$this->content->initWithUID($uid);
 			if($this->content->uid){
-				add_filter('wp_title', array($this, 'title'), 1);
+				add_filter('wp_title', array($this, 'title'));
 				
 				$is_display = false;
 				$board = new KBoard($this->content->board_id);
@@ -32,14 +32,24 @@ class KBSeo {
 				if($is_display){
 					remove_action('wp_head', 'rel_canonical');
 					remove_action('wp_head', 'wp_shortlink_wp_head');
-					add_action('kboard_head', array($this, 'ogp'), 2);
-					add_action('kboard_head', array($this, 'description'), 3);
-					add_action('kboard_head', array($this, 'author'), 4);
-					add_action('kboard_head', array($this, 'date'), 5);
+					
+					add_action('kboard_head', array($this, 'ogp'));
+					add_action('kboard_head', array($this, 'twitter'));
+					add_action('kboard_head', array($this, 'description'));
+					add_action('kboard_head', array($this, 'author'));
+					add_action('kboard_head', array($this, 'date'));
+					
+					add_filter('wpseo_title', array($this, 'getTitle'));
+					add_filter('wpseo_metadesc', array($this, 'getDescription'));
+					add_filter('wpseo_opengraph_image', array($this, 'getImage'));
+					add_filter('wpseo_canonical', '__return_false');
+					
+					add_filter('aioseop_description', array($this, 'getDescription'));
+					add_filter('aioseop_canonical_url', '__return_false');
 				}
 			}
 		}
-		add_action('kboard_head', array($this, 'rss'), 6);
+		add_action('kboard_head', array($this, 'rss'));
 		add_action('wp_head', array($this, 'head'), 1);
 	}
 	
@@ -48,7 +58,7 @@ class KBSeo {
 	 * @param string $title
 	 * @return string
 	 */
-	public function title($title){
+	public function title($title=''){
 		return kboard_htmlclear($this->content->title) . ' | ' . $title;
 	}
 	
@@ -65,23 +75,34 @@ class KBSeo {
 	 * 게시물 정보 Open Graph protocol(OGP)을 추가한다.
 	 */
 	public function ogp(){
-		echo '<meta property="og:title" content="'.kboard_htmlclear($this->content->title).'">';
+	echo '<meta property="og:title" content="'.$this->getTitle().'">';
 		echo "\n";
-		echo '<meta property="og:description" content="'.kboard_htmlclear($this->content->content).'">';
+		echo '<meta property="og:description" content="'.$this->getDescription().'">';
 		echo "\n";
-		if($this->content->thumbnail_file){
-			echo '<meta property="og:image" content="'.site_url($this->content->thumbnail_file).'">';
+		$image = $this->getImage();
+		if($image){
+			echo '<meta property="og:image" content="'.$image.'">';
 			echo "\n";
 		}
+	}
+	
+	/**
+	 * Twitter 정보를 추가한다.
+	 */
+	public function twitter(){
+		echo '<meta property="twitter:card" content="summary">';
+		echo "\n";
+		echo '<meta property="twitter:description" content="'.$this->getDescription().'">';
+		echo "\n";
 	}
 	
 	/**
 	 * 게시물 정보 메타태그를 추가한다.
 	 */
 	public function description(){
-		echo '<meta name="title" content="'.kboard_htmlclear($this->content->title).'">';
+		echo '<meta name="title" content="'.$this->getTitle().'">';
 		echo "\n";
-		echo '<meta name="description" content="'.kboard_htmlclear($this->content->content).'">';
+		echo '<meta name="description" content="'.$this->getDescription().'">';
 		echo "\n";
 	}
 
@@ -89,7 +110,7 @@ class KBSeo {
 	 * 작성자 메타태그를 추가한다.
 	 */
 	public function author(){
-		echo '<meta name="author" content="'.kboard_htmlclear($this->content->member_display).'">';
+		echo '<meta name="author" content="'.$this->getUsername().'">';
 		echo "\n";
 	}
 	
@@ -108,6 +129,62 @@ class KBSeo {
 		$name = get_bloginfo('name');
 		echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard '.__('Integration feed', 'kboard').'">';
 		echo "\n";
+	}
+	
+	/**
+	 * 페이지의 제목을 반환한다.
+	 * @param string $title
+	 * @return string
+	 */
+	public function getTitle($title=''){
+		if($this->content->title){
+			return kboard_htmlclear($this->content->title);
+		}
+		else{
+			return $title;
+		}
+	}
+	
+	/**
+	 * 페이지의 내용을 반환한다.
+	 * @param string $description
+	 * @return string
+	 */
+	public function getDescription($description=''){
+		if($this->content->content){
+			return trim(str_replace("\n", ' ', kboard_htmlclear($this->content->content)));
+		}
+		else{
+			return $description;
+		}
+	}
+	
+	/**
+	 * 페이지의 대표 이미지 주소를 반환한다.
+	 * @param string $image
+	 * @return string
+	 */
+	public function getImage($image=''){
+		if($this->content->thumbnail_file){
+			return site_url($this->content->thumbnail_file);
+		}
+		else{
+			return $image;
+		}
+	}
+	
+	/**
+	 * 글 작성자 이름을 반환한다.
+	 * @param string $username
+	 * @return string
+	 */
+	public function getUsername($username=''){
+		if($this->content->member_display){
+			return trim(kboard_htmlclear($this->content->member_display));
+		}
+		else{
+			return $username;
+		}
 	}
 }
 ?>
