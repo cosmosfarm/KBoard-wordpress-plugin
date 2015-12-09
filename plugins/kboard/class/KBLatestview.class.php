@@ -20,12 +20,10 @@ class KBLatestview {
 	}
 	
 	public function __get($name){
-		if(isset($this->row->{$name})){
+		if(isset($this->row->{$name}) && $this->row->{$name}){
 			return stripslashes($this->row->{$name});
 		}
-		else{
-			return '';
-		}
+		return '';
 	}
 	
 	public function __set($name, $value){
@@ -46,7 +44,7 @@ class KBLatestview {
 	
 	/**
 	 * 값을 입력받으 초기화 한다.
-	 * @param unknown $row
+	 * @param object $row
 	 */
 	public function initWithRow($row){
 		$this->row = $row;
@@ -58,7 +56,7 @@ class KBLatestview {
 	 */
 	public function create(){
 		global $wpdb;
-		$date = date("YmdHis", current_time('timestamp'));
+		$date = date('YmdHis', current_time('timestamp'));
 		$result = $wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
 		$this->uid = $wpdb->insert_id;
 		return $this->uid;
@@ -70,9 +68,9 @@ class KBLatestview {
 	public function update(){
 		global $wpdb;
 		if($this->uid){
-			foreach($this->row AS $key => $value){
+			foreach($this->row as $key=>$value){
 				if($key != 'uid'){
-					$value = addslashes($value);
+					$value = esc_sql($value);
 					$data[] = "`$key`='$value'";
 				}
 			}
@@ -120,25 +118,27 @@ class KBLatestview {
 	 */
 	public function getLinkedBoard(){
 		global $wpdb;
-		$list = array();
 		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
 		foreach($result as $row){
 			$list[] = $row->board_id;
 		}
-		return $list;
+		return isset($list)?$list:array();
 	}
 	
 	/**
 	 * 연결된 게시판인지 확인한다.
+	 * @return boolean
 	 */
 	public function isLinked($board_id){
 		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid){
 			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'");
+			if(intval($count)){
+				return true;
+			}
 		}
-		if(intval($count)) return true;
-		else return false;
+		return false;
 	}
 }
 ?>
