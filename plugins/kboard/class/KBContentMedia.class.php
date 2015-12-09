@@ -11,19 +11,6 @@ class KBContentMedia {
 	var $content_uid;
 	var $media_group;
 	
-	public function __construct(){
-		global $wpdb;
-		
-		/*
-		 * 게시글과의 관계가 없는 미디어는 삭제한다.
-		 */
-		$date = date('YmdHis', strtotime(current_time('YmdHis') . ' -1 hour'));
-		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`=''");
-		foreach($results as $key=>$row){
-			$this->deleteWithMedia($row);
-		}
-	}
-	
 	/**
 	 * 미디어 리스트를 반환한다.
 	 */
@@ -35,6 +22,9 @@ class KBContentMedia {
 		
 		if($this->content_uid && $this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' OR `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
+		}
+		else if($this->content_uid){
+			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
 		}
 		else if($this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
@@ -137,6 +127,18 @@ class KBContentMedia {
 			@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($media->file_path));
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_meida` WHERE `uid`='$media->uid'");
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_meida_relationships` WHERE `media_uid`='$media->uid'");
+		}
+	}
+	
+	/**
+	 * 게시글과의 관계가 없는 미디어는 삭제한다.
+	 */
+	public function truncate(){
+		global $wpdb;
+		$date = date('YmdHis', strtotime(current_time('YmdHis') . ' -1 hour'));
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`=''");
+		foreach($results as $key=>$row){
+			$this->deleteWithMedia($row);
 		}
 	}
 }

@@ -69,6 +69,7 @@ class KBTemplate {
 	 */
 	public function media(){
 		$media = new KBContentMedia();
+		$media->truncate();
 		$media->board_id = intval(isset($_GET['board_id'])?$_GET['board_id']:'');
 		$media->content_uid = intval(isset($_GET['content_uid'])?$_GET['content_uid']:'');
 		$media->media_group = kboard_htmlclear(isset($_GET['media_group'])?$_GET['media_group']:'');
