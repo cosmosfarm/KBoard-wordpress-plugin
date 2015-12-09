@@ -88,7 +88,7 @@ final class KBUpgrader {
 	 * @return string
 	 */
 	public function download($package, $version, $access_token){
-		//로컬에 있는 파일인지 확인한다.
+		// 로컬에 있는 파일인지 확인한다.
 		if(!preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package)){
 			return $package;
 		}
@@ -145,7 +145,7 @@ final class KBUpgrader {
 			else{
 				global $wp_filesystem;
 				$target_dir = trailingslashit($wp_filesystem->find_folder(WP_CONTENT_DIR . $content_type));
-				foreach($archive_files AS $file){
+				foreach($archive_files as $file){
 					if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
 					if($file['folder']){
 						if($wp_filesystem->is_dir($target_dir . $file['filename'])) continue;
