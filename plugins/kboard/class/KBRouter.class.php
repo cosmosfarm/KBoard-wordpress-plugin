@@ -17,7 +17,7 @@ class KBRouter {
 		if($content_uid){
 			$this->contentRedirect($content_uid);
 		}
-		elseif($board_id){
+		else if($board_id){
 			$this->boardRedirect($board_id);
 		}
 		
@@ -75,7 +75,7 @@ class KBRouter {
 				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath(get_permalink($page_id));
 			}
 			else{
-				$board_url = get_home_url() . "?kboard_id={$board_id}&mod=document&uid={$content->uid}";
+				$board_url = home_url("?kboard_id={$board_id}&mod=document&uid={$content->uid}");
 			}
 			return $board_url;
 		}
@@ -105,10 +105,8 @@ class KBRouter {
 		$board_id = intval($board_id);
 		$board = new KBoard($board_id);
 		if($board->uid){
-			$meta = new KBoardMeta($board_id);
-			
-			if($meta->auto_page){
-				$page_id = $meta->auto_page;
+			if($board->meta->auto_page){
+				$page_id = $board->meta->auto_page;
 			}
 			else{
 				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
@@ -116,10 +114,10 @@ class KBRouter {
 			
 			if($page_id){
 				$url = new KBUrl();
-				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->toStringWithPath( get_permalink($page_id) );
+				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->toStringWithPath(get_permalink($page_id));
 			}
 			else{
-				$board_url = get_home_url() . "?kboard_id={$board_id}";
+				$board_url = home_url("?kboard_id={$board_id}");
 			}
 			return $board_url;
 		}

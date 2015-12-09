@@ -11,7 +11,6 @@ class KBUrl {
 	private $path;
 	
 	public function __construct(){
-		$this->data = array();
 		$this->path = ''; 
 		return $this->init();
 	}
@@ -22,9 +21,9 @@ class KBUrl {
 	 */
 	public function init(){
 		$this->data = $_GET;
-		$this->data['mod'] = null;
-		$this->data['uid'] = null;
-		$this->data['parent_uid'] = null;
+		$this->data['mod'] = '';
+		$this->data['uid'] = '';
+		$this->data['parent_uid'] = '';
 		return $this;
 	}
 	
@@ -51,11 +50,10 @@ class KBUrl {
 	 * @return string
 	 */
 	public function getCleanQueryStrings(){
-		$query_strings = array();
 		foreach($this->data as $key=>$value){
 			if($value) $query_strings[$key] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
 		}
-		return implode('&', $query_strings);
+		return isset($query_strings)?implode('&', $query_strings):'';
 	}
 	
 	/**
@@ -77,11 +75,11 @@ class KBUrl {
 		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
 		if($this->path){
-			return $this->path . '?' . $query_strings;
+			return $this->path . ($query_strings?'?'.$query_strings:'');
 		}
 		else{
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			return $url['path'] . '?' . $query_strings;
+			return $url['path'] . ($query_strings?'?'.$query_strings:'');
 		}
 	}
 
@@ -108,7 +106,7 @@ class KBUrl {
 		
 		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
-		return $url['path'] . '?' . $query_strings;
+		return $url['path'] . ($query_strings?'?'.$query_strings:'');
 	}
 	
 	/**
@@ -120,7 +118,7 @@ class KBUrl {
 			if($value) $input[] = '<input type="hidden" name="' . addslashes(kboard_xssfilter(kboard_htmlclear(trim($key)))) .'" value="' . addslashes(kboard_xssfilter(kboard_htmlclear(trim($value)))) . '">';
 		}
 		$this->init();
-		return @implode('', $input);
+		return isset($input)?implode('', $input):'';
 	}
 	
 	/**
