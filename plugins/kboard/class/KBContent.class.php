@@ -545,6 +545,18 @@ class KBContent {
 			$file = addslashes($upload['path'] . $upload['stored_name']);
 			
 			if($original_name){
+				
+				// 업로드된 원본 이미지 크기를 줄인다.
+				$upload_dir = wp_upload_dir();
+				$file_path = explode('/wp-content/uploads', $upload['path'] . $upload['stored_name']);
+				$file_path = strtolower($upload_dir['basedir'] . end($file_path));
+				$image_editor = wp_get_image_editor($file_path);
+				if(!is_wp_error($image_editor)){
+					$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1024, 1024));
+					$image_editor->resize($thumbnail_size[0], $thumbnail_size[0], true);
+					$image_editor->save($file_path);
+				}
+				
 				$this->removeThumbnail($uid);
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='$file', `thumbnail_name`='$original_name' WHERE `uid`='$uid'");
 			}
