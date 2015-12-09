@@ -19,6 +19,7 @@ class KBContent {
 	var $thumbnail_store_path;
 	var $row;
 	var $execute_action;
+	var $thumbnail;
 	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
@@ -564,15 +565,44 @@ class KBContent {
 	}
 	
 	/**
+	 * 썸네일 주소를 반환한다.
+	 * @return string
+	 */
+	public function getThumbnail(){
+		if($this->thumbnail){
+			return $this->thumbnail;
+		}
+		else if($this->thumbnail_file){
+			$this->thumbnail = site_url($this->thumbnail_file);
+			return $this->thumbnail;
+		}
+		else if($this->uid){
+			$media = new KBContentMedia();
+			$media->content_uid = $this->uid;
+			foreach($media->getList() as $media_item){
+				if(isset($media_item->file_path) && $media_item->file_path){
+					$this->thumbnail = site_url($media_item->file_path);
+					return $this->thumbnail;
+				}
+			}
+			foreach($this->attach as $attach){
+				$extension = strtolower(pathinfo($attach[0], PATHINFO_EXTENSION));
+				if(in_array($extension, array('gif','jpg','jpeg','png'))){
+					$this->thumbnail = site_url($attach[0]);
+					return $this->thumbnail;
+				}
+			}
+		}
+		return '';
+	}
+	
+	/**
 	 * 게시글을 삭제한다.
-	 * @param string $next
 	 */
 	public function remove(){
 		global $wpdb;
 		if($this->uid){
-			/*
-			 * 게시글 삭제 액션 훅 실행
-			 */
+			// 게시글 삭제 액션 실행
 			do_action('kboard_document_delete', $this->uid, $this->board_id);
 			
 			$this->_remove_option($this->uid);
@@ -585,9 +615,7 @@ class KBContent {
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->uid'");
 			}
 			
-			/*
-			 * 미디어 파일을 삭제한다.
-			 */
+			// 미디어 파일을 삭제한다.
 			$media = new KBContentMedia();
 			$media->deleteWithContentUID($this->uid);
 		}
