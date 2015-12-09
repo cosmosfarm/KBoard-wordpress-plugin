@@ -21,10 +21,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		
 		<h2 class="nav-tab-wrapper">
 			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab nav-tab-active" onclick="kboard_setting_tab_chnage(0);">기본설정</a>
-			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(1);">권한설정</a>
 			<?php if($board->uid):?>
+			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(1);">권한설정</a>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(2);">고급설정</a>
 			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(3);">소셜댓글</a>
+			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(4);">확장설정</a>
 			<?php endif?>
 		</h2>
 		
@@ -200,6 +201,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			</table>
 		</div>
 		
+		<?php if($board->uid):?>
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
@@ -297,8 +299,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tbody>
 			</table>
 		</div>
-		
-		<?php if($board->uid):?>
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
@@ -419,6 +419,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="http://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a> 
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<?php echo apply_filters('kboard_extends_setting', '', $board->uid)?>
 		</div>
 		<?php endif?>
 		
