@@ -11,23 +11,15 @@ class KBoardMeta {
 	private $meta;
 	
 	public function __construct($board_id=''){
-		$this->clear();
 		$this->meta = new stdClass();
 		$this->board_id = 0;
 		if($board_id) $this->setBoardID($board_id);
 	}
 	
 	public function __get($name){
-		global $wpdb;
-		if($this->board_id){
-			$name = esc_sql($name);
-			if(isset($this->meta->{$name})){
-				return stripslashes($this->meta->{$name});
-			}
-			else{
-				$this->meta->{$name} = $wpdb->get_var("SELECT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
-				return stripslashes($this->meta->{$name});
-			}
+		$name = esc_sql($name);
+		if(isset($this->meta->{$name})){
+			return stripslashes($this->meta->{$name});
 		}
 		return '';
 	}
@@ -37,26 +29,28 @@ class KBoardMeta {
 		if($this->board_id){
 			$name = esc_sql($name);
 			$value = esc_sql($value);
-			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
+			if($value){
+				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
+			}
+			else{
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");
+			}
 			$this->meta->{$name} = $value;
 		}
 	}
 	
 	/**
 	 * 게시판 아이디를 입력받는다.
-	 * @param int $id
+	 * @param int $board_id
 	 */
 	public function setBoardID($board_id){
+		global $wpdb;
 		$this->meta = new stdClass();
 		$this->board_id = intval($board_id);
-	}
-	
-	/**
-	 * 모든 빈 값들을 제거한다.
-	 */
-	public function clear(){
-		global $wpdb;
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `value`=''");
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id'");
+		foreach($results as $row){
+			$this->meta->{$row->key} = $row->value;
+		}
 	}
 }
 ?>
