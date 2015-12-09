@@ -172,12 +172,21 @@ class KBContent {
 	 */
 	public function insertContent(){
 		global $user_ID, $wpdb;
-		$userdata = get_userdata($user_ID);
+		
+		if($user_ID){
+			$userdata = get_userdata($user_ID);
+			$member_uid = $userdata->data->ID;
+			$member_display = $this->member_display?$this->member_display:$userdata->data->display_name;
+		}
+		else{
+			$member_uid = 0;
+			$member_display = $this->member_display;
+		}
 		
 		$data['board_id'] = $this->board_id;
 		$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
-		$data['member_uid'] = intval($userdata->data->ID);
-		$data['member_display'] = $this->member_display?$this->member_display:$userdata->data->display_name;
+		$data['member_uid'] = $member_uid;
+		$data['member_display'] = $member_display;
 		$data['title'] = $this->title;
 		$data['content'] = $this->content;
 		$data['date'] = current_time('YmdHis');
