@@ -18,7 +18,7 @@ class KBoardMeta {
 	
 	public function __get($name){
 		$name = esc_sql($name);
-		if(isset($this->meta->{$name})){
+		if(isset($this->meta->{$name}) && $this->meta->{$name}){
 			return stripslashes($this->meta->{$name});
 		}
 		return '';
