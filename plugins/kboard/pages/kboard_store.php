@@ -1,14 +1,14 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
-	<h2>
+	<h1>
 		스토어
 		<a href="#" class="add-new-h2 kbstore-login-button"></a>
 		<a href="http://www.cosmosfarm.com/wpstore" class="add-new-h2" onclick="window.open(this.href);return false;">스토어 홈페이지</a>
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href);return false;">커뮤니티</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;">고객지원</a>
 		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;">블로그</a>
-	</h2>
+	</h1>
 	
 	<div class="wp-filter">
 		<ul class="filter-links">

@@ -1,13 +1,13 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
-	<h2>
+	<h1>
 		KBoard : 백업 및 복구
 		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href);return false;">홈페이지</a>
 		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href);return false;">커뮤니티</a>
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;">고객지원</a>
 		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;">블로그</a>
-	</h2>
+	</h1>
 	
 	<form action="<?php echo KBOARD_BACKUP_PAGE?>&action=upload" method="post" enctype="multipart/form-data">
 		<table class="form-table">
