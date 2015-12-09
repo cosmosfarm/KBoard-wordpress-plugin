@@ -26,12 +26,10 @@ class KBContent {
 	}
 	
 	public function __get($name){
-		if(isset($this->row->{$name})){
+		if(isset($this->row->{$name}) && $this->row->{$name}){
 			return stripslashes($this->row->{$name});
 		}
-		else{
-			return '';
-		}
+		return '';
 	}
 	
 	public function __set($name, $value){
@@ -140,19 +138,17 @@ class KBContent {
 				$this->addMediaRelationships($uid);
 				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
-				$meta = new KBoardMeta($this->board_id);
-				if($meta->latest_alerts){
+				$board = new KBoard();
+				$board->setID($this->board_id);
+				if($board->meta->latest_alerts){
+					include_once 'KBMail.class.php';
 					/*
 					 * http://www.cosmosfarm.com/threads/document/3025
 					 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
 					 */
-					$board = new KBoard();
-					$board->setID($this->board_id);
 					$url = new KBUrl();
-					
-					include_once 'KBMail.class.php';
 					$mail = new KBMail();
-					$mail->to = explode(',', $meta->latest_alerts);
+					$mail->to = explode(',', $board->meta->latest_alerts);
 					$mail->title = '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title;
 					$mail->content = $this->content;
 					$mail->url = $url->getDocumentRedirect($uid);

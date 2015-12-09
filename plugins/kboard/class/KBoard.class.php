@@ -47,7 +47,7 @@ class KBoard {
 		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$id'");
 		if($this->row->uid){
 			$this->id = $this->row->uid;
-			$this->meta = new KBoardMeta($this->id);
+			$this->meta = new KBoardMeta($this->row->uid);
 		}
 		else{
 			$this->id = 0;
