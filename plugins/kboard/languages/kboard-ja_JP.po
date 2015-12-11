@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2015-12-11 16:14+0900\n"
-"PO-Revision-Date: 2015-12-11 16:38+0900\n"
+"POT-Creation-Date: 2015-12-11 16:54+0900\n"
+"PO-Revision-Date: 2015-12-11 16:55+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -296,6 +296,11 @@ msgstr "KBoard : Forum管理"
 #: pages/kboard_store.php:5
 msgid "KBoard : 스토어"
 msgstr "KBoard : ストア"
+
+#: pages/kboard_store.php:85 pages/kboard_store.php:90
+#: pages/kboard_store.php:93
+msgid "로그인"
+msgstr "ログイン"
 
 #: pages/welcome.php:4
 msgid "코스모스팜 대시보드 입니다."

@@ -57,7 +57,7 @@ img { border: 0; }
 #kboard-avatar-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; border-bottom: 1px solid #e3e3e3; background-color: white; }
 #kboard-avatar-editor .kboard-attr-title { float: left; border-bottom: 1px solid #e3e3e3; }
 #kboard-avatar-editor .kboard-attr-title input { padding: 6px 2px; font-size: 12px; width: 50%; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-avatar-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 95px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
+#kboard-avatar-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 110px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
 #kboard-avatar-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; max-width: 100%; vertical-align: middle; }
 #kboard-avatar-editor .kboard-attr-row .attr-value { font-size: 12px; }
 #kboard-avatar-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; min-width: 130px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }

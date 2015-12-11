@@ -82,15 +82,15 @@ window.onload = function(){
 					jQuery('.kbstore-login-button').text(res.profile.username+'님 환영합니다');
 				}
 				else{
-					jQuery('.kbstore-login-button').text('로그인');
+					jQuery('.kbstore-login-button').text('<?php echo __('로그인', 'kboard')?>');
 				}
 			});
 		}
 		else{
-			jQuery('.kbstore-login-button').text('로그인');
+			jQuery('.kbstore-login-button').text('<?php echo __('로그인', 'kboard')?>');
 		}
 	}, function(res){
-		jQuery('.kbstore-login-button').text('로그인');
+		jQuery('.kbstore-login-button').text('<?php echo __('로그인', 'kboard')?>');
 	});
 	jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>'));
 	cf_get_kbstore_list(cf_list_page);
