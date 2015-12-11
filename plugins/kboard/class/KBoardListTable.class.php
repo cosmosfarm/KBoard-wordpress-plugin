@@ -73,9 +73,9 @@ class KBoardListTable extends WP_List_Table {
 		echo '<input type="checkbox" name="board_id[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
-		echo '<td>';
-		echo '<img src="' . KBOARD_URL_PATH . "/skin/{$item->skin}/thumbnail.png" . '" style="width:100px;height:100px;" alt="">';
-		echo '</td>';
+		echo '<td><a href="'.$edit_url.'" title="편집">';
+		echo '<img src="'.KBOARD_URL_PATH."/skin/{$item->skin}/thumbnail.png".'" style="width:100px;height:100px;" alt="">';
+		echo '</a></td>';
 		
 		echo '<td><a href="'.$edit_url.'" title="편집">';
 		echo $item->board_name;

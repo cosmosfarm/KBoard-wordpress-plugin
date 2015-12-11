@@ -439,15 +439,7 @@ class KBFileHandler {
 	 * @return array
 	 */
 	function getDirlist($path){
-		$dirlist = array();
-		if($dh = @opendir($path)){
-			while(($file = readdir($dh)) !== false){
-				if($file == "." || $file == "..") continue;
-				$dirlist[] = $file;
-			}
-			closedir($dh);
-		}
-		return $dirlist;
+		return array_diff(scandir($path), array('.', '..'));
 	}
 	
 	/**
@@ -458,8 +450,8 @@ class KBFileHandler {
 		if(is_file($path)) unlink($path);
 		elseif(is_dir($path)){
 			if(substr($path, -1) != '/') $path .= '/';
-			$dirlist = $this->getDirlist($path);
-			foreach($dirlist as $file){
+			$files = $this->getDirlist($path);
+			foreach($files as $file){
 				$this->delete($path . $file);
 			}
 			rmdir($path);
@@ -472,20 +464,20 @@ class KBFileHandler {
 	 * @param int $time
 	 */
 	public function deleteWithOvertime($path, $time){
-		if(is_file($path)){
-			if(time() - filemtime($path) > $time){
-				unlink($path);
-			}
-		}
-		elseif(is_dir($path)){
+		if(is_dir($path)){
 			if(substr($path, -1) != '/') $path .= '/';
-			$dirlist = $this->getDirlist($path);
-			foreach($dirlist as $file){
+			$files = $this->getDirlist($path);
+			foreach($files as $file){
 				$this->deleteWithOvertime($path . $file, $time);
 			}
 			$stat = stat($path);
 			if(time() - $stat['mtime'] > $time){
 				rmdir($path);
+			}
+		}
+		else if(is_file($path)){
+			if(time() - filemtime($path) > $time){
+				unlink($path);
 			}
 		}
 	}
@@ -503,9 +495,9 @@ class KBFileHandler {
 			if(substr($to, -1) != '/') $to .= '/';
 			if(substr($from, -1) != '/') $from .= '/';
 			$this->mkPath($to);
-			$dirlist = $this->getDirlist($from);
 			$copy_result = true;
-			foreach($dirlist as $file){
+			$files = $this->getDirlist($from);
+			foreach($files as $file){
 				$copy_result = $this->copy($from . $file, $to . $file);
 				if(!$copy_result) break;
 			}
