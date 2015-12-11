@@ -59,9 +59,14 @@ class KBContent {
 		global $wpdb;
 		if($uid){
 			$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$uid' LIMIT 1");
-			$this->setBoardID($this->row->board_id);
-			$this->initOptions();
-			$this->initAttachedFiles();
+			if($this->row){
+				$this->setBoardID($this->row->board_id);
+				$this->initOptions();
+				$this->initAttachedFiles();
+			}
+			else{
+				$this->row = new stdClass();
+			}
 		}
 		else{
 			$this->row = new stdClass();
@@ -568,28 +573,43 @@ class KBContent {
 	 * 썸네일 주소를 반환한다.
 	 * @return string
 	 */
-	public function getThumbnail(){
-		if($this->thumbnail){
-			return $this->thumbnail;
+	public function getThumbnail($width='', $height=''){
+		if(isset($this->thumbnail["{$width}x{$height}"]) && $this->thumbnail["{$width}x{$height}"]){
+			return $this->thumbnail["{$width}x{$height}"];
 		}
 		else if($this->thumbnail_file){
-			$this->thumbnail = site_url($this->thumbnail_file);
-			return $this->thumbnail;
+			if($width && $height){
+				$this->thumbnail["{$width}x{$height}"] = kboard_resize($this->thumbnail_file, $width, $height);
+			}
+			else{
+				$this->thumbnail["{$width}x{$height}"] = site_url($this->thumbnail_file);
+			}
+			return $this->thumbnail["{$width}x{$height}"];
 		}
 		else if($this->uid){
 			$media = new KBContentMedia();
 			$media->content_uid = $this->uid;
 			foreach($media->getList() as $media_item){
 				if(isset($media_item->file_path) && $media_item->file_path){
-					$this->thumbnail = site_url($media_item->file_path);
-					return $this->thumbnail;
+					if($width && $height){
+						$this->thumbnail["{$width}x{$height}"] = kboard_resize($media_item->file_path, $width, $height);
+					}
+					else{
+						$this->thumbnail["{$width}x{$height}"] = site_url($media_item->file_path);
+					}
+					return $this->thumbnail["{$width}x{$height}"];
 				}
 			}
 			foreach($this->attach as $attach){
 				$extension = strtolower(pathinfo($attach[0], PATHINFO_EXTENSION));
 				if(in_array($extension, array('gif','jpg','jpeg','png'))){
-					$this->thumbnail = site_url($attach[0]);
-					return $this->thumbnail;
+					if($width && $height){
+						$this->thumbnail["{$width}x{$height}"] = kboard_resize($attach[0], $width, $height);
+					}
+					else{
+						$this->thumbnail["{$width}x{$height}"] = site_url($attach[0]);
+					}
+					return $this->thumbnail["{$width}x{$height}"];
 				}
 			}
 		}
