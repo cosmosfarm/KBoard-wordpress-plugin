@@ -135,7 +135,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="comment_skin" id="comment_skin">
 								<?php
 								if(!$meta->comment_skin) $meta->comment_skin = 'default';
-								foreach($comment_skin->getList() as $key => $value):
+								foreach($comment_skin->getList() as $key=>$value):
 								?>
 								<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
 								<?php endforeach?>

@@ -10,24 +10,21 @@ class KBController {
 	public function __construct(){
 		$action = isset($_POST['action'])?$_POST['action']:'';
 		if($action == 'kboard_editor_execute'){
-			add_action('template_redirect', array($this, 'editorExecute'));
+			add_action('template_redirect', array($this, 'editorExecute'), 0);
 		}
 		else if($action == 'kboard_media_upload'){
-			add_action('template_redirect', array($this, 'mediaUpload'));
+			add_action('template_redirect', array($this, 'mediaUpload'), 0);
 		}
 		else if($action == 'kboard_media_delete'){
-			add_action('template_redirect', array($this, 'mediaDelete'));
+			add_action('template_redirect', array($this, 'mediaDelete'), 0);
 		}
 		
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		if($action == 'kboard_file_delete'){
-			add_action('template_redirect', array($this, 'fileDelete'));
+			add_action('template_redirect', array($this, 'fileDelete'), 0);
 		}
 		else if($action == 'kboard_file_download'){
-			add_action('template_redirect', array($this, 'fileDownload'));
-		}
-		else if($action == 'kboard_backup'){
-			add_action('template_redirect', array($this, 'backup'));
+			add_action('template_redirect', array($this, 'fileDownload'), 0);
 		}
 	}
 	
@@ -306,37 +303,6 @@ class KBController {
 			fpassthru($fp);
 			fclose($fp);
 		}
-		exit;
-	}
-	
-	/**
-	 * 백업파일 다운로드
-	 */
-	public function backup(){
-		header('Content-Type: text/html; charset=UTF-8');
-		
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		if($referer){
-			$url = parse_url($referer);
-			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-		}
-		else{
-			wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
-		}
-		if(!in_array($referer_host, array($host))) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
-		if(!current_user_can('activate_plugins')) wp_die('KBoard : '.__('No backup privilege.', 'kboard'));
-		
-		include KBOARD_DIR_PATH.'/class/KBBackup.class.php';
-		$backup = new KBBackup();
-		
-		$tables = $backup->getTables();
-		$data = '';
-		foreach($tables as $key => $value){
-			$data .= $backup->getXml($value);
-		}
-		
-		$backup->download($data, 'xml');
 		exit;
 	}
 }

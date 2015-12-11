@@ -27,6 +27,7 @@ define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
 define('KBOARD_UPGRADE_ACTION', admin_url('admin.php?page=kboard_upgrade'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
 
+include_once 'class/KBAdminController.class.php';
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
@@ -62,6 +63,9 @@ function kboard_init(){
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
+	
+	// 관리자 컨트롤러 시작
+	$admin_controller = new KBAdminController();
 	
 	// 컨트롤러 시작
 	$controller = new KBController();
@@ -358,7 +362,7 @@ function kboard_latestview_new(){
 add_action('admin_post_kboard_latestview_action', 'kboard_latestview_update');
 function kboard_latestview_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	if(!current_user_can('activate_plugins')) wp_die('KBoard : 관리 권한이 없습니다.');
+	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
 	
 	$latestview_uid = intval($_POST['latestview_uid']);
 	$latestview_link = $_POST['latestview_link'];
@@ -392,34 +396,13 @@ function kboard_latestview_update(){
 		}
 	}
 	
-	die('<script>location.href="' . admin_url("/admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
+	die('<script>location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
 }
 
 /*
  * 게시판 백업 및 복구 페이지
  */
 function kboard_backup(){
-	include_once 'class/KBBackup.class.php';
-	$backup = new KBBackup();
-	
-	if(isset($_GET['action']) && $_GET['action'] == 'upload'){
-		$xmlfile = WP_CONTENT_DIR . '/uploads/' . basename($_FILES['kboard_backup_xml_file']['name']);
-		if(move_uploaded_file($_FILES['kboard_backup_xml_file']['tmp_name'], $xmlfile)){
-			$file_extension = explode('.', $xmlfile);
-			if(end($file_extension) == 'xml'){
-				$backup->importXml($xmlfile);
-				echo '<script>alert("복원파일의 데이터로 복구 되었습니다.");</script>';
-			}
-			else{
-				echo '<script>alert("복원에 실패 했습니다. 올바른 복원파일이 아닙니다.");</script>';
-			}
-			unlink($xmlfile);
-		}
-		else{
-			echo '<script>alert("파일의 업로드를 실패 했습니다.");</script>';
-		}
-	}
-	
 	include_once 'pages/kboard_backup.php';
 }
 
@@ -427,7 +410,7 @@ function kboard_backup(){
  * 게시판 업그레이드
  */
 function kboard_upgrade(){
-	if(!current_user_can('activate_plugins')) wp_die('KBoard : 설치 권한이 없습니다.');
+	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
 	
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';

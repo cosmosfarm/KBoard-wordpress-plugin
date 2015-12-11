@@ -92,7 +92,7 @@ window.onload = function(){
 	}, function(res){
 		jQuery('.kbstore-login-button').text('로그인');
 	});
-	jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>'));
+	jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>'));
 	cf_get_kbstore_list(cf_list_page);
 };
 jQuery(window).scroll(function(){
@@ -154,12 +154,12 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 			}
 			else{
 				if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-					location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>');
+					location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 				}
 			}
 		}, function(res){
 			if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>');
+				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
 		return false;
@@ -207,22 +207,22 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 function cf_get_a_install(action, download, version){
 	var a_install = document.createElement('a');
 	a_install.innerHTML = '지금 설치하기';
-	a_install.setAttribute('href', '<?php echo admin_url('/admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
+	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
 	a_install.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
 				if(confirm('설치를 계속 할까요?')){
-					location.href = '<?php echo admin_url('/admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+					location.href = '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
 				}
 			}
 			else{
 				if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-					location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>');
+					location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 				}
 			}
 		}, function(res){
 			if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('/admin.php?page=kboard_store')?>');
+				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
 		return false;

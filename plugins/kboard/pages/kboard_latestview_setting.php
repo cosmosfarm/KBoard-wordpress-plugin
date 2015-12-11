@@ -13,7 +13,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;">고객지원</a>
 		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;">블로그</a>
 	</h1>
-	<form action="<?php echo admin_url('/admin-post.php')?>" method="post" onsubmit="return latestview_submit()">
+	<form action="<?php echo admin_url('admin-post.php')?>" method="post" onsubmit="return latestview_submit()">
 		<input type="hidden" name="action" value="kboard_latestview_action">
 		<input type="hidden" name="latestview_uid" value="<?php echo $latestview->uid?>">
 		<input type="hidden" name="latestview_link">
