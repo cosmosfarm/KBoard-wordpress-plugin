@@ -71,7 +71,7 @@
 				<?php while($content = $list->hasNext()):?>
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
-					<td class="kboard-list-thumbnail"><?php if($content->thumbnail_file):?><img src="<?php echo kboard_resize($content->thumbnail_file, 120, 90)?>" style="max-width:100px;" alt="<?php echo $content->thumbnail_name?>"><?php else:?><i class="icon-picture"></i><?php endif?></td>
+					<td class="kboard-list-thumbnail"><?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" style="max-width:100px;" alt=""><?php else:?><i class="icon-picture"></i><?php endif?></td>
 					<td class="kboard-list-title"><div class="cut_strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?>
 							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
@@ -106,6 +106,6 @@
 	<?php endif?>
 	
 	<div class="kboard-thumbnail-poweredby">
-		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 	</div>
 </div>

@@ -88,9 +88,15 @@ img { border: 0; }
 #kboard-default-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
 #kboard-default-document .kboard-comments-area { float: left; width: 100%; }
 #kboard-default-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
-#kboard-default-document .kboard-document-navi a { text-decoration: none; border: 0; font-size: 13px; }
-#kboard-default-document .kboard-document-navi .kboard-top-document { float: left; width: 50%; }
-#kboard-default-document .kboard-document-navi .kboard-bottom-document { float: right; width: 50%; text-align: right; }
+#kboard-default-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; }
+#kboard-default-document .kboard-document-navi .navi-document-title { display: block; }
+#kboard-default-document .kboard-document-navi .navi-arrow { position: absolute; display: block; }
+#kboard-default-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 50%; }
+#kboard-default-document .kboard-document-navi .kboard-prev-document .navi-document-title { padding-left: 15px; }
+#kboard-default-document .kboard-document-navi .kboard-prev-document .navi-arrow { left: 0; top: 0; }
+#kboard-default-document .kboard-document-navi .kboard-next-document { position: relative; float: right; width: 50%; text-align: right; }
+#kboard-default-document .kboard-document-navi .kboard-next-document .navi-document-title { padding-right: 15px; }
+#kboard-default-document .kboard-document-navi .kboard-next-document .navi-arrow { right: 0; top: 0; }
 #kboard-default-document .kboard-control { float: left; padding: 15px 0;  width: 100%; }
 #kboard-default-document .kboard-control .left { position: static; float: left; }
 #kboard-default-document .kboard-control .right { position: static; float: right; text-align: right; }
@@ -103,11 +109,11 @@ img { border: 0; }
 #kboard-default-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media screen and (max-width: 600px) {
-	#kboard-default-list .kboard-category { width: 100%; }
-	#kboard-default-list .kboard-category select { width: auto;}
-	#kboard-default-list .kboard-search { clear: both; float: left; width: 100%; }
-	#kboard-default-list .kboard-search select { width: 80px; }
-	#kboard-default-list .kboard-search input { width: 80px; }
+	#kboard-default-list .kboard-category { width: 100%; text-align: center; }
+	#kboard-default-list .kboard-category select { width: 100px; }
+	#kboard-default-list .kboard-search { clear: both; float: left; width: 100%; text-align: center; }
+	#kboard-default-list .kboard-search select { width: auto; }
+	#kboard-default-list .kboard-search input { width: 100px; }
 	#kboard-default-list .kboard-list table td.kboard-list-uid { width: 50px; }
 	#kboard-default-list .kboard-list table td.kboard-list-date { width: 70px; }
 	#kboard-default-list .kboard-list td.kboard-list-user,
@@ -126,6 +132,6 @@ img { border: 0; }
 	#kboard-default-editor .kboard-attr-row input[type=password] { width: 50%; }
 	
 	#kboard-default-document .kboard-detail .detail-attr { clear: both; }
-	#kboard-default-document .kboard-document-navi .kboard-top-document { width: 100%; }
-	#kboard-default-document .kboard-document-navi .kboard-bottom-document { float: left; width: 100%; text-align: left; }
+	#kboard-default-document .kboard-document-navi .kboard-prev-document { width: 100%; }
+	#kboard-default-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
 }

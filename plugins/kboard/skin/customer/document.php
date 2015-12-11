@@ -62,25 +62,31 @@
 	<?php endif?>
 	
 	<div class="kboard-document-navi">
-		<div class="kboard-top-document cut_strings">
-			<?php
-			$top_content_uid = $content->getNextUID();
-			if($top_content_uid):
-			$top_content = new KBContent();
-			$top_content->initWithUID($top_content_uid);
-			?>
-			<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>"><?php echo $top_content->title?></a>
-			<?php endif?>
-		</div>
-		
-		<div class="kboard-bottom-document cut_strings">
+		<div class="kboard-prev-document">
 			<?php
 			$bottom_content_uid = $content->getPrevUID();
 			if($bottom_content_uid):
 			$bottom_content = new KBContent();
 			$bottom_content->initWithUID($bottom_content_uid);
 			?>
-			<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>"><?php echo $bottom_content->title?></a>
+			<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>">
+				<span class="navi-arrow">«</span>
+				<span class="navi-document-title cut_strings"><?php echo $bottom_content->title?></span>
+			</a>
+			<?php endif?>
+		</div>
+		
+		<div class="kboard-next-document">
+			<?php
+			$top_content_uid = $content->getNextUID();
+			if($top_content_uid):
+			$top_content = new KBContent();
+			$top_content->initWithUID($top_content_uid);
+			?>
+			<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>">
+				<span class="navi-document-title cut_strings"><?php echo $top_content->title?></span>
+				<span class="navi-arrow">»</span>
+			</a>
 			<?php endif?>
 		</div>
 	</div>
