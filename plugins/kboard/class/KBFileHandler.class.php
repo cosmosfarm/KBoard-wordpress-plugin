@@ -222,28 +222,32 @@ class KBFileHandler {
 			// HTTP POST를 통하여 업로드 된 파일인지 체크
 			if(!is_uploaded_file($file['tmp_name'])){
 				$this->rollback();
-				echo "<script>alert('{$file['name']} 파일이 올바르게 업로드되지 않았습니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일이 올바르게 업로드되지 않았습니다.', 'kboard'), $file['name']);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 			
 			// 파일 확장자 체크
 			if(!$this->checkExtension($file['name'])){
 				$this->rollback();
-				echo "<script>alert('{$file['name']} 파일은 업로드 가능한 파일 형식이 아닙니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일은 업로드 가능한 파일 형식이 아닙니다.', 'kboard'), $file['name']);
+				echo "<script>alert('{$message} ');history.go(-1);</script>";
 				exit;
 			}
 			
 			// 파일 사이즈 체크
 			if(!$this->checkFileSize($file['size'])){
 				$this->rollback();
-				echo "<script>alert('{$file['name']} 파일의 용량이 너무 큽니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일의 용량이 너무 큽니다.', 'kboard'), $file['name']);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 			
 			// 오류 체크
 			if($this->checkError($file['error'])){
 				$this->rollback();
-				echo "<script>alert('{$file['name']} 파일 업로드 중 오류가 발생했습니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name']);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 			
@@ -252,7 +256,8 @@ class KBFileHandler {
 			if(!@move_uploaded_file($file['tmp_name'], KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}")){
 				$this->uploaded_file[] = KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}";
 				$this->rollback();
-				echo "<script>alert('{$file['name']} 파일 업로드 중 오류가 발생 했습니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name']);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 			
@@ -289,7 +294,8 @@ class KBFileHandler {
 		foreach($file['tmp_name'] as $key=>$tmp_name){
 			if($file['size'][$key] && !is_uploaded_file($tmp_name)){
 				$this->rollback();
-				echo "<script>alert('{$file['name'][$key]} 파일이 올바르게 업로드되지 않았습니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일이 올바르게 업로드되지 않았습니다.', 'kboard'), $file['name'][$key]);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 		}
@@ -298,6 +304,7 @@ class KBFileHandler {
 		foreach($file['name'] as $key=>$name){
 			if($file['size'][$key] && !$this->checkExtension($name)){
 				$this->rollback();
+				$message = sprintf(__('%s 파일은 업로드 가능한 파일 형식이 아닙니다.', 'kboard'), $file['name'][$key]);
 				echo "<script>alert('{$file['name'][$key]} 파일은 업로드 가능한 파일 형식이 아닙니다.');history.go(-1);</script>";
 				exit;
 			}
@@ -307,7 +314,8 @@ class KBFileHandler {
 		foreach($file['size'] as $key=>$size){
 			if($file['size'][$key] && !$this->checkFileSize($size)){
 				$this->rollback();
-				echo "<script>alert('{$file['name'][$key]} 파일의 용량이 너무 큽니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일의 용량이 너무 큽니다.', 'kboard'), $file['name'][$key]);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 		}
@@ -316,7 +324,8 @@ class KBFileHandler {
 		foreach($file['error'] as $key=>$error){
 			if($file['size'][$key] && $this->checkError($error)){
 				$this->rollback();
-				echo "<script>alert('{$file['name'][$key]} 파일 업로드 중 오류가 발생했습니다.');history.go(-1);</script>";
+				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name'][$key]);
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 		}
@@ -328,7 +337,8 @@ class KBFileHandler {
 				if(!@move_uploaded_file($file['tmp_name'][$key], KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}")){
 					$this->uploaded_file[] = KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}";
 					$this->rollback();
-					echo "<script>alert('{$file['name'][$key]} 파일 업로드 중 오류가 발생 했습니다.');history.go(-1);</script>";
+					$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name'][$key]);
+					echo "<script>alert('{$message}');history.go(-1);</script>";
 					exit;
 				}
 					

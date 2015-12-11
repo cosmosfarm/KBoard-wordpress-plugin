@@ -55,9 +55,11 @@ class KBAdminController {
 		if(isset($_POST['kboard-restore-execute-nonce']) && wp_verify_nonce($_POST['kboard-restore-execute-nonce'], 'kboard-restore-execute')){
 			header('Content-Type: text/html; charset=UTF-8');
 			
-			$xmlfile = WP_CONTENT_DIR . '/uploads/' . basename($_FILES['kboard_backup_xml_file']['name']);
-			if(move_uploaded_file($_FILES['kboard_backup_xml_file']['tmp_name'], $xmlfile)){
-				$file_extension = explode('.', $xmlfile);
+			$xmlfile = $_FILES['kboard_backup_xml_file']['tmp_name'];
+			$xmlfile_name = basename($_FILES['kboard_backup_xml_file']['name']);
+			
+			if(is_uploaded_file($xmlfile)){
+				$file_extension = explode('.', $xmlfile_name);
 				if(end($file_extension) == 'xml'){
 					include_once KBOARD_DIR_PATH . '/class/KBBackup.class.php';
 					$backup = new KBBackup();
@@ -65,12 +67,12 @@ class KBAdminController {
 					echo '<script>alert("'.__('복원파일의 데이터로 복구 되었습니다.', 'kboard').'");</script>';
 				}
 				else{
-					echo '<script>alert("'.__('복원에 실패 했습니다. 올바른 복원파일이 아닙니다.', 'kboard').'");</script>';
+					echo '<script>alert("'.__('올바른 복원파일이 아닙니다.', 'kboard').'");</script>';
 				}
 				unlink($xmlfile);
 			}
 			else{
-				echo '<script>alert("'.__('파일의 업로드를 실패 했습니다.', 'kboard').'");</script>';
+				echo '<script>alert("'.__('파일 업로드에 실패 했습니다.', 'kboard').'");</script>';
 			}
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_backup');

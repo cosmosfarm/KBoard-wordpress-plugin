@@ -7,11 +7,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
 	<h1>
-		KBoard : 게시판 관리
-		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href);return false;">홈페이지</a>
-		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href);return false;">커뮤니티</a>
-		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;">고객지원</a>
-		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;">블로그</a>
+		<?php echo __('KBoard : 게시판 관리', 'kboard')?>
+		<a href="http://www.cosmosfarm.com/products/kboard" class="add-new-h2" onclick="window.open(this.href);return false;"><?php echo __('홈페이지', 'kboard')?></a>
+		<a href="http://www.cosmosfarm.com/threads" class="add-new-h2" onclick="window.open(this.href);return false;"><?php echo __('커뮤니티', 'kboard')?></a>
+		<a href="http://www.cosmosfarm.com/support" class="add-new-h2" onclick="window.open(this.href);return false;"><?php echo __('고객지원', 'kboard')?></a>
+		<a href="http://blog.cosmosfarm.com/" class="add-new-h2" onclick="window.open(this.href);return false;"><?php echo __('블로그', 'kboard')?></a>
 	</h1>
 	<form action="<?php echo admin_url('admin-post.php')?>" method="post">
 		<?php wp_nonce_field('kboard-setting-execute', 'kboard-setting-execute-nonce');?>

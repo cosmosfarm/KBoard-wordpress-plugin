@@ -1,22 +1,22 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="welcome-panel-content">
 	<div style="float: left;">
-		<h3>코스모스팜 대시보드 입니다.</h3>
-		<p class="about-description">최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.</p>
+		<h2><?php echo __('코스모스팜 대시보드 입니다.', 'kboard')?></h2>
+		<p class="about-description"><?php echo __('최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.', 'kboard')?></p>
 	</div>
 	<div style="float: right;"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width: 500px; height:60px;" allowTransparency="true"></iframe></div>
 	<div class="welcome-panel-column-container">
 		<div class="welcome-panel-column" style="overflow:hidden;">
-			<h4>KBoard 버전</h4>
+			<h4><?php echo __('KBoard 버전', 'kboard')?></h4>
 			<ul>
 				<li>
-					설치된 게시판 플러그인 버전: <?php echo KBOARD_VERSION?> (최신: <?php echo $upgrader->getLatestVersion()->kboard?>)
-					<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
+					<?php echo __('설치된 게시판 플러그인 버전', 'kboard')?>: <?php echo KBOARD_VERSION?> (<?php echo __('최신', 'kboard')?>: <?php echo $upgrader->getLatestVersion()->kboard?>)
+					<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
 				</li>
 				<li>
 					<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
-					설치된 댓글 플러그인 버전: <?php echo KBOARD_COMMNETS_VERSION?> (최신: <?php echo $upgrader->getLatestVersion()->comments?>)
-					<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href); return false;">히스토리</a><?php endif?>
+					<?php echo __('설치된 댓글 플러그인 버전', 'kboard')?>: <?php echo KBOARD_COMMNETS_VERSION?> (<?php echo __('최신', 'kboard')?>: <?php echo $upgrader->getLatestVersion()->comments?>)
+					<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
 					<?php else:?>
 					<ul>
 						<li><a class="button" href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">댓글 플러그인 홈페이지에서 다운로드하기</a></li>
@@ -28,9 +28,9 @@
 			<iframe src="//www.cosmosfarm.com/display/size/320_100" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none;"></iframe>
 		</div>
 		<div class="welcome-panel-column">
-			<h4>워드프레스 스토어</h4>
+			<h4><?php echo __('스토어', 'kboard')?></h4>
 			<ul id="cf-wpstore-products">
-				<li>등록된 상품이 없습니다.</li>
+				<li><?php echo __('등록된 상품이 없습니다.', 'kboard')?></li>
 			</ul>
 		</div>
 		<div class="welcome-panel-column">
@@ -54,11 +54,11 @@ window.onload = function(){
 };
 function cf_upgrade(){
 	<?php if(defined('KBOARD_DOWNLOADER_VERSION')):?>
-	if(confirm('다음 페이지에서 플러그인 모두를 업그레이드해주세요.')){
+	if(confirm('<?php echo __('다음 페이지에서 플러그인 모두를 업그레이드해주세요.', 'kboard')?>')){
 		location.href = '<?php echo admin_url('admin.php?page=kboard_downloader_main');?>';
 	}
 	<?php else:?>
-	if(confirm('KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요.')){
+	if(confirm('<?php echo __('KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요.', 'kboard')?>')){
 		location.href = '<?php echo admin_url('plugin-install.php?tab=search&s=kboard-downloader');?>';
 	}
 	<?php endif?>

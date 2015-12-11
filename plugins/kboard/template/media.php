@@ -1,12 +1,12 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <!DOCTYPE html>
-<html>
+<html <?php language_attributes()?>>
 <head>
 	<meta charset="UTF-8">
-	<title>KBoard 이미지 삽입하기</title>
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="robots" content="noindex">
+	<title><?php echo __('KBoard 이미지 삽입하기', 'kboard')?></title>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -60,11 +60,11 @@
 	<input type="hidden" name="media_uid" value="">
 	
 	<div class="kboard-media-header">
-		<div class="title">KBoard 이미지 삽입하기</div>
+		<div class="title"><?php echo __('KBoard 이미지 삽입하기', 'kboard')?></div>
 		<div class="controller">
-			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="이미지 선택하기" style=""><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> 업로드</a>
-			<a href="javascript:void(0)" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();return false;" title="선택된 이미지 삽입하기"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> 선택 삽입</a>
-			<a href="javascript:void(0)" class="header-button" onclick="window.close();return false;" title="창닫기">창닫기</a>
+			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> <?php echo __('업로드', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button" onclick="window.close();return false;" title="<?php echo __('창닫기', 'kboard')?>"><?php echo __('창닫기', 'kboard')?></a>
 		</div>
 	</div>
 </form>
@@ -72,25 +72,25 @@
 <div class="media-wrap">
 	<?php $index=0; foreach($media->getList() as $key=>$row): $index++;?>
 	<label class="media-item" data-media-uid="<?php echo $row->uid?>">
-		<img class="selected-media" src="<?php echo KBOARD_URL_PATH?>/images/selected-media.png" alt="선택됨">
+		<img class="selected-media" src="<?php echo KBOARD_URL_PATH?>/images/selected-media.png" alt="<?php echo __('선택됨', 'kboard')?>">
 		<div class="media-image-wrap">
 			<div class="media-image" style="background-image:url(<?php echo site_url($row->file_path)?>);background-size:cover"></div>
 		</div>
 		<div class="media-control">
 			<input type="checkbox" name="media_src" value="<?php echo site_url($row->file_path)?>" data-media-uid="<?php echo $row->uid?>" onchange="kboard_media_select()">
-			<button type="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path)?>');" title="삽입">삽입</button>
-			<button type="button" onclick="kboard_media_delete('<?php echo $row->uid?>');" title="삭제">삭제</button>
+			<button type="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path)?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
+			<button type="button" onclick="kboard_media_delete('<?php echo $row->uid?>');" title="<?php echo __('삭제', 'kboard')?>"><?php echo __('삭제', 'kboard')?></button>
 		</div>
 	</label>
 	<?php endforeach?>
 	
 	<?php if(!$index):?>
-	<div class="no-media">업로드된 이미지가 없습니다.<br>업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D<br><a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a></div>
+	<div class="no-media"><?php echo __('업로드된 이미지가 없습니다.', 'kboard')?><br><?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D', 'kboard')?><br><a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a></div>
 	<?php endif?>
 </div>
 
 <div class="kboard-loading kboard-hide">
-	<img src="<?php echo KBOARD_URL_PATH?>/images/loading2.gif" alt="로딩중">
+	<img src="<?php echo KBOARD_URL_PATH?>/images/loading2.gif" alt="<?php echo __('로딩중', 'kboard')?>">
 </div>
 
 <script>
@@ -114,14 +114,14 @@ function kboard_selected_media_insert(){
 		var media_src = jQuery(this).val();
 		if(media_src) opener.kboard_editor_insert_media(media_src);
 		if(++index == total){
-			if(confirm('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?')) window.close();
+			if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')) window.close();
 		}
 	});
 }
 function kboard_media_insert(media_src){
 	if(media_src){
 		opener.kboard_editor_insert_media(media_src);
-		if(confirm('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?')) window.close();
+		if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')) window.close();
 	}
 }
 function kboard_media_delete(media_uid){
@@ -150,7 +150,7 @@ jQuery(document).ready(function($){
 					var index = 0;
 					$.each(files, function(i, file){
 						if(!(new RegExp(extension, "i")).test(file.name)){
-							alert('이미지 파일만 업로드 가능합니다.');
+							alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
 							$(input).remove();
 							event(input());
 							return false;
@@ -165,7 +165,7 @@ jQuery(document).ready(function($){
 				}
 				else{
 					if(!(new RegExp(extension, "i")).test($(this).val())){
-						alert('이미지 파일만 업로드 가능합니다.');
+						alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
 						$(input).remove();
 						event(input());
 						return false;

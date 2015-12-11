@@ -13,10 +13,10 @@ if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_fo
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
 define('KBOARD_COMMNETS_VERSION', '4.2');
-define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
+define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
-define('KBOARD_COMMENTS_LIST_PAGE', admin_url('/admin.php?page=kboard_comments_list'));
+define('KBOARD_COMMENTS_LIST_PAGE', admin_url('admin.php?page=kboard_comments_list'));
 
 include_once 'class/KBComment.class.php';
 include_once 'class/KBCommentController.class.php';
@@ -43,7 +43,7 @@ function kboard_comments_init(){
  * 관리자메뉴에 추가
  */
 function kboard_comments_settings_menu(){
-	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard-comments'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
 }
 
 /*
@@ -104,9 +104,11 @@ function kboard_comments_languages(){
  */
 add_action('admin_notices', 'kboard_comments_admin_notices');
 function kboard_comments_admin_notices(){
-	$upgrader = KBUpgrader::getInstance();
-	if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments){
-		echo '<div class="updated"><p>KBoard 댓글 : '.$upgrader->getLatestVersion()->comments.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+	if(current_user_can('activate_plugins')){
+		$upgrader = KBUpgrader::getInstance();
+		if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments){
+			echo '<div class="updated"><p>KBoard 댓글 : '.$upgrader->getLatestVersion()->comments.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+		}
 	}
 }
 

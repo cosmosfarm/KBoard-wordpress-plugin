@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2015-12-05 01:11+0900\n"
-"PO-Revision-Date: 2015-12-05 01:11+0900\n"
+"POT-Creation-Date: 2015-12-11 16:38+0900\n"
+"PO-Revision-Date: 2015-12-11 16:39+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -55,6 +55,30 @@ msgstr "コメントの固有番号がありません。"
 #: class/KBCommentController.class.php:96
 msgid "Please Log in to continue."
 msgstr "ログインしてください。"
+
+#: index.php:16
+msgid "KBoard : 댓글"
+msgstr "KBoard : Comments"
+
+#: index.php:46
+msgid "전체 댓글"
+msgstr "全体コメント"
+
+#: pages/comments_list.php:5
+msgid "홈페이지"
+msgstr "ホームページ"
+
+#: pages/comments_list.php:6
+msgid "커뮤니티"
+msgstr "コミュニティ"
+
+#: pages/comments_list.php:7
+msgid "고객지원"
+msgstr "顧客支援"
+
+#: pages/comments_list.php:8
+msgid "블로그"
+msgstr "ブログ"
 
 #: skin/default/list-template.php:15
 msgid "Are you sure you want to delete?"

@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
 define('KBOARD_VERSION', '5.1');
-define('KBOARD_PAGE_TITLE', 'KBoard : 게시판');
+define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
 define('KBOARD_DIR_PATH', dirname(__FILE__));
@@ -92,7 +92,7 @@ function kboard_init(){
  * 글쓰기 에디터에 이미지 추가하기 버튼을 추가한다.
  */
 function kboard_editor_button($context){
-	$context .= ' <button type="button" class="button" onclick="kboard_editor_open_media()">KBoard 이미지 삽입하기</button>';
+	$context .= ' <button type="button" class="button" onclick="kboard_editor_open_media()">'.__('KBoard 이미지 삽입하기', 'kboard').'</button> ';
 	return $context;
 }
 
@@ -117,7 +117,7 @@ function kboard_add_media_button($plugin_array){
  */
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'kboard_settings_link');
 function kboard_settings_link($links){
-	return array_merge($links, array('settings' => '<a href="'.KBOARD_NEW_PAGE.'">게시판 생성</a>'));
+	return array_merge($links, array('settings' => '<a href="'.admin_url('admin.php?page=kboard_new').'">'.__('게시판 생성', 'kboard').'</a>'));
 }
 
 /*
@@ -140,24 +140,24 @@ function kboard_settings_menu(){
 	
 	// KBoard 메뉴 등록
 	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $position);
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '대시보드', 'administrator', 'kboard_dashboard');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 목록', 'administrator', 'kboard_list', 'kboard_list');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '게시판 생성', 'administrator', 'kboard_new', 'kboard_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '최신글 뷰 목록', 'administrator', 'kboard_latestview', 'kboard_latestview');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '최신글 뷰 생성', 'administrator', 'kboard_latestview_new', 'kboard_latestview_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '백업 및 복구', 'administrator', 'kboard_backup', 'kboard_backup');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, '전체 게시글', 'administrator', 'kboard_content_list', 'kboard_content_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'administrator', 'kboard_dashboard');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록', 'kboard'), 'administrator', 'kboard_list', 'kboard_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'administrator', 'kboard_new', 'kboard_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 목록', 'kboard'), 'administrator', 'kboard_latestview', 'kboard_latestview');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 생성', 'kboard'), 'administrator', 'kboard_latestview_new', 'kboard_latestview_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'administrator', 'kboard_backup', 'kboard_backup');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'administrator', 'kboard_content_list', 'kboard_content_list');
 	
 	// 표시되지 않는 페이지
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, '게시판 업그레이드', 'administrator', 'kboard_upgrade', 'kboard_upgrade');
+	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, __('게시판 업데이트', 'kboard'), 'administrator', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 스토어 메뉴 등록
 	$position++;
-	add_menu_page('스토어', '스토어', 'administrator', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $position);
-	add_submenu_page('kboard_store', '스토어', '스토어', 'administrator', 'kboard_store');
+	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'administrator', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $position);
+	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'administrator', 'kboard_store');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
-	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, '전체 댓글', 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
 	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3') kboard_comments_settings_menu();
 	
 	// 메뉴 액션 실행
@@ -193,7 +193,7 @@ function kboard_list(){
 		$action = isset($_POST['action'])?$_POST['action']:'';
 		$action2 = isset($_POST['action2'])?$_POST['action2']:'';
 		if(($action=='remove' || $action2=='remove') && isset($_POST['board_id']) && $_POST['board_id']){			
-			foreach($_POST['board_id'] AS $key => $value){
+			foreach($_POST['board_id'] as $key=>$value){
 				$board->remove($value);
 			}
 		}
@@ -239,7 +239,7 @@ add_action('admin_post_kboard_update_action', 'kboard_update');
 function kboard_update(){
 	global $wpdb;
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	if(!current_user_can('activate_plugins')) wp_die('KBoard : 관리 권한이 없습니다.');
+	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
 	
 	if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
 		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
@@ -642,13 +642,14 @@ function kboard_set_cosmosfarm_access_token($new_access_token){
  */
 add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
-	if(!is_writable(WP_CONTENT_DIR.'/uploads')){
-		echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">이 알림에 대해서 질문하기</a></p></div>';
-	}
-	
-	$upgrader = KBUpgrader::getInstance();
-	if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard){
-		echo '<div class="updated"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+	if(current_user_can('activate_plugins')){
+		if(!is_writable(WP_CONTENT_DIR.'/uploads')){
+			echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">이 알림에 대해서 질문하기</a></p></div>';
+		}
+		$upgrader = KBUpgrader::getInstance();
+		if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard){
+			echo '<div class="updated"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+		}
 	}
 }
 
