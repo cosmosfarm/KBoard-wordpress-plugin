@@ -30,26 +30,26 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	public function no_items(){
-		echo '게시글이 없습니다.';
+		echo __('게시글이 없습니다.', 'kboard');
 	}
 	
 	public function get_columns(){
 		return array(
 				'cb' => '<input type="checkbox">',
-				'board' => '게시판',
-				'title' => '제목/내용',
-				'member' => '작성자',
-				'view' => '조회수',
-				'secret' => '비밀글',
-				'notice' => '공지사항',
-				'date' => '작성일'
+				'board' => __('게시판', 'kboard'),
+				'title' => __('제목/내용', 'kboard'),
+				'member' => __('작성자', 'kboard'),
+				'view' => __('조회수', 'kboard'),
+				'secret' => __('비밀글', 'kboard'),
+				'notice' => __('공지사항', 'kboard'),
+				'date' => __('작성일', 'kboard')
 		);
 	}
 	
 	function get_bulk_actions(){
 		return array(
-				'board_change' => '게시판 변경',
-				'delete' => '삭제'
+				'board_change' => __('게시판 변경', 'kboard'),
+				'delete' => __('삭제', 'kboard')
 		);
 	}
 	
@@ -75,14 +75,14 @@ class KBContentListTable extends WP_List_Table {
 			echo '</select>';
 		}
 		else{
-			echo '답글입니다.';
+			echo __('답글입니다.', 'kboard');
 		}
 		echo '</td>';
 		
 		echo '<td class="kboard-content-list-title">';
 		$url = new KBUrl();
 		echo '<h4>'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</h4>';
-		echo '<span class="row-actions"><span class="edit"> | <a href="'.$url->getDocumentRedirect($item->uid).'" onclick="window.open(this.href);return false;">새창열기</a></span></span>';
+		echo '<span class="row-actions"><span class="edit"> | <a href="'.$url->getDocumentRedirect($item->uid).'" onclick="window.open(this.href);return false;">'.__('새창열기', 'kboard').'</a></span></span>';
 		echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
 		echo '</td>';
 		
@@ -96,10 +96,10 @@ class KBContentListTable extends WP_List_Table {
 		echo $item->view;
 		echo '</td>';
 		echo '<td>';
-		echo $item->secret?'예':'아니오';
+		echo $item->secret?__('예', 'kboard'):__('아니오', 'kboard');
 		echo '</td>';
 		echo '<td>';
-		echo $item->notice?'예':'아니오';
+		echo $item->notice?__('예', 'kboard'):__('아니오', 'kboard');
 		echo '</td>';
 		echo '<td>';
 		echo date('Y-m-d H:i:s', strtotime($item->date));

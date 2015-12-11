@@ -34,26 +34,26 @@ class KBoardListTable extends WP_List_Table {
 	}
 	
 	public function no_items(){
-		echo '게시판이 없습니다.';
+		echo __('게시판이 없습니다.', 'kboard');
 	}
 	
 	public function get_columns(){
 		return array(
 				'cb' => '<input type="checkbox">',
-				'thumbnail' => '미리보기',
-				'board_name' => '게시판 이름',
-				'auto_page' => '설치된 페이지',
-				'skin' => '스킨',
-				'permission_read' => '읽기권한',
-				'permission_write' => '쓰기권한',
-				'permission_comments_write' => '댓글쓰기권한',
-				'date' => '생성일자'
+				'thumbnail' => __('썸네일', 'kboard'),
+				'board_name' => __('게시판 이름', 'kboard'),
+				'auto_page' => __('설치된 페이지', 'kboard'),
+				'skin' => __('스킨', 'kboard'),
+				'permission_read' => __('읽기권한', 'kboard'),
+				'permission_write' => __('쓰기권한', 'kboard'),
+				'permission_comments_write' => __('댓글쓰기권한', 'kboard'),
+				'date' => __('생성일자', 'kboard')
 		);
 	}
 	
 	function get_bulk_actions(){
 		return array(
-				'delete' => '삭제'
+				'delete' => __('삭제', 'kboard')
 		);
 	}
 	
@@ -73,23 +73,23 @@ class KBoardListTable extends WP_List_Table {
 		echo '<input type="checkbox" name="board_id[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
-		echo '<td><a href="'.$edit_url.'" title="편집">';
+		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'">';
 		echo '<img src="'.KBOARD_URL_PATH."/skin/{$item->skin}/thumbnail.png".'" style="width:100px;height:100px;" alt="">';
 		echo '</a></td>';
 		
-		echo '<td><a href="'.$edit_url.'" title="편집">';
+		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'">';
 		echo $item->board_name;
 		echo '</a></td>';
 		
 		echo '<td>';
 		if($item->meta->auto_page){
 			$post = get_post($item->meta->auto_page);
-			echo '<a href="'.get_permalink($post).'" title="페이지 보기">';
+			echo '<a href="'.get_permalink($post).'" title="'.__('페이지 보기', 'kboard').'">';
 			echo $post->post_title;
 			echo '</a>';
 		}
 		else{
-			echo '페이지 연결 없음';
+			echo __('페이지 연결 없음', 'kboard');
 		}
 		echo '</td>';
 		

@@ -11,12 +11,12 @@
 			<ul>
 				<li>
 					<?php echo __('설치된 게시판 플러그인 버전', 'kboard')?>: <?php echo KBOARD_VERSION?> (<?php echo __('최신', 'kboard')?>: <?php echo $upgrader->getLatestVersion()->kboard?>)
-					<?php if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
+					<?php if(current_user_can('activate_plugins') && KBOARD_VERSION < $upgrader->getLatestVersion()->kboard):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=kboard" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->kboard?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
 				</li>
 				<li>
 					<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 					<?php echo __('설치된 댓글 플러그인 버전', 'kboard')?>: <?php echo KBOARD_COMMNETS_VERSION?> (<?php echo __('최신', 'kboard')?>: <?php echo $upgrader->getLatestVersion()->comments?>)
-					<?php if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
+					<?php if(current_user_can('activate_plugins') && KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments):?><br><a class="button" href="<?php echo KBOARD_UPGRADE_ACTION?>&action=comments" onclick="return cf_upgrade();"><?php echo $upgrader->getLatestVersion()->comments?> 버전으로 업그레이드</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
 					<?php else:?>
 					<ul>
 						<li><a class="button" href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">댓글 플러그인 홈페이지에서 다운로드하기</a></li>

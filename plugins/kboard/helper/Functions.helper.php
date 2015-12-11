@@ -150,19 +150,19 @@ function kboard_mime_type($filename){
  */
 function kboard_permission($permission){
 	if($permission == 'all'){
-		return '제한없음';
+		return __('제한없음', 'kboard');
 	}
 	else if($permission == 'author'){
-		return '로그인 사용자';
+		return __('로그인 사용자', 'kboard');
 	}
 	else if($permission == 'editor'){
-		return '선택된 관리자';
+		return __('선택된 관리자', 'kboard');
 	}
 	else if($permission == 'administrator'){
-		return '최고관리자';
+		return __('최고관리자', 'kboard');
 	}
 	else if($permission == 'roles'){
-		return '직접선택';
+		return __('직접선택', 'kboard');
 	}
 	else{
 		return $permission;

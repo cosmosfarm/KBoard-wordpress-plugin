@@ -87,7 +87,7 @@ function kboard_safeiframe($data){
 	$iframe = $matches[0];
 	$domain = $matches[1];
 	
-	foreach($domain AS $key => $value){
+	foreach($domain as $key=>$value){
 		$value = 'http://' . preg_replace('/^(http:\/\/|https:\/\/|\/\/)/i', '', $value);
 		$url = parse_url($value);
 		if(!in_array($url['host'], $whitelist)){
