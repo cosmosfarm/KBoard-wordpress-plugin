@@ -21,8 +21,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		
 		<h2 class="nav-tab-wrapper">
 			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab nav-tab-active" onclick="kboard_setting_tab_chnage(0);">기본설정</a>
-			<?php if($board->uid):?>
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(1);">권한설정</a>
+			<?php if($board->uid):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(2);">고급설정</a>
 			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(3);">소셜댓글</a>
 			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(4);">확장설정</a>
@@ -35,7 +35,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="board_name">게시판 이름</label></th>
 						<td>
-							<input type="text" name="board_name" size="30" tabindex="1" value="<?php if(!$board->board_name):?>무명게시판 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $board->board_name?><?php endif?>" id="board_name">
+							<input type="text" name="board_name" size="30" value="<?php if(!$board->board_name):?>무명게시판 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $board->board_name?><?php endif?>" id="board_name">
 						</td>
 					</tr>
 					<?php if($board->uid):?>
@@ -81,7 +81,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								</option>
 								<?php endforeach?>
 							</select>
-							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다. <a href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">스킨 더보기</a></p>
+							<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">스킨 더보기</a>
+							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -200,8 +201,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tbody>
 			</table>
 		</div>
-		
-		<?php if($board->uid):?>
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
@@ -299,6 +298,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tbody>
 			</table>
 		</div>
+		<?php if($board->uid):?>
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
@@ -437,7 +437,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<?php endif?>
 		
 		<p class="submit">
-			<input type="submit" name="submit" id="submit" class="button-primary" value="변경 사항 저장">
+			<input type="submit" class="button-primary" value="<?php echo __('변경 사항 저장', 'kboard')?>">
 		</p>
 	</form>
 </div>

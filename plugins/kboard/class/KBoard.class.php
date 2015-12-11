@@ -8,8 +8,6 @@
 class KBoard {
 	
 	var $id;
-	var $resource;
-	var $total;
 	var $row;
 	var $category;
 	var $category_row;
@@ -65,36 +63,21 @@ class KBoard {
 	}
 	
 	/**
-	 * 생성된 게시판들의 리스트를 초기화한다.
-	 * @return resource
+	 * 게시판 정보를 입력받는다.
+	 * @param object $row
+	 * @return KBoard
 	 */
-	public function getList(){
-		global $wpdb;
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_setting` WHERE 1");
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE 1 ORDER BY `uid` DESC");
-		return $this->resource;
-	}
-	
-	/**
-	 * 생성된 게시판 숫자를 반환한다.
-	 * @return int
-	 */
-	public function getCount(){
-		return $this->total;
-	}
-	
-	/**
-	 * 다음 게시판 정보를 불러온다.
-	 * @return object
-	 */
-	public function hasNext(){
-		if(!$this->resource) $this->getList();
-		$this->row = current($this->resource);
-		
-		if(!$this->row) unset($this->resource);
-		else next($this->resource);
-		
-		return $this->row;
+	public function initWithRow($row){
+		$this->row = $row;
+		if(isset($this->row->uid) && $this->row->uid){
+			$this->id = $this->row->uid;
+			$this->meta = new KBoardMeta($this->row->uid);
+		}
+		else{
+			$this->id = 0;
+			$this->meta = new KBoardMeta();
+		}
+		return $this;
 	}
 	
 	/**
@@ -346,18 +329,32 @@ class KBoard {
 	
 	/**
 	 * 게시판을 삭제한다.
-	 * @param int $uid
+	 * @param int $board_id
 	 */
-	public function remove($uid){
+	public function delete($board_id=''){
+		$board_id = intval($board_id);
+		if($board_id){
+			$this->remove($board_id);
+		}
+		else if($this->id){
+			$this->remove($this->id);
+		}
+	}
+	
+	/**
+	 * 게시판을 삭제한다.
+	 * @param int $board_id
+	 */
+	public function remove($board_id){
 		global $wpdb;
-		$uid = intval($uid);
-		$list = new KBContentList($uid);
+		$board_id = intval($board_id);
+		$list = new KBContentList($board_id);
 		$list->getAllList();
 		while($content = $list->hasNext()){
 			$content->remove();
 		}
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$uid'");
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$uid'");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$board_id'");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$board_id'");
 	}
 }
 ?>

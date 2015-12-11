@@ -34,6 +34,7 @@ include_once 'class/KBContentList.class.php';
 include_once 'class/KBContentMedia.class.php';
 include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
+include_once 'class/KBoardList.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
 include_once 'class/KBSeo.class.php';
@@ -189,16 +190,14 @@ function kboard_list(){
 		kboard_setting();
 	}
 	else{
-		$board = new KBoard();
-		$action = isset($_POST['action'])?$_POST['action']:'';
-		$action2 = isset($_POST['action2'])?$_POST['action2']:'';
-		if(($action=='remove' || $action2=='remove') && isset($_POST['board_id']) && $_POST['board_id']){			
+		include_once 'class/KBoardListTable.class.php';
+		$table = new KBoardListTable();
+		if(isset($_POST['board_id']) && $table->current_action() == 'delete'){
 			foreach($_POST['board_id'] as $key=>$value){
-				$board->remove($value);
+				$table->board->delete($value);
 			}
 		}
-		$board->getList();
-		$meta = new KBoardMeta();
+		$table->prepare_items();
 		include_once 'pages/kboard_list.php';
 	}
 }
@@ -470,8 +469,8 @@ function kboard_upgrade(){
 function kboard_content_list(){
 	include_once 'class/KBContentListTable.class.php';
 	$table = new KBContentListTable();
-	$action = $table->current_action();
 	if(isset($_POST['uid'])){
+		$action = $table->current_action();
 		$content = new KBContent();
 		if($action == 'board_change'){
 			foreach($_POST['uid'] as $key=>$value){

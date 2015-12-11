@@ -157,7 +157,7 @@ class KBContentList {
 	public function getAllList(){
 		global $wpdb;
 		if(is_array($this->board_id)){
-			foreach($this->board_id AS $key => $value){
+			foreach($this->board_id as $key=>$value){
 				$board_ids[] = "'$value'";
 			}
 			$board_ids = implode(',', $board_ids);
@@ -180,7 +180,7 @@ class KBContentList {
 		$this->row = current($this->resource);
 		
 		if($this->row){
-		next($this->resource);
+			next($this->resource);
 			$content = new KBContent();
 			$content->initWithRow($this->row);
 			return $content;

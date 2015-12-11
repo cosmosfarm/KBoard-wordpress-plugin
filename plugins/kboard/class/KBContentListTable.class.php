@@ -7,7 +7,7 @@
  */
 class KBContentListTable extends WP_List_Table {
 	
-	var $board;
+	var $board_list;
 	
 	public function prepare_items(){
 		$columns = $this->get_columns();
@@ -15,8 +15,8 @@ class KBContentListTable extends WP_List_Table {
 		$sortable = array();
 		$this->_column_headers = array($columns, $hidden, $sortable);
 		
-		$this->board = new KBoard();
-		$this->board->getList();
+		$this->board_list = new KBoardList();
+		$this->board_list->init();
 		
 		$keyword = isset($_GET['s'])?$_GET['s']:'';
 		
@@ -69,8 +69,8 @@ class KBContentListTable extends WP_List_Table {
 		echo '<td class="kboard-content-list-board">';
 		if($item->board_id){
 			echo '<select class="kboard-id-select" name="board_id_'.$item->uid.'">';
-			while($this->board->hasNext()){
-				echo '<option value="'.$this->board->uid.'"'.($item->board_id==$this->board->uid?' selected':'').'>'.$this->board->board_name.'</option>';
+			foreach($this->board_list->resource as $board){
+				echo '<option value="'.$board->uid.'"'.($item->board_id==$board->uid?' selected':'').'>'.$board->board_name.'</option>';
 			}
 			echo '</select>';
 		}

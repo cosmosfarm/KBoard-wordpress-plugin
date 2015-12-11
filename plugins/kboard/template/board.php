@@ -29,7 +29,10 @@
 	<script src="<?php echo includes_url('/js/jquery/jquery-migrate.min.js')?>"></script>
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
-	<style>#wpadminbar {display: none;}</style>
+	<style>
+	a {color:#545861;}
+	#wpadminbar {display:none;}
+	</style>
 </head>
 <body>
 	<div id="kboard" style="float:left;width:100%;min-height:250px">
