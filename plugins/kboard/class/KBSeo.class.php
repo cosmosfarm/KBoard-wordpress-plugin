@@ -10,47 +10,67 @@ class KBSeo {
 	private $content;
 	
 	public function __construct(){
+		$this->content = new KBContent();
+		
 		$mod = isset($_GET['mod'])?kboard_htmlclear($_GET['mod']):'';
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
+		
 		if($mod == 'document' && $uid){
-			$this->content = new KBContent();
 			$this->content->initWithUID($uid);
 			if($this->content->uid){
 				add_filter('wp_title', array($this, 'title'), 10, 2);
 				
 				$is_display = false;
 				$board = new KBoard($this->content->board_id);
-				if($board->isReader($this->content->member_uid, $this->content->secret)){
-					$is_display = true;
-				}
-				else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
-					if($board->isConfirm($this->content->password, $this->content->uid)){
+				if(!$board->meta->view_iframe){
+					if($board->isReader($this->content->member_uid, $this->content->secret)){
 						$is_display = true;
+					}
+					else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
+						if($board->isConfirm($this->content->password, $this->content->uid)){
+							$is_display = true;
+						}
 					}
 				}
 				
 				if($is_display){
-					remove_action('wp_head', 'rel_canonical');
-					remove_action('wp_head', 'wp_shortlink_wp_head');
-					
-					add_action('kboard_head', array($this, 'ogp'));
-					add_action('kboard_head', array($this, 'twitter'));
-					add_action('kboard_head', array($this, 'description'));
-					add_action('kboard_head', array($this, 'author'));
-					add_action('kboard_head', array($this, 'date'));
-					
-					add_filter('wpseo_title', array($this, 'getTitle'));
-					add_filter('wpseo_metadesc', array($this, 'getDescription'));
-					add_filter('wpseo_opengraph_image', array($this, 'getImage'));
-					add_filter('wpseo_canonical', '__return_false');
-					
-					add_filter('aioseop_description', array($this, 'getDescription'));
-					add_filter('aioseop_canonical_url', '__return_false');
+					$this->init();
 				}
 			}
 		}
-		add_action('kboard_head', array($this, 'rss'));
 		add_action('wp_head', array($this, 'head'), 1);
+		add_action('kboard_head', array($this, 'rss'), 20);
+	}
+	
+	/**
+	 * SEO 정보를 초기화한다.
+	 * @return KBSeo;
+	 */
+	public function init(){
+		global $check_kboard_seo_init_once;
+		if($this->content->uid && !$check_kboard_seo_init_once){
+			
+			remove_action('wp_head', 'rel_canonical');
+			remove_action('wp_head', 'wp_shortlink_wp_head');
+				
+			add_action('kboard_head', array($this, 'ogp'));
+			add_action('kboard_head', array($this, 'twitter'));
+			add_action('kboard_head', array($this, 'description'));
+			add_action('kboard_head', array($this, 'author'));
+			add_action('kboard_head', array($this, 'date'));
+			add_action('kboard_head', array($this, 'rss'));
+				
+			add_filter('wpseo_title', array($this, 'getTitle'));
+			add_filter('wpseo_metadesc', array($this, 'getDescription'));
+			add_filter('wpseo_opengraph_image', array($this, 'getImage'));
+			add_filter('wpseo_canonical', '__return_false');
+				
+			add_filter('aioseop_description', array($this, 'getDescription'));
+			add_filter('aioseop_canonical_url', '__return_false');
+			
+			$check_kboard_seo_init_once = true;
+		}
+		return $this;
 	}
 	
 	/**
@@ -127,9 +147,13 @@ class KBSeo {
 	 * RSS 피드 주소를 추가한다.
 	 */
 	public function rss(){
-		$name = get_bloginfo('name');
-		echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard '.__('Integration feed', 'kboard').'">';
-		echo "\n";
+		global $check_kboard_seo_rss_once;
+		if(!$check_kboard_seo_rss_once){
+			$name = get_bloginfo('name');
+			echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard '.__('Integration feed', 'kboard').'">';
+			echo "\n";
+			$check_kboard_seo_rss_once = true;
+		}
 	}
 	
 	/**

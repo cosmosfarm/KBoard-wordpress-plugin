@@ -5,7 +5,13 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<title><?php echo __('WordPress')?> KBoard <?php echo KBOARD_VERSION?></title>
+	<title><?php wp_title('')?></title>
+	
+	<?php
+	$seo = new KBSeo();
+	$seo->init()->head();
+	?>
+	
 	<link rel="stylesheet" id="font-awesome-ie7-css"  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all">
 	<!--[if lte IE 7]><link rel="stylesheet" id=""  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome-ie7.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all"><![endif]-->
 	
@@ -30,9 +36,8 @@
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
 	<style>
-	* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
-	a { color:#545861; }
-	#wpadminbar { display:none; }
+	a {color:#545861;}
+	#wpadminbar {display:none;}
 	</style>
 </head>
 <body>
