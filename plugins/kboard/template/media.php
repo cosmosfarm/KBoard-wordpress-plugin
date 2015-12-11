@@ -12,33 +12,33 @@
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css">
 	<style>
-		* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
-		html,body { margin: 0; padding: 0; }
-		img { border: 0; }
-		.kboard-media-header { padding: 0 20px; font-size: 20px; overflow: hidden; }
-		.kboard-media-header .title { float: left; padding-right: 10px; line-height: 64px; }
-		.kboard-media-header .controller { float: left; line-height: 64px; }
-		.kboard-media-header .header-button { display: inline-block; *display: inline; zoom: 1; vertical-align: middle; margin: 0; padding: 0; padding: 0 10px; line-height: 40px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
-		.kboard-media-header .header-button img { vertical-align: middle; }
-		.media-wrap { padding: 0 10px; overflow: hidden; }
-		.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
-		.media-wrap .no-media a { color: #757575; text-decoration: none; }
-		.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
-		.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; }
-		.media-wrap .media-item .media-image-wrap { width: 150px; }
-		.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; }
-		.media-wrap .media-item .media-control { text-align: center; }
-		.media-wrap .media-item .media-control input { display: none; }
-		.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
-		.media-wrap .media-item.selected-item { padding: 5px; border: 0px solid #0073ea; }
-		.media-wrap .media-item.selected-item .selected-media { display: block; }
-		.media-wrap .media-item.selected-item .media-image-wrap { width: 130px; padding: 10px; background-color: #eeeeee; }
-		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 130px; }
-		.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
-		.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
-		.kboard-hide { display: none !important; }
-		
-		@media screen and (max-width: 600px) {
+	* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
+	html,body { margin: 0; padding: 0; }
+	img { border: 0; }
+	.kboard-media-header { padding: 0 20px; font-size: 20px; overflow: hidden; }
+	.kboard-media-header .title { float: left; padding-right: 10px; line-height: 64px; }
+	.kboard-media-header .controller { float: left; line-height: 64px; }
+	.kboard-media-header .header-button { display: inline-block; *display: inline; zoom: 1; vertical-align: middle; margin: 0; padding: 0; padding: 0 10px; line-height: 40px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
+	.kboard-media-header .header-button img { vertical-align: middle; }
+	.media-wrap { padding: 0 10px; overflow: hidden; }
+	.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
+	.media-wrap .no-media a { color: #757575; text-decoration: none; }
+	.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
+	.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; }
+	.media-wrap .media-item .media-image-wrap { width: 150px; }
+	.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; }
+	.media-wrap .media-item .media-control { text-align: center; }
+	.media-wrap .media-item .media-control input { display: none; }
+	.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
+	.media-wrap .media-item.selected-item { padding: 5px; border: 0px solid #0073ea; }
+	.media-wrap .media-item.selected-item .selected-media { display: block; }
+	.media-wrap .media-item.selected-item .media-image-wrap { width: 130px; padding: 10px; background-color: #eeeeee; }
+	.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 130px; }
+	.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
+	.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
+	.kboard-hide { display: none !important; }
+	
+	@media screen and (max-width: 600px) {
 		.kboard-media-header { line-height: normal; }
 		.kboard-media-header .title { float: none; padding-right: 0; text-align: center; }
 		.kboard-media-header .controller { float: none; line-height: 30px; text-align: center; }
@@ -47,7 +47,7 @@
 		.media-wrap .media-item .media-image-wrap .media-image { height: 200px; }
 		.media-wrap .media-item.selected-item .media-image-wrap { width: auto; }
 		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 180px; }
-		}
+	}
 	</style>
 </head>
 <body>

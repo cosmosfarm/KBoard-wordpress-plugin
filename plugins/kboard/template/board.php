@@ -30,8 +30,9 @@
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
 	<style>
-	a {color:#545861;}
-	#wpadminbar {display:none;}
+	* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
+	a { color:#545861; }
+	#wpadminbar { display:none; }
 	</style>
 </head>
 <body>
