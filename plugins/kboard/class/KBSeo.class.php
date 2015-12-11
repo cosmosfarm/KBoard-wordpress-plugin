@@ -16,7 +16,7 @@ class KBSeo {
 			$this->content = new KBContent();
 			$this->content->initWithUID($uid);
 			if($this->content->uid){
-				add_filter('wp_title', array($this, 'title'));
+				add_filter('wp_title', array($this, 'title'), 10, 2);
 				
 				$is_display = false;
 				$board = new KBoard($this->content->board_id);
@@ -56,10 +56,11 @@ class KBSeo {
 	/**
 	 * 워드프레스 사이트 제목에 게시물 제목을 추가한다.
 	 * @param string $title
+	 * @param string $sep
 	 * @return string
 	 */
-	public function title($title=''){
-		return kboard_htmlclear($this->content->title) . ' | ' . $title;
+	public function title($title, $sep){
+		return $this->getTitle() . " {$sep} {$title}";
 	}
 	
 	/**
