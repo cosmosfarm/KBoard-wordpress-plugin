@@ -21,6 +21,8 @@ class KBContent {
 	var $execute_action;
 	var $thumbnail;
 	
+	private $upload_attach_files;
+	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
 		if($board_id) $this->setBoardID($board_id);
@@ -113,6 +115,7 @@ class KBContent {
 		
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
+			$this->initUploadAttachFiles();
 			$this->updateContent();
 			$this->setThumbnail($this->uid);
 			$this->update_options($this->uid);
@@ -136,6 +139,7 @@ class KBContent {
 			}
 			
 			// 신규게시물 등록
+			$this->initUploadAttachFiles();
 			$uid = $this->insertContent();
 			if($uid){
 				$this->setThumbnail($uid);
@@ -368,10 +372,9 @@ class KBContent {
 	}
 	
 	/**
-	 * 게시글의 첨부파일을 업데이트한다. (입력/수정)
-	 * @param int $uid
+	 * 첨부파일을 초기화한다.
 	 */
-	public function update_attach($uid){
+	public function initUploadAttachFiles(){
 		global $wpdb;
 		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
@@ -389,22 +392,41 @@ class KBContent {
 		$file = new KBFileHandler();
 		$file->setPath($this->attach_store_path);
 		
-		foreach($_FILES as $key => $value){
+		foreach($_FILES as $key=>$value){
 			if(!strstr($key, $this->skin_attach_prefix)) continue;
 			$key = str_replace($this->skin_attach_prefix, '', $key);
-			
+				
 			$upload = $file->upload($this->skin_attach_prefix . $key);
 			$original_name = $upload['original_name'];
 			$file_path = $upload['path'] . $upload['stored_name'];
 		
 			if($original_name){
-				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$uid'");
+				$attach_file = new stdClass();
+				$attach_file->key = $key;
+				$attach_file->path = $file_path;
+				$attach_file->name = $original_name;
+				$this->upload_attach_files[] = $attach_file;
+			}
+		}
+	}
+	
+	/**
+	 * 게시글의 첨부파일을 업데이트한다. (입력/수정)
+	 * @param int $uid
+	 */
+	public function update_attach($uid){
+		global $wpdb;
+		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
+		
+		if($this->upload_attach_files && is_array($this->upload_attach_files)){
+			foreach($this->upload_attach_files as $attach_file){
+				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='{$attach_file->key}' AND `content_uid`='{$uid}'");
 				if($present_file){
 					@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
-					$this->_update_attach($uid, $key, $file_path, $original_name);
+					$this->_update_attach($uid, $attach_file->key, $attach_file->path, $attach_file->name);
 				}
 				else{
-					$this->_insert_attach($uid, $key, $file_path, $original_name);
+					$this->_insert_attach($uid, $attach_file->key, $attach_file->path, $attach_file->name);
 				}
 			}
 		}
@@ -419,9 +441,9 @@ class KBContent {
 	 */
 	private function _update_attach($uid, $key, $file_path, $file_name){
 		global $wpdb;
-		$key = addslashes($key);
-		$file_path = addslashes($file_path);
-		$file_name = addslashes($file_name);
+		$key = esc_sql($key);
+		$file_path = esc_sql($file_path);
+		$file_name = esc_sql($file_name);
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name' WHERE `file_key`='$key' AND `content_uid`='$uid'");
 	}
 	
@@ -434,10 +456,10 @@ class KBContent {
 	 */
 	private function _insert_attach($uid, $key, $file_path, $file_name){
 		global $wpdb;
-		$date = date("YmdHis", current_time('timestamp'));
-		$key = addslashes($key);
-		$file_path = addslashes($file_path);
-		$file_name = addslashes($file_name);
+		$date = date('YmdHis', current_time('timestamp'));
+		$key = esc_sql($key);
+		$file_path = esc_sql($file_path);
+		$file_name = esc_sql($file_name);
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$uid', '$key', '$date', '$file_path', '$file_name')");
 	}
 	
