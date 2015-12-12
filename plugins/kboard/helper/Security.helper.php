@@ -79,6 +79,9 @@ function kboard_safeiframe($data){
 	$whitelist[] = 'tudou.com';
 	$whitelist[] = 'www.tudou.com';
 	$whitelist[] = 'player.youku.com';
+	$whitelist[] = 'videomega.tv';
+	$whitelist[] = 'mtab.clickmon.co.kr';
+	$whitelist[] = 'tab2.clickmon.co.kr';
 	
 	// kboard_iframe_whitelist 필터
 	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);

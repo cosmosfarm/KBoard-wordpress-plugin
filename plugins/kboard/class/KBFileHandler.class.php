@@ -193,10 +193,10 @@ class KBFileHandler {
 		}
 		
 		if(count($extension)<=0 || !is_array($extension)){
-			$extension = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'zip', '7z', 'hwp', 'ppt', 'xls', 'doc', 'txt', 'pdf', 'xlsx', 'pptx', 'docx');
+			$extension = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'zip', '7z', 'hwp', 'ppt', 'xls', 'doc', 'txt', 'pdf', 'xlsx', 'pptx', 'docx', 'torrent', 'smi');
 		}
 		
-		$this->extensions = $extension;
+		$this->extensions = apply_filters('kboard_upload_extension', $extension);
 		$this->limit_file_size = $limit_file_size;
 		
 		$file_input = $_FILES[$name];
