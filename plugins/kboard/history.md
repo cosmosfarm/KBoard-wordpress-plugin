@@ -16,8 +16,9 @@
   9. KBoard 자체 SEO 기능 최적화 (Yoast SEO, All In One SEO Pack 플러그인 대응)
   10. kboard_extends_setting 액션과 필터 추가
   11. kboard_thumbnail_size 필터 추가
-  12. KBContent 클래스에 getThumbnail() 메소드 추가
-  13. 버그 수정
+  12. kboard_upload_extension 필터 추가
+  13. KBContent 클래스에 getThumbnail() 메소드 추가
+  14. 버그 수정
 
 
 5.0
