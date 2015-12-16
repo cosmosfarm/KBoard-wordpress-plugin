@@ -98,6 +98,10 @@ function kboard_safeiframe($data){
 			$data = str_replace($iframe[$key], '', $data);
 		}
 	}
+	
+	// 풀스크린 허용
+	$data = preg_replace('/<iframe(.*?)>/is', '<iframe$1 allowfullscreen>', $data);
+	
 	return $data;
 }
 
