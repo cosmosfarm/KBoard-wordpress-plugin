@@ -6,7 +6,7 @@
 	tinymce.create('tinymce.plugins.KBoard_Media_Button', {
 		init:function(ed, url){
 			ed.addButton('kboard_media', {
-				title : 'KBoard Add Media',
+				title : kboard_localize_strings.kboard_add_media,
 				image : kbaord_plugin_url+'/images/media-button-icon.png',
 				onclick : kboard_editor_open_media
 			});

@@ -653,7 +653,7 @@ function kboard_admin_notices(){
 }
 
 /*
- * 스타일 파일을 출력한다.
+ * 스크립트와 스타일 파일을 등록한다.
  */
 add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
@@ -668,6 +668,12 @@ function kboard_style(){
 	foreach($skin->getActiveList() as $key => $value){
 		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css', array(), KBOARD_VERSION);
 	}
+	
+	// 번역을 등록한다.
+	$localize = array(
+			'kboard_add_media' => __('KBoard 이미지 삽입하기', 'kboard')
+	);
+	wp_localize_script('jquery', 'kboard_localize_strings', $localize);
 }
 
 /*
