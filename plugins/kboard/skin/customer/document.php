@@ -35,8 +35,8 @@
 			<div class="content-view">
 				<?php if($board->isEditor($content->member_uid)):?>
 				<p>
-					<?php echo __('Name', 'kboard')?> : <?php echo $content->option->name?><br>
-					<?php echo __('Phone number', 'kboard')?> : <?php echo $content->option->tel?>
+					<?php echo __('Name', 'kboard')?> : <?php echo isset($content->option->name)?$content->option->name:''?><br>
+					<?php echo __('Phone number', 'kboard')?> : <?php echo isset($content->option->tel)?$content->option->tel:''?>
 				</p>
 				<?php endif?>
 				

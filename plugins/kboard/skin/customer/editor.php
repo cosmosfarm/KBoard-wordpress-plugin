@@ -72,11 +72,11 @@
 		
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Name', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="kboard_option_name" value="<?php echo $content->option->name?>"></div>
+			<div class="attr-value"><input type="text" name="kboard_option_name" value="<?php echo isset($content->option->name)?$content->option->name:''?>"></div>
 		</div>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Phone number', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="kboard_option_tel" value="<?php echo $content->option->tel?>"></div>
+			<div class="attr-value"><input type="text" name="kboard_option_tel" value="<?php echo isset($content->option->tel)?$content->option->tel:''?>"></div>
 		</div>
 		
 		<div class="kboard-content">
