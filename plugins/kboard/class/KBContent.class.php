@@ -484,7 +484,7 @@ class KBContent {
 	public function removeAttached($key){
 		global $wpdb;
 		if($this->uid){
-			$key = addslashes($key);
+			$key = esc_sql($key);
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `file_key`='$key' AND `content_uid`='$this->uid'");
 			if($file){
 				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($file));
@@ -500,11 +500,11 @@ class KBContent {
 	 */
 	function update_options($uid){
 		global $wpdb;
-		foreach($_REQUEST as $key => $value){
+		foreach($_POST as $key=>$value){
 			if(strstr($key, $this->skin_option_prefix)){
 				
-				$key = addslashes(kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key)));
-				$value = addslashes(kboard_xssfilter(trim($value)));
+				$key = esc_sql(kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key)));
+				$value = esc_sql(kboard_xssfilter(trim($value)));
 				
 				$present_value = $wpdb->get_var("SELECT `option_value` FROM `{$wpdb->prefix}kboard_board_option` WHERE `option_key`='$key' AND `content_uid`='$uid'");
 				if($present_value){
@@ -569,8 +569,8 @@ class KBContent {
 			$file = new KBFileHandler();
 			$file->setPath($this->thumbnail_store_path);
 			$upload = $file->upload('thumbnail');
-			$original_name = addslashes($upload['original_name']);
-			$file = addslashes($upload['path'] . $upload['stored_name']);
+			$original_name = esc_sql($upload['original_name']);
+			$file = esc_sql($upload['path'] . $upload['stored_name']);
 			
 			if($original_name){
 				
