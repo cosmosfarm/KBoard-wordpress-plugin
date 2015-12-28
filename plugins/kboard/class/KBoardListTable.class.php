@@ -73,18 +73,18 @@ class KBoardListTable extends WP_List_Table {
 		echo '<input type="checkbox" name="board_id[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
-		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'">';
+		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
 		echo '<img src="'.KBOARD_URL_PATH."/skin/{$item->skin}/thumbnail.png".'" style="width:100px;height:100px;" alt="">';
 		echo '</a></td>';
 		
-		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'">';
+		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
 		echo $item->board_name;
 		echo '</a></td>';
 		
 		echo '<td>';
 		if($item->meta->auto_page){
 			$post = get_post($item->meta->auto_page);
-			echo '<a href="'.get_permalink($post).'" title="'.__('페이지 보기', 'kboard').'">';
+			echo '<a href="'.get_permalink($post).'" title="'.__('페이지 보기', 'kboard').'" style="display:block">';
 			echo $post->post_title;
 			echo '</a>';
 		}
