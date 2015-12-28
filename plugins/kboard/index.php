@@ -751,7 +751,7 @@ function kboard_activation_execute(){
 	unset($tables, $table, $prefix);
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_setting` (
-		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		`board_name` varchar(127) NOT NULL,
 		`skin` varchar(127) NOT NULL,
 		`use_comment` varchar(5) NOT NULL,
@@ -768,45 +768,49 @@ function kboard_activation_execute(){
 	) DEFAULT CHARSET=utf8");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_attached` (
-		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		`content_uid` bigint(20) unsigned NOT NULL,
 		`file_key` varchar(127) NOT NULL,
 		`date` char(14) NOT NULL,
 		`file_path` varchar(127) NOT NULL,
 		`file_name` varchar(127) NOT NULL,
-		PRIMARY KEY  (`uid`)
+		PRIMARY KEY (`uid`)
 	) DEFAULT CHARSET=utf8");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
-		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		`board_id` bigint(20) unsigned NOT NULL,
-		`parent_uid` bigint(20) unsigned default NULL,
-		`member_uid` bigint(20) unsigned default NULL,
-		`member_display` varchar(127) default NULL,
+		`parent_uid` bigint(20) unsigned DEFAULT NULL,
+		`member_uid` bigint(20) unsigned DEFAULT NULL,
+		`member_display` varchar(127) DEFAULT NULL,
 		`title` varchar(127) NOT NULL,
 		`content` longtext NOT NULL,
-		`date` char(14) default NULL,
-		`view` int(10) unsigned default NULL,
-		`comment` int(10) unsigned default NULL,
-		`like` int(10) unsigned default NULL,
-		`thumbnail_file` varchar(127) default NULL,
-		`thumbnail_name` varchar(127) default NULL,
-		`category1` varchar(127) default NULL,
-		`category2` varchar(127) default NULL,
-		`secret` varchar(5) default NULL,
-		`notice` varchar(5) default NULL,
-		`search` char(1) default NULL,
-		`password` varchar(127) default NULL,
-		PRIMARY KEY  (`uid`),
-		KEY `board_id` (`board_id`)
+		`date` char(14) DEFAULT NULL,
+		`view` int(10) unsigned DEFAULT NULL,
+		`comment` int(10) unsigned DEFAULT NULL,
+		`like` int(10) unsigned DEFAULT NULL,
+		`unlike` int(10) unsigned DEFAULT NULL,
+		`vote` int(11) DEFAULT NULL,
+		`thumbnail_file` varchar(127) DEFAULT NULL,
+		`thumbnail_name` varchar(127) DEFAULT NULL,
+		`category1` varchar(127) DEFAULT NULL,
+		`category2` varchar(127) DEFAULT NULL,
+		`secret` varchar(5) DEFAULT NULL,
+		`notice` varchar(5) DEFAULT NULL,
+		`search` char(1) DEFAULT NULL,
+		`password` varchar(127) DEFAULT NULL,
+		PRIMARY KEY (`uid`),
+		KEY `board_id` (`board_id`),
+		KEY `parent_uid` (`parent_uid`)
 	) DEFAULT CHARSET=utf8");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
-		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		`content_uid` bigint(20) unsigned NOT NULL,
 		`option_key` varchar(127) NOT NULL,
 		`option_value` text NOT NULL,
-		PRIMARY KEY  (`uid`)
+		PRIMARY KEY (`uid`),
+		UNIQUE KEY `content_uid` (`content_uid`,`option_key`)
 	) DEFAULT CHARSET=utf8");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
@@ -817,12 +821,12 @@ function kboard_activation_execute(){
 	) DEFAULT CHARSET=utf8");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview` (
-		`uid` bigint(20) unsigned NOT NULL auto_increment,
+		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		`name` varchar(127) NOT NULL,
 		`skin` varchar(127) NOT NULL,
 		`rpp` int(10) unsigned NOT NULL,
 		`created` char(14) NOT NULL,
-		PRIMARY KEY  (`uid`)
+		PRIMARY KEY (`uid`)
 	) DEFAULT CHARSET=utf8");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
@@ -908,13 +912,54 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 4.5
-	 * kboard_board_content `parent_uid` 컬럼 생성 확인
+	 * kboard_board_content `like` 컬럼 추가
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
 	if(!$name){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` int(10) unsigned default NULL AFTER `comment`");
 	}
 	unset($name);
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_option 테이블에 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_option` WHERE `Key_name`='content_uid'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_option` ADD UNIQUE (`content_uid`, `option_key`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_content `unlike` 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `unlike`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `unlike` int(10) UNSIGNED NULL AFTER `like`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `vote` int(11) NULL AFTER `unlike`");
+	}
+	unset($name);
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_content `vote` 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `vote`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `vote` int(11) NULL AFTER `unlike`");
+	}
+	unset($name);
+
+	/*
+	 * KBoard 5.1
+	 * kboard_board_content 테이블에 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='parent_uid'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`parent_uid`)");
+	}
+	unset($index);
 }
 
 /*
@@ -1111,5 +1156,49 @@ function kboard_system_update(){
 		kboard_activation($networkwide);
 		return;
 	}
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_option 테이블에 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_option` WHERE `Key_name`='content_uid'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_content `unlike` 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `unlike`", ARRAY_N);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name);
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_content `vote` 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `vote`", ARRAY_N);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name);
+	
+	/*
+	 * KBoard 5.1
+	 * kboard_board_content 테이블에 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='parent_uid'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
 }
 ?>
