@@ -653,23 +653,27 @@ function kboard_admin_notices(){
 }
 
 /*
- * 스크립트와 스타일 파일을 등록한다.
+ * 스크립트와 스타일 파일 등록
  */
 add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
 	wp_enqueue_script('jquery');
+	
+	// font-awesome 출력
 	if(!get_option('kboard_fontawesome')){
 		global $wp_styles;
-		wp_enqueue_style("font-awesome", KBOARD_URL_PATH.'/font-awesome/css/font-awesome.min.css', array(), KBOARD_VERSION);
-		wp_enqueue_style("font-awesome-ie7", KBOARD_URL_PATH.'/font-awesome/css/font-awesome-ie7.min.css', array(), KBOARD_VERSION);
+		wp_enqueue_style('font-awesome', KBOARD_URL_PATH . '/font-awesome/css/font-awesome.min.css', array(), KBOARD_VERSION);
+		wp_enqueue_style('font-awesome-ie7', KBOARD_URL_PATH . '/font-awesome/css/font-awesome-ie7.min.css', array(), KBOARD_VERSION);
 		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 	}
+	
+	// 활성화된 스킨의 style.css 등록
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() as $key => $value){
-		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH.'/skin/'.$value.'/style.css', array(), KBOARD_VERSION);
+		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH . "/skin/{$value}/style.css", array(), KBOARD_VERSION);
 	}
 	
-	// 번역을 등록한다.
+	// 번역 등록
 	$localize = array(
 			'kboard_add_media' => __('KBoard 이미지 삽입하기', 'kboard')
 	);
@@ -681,8 +685,8 @@ function kboard_style(){
  */
 add_action('admin_enqueue_scripts', 'kboard_admin_style', 999);
 function kboard_admin_style(){
-	wp_enqueue_script("kboard-cosmosfarm-apis", KBOARD_URL_PATH.'/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
-	wp_enqueue_style("kboard-admin", KBOARD_URL_PATH.'/pages/kboard-admin.css', array(), KBOARD_VERSION);
+	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH.'/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
+	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH.'/pages/kboard-admin.css', array(), KBOARD_VERSION);
 }
 
 /*
@@ -691,7 +695,7 @@ function kboard_admin_style(){
 add_action('init', 'kboard_skin_functions');
 function kboard_skin_functions(){
 	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() as $key => $value){
+	foreach($skin->getActiveList() as $key=>$value){
 		if(file_exists(KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php')) include_once KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php';
 	}
 }
