@@ -854,7 +854,7 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 2.9
-	 * kboard_board_meta `value` 데이터형 text로 변경
+	 * kboard_board_meta 테이블에 value 컬럼 데이터형 text로 변경
 	 */
 	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_meta` `value`", ARRAY_N);
 	if(stristr($type, 'varchar')){
@@ -864,21 +864,21 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 3.5
-	 * kboard_board_content `search` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 search 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `search`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` CHAR(1) default NULL AFTER `notice`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` CHAR(1) DEFAULT NULL AFTER `notice`");
 	}
 	unset($name);
 	
 	/*
 	 * KBoard 4.1
-	 * kboard_board_content `comment` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 comment 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `comment`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `comment` int(10) unsigned default NULL AFTER `view`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `comment` int(10) unsigned DEFAULT NULL AFTER `view`");
 	}
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		// comment 컬럼에 댓글 입력 숫자를 등록한다.
@@ -892,7 +892,7 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 4.2
-	 * kboard_board_content `parent_uid` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 parent_uid 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `parent_uid`", ARRAY_N);
 	if(!$name){
@@ -902,7 +902,7 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 4.5
-	 * kboard_board_meta `content` 데이터형 longtext로 변경
+	 * kboard_board_meta 테이블의 content 컬럼 데이터형 longtext로 변경
 	 */
 	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `content`", ARRAY_N);
 	if(stristr($type, 'text')){
@@ -912,17 +912,17 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 4.5
-	 * kboard_board_content `like` 컬럼 추가
+	 * kboard_board_content 테이블에 like 컬럼 추가
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` int(10) unsigned default NULL AFTER `comment`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` int(10) unsigned DEFAULT NULL AFTER `comment`");
 	}
 	unset($name);
 	
 	/*
 	 * KBoard 5.1
-	 * kboard_board_option 테이블에 인덱스 추가
+	 * kboard_board_option 테이블에 content_uid 인덱스 추가
 	 */
 	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_option` WHERE `Key_name`='content_uid'");
 	if(!count($index)){
@@ -932,18 +932,17 @@ function kboard_activation_execute(){
 	
 	/*
 	 * KBoard 5.1
-	 * kboard_board_content `unlike` 컬럼 추가
+	 * kboard_board_content 테이블에 unlike 컬럼 추가
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `unlike`", ARRAY_N);
 	if(!$name){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `unlike` int(10) UNSIGNED NULL AFTER `like`");
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `vote` int(11) NULL AFTER `unlike`");
 	}
 	unset($name);
 	
 	/*
 	 * KBoard 5.1
-	 * kboard_board_content `vote` 컬럼 추가
+	 * kboard_board_content 테이블에 vote 컬럼 추가
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `vote`", ARRAY_N);
 	if(!$name){
@@ -953,7 +952,7 @@ function kboard_activation_execute(){
 
 	/*
 	 * KBoard 5.1
-	 * kboard_board_content 테이블에 인덱스 추가
+	 * kboard_board_content 테이블에 parent_uid 인덱스 추가
 	 */
 	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='parent_uid'");
 	if(!count($index)){
@@ -1069,7 +1068,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 3.5
-	 * kboard_board_content `search` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 `search` 컬럼 생성 확인
 	 * kboard_board_latestview, kboard_board_latestview_link 테이블 추가 생성
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `search`", ARRAY_N);
@@ -1106,7 +1105,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 4.1
-	 * kboard_board_content `comment` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 `comment` 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `comment`", ARRAY_N);
 	if(!$name){
@@ -1117,7 +1116,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 4.2
-	 * kboard_board_content `parent_uid` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 `parent_uid` 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `parent_uid`", ARRAY_N);
 	if(!$name){
@@ -1128,7 +1127,7 @@ function kboard_system_update(){
 
 	/*
 	 * KBoard 4.5
-	 * kboard_board_meta `content` 데이터형 longtext로 변경
+	 * kboard_board_meta 테이블에 `content` 데이터형 longtext로 변경
 	 */
 	list($name, $type) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `content`", ARRAY_N);
 	if(stristr($type, 'text')){
@@ -1139,7 +1138,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 4.5
-	 * kboard_board_content `like` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 `like` 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `like`", ARRAY_N);
 	if(!$name){
@@ -1170,7 +1169,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 5.1
-	 * kboard_board_content `unlike` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 `unlike` 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `unlike`", ARRAY_N);
 	if(!$name){
@@ -1181,7 +1180,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 5.1
-	 * kboard_board_content `vote` 컬럼 생성 확인
+	 * kboard_board_content 테이블에 vote 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `vote`", ARRAY_N);
 	if(!$name){
@@ -1192,7 +1191,7 @@ function kboard_system_update(){
 	
 	/*
 	 * KBoard 5.1
-	 * kboard_board_content 테이블에 인덱스 추가
+	 * kboard_board_content 테이블에 parent_uid 인덱스 추가
 	 */
 	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='parent_uid'");
 	if(!count($index)){
