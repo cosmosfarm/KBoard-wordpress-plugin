@@ -142,7 +142,7 @@ class KBController {
 			$file = trim($_GET['file']);
 			$file = kboard_htmlclear($file);
 			$file = kboard_xssfilter($file);
-			$file = addslashes($file);
+			$file = esc_sql($file);
 		}
 		else{
 			$file = '';
@@ -151,8 +151,6 @@ class KBController {
 		if(!$uid || !$file){
 			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 		}
-		
-		if(!strstr($referer, basename(__file__))) $_SESSION['redirect_uri'] = $referer;
 		
 		$content = new KBContent();
 		$content->initWithUID($uid);
@@ -183,7 +181,7 @@ class KBController {
 		if($file == 'thumbnail') $content->removeThumbnail();
 		else $content->removeAttached($file);
 		
-		header("Location:{$_SESSION['redirect_uri']}");
+		header("Location:{$referer}");
 		exit;
 	}
 	
@@ -212,7 +210,7 @@ class KBController {
 			$file = trim($_GET['file']);
 			$file = kboard_htmlclear($file);
 			$file = kboard_xssfilter($file);
-			$file = addslashes($file);
+			$file = esc_sql($file);
 		}
 		else{
 			$file = '';

@@ -47,7 +47,7 @@ class KBContentMedia {
 		
 		if($this->board_id && $this->media_group){
 			$upload_dir = wp_upload_dir();
-			$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . current_time('Ym') . '/';
+			$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
 
 			
 			$file = new KBFileHandler();
@@ -64,7 +64,7 @@ class KBContentMedia {
 				$file_path = esc_sql($upload['path'] . $upload['stored_name']);
 					
 				if($file_name){
-					$date = current_time('YmdHis');
+					$date = date('YmdHis', current_time('timestamp'));
 					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`) VALUE ('{$this->media_group}', '$date', '$file_path', '$file_name')");
 				}	
 			}
@@ -74,7 +74,7 @@ class KBContentMedia {
 	/**
 	 * 게시글과 미디어의 관계를 입력한다.
 	 */
-	public function addRelationships(){
+	public function createRelationships(){
 		global $wpdb;
 		
 		$this->content_uid = intval($this->content_uid);
@@ -82,7 +82,7 @@ class KBContentMedia {
 		
 		if($this->content_uid && $this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` WHERE `media_group`='{$this->media_group}'");
-			foreach($results as $key=>$row){
+			foreach($results as $row){
 				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida_relationships` (`content_uid`, `media_uid`) VALUE ('{$this->content_uid}', '{$row->uid}')");
 			}
 		}
@@ -135,9 +135,9 @@ class KBContentMedia {
 	 */
 	public function truncate(){
 		global $wpdb;
-		$date = date('YmdHis', strtotime(current_time('YmdHis') . ' -1 hour'));
+		$date = date('YmdHis', current_time('timestamp')-3600);
 		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`=''");
-		foreach($results as $key=>$row){
+		foreach($results as $row){
 			$this->deleteWithMedia($row);
 		}
 	}
