@@ -77,23 +77,23 @@ if(defined('myCRED_VERSION') && class_exists('myCRED_Hook')){
 				<label class="subheader" for="<?php echo $this->field_id( 'creds' ); ?>"><?php _e('신규 게시글 작성', 'kboard'); ?></label>
 				<ol>
 					<li>
-						<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['insert']['creds'] ); ?>" size="8" /></div>
+						<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['insert']['creds'] ); ?>" size="8"></div>
 					</li>
 					<li class="empty">&nbsp;</li>
 					<li>
 						<label for="<?php echo $this->field_id( 'log' ); ?>"><?php _e('로그 템플릿', 'kboard'); ?></label>
-						<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['insert']['log'] ); ?>" class="long" /></div>
+						<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['insert']['log'] ); ?>" class="long"></div>
 					</li>
 				</ol>
-				<label class="subheader" for="<?php echo $this->field_id( 'creds' ); ?>"><?php _e( '기존 게시글 삭제', 'kboard'); ?></label>
+				<label class="subheader" for="<?php echo $this->field_id( 'creds' ); ?>"><?php _e('기존 게시글 삭제', 'kboard'); ?></label>
 				<ol>
 					<li>
-						<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['delete']['creds'] ); ?>" size="8" /></div>
+						<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['delete']['creds'] ); ?>" size="8"></div>
 					</li>
 					<li class="empty">&nbsp;</li>
 					<li>
 						<label for="<?php echo $this->field_id( 'log' ); ?>"><?php _e('로그 템플릿', 'kboard'); ?></label>
-						<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['delete']['log'] ); ?>" class="long" /></div>
+						<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['delete']['log'] ); ?>" class="long"></div>
 					</li>
 				</ol>
 				<?php
@@ -179,23 +179,23 @@ if(defined('myCRED_VERSION') && class_exists('myCRED_Hook')){
 					<label class="subheader" for="<?php echo $this->field_id( 'creds' ); ?>"><?php _e('신규 댓글 작성', 'kboard'); ?></label>
 					<ol>
 						<li>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['insert']['creds'] ); ?>" size="8" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['insert']['creds'] ); ?>" size="8"></div>
 						</li>
 						<li class="empty">&nbsp;</li>
 						<li>
 							<label for="<?php echo $this->field_id( 'log' ); ?>"><?php _e('로그 템플릿', 'kboard'); ?></label>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['insert']['log'] ); ?>" class="long" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['insert']['log'] ); ?>" class="long"></div>
 						</li>
 					</ol>
-					<label class="subheader" for="<?php echo $this->field_id( 'creds' ); ?>"><?php _e( '기존 댓글 삭제', 'kboard'); ?></label>
+					<label class="subheader" for="<?php echo $this->field_id( 'creds' ); ?>"><?php _e('기존 댓글 삭제', 'kboard'); ?></label>
 					<ol>
 						<li>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['delete']['creds'] ); ?>" size="8" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name('creds'); ?>" id="<?php echo $this->field_id('creds'); ?>" value="<?php echo $this->core->format_number( $prefs['delete']['creds'] ); ?>" size="8"></div>
 						</li>
 						<li class="empty">&nbsp;</li>
 						<li>
 							<label for="<?php echo $this->field_id( 'log' ); ?>"><?php _e('로그 템플릿', 'kboard'); ?></label>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['delete']['log'] ); ?>" class="long" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name('log'); ?>" id="<?php echo $this->field_id('log'); ?>" value="<?php echo esc_attr( $prefs['delete']['log'] ); ?>" class="long"></div>
 						</li>
 					</ol>
 					<?php
