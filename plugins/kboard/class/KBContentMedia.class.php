@@ -136,7 +136,7 @@ class KBContentMedia {
 	public function truncate(){
 		global $wpdb;
 		$date = date('YmdHis', current_time('timestamp')-3600);
-		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`=''");
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND `{$wpdb->prefix}kboard_meida_relationships`.`content_uid` IS NULL");
 		foreach($results as $row){
 			$this->deleteWithMedia($row);
 		}
