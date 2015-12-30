@@ -145,7 +145,6 @@ function kboard_media_form_execute(form){
 }
 function kboard_media_close(){
 	parent.kboard_media_close();
-	window.close();
 }
 jQuery(document).ready(function($){
 	jQuery('.upload-button').each(function(){
