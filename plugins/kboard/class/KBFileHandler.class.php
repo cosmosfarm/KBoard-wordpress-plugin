@@ -7,6 +7,7 @@
  */
 class KBFileHandler {
 	
+	private $name;
 	private $path;
 	private $file_extension;
 	private $extension;
@@ -71,9 +72,9 @@ class KBFileHandler {
 	function mkPath($path, $permission=0777){
 		$path = str_replace(KBOARD_WORDPRESS_ROOT . '/', '', $path);
 		$growing_path = KBOARD_WORDPRESS_ROOT;
-		$path = explode("/", $path);
+		$path = explode('/', $path);
 		for($i=0, $cnt=count($path); $i < $cnt; $i++){
-			$growing_path = $growing_path . "/" . $path[$i];
+			$growing_path = "{$growing_path}/{$path[$i]}";
 			if(!file_exists($growing_path)){
 				$mkdir = @mkdir($growing_path, $permission);
 				if(!$mkdir) return false;
@@ -180,7 +181,10 @@ class KBFileHandler {
 		
 		if(!$this->path) die('KBFileHandler->upload() :: 디렉토리 경로가 없거나 하위 디렉토리에 쓰기 권한이 없습니다.');
 		
-		if(!isset($_FILES[$name])){
+		// 이름 등록
+		$this->name = $name;
+		
+		if(!isset($_FILES[$this->name])){
 			return array(
 					'stored_name' => '',
 					'original_name' => '',
@@ -199,7 +203,7 @@ class KBFileHandler {
 		$this->extensions = apply_filters('kboard_upload_extension', $extension);
 		$this->limit_file_size = $limit_file_size;
 		
-		$file_input = $_FILES[$name];
+		$file_input = $_FILES[$this->name];
 		if(is_array($file_input['tmp_name'])){
 			$files = $this->multipleUpload($file_input);
 		}
@@ -261,7 +265,7 @@ class KBFileHandler {
 				exit;
 			}
 			
-			return array(
+			return apply_filters('kboard_uploaded_file', array(
 					'stored_name' => $file_unique_name,
 					'original_name' => $file['name'],
 					'temp_name' => $file['tmp_name'],
@@ -269,7 +273,7 @@ class KBFileHandler {
 					'type' => $file['type'],
 					'size' => $file['size'],
 					'path' => $this->path
-			);
+			), $this->name);
 		}
 		else{
 			return array(
@@ -355,7 +359,10 @@ class KBFileHandler {
 		}
 		
 		if(isset($files) && $files){
-			return $files;
+			foreach($files as $item){
+				$new_files[] = apply_filters('kboard_uploaded_file', $item, $this->name);
+			}
+			return $new_files;
 		}
 		else{
 			return array();
@@ -512,7 +519,7 @@ class KBFileHandler {
 	 */
 	public function putContents($filename, $data){
 		if(function_exists('file_put_contents')){
-			return @file_put_contents($filename, $data);
+			return file_put_contents($filename, $data);
 		}
 		else{
 			if($fp = @fopen($filename, 'w')){
