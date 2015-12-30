@@ -305,7 +305,7 @@ class KBFileHandler {
 			if($file['size'][$key] && !$this->checkExtension($name)){
 				$this->rollback();
 				$message = sprintf(__('%s 파일은 업로드 가능한 파일 형식이 아닙니다.', 'kboard'), $file['name'][$key]);
-				echo "<script>alert('{$file['name'][$key]} 파일은 업로드 가능한 파일 형식이 아닙니다.');history.go(-1);</script>";
+				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 		}
