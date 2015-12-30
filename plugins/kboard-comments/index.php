@@ -29,7 +29,7 @@ include_once 'class/KBCommentUrl.class.php';
 /*
  * KBoard 댓글 시작
  */
-add_action('init', 'kboard_comments_init');
+add_action('init', 'kboard_comments_init', 0);
 function kboard_comments_init(){
 	
 	// 컨트롤러 시작
@@ -55,7 +55,7 @@ function kboard_comments_list(){
 	$action = isset($_POST['action'])?$_POST['action']:'';
 	$action2 = isset($_POST['action2'])?$_POST['action2']:'';
 	if(($action=='remove' || $action2=='remove') && isset($_POST['comment_uid']) && $_POST['comment_uid']){
-		foreach($_POST['comment_uid'] AS $key => $value){
+		foreach($_POST['comment_uid'] as $key=>$value){
 			$commentList->delete($value);
 		}
 	}
@@ -96,7 +96,7 @@ function kboard_comments_script(){
  */
 add_action('plugins_loaded', 'kboard_comments_languages');
 function kboard_comments_languages(){
-	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)).'/languages/');
+	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 
 /*
@@ -107,7 +107,7 @@ function kboard_comments_admin_notices(){
 	if(current_user_can('activate_plugins')){
 		$upgrader = KBUpgrader::getInstance();
 		if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments){
-			echo '<div class="updated"><p>KBoard 댓글 : '.$upgrader->getLatestVersion()->comments.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+			echo '<div class="updated"><p>KBoard 댓글 : ' . $upgrader->getLatestVersion()->comments . ' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
 		}
 	}
 }
@@ -121,7 +121,7 @@ function kboard_comments_style(){
 	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
 	foreach($result as $row){
 		if(!empty($row->value)){
-			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH.'/skin/'.$row->value.'/style.css', array(), KBOARD_COMMNETS_VERSION);
+			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH . "/skin/{$row->value}/style.css", array(), KBOARD_COMMNETS_VERSION);
 		}
 	}
 }
@@ -134,7 +134,7 @@ function kboard_comments_skin_functions(){
 	global $wpdb;
 	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
 	foreach($result as $row){
-		if(file_exists(KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php')) include_once KBOARD_COMMENTS_DIR_PATH.'/skin/'.$row->value.'/functions.php';
+		if(file_exists(KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php")) include_once KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php";
 	}
 }
 
@@ -235,7 +235,7 @@ function kboard_comments_activation($networkwide){
 	if(function_exists('is_multisite') && is_multisite()){
 		if($networkwide){
 			$old_blog = $wpdb->blogid;
-			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+			$blogids = $wpdb->get_col("SELECT `blog_id` FROM {$wpdb->blogs}");
 			foreach($blogids as $blog_id){
 				switch_to_blog($blog_id);
 				kboard_comments_activation_execute();
@@ -348,7 +348,7 @@ function kboard_comments_uninstall(){
 	
 	if(function_exists('is_multisite') && is_multisite()){
 		$old_blog = $wpdb->blogid;
-		$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+		$blogids = $wpdb->get_col("SELECT `blog_id` FROM {$wpdb->blogs}");
 		foreach($blogids as $blog_id){
 			switch_to_blog($blog_id);
 			kboard_comments_uninstall_exeucte();

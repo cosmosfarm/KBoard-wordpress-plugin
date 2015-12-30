@@ -381,7 +381,7 @@ function kboard_latestview_update(){
 	
 	$latestview_link = explode(',', $latestview_link);
 	if(is_array($latestview_link)){
-		foreach($latestview_link AS $key => $value){
+		foreach($latestview_link as $key=>$value){
 			$value = intval($value);
 			if($value) $latestview->pushBoard($value);
 		}
@@ -389,7 +389,7 @@ function kboard_latestview_update(){
 	
 	$latestview_unlink = explode(',', $latestview_unlink);
 	if(is_array($latestview_unlink)){
-		foreach($latestview_unlink AS $key => $value){
+		foreach($latestview_unlink as $key=>$value){
 			$value = intval($value);
 			if($value) $latestview->popBoard($value);
 		}
@@ -685,7 +685,7 @@ function kboard_scripts(){
 	wp_enqueue_script('jquery');
 	
 	// KBoard 이미지 삽입하기 스타일 속성 등록
-	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH.'/template/css/editor_media.css', array(), KBOARD_VERSION);
+	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
 	
 	// 번역 등록
 	$localize = array(
@@ -699,8 +699,8 @@ function kboard_scripts(){
  */
 add_action('admin_enqueue_scripts', 'kboard_admin_style', 999);
 function kboard_admin_style(){
-	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH.'/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
-	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH.'/pages/kboard-admin.css', array(), KBOARD_VERSION);
+	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH . '/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
+	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH . '/pages/kboard-admin.css', array(), KBOARD_VERSION);
 }
 
 /*
@@ -710,7 +710,7 @@ add_action('init', 'kboard_skin_functions');
 function kboard_skin_functions(){
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() as $key=>$value){
-		if(file_exists(KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php')) include_once KBOARD_DIR_PATH.'/skin/'.$value.'/functions.php';
+		if(file_exists(KBOARD_DIR_PATH . "/skin/{$value}/functions.php")) include_once KBOARD_DIR_PATH . "/skin/{$value}/functions.php";
 	}
 }
 
@@ -721,7 +721,7 @@ add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);
 function kboard_add_toolbar_link($wp_admin_bar){
 	global $post, $wpdb;
 	if(!is_admin() && current_user_can('activate_plugins') && isset($post->ID) && $post->ID){
-		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
+		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='{$post->ID}'");
 		if($board_id){
 			$args = array(
 					'id'    => 'kboard-setting-page',
@@ -744,7 +744,7 @@ function kboard_activation($networkwide){
 	if(function_exists('is_multisite') && is_multisite()){
 		if($networkwide){
 			$old_blog = $wpdb->blogid;
-			$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+			$blogids = $wpdb->get_col("SELECT `blog_id` FROM {$wpdb->blogs}");
 			foreach($blogids as $blog_id){
 				switch_to_blog($blog_id);
 				kboard_activation_execute();
@@ -1012,7 +1012,7 @@ function kboard_uninstall(){
 	global $wpdb;
 	if(function_exists('is_multisite') && is_multisite()){
 		$old_blog = $wpdb->blogid;
-		$blogids = $wpdb->get_col("SELECT `blog_id` FROM $wpdb->blogs");
+		$blogids = $wpdb->get_col("SELECT `blog_id` FROM {$wpdb->blogs}");
 		foreach($blogids as $blog_id){
 			switch_to_blog($blog_id);
 			kboard_uninstall_execute();

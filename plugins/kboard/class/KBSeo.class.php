@@ -96,13 +96,13 @@ class KBSeo {
 	 * 게시물 정보 Open Graph protocol(OGP)을 추가한다.
 	 */
 	public function ogp(){
-	echo '<meta property="og:title" content="'.$this->getTitle().'">';
+	echo '<meta property="og:title" content="' . $this->getTitle() . '">';
 		echo "\n";
-		echo '<meta property="og:description" content="'.$this->getDescription().'">';
+		echo '<meta property="og:description" content="' . $this->getDescription() . '">';
 		echo "\n";
 		$image = $this->getImage();
 		if($image){
-			echo '<meta property="og:image" content="'.$image.'">';
+			echo '<meta property="og:image" content="' . $image . '">';
 			echo "\n";
 		}
 	}
@@ -113,7 +113,7 @@ class KBSeo {
 	public function twitter(){
 		echo '<meta property="twitter:card" content="summary">';
 		echo "\n";
-		echo '<meta property="twitter:description" content="'.$this->getDescription().'">';
+		echo '<meta property="twitter:description" content="' . $this->getDescription() . '">';
 		echo "\n";
 	}
 	
@@ -121,9 +121,9 @@ class KBSeo {
 	 * 게시물 정보 메타태그를 추가한다.
 	 */
 	public function description(){
-		echo '<meta name="title" content="'.$this->getTitle().'">';
+		echo '<meta name="title" content="' . $this->getTitle() . '">';
 		echo "\n";
-		echo '<meta name="description" content="'.$this->getDescription().'">';
+		echo '<meta name="description" content="' . $this->getDescription() . '">';
 		echo "\n";
 	}
 
@@ -131,7 +131,7 @@ class KBSeo {
 	 * 작성자 메타태그를 추가한다.
 	 */
 	public function author(){
-		echo '<meta name="author" content="'.$this->getUsername().'">';
+		echo '<meta name="author" content="' . $this->getUsername() . '">';
 		echo "\n";
 	}
 	
@@ -139,7 +139,7 @@ class KBSeo {
 	 * 작성일 메타태그를 추가한다.
 	 */
 	public function date(){
-		echo '<meta name="author-date(date)" content="'.date("Y-m-d H:i:s", strtotime($this->content->date)).'">';
+		echo '<meta name="author-date(date)" content="' . date('Y-m-d H:i:s', strtotime($this->content->date)) . '">';
 		echo "\n";
 	}
 	
@@ -150,7 +150,7 @@ class KBSeo {
 		global $check_kboard_seo_rss_once;
 		if(!$check_kboard_seo_rss_once){
 			$name = get_bloginfo('name');
-			echo '<link rel="alternate" href="'.plugins_url().'/kboard/rss.php" type="application/rss+xml" title="'.$name.' &raquo; KBoard '.__('Integration feed', 'kboard').'">';
+			echo '<link rel="alternate" href="' . plugins_url() . '/kboard/rss.php" type="application/rss+xml" title="' . $name . ' &raquo; KBoard ' . __('Integration feed', 'kboard') . '">';
 			echo "\n";
 			$check_kboard_seo_rss_once = true;
 		}
@@ -190,8 +190,8 @@ class KBSeo {
 	 * @return string
 	 */
 	public function getImage($image=''){
-		if($this->content->thumbnail_file){
-			return site_url($this->content->thumbnail_file);
+		if($this->content->getThumbnail()){
+			return $this->content->getThumbnail();
 		}
 		else{
 			return $image;
