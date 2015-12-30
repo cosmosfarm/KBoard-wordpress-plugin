@@ -521,7 +521,7 @@ class KBContent {
 				$image_editor = wp_get_image_editor($file_path);
 				if(!is_wp_error($image_editor)){
 					$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1024, 1024));
-					$image_editor->resize($thumbnail_size[0], $thumbnail_size[0], true);
+					$image_editor->resize($thumbnail_size[0], $thumbnail_size[0]);
 					$image_editor->save($file_path);
 				}
 				
