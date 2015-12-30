@@ -97,26 +97,28 @@
 
 <script>
 function kboard_media_select_all(){
-	jQuery('.media-item').each(function(){
-		if(jQuery('.media-wrap').hasClass('media-all-selected')){
-			if(jQuery(this).find('input[type=checkbox]').is(':checked')){
-				jQuery(this).find('input[type=checkbox]').click();
+	if(jQuery('.media-item').length){
+		jQuery('.media-item').each(function(){
+			if(jQuery('.media-wrap').hasClass('media-all-selected')){
+				if(jQuery(this).find('input[type=checkbox]').is(':checked')){
+					jQuery(this).find('input[type=checkbox]').click();
+				}
 			}
-		}
-		else{
-			if(!jQuery(this).find('input[type=checkbox]').is(':checked')){
-				jQuery(this).find('input[type=checkbox]').click();
+			else{
+				if(!jQuery(this).find('input[type=checkbox]').is(':checked')){
+					jQuery(this).find('input[type=checkbox]').click();
+				}
 			}
-		}
-	});
-	setTimeout(function(){
-		if(jQuery('.media-wrap').hasClass('media-all-selected')){
-			jQuery('.media-wrap').removeClass('media-all-selected');
-		}
-		else{
-			jQuery('.media-wrap').addClass('media-all-selected');
-		}
-	}, 0);
+		});
+		setTimeout(function(){
+			if(jQuery('.media-wrap').hasClass('media-all-selected')){
+				jQuery('.media-wrap').removeClass('media-all-selected');
+			}
+			else{
+				jQuery('.media-wrap').addClass('media-all-selected');
+			}
+		}, 0);
+	}
 }
 function kboard_media_select(){
 	jQuery('.media-item').removeClass('selected-item');

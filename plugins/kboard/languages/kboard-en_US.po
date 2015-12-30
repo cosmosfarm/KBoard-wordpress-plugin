@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2015-12-30 20:45+0900\n"
-"PO-Revision-Date: 2015-12-30 20:45+0900\n"
+"POT-Creation-Date: 2015-12-30 20:58+0900\n"
+"PO-Revision-Date: 2015-12-30 20:58+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -576,7 +576,7 @@ msgstr "Edit"
 #: skin/default/editor.php:92 skin/default/editor.php:99
 #: skin/thumbnail/document.php:95 skin/thumbnail/editor.php:84
 #: skin/thumbnail/editor.php:92 skin/thumbnail/editor.php:99
-#: template/media.php:158
+#: template/media.php:160
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
@@ -774,15 +774,15 @@ msgstr ""
 msgid "로딩중"
 msgstr "Loading"
 
-#: template/media.php:132
+#: template/media.php:134
 msgid "선택한 이미지가 없습니다."
 msgstr "There is no selected image."
 
-#: template/media.php:141 template/media.php:151
+#: template/media.php:143 template/media.php:153
 msgid "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 msgstr "You insert the selected image in the body. Would you close the window?"
 
-#: template/media.php:185 template/media.php:200
+#: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "Only image files can be uploaded."
 
