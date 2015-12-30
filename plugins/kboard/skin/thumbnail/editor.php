@@ -23,8 +23,9 @@
 				<label class="attr-name"><?php echo __('Category', 'kboard')?>1</label>
 				<div class="attr-value">
 					<select name="category1">
+						<option value=""><?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected="selected" <?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				</div>
@@ -36,8 +37,9 @@
 				<label class="attr-name"><?php echo __('Category', 'kboard')?>2</label>
 				<div class="attr-value">
 					<select name="category2">
+						<option value=""><?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected="selected" <?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				</div>
