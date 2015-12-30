@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2015-12-12 02:12+0900\n"
-"PO-Revision-Date: 2015-12-12 02:12+0900\n"
+"POT-Creation-Date: 2015-12-30 20:44+0900\n"
+"PO-Revision-Date: 2015-12-30 20:44+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: class/KBAdminController.class.php:30 class/KBAdminController.class.php:32
 #: class/KBController.class.php:136 class/KBController.class.php:138
-#: class/KBController.class.php:206 class/KBController.class.php:208
+#: class/KBController.class.php:204 class/KBController.class.php:206
 #: class/KBoardBuilder.class.php:383
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
@@ -57,15 +57,16 @@ msgstr ""
 msgid "파일 업로드에 실패 했습니다."
 msgstr ""
 
-#: class/KBContent.class.php:135
+#: class/KBContent.class.php:138
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
 
-#: class/KBContent.class.php:158
+#: class/KBContent.class.php:161
 msgid "KBoard new document"
 msgstr "KBoard 신규등록"
 
-#: class/KBContent.class.php:376 class/KBContent.class.php:544
+#: class/KBContent.class.php:382 class/KBContent.class.php:421
+#: class/KBContent.class.php:506
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
 
@@ -106,7 +107,7 @@ msgid "게시판 변경"
 msgstr ""
 
 #: class/KBContentListTable.class.php:52 class/KBoardListTable.class.php:56
-#: template/media.php:82
+#: template/media.php:84
 msgid "삭제"
 msgstr ""
 
@@ -128,10 +129,10 @@ msgstr ""
 
 #: class/KBController.class.php:45 class/KBController.class.php:59
 #: class/KBController.class.php:64 class/KBController.class.php:68
-#: class/KBController.class.php:152 class/KBController.class.php:179
-#: class/KBController.class.php:222 class/KBController.class.php:248
-#: class/KBController.class.php:253 class/KBController.class.php:258
-#: class/KBController.class.php:269 class/KBoardBuilder.class.php:252
+#: class/KBController.class.php:152 class/KBController.class.php:177
+#: class/KBController.class.php:220 class/KBController.class.php:246
+#: class/KBController.class.php:251 class/KBController.class.php:256
+#: class/KBController.class.php:267 class/KBoardBuilder.class.php:252
 #: class/KBoardBuilder.class.php:308 class/KBoardBuilder.class.php:317
 #: class/KBoardBuilder.class.php:399
 msgid "You do not have permission."
@@ -141,27 +142,27 @@ msgstr "권한이 없습니다."
 msgid "Please enter your password."
 msgstr "비밀번호를 입력해주세요."
 
-#: class/KBController.class.php:239 class/KBoardBuilder.class.php:224
+#: class/KBController.class.php:237 class/KBoardBuilder.class.php:224
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
-#: class/KBFileHandler.class.php:225 class/KBFileHandler.class.php:297
+#: class/KBFileHandler.class.php:229 class/KBFileHandler.class.php:301
 #, php-format
 msgid "%s 파일이 올바르게 업로드되지 않았습니다."
 msgstr ""
 
-#: class/KBFileHandler.class.php:233 class/KBFileHandler.class.php:307
+#: class/KBFileHandler.class.php:237 class/KBFileHandler.class.php:311
 #, php-format
 msgid "%s 파일은 업로드 가능한 파일 형식이 아닙니다."
 msgstr ""
 
-#: class/KBFileHandler.class.php:241 class/KBFileHandler.class.php:317
+#: class/KBFileHandler.class.php:245 class/KBFileHandler.class.php:321
 #, php-format
 msgid "%s 파일의 용량이 너무 큽니다."
 msgstr ""
 
-#: class/KBFileHandler.class.php:249 class/KBFileHandler.class.php:259
-#: class/KBFileHandler.class.php:327 class/KBFileHandler.class.php:340
+#: class/KBFileHandler.class.php:253 class/KBFileHandler.class.php:263
+#: class/KBFileHandler.class.php:331 class/KBFileHandler.class.php:344
 #, php-format
 msgid "%s 파일 업로드 중 오류가 발생했습니다."
 msgstr ""
@@ -279,7 +280,7 @@ msgstr ""
 msgid "KBoard : 게시판"
 msgstr "KBoard 게시판 포인트"
 
-#: index.php:96 template/media.php:9 template/media.php:63
+#: index.php:96 index.php:692 template/media.php:9 template/media.php:64
 msgid "KBoard 이미지 삽입하기"
 msgstr ""
 
@@ -570,7 +571,7 @@ msgstr "글수정"
 #: skin/default/editor.php:92 skin/default/editor.php:99
 #: skin/thumbnail/document.php:95 skin/thumbnail/editor.php:84
 #: skin/thumbnail/editor.php:92 skin/thumbnail/editor.php:99
-#: template/media.php:129
+#: template/media.php:158
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
@@ -583,7 +584,7 @@ msgstr "글삭제"
 #: skin/customer/document.php:108 skin/customer/list.php:106
 #: skin/default/document.php:101 skin/default/list.php:106
 #: skin/thumbnail/document.php:101 skin/thumbnail/list.php:109
-#: template/media.php:88
+#: template/media.php:90
 msgid "KBoard is the best community software available for WordPress"
 msgstr "의미있는 워드프레스 게시판"
 
@@ -723,51 +724,59 @@ msgstr "이름"
 msgid "Phone number"
 msgstr "연락처"
 
-#: template/media.php:65
+#: template/media.php:66
 msgid "이미지 선택하기"
 msgstr ""
 
-#: template/media.php:65
+#: template/media.php:66
 msgid "업로드"
 msgstr ""
 
-#: template/media.php:66
+#: template/media.php:67
 msgid "선택된 이미지 삽입하기"
 msgstr ""
 
-#: template/media.php:66
+#: template/media.php:67
 msgid "선택 삽입"
 msgstr ""
 
-#: template/media.php:67
+#: template/media.php:68
+msgid "전체선택"
+msgstr ""
+
+#: template/media.php:69
 msgid "창닫기"
 msgstr ""
 
-#: template/media.php:75
+#: template/media.php:77
 msgid "선택됨"
 msgstr ""
 
-#: template/media.php:81
+#: template/media.php:83
 msgid "삽입"
 msgstr ""
 
-#: template/media.php:88
+#: template/media.php:90
 msgid "업로드된 이미지가 없습니다."
 msgstr ""
 
-#: template/media.php:88
+#: template/media.php:90
 msgid "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
 msgstr ""
 
-#: template/media.php:93
+#: template/media.php:95
 msgid "로딩중"
 msgstr ""
 
-#: template/media.php:117 template/media.php:124
+#: template/media.php:132
+msgid "선택한 이미지가 없습니다."
+msgstr ""
+
+#: template/media.php:141 template/media.php:151
 msgid "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 msgstr ""
 
-#: template/media.php:153 template/media.php:168
+#: template/media.php:185 template/media.php:200
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr ""
 

@@ -7,6 +7,6 @@
 #kboard_media_wrapper { position: fixed; -webkit-overflow-scrolling: touch; z-index: 99999; }
 #kboard_media_wrapper iframe { margin: 0; border: 0; width: 100%; height: 100%; }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 899px) {
 	#kboard_media_wrapper { overflow: auto; }
 }

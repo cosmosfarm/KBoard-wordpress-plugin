@@ -24,21 +24,22 @@
 	.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
 	.media-wrap .no-media a { color: #757575; text-decoration: none; }
 	.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
-	.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; }
+	.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; border-radius: 12px; box-shadow: 2px 2px 2px RGBA(0,0,0,0.2); }
 	.media-wrap .media-item .media-image-wrap { width: 150px; }
 	.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; }
-	.media-wrap .media-item .media-control { text-align: center; }
+	.media-wrap .media-item .media-control { text-align: center; background-color: #f5f5f5; }
 	.media-wrap .media-item .media-control input { display: none; }
-	.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
+	.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: transparent; color: #757575; font-size: 14px; cursor: pointer; text-decoration: none; }
 	.media-wrap .media-item.selected-item { padding: 5px; border: 0px solid #0073ea; }
 	.media-wrap .media-item.selected-item .selected-media { display: block; }
-	.media-wrap .media-item.selected-item .media-image-wrap { width: 130px; padding: 10px; background-color: #eeeeee; }
+	.media-wrap .media-item.selected-item .media-image-wrap { width: 130px; padding: 10px; background-color: #f5f5f5; }
 	.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 130px; }
+	.media-wrap .media-item:hover .selected-media { display: block; }
 	.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
 	.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
 	.kboard-hide { display: none !important; }
 	
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 899px) {
 		.kboard-media-header { line-height: normal; }
 		.kboard-media-header .title { float: none; padding-right: 0; text-align: center; }
 		.kboard-media-header .controller { float: none; line-height: 30px; text-align: center; }
@@ -63,7 +64,8 @@
 		<div class="title"><?php echo __('KBoard 이미지 삽입하기', 'kboard')?></div>
 		<div class="controller">
 			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> <?php echo __('업로드', 'kboard')?></a>
-			<a href="javascript:void(0)" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button" onclick="kboard_media_select_all();return false;" title="<?php echo __('전체선택', 'kboard')?>"><?php echo __('전체선택', 'kboard')?></a>
 			<a href="javascript:void(0)" class="header-button" onclick="kboard_media_close();return false;" title="<?php echo __('창닫기', 'kboard')?>"><?php echo __('창닫기', 'kboard')?></a>
 		</div>
 	</div>
@@ -94,13 +96,29 @@
 </div>
 
 <script>
+function kboard_media_select_all(){
+	jQuery('.media-item').each(function(){
+		if(jQuery('.media-wrap').hasClass('media-all-selected')){
+			if(jQuery(this).find('input[type=checkbox]').is(':checked')){
+				jQuery(this).find('input[type=checkbox]').click();
+			}
+		}
+		else{
+			if(!jQuery(this).find('input[type=checkbox]').is(':checked')){
+				jQuery(this).find('input[type=checkbox]').click();
+			}
+		}
+	});
+	setTimeout(function(){
+		if(jQuery('.media-wrap').hasClass('media-all-selected')){
+			jQuery('.media-wrap').removeClass('media-all-selected');
+		}
+		else{
+			jQuery('.media-wrap').addClass('media-all-selected');
+		}
+	}, 0);
+}
 function kboard_media_select(){
-	if(jQuery('input[name=media_src]:checked').length){
-		jQuery('.selected-insert-button').removeClass('kboard-hide');
-	}
-	else{
-		jQuery('.selected-insert-button').addClass('kboard-hide');
-	}
 	jQuery('.media-item').removeClass('selected-item');
 	jQuery('input[name=media_src]:checked').each(function(){
 		var media_uid = jQuery(this).data('media-uid');
@@ -110,17 +128,22 @@ function kboard_media_select(){
 function kboard_selected_media_insert(){
 	var total = jQuery('input[name=media_src]:checked').length;
 	var index = 0;
-	jQuery('input[name=media_src]:checked').each(function(){
-		var media_src = jQuery(this).val();
-		if(media_src){
-			parent.kboard_editor_insert_media(media_src);
-		}
-		if(++index == total){
-			if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')){
-				kboard_media_close();
+	if(!total){
+		alert('<?php echo __('선택한 이미지가 없습니다.', 'kboard')?>');
+	}
+	else{
+		jQuery('input[name=media_src]:checked').each(function(){
+			var media_src = jQuery(this).val();
+			if(media_src){
+				parent.kboard_editor_insert_media(media_src);
 			}
-		}
-	});
+			if(++index == total){
+				if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')){
+					kboard_media_close();
+				}
+			}
+		});
+	}
 }
 function kboard_media_insert(media_src){
 	if(media_src){
