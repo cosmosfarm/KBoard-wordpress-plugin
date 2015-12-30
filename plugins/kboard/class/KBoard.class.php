@@ -240,7 +240,7 @@ class KBoard {
 	public function isConfirm($password, $content_uid, $reauth=false){
 		if(!$password || !$content_uid) return false;
 		
-		$submitted_password = isset($_POST['password'])?$_POST['password']:'';
+		$submitted_password = isset($_POST['password'])?kboard_htmlclear(trim($_POST['password'])):'';
 		
 		if($reauth){
 			if($submitted_password == $password){

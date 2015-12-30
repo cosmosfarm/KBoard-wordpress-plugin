@@ -132,7 +132,7 @@ class KBCommentList {
 		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);
 		$user_display = esc_sql(kboard_htmlclear(trim($user_display)));
-		$content = esc_sql(kboard_xssfilter(trim($content)));
+		$content = esc_sql(kboard_safeiframe(kboard_xssfilter(trim($content))));
 		$password = esc_sql(kboard_htmlclear(trim($password)));
 		$created = date('YmdHis', current_time('timestamp'));
 		

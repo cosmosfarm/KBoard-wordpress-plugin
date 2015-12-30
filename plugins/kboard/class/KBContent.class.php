@@ -102,16 +102,16 @@ class KBContent {
 	public function execute(){
 		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
 		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
-		$this->member_display = isset($_POST['member_display'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['member_display']))):'';
-		$this->title = isset($_POST['title'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['title']))):'';
+		$this->member_display = isset($_POST['member_display'])?kboard_htmlclear(trim($_POST['member_display'])):'';
+		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['title']))):'';
 		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['kboard_content']))):'';
-		$this->date = isset($_POST['date'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['date']))):'';
-		$this->category1 = isset($_POST['category1'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['category1']))):'';
-		$this->category2 = isset($_POST['category2'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['category2']))):'';
-		$this->secret = isset($_POST['secret'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['secret']))):'';
-		$this->notice = isset($_POST['notice'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['notice']))):'';
+		$this->date = isset($_POST['date'])?kboard_htmlclear(trim($_POST['date'])):'';
+		$this->category1 = isset($_POST['category1'])?kboard_htmlclear(trim($_POST['category1'])):'';
+		$this->category2 = isset($_POST['category2'])?kboard_htmlclear(trim($_POST['category2'])):'';
+		$this->secret = isset($_POST['secret'])?kboard_htmlclear(trim($_POST['secret'])):'';
+		$this->notice = isset($_POST['notice'])?kboard_htmlclear(trim($_POST['notice'])):'';
 		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'3';
-		$this->password = isset($_POST['password'])?kboard_xssfilter(kboard_htmlclear(trim($_POST['password']))):'';
+		$this->password = isset($_POST['password'])?kboard_htmlclear(trim($_POST['password'])):'';
 		
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
