@@ -1,0 +1,8 @@
+@charset "utf-8";
+/**
+ * @author http://www.cosmosfarm.com/
+ */
+
+#kboard_media_background { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; z-index: 99999; }
+#kboard_media_wrapper { position: fixed; left: 0; top: 0; margin: 10px; overflow: auto; -webkit-overflow-scrolling: touch; z-index: 99999; }
+#kboard_media_wrapper iframe { margin: 0; border: 0; width: 100%; height: 100%; }

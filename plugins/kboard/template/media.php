@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css">
 	<style>
 	* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
-	html,body { margin: 0; padding: 0; }
+	html,body { margin: 0; padding: 0; background-color: white; }
 	img { border: 0; }
 	.kboard-media-header { padding: 0 20px; font-size: 20px; overflow: hidden; }
 	.kboard-media-header .title { float: left; padding-right: 10px; line-height: 64px; }
@@ -64,7 +64,7 @@
 		<div class="controller">
 			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> <?php echo __('업로드', 'kboard')?></a>
 			<a href="javascript:void(0)" class="header-button selected-insert-button kboard-hide" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>
-			<a href="javascript:void(0)" class="header-button" onclick="window.close();return false;" title="<?php echo __('창닫기', 'kboard')?>"><?php echo __('창닫기', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button" onclick="kboard_media_close();return false;" title="<?php echo __('창닫기', 'kboard')?>"><?php echo __('창닫기', 'kboard')?></a>
 		</div>
 	</div>
 </form>
@@ -112,16 +112,22 @@ function kboard_selected_media_insert(){
 	var index = 0;
 	jQuery('input[name=media_src]:checked').each(function(){
 		var media_src = jQuery(this).val();
-		if(media_src) opener.kboard_editor_insert_media(media_src);
+		if(media_src){
+			parent.kboard_editor_insert_media(media_src);
+		}
 		if(++index == total){
-			if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')) window.close();
+			if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')){
+				kboard_media_close();
+			}
 		}
 	});
 }
 function kboard_media_insert(media_src){
 	if(media_src){
-		opener.kboard_editor_insert_media(media_src);
-		if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')) window.close();
+		parent.kboard_editor_insert_media(media_src);
+		if(confirm('<?php echo __('선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?', 'kboard')?>')){
+			kboard_media_close();
+		}
 	}
 }
 function kboard_media_delete(media_uid){
@@ -137,21 +143,25 @@ function kboard_media_form_execute(form){
 	jQuery('.kboard-loading').removeClass('kboard-hide');
 	return true;
 }
+function kboard_media_close(){
+	parent.kboard_media_close();
+	window.close();
+}
 jQuery(document).ready(function($){
-	$('.upload-button').each(function(){
-		var button = $(this);
-		var allow = $('form').attr('data-allow');
+	jQuery('.upload-button').each(function(){
+		var button = jQuery(this);
+		var allow = jQuery('form').attr('data-allow');
 		var input = function(){
-			var obj = $('<input type="file" accept="image/*" multiple>').attr('name', $(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).hide().change(function(){
+			var obj = jQuery('<input type="file" accept="image/*" multiple>').attr('name', jQuery(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).hide().change(function(){
 				var extension = "\.("+allow+")$";
-				var files = $(this).get(0).files;
+				var files = jQuery(this).get(0).files;
 				if(files){
 					var total = files.length;
 					var index = 0;
-					$.each(files, function(i, file){
+					jQuery.each(files, function(i, file){
 						if(!(new RegExp(extension, "i")).test(file.name)){
 							alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
-							$(input).remove();
+							jQuery(input).remove();
 							event(input());
 							return false;
 						}
@@ -164,9 +174,9 @@ jQuery(document).ready(function($){
 					});
 				}
 				else{
-					if(!(new RegExp(extension, "i")).test($(this).val())){
+					if(!(new RegExp(extension, "i")).test(jQuery(this).val())){
 						alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
-						$(input).remove();
+						jQuery(input).remove();
 						event(input());
 						return false;
 					}
@@ -178,9 +188,9 @@ jQuery(document).ready(function($){
 			return obj;
 		}
 		var event = function(event_input){
-			$(button).css({'position':'relative', 'overflow':'hidden'}).append(event_input).on('mousemove', function(event){
-				var left = event.pageX - $(this).offset().left - $(event_input).width() + 10;
-				var top = event.pageY - $(this).offset().top - 10;
+			jQuery(button).css({'position':'relative', 'overflow':'hidden'}).append(event_input).on('mousemove', function(event){
+				var left = event.pageX - jQuery(this).offset().left - jQuery(event_input).width() + 10;
+				var top = event.pageY - jQuery(this).offset().top - 10;
 				event_input.css({'left':left, 'top':top});
 			}).hover(function(){
 				event_input.show();
@@ -189,7 +199,7 @@ jQuery(document).ready(function($){
 			}).keydown(function(e){
 				if(e.keyCode == 13){
 					e.preventDefault();
-					$('input[type=file]', button)[0].click();
+					jQuery('input[type=file]', button)[0].click();
 				}
 			});
 		}

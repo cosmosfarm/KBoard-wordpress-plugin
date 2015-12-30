@@ -466,6 +466,9 @@ function kboard_upgrade(){
 	}
 }
 
+/*
+ * 전체 게시글 리스트
+ */
 function kboard_content_list(){
 	include_once 'class/KBContentListTable.class.php';
 	$table = new KBContentListTable();
@@ -672,6 +675,17 @@ function kboard_style(){
 	foreach($skin->getActiveList() as $key => $value){
 		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH . "/skin/{$value}/style.css", array(), KBOARD_VERSION);
 	}
+}
+
+/*
+ * 스크립트와 스타일 파일 등록
+ */
+add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
+function kboard_scripts(){
+	wp_enqueue_script('jquery');
+	
+	// KBoard 이미지 삽입하기 스타일 속성 등록
+	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH.'/template/css/editor_media.css', array(), KBOARD_VERSION);
 	
 	// 번역 등록
 	$localize = array(
