@@ -26,10 +26,10 @@ class KBCommentList {
 	public function init(){
 		global $wpdb;
 		if($this->content_uid){
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->content_uid' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `uid` $this->order");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `uid` {$this->order}");
 		}
 		else{
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `uid` $this->order LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `uid` {$this->order} LIMIT ".($this->page-1)*$this->rpp.",{$this->rpp}");
 		}
 		return $this->resource;
 	}
@@ -50,8 +50,8 @@ class KBCommentList {
 	public function initWithParentUID($parent_uid){
 		global $wpdb;
 		$this->parent_uid = $parent_uid;
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='$this->parent_uid' ORDER BY `uid` $this->order");
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='$this->parent_uid'");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY `uid` {$this->order}");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'");
 	}
 	
 	/**
@@ -69,7 +69,7 @@ class KBCommentList {
 		global $wpdb;
 		if(is_null($this->total)){
 			if($this->content_uid){
-				$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->content_uid'");
+				$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}'");
 			}
 			else{
 				$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE 1");
@@ -106,7 +106,7 @@ class KBCommentList {
 	public function getComment($uid){
 		global $wpdb;
 		$uid = intval($uid);
-		$row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid' LIMIT 1");
+		$row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}' LIMIT 1");
 		
 		if($row){
 			$comment = new KBComment();
@@ -131,16 +131,16 @@ class KBCommentList {
 		$content_uid = $this->content_uid;
 		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);
-		$user_display = addslashes(kboard_xssfilter(kboard_htmlclear(trim($user_display))));
-		$content = addslashes(kboard_xssfilter(trim($content)));
-		$password = addslashes(kboard_xssfilter(kboard_htmlclear(trim($password))));
-		$created = current_time('YmdHis');
+		$user_display = esc_sql(kboard_htmlclear(trim($user_display)));
+		$content = esc_sql(kboard_xssfilter(trim($content)));
+		$password = esc_sql(kboard_htmlclear(trim($password)));
+		$created = date('YmdHis', current_time('timestamp'));
 		
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `created`, `password`) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$created', '$password')");
 		$insert_id = $wpdb->insert_id;
 		
 		// 댓글 숫자를 게시물에 등록한다.
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1 WHERE `uid`='".$content_uid."'");
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1 WHERE `uid`='{$content_uid}'");
 		
 		// 댓글 입력 액션 훅 실행
 		do_action('kboard_comments_insert', $insert_id, $content_uid);
@@ -169,10 +169,10 @@ class KBCommentList {
 		// 댓글 삭제 액션 훅 실행
 		do_action('kboard_comments_delete', $uid, $content_uid);
 		
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid'");
+		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}'");
 		
 		// 게시물의 댓글 숫자를 변경한다.
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='".$content_uid."'");
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$content_uid}'");
 		
 		// 자식 댓글을 삭제한다.
 		$this->deleteChildren($uid);
@@ -196,12 +196,12 @@ class KBCommentList {
 			$this->setContentUID($content_uid);
 		}
 		
-		$resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='$parent_uid'");
-		foreach($resource as $key => $child){
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$child->uid'");
+		$resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$parent_uid}'");
+		foreach($resource as $key=>$child){
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$child->uid}'");
 			
 			// 게시물의 댓글 숫자를 변경한다.
-			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='".$content_uid."'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$content_uid}'");
 			
 			// 자식 댓글을 삭제한다.
 			$this->deleteChildren($child->uid);
