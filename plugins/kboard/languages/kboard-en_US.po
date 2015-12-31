@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2015-12-31 01:33+0900\n"
-"PO-Revision-Date: 2015-12-31 01:34+0900\n"
+"POT-Creation-Date: 2015-12-31 22:25+0900\n"
+"PO-Revision-Date: 2015-12-31 22:25+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -284,7 +284,7 @@ msgid "KBoard : 게시판"
 msgstr "KBoard : Forum"
 
 #: index.php:96 index.php:692 template/media.php:9 template/media.php:64
-msgid "KBoard 이미지 삽입하기"
+msgid "KBoard 미디어 삽입하기"
 msgstr "KBoard Add Media"
 
 #: index.php:121 index.php:146

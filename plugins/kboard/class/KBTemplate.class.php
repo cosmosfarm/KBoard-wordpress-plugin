@@ -29,7 +29,7 @@ class KBTemplate {
 	 * @param int $board_id
 	 */
 	public function board($board_id){
-		global $wpdb;
+		global $wpdb, $wp_scripts, $wp_styles;
 		$meta = new KBoardMeta($board_id);
 		if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
 			include_once KBOARD_DIR_PATH . '/template/board.php';

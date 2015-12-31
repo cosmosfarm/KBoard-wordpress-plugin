@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="robots" content="noindex">
-	<title><?php echo __('KBoard 이미지 삽입하기', 'kboard')?></title>
+	<title><?php echo __('KBoard 미디어 삽입하기', 'kboard')?></title>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -61,7 +61,7 @@
 	<input type="hidden" name="media_uid" value="">
 	
 	<div class="kboard-media-header">
-		<div class="title"><?php echo __('KBoard 이미지 삽입하기', 'kboard')?></div>
+		<div class="title"><?php echo __('KBoard 미디어 삽입하기', 'kboard')?></div>
 		<div class="controller">
 			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> <?php echo __('업로드', 'kboard')?></a>
 			<a href="javascript:void(0)" class="header-button" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>

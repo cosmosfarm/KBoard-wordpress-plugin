@@ -31,13 +31,17 @@
 	<link rel="stylesheet" id="kboard-comments-skin-<?php echo $row->value?>-css"  href='<?php echo KBOARD_COMMENTS_URL_PATH?>/skin/<?php echo $row->value?>/style.css?ver=<?php echo KBOARD_COMMNETS_VERSION?>' type="text/css" media="all">
 	<?php endif; endforeach;?>
 	
-	<script src="<?php echo includes_url('/js/jquery/jquery.js')?>"></script>
-	<script src="<?php echo includes_url('/js/jquery/jquery-migrate.min.js')?>"></script>
+	<?php
+	kboard_scripts();
+	$wp_styles->do_item('kboard-editor-media');
+	$wp_scripts->print_scripts('jquery');
+	?>
+	
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
 	<style>
-	a {color:#545861;}
-	#wpadminbar {display:none;}
+	a { color: #545861; }
+	#wpadminbar { display: none; }
 	</style>
 </head>
 <body>

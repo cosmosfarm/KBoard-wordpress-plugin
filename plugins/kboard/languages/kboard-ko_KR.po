@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2015-12-31 01:31+0900\n"
-"PO-Revision-Date: 2015-12-31 01:32+0900\n"
+"POT-Creation-Date: 2015-12-31 22:19+0900\n"
+"PO-Revision-Date: 2015-12-31 22:24+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -36,7 +36,7 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBAdminController.class.php:19 class/KBAdminController.class.php:54
 #: index.php:241 index.php:364 index.php:412
 msgid "관리 권한이 없습니다."
-msgstr ""
+msgstr "관리 권한이 없습니다."
 
 #: class/KBAdminController.class.php:30 class/KBAdminController.class.php:32
 #: class/KBController.class.php:136 class/KBController.class.php:138
@@ -47,15 +47,15 @@ msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
 #: class/KBAdminController.class.php:67
 msgid "복원파일의 데이터로 복구 되었습니다."
-msgstr ""
+msgstr "복원파일의 데이터로 복구 되었습니다."
 
 #: class/KBAdminController.class.php:70
 msgid "올바른 복원파일이 아닙니다."
-msgstr ""
+msgstr "올바른 복원파일이 아닙니다."
 
 #: class/KBAdminController.class.php:75
 msgid "파일 업로드에 실패 했습니다."
-msgstr ""
+msgstr "파일 업로드에 실패 했습니다."
 
 #: class/KBContent.class.php:138
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
@@ -72,60 +72,60 @@ msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화
 
 #: class/KBContentListTable.class.php:33
 msgid "게시글이 없습니다."
-msgstr ""
+msgstr "게시글이 없습니다."
 
 #: class/KBContentListTable.class.php:39
 msgid "게시판"
-msgstr ""
+msgstr "게시판"
 
 #: class/KBContentListTable.class.php:40
 msgid "제목/내용"
-msgstr ""
+msgstr "제목/내용"
 
 #: class/KBContentListTable.class.php:41
 msgid "작성자"
-msgstr ""
+msgstr "작성자"
 
 #: class/KBContentListTable.class.php:42
 msgid "조회수"
-msgstr ""
+msgstr "조회수"
 
 #: class/KBContentListTable.class.php:43
 msgid "비밀글"
-msgstr ""
+msgstr "비밀글"
 
 #: class/KBContentListTable.class.php:44
 msgid "공지사항"
-msgstr ""
+msgstr "공지사항"
 
 #: class/KBContentListTable.class.php:45
 msgid "작성일"
-msgstr ""
+msgstr "작성일"
 
 #: class/KBContentListTable.class.php:51
 msgid "게시판 변경"
-msgstr ""
+msgstr "게시판 변경"
 
 #: class/KBContentListTable.class.php:52 class/KBoardListTable.class.php:56
 #: template/media.php:84
 msgid "삭제"
-msgstr ""
+msgstr "삭제"
 
 #: class/KBContentListTable.class.php:78
 msgid "답글입니다."
-msgstr ""
+msgstr "답글입니다."
 
 #: class/KBContentListTable.class.php:85
 msgid "새창열기"
-msgstr ""
+msgstr "새창열기"
 
 #: class/KBContentListTable.class.php:99 class/KBContentListTable.class.php:102
 msgid "예"
-msgstr ""
+msgstr "예"
 
 #: class/KBContentListTable.class.php:99 class/KBContentListTable.class.php:102
 msgid "아니오"
-msgstr ""
+msgstr "아니오"
 
 #: class/KBController.class.php:45 class/KBController.class.php:59
 #: class/KBController.class.php:64 class/KBController.class.php:68
@@ -149,23 +149,23 @@ msgstr "로그인 하셔야 사용할 수 있습니다."
 #: class/KBFileHandler.class.php:229 class/KBFileHandler.class.php:301
 #, php-format
 msgid "%s 파일이 올바르게 업로드되지 않았습니다."
-msgstr ""
+msgstr "%s 파일이 올바르게 업로드되지 않았습니다."
 
 #: class/KBFileHandler.class.php:237 class/KBFileHandler.class.php:311
 #, php-format
 msgid "%s 파일은 업로드 가능한 파일 형식이 아닙니다."
-msgstr ""
+msgstr "%s 파일은 업로드 가능한 파일 형식이 아닙니다."
 
 #: class/KBFileHandler.class.php:245 class/KBFileHandler.class.php:321
 #, php-format
 msgid "%s 파일의 용량이 너무 큽니다."
-msgstr ""
+msgstr "%s 파일의 용량이 너무 큽니다."
 
 #: class/KBFileHandler.class.php:253 class/KBFileHandler.class.php:263
 #: class/KBFileHandler.class.php:331 class/KBFileHandler.class.php:344
 #, php-format
 msgid "%s 파일 업로드 중 오류가 발생했습니다."
-msgstr ""
+msgstr "%s 파일 업로드 중 오류가 발생했습니다."
 
 #: class/KBRouter.class.php:131
 msgid "Go home"
@@ -209,280 +209,284 @@ msgstr "글이 없습니다."
 
 #: class/KBoardListTable.class.php:37
 msgid "게시판이 없습니다."
-msgstr ""
+msgstr "게시판이 없습니다."
 
 #: class/KBoardListTable.class.php:43
 msgid "썸네일"
-msgstr ""
+msgstr "썸네일"
 
 #: class/KBoardListTable.class.php:44
 msgid "게시판 이름"
-msgstr ""
+msgstr "게시판 이름"
 
 #: class/KBoardListTable.class.php:45
 msgid "설치된 페이지"
-msgstr ""
+msgstr "설치된 페이지"
 
 #: class/KBoardListTable.class.php:46
 msgid "스킨"
-msgstr ""
+msgstr "스킨"
 
 #: class/KBoardListTable.class.php:47
 msgid "읽기권한"
-msgstr ""
+msgstr "읽기권한"
 
 #: class/KBoardListTable.class.php:48
 msgid "쓰기권한"
-msgstr ""
+msgstr "쓰기권한"
 
 #: class/KBoardListTable.class.php:49
 msgid "댓글쓰기권한"
-msgstr ""
+msgstr "댓글쓰기권한"
 
 #: class/KBoardListTable.class.php:50
 msgid "생성일자"
-msgstr ""
+msgstr "생성일자"
 
 #: class/KBoardListTable.class.php:76 class/KBoardListTable.class.php:80
 msgid "편집"
-msgstr ""
+msgstr "편집"
 
 #: class/KBoardListTable.class.php:87
 msgid "페이지 보기"
-msgstr ""
+msgstr "페이지 보기"
 
 #: class/KBoardListTable.class.php:92
 msgid "페이지 연결 없음"
-msgstr ""
+msgstr "페이지 연결 없음"
 
 #: helper/Functions.helper.php:153
 msgid "제한없음"
-msgstr ""
+msgstr "제한없음"
 
 #: helper/Functions.helper.php:156
 msgid "로그인 사용자"
-msgstr ""
+msgstr "로그인 사용자"
 
 #: helper/Functions.helper.php:159
 msgid "선택된 관리자"
-msgstr ""
+msgstr "선택된 관리자"
 
 #: helper/Functions.helper.php:162
 msgid "최고관리자"
-msgstr ""
+msgstr "최고관리자"
 
 #: helper/Functions.helper.php:165
 msgid "직접선택"
-msgstr ""
+msgstr "직접선택"
 
 #: index.php:15
 msgid "KBoard : 게시판"
 msgstr "KBoard : 게시판"
 
 #: index.php:96 index.php:692 template/media.php:9 template/media.php:64
-msgid "KBoard 이미지 삽입하기"
-msgstr ""
+msgid "KBoard 미디어 삽입하기"
+msgstr "KBoard 미디어 삽입하기"
 
 #: index.php:121 index.php:146
 msgid "게시판 생성"
-msgstr ""
+msgstr "게시판 생성"
 
 #: index.php:144
 msgid "대시보드"
-msgstr ""
+msgstr "대시보드"
 
 #: index.php:145
 msgid "게시판 목록"
-msgstr ""
+msgstr "게시판 목록"
 
 #: index.php:147
 msgid "최신글 뷰 목록"
-msgstr ""
+msgstr "최신글 뷰 목록"
 
 #: index.php:148
 msgid "최신글 뷰 생성"
-msgstr ""
+msgstr "최신글 뷰 생성"
 
 #: index.php:149
 msgid "백업 및 복구"
-msgstr ""
+msgstr "백업 및 복구"
 
 #: index.php:150
 msgid "전체 게시글"
-msgstr ""
+msgstr "전체 게시글"
 
 #: index.php:153
 msgid "게시판 업데이트"
-msgstr ""
+msgstr "게시판 업데이트"
 
 #: index.php:157 index.php:158 pages/welcome.php:31
 msgid "스토어"
-msgstr ""
+msgstr "스토어"
 
 #: index.php:161
 msgid "전체 댓글"
-msgstr ""
+msgstr "전체 댓글"
 
 #: pages/kboard_backup.php:5
 msgid "KBoard : 백업 및 복구"
-msgstr ""
+msgstr "KBoard : 백업 및 복구"
 
 #: pages/kboard_backup.php:6 pages/kboard_content_list.php:6
 #: pages/kboard_dashboard.php:6 pages/kboard_latestview.php:6
 #: pages/kboard_latestview_setting.php:11 pages/kboard_list.php:6
 #: pages/kboard_setting.php:11 pages/kboard_store.php:7
 msgid "홈페이지"
-msgstr ""
+msgstr "홈페이지"
 
 #: pages/kboard_backup.php:7 pages/kboard_content_list.php:7
 #: pages/kboard_dashboard.php:7 pages/kboard_latestview.php:7
 #: pages/kboard_latestview_setting.php:12 pages/kboard_list.php:7
 #: pages/kboard_setting.php:12 pages/kboard_store.php:8
 msgid "커뮤니티"
-msgstr ""
+msgstr "커뮤니티"
 
 #: pages/kboard_backup.php:8 pages/kboard_content_list.php:8
 #: pages/kboard_dashboard.php:8 pages/kboard_latestview.php:8
 #: pages/kboard_latestview_setting.php:13 pages/kboard_list.php:8
 #: pages/kboard_setting.php:13 pages/kboard_store.php:9
 msgid "고객지원"
-msgstr ""
+msgstr "고객지원"
 
 #: pages/kboard_backup.php:9 pages/kboard_content_list.php:9
 #: pages/kboard_dashboard.php:9 pages/kboard_latestview.php:9
 #: pages/kboard_latestview_setting.php:14 pages/kboard_list.php:9
 #: pages/kboard_setting.php:14 pages/kboard_store.php:10
 msgid "블로그"
-msgstr ""
+msgstr "블로그"
 
 #: pages/kboard_backup.php:14 pages/kboard_backup.php:19
 msgid "백업파일 다운로드"
-msgstr ""
+msgstr "백업파일 다운로드"
 
 #: pages/kboard_backup.php:20
 msgid ""
 "백업파일을 다운로드 받습니다. 파일은 xml 파일이며 복구하기를 통해 백업된 상태"
 "로 되돌릴 수 있습니다."
 msgstr ""
+"백업파일을 다운로드 받습니다. 파일은 xml 파일이며 복구하기를 통해 백업된 상태"
+"로 되돌릴 수 있습니다."
 
 #: pages/kboard_backup.php:25
 msgid "백업파일 선택"
-msgstr ""
+msgstr "백업파일 선택"
 
 #: pages/kboard_backup.php:31
 msgid "복구하기"
-msgstr ""
+msgstr "복구하기"
 
 #: pages/kboard_backup.php:32
 msgid ""
 "xml 파일을 선택하고 복구하기 버튼을 누르세요. 지금까지의 데이터는 삭제되고 복"
 "원파일 데이터를 입력합니다."
 msgstr ""
+"xml 파일을 선택하고 복구하기 버튼을 누르세요. 지금까지의 데이터는 삭제되고 복"
+"원파일 데이터를 입력합니다."
 
 #: pages/kboard_content_list.php:5
 msgid "KBoard : 전체 게시글"
-msgstr ""
+msgstr "KBoard : 전체 게시글"
 
 #: pages/kboard_content_list.php:13 pages/kboard_list.php:13
 msgid "검색"
-msgstr ""
+msgstr "검색"
 
 #: pages/kboard_dashboard.php:5
 msgid "KBoard : 대시보드"
-msgstr ""
+msgstr "KBoard : 대시보드"
 
 #: pages/kboard_dashboard.php:17
 msgid "시스템 설정"
-msgstr ""
+msgstr "시스템 설정"
 
 #: pages/kboard_latestview.php:5
 msgid "KBoard : 최신글 뷰"
-msgstr ""
+msgstr "KBoard : 최신글 뷰"
 
 #: pages/kboard_latestview_setting.php:10
 msgid "KBoard : 최신글 뷰 관리"
-msgstr ""
+msgstr "KBoard : 최신글 뷰 관리"
 
 #: pages/kboard_list.php:5
 msgid "KBoard : 게시판 목록"
-msgstr ""
+msgstr "KBoard : 게시판 목록"
 
 #: pages/kboard_setting.php:10
 msgid "KBoard : 게시판 관리"
-msgstr ""
+msgstr "KBoard : 게시판 관리"
 
 #: pages/kboard_setting.php:23
 msgid "기본설정"
-msgstr ""
+msgstr "기본설정"
 
 #: pages/kboard_setting.php:24
 msgid "권한설정"
-msgstr ""
+msgstr "권한설정"
 
 #: pages/kboard_setting.php:26
 msgid "고급설정"
-msgstr ""
+msgstr "고급설정"
 
 #: pages/kboard_setting.php:27
 msgid "소셜댓글"
-msgstr ""
+msgstr "소셜댓글"
 
 #: pages/kboard_setting.php:28
 msgid "확장설정"
-msgstr ""
+msgstr "확장설정"
 
 #: pages/kboard_setting.php:440
 msgid "변경 사항 저장"
-msgstr ""
+msgstr "변경 사항 저장"
 
 #: pages/kboard_store.php:5
 msgid "KBoard : 스토어"
-msgstr ""
+msgstr "KBoard : 스토어"
 
 #: pages/kboard_store.php:85 pages/kboard_store.php:90
 #: pages/kboard_store.php:93
 msgid "로그인"
-msgstr ""
+msgstr "로그인"
 
 #: pages/welcome.php:4
 msgid "코스모스팜 대시보드 입니다."
-msgstr ""
+msgstr "코스모스팜 대시보드 입니다."
 
 #: pages/welcome.php:5
 msgid "최신버전 확인 및 운영관련 기능을 사용할 수 있습니다."
-msgstr ""
+msgstr "최신버전 확인 및 운영관련 기능을 사용할 수 있습니다."
 
 #: pages/welcome.php:10
 msgid "KBoard 버전"
-msgstr ""
+msgstr "KBoard 버전"
 
 #: pages/welcome.php:13
 msgid "설치된 게시판 플러그인 버전"
-msgstr ""
+msgstr "설치된 게시판 플러그인 버전"
 
 #: pages/welcome.php:13 pages/welcome.php:18
 msgid "최신"
-msgstr ""
+msgstr "최신"
 
 #: pages/welcome.php:14 pages/welcome.php:19
 msgid "변경사항"
-msgstr ""
+msgstr "변경사항"
 
 #: pages/welcome.php:18
 msgid "설치된 댓글 플러그인 버전"
-msgstr ""
+msgstr "설치된 댓글 플러그인 버전"
 
 #: pages/welcome.php:33
 msgid "등록된 상품이 없습니다."
-msgstr ""
+msgstr "등록된 상품이 없습니다."
 
 #: pages/welcome.php:57
 msgid "다음 페이지에서 플러그인 모두를 업그레이드해주세요."
-msgstr ""
+msgstr "다음 페이지에서 플러그인 모두를 업그레이드해주세요."
 
 #: pages/welcome.php:61
 msgid "KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요."
-msgstr ""
+msgstr "KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요."
 
 #: rss.php:14 rss.php:16
 msgid "WordPress KBoard feed"
@@ -732,59 +736,59 @@ msgstr "연락처"
 
 #: template/media.php:66
 msgid "이미지 선택하기"
-msgstr ""
+msgstr "이미지 선택하기"
 
 #: template/media.php:66
 msgid "업로드"
-msgstr ""
+msgstr "업로드"
 
 #: template/media.php:67
 msgid "선택된 이미지 삽입하기"
-msgstr ""
+msgstr "선택된 이미지 삽입하기"
 
 #: template/media.php:67
 msgid "선택 삽입"
-msgstr ""
+msgstr "선택 삽입"
 
 #: template/media.php:68
 msgid "전체선택"
-msgstr ""
+msgstr "전체선택"
 
 #: template/media.php:69
 msgid "창닫기"
-msgstr ""
+msgstr "창닫기"
 
 #: template/media.php:77
 msgid "선택됨"
-msgstr ""
+msgstr "선택됨"
 
 #: template/media.php:83
 msgid "삽입"
-msgstr ""
+msgstr "삽입"
 
 #: template/media.php:90
 msgid "업로드된 이미지가 없습니다."
-msgstr ""
+msgstr "업로드된 이미지가 없습니다."
 
 #: template/media.php:90
 msgid "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
-msgstr ""
+msgstr "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
 
 #: template/media.php:95
 msgid "로딩중"
-msgstr ""
+msgstr "로딩중"
 
 #: template/media.php:134
 msgid "선택한 이미지가 없습니다."
-msgstr ""
+msgstr "선택한 이미지가 없습니다."
 
 #: template/media.php:143 template/media.php:153
 msgid "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
-msgstr ""
+msgstr "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
-msgstr ""
+msgstr "이미지 파일만 업로드 가능합니다."
 
 #~ msgid "WordPress"
 #~ msgstr "워드프레스"
