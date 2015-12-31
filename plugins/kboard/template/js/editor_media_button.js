@@ -51,6 +51,8 @@ function kboard_editor_open_media(){
 function kboard_editor_insert_media(url){
 	if(tinyMCE && tinyMCE.activeEditor){
 		tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, '<img src="'+url+'">');
+		tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
+		tinyMCE.activeEditor.selection.collapse(false);
     }
 }
 

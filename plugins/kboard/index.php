@@ -93,7 +93,7 @@ function kboard_init(){
  * 글쓰기 에디터에 미디어 추가하기 버튼을 추가한다.
  */
 function kboard_editor_button($context){
-	$context .= ' <button type="button" class="button" onclick="kboard_editor_open_media()">'.__('KBoard 미디어 삽입하기', 'kboard').'</button> ';
+	$context .= ' <button type="button" class="button" onclick="kboard_editor_open_media()">'.__('KBoard 미디어 추가', 'kboard').'</button> ';
 	return $context;
 }
 
@@ -684,12 +684,12 @@ add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
 function kboard_scripts(){
 	wp_enqueue_script('jquery');
 	
-	// KBoard 미디어 삽입하기 스타일 속성 등록
+	// KBoard 미디어 추가 스타일 속성 등록
 	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
 	
 	// 번역 등록
 	$localize = array(
-			'kboard_add_media' => __('KBoard 미디어 삽입하기', 'kboard')
+			'kboard_add_media' => __('KBoard 미디어 추가', 'kboard')
 	);
 	wp_localize_script('jquery', 'kboard_localize_strings', $localize);
 }

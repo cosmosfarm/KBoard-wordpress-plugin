@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2015-12-31 22:19+0900\n"
-"PO-Revision-Date: 2015-12-31 22:24+0900\n"
+"POT-Creation-Date: 2016-01-01 00:26+0900\n"
+"PO-Revision-Date: 2016-01-01 00:26+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -107,7 +107,7 @@ msgid "게시판 변경"
 msgstr "게시판 변경"
 
 #: class/KBContentListTable.class.php:52 class/KBoardListTable.class.php:56
-#: template/media.php:84
+#: template/media.php:86
 msgid "삭제"
 msgstr "삭제"
 
@@ -279,9 +279,9 @@ msgstr "직접선택"
 msgid "KBoard : 게시판"
 msgstr "KBoard : 게시판"
 
-#: index.php:96 index.php:692 template/media.php:9 template/media.php:64
-msgid "KBoard 미디어 삽입하기"
-msgstr "KBoard 미디어 삽입하기"
+#: index.php:96 index.php:692 template/media.php:9 template/media.php:66
+msgid "KBoard 미디어 추가"
+msgstr "KBoard 미디어 추가"
 
 #: index.php:121 index.php:146
 msgid "게시판 생성"
@@ -574,7 +574,7 @@ msgstr "글수정"
 #: skin/default/editor.php:94 skin/default/editor.php:101
 #: skin/thumbnail/document.php:95 skin/thumbnail/editor.php:86
 #: skin/thumbnail/editor.php:94 skin/thumbnail/editor.php:101
-#: template/media.php:160
+#: template/media.php:162
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
@@ -587,7 +587,7 @@ msgstr "글삭제"
 #: skin/customer/document.php:108 skin/customer/list.php:106
 #: skin/default/document.php:101 skin/default/list.php:106
 #: skin/thumbnail/document.php:101 skin/thumbnail/list.php:109
-#: template/media.php:90
+#: template/media.php:92
 msgid "KBoard is the best community software available for WordPress"
 msgstr "의미있는 워드프레스 게시판"
 
@@ -734,59 +734,59 @@ msgstr "이름"
 msgid "Phone number"
 msgstr "연락처"
 
-#: template/media.php:66
+#: template/media.php:68
 msgid "이미지 선택하기"
 msgstr "이미지 선택하기"
 
-#: template/media.php:66
+#: template/media.php:68
 msgid "업로드"
 msgstr "업로드"
 
-#: template/media.php:67
+#: template/media.php:69
 msgid "선택된 이미지 삽입하기"
 msgstr "선택된 이미지 삽입하기"
 
-#: template/media.php:67
+#: template/media.php:69
 msgid "선택 삽입"
 msgstr "선택 삽입"
 
-#: template/media.php:68
+#: template/media.php:70
 msgid "전체선택"
 msgstr "전체선택"
 
-#: template/media.php:69
+#: template/media.php:71
 msgid "창닫기"
 msgstr "창닫기"
 
-#: template/media.php:77
+#: template/media.php:79
 msgid "선택됨"
 msgstr "선택됨"
 
-#: template/media.php:83
+#: template/media.php:85
 msgid "삽입"
 msgstr "삽입"
 
-#: template/media.php:90
+#: template/media.php:92
 msgid "업로드된 이미지가 없습니다."
 msgstr "업로드된 이미지가 없습니다."
 
-#: template/media.php:90
+#: template/media.php:92
 msgid "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
 msgstr "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
 
-#: template/media.php:95
+#: template/media.php:97
 msgid "로딩중"
 msgstr "로딩중"
 
-#: template/media.php:134
+#: template/media.php:136
 msgid "선택한 이미지가 없습니다."
 msgstr "선택한 이미지가 없습니다."
 
-#: template/media.php:143 template/media.php:153
+#: template/media.php:145 template/media.php:155
 msgid "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 msgstr "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 
-#: template/media.php:187 template/media.php:202
+#: template/media.php:189 template/media.php:204
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "이미지 파일만 업로드 가능합니다."
 
