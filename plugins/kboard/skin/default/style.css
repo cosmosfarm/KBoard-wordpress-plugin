@@ -88,7 +88,7 @@ img { border: 0; }
 #kboard-default-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
 #kboard-default-document .kboard-comments-area { float: left; width: 100%; }
 #kboard-default-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
-#kboard-default-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; }
+#kboard-default-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; box-shadow: none; }
 #kboard-default-document .kboard-document-navi .navi-document-title { display: block; }
 #kboard-default-document .kboard-document-navi .navi-arrow { position: absolute; display: block; }
 #kboard-default-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 50%; }

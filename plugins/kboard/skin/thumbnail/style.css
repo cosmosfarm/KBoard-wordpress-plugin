@@ -91,7 +91,7 @@ img { border: 0; }
 #kboard-thumbnail-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
 #kboard-thumbnail-document .kboard-comments-area { float: left; width: 100%; }
 #kboard-thumbnail-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
-#kboard-thumbnail-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; }
+#kboard-thumbnail-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; box-shadow: none; }
 #kboard-thumbnail-document .kboard-document-navi .navi-document-title { display: block; }
 #kboard-thumbnail-document .kboard-document-navi .navi-arrow { position: absolute; display: block; }
 #kboard-thumbnail-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 50%; }
