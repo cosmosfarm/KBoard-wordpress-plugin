@@ -81,12 +81,6 @@ function kboard_init(){
 	
 	// SEO를 위해서 head에 정보 출력
 	$seo = new KBSeo();
-	
-	if(!is_admin()){
-		add_action('media_buttons_context',  'kboard_editor_button');
-		add_filter('mce_buttons', 'kboard_register_media_button');
-		add_filter('mce_external_plugins', 'kboard_add_media_button');
-	}
 }
 
 /*

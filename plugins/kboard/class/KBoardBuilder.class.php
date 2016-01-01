@@ -94,6 +94,13 @@ class KBoardBuilder {
 			
 			// 게시글 고유번호를 출력한다.
 			add_action('wp_footer', array($this, 'footerAddContentUID'));
+			
+			if($this->mod == 'editor'){
+				// KBoard 미디어 추가 기능 등록
+				add_action('media_buttons_context',  'kboard_editor_button');
+				add_filter('mce_buttons', 'kboard_register_media_button');
+				add_filter('mce_external_plugins', 'kboard_add_media_button');
+			}
 		}
 	}
 	
