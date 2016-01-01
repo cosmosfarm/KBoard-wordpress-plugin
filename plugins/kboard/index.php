@@ -320,7 +320,7 @@ function kboard_latestview(){
 		$latestview = new KBLatestview();
 		$latestview->initWithUID($_GET['latestview_uid']);
 		$linkedBoard = $latestview->getLinkedBoard();
-		$board = new KBoard();
+		$board_list = new KBoardList();
 		include_once 'pages/kboard_latestview_setting.php';
 	}
 	else{

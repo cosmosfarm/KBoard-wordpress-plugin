@@ -77,7 +77,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<div class="link-control-area-left">
 								<p>모아볼 게시판</p>
 								<select name="link" id="link" size="10" multiple="multiple">
-									<?php $board->getList(); while($board->hasNext()):?>
+									<?php $board_list->init(); while($board = $board_list->hasNext()):?>
 										<?php if(in_array($board->uid, $linkedBoard)):?>
 											<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
 										<?php endif?>
@@ -93,7 +93,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<div class="link-control-area-right">
 								<p>제외된 게시판</p>
 								<select name="unlink" id="unlink" size="10" multiple="multiple">
-									<?php $board->getList(); while($board->hasNext()):?>
+									<?php $board_list->init(); while($board = $board_list->hasNext()):?>
 										<?php if(!in_array($board->uid, $linkedBoard)):?>
 											<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
 										<?php endif?>
