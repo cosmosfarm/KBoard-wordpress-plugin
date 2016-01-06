@@ -283,8 +283,8 @@ function kboard_update(){
 			$meta->permission_comment_write_roles = serialize($_POST['permission_comment_write_roles']);
 		}
 		
-		// kboard_extends_setting 액션 실행
-		do_action('kboard_extends_setting', $meta, $board_id);
+		// kboard_extends_setting_update 액션 실행
+		do_action('kboard_extends_setting_update', $meta, $board_id);
 		
 		$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
 		if($auto_page){

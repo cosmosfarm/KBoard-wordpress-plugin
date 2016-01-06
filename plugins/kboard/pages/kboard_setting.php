@@ -432,7 +432,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tbody>
 			</table>
 			
-			<?php echo apply_filters('kboard_extends_setting', '', $board->uid)?>
+			<?php echo apply_filters('kboard_extends_setting', '', $meta, $board->uid)?>
 		</div>
 		<?php endif?>
 		
