@@ -82,7 +82,7 @@
 		</div>
 		<div class="media-control">
 			<input type="checkbox" name="media_src" value="<?php echo site_url($row->file_path)?>" data-media-uid="<?php echo $row->uid?>" onchange="kboard_media_select()">
-			<button type="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path)?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
+			<button type="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path, 'relative')?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
 			<button type="button" onclick="kboard_media_delete('<?php echo $row->uid?>');" title="<?php echo __('삭제', 'kboard')?>"><?php echo __('삭제', 'kboard')?></button>
 		</div>
 	</label>

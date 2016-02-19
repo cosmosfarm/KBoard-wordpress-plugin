@@ -120,7 +120,7 @@ function kboard_settings_link($links){
  */
 add_action('welcome_panel', 'kboard_welcome_panel');
 function kboard_welcome_panel(){
-	echo '<script>jQuery(document).ready(function($){$("div.welcome-panel-content").eq(0).hide();});</script>';
+	echo '<script>jQuery(document).ready(function($){jQuery("div.welcome-panel-content").eq(0).hide();});</script>';
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/welcome.php';
 }
