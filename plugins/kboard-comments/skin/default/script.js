@@ -5,29 +5,28 @@
 var console = window.console || { log: function() {} };
 
 function kboard_comments_execute(form){
-	var $ = jQuery.noConflict();
 	jQuery.fn.exists = function(){
 		return this.length>0;
 	};
 	
-	if($('input[name=member_display]', form).exists() && !$('input[name=member_display]', form).val()){
+	if(jQuery('input[name=member_display]', form).exists() && !jQuery('input[name=member_display]', form).val()){
 		alert(kboard_comments_localize.please_enter_a_author);
-		$('[name=member_display]', form).focus();
+		jQuery('[name=member_display]', form).focus();
 		return false;
 	}
-	else if($('input[name=password]', form).exists() && !$('input[name=password]', form).val()){
+	else if(jQuery('input[name=password]', form).exists() && !jQuery('input[name=password]', form).val()){
 		alert(kboard_comments_localize.please_enter_a_password);
-		$('input[name=password]', form).focus();
+		jQuery('input[name=password]', form).focus();
 		return false;
 	}
-	else if($('input[name=captcha]', form).exists() && !$('input[name=captcha]', form).val()){
+	else if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
 		alert(kboard_comments_localize.please_enter_the_CAPTCHA_code);
-		$('input[name=captcha]', form).focus();
+		jQuery('input[name=captcha]', form).focus();
 		return false;
 	}
-	else if($('textarea[name=content]', form).exists() && !$('textarea[name=content]', form).val()){
+	else if(jQuery('textarea[name=content]', form).exists() && !jQuery('textarea[name=content]', form).val()){
 		alert(kboard_comments_localize.type_the_content_of_the_comment);
-		$('textarea[name=content]', form).focus();
+		jQuery('textarea[name=content]', form).focus();
 		return false;
 	}
 	
@@ -42,16 +41,15 @@ function kboard_comments_open_confirm(url){
 }
 
 function kboard_comments_reply(obj, form_id, cancel_id){
-	var $ = jQuery.noConflict();
-	if($(obj).hasClass('kboard-reply-active')){
-		$(cancel_id).append($('.kboard-comments-form'));
-		$('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
+	if(jQuery(obj).hasClass('kboard-reply-active')){
+		jQuery(cancel_id).append(jQuery('.kboard-comments-form'));
+		jQuery('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
 	}
 	else{
-		$(form_id).append($('.kboard-comments-form'));
-		$('textarea[name=content]').focus();
-		$('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
-		$(obj).text(kboard_comments_localize.cancel).addClass('kboard-reply-active');
+		jQuery(form_id).append(jQuery('.kboard-comments-form'));
+		jQuery('textarea[name=content]').focus();
+		jQuery('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
+		jQuery(obj).text(kboard_comments_localize.cancel).addClass('kboard-reply-active');
 	}
 	
 	return false;

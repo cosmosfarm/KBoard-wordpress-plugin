@@ -2,6 +2,12 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
+Next version
+----------------------------------
+
+  1. 버그 수정
+
+
 4.2
 ----------------------------------
  
