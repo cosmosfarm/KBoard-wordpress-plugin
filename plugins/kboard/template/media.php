@@ -7,10 +7,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="robots" content="noindex">
 	<title><?php echo __('KBoard 미디어 추가', 'kboard')?></title>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css">
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<style>
 	* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
 	html,body { margin: 0; padding: 0; background-color: white; }

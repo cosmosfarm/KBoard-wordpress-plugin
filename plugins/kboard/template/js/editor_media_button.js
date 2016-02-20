@@ -39,7 +39,7 @@ function kboard_editor_open_media(){
 		init_window_size();
 		jQuery(window).resize(init_window_size);
 		
-		wrapper.append(jQuery('<iframe></iframe>').attr('src', '?action=kboard_media&board_id='+kbaord_board_id+'&media_group='+kbaord_media_group+'&content_uid='+kbaord_content_uid));
+		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', '?action=kboard_media&board_id='+kbaord_board_id+'&media_group='+kbaord_media_group+'&content_uid='+kbaord_content_uid));
 		jQuery('body').append(background).append(wrapper);
 		
 		if(!jQuery('input[name=media_group]').filter(function(){return this.value==kbaord_media_group}).length){
@@ -49,11 +49,16 @@ function kboard_editor_open_media(){
 }
 
 function kboard_editor_insert_media(url){
-	if(tinyMCE && tinyMCE.activeEditor){
+	if(typeof tinyMCE != 'undefined' && typeof tinyMCE.activeEditor != 'undefined'){
 		tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, '<img src="'+url+'">');
 		tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.getBody(), true);
 		tinyMCE.activeEditor.selection.collapse(false);
-    }
+	}
+	else{
+		jQuery('#kboard_content').val(function(index, value){ 
+		     return value + (!value?'':' ') + '<img src="'+url+'">';
+		});
+	}
 }
 
 function kboard_media_close(){
