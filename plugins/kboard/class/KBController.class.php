@@ -259,11 +259,13 @@ class KBController {
 		
 		$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
 		
-		list($path) = explode(DIRECTORY_SEPARATOR.'wp-content', dirname(__FILE__).DIRECTORY_SEPARATOR);
-		$path = $path.str_replace('/', DIRECTORY_SEPARATOR, $file_info->file_path);
-		$filename = str_replace(' ' ,'-', $file_info->file_name);
+		list($path) = explode('wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+		$file_info->full_path = $path . str_replace('/', DIRECTORY_SEPARATOR, $file_info->file_path);
+		$file_info->file_name = str_replace(' ' ,'-', $file_info->file_name);
 		
-		if(!$file_info->file_path || !file_exists($path)){
+		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id);
+		
+		if(!$file_info->file_path || !file_exists($file_info->full_path)){
 			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 		}
 		
@@ -276,17 +278,17 @@ class KBController {
 			$kboard_file_handler->deleteWithOvertime($temp_path, 60);
 			$kboard_file_handler->mkPath("{$temp_path}/{$unique_dir}");
 		
-			copy($path, "{$temp_path}/{$unique_dir}/{$filename}");
-			header('Location:' . $upload_dir['baseurl'] . "/kboard_temp/{$unique_dir}/{$filename}");
+			copy($file_info->full_path, "{$temp_path}/{$unique_dir}/{$file_info->file_name}");
+			header('Location:' . $upload_dir['baseurl'] . "/kboard_temp/{$unique_dir}/{$file_info->file_name}");
 		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
-			if($ie) $filename = iconv('UTF-8', 'EUC-KR//IGNORE', $filename);
+			if($ie) $file_info->file_name = iconv('UTF-8', 'EUC-KR//IGNORE', $file_info->file_name);
 		
-			header('Content-type: '.kboard_mime_type($path));
-			header('Content-Disposition: attachment; filename="'.$filename.'"');
+			header('Content-type: '.kboard_mime_type($file_info->full_path));
+			header('Content-Disposition: attachment; filename="'.$file_info->file_name.'"');
 			header('Content-Transfer-Encoding: binary');
-			header('Content-length: '.sprintf('%d', filesize($path)));
+			header('Content-length: '.sprintf('%d', filesize($file_info->full_path)));
 			header('Expires: 0');
 		
 			if($ie){
@@ -297,7 +299,7 @@ class KBController {
 				header('Pragma: no-cache');
 			}
 		
-			$fp = fopen($path, 'rb');
+			$fp = fopen($file_info->full_path, 'rb');
 			fpassthru($fp);
 			fclose($fp);
 		}
