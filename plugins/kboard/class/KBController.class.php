@@ -259,7 +259,7 @@ class KBController {
 		
 		$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
 		
-		list($path) = explode('wp-content', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+		list($path) = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__));
 		$file_info->full_path = $path . str_replace('/', DIRECTORY_SEPARATOR, $file_info->file_path);
 		$file_info->file_name = str_replace(' ' ,'-', $file_info->file_name);
 		
