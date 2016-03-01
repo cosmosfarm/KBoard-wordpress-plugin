@@ -415,7 +415,7 @@ class KBoardBuilder {
 		else{
 			$content->remove();
 			// 삭제뒤 게시판 리스트로 이동한다.
-			echo "<script>location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 	}
