@@ -51,15 +51,17 @@ include_once 'helper/Security.helper.php';
 include_once 'helper/Functions.helper.php';
 
 /*
+ * 애드온 파일 로딩
+ */
+foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
+	include_once $filename;
+}
+
+/*
  * KBoard 게시판 시작
  */
 add_action('init', 'kboard_init', 0);
 function kboard_init(){
-	
-	// 애드온 파일 로딩
-	foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
-		include_once $filename;
-	}
 	
 	// 게시판 페이지 이동
 	$router = new KBRouter();
