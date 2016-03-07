@@ -7,6 +7,7 @@
  */
 class KBCommentsBuilder {
 	
+	var $board;
 	var $board_id;
 	var $content_uid;
 	var $skin;

@@ -72,6 +72,7 @@ function kboard_comments_list(){
 add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
 	$commentBuilder = new KBCommentsBuilder();
+	$commentBuilder->board = $atts['board'];
 	$commentBuilder->board_id = $atts['board_id'];
 	$commentBuilder->content_uid = $atts['content_uid'];
 	$commentBuilder->permission_comment_write = $atts['permission_comment_write'];

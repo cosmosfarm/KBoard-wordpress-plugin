@@ -21,14 +21,17 @@
 				<?php if(is_user_logged_in()):?>
 				<input type="hidden" name="member_display" value="<?php echo $userdata->display_name?>">
 				<?php else:?>
-				<div class="comments-username">
-					<label class="comments-username-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label> <input type="text" id="comments_member_display" name="member_display" value="<?php echo $member_display?>">
+				<div class="comments-field">
+					<label class="comments-field-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label>
+					<input type="text" id="comments_member_display" name="member_display" value="<?php echo $member_display?>">
 				</div>
-				<div class="comments-password">
-					<label class="comments-password-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label> <input type="password" id="comments_password" name="password" value="">
+				<div class="comments-field">
+					<label class="comments-field-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label>
+					<input type="password" id="comments_password" name="password" value="">
 				</div>
-				<div class="comments-captcha">
-					<label class="comments-captcha-label" for="comments_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label> <input type="text" id="comments_captcha" name="captcha" value="">
+				<div class="comments-field">
+					<label class="comments-field-label" for="comments_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
+					<input type="text" id="comments_captcha" name="captcha" value="">
 				</div>
 				<?php endif?>
 				

@@ -129,6 +129,7 @@ class KBoard {
 				return $template->comments_plugin($this->meta);
 			}
 			else{
+				$args['board'] = $this;
 				$args['board_id'] = $this->id;
 				$args['content_uid'] = $content_uid;
 				$args['skin'] = $this->meta->comment_skin;

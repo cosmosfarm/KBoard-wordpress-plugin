@@ -51,6 +51,5 @@ function kboard_comments_reply(obj, form_id, cancel_id){
 		jQuery('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
 		jQuery(obj).text(kboard_comments_localize.cancel).addClass('kboard-reply-active');
 	}
-	
 	return false;
 }
