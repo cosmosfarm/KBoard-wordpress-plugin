@@ -26,7 +26,7 @@ img { border: 0; }
 #kboard-default-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
 #kboard-default-list .kboard-list table a { color: black; text-decoration: none; border: 0; box-shadow: none; }
 #kboard-default-list .kboard-list table tr { border: 0; }
-#kboard-default-list .kboard-list table td { padding: 10px 0; text-align: center; vertical-align: middle; }
+#kboard-default-list .kboard-list table td { padding: 10px 0; height: auto; text-align: center; vertical-align: middle; }
 #kboard-default-list .kboard-list table td.kboard-list-uid { width: 72px; }
 #kboard-default-list .kboard-list table td.kboard-list-title { width: auto; }
 #kboard-default-list .kboard-list table td.kboard-list-title img { display: inline; margin: 0; width: 16px; height: 16px; vertical-align: middle; }
