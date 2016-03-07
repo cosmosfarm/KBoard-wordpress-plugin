@@ -388,12 +388,14 @@ class KBoardBuilder {
 	 * 게시물 삭제 페이지를 생성한다. (완료 후 바로 리다이렉션)
 	 */
 	public function builderRemove(){
-		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
+		$url = new KBUrl();
+		
+		if(!strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
 			echo '<script>alert("KBoard : '.__('This page is restricted from external access.', 'kboard').'");</script>';
-			return;
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
 		}
 		
-		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
@@ -405,7 +407,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
 			}
 		}
 		
