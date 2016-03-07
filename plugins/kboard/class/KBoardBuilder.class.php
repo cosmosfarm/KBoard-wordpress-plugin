@@ -224,6 +224,7 @@ class KBoardBuilder {
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
+		$content->board = $board;
 		
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
@@ -309,6 +310,7 @@ class KBoardBuilder {
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
+		$content->board = $board;
 		
 		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){

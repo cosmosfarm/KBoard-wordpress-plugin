@@ -12,6 +12,7 @@ class KBContent {
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	var $skin_option_prefix = 'kboard_option_';
 	
+	var $board;
 	var $board_id;
 	var $option;
 	var $attach;
@@ -737,6 +738,23 @@ class KBContent {
 			$media->media_group = kboard_htmlclear(isset($_POST['media_group'])?$_POST['media_group']:'');
 			$media->createRelationships();
 		}
+	}
+	
+	/**
+	 * 게시글에서 댓글을 보여줄지 확인한다.
+	 */
+	public function visibleComments(){
+		if(isset($this->board->id) && $this->board->id){
+			$visible = $this->board->isComment();
+		}
+		else if($this->board_id){
+			$this->board = new KBoard($this->board_id);
+			$visible = $this->board->isComment();
+		}
+		else{
+			$visible = false;
+		}
+		return apply_filters('kboard_visible_comments', $visible, $this);
 	}
 	
 	/**

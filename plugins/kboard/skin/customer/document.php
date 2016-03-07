@@ -57,7 +57,7 @@
 		<?php endif?>
 	</div>
 	
-	<?php if($board->isComment()):?>
+	<?php if($content->visibleComments()):?>
 	<div class="kboard-comments-area"><?php echo $board->buildComment($content->uid)?></div>
 	<?php endif?>
 	
