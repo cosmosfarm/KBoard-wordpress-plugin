@@ -8,7 +8,8 @@ Next version
   1. KBoard 미디어 추가 기능 개선
   2. kboard_download_file 필터 추가
   3. kboard_visible_comments 필터 추가
-  4. 버그 수정
+  4. RSS 버그 수정
+  5. 버그 수정
 
 
 5.1
