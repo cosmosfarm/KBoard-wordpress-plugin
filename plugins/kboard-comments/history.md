@@ -6,6 +6,7 @@ Next version
 ----------------------------------
 
   1. 스킨 업데이트
+  2. kboard_comments_skin_list 필터 추가
   2. 버그 수정
 
 

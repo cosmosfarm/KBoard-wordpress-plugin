@@ -18,6 +18,7 @@ class KBCommentSkin {
 				$this->list[] = $file;
 			}
 		}
+		$this->list = apply_filters('kboard_comments_skin_list', $this->list);
 		closedir($dh);
 	}
 	
