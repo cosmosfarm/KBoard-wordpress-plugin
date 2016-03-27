@@ -130,7 +130,7 @@ class KBBackup {
 				// 새로운 content를 입력하기 위해서 posts테이블에 입력된 content를 삭제한다.
 				if(stristr($table, 'kboard_board_content')) $wpdb->query("DELETE FROM `{$wpdb->prefix}posts` WHERE `post_type`='kboard'");
 				
-				foreach($data as $key => $row){
+				foreach($data as $key=>$row){
 					$keys = array_keys($row);
 					$row_count = count($row);
 					

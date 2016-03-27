@@ -18,7 +18,13 @@ class KBSeo {
 		if($mod == 'document' && $uid){
 			$this->content->initWithUID($uid);
 			if($this->content->uid){
-				add_filter('wp_title', array($this, 'title'), 10, 2);
+				
+				if(current_theme_supports('title-tag')){
+					add_filter('document_title_parts', array($this, 'title'), 10, 1);
+				}
+				else{
+					add_filter('wp_title', array($this, 'title'), 10, 1);
+				}
 				
 				$is_display = false;
 				$board = new KBoard($this->content->board_id);
@@ -76,11 +82,16 @@ class KBSeo {
 	/**
 	 * 워드프레스 사이트 제목에 게시물 제목을 추가한다.
 	 * @param string $title
-	 * @param string $sep
 	 * @return string
 	 */
-	public function title($title, $sep){
-		return $this->getTitle() . " {$sep} {$title}";
+	public function title($title){
+		if(isset($title['title']) && $title['title']){
+			$new_title['title'] = $this->getTitle();
+			return $new_title;
+		}
+		else{
+			return $this->getTitle();
+		}
 	}
 	
 	/**

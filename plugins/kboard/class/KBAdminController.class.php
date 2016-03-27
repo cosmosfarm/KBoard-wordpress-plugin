@@ -43,7 +43,7 @@ class KBAdminController {
 			exit;
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_backup');
-		echo "<script>location.href='{$redirect_url}';</script>";
+		echo "<script>window.location.href='{$redirect_url}';</script>";
 		exit;
 	}
 	
@@ -76,7 +76,7 @@ class KBAdminController {
 			}
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_backup');
-		echo "<script>location.href='{$redirect_url}';</script>";
+		echo "<script>window.location.href='{$redirect_url}';</script>";
 		exit;
 	}
 }

@@ -74,7 +74,7 @@ class KBLatestview {
 					$data[] = "`$key`='$value'";
 				}
 			}
-			if($data) $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid' LIMIT 1");
+			if($data) $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_latestview` SET ".implode(',', $data)." WHERE `uid`='$this->uid'");
 		}
 	}
 	
@@ -84,7 +84,7 @@ class KBLatestview {
 	public function delete(){
 		global $wpdb;
 		if($this->uid){
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview` WHERE `uid`='$this->uid' LIMIT 1");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview` WHERE `uid`='$this->uid'");
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
 		}
 	}
@@ -109,7 +109,7 @@ class KBLatestview {
 		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid){
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id' LIMIT 1");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid' AND `board_id`='$board_id'");
 		}
 	}
 	

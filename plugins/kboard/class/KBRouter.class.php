@@ -38,7 +38,7 @@ class KBRouter {
 	public function contentRedirect($content_uid){
 		$content_url = $this->getContentURL($content_uid);
 		if($content_url){
-			header("Location:{$content_url}");
+			header("Location: {$content_url}");
 			exit;
 		}
 		$this->error();
@@ -89,7 +89,7 @@ class KBRouter {
 	public function boardRedirect($board_id){
 		$board_url = $this->getBoardURL($board_id);
 		if($board_url){
-			header("Location:{$board_url}");
+			header("Location: {$board_url}");
 			exit;
 		}
 		$this->error();
@@ -128,10 +128,9 @@ class KBRouter {
 	 * 오류 화면을 출력한다.
 	 */
 	private function error(){
-		if(!stristr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) $next = '<a href="'.site_url().'">'.__('Go home', 'kboard').'</a>';
+		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) $next = '<a href="'.home_url().'">'.__('Go home', 'kboard').'</a>';
 		else $next = '<a href="javascript:history.go(-1);">'.__('Go back', 'kboard').'</a>';
 		wp_die(__('It is an invalid access.', 'kboard').'<br>'.$next);
-		exit;
 	}
 }
 ?>
