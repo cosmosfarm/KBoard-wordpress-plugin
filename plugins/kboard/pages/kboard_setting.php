@@ -383,24 +383,24 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							먼저 <a href="http://www.cosmosfarm.com/plugin/comments" onclick="window.open(this.href);return false;">소셜댓글 플러그인</a> 관리사이트에서 이 워드프레스 사이트를 <a href="http://www.cosmosfarm.com/plugin/comments/create" onclick="window.open(this.href);return false;">등록</a>해주세요.
+							먼저 <a href="http://www.cosmosfarm.com/plugin/comments" onclick="window.open(this.href);return false;">코스모스팜 소셜댓글</a> 관리사이트에서 이 워드프레스 사이트를 <a href="http://www.cosmosfarm.com/plugin/comments/create" onclick="window.open(this.href);return false;">등록</a>해주세요.
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="comments_plugin_id">소셜댓글 플러그인 ID</label></th>
+						<th scope="row"><label for="comments_plugin_id">소셜댓글 ID</label></th>
 						<td>
 							<input type="text" name="comments_plugin_id" id="comments_plugin_id" value="<?php echo $meta->comments_plugin_id?>">
 							<p class="description"><a href="http://www.cosmosfarm.com/plugin/comments/sites" onclick="window.open(this.href);return false;">등록된 사이트</a> » 설치하기 페이지에 나와있는 ID값을 입력해주세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="use_comments_plugin">소셜댓글 플러그인 사용</label></th>
+						<th scope="row"><label for="use_comments_plugin">소셜댓글 사용</label></th>
 						<td>
 							<select name="use_comments_plugin" id="use_comments_plugin">
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->use_comments_plugin):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">게시판에 KBoard 댓글을 비활성화 하고 소셜댓글 플러그인을 사용합니다.</p>
+							<p class="description">게시판에 KBoard 댓글을 비활성화 하고 코스모스팜 소셜댓글을 사용합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
