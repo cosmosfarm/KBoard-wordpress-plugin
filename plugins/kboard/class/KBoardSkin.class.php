@@ -14,10 +14,11 @@ class KBoardSkin {
 		$dir = KBOARD_DIR_PATH . '/skin';
 		if($dh = @opendir($dir)){
 			while(($file = readdir($dh)) !== false){
-				if($file == "." || $file == "..") continue;
+				if($file == "." || $file == ".." || $file == "readme.txt") continue;
 				$this->list[] = $file;
 			}
 		}
+		$this->list = apply_filters('kboard_skin_list', $this->list);
 		closedir($dh);
 	}
 	
