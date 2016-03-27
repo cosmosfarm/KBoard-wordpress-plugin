@@ -38,7 +38,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<input type="text" name="board_name" size="30" value="<?php if(!$board->board_name):?>무명게시판 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $board->board_name?><?php endif?>" id="board_name">
 						</td>
 					</tr>
-					<?php if($board->uid):?>
 					<tr valign="top">
 						<th scope="row"><label for="auto_page">게시판 자동 설치</label></th>
 						<td>
@@ -52,6 +51,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p>
 						</td>
 					</tr>
+					<?php if($board->uid):?>
 					<tr valign="top">
 						<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
 						<td>
