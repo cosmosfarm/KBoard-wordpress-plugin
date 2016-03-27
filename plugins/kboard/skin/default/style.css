@@ -43,7 +43,7 @@ img { border: 0; }
 #kboard-default-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; line-height: 40px; list-style: none; text-align: center; border: 0; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
-#kboard-default-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; color: #999999; background-color: white; }
+#kboard-default-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; color: #999999; background-color: white; box-shadow: none; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li.active a { border: 1px solid #d9534f; color: white; background-color: #d9534f; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
