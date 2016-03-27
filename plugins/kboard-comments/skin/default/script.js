@@ -36,7 +36,7 @@ function kboard_comments_execute(form){
 function kboard_comments_open_confirm(url){
 	var width = 300;
 	var height = 150;
-	window.open(url, '', 'top='+(screen.availHeight*0.5-height*0.5)+',left='+(screen.availWidth*0.5-width*0.5)+',width='+width+',height='+height+',resizable=0,scrollbars=1');
+	window.open(url, 'kboard_comments_password_confirm', 'top='+(screen.availHeight*0.5-height*0.5)+',left='+(screen.availWidth*0.5-width*0.5)+',width='+width+',height='+height+',resizable=0,scrollbars=1');
 	return false;
 }
 
