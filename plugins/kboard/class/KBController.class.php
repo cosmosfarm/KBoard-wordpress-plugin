@@ -133,9 +133,9 @@ class KBController {
 			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
 		}
 		else{
-			wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+			wp_die(__('This page is restricted from external access.', 'kboard'));
 		}
-		if(!in_array($referer_host, array($host))) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard'));
 		
 		$uid = intval($_GET['uid']);
 		if(isset($_GET['file'])){
@@ -181,7 +181,7 @@ class KBController {
 		if($file == 'thumbnail') $content->removeThumbnail();
 		else $content->removeAttached($file);
 		
-		header("Location:{$referer}");
+		header("Location: {$referer}");
 		exit;
 	}
 	
@@ -201,9 +201,9 @@ class KBController {
 			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
 		}
 		else{
-			wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+			wp_die(__('This page is restricted from external access.', 'kboard'));
 		}
-		if(!in_array($referer_host, array($host))) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard'));
+		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard'));
 		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		if(isset($_GET['file'])){
@@ -279,7 +279,7 @@ class KBController {
 			$kboard_file_handler->mkPath("{$temp_path}/{$unique_dir}");
 		
 			copy($file_info->full_path, "{$temp_path}/{$unique_dir}/{$file_info->file_name}");
-			header('Location:' . $upload_dir['baseurl'] . "/kboard_temp/{$unique_dir}/{$file_info->file_name}");
+			header('Location: ' . $upload_dir['baseurl'] . "/kboard_temp/{$unique_dir}/{$file_info->file_name}");
 		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);

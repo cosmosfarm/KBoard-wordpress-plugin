@@ -8,8 +8,12 @@
 	<title><?php wp_title('')?></title>
 	
 	<?php
+	// SEO 정보 출력
 	$seo = new KBSeo();
 	$seo->init()->head();
+	
+	// 어드민바 제거
+	add_filter('show_admin_bar', '__return_false');
 	?>
 	
 	<link rel="stylesheet" id="font-awesome-ie7-css"  href="<?php echo KBOARD_URL_PATH?>/font-awesome/css/font-awesome.min.css?ver=<?php echo KBOARD_VERSION?>" type="text/css" media="all">
@@ -41,8 +45,8 @@
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
 	
 	<style>
+	html, body { margin: 0; padding: 0; width: 1px; min-width: 100%; *width: 100%; overflow: hidden; }
 	a { color: #545861; }
-	#wpadminbar { display: none; }
 	</style>
 </head>
 <body>

@@ -95,7 +95,7 @@ class KBoardBuilder {
 			// 게시글 고유번호를 출력한다.
 			add_action('wp_footer', array($this, 'footerAddContentUID'));
 			
-			// KBoard 미디어 추가 기능 등록
+			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
 			add_filter('mce_external_plugins', 'kboard_add_media_button');
@@ -167,7 +167,7 @@ class KBoardBuilder {
 	public function create(){
 		if($this->meta->view_iframe && !intval($_GET['kboard_id'])){
 			$url = new KBUrl();
-			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%;" scrolling="no" frameborder="0"></iframe>';
+			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 		}
 		
 		if($this->meta->pass_autop == 'enable'){
@@ -390,8 +390,8 @@ class KBoardBuilder {
 	public function builderRemove(){
 		$url = new KBUrl();
 		
-		if(!strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])){
-			echo '<script>alert("KBoard : '.__('This page is restricted from external access.', 'kboard').'");</script>';
+		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false){
+			echo '<script>alert("'.__('This page is restricted from external access.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}

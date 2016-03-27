@@ -521,7 +521,7 @@ class KBContent {
 				$file_path = strtolower($upload_dir['basedir'] . end($file_path));
 				$image_editor = wp_get_image_editor($file_path);
 				if(!is_wp_error($image_editor)){
-					$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1024, 1024));
+					$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1200, 1200));
 					$image_editor->resize($thumbnail_size[0], $thumbnail_size[0]);
 					$image_editor->save($file_path);
 				}
