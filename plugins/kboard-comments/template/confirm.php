@@ -17,18 +17,19 @@ $commentURL = new KBCommentUrl();
 $commentURL->setCommentUID($comment->uid);
 ?>
 <!DOCTYPE html>
-<html lang="ko">
+<html <?php language_attributes()?>>
 <head>
 	<meta charset="UTF-8">
-	<meta name="author" content="http://www.cosmosfarm.com/">
+	<meta name="viewport" content="width=device-width">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<title>KBoard - <?php echo __('Password confirmation', 'kboard-comments')?></title>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css">
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css">
 	<style>
-		fieldset { border: none; }
-		input { margin: 0; }
+	fieldset { border: none; }
+	input { margin: 0; }
 	</style>
 </head>
 <body>

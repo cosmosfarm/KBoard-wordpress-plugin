@@ -21,11 +21,18 @@ class KBCommentController {
 	 * 댓글 입력
 	 */
 	public function insert(){
+		header("Content-Type: text/html; charset=UTF-8");
+		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		
-		header("Content-Type: text/html; charset=UTF-8");
-		if(!stristr($referer, $host)) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard-comments'));
+		if($referer){
+			$url = parse_url($referer);
+			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
+		}
+		else{
+			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+		}
+		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		
 		$content = isset($_POST['content'])?$_POST['content']:'';
 		$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
@@ -70,7 +77,7 @@ class KBCommentController {
 		$commentList = new KBCommentList($content_uid);
 		$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
 		
-		header("Location:{$referer}");
+		header("Location: {$referer}");
 		exit;
 	}
 	
@@ -79,11 +86,19 @@ class KBCommentController {
 	 */
 	public function delete(){
 		global $user_ID;
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		
 		header("Content-Type: text/html; charset=UTF-8");
-		if(!stristr($referer, $host)) wp_die('KBoard : '.__('This page is restricted from external access.', 'kboard-comments'));
+		
+		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
+		if($referer){
+			$url = parse_url($referer);
+			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
+		}
+		else{
+			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+		}
+		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		
 		$userdata = $user_ID?get_userdata($user_ID):new stdClass();
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
@@ -113,7 +128,7 @@ class KBCommentController {
 		}
 		else{
 			// 삭제권한이 있는 사용자일 경우 팝업창은 없기 때문에 페이지 이동한다.
-			header("Location:{$referer}");
+			header("Location: {$referer}");
 		}
 		exit;
 	}
