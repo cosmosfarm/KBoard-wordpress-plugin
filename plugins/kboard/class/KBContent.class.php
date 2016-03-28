@@ -60,12 +60,11 @@ class KBContent {
 	 */
 	public function initWithUID($uid){
 		global $wpdb;
+		$uid = intval($uid);
 		if($uid){
 			$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$uid' LIMIT 1");
 			if($this->row){
 				$this->setBoardID($this->row->board_id);
-				$this->initOptions();
-				$this->initAttachedFiles();
 			}
 			else{
 				$this->row = new stdClass();
@@ -74,6 +73,8 @@ class KBContent {
 		else{
 			$this->row = new stdClass();
 		}
+		$this->initOptions();
+		$this->initAttachedFiles();
 		$this->execute_action = '';
 		return $this;
 	}
@@ -87,12 +88,12 @@ class KBContent {
 		if($row){
 			$this->row = $row;
 			$this->setBoardID($this->row->board_id);
-			$this->initOptions();
-			$this->initAttachedFiles();
 		}
 		else{
 			$this->row = new stdClass();
 		}
+		$this->initOptions();
+		$this->initAttachedFiles();
 		$this->execute_action = '';
 		return $this;
 	}
@@ -349,14 +350,7 @@ class KBContent {
 	 */
 	public function initOptions(){
 		global $wpdb;
-		if(!$this->uid) return '';
-		$option = array();
-		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->uid'", ARRAY_A);
-		foreach($result as $row){
-			$option[$row['option_key']] = stripslashes($row['option_value']);
-		}
-		$this->option = (object)$option;
-		return $option;
+		$this->option = new KBContentOption($this->uid);
 	}
 	
 	/**
@@ -391,25 +385,26 @@ class KBContent {
 				break;
 			}
 		}
-		if(!$upload_checker) return;
 		
-		$file = new KBFileHandler();
-		$file->setPath($this->attach_store_path);
-		
-		foreach($_FILES as $key=>$value){
-			if(strpos($key, $this->skin_attach_prefix) === false) continue;
-			$key = str_replace($this->skin_attach_prefix, '', $key);
-				
-			$upload = $file->upload($this->skin_attach_prefix . $key);
-			$original_name = $upload['original_name'];
-			$file_path = $upload['path'] . $upload['stored_name'];
-		
-			if($original_name){
-				$attach_file = new stdClass();
-				$attach_file->key = $key;
-				$attach_file->path = $file_path;
-				$attach_file->name = $original_name;
-				$this->upload_attach_files[] = $attach_file;
+		if($upload_checker){
+			$file = new KBFileHandler();
+			$file->setPath($this->attach_store_path);
+			
+			foreach($_FILES as $key=>$value){
+				if(strpos($key, $this->skin_attach_prefix) === false) continue;
+				$key = str_replace($this->skin_attach_prefix, '', $key);
+			
+				$upload = $file->upload($this->skin_attach_prefix . $key);
+				$original_name = $upload['original_name'];
+				$file_path = $upload['path'] . $upload['stored_name'];
+			
+				if($original_name){
+					$attach_file = new stdClass();
+					$attach_file->key = $key;
+					$attach_file->path = $file_path;
+					$attach_file->name = $original_name;
+					$this->upload_attach_files[] = $attach_file;
+				}
 			}
 		}
 	}
@@ -478,14 +473,16 @@ class KBContent {
 	function updateOptions(){
 		global $wpdb;
 		if($this->uid){
+			$this->option = new KBContentOption($this->uid);
 			foreach($_POST as $key=>$value){
+				$key = trim($key);
+				$value = trim($value);
 				if(strpos($key, $this->skin_option_prefix) !== false){
-					$key = esc_sql(kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key)));
-					$value = esc_sql(kboard_xssfilter(trim($value)));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUE ('$this->uid', '$key', '$value') ON DUPLICATE KEY UPDATE `option_value`='$value'");
+					$key = kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key));
+					$value = kboard_safeiframe(kboard_xssfilter($value));
+					$this->option->{$key} = $value;
 				}
 			}
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->uid' AND `option_value`=''");
 		}
 	}
 	

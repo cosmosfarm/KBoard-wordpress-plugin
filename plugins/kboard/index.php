@@ -32,6 +32,7 @@ include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
 include_once 'class/KBContentMedia.class.php';
+include_once 'class/KBContentOption.class.php';
 include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
 include_once 'class/KBoardList.class.php';
@@ -235,19 +236,9 @@ function kboard_update(){
 	global $wpdb;
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
-
+	
 	if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
-
-		$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
-		if($auto_page){
-			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
-			if($auto_page_board_id && $auto_page_board_id != $board_id){
-				$meta->auto_page = '';
-				echo '<script>alert("게시판 자동 설치 페이지에 이미 연결된 게시판이 존재합니다. 페이지당 하나의 게시판만 설치 가능합니다.");history.go(-1);</script>';
-				exit;
-			}
-		}
-
+		
 		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
 		$board_name = isset($_POST['board_name'])?addslashes($_POST['board_name']):'';
 		$skin = isset($_POST['skin'])?$_POST['skin']:'';
@@ -261,7 +252,17 @@ function kboard_update(){
 		$category1_list = isset($_POST['category1_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list'])))):'';
 		$category2_list = isset($_POST['category2_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list'])))):'';
 		$create = date('YmdHis', current_time('timestamp'));
-
+		
+		$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
+		if($auto_page){
+			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
+			if($auto_page_board_id && $auto_page_board_id != $board_id){
+				$meta->auto_page = '';
+				echo '<script>alert("게시판 자동 설치 페이지에 이미 연결된 게시판이 존재합니다. 페이지당 하나의 게시판만 설치 가능합니다.");history.go(-1);</script>';
+				exit;
+			}
+		}
+		
 		if(!$board_id){
 			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
 			$board_id = $wpdb->insert_id;
@@ -269,7 +270,7 @@ function kboard_update(){
 		else{
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
 		}
-
+		
 		$meta = new KBoardMeta($board_id);
 		$meta->auto_page = $auto_page;
 		$meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
@@ -387,7 +388,7 @@ function kboard_latestview_update(){
 		}
 	}
 	
-	die('<script>location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
+	die('<script>window.location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
 }
 
 /*
@@ -416,45 +417,45 @@ function kboard_upgrade(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
 			if($upgrader->getLatestVersion()->comments <= KBOARD_COMMNETS_VERSION){
-				die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+				die('<script>alert("최신버전 입니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 			}
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");location.href="' . admin_url('/plugins.php') . '"</script>');
+		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");window.location.href="' . admin_url('/plugins.php') . '"</script>');
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
-		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");location.href="' . admin_url('/themes.php') . '"</script>');
+		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");window.location.href="' . admin_url('/themes.php') . '"</script>');
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
 	}
 	else{
-		die('<script>alert("설치에 실패 했습니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("설치에 실패 했습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 }
 
