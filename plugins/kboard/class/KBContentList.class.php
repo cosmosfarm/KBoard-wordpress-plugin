@@ -41,8 +41,10 @@ class KBContentList {
 	 */
 	public function initWithKeyword($keyword=''){
 		global $wpdb;
-		if($keyword) $where = "`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%'";
-		else $where = '1';
+		if($keyword) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
+		if($this->board_id) $where[] = "`board_id`='$this->board_id'";
+		if(!isset($where) || !$where) $where[] = '1';
+		$where = implode(' AND ', $where);
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total;
@@ -55,10 +57,9 @@ class KBContentList {
 	 */
 	public function initWithRSS(){
 		global $wpdb;
-		$read = array();
 		$result = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_setting` WHERE `permission_read`='all'");
 		foreach($result as $row) $read[] = $row->uid;
-		if($read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
+		if(isset($read) && $read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
 		$where[] = "secret=''";
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
@@ -72,7 +73,7 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function setBoardID($board_id){
-		$this->board_id = $board_id;
+		$this->board_id = intval($board_id);
 		return $this;
 	}
 	
@@ -125,7 +126,7 @@ class KBContentList {
 	public function getList($keyword='', $search='title'){
 		global $wpdb;
 		if(is_array($this->board_id)){
-			foreach($this->board_id AS $key => $value){
+			foreach($this->board_id as $key=>$value){
 				$board_ids[] = "'$value'";
 			}
 			$board_ids = implode(',', $board_ids);
@@ -133,19 +134,20 @@ class KBContentList {
 		}
 		else $where[] = "`board_id`='$this->board_id'";
 		
-		$where[] = "`notice` LIKE ''";
+		$where[] = "`notice`=''";
 		if(!$keyword) $where[] = "`parent_uid`='0'";
 		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
 		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
-		if($this->col_category1) $where[] = "`category1` LIKE '$this->col_category1'";
-		if($this->col_category2) $where[] = "`category2` LIKE '$this->col_category2'";
+		if($this->col_category1) $where[] = "`category1`='$this->col_category1'";
+		if($this->col_category2) $where[] = "`category2`='$this->col_category2'";
 		
-		// kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
+		// kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
+		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id);
 		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id);
 		$orderby = apply_filters('kboard_list_orderby', '`date` DESC', $this->board_id);
 		
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM $from WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM $from WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total - (($this->page-1) * $this->rpp);
 		return $this->resource;
 	}
@@ -206,14 +208,14 @@ class KBContentList {
 	public function getNoticeList(){
 		global $wpdb;
 		if(is_array($this->board_id)){
-			foreach($this->board_id AS $key => $value){
+			foreach($this->board_id as $key=>$value){
 				$board_ids[] = "'$value'";
 			}
 			$board_ids = implode(',', $board_ids);
 			$where[] = "`board_id` IN ($board_ids)";
 		}
 		else $where[] = "`board_id`='$this->board_id'";
-		$where[] = "`notice`='true'";
+		$where[] = "`notice`!=''";
 		
 		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
 		return $this->resource_notice;

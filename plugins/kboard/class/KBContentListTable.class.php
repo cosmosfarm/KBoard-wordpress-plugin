@@ -8,6 +8,13 @@
 class KBContentListTable extends WP_List_Table {
 	
 	var $board_list;
+	var $filter_board_id;
+	
+	public function __construct(){
+		parent::__construct();
+		$this->filter_board_id = isset($_GET['filter_board_id'])&&$_GET['filter_board_id']?$_GET['filter_board_id']:'';
+		$this->filter_board_id = isset($_POST['filter_board_id'])?$_POST['filter_board_id']:$this->filter_board_id;
+	}
 	
 	public function prepare_items(){
 		$columns = $this->get_columns();
@@ -20,7 +27,7 @@ class KBContentListTable extends WP_List_Table {
 		
 		$keyword = isset($_GET['s'])?$_GET['s']:'';
 		
-		$list = new KBContentList();
+		$list = new KBContentList($this->filter_board_id);
 		$list->rpp = 20;
 		$list->page = $this->get_pagenum();
 		$list->initWithKeyword($keyword);
@@ -51,6 +58,30 @@ class KBContentListTable extends WP_List_Table {
 				'board_change' => __('게시판 변경', 'kboard'),
 				'delete' => __('삭제', 'kboard')
 		);
+	}
+	
+	public function display_tablenav($which){
+	?>
+		<div class="tablenav <?php echo esc_attr($which)?>">
+			<div class="alignleft actions bulkactions"><?php $this->bulk_actions($which)?></div>
+			<?php if($which=='top'):?>
+			<div class="alignleft actions">
+				<label class="screen-reader-text" for="filter-by-board-id">게시판으로 필터</label>
+				<select id="filter-by-board-id" name="filter_board_id" onchange="window.location.href='<?php echo admin_url('admin.php?page=kboard_content_list&filter_board_id=')?>'+this.value">
+					<option value="">전체 게시글</option>
+					<?php foreach($this->board_list->resource as $board):?>
+					<option value="<?php echo $board->uid?>"<?php if($this->filter_board_id == $board->uid):?> selected<?php endif?>><?php echo $board->board_name?></option>
+					<?php endforeach?>
+				</select>
+			</div>
+			<?php endif?>
+			<?php
+			$this->extra_tablenav($which);
+			$this->pagination($which);
+			?>
+			<br class="clear">
+		</div>
+	<?php
 	}
 	
 	public function display_rows(){

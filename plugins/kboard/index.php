@@ -332,7 +332,6 @@ function kboard_latestview(){
 				$latestview->delete();
 			}
 		}
-		
 		$latestviewList = new KBLatestviewList();
 		$latestviewList->init();
 		include_once 'pages/kboard_latestview.php';

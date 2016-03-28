@@ -108,6 +108,11 @@ class KBContent {
 		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['title']))):'';
 		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['kboard_content']))):'';
 		$this->date = isset($_POST['date'])?kboard_htmlclear(trim($_POST['date'])):'';
+		if(isset($_POST['view'])) $this->view = intval($_POST['view']);
+		if(isset($_POST['comment'])) $this->comment = intval($_POST['comment']);
+		if(isset($_POST['like'])) $this->like = intval($_POST['like']);
+		if(isset($_POST['unlike'])) $this->unlike = intval($_POST['unlike']);
+		if(isset($_POST['vote'])) $this->vote = intval($_POST['vote']);
 		$this->category1 = isset($_POST['category1'])?kboard_htmlclear(trim($_POST['category1'])):'';
 		$this->category2 = isset($_POST['category2'])?kboard_htmlclear(trim($_POST['category2'])):'';
 		$this->secret = isset($_POST['secret'])?kboard_htmlclear(trim($_POST['secret'])):'';

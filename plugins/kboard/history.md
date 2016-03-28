@@ -10,7 +10,8 @@ Next version
   3. kboard_visible_comments 필터 추가
   4. kboard_skin_list 필터 추가
   5. RSS 버그 수정
-  6. 버그 수정
+  6. 관리자 페이지에서 전체 게시글 관리 기능 개선
+  7. 버그 수정
 
 
 5.1
