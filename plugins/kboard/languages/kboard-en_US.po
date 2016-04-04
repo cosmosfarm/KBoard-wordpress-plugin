@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-04-04 23:40+0900\n"
-"PO-Revision-Date: 2016-04-04 23:40+0900\n"
+"POT-Creation-Date: 2016-04-05 00:18+0900\n"
+"PO-Revision-Date: 2016-04-05 00:18+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -285,7 +285,7 @@ msgstr "Select Role"
 msgid "KBoard : 게시판"
 msgstr "KBoard : Forum"
 
-#: index.php:93 index.php:684 template/media.php:9 template/media.php:64
+#: index.php:93 template/media.php:9 template/media.php:64
 msgid "KBoard 미디어 추가"
 msgstr "KBoard Add Media"
 
@@ -329,27 +329,32 @@ msgstr "Store"
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:685
+#: index.php:685 skin/avatar/editor.php:86 skin/customer/editor.php:95
+#: skin/default/editor.php:86 skin/thumbnail/editor.php:86
+msgid "KBoard Add Media"
+msgstr "KBoard Add Media"
+
+#: index.php:686
 msgid "Next"
 msgstr "Next"
 
-#: index.php:686
+#: index.php:687
 msgid "Prev"
 msgstr "Prev"
 
-#: index.php:687
+#: index.php:688
 msgid "Please enter the title."
 msgstr "Please enter the title."
 
-#: index.php:688
+#: index.php:689
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: index.php:689
+#: index.php:690
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
-#: index.php:690
+#: index.php:691
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
 
@@ -533,11 +538,11 @@ msgid "Document"
 msgstr "Document"
 
 #: skin/avatar/confirm.php:15 skin/avatar/document.php:95
-#: skin/avatar/editor.php:121 skin/customer/confirm.php:15
-#: skin/customer/document.php:96 skin/customer/editor.php:130
+#: skin/avatar/editor.php:128 skin/customer/confirm.php:15
+#: skin/customer/document.php:96 skin/customer/editor.php:137
 #: skin/default/confirm.php:15 skin/default/document.php:89
-#: skin/default/editor.php:121 skin/thumbnail/confirm.php:15
-#: skin/thumbnail/document.php:89 skin/thumbnail/editor.php:121
+#: skin/default/editor.php:128 skin/thumbnail/confirm.php:15
+#: skin/thumbnail/document.php:89 skin/thumbnail/editor.php:128
 msgid "List"
 msgstr "List"
 
@@ -574,13 +579,13 @@ msgid "Views"
 msgstr "Views"
 
 #: skin/avatar/document.php:48 skin/avatar/document.php:54
-#: skin/avatar/editor.php:92 skin/avatar/editor.php:99
+#: skin/avatar/editor.php:99 skin/avatar/editor.php:106
 #: skin/customer/document.php:49 skin/customer/document.php:55
-#: skin/customer/editor.php:101 skin/customer/editor.php:108
+#: skin/customer/editor.php:108 skin/customer/editor.php:115
 #: skin/default/document.php:42 skin/default/document.php:48
-#: skin/default/editor.php:92 skin/default/editor.php:99
+#: skin/default/editor.php:99 skin/default/editor.php:106
 #: skin/thumbnail/document.php:42 skin/thumbnail/document.php:48
-#: skin/thumbnail/editor.php:92 skin/thumbnail/editor.php:99
+#: skin/thumbnail/editor.php:99 skin/thumbnail/editor.php:106
 msgid "Attachment"
 msgstr "Attachment"
 
@@ -594,14 +599,14 @@ msgstr "Reply"
 msgid "Edit"
 msgstr "Edit"
 
-#: skin/avatar/document.php:101 skin/avatar/editor.php:86
-#: skin/avatar/editor.php:94 skin/avatar/editor.php:101
-#: skin/customer/document.php:102 skin/customer/editor.php:95
-#: skin/customer/editor.php:103 skin/customer/editor.php:110
-#: skin/default/document.php:95 skin/default/editor.php:86
-#: skin/default/editor.php:94 skin/default/editor.php:101
-#: skin/thumbnail/document.php:95 skin/thumbnail/editor.php:86
-#: skin/thumbnail/editor.php:94 skin/thumbnail/editor.php:101
+#: skin/avatar/document.php:101 skin/avatar/editor.php:93
+#: skin/avatar/editor.php:101 skin/avatar/editor.php:108
+#: skin/customer/document.php:102 skin/customer/editor.php:102
+#: skin/customer/editor.php:110 skin/customer/editor.php:117
+#: skin/default/document.php:95 skin/default/editor.php:93
+#: skin/default/editor.php:101 skin/default/editor.php:108
+#: skin/thumbnail/document.php:95 skin/thumbnail/editor.php:93
+#: skin/thumbnail/editor.php:101 skin/thumbnail/editor.php:108
 #: template/media.php:160
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
@@ -661,48 +666,53 @@ msgstr "Notice"
 
 #: skin/avatar/editor.php:84 skin/customer/editor.php:93
 #: skin/default/editor.php:84 skin/thumbnail/editor.php:84
+msgid "Photos"
+msgstr "Photos"
+
+#: skin/avatar/editor.php:91 skin/customer/editor.php:100
+#: skin/default/editor.php:91 skin/thumbnail/editor.php:91
 #: skin/thumbnail/list.php:50
 msgid "Thumbnail"
 msgstr "Thumbnail"
 
-#: skin/avatar/editor.php:86 skin/avatar/editor.php:94
-#: skin/avatar/editor.php:101 skin/customer/editor.php:95
-#: skin/customer/editor.php:103 skin/customer/editor.php:110
-#: skin/default/editor.php:86 skin/default/editor.php:94
-#: skin/default/editor.php:101 skin/thumbnail/editor.php:86
-#: skin/thumbnail/editor.php:94 skin/thumbnail/editor.php:101
+#: skin/avatar/editor.php:93 skin/avatar/editor.php:101
+#: skin/avatar/editor.php:108 skin/customer/editor.php:102
+#: skin/customer/editor.php:110 skin/customer/editor.php:117
+#: skin/default/editor.php:93 skin/default/editor.php:101
+#: skin/default/editor.php:108 skin/thumbnail/editor.php:93
+#: skin/thumbnail/editor.php:101 skin/thumbnail/editor.php:108
 msgid "Delete file"
 msgstr "Delete file"
 
-#: skin/avatar/editor.php:107 skin/customer/editor.php:116
-#: skin/default/editor.php:107 skin/thumbnail/editor.php:107
+#: skin/avatar/editor.php:114 skin/customer/editor.php:123
+#: skin/default/editor.php:114 skin/thumbnail/editor.php:114
 msgid "WP Search"
 msgstr "WP Search"
 
-#: skin/avatar/editor.php:110 skin/customer/editor.php:119
-#: skin/default/editor.php:110 skin/thumbnail/editor.php:110
+#: skin/avatar/editor.php:117 skin/customer/editor.php:126
+#: skin/default/editor.php:117 skin/thumbnail/editor.php:117
 msgid "Public"
 msgstr "Public"
 
-#: skin/avatar/editor.php:111 skin/customer/editor.php:120
-#: skin/default/editor.php:111 skin/thumbnail/editor.php:111
+#: skin/avatar/editor.php:118 skin/customer/editor.php:127
+#: skin/default/editor.php:118 skin/thumbnail/editor.php:118
 msgid "Only title (secret document)"
 msgstr "Only title (secret document)"
 
-#: skin/avatar/editor.php:112 skin/customer/editor.php:121
-#: skin/default/editor.php:112 skin/thumbnail/editor.php:112
+#: skin/avatar/editor.php:119 skin/customer/editor.php:128
+#: skin/default/editor.php:119 skin/thumbnail/editor.php:119
 msgid "Exclusion"
 msgstr "Exclusion"
 
-#: skin/avatar/editor.php:120 skin/avatar/editor.php:123
-#: skin/customer/editor.php:129 skin/customer/editor.php:132
-#: skin/default/editor.php:120 skin/default/editor.php:123
-#: skin/thumbnail/editor.php:120 skin/thumbnail/editor.php:123
+#: skin/avatar/editor.php:127 skin/avatar/editor.php:130
+#: skin/customer/editor.php:136 skin/customer/editor.php:139
+#: skin/default/editor.php:127 skin/default/editor.php:130
+#: skin/thumbnail/editor.php:127 skin/thumbnail/editor.php:130
 msgid "Back"
 msgstr "Back"
 
-#: skin/avatar/editor.php:128 skin/customer/editor.php:137
-#: skin/default/editor.php:128 skin/thumbnail/editor.php:128
+#: skin/avatar/editor.php:135 skin/customer/editor.php:144
+#: skin/default/editor.php:135 skin/thumbnail/editor.php:135
 msgid "Save"
 msgstr "Save"
 
