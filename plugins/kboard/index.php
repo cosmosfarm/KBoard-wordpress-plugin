@@ -675,13 +675,14 @@ function kboard_style(){
 add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
 function kboard_scripts(){
 	wp_enqueue_script('jquery');
+	wp_enqueue_script('kboard-script', KBOARD_URL_PATH . '/template/js/script.js', array(), KBOARD_VERSION, true);
 	
 	// KBoard 미디어 추가 스타일 속성 등록
 	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
 	
 	// 번역 등록
 	$localize = array(
-			'kboard_add_media' => __('KBoard 미디어 추가', 'kboard'),
+			'kboard_add_media' => __('KBoard Add Media', 'kboard'),
 			'next' => __('Next', 'kboard'),
 			'prev' => __('Prev', 'kboard'),
 			'please_enter_the_title' => __('Please enter the title.', 'kboard'),
@@ -689,7 +690,7 @@ function kboard_scripts(){
 			'please_enter_the_password' => __('Please enter the password.', 'kboard'),
 			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard'),
 	);
-	wp_localize_script('jquery', 'kboard_localize_strings', $localize);
+	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
 
 /*
