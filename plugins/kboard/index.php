@@ -517,7 +517,7 @@ function kboard_builder($args){
 add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post, $wpdb;
-	if(is_page($post->ID)){
+	if(isset($post->ID) && is_page($post->ID)){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
