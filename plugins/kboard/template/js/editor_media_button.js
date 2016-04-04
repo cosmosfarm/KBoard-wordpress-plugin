@@ -55,7 +55,7 @@ function kboard_editor_insert_media(url){
 		tinyMCE.activeEditor.selection.collapse(false);
 	}
 	else{
-		jQuery('#kboard_content').val(function(index, value){ 
+		jQuery('#kboard_content').val(function(index, value){
 		     return value + (!value?'':' ') + '<img src="'+url+'">';
 		});
 	}

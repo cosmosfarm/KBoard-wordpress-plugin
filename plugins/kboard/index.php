@@ -681,7 +681,13 @@ function kboard_scripts(){
 	
 	// 번역 등록
 	$localize = array(
-			'kboard_add_media' => __('KBoard 미디어 추가', 'kboard')
+			'kboard_add_media' => __('KBoard 미디어 추가', 'kboard'),
+			'next' => __('Next', 'kboard'),
+			'prev' => __('Prev', 'kboard'),
+			'please_enter_the_title' => __('Please enter the title.', 'kboard'),
+			'please_enter_the_author' => __('Please enter the author.', 'kboard'),
+			'please_enter_the_password' => __('Please enter the password.', 'kboard'),
+			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard'),
 	);
 	wp_localize_script('jquery', 'kboard_localize_strings', $localize);
 }

@@ -132,12 +132,4 @@
 	</form>
 </div>
 
-<script type="text/javascript">
-var kboard_localize = {
-	please_enter_a_title:'<?php echo __('Please enter a title.', 'kboard')?>',
-	please_enter_a_author:'<?php echo __('Please enter a author.', 'kboard')?>',
-	please_enter_a_password:'<?php echo __('Please enter a password.', 'kboard')?>',
-	please_enter_the_CAPTCHA_code:'<?php echo __('Please enter the CAPTCHA code.', 'kboard')?>'
-}
-</script>
-<script type="text/javascript" src="<?php echo $skin_path?>/script.js"></script>
+<script type="text/javascript" src="<?php echo $skin_path?>/script.js?<?php echo KBOARD_VERSION?>"></script>
