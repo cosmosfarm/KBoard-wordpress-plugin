@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
 "POT-Creation-Date: 2016-04-05 00:16+0900\n"
-"PO-Revision-Date: 2016-04-05 00:16+0900\n"
+"PO-Revision-Date: 2016-04-05 00:19+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -665,7 +665,7 @@ msgstr "공지사항"
 #: skin/avatar/editor.php:84 skin/customer/editor.php:93
 #: skin/default/editor.php:84 skin/thumbnail/editor.php:84
 msgid "Photos"
-msgstr "사지"
+msgstr "사진"
 
 #: skin/avatar/editor.php:91 skin/customer/editor.php:100
 #: skin/default/editor.php:91 skin/thumbnail/editor.php:91
