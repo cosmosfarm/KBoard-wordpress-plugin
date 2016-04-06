@@ -57,10 +57,13 @@
 				<?php while($content = $list->hasNextNotice()):?>
 				<tr class="kboard-list-notice">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
-					<td class="kboard-list-title"><div class="cut_strings">
+					<td class="kboard-list-title">
+						<div class="cut_strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
-						</div></td>
+							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+						</div>
+					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
@@ -69,12 +72,13 @@
 				<?php while($content = $list->hasNext()):?>
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
-					<td class="kboard-list-title"><div class="cut_strings">
-							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?>
-							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
-							</a>
+					<td class="kboard-list-title">
+						<div class="cut_strings">
+							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
-						</div></td>
+							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+						</div>
+					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
@@ -103,6 +107,6 @@
 	<?php endif?>
 	
 	<div class="kboard-customer-poweredby">
-		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
+		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 	</div>
 </div>

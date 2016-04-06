@@ -11,8 +11,8 @@
 		<input type="hidden" name="date" value="<?php echo $content->date?>">
 		
 		<div class="kboard-attr-row kboard-attr-title">
-			<label class="attr-name"><?php echo __('Title')?></label>
-			<div class="attr-value"><input type="text" name="title" value="<?php echo $content->title?>"></div>
+			<label class="attr-name"><?php echo __('Title', 'kboard')?></label>
+			<div class="attr-value"><input type="text" name="title" value="<?php echo $content->title?>" placeholder="<?php echo __('Title', 'kboard')?>..."></div>
 		</div>
 		
 		<?php if($board->use_category):?>
@@ -48,26 +48,26 @@
 		<?php if(!is_user_logged_in()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Author', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?>"></div>
+			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?>" placeholder="<?php echo __('Author', 'kboard')?>..."></div>
 		</div>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
-			<div class="attr-value"><input type="password" name="password" value="<?php echo $content->password?>"></div>
+			<div class="attr-value"><input type="password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
 		</div>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-			<div class="attr-value"><input type="text" name="captcha" value=""></div>
+			<div class="attr-value"><input type="text" name="captcha" value="" placeholder="CAPTCHA..."></div>
 		</div>
 		<?php endif?>
 		
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Name', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="kboard_option_name" value="<?php echo $content->option->name?>"></div>
+			<div class="attr-value"><input type="text" name="kboard_option_name" value="<?php echo $content->option->name?>" placeholder="<?php echo __('Name', 'kboard')?>..."></div>
 		</div>
 		
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Phone number', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="kboard_option_tel" value="<?php echo $content->option->tel?>"></div>
+			<div class="attr-value"><input type="text" name="kboard_option_tel" value="<?php echo $content->option->tel?>" placeholder="<?php echo __('Phone number', 'kboard')?>..."></div>
 		</div>
 		
 		<div class="kboard-attr-row">

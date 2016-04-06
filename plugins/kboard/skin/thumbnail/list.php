@@ -58,11 +58,21 @@
 				<?php while($content = $list->hasNextNotice()):?>
 				<tr class="kboard-list-notice">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
-					<td class="kboard-list-thumbnail"></td>
-					<td class="kboard-list-title"><div class="cut_strings">
+					<td class="kboard-list-thumbnail">
+						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt=""><?php else:?><i class="icon-picture"></i><?php endif?>
+						</a>
+					</td>
+					<td class="kboard-list-title">
+						<div class="cut_strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
-						</div></td>
+							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+						</div>
+						<div class="mobile-contents">
+							<?php echo $content->member_display?>, <?php echo date("Y.m.d", strtotime($content->date))?>
+						</div>
+					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
@@ -71,13 +81,21 @@
 				<?php while($content = $list->hasNext()):?>
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
-					<td class="kboard-list-thumbnail"><?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" style="max-width:100px;" alt=""><?php else:?><i class="icon-picture"></i><?php endif?></td>
-					<td class="kboard-list-title"><div class="cut_strings">
-							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?>
-							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
-							</a>
+					<td class="kboard-list-thumbnail">
+						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt=""><?php else:?><i class="icon-picture"></i><?php endif?>
+						</a>
+					</td>
+					<td class="kboard-list-title">
+						<div class="cut_strings">
+							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
-						</div></td>
+							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+						</div>
+						<div class="mobile-contents">
+							<?php echo $content->member_display?>, <?php echo date("Y.m.d", strtotime($content->date))?>
+						</div>
+					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
 					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>

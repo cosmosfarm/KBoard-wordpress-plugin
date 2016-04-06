@@ -1,10 +1,8 @@
 <div id="kboard-default-editor">
 	<form method="post" action="<?php echo $url->set('mod', $_GET['mod'])->set('uid', $_GET['uid'])->toString()?>">
-		<div class="kboard-header"></div>
-		
 		<div class="kboard-attr-row kboard-attr-title">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
-			<div class="attr-value"><input type="password" name="password"></div>
+			<div class="attr-value"><input type="password" name="password" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
 		</div>
 		
 		<div class="kboard-control">

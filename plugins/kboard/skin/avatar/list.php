@@ -57,10 +57,13 @@
 				<?php while($content = $list->hasNextNotice()):?>
 				<tr class="kboard-list-notice">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
-					<td class="kboard-list-title"><div class="cut_strings">
+					<td class="kboard-list-title">
+						<div class="cut_strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
-						</div></td>
+							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+						</div>
+					</td>
 					<td class="kboard-list-user">
 						<?php if($content->member_uid):?>
 							<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 32, $default, $content->member_display);?></span>
@@ -75,12 +78,13 @@
 				<?php while($content = $list->hasNext()):?>
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
-					<td class="kboard-list-title"><div class="cut_strings">
-							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?>
-							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
-							</a>
+					<td class="kboard-list-title">
+						<div class="cut_strings">
+							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
-						</div></td>
+							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+						</div>
+					</td>
 					<td class="kboard-list-user">
 						<?php if($content->member_uid):?>
 							<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 32, $default, $content->member_display);?></span>
