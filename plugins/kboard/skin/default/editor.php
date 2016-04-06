@@ -10,8 +10,6 @@
 		<input type="hidden" name="member_display" value="<?php echo $content->member_display?>">
 		<input type="hidden" name="date" value="<?php echo $content->date?>">
 		
-		<div class="kboard-header"></div>
-		
 		<div class="kboard-attr-row kboard-attr-title">
 			<label class="attr-name"><?php echo __('Title')?></label>
 			<div class="attr-value"><input type="text" name="title" value="<?php echo $content->title?>"></div>
@@ -47,17 +45,7 @@
 			<?php endif?>
 		<?php endif?>
 		
-		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Secret', 'kboard')?></label>
-			<div class="attr-value"><input type="checkbox" name="secret" value="true"<?php if($content->secret):?> checked<?php endif?>></div>
-		</div>
-		
-		<?php if($board->isAdmin()):?>
-		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Notice', 'kboard')?></label>
-			<div class="attr-value"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>></div>
-		</div>
-		<?php elseif(!is_user_logged_in()):?>
+		<?php if(!is_user_logged_in()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name"><?php echo __('Author', 'kboard')?></label>
 			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?>"></div>
@@ -72,9 +60,19 @@
 		</div>
 		<?php endif?>
 		
+		<div class="kboard-attr-row">
+			<div class="attr-name"><?php echo __('Options', 'kboard')?></div>
+			<div class="attr-value">
+				<label class="attr-value-option"><input type="checkbox" name="secret" value="true"<?php if($content->secret):?> checked<?php endif?>> <?php echo __('Secret', 'kboard')?></label>
+				<?php if($board->isAdmin()):?>
+				<label class="attr-value-option"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
+				<?php endif?>
+			</div>
+		</div>
+		
 		<div class="kboard-content">
 			<?php if($board->use_editor):?>
-				<?php wp_editor($content->content, 'kboard_content'); ?>
+				<?php wp_editor($content->content, 'kboard_content', array('media_buttons'=>$board->isAdmin(), 'editor_height'=>400))?>
 			<?php else:?>
 				<textarea name="kboard_content" id="kboard_content"><?php echo $content->content?></textarea>
 			<?php endif?>

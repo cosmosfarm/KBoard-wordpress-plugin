@@ -50,23 +50,22 @@ img { border: 0; }
 #kboard-default-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
 
 #kboard-default-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-default-editor select,
-#kboard-default-editor input { display: inline; width: auto; height: auto; box-shadow: none; }
-#kboard-default-editor .kboard-header { float: left; width: 100%; border-top: 1px solid #e3e3e3; line-height: 0; }
-#kboard-default-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; border-bottom: 1px solid #e3e3e3; background-color: white; }
-#kboard-default-editor .kboard-attr-title { float: left; border-bottom: 1px solid #e3e3e3; }
-#kboard-default-editor .kboard-attr-title input { padding: 6px 2px; font-size: 12px; width: 50%; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-default-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 110px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; text-align: right; }
+#kboard-default-editor select { display: inline; margin: 0; padding: 5px 2px; font-size: 12px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #cccccc; box-shadow: none; background-color: transparent; }
+#kboard-default-editor input[type=text],
+#kboard-default-editor input[type=email],
+#kboard-default-editor input[type=number],
+#kboard-default-editor input[type=data],
+#kboard-default-editor input[type=password] { display: inline; margin: 0; padding: 6px 2px; width: 30%; height: 28px; line-height: 28px; font-size: 12px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #cccccc; box-shadow: none; background-color: transparent; }
+#kboard-default-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 12px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
+#kboard-default-editor .kboard-header { float: left; width: 100%; line-height: 0; }
+#kboard-default-editor .kboard-attr-title input { width: 80%; }
+#kboard-default-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
+#kboard-default-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; }
 #kboard-default-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; max-width: 100%; vertical-align: middle; }
-#kboard-default-editor .kboard-attr-row .attr-value { font-size: 12px; }
-#kboard-default-editor .kboard-attr-row .attr-value select { margin: 0; padding: 5px 2px; font-size: 12px; min-width: 130px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; }
-#kboard-default-editor .kboard-attr-row .attr-value input[type=text],
-#kboard-default-editor .kboard-attr-row .attr-value input[type=password] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: normal; }
-#kboard-default-editor .kboard-attr-row .attr-value input[type=radio],
-#kboard-default-editor .kboard-attr-row .attr-value input[type=checkbox] { margin-top: 8px; }
-#kboard-default-editor .kboard-attr-row .attr-value input[type=file] { margin: 0; padding: 6px 2px; font-size: 12px; color: #666666; border: 0; }
-#kboard-default-editor .kboard-content { float: left; padding: 9px 0; width: 100%; border-bottom: 1px solid #e3e3e3; text-align: center; background-color: white; }
-#kboard-default-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 98%; height: 250px; border-radius: 3px; border: 1px solid #cccccc; font-size: 12px; }
+#kboard-default-editor .kboard-attr-row .attr-value { font-size: 12px; line-height: 30px; }
+#kboard-default-editor .kboard-attr-row .attr-value .attr-value-option { padding-right: 20px; cursor: pointer; }
+#kboard-default-editor .kboard-content { float: left; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
+#kboard-default-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 98%; height: 250px; font-size: 12px; }
 #kboard-default-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-default-editor .kboard-control .left { position: static; float: left; }
 #kboard-default-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
@@ -109,11 +108,12 @@ img { border: 0; }
 #kboard-default-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media screen and (max-width: 600px) {
-	#kboard-default-list .kboard-category { width: 100%; text-align: center; }
-	#kboard-default-list .kboard-category select { width: 100px; }
+	#kboard-default-list .kboard-category { padding: 0; width: 100%; text-align: center; }
+	#kboard-default-list .kboard-category select { margin-bottom: 5px; width: 100%; }
 	#kboard-default-list .kboard-search { clear: both; float: left; width: 100%; text-align: center; }
-	#kboard-default-list .kboard-search select { width: auto; }
-	#kboard-default-list .kboard-search input { width: 100px; }
+	#kboard-default-list .kboard-search select { float: left; margin-right: 1%; width: 29%; }
+	#kboard-default-list .kboard-search input { float: left; margin-right: 1%; width: 49%; }
+	#kboard-default-list .kboard-search button { float: left; width: 20%; }
 	#kboard-default-list .kboard-list table td.kboard-list-uid { width: 50px; }
 	#kboard-default-list .kboard-list table td.kboard-list-date { width: 70px; }
 	#kboard-default-list .kboard-list td.kboard-list-user,
@@ -127,9 +127,15 @@ img { border: 0; }
 	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 6px 18px; }
 	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; *display: inline; zoom: 1; }
 
-	#kboard-default-editor .kboard-attr-row input[type=text],
-	#kboard-default-editor .kboard-attr-row input[type=file],
-	#kboard-default-editor .kboard-attr-row input[type=password] { width: 50%; }
+	#kboard-default-editor select,
+	#kboard-default-editor input[type=text],
+	#kboard-default-editor input[type=email],
+	#kboard-default-editor input[type=number],
+	#kboard-default-editor input[type=data],
+	#kboard-default-editor input[type=password],
+	#kboard-default-editor input[type=file] { width: 100%; }
+	#kboard-default-editor .kboard-attr-row { padding: 10px 0; }
+	#kboard-default-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
 	
 	#kboard-default-document .kboard-detail .detail-attr { clear: both; }
 	#kboard-default-document .kboard-document-navi .kboard-prev-document { width: 100%; }
