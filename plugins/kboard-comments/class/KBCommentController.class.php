@@ -51,19 +51,19 @@ class KBCommentController {
 		$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
 		
 		if(!is_user_logged_in() && !$member_display){
-			die("<script>alert('".__('Please enter a author.', 'kboard-comments')."');history.go(-1);</script>");
+			die("<script>alert('".__('Please enter the author.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!is_user_logged_in() && !$password){
-			die("<script>alert('".__('Please enter a password.', 'kboard-comments')."');history.go(-1);</script>");
+			die("<script>alert('".__('Please enter the password.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!$captcha->textCheck($captcha_text)){
-			die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if(!$content_uid){
-			die("<script>alert('".__('No document UID.', 'kboard-comments')."');history.go(-1);</script>");
+			die("<script>alert('".__('The CAPTCHA is invalid. Please enter the CAPTCHA.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!$content){
-			die("<script>alert('".__('Type the content of the comment.', 'kboard-comments')."');history.go(-1);</script>");
+			die("<script>alert('".__('Please enter the content.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		else if(!$content_uid){
+			die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
 		$document = new KBContent();
@@ -105,10 +105,10 @@ class KBCommentController {
 		$password = isset($_POST['password'])?$_POST['password']:'';
 		
 		if(!$uid){
-			die("<script>alert('".__('No UID of comments.', 'kboard-comments')."');history.go(-1);</script>");
+			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if((!isset($userdata->ID) || !$userdata->ID) && !$password){
-			die("<script>alert('".__('Please Log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
+			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
 		$commentList = new KBCommentList();

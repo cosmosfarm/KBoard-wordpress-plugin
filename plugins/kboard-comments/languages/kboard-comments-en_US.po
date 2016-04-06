@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2015-12-11 16:39+0900\n"
-"PO-Revision-Date: 2015-12-11 16:41+0900\n"
+"POT-Creation-Date: 2016-04-06 22:22+0900\n"
+"PO-Revision-Date: 2016-04-06 22:24+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,44 +17,45 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBCommentController.class.php:28
-#: class/KBCommentController.class.php:86
+#: class/KBCommentController.class.php:33
+#: class/KBCommentController.class.php:35
+#: class/KBCommentController.class.php:99
+#: class/KBCommentController.class.php:101
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBCommentController.class.php:47 skin/default/list.php:48
-msgid "Please enter a author."
-msgstr "Please enter a author."
+#: class/KBCommentController.class.php:54 index.php:94
+msgid "Please enter the author."
+msgstr "Please enter the author."
 
-#: class/KBCommentController.class.php:50 skin/default/list.php:49
-#: template/confirm.php:45
-msgid "Please enter a password."
-msgstr "Please enter a password."
+#: class/KBCommentController.class.php:57 index.php:95 template/confirm.php:46
+msgid "Please enter the password."
+msgstr "Please enter the password."
 
-#: class/KBCommentController.class.php:53
-msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
-msgstr "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
+#: class/KBCommentController.class.php:60
+msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
+msgstr "The CAPTCHA is invalid. Please enter the CAPTCHA."
 
-#: class/KBCommentController.class.php:56
-msgid "No document UID."
-msgstr "No document UID."
+#: class/KBCommentController.class.php:63 index.php:97
+msgid "Please enter the content."
+msgstr "Please enter the content."
 
-#: class/KBCommentController.class.php:59 skin/default/list.php:51
-msgid "Type the content of the comment."
-msgstr "Type the content of the comment."
+#: class/KBCommentController.class.php:66
+msgid "content_uid is required."
+msgstr "content_uid is required."
 
-#: class/KBCommentController.class.php:67
-#: class/KBCommentController.class.php:102
+#: class/KBCommentController.class.php:74
+#: class/KBCommentController.class.php:117
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBCommentController.class.php:93 template/confirm.php:6
-msgid "No UID of comments."
-msgstr "No UID of comments."
+#: class/KBCommentController.class.php:108 template/confirm.php:6
+msgid "uid is required."
+msgstr "uid is required."
 
-#: class/KBCommentController.class.php:96
-msgid "Please Log in to continue."
-msgstr "Please Log in to continue."
+#: class/KBCommentController.class.php:111
+msgid "Please log in to continue."
+msgstr "Please log in to continue."
 
 #: index.php:16
 msgid "KBoard : 댓글"
@@ -63,6 +64,18 @@ msgstr "KBoard : Comments"
 #: index.php:46
 msgid "전체 댓글"
 msgstr "All Comments"
+
+#: index.php:92 skin/default/list-template.php:22
+msgid "Reply"
+msgstr "Reply"
+
+#: index.php:93
+msgid "Cancel"
+msgstr "Cancel"
+
+#: index.php:96
+msgid "Please enter the CAPTCHA."
+msgstr "Please enter the CAPTCHA."
 
 #: pages/comments_list.php:5
 msgid "홈페이지"
@@ -88,10 +101,6 @@ msgstr "Are you sure you want to delete?"
 msgid "Delete"
 msgstr "Delete"
 
-#: skin/default/list-template.php:22 skin/default/list.php:52
-msgid "Reply"
-msgstr "Reply"
-
 #: skin/default/list.php:6
 msgid "Total Reply"
 msgstr "Total"
@@ -100,33 +109,34 @@ msgstr "Total"
 msgid "Count"
 msgstr " "
 
-#: skin/default/list.php:25
+#: skin/default/list.php:25 skin/default/list.php:26
 msgid "Author"
 msgstr "Author"
 
-#: skin/default/list.php:28
+#: skin/default/list.php:29 skin/default/list.php:30
 msgid "Password"
 msgstr "Password"
 
-#: skin/default/list.php:37 template/confirm.php:39
+#: skin/default/list.php:40 template/confirm.php:40
 msgid "Submit"
 msgstr "Submit"
 
-#: skin/default/list.php:50
-msgid "Please enter the CAPTCHA code."
-msgstr "Please enter the CAPTCHA code."
-
-#: skin/default/list.php:53
-msgid "Cancel"
-msgstr "Cancel"
-
 #: template/confirm.php:13
-msgid "It is a comment does not exist."
-msgstr "It is a comment does not exist."
+msgid "Comment does not exist."
+msgstr "Comment does not exist."
 
-#: template/confirm.php:24 template/confirm.php:37
+#: template/confirm.php:25 template/confirm.php:38
 msgid "Password confirmation"
 msgstr "Password confirmation"
+
+#~ msgid "No document UID."
+#~ msgstr "No document UID."
+
+#~ msgid "Type the content of the comment."
+#~ msgstr "Type the content of the comment."
+
+#~ msgid "No UID of comments."
+#~ msgstr "No UID of comments."
 
 #~ msgid "WordPress"
 #~ msgstr "워드프레스"

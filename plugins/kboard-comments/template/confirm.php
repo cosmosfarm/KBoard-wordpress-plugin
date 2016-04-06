@@ -3,14 +3,14 @@ if(!defined('ABSPATH')) exit;
 
 $uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 if(!$uid){
-	die("<script>alert('".__('No UID of comments.', 'kboard-comments')."');window.close();</script>");
+	die("<script>alert('".__('uid is required.', 'kboard-comments')."');window.close();</script>");
 }
 
 $commentList = new KBCommentList();
 $comment = $commentList->getComment($uid);
 
 if(!$comment->uid){
-	die("<script>alert('".__('It is a comment does not exist.', 'kboard-comments')."');window.close();</script>");
+	die("<script>alert('".__('Comment does not exist.', 'kboard-comments')."');window.close();</script>");
 }
 
 $commentURL = new KBCommentUrl();
@@ -43,7 +43,7 @@ $commentURL->setCommentUID($comment->uid);
 <script>
 function password_checker(form){
 	if(!jQuery('input[name=password]').val()){
-		alert('<?php echo __('Please enter a password.', 'kboard-comments')?>');
+		alert('<?php echo __('Please enter the password.', 'kboard-comments')?>');
 		jQuery('input[name=password]').focus();
 		return false;
 	}

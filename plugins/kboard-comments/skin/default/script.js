@@ -2,30 +2,28 @@
  * @author http://www.cosmosfarm.com/
  */
 
-var console = window.console || { log: function() {} };
-
 function kboard_comments_execute(form){
 	jQuery.fn.exists = function(){
 		return this.length>0;
 	};
 	
 	if(jQuery('input[name=member_display]', form).exists() && !jQuery('input[name=member_display]', form).val()){
-		alert(kboard_comments_localize.please_enter_a_author);
+		alert(kboard_comments_localize_strings.please_enter_the_author);
 		jQuery('[name=member_display]', form).focus();
 		return false;
 	}
 	else if(jQuery('input[name=password]', form).exists() && !jQuery('input[name=password]', form).val()){
-		alert(kboard_comments_localize.please_enter_a_password);
+		alert(kboard_comments_localize_strings.please_enter_the_password);
 		jQuery('input[name=password]', form).focus();
 		return false;
 	}
 	else if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
-		alert(kboard_comments_localize.please_enter_the_CAPTCHA_code);
+		alert(kboard_comments_localize_strings.please_enter_the_CAPTCHA);
 		jQuery('input[name=captcha]', form).focus();
 		return false;
 	}
 	else if(jQuery('textarea[name=content]', form).exists() && !jQuery('textarea[name=content]', form).val()){
-		alert(kboard_comments_localize.type_the_content_of_the_comment);
+		alert(kboard_comments_localize_strings.please_enter_the_content);
 		jQuery('textarea[name=content]', form).focus();
 		return false;
 	}
@@ -43,13 +41,13 @@ function kboard_comments_open_confirm(url){
 function kboard_comments_reply(obj, form_id, cancel_id){
 	if(jQuery(obj).hasClass('kboard-reply-active')){
 		jQuery(cancel_id).append(jQuery('.kboard-comments-form'));
-		jQuery('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
+		jQuery('.kboard-reply').text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
 	}
 	else{
 		jQuery(form_id).append(jQuery('.kboard-comments-form'));
 		jQuery('textarea[name=content]').focus();
-		jQuery('.kboard-reply').text(kboard_comments_localize.reply).removeClass('kboard-reply-active');
-		jQuery(obj).text(kboard_comments_localize.cancel).addClass('kboard-reply-active');
+		jQuery('.kboard-reply').text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
+		jQuery(obj).text(kboard_comments_localize_strings.cancel).addClass('kboard-reply-active');
 	}
 	return false;
 }

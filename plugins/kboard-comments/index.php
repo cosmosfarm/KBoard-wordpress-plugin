@@ -83,13 +83,20 @@ function kboard_comments_builder($atts){
 /*
  * 댓글 스크립트 추가
  */
-add_action('wp_enqueue_scripts', 'kboard_comments_script');
+add_action('wp_enqueue_scripts', 'kboard_comments_script', 999);
 function kboard_comments_script(){
-	$mod = isset($_GET['mod'])?kboard_htmlclear($_GET['mod']):'';
-	$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-	if($mod == 'document' && $uid){
-		wp_enqueue_script('kboard-comments', 'http://contents.cosmosfarm.com/wordpress/kboard-comments.js', array(), KBOARD_COMMNETS_VERSION);
-	}
+	wp_enqueue_script('jquery');
+	
+	// 번역 등록
+	$localize = array(
+			'reply' => __('Reply', 'kboard-comments'),
+			'cancel' => __('Cancel', 'kboard-comments'),
+			'please_enter_the_author' => __('Please enter the author.', 'kboard-comments'),
+			'please_enter_the_password' => __('Please enter the password.', 'kboard-comments'),
+			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard-comments'),
+			'please_enter_the_content' => __('Please enter the content.', 'kboard-comments'),
+	);
+	wp_localize_script('jquery', 'kboard_comments_localize_strings', $localize);
 }
 
 /*

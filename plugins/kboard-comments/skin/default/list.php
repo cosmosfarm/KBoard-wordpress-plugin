@@ -23,15 +23,15 @@
 				<?php else:?>
 				<div class="comments-field">
 					<label class="comments-field-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label>
-					<input type="text" id="comments_member_display" name="member_display" value="<?php echo $member_display?>">
+					<input type="text" id="comments_member_display" name="member_display" value="<?php echo $member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>...">
 				</div>
 				<div class="comments-field">
 					<label class="comments-field-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label>
-					<input type="password" id="comments_password" name="password" value="">
+					<input type="password" id="comments_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>...">
 				</div>
 				<div class="comments-field">
 					<label class="comments-field-label" for="comments_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-					<input type="text" id="comments_captcha" name="captcha" value="">
+					<input type="text" id="comments_captcha" name="captcha" value="" placeholder="CAPTCHA...">
 				</div>
 				<?php endif?>
 				
@@ -46,14 +46,4 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-var kboard_comments_localize = {
-	please_enter_a_author:'<?php echo __('Please enter a author.', 'kboard-comments')?>',
-	please_enter_a_password:'<?php echo __('Please enter a password.', 'kboard-comments')?>',
-	please_enter_the_CAPTCHA_code:'<?php echo __('Please enter the CAPTCHA code.', 'kboard-comments')?>',
-	type_the_content_of_the_comment:'<?php echo __('Type the content of the comment.', 'kboard-comments')?>',
-	reply:'<?php echo __('Reply', 'kboard-comments')?>',
-	cancel:'<?php echo __('Cancel', 'kboard-comments')?>'
-}
-</script>
-<script type="text/javascript" src="<?php echo $skin_path?>/script.js"></script>
+<script type="text/javascript" src="<?php echo $skin_path?>/script.js?<?php echo KBOARD_COMMNETS_VERSION?>"></script>
