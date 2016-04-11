@@ -287,6 +287,7 @@ function kboard_update(){
 		$meta->use_comments_plugin = isset($_POST['use_comments_plugin'])?$_POST['use_comments_plugin']:'';
 		$meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
 		$meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
+		$meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
 
 		if(isset($_POST['permission_read_roles'])){
 			$meta->permission_read_roles = serialize($_POST['permission_read_roles']);

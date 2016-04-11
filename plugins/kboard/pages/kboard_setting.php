@@ -161,7 +161,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="autolink" id="autolink">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->autolink == '1'):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->autolink):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">에디터 textarea를 사용할때 url주소에 자동으로 링크를 생성합니다.</p>
 						</td>
@@ -180,22 +180,32 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="category1_list">카테고리1</label></th>
 						<td>
-							<input type="text" style="width: 350px;" name="category1_list" id="category1_list" value="<?php echo $board->category1_list?>">
+							<input type="text" style="width:350px" name="category1_list" id="category1_list" value="<?php echo $board->category1_list?>">
 							<p class="description">카테고리를 입력하세요. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="category2_list">카테고리2</label></th>
 						<td>
-							<input type="text" style="width: 350px;" name="category2_list" id="category2_list" value="<?php echo $board->category2_list?>">
+							<input type="text" style="width:350px" name="category2_list" id="category2_list" value="<?php echo $board->category2_list?>">
 							<p class="description">카테고리를 입력하세요. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
 						<td>
-							<input type="text" style="width: 350px;" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>">
+							<input type="text" style="width:350px" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>">
 							<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다. 서버 환경에 따라서 메일이 전송되지 못 할 수도 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="always_view_list">리스트 항상 보기</label></th>
+						<td>
+							<select name="always_view_list" id="always_view_list">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->always_view_list):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">글 읽기 화면에서도 하단에 게시판 리스트를 보여줍니다.</p>
 						</td>
 					</tr>
 				</tbody>
@@ -207,7 +217,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="admin_user">선택된 관리자</label></th>
 						<td>
-							<input type="text" style="width: 350px;" name="admin_user" id="admin_user" value="<?php echo $board->admin_user?>">
+							<input type="text" style="width:350px" name="admin_user" id="admin_user" value="<?php echo $board->admin_user?>">
 							<p class="description">사용자 아이디를 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
 						</td>
 					</tr>
@@ -307,7 +317,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="shortcode_execute" id="shortcode_execute">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->shortcode_execute == '1'):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->shortcode_execute):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.naver.com/chan2rrj/50179426321" onclick="window.open(this.href);return false;">더보기</a></p>
 						</td>

@@ -288,6 +288,10 @@ class KBoardBuilder {
 			$content->content = apply_filters('kboard_content', $content->content, $content->uid, $this->board_id);
 			
 			include KBOARD_DIR_PATH . "/skin/{$this->skin}/document.php";
+			
+			if($board->meta->always_view_list){
+				$this->builderList();
+			}
 		}
 	}
 	
