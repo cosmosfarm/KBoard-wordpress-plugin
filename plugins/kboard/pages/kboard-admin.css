@@ -17,7 +17,7 @@
 #kbstore-products-list .kbstore-thumbnail-img { width: 100px; height: 100px; }
 
 #kboard-dashboard-options { margin: 0; padding: 0; }
-#kboard-dashboard-options li { float: left; margin: 0 10px 20px 10px; padding: 10px; background-color: #fafafa; border: 1px solid #e5e5e5; }
+#kboard-dashboard-options li { float: left; margin: 0 10px 20px 10px; padding: 10px; height: 170px; background-color: #fafafa; border: 1px solid #e5e5e5; }
 #kboard-dashboard-options li:hover { border: 1px solid #00aeef; }
 #kboard-dashboard-options li h4 { font-weight: bold; }
 

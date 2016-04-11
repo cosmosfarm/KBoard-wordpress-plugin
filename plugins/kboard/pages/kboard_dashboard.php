@@ -45,12 +45,35 @@
 		</p>
 		<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_attached_copy_download', '<?php echo get_option('kboard_attached_copy_download')?'':'1'?>')">첨부파일 다운로드 깨짐 방지 <?php echo get_option('kboard_attached_copy_download')?'비활성화':'활성화'?></button></p>
 	</li>
+	<li>
+		<h4>새글 알림 시간</h4>
+		<p>
+		리스트에서 정해진 시간 이내로 등록된 글에 NEW 표시가 나타나도록 설정합니다.
+		</p>
+		<p>
+			<select name="kboard_new_document_notify_time">
+				<option value="0">비활성화</option>
+				<option value="3600"<?php if(kboard_new_document_notify_time() == '3600'):?> selected<?php endif?>>1시간</option>
+				<option value="10800"<?php if(kboard_new_document_notify_time() == '10800'):?> selected<?php endif?>>3시간</option>
+				<option value="21600"<?php if(kboard_new_document_notify_time() == '21600'):?> selected<?php endif?>>6시간</option>
+				<option value="43200"<?php if(kboard_new_document_notify_time() == '43200'):?> selected<?php endif?>>12시간</option>
+				<option value="86400"<?php if(kboard_new_document_notify_time() == '86400'):?> selected<?php endif?>>하루</option>
+				<option value="172800"<?php if(kboard_new_document_notify_time() == '172800'):?> selected<?php endif?>>2일</option>
+				<option value="259200"<?php if(kboard_new_document_notify_time() == '259200'):?> selected<?php endif?>>3일</option>
+				<option value="345600"<?php if(kboard_new_document_notify_time() == '345600'):?> selected<?php endif?>>4일</option>
+				<option value="432000"<?php if(kboard_new_document_notify_time() == '432000'):?> selected<?php endif?>>5일</option>
+				<option value="518400"<?php if(kboard_new_document_notify_time() == '518400'):?> selected<?php endif?>>6일</option>
+				<option value="604800"<?php if(kboard_new_document_notify_time() == '604800'):?> selected<?php endif?>>1주일</option>
+			</select>
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_new_document_notify_time', jQuery('select[name=kboard_new_document_notify_time]').val())">변경</button>
+		</p>
+	</li>
 </ul>
 
 <script>
 function kboard_system_option_update(option, value){
-	jQuery.post('<?php echo admin_url('/admin-ajax.php')?>', {'action':'kboard_system_option_update', 'option':option, 'value':value}, function(res){
-		location.reload();
+	jQuery.post('<?php echo admin_url('admin-ajax.php')?>', {'action':'kboard_system_option_update', 'option':option, 'value':value}, function(res){
+		window.location.reload();
 	});
 	return false;
 }

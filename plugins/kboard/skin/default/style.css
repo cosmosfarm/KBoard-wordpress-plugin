@@ -4,7 +4,6 @@
  */
 
 img { border: 0; }
-.cut_strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 .kboard-default-button-small,
 .kboard-default-button-small:link,
@@ -14,6 +13,8 @@ img { border: 0; }
 .kboard-default-button-small:active { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; color: white; background-image: none; background-color: #428bca; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
 
 .kboard-default-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; }
+.kboard-default-new-notify { display: inline-block; *display: inline; zoom: 1; padding: 2px 2px; line-height: 10px; font-size: 10px; color: white; background-color: #5bc0de; }
+.kboard-default-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 #kboard-default-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-default-list .kboard-header { float: left; margin-top: 0; width: 100%; }

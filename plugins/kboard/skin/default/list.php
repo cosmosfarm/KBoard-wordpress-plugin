@@ -58,10 +58,11 @@
 				<tr class="kboard-list-notice">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-title">
-						<div class="cut_strings">
+						<div class="kboard-default-cut-strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
 							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+							<?php if($content->isNew()):?><span class="kboard-default-new-notify">New</span><?php endif?>
 						</div>
 					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
@@ -73,10 +74,11 @@
 				<tr>
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-title">
-						<div class="cut_strings">
+						<div class="kboard-default-cut-strings">
 							<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>"><?php echo $content->title?></a>
 							<?php echo $content->getCommentsCount()?>
 							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon_lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+							<?php if($content->isNew()):?><span class="kboard-default-new-notify">New</span><?php endif?>
 						</div>
 					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>

@@ -647,7 +647,13 @@ class KBContent {
 	 */
 	public function getCommentsCount($prefix='(', $endfix=')', $default=''){
 		if($this->uid){
-			$meta = new KBoardMeta($this->board_id);
+			if(isset($this->board->id) && $this->board->id){
+				$meta = $this->board->meta;
+			}
+			else if($this->board_id){
+				$meta = new KBoardMeta($this->board_id);
+			}
+			
 			if($meta->comments_plugin_id && $meta->use_comments_plugin){
 				$url = new KBUrl();
 				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.$url->getCommentsPluginURLWithUID($this->uid).'" data-prefix="'.$prefix.'" data-endfix="'.$endfix.'" data-default="'.$default.'"></span>';
@@ -757,6 +763,18 @@ class KBContent {
 			$visible = false;
 		}
 		return apply_filters('kboard_visible_comments', $visible, $this);
+	}
+	
+	/**
+	 * 새글인지 확인한다.
+	 */
+	public function isNew(){
+		if($this->uid){
+			if((current_time('timestamp')-strtotime($this->date)) <= kboard_new_document_notify_time()){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

@@ -237,4 +237,12 @@ function kbaord_delete_resize($image_src){
 		}
 	}
 }
+
+/**
+ * 새글 알림 시간을 반환한다.
+ * @return int
+ */
+function kboard_new_document_notify_time(){
+	return get_option('kboard_new_document_notify_time', '86400');
+}
 ?>
