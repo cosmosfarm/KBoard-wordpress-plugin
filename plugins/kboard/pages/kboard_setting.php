@@ -48,7 +48,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<?php endforeach?>
 							</select>
 							<button type="button" class="button button-small" onclick="kboard_open_page()">페이지 보기</button>
-							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 입력코드(Shortcode)로 설치 하실 수 있습니다.</p>
+							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 숏코드(Shortcode)로 설치 하실 수 있습니다.</p>
 						</td>
 					</tr>
 					<?php if($board->uid):?>
@@ -352,9 +352,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="1"<?php if($meta->use_direct_url):?> selected<?php endif?>>사용하기</option>
 							</select>
 							<?php if($meta->use_direct_url):?>
-							<a href="<?php echo site_url("?kboard_id=$board->uid")?>" onclick="window.open(this.href); return false;"><?php echo site_url("?kboard_id=$board->uid")?></a>
+							<a href="<?php echo home_url("?kboard_id={$board->uid}")?>" onclick="window.open(this.href);return false;"><?php echo home_url("?kboard_id={$board->uid}")?></a>
 							<?php endif?>
-							<p class="description">고유주소는 독립적 레이아웃 편집 및 아이프레임 삽입 등 고급 사용자를 위한 편의 기능입니다. 일반 사용자는 입력코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
+							<p class="description">고유주소는 독립적 레이아웃 편집 및 아이프레임 삽입 등 고급 사용자를 위한 편의 기능입니다. 일반 사용자는 자동설치 또는 숏코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
