@@ -51,11 +51,18 @@ function kboard_json_encode($val){
 
 /**
  * 파일의 MIME Content-type을 반환한다.
- * @param string $filename
+ * @param string $file
  * @return string
  */
-function kboard_mime_type($filename){
-	$filename = basename($filename);
+function kboard_mime_type($file){
+	/*
+	 * http://php.net/manual/en/function.mime-content-type.php#87856
+	 */
+	
+	if(function_exists('mime_content_type')){
+		return mime_content_type($file);
+	}
+	
 	$mime_types = array(
 			'txt' => 'text/plain',
 			'htm' => 'text/html',
@@ -126,16 +133,17 @@ function kboard_mime_type($filename){
 	);
 	
 	$mime_type = '';
-	$ext = strtolower(array_pop(explode('.', $filename)));
+	$temp = basename($file);
+	$temp = explode('.', $temp);
+	$temp = array_pop($temp);
+	$ext = strtolower($temp);
+	
 	if(array_key_exists($ext, $mime_types)){
 		$mime_type = $mime_types[$ext];
 	}
-	elseif(function_exists('mime_content_type')){
-		$mime_type = mime_content_type($filename);
-	}
-	else{
+	else if(function_exists('finfo_open')){
 		$finfo = finfo_open(FILEINFO_MIME);
-		$mime_type = finfo_file($finfo, $filename);
+		$mime_type = finfo_file($finfo, $file);
 		finfo_close($finfo);
 	}
 	

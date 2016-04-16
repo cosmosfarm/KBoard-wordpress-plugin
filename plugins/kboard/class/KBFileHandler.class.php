@@ -265,6 +265,8 @@ class KBFileHandler {
 				exit;
 			}
 			
+			$this->imageOrientation(KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}");
+			
 			return apply_filters('kboard_uploaded_file', array(
 					'stored_name' => $file_unique_name,
 					'original_name' => $file['name'],
@@ -345,6 +347,8 @@ class KBFileHandler {
 					echo "<script>alert('{$message}');history.go(-1);</script>";
 					exit;
 				}
+				
+				$this->imageOrientation(KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}");
 					
 				$files[] = array(
 						'stored_name' => $file_unique_name,
@@ -401,7 +405,7 @@ class KBFileHandler {
 	function formatBytes($b, $p=null){
 		// http://php.net/manual/en/function.filesize.php
 		$units = array("B","K","M","G","T","P","E","Z","Y");
-		$c=0;
+		$c = 0;
 		if(!$p && $p !== 0){
 			foreach($units as $k => $u){
 				if(($b / pow(1024,$k)) >= 1){
@@ -527,6 +531,27 @@ class KBFileHandler {
 				return fclose($fp);
 			}
 			return $fp;
+		}
+	}
+	
+	/**
+	 * 이미지 방향을 확인해 로테이션한다.
+	 * @param string $image
+	 */
+	public function imageOrientation($image){
+		if(kboard_mime_type($image) == 'image/jpeg'){
+			$image_editor = wp_get_image_editor($image);
+			if(!is_wp_error($image_editor) && function_exists('exif_read_data')){
+				$exif = exif_read_data($image);
+				if(isset($exif['Orientation']) && $exif['Orientation']){
+					switch($exif['Orientation']){
+						case 8: $image_editor->rotate(90); break;
+						case 3: $image_editor->rotate(180); break;
+						case 6: $image_editor->rotate(-90); break;
+					}
+				}
+				$image_editor->save($image);
+			}
 		}
 	}
 }
