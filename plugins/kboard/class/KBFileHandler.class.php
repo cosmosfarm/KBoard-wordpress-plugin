@@ -173,7 +173,7 @@ class KBFileHandler {
 	 * @param array $extension
 	 * @param int $limit_file_size
 	 */
-	function upload($name, $extension=array(), $limit_file_size=10485760){
+	function upload($name, $extension=array(), $limit_file_size=0){
 		/*
 		 * $extension : 업로드 가능한 확장자 배열
 		 * $limit_file_size : 업로드 가능한 파일용량 제한 (1메가 = 1048576)
@@ -201,7 +201,13 @@ class KBFileHandler {
 		}
 		
 		$this->extensions = apply_filters('kboard_upload_extension', $extension);
-		$this->limit_file_size = $limit_file_size;
+		
+		if($limit_file_size){
+			$this->limit_file_size = $limit_file_size;
+		}
+		else{
+			$this->limit_file_size = kboard_limit_file_size();
+		}
 		
 		$file_input = $_FILES[$this->name];
 		if(is_array($file_input['tmp_name'])){

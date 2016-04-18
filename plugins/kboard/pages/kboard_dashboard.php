@@ -46,9 +46,22 @@
 		<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_attached_copy_download', '<?php echo get_option('kboard_attached_copy_download')?'':'1'?>')">첨부파일 다운로드 깨짐 방지 <?php echo get_option('kboard_attached_copy_download')?'비활성화':'활성화'?></button></p>
 	</li>
 	<li>
-		<h4>새글 알림 시간</h4>
+		<h4>첨부파일의 최대 크기를 제한합니다.</h4>
 		<p>
-		리스트에서 정해진 시간 이내로 등록된 글에 NEW 표시가 나타나도록 설정합니다.
+		서버에서 설정한 최대 크기를 넘을 수 없습니다.<br>
+		최대 크기는 <?php echo kboard_upload_max_size()?> 바이트(B) 입니다. <a href="https://search.naver.com/search.naver?query=<?php echo kboard_upload_max_size()?>+%EB%B0%94%EC%9D%B4%ED%8A%B8+%EB%A9%94%EA%B0%80%EB%B0%94%EC%9D%B4%ED%8A%B8+%EB%B3%80%ED%99%98" onclick="window.open(this.href);return false;">네이버 단위변환 보기</a><br>
+		첨부파일 업로드에 문제가 있다면 먼저 호스팅 관리자에게 문의 해보세요.
+		</p>
+		<p>
+			<input type="text" name="kboard_limit_file_size" value="<?php echo kboard_limit_file_size()?>"> 바이트(B)
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_limit_file_size', jQuery('input[name=kboard_limit_file_size]').val())">변경</button>
+		</p>
+	</li>
+	<li>
+		<h4>새글 알림 아이콘을 리스트에서 보여줍니다.</h4>
+		<p>
+		리스트에서 정해진 시간 이내로 등록된 글에 NEW 표시가 나타나도록 설정합니다.<br>
+		일부 스킨에서는 적용되지 않습니다.
 		</p>
 		<p>
 			<select name="kboard_new_document_notify_time">

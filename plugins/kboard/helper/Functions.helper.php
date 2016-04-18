@@ -253,4 +253,44 @@ function kbaord_delete_resize($image_src){
 function kboard_new_document_notify_time(){
 	return get_option('kboard_new_document_notify_time', '86400');
 }
+
+/**
+ * 업로드 가능한 파일 크기를 반환한다.
+ */
+function kboard_limit_file_size(){
+	return get_option('kboard_limit_file_size', kboard_upload_max_size());
+}
+
+/**
+ * 서버에 설정된 최대 업로드 크기를 반환한다.
+ * @link http://stackoverflow.com/questions/13076480/php-get-actual-maximum-upload-size
+ * @return int
+ */
+function kboard_upload_max_size(){
+	static $max_size = -1;
+	if($max_size < 0){
+		$max_size = kboard_parse_size(ini_get('post_max_size'));
+		$upload_max = kboard_parse_size(ini_get('upload_max_filesize'));
+		if($upload_max > 0 && $upload_max < $max_size){
+			$max_size = $upload_max;
+		}
+	}
+	return $max_size;
+}
+
+/**
+ * 바이트로 크기를 변환한다.
+ * @link http://stackoverflow.com/questions/13076480/php-get-actual-maximum-upload-size
+ * @return int
+ */
+function kboard_parse_size($size){
+	$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+	$size = preg_replace('/[^0-9\.]/', '', $size);
+	if($unit){
+		return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+	}
+	else{
+		return round($size);
+	}
+}
 ?>
