@@ -543,6 +543,14 @@ function kboard_latest_shortcode($args){
 		$board_builder->setRpp($args['rpp']);
 		$board_builder->setURL($args['url']);
 		$board_builder->board = $board;
+		
+		if(isset($args['category1']) && $args['category1']){
+			$board_builder->category1 = $args['category1'];
+		}
+		if(isset($args['category2']) && $args['category2']){
+			$board_builder->category2 = $args['category2'];
+		}
+		
 		$kboard_latest = $board_builder->createLatest();
 		return $kboard_latest;
 	}

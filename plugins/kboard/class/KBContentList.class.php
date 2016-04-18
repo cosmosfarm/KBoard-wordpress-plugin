@@ -121,9 +121,10 @@ class KBContentList {
 	 * 게시판의 리스트를 반환한다.
 	 * @param string $keyword
 	 * @param string $search
+	 * @param boolean $with_notice
 	 * @return resource
 	 */
-	public function getList($keyword='', $search='title'){
+	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
@@ -134,7 +135,7 @@ class KBContentList {
 		}
 		else $where[] = "`board_id`='$this->board_id'";
 		
-		$where[] = "`notice`=''";
+		if(!$with_notice) $where[] = "`notice`=''";
 		if(!$keyword) $where[] = "`parent_uid`='0'";
 		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
 		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";

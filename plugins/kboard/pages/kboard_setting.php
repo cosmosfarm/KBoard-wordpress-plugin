@@ -39,7 +39,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="auto_page">게시판 자동 설치</label></th>
+						<th scope="row"><label for="auto_page">게시판 자동설치</label></th>
 						<td>
 							<select name="auto_page" id="auto_page">
 								<option value="">— 선택하기 —</option>
@@ -48,7 +48,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<?php endforeach?>
 							</select>
 							<button type="button" class="button button-small" onclick="kboard_open_page()">페이지 보기</button>
-							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 또는 아래의 게시판 숏코드(Shortcode)로 설치 하실 수 있습니다.</p>
+							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다.</p>
 						</td>
 					</tr>
 					<?php if($board->uid):?>
@@ -56,7 +56,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
 						<td>
 							<textarea style="width: 350px" id="shortcode">[kboard id=<?php echo $board->uid?>]</textarea>
-							<p class="description">이 코드를 포스팅 또는 페이지에 입력하세요. 자동으로 게시판이 추가됩니다.</p>
+							<p class="description">게시판 자동설치에 문제가 있을 경우 이 숏코드를 페이지에 입력하세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -64,6 +64,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<textarea style="width: 350px" id="shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
 							<p class="description">최신글 리스트를 생성합니다. 페이지주소 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고, 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
+							<p class="description">예제: [kboard_latest id=<?php echo $board->uid?> url=<?php echo home_url()?>/freeboard rpp=5 category1=유머 category2=동영상]</p>
 						</td>
 					</tr>
 					<?php endif?>
