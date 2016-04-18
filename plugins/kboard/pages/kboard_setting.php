@@ -60,9 +60,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="shortcode">최신글 숏코드(Shortcode)</label></th>
+						<th scope="row"><label for="latest_shortcode">최신글 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width: 350px" id="shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
+							<textarea style="width: 350px" id="latest_shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
 							<p class="description">최신글 리스트를 생성합니다. 페이지주소 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고, 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
 							<p class="description">예제: [kboard_latest id=<?php echo $board->uid?> url=<?php echo home_url()?>/freeboard rpp=5 category1=유머 category2=동영상]</p>
 						</td>
