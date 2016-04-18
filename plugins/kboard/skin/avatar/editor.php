@@ -11,7 +11,7 @@
 		<input type="hidden" name="date" value="<?php echo $content->date?>">
 		
 		<div class="kboard-attr-row kboard-attr-title">
-			<label class="attr-name" for="kboard-input-title"><?php echo __('Title')?></label>
+			<label class="attr-name" for="kboard-input-title"><?php echo __('Title', 'kboard')?></label>
 			<div class="attr-value"><input type="text" id="kboard-input-title" name="title" value="<?php echo $content->title?>" placeholder="<?php echo __('Title', 'kboard')?>..."></div>
 		</div>
 		
