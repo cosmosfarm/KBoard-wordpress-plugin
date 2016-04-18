@@ -24,7 +24,7 @@ img { border: 0; }
 #kboard-default-list .kboard-search select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; width: 80px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; box-shadow: none; }
 #kboard-default-list .kboard-search input { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 6px 2px; width: 120px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; box-shadow: none; }
 #kboard-default-list .kboard-list { float: left; width: 100%; background-color: white; }
-#kboard-default-list .kboard-list table { table-layout: fixed; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
+#kboard-default-list .kboard-list table { display: table; table-layout: fixed; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
 #kboard-default-list .kboard-list table a { color: black; text-decoration: none; border: 0; box-shadow: none; }
 #kboard-default-list .kboard-list table tr { border: 0; }
 #kboard-default-list .kboard-list table td { padding: 10px 0; height: auto; text-align: center; vertical-align: middle; }
@@ -99,10 +99,10 @@ img { border: 0; }
 #kboard-default-document .kboard-control .left { position: static; float: left; }
 #kboard-default-document .kboard-control .right { position: static; float: right; text-align: right; }
 
-#kboard-default-latest table { width: 100%; table-layout: fixed; border: 0; border-bottom: 1px solid #e3e3e3; }
+#kboard-default-latest table { display: table; table-layout: fixed; width: 100%; border: 0; border-bottom: 1px solid #e3e3e3; }
 #kboard-default-latest table tr { padding: 0; border: 0; }
-#kboard-default-latest table th { padding: 5px 0; border: 0; text-align: center; }
-#kboard-default-latest table td { padding: 5px 0; border: 0; border-top: 1px solid #e3e3e3; }
+#kboard-default-latest table th { padding: 5px 0; height: auto; border: 0; text-align: center; }
+#kboard-default-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #e3e3e3; }
 #kboard-default-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
 #kboard-default-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 

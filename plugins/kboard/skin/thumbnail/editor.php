@@ -11,17 +11,17 @@
 		<input type="hidden" name="date" value="<?php echo $content->date?>">
 		
 		<div class="kboard-attr-row kboard-attr-title">
-			<label class="attr-name"><?php echo __('Title', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="title" value="<?php echo $content->title?>" placeholder="<?php echo __('Title', 'kboard')?>..."></div>
+			<label class="attr-name" for="kboard-input-title"><?php echo __('Title')?></label>
+			<div class="attr-value"><input type="text" id="kboard-input-title" name="title" value="<?php echo $content->title?>" placeholder="<?php echo __('Title', 'kboard')?>..."></div>
 		</div>
 		
 		<?php if($board->use_category):?>
 			<?php if($board->initCategory1()):?>
 			<div class="kboard-attr-row">
-				<label class="attr-name"><?php echo __('Category', 'kboard')?>1</label>
+				<label class="attr-name" for="kboard-select-category1"><?php echo __('Category', 'kboard')?>1</label>
 				<div class="attr-value">
-					<select name="category1">
-						<option value=""><?php echo __('Select', 'kboard')?></option>
+					<select id="kboard-select-category1" name="category1">
+						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
@@ -32,10 +32,10 @@
 			
 			<?php if($board->initCategory2()):?>
 			<div class="kboard-attr-row">
-				<label class="attr-name"><?php echo __('Category', 'kboard')?>2</label>
+				<label class="attr-name" for="kboard-select-category2"><?php echo __('Category', 'kboard')?>2</label>
 				<div class="attr-value">
-					<select name="category2">
-						<option value=""><?php echo __('Select', 'kboard')?></option>
+					<select id="kboard-select-category2" name="category2">
+						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
@@ -47,16 +47,16 @@
 		
 		<?php if(!is_user_logged_in()):?>
 		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Author', 'kboard')?></label>
-			<div class="attr-value"><input type="text" name="member_display" value="<?php echo $content->member_display?>" placeholder="<?php echo __('Author', 'kboard')?>..."></div>
+			<label class="attr-name" for="kboard-input-member-display"><?php echo __('Author', 'kboard')?></label>
+			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" value="<?php echo $content->member_display?>" placeholder="<?php echo __('Author', 'kboard')?>..."></div>
 		</div>
 		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
-			<div class="attr-value"><input type="password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
+			<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?></label>
+			<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
 		</div>
 		<div class="kboard-attr-row">
-			<label class="attr-name"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-			<div class="attr-value"><input type="text" name="captcha" value="" placeholder="CAPTCHA..."></div>
+			<label class="attr-name" for="kboard-input-captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
+			<div class="attr-value"><input type="text" id="kboard-input-captcha" name="captcha" value="" placeholder="<?php echo __('CAPTCHA', 'kboard')?>..."></div>
 		</div>
 		<?php endif?>
 		
@@ -86,32 +86,33 @@
 		</div>
 		
 		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Thumbnail', 'kboard')?></label>
+			<label class="attr-name" for="kboard-input-thumbnail"><?php echo __('Thumbnail', 'kboard')?></label>
 			<div class="attr-value">
 				<?php if($content->thumbnail_file):?><?php echo $content->thumbnail_name?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid);?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
-				<input type="file" name="thumbnail">
+				<input type="file" id="kboard-input-thumbnail" name="thumbnail">
 			</div>
 		</div>
 		
 		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Attachment', 'kboard')?></label>
+			<label class="attr-name" for="kboard-input-file1"><?php echo __('Attachment', 'kboard')?>1</label>
 			<div class="attr-value">
 				<?php if(isset($content->attach->file1)):?><?php echo $content->attach->file1[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file1');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
-				<input type="file" name="kboard_attach_file1">
-			</div>
-		</div>
-		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('Attachment', 'kboard')?></label>
-			<div class="attr-value">
-				<?php if(isset($content->attach->file2)):?><?php echo $content->attach->file2[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file2');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
-				<input type="file" name="kboard_attach_file2">
+				<input type="file" id="kboard-input-file1" name="kboard_attach_file1">
 			</div>
 		</div>
 		
 		<div class="kboard-attr-row">
-			<label class="attr-name"><?php echo __('WP Search', 'kboard')?></label>
+			<label class="attr-name" for="kboard-input-file2"><?php echo __('Attachment', 'kboard')?>2</label>
 			<div class="attr-value">
-				<select name="wordpress_search">
+				<?php if(isset($content->attach->file2)):?><?php echo $content->attach->file2[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file2');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
+				<input type="file" id="kboard-input-file2" name="kboard_attach_file2">
+			</div>
+		</div>
+		
+		<div class="kboard-attr-row">
+			<label class="attr-name" for="kboard-select-wordpress-search"><?php echo __('WP Search', 'kboard')?></label>
+			<div class="attr-value">
+				<select id="kboard-select-wordpress-search" name="wordpress_search">
 					<option value="1"<?php if($content->search == '1'):?> selected<?php endif?>><?php echo __('Public', 'kboard')?></option>
 					<option value="2"<?php if($content->search == '2'):?> selected<?php endif?>><?php echo __('Only title (secret document)', 'kboard')?></option>
 					<option value="3"<?php if($content->search == '3'):?> selected<?php endif?>><?php echo __('Exclusion', 'kboard')?></option>
