@@ -68,6 +68,29 @@
 			<button class="button-secondary" onclick="kboard_system_option_update('kboard_new_document_notify_time', jQuery('select[name=kboard_new_document_notify_time]').val())">변경</button>
 		</p>
 	</li>
+	<li>
+		<h4>커스텀 CSS</h4>
+		<p>
+		스킨파일 수정없이 새로운 디자인 속성을 추가할 수 있습니다.<br>
+		잘못된 CSS를 입력하게 되면 사이트 레이아웃이 깨질 수 있습니다.<br>
+		CSS 수정 관련 질문은 커뮤니티를 이용해 주세요. <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;"><?php echo __('커뮤니티로 이동', 'kboard')?></a>
+		</p>
+		<p>
+			<textarea rows="10" name="kboard_custom_css"><?php echo get_option('kboard_custom_css')?></textarea>
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_custom_css', jQuery('textarea[name=kboard_custom_css]').val())">커스텀 CSS 업데이트</button>
+		</p>
+	</li>
+	<li>
+		<h4>아이프레임 화이트리스트, 아래 등록된 iframe 주소를 허가합니다.</h4>
+		<p>
+		게시글 작성시 등록되지 않은 iframe 주소는 보안을 위해 차단됩니다.<br>
+		형식에 맞춰서 한줄씩 도메인 주소를 입력해주세요.
+		</p>
+		<p>
+			<textarea rows="10" name="kboard_iframe_whitelist"><?php echo kboard_iframe_whitelist()?></textarea>
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_iframe_whitelist', jQuery('textarea[name=kboard_iframe_whitelist]').val())">아이프레임 화이트리스트 업데이트</button>
+		</p>
+	</li>
 </ul>
 
 <script>

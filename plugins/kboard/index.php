@@ -618,7 +618,10 @@ function kboard_system_option_update(){
 	if(current_user_can('activate_plugins')){
 		$option_name = addslashes($_POST['option']);
 		$new_value = addslashes($_POST['value']);
-		if(get_option($option_name) !== false){
+		if(!$new_value){
+			delete_option($option_name);
+		}
+		else if(get_option($option_name) !== false){
 			update_option($option_name, $new_value);
 		}
 		else{
@@ -648,11 +651,11 @@ add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
 	if(current_user_can('activate_plugins')){
 		if(!is_writable(WP_CONTENT_DIR.'/uploads')){
-			echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href); return false;">이 알림에 대해서 질문하기</a></p></div>';
+			echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;">이 알림에 대해서 질문하기</a></p></div>';
 		}
 		$upgrader = KBUpgrader::getInstance();
 		if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard){
-			echo '<div class="updated"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href); return false;">홈페이지 열기</a></p></div>';
+			echo '<div class="updated"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
 		}
 	}
 }
@@ -740,6 +743,14 @@ function kboard_add_toolbar_link($wp_admin_bar){
 			);
 			$wp_admin_bar->add_node($args);
 		}
+	}
+}
+
+add_action('wp_head', 'kboard_head', 999);
+function kboard_head(){
+	$custom_css = get_option('kboard_custom_css');
+	if($custom_css){
+		echo "<style type=\"text/css\">{$custom_css}</style>";
 	}
 }
 
@@ -1065,7 +1076,7 @@ function kboard_system_update(){
 	else add_option('kboard_version', KBOARD_VERSION, null, 'no');
 	
 	// 관리자 알림
-	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
+	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
 	
 	$networkwide = is_plugin_active_for_network(__FILE__);
 	

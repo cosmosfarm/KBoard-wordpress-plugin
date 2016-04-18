@@ -58,30 +58,9 @@ function kboard_xssfilter($data){
  */
 function kboard_safeiframe($data){
 	/*
-	 * 허가된 도메인 호스트 (화이트 리스트)
+	 * 허가된 도메인 호스트 (화이트리스트)
 	 */
-	$whitelist[] = 'google.com';
-	$whitelist[] = 'www.google.com';
-	$whitelist[] = 'youtube.com';
-	$whitelist[] = 'www.youtube.com';
-	$whitelist[] = 'maps.google.com';
-	$whitelist[] = 'maps.google.co.kr';
-	$whitelist[] = 'serviceapi.nmv.naver.com';
-	$whitelist[] = 'serviceapi.rmcnmv.naver.com';
-	$whitelist[] = 'videofarm.daum.net';
-	$whitelist[] = 'player.vimeo.com';
-	$whitelist[] = 'w.soundcloud.com';
-	$whitelist[] = 'slideshare.net';
-	$whitelist[] = 'www.slideshare.net';
-	$whitelist[] = 'channel.pandora.tv';
-	$whitelist[] = 'mgoon.com';
-	$whitelist[] = 'www.mgoon.com';
-	$whitelist[] = 'tudou.com';
-	$whitelist[] = 'www.tudou.com';
-	$whitelist[] = 'player.youku.com';
-	$whitelist[] = 'videomega.tv';
-	$whitelist[] = 'mtab.clickmon.co.kr';
-	$whitelist[] = 'tab2.clickmon.co.kr';
+	$whitelist = kboard_iframe_whitelist(true);
 	
 	// kboard_iframe_whitelist 필터
 	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);
@@ -113,5 +92,51 @@ function kboard_htmlclear($data){
 	if(is_array($data)) return array_map('kboard_htmlclear', $data);
 	$data = strip_tags($data);
 	return htmlspecialchars($data);
+}
+
+/**
+ * 아이프레임 화이트리스트를 반환한다.
+ * @param boolean $to_array
+ */
+function kboard_iframe_whitelist($to_array=false){
+	/*
+	 * 허가된 도메인 호스트 (화이트리스트)
+	 */
+	$whitelist = 'google.com' . PHP_EOL;
+	$whitelist .= 'www.google.com' . PHP_EOL;
+	$whitelist .= 'youtube.com' . PHP_EOL;
+	$whitelist .= 'www.youtube.com' . PHP_EOL;
+	$whitelist .= 'maps.google.com' . PHP_EOL;
+	$whitelist .= 'maps.google.co.kr' . PHP_EOL;
+	$whitelist .= 'serviceapi.nmv.naver.com' . PHP_EOL;
+	$whitelist .= 'serviceapi.rmcnmv.naver.com' . PHP_EOL;
+	$whitelist .= 'videofarm.daum.net' . PHP_EOL;
+	$whitelist .= 'player.vimeo.com' . PHP_EOL;
+	$whitelist .= 'w.soundcloud.com' . PHP_EOL;
+	$whitelist .= 'slideshare.net' . PHP_EOL;
+	$whitelist .= 'www.slideshare.net' . PHP_EOL;
+	$whitelist .= 'channel.pandora.tv' . PHP_EOL;
+	$whitelist .= 'mgoon.com' . PHP_EOL;
+	$whitelist .= 'www.mgoon.com' . PHP_EOL;
+	$whitelist .= 'tudou.com' . PHP_EOL;
+	$whitelist .= 'www.tudou.com' . PHP_EOL;
+	$whitelist .= 'player.youku.com' . PHP_EOL;
+	$whitelist .= 'videomega.tv' . PHP_EOL;
+	$whitelist .= 'mtab.clickmon.co.kr' . PHP_EOL;
+	$whitelist .= 'tab2.clickmon.co.kr';
+	
+	$iframe_whitelist_data = get_option('kboard_iframe_whitelist');
+	$iframe_whitelist_data = trim($iframe_whitelist_data);
+	
+	if(!$iframe_whitelist_data){
+		$iframe_whitelist_data = $whitelist;
+	}
+	
+	if($to_array){
+		$iframe_whitelist_data = explode(PHP_EOL, $iframe_whitelist_data);
+		return array_map('trim', $iframe_whitelist_data);
+	}
+	
+	return $iframe_whitelist_data;
 }
 ?>
