@@ -320,7 +320,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->shortcode_execute):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드(Shortcode)를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.naver.com/chan2rrj/50179426321" onclick="window.open(this.href);return false;">더보기</a></p>
+							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.naver.com/chan2rrj/50179426321" onclick="window.open(this.href);return false;">더보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
