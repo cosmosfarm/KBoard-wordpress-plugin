@@ -288,7 +288,8 @@ function kboard_update(){
 		$meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
 		$meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
 		$meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
-
+		$meta->max_attached_count = isset($_POST['max_attached_count'])?$_POST['max_attached_count']:'';
+		
 		if(isset($_POST['permission_read_roles'])){
 			$meta->permission_read_roles = serialize($_POST['permission_read_roles']);
 		}
@@ -298,10 +299,10 @@ function kboard_update(){
 		if(isset($_POST['permission_comment_write_roles'])){
 			$meta->permission_comment_write_roles = serialize($_POST['permission_comment_write_roles']);
 		}
-
+		
 		// kboard_extends_setting_update 액션 실행
 		do_action('kboard_extends_setting_update', $meta, $board_id);
-
+		
 		$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
 		wp_redirect(admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting));
 	}

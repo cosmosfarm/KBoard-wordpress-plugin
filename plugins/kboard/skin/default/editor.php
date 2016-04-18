@@ -93,21 +93,19 @@
 			</div>
 		</div>
 		
-		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-input-file1"><?php echo __('Attachment', 'kboard')?>1</label>
-			<div class="attr-value">
-				<?php if(isset($content->attach->file1)):?><?php echo $content->attach->file1[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file1');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
-				<input type="file" id="kboard-input-file1" name="kboard_attach_file1">
+		<?php if($board->meta->max_attached_count > 0):?>
+			<!-- 첨부파일 시작 -->
+			<?php for($attached_index=1; $attached_index<=$board->meta->max_attached_count; $attached_index++):?>
+			<div class="kboard-attr-row">
+				<label class="attr-name" for="kboard-input-file<?php echo $attached_index?>"><?php echo __('Attachment', 'kboard')?><?php echo $attached_index?></label>
+				<div class="attr-value">
+					<?php if(isset($content->attach->{"file{$attached_index}"})):?><?php echo $content->attach->{"file{$attached_index}"}[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, "file{$attached_index}");?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
+					<input type="file" id="kboard-input-file<?php echo $attached_index?>" name="kboard_attach_file<?php echo $attached_index?>">
+				</div>
 			</div>
-		</div>
-		
-		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-input-file2"><?php echo __('Attachment', 'kboard')?>2</label>
-			<div class="attr-value">
-				<?php if(isset($content->attach->file2)):?><?php echo $content->attach->file2[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, 'file2');?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
-				<input type="file" id="kboard-input-file2" name="kboard_attach_file2">
-			</div>
-		</div>
+			<?php endfor?>
+			<!-- 첨부파일 끝 -->
+		<?php endif?>
 		
 		<div class="kboard-attr-row">
 			<label class="attr-name" for="kboard-select-wordpress-search"><?php echo __('WP Search', 'kboard')?></label>

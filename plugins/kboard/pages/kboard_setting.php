@@ -209,6 +209,38 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">글 읽기 화면에서도 하단에 게시판 리스트를 보여줍니다.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="max_attached_count">최대 첨부파일 개수</label></th>
+						<td>
+							<select name="max_attached_count" id="max_attached_count">
+								<option value="">없음</option>
+								<option value="1"<?php if($meta->max_attached_count == 1):?> selected<?php endif?>>1개</option>
+								<option value="2"<?php if($meta->max_attached_count == 2):?> selected<?php endif?>>2개</option>
+								<option value="3"<?php if($meta->max_attached_count == 3):?> selected<?php endif?>>3개</option>
+								<option value="4"<?php if($meta->max_attached_count == 4):?> selected<?php endif?>>4개</option>
+								<option value="5"<?php if($meta->max_attached_count == 5):?> selected<?php endif?>>5개</option>
+								<option value="6"<?php if($meta->max_attached_count == 6):?> selected<?php endif?>>6개</option>
+								<option value="7"<?php if($meta->max_attached_count == 7):?> selected<?php endif?>>7개</option>
+								<option value="8"<?php if($meta->max_attached_count == 8):?> selected<?php endif?>>8개</option>
+								<option value="9"<?php if($meta->max_attached_count == 9):?> selected<?php endif?>>9개</option>
+								<option value="10"<?php if($meta->max_attached_count == 10):?> selected<?php endif?>>10개</option>
+								<option value="11"<?php if($meta->max_attached_count == 11):?> selected<?php endif?>>11개</option>
+								<option value="12"<?php if($meta->max_attached_count == 12):?> selected<?php endif?>>12개</option>
+								<option value="13"<?php if($meta->max_attached_count == 13):?> selected<?php endif?>>13개</option>
+								<option value="14"<?php if($meta->max_attached_count == 14):?> selected<?php endif?>>14개</option>
+								<option value="15"<?php if($meta->max_attached_count == 15):?> selected<?php endif?>>15개</option>
+								<option value="16"<?php if($meta->max_attached_count == 16):?> selected<?php endif?>>16개</option>
+								<option value="17"<?php if($meta->max_attached_count == 17):?> selected<?php endif?>>17개</option>
+								<option value="18"<?php if($meta->max_attached_count == 18):?> selected<?php endif?>>18개</option>
+								<option value="19"<?php if($meta->max_attached_count == 19):?> selected<?php endif?>>19개</option>
+								<option value="20"<?php if($meta->max_attached_count == 20):?> selected<?php endif?>>20개</option>
+								<option value="25"<?php if($meta->max_attached_count == 25):?> selected<?php endif?>>25개</option>
+								<option value="30"<?php if($meta->max_attached_count == 30):?> selected<?php endif?>>30개</option>
+								<option value="50"<?php if($meta->max_attached_count == 50):?> selected<?php endif?>>50개</option>
+							</select>
+							<p class="description">게시글당 최대 첨부파일 개수를 정합니다. 일부 스킨에서는 적용되지 않습니다.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

@@ -43,17 +43,11 @@
 				</div>
 			</div>
 			
-			<?php if(isset($content->attach->file1)):?>
+			<?php foreach($content->attach as $key=>$attach):?>
 			<div class="kboard-attach">
-				<?php echo __('Attachment', 'kboard')?> : <a href="<?php echo $url->getDownloadURLWithAttach($content->uid, 'file1')?>"><?php echo $content->attach->file1[1]?></a>
+				<?php echo __('Attachment', 'kboard')?> : <a href="<?php echo $url->getDownloadURLWithAttach($content->uid, $key)?>"><?php echo $attach[1]?></a>
 			</div>
-			<?php endif?>
-			
-			<?php if(isset($content->attach->file2)):?>
-			<div class="kboard-attach">
-				<?php echo __('Attachment', 'kboard')?> : <a href="<?php echo $url->getDownloadURLWithAttach($content->uid, 'file2')?>"><?php echo $content->attach->file2[1]?></a>
-			</div>
-			<?php endif?>
+			<?php endforeach?>
 		</div>
 		
 		<?php if($content->visibleComments()):?>
