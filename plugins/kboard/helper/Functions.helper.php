@@ -293,4 +293,23 @@ function kboard_parse_size($size){
 		return round($size);
 	}
 }
+
+/**
+ * 허가된 첨부파일 확장자를 반환한다.
+ * @param boolean $to_array
+ */
+function kboard_allow_file_extensions($to_array=false){
+	$file_extensions = get_option('kboard_allow_file_extensions');
+	$file_extensions = trim($file_extensions);
+	
+	if(!$file_extensions){
+		$file_extensions = 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi';
+	}
+	
+	if($to_array){
+		$file_extensions = explode(',', $file_extensions);
+		return array_map('trim', $file_extensions);
+	}
+	return $file_extensions;
+}
 ?>

@@ -197,7 +197,7 @@ class KBFileHandler {
 		}
 		
 		if(count($extension)<=0 || !is_array($extension)){
-			$extension = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'zip', '7z', 'hwp', 'ppt', 'xls', 'doc', 'txt', 'pdf', 'xlsx', 'pptx', 'docx', 'torrent', 'smi');
+			$extension = kboard_allow_file_extensions(true);
 		}
 		
 		$this->extensions = apply_filters('kboard_upload_extension', $extension);

@@ -136,7 +136,6 @@ function kboard_iframe_whitelist($to_array=false){
 		$iframe_whitelist_data = explode(PHP_EOL, $iframe_whitelist_data);
 		return array_map('trim', $iframe_whitelist_data);
 	}
-	
 	return $iframe_whitelist_data;
 }
 ?>

@@ -58,6 +58,18 @@
 		</p>
 	</li>
 	<li>
+		<h4>첨부파일의 종류를 제한합니다.</h4>
+		<p>
+		보안의 이유로 첨부파일의 종류를 제한합니다.<br>
+		허용할 파일의 확장자를 콤마(,)로 구분해서 추가해주세요.<br>
+		첨부파일 업로드에 문제가 있다면 먼저 호스팅 관리자에게 문의 해보세요.
+		</p>
+		<p>
+			<input type="text" name="kboard_allow_file_extensions" value="<?php echo kboard_allow_file_extensions()?>" style="width:100%;">
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_allow_file_extensions', jQuery('input[name=kboard_allow_file_extensions]').val())">확장자 업데이트</button>
+		</p>
+	</li>
+	<li>
 		<h4>새글 알림 아이콘을 리스트에서 보여줍니다.</h4>
 		<p>
 		리스트에서 정해진 시간 이내로 등록된 글에 NEW 표시가 나타나도록 설정합니다.<br>
