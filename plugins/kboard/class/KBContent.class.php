@@ -206,6 +206,7 @@ class KBContent {
 		$data['title'] = $this->title;
 		$data['content'] = $this->content;
 		$data['date'] = date('YmdHis', current_time('timestamp'));
+		$data['update'] = date('YmdHis', current_time('timestamp'));
 		$data['view'] = 0;
 		$data['comment'] = 0;
 		$data['like'] = 0;
@@ -252,6 +253,7 @@ class KBContent {
 			$data['title'] = $this->title;
 			$data['content'] = $this->content;
 			$data['date'] = $this->date;
+			$data['update'] = date('YmdHis', current_time('timestamp'));
 			$data['view'] = $this->view;
 			$data['comment'] = $this->comment;
 			$data['like'] = $this->like;

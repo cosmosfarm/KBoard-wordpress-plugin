@@ -831,6 +831,7 @@ function kboard_activation_execute(){
 		`title` varchar(127) NOT NULL,
 		`content` longtext NOT NULL,
 		`date` char(14) DEFAULT NULL,
+		`update` char(14) DEFAULT NULL,
 		`view` int(10) unsigned DEFAULT NULL,
 		`comment` int(10) unsigned DEFAULT NULL,
 		`like` int(10) unsigned DEFAULT NULL,
@@ -913,7 +914,7 @@ function kboard_activation_execute(){
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `search`", ARRAY_N);
 	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` CHAR(1) DEFAULT NULL AFTER `notice`");
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` char(1) DEFAULT NULL AFTER `notice`");
 	}
 	unset($name);
 	
@@ -1014,6 +1015,17 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_attached` ADD INDEX (`content_uid`)");
 	}
 	unset($index);
+	
+	/*
+	 * KBoard 5.2
+	 * kboard_board_content 테이블에 update 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `update`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `update` char(14) NULL AFTER `date`");
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `update`=`date` WHERE 1");
+	}
+	unset($name);
 }
 
 /*
@@ -1265,5 +1277,16 @@ function kboard_system_update(){
 		return;
 	}
 	unset($index);
+	
+	/*
+	 * KBoard 5.2
+	 * kboard_board_content 테이블에 update 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `update`", ARRAY_N);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name);
 }
 ?>

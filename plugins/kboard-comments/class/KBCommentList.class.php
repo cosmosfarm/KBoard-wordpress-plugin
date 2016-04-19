@@ -143,7 +143,8 @@ class KBCommentList {
 		$insert_id = $wpdb->insert_id;
 		
 		// 댓글 숫자를 게시물에 등록한다.
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1 WHERE `uid`='{$content_uid}'");
+		$update = date('YmdHis', current_time('timestamp'));
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1, `update`='{$update}' WHERE `uid`='{$content_uid}'");
 		
 		// 댓글 입력 액션 훅 실행
 		do_action('kboard_comments_insert', $insert_id, $content_uid);
