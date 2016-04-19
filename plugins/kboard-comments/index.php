@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 4.2
+Version: 4.3-beta1
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
-define('KBOARD_COMMNETS_VERSION', '4.2');
+define('KBOARD_COMMNETS_VERSION', '4.3-beta1');
 define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
@@ -154,7 +154,7 @@ function kboard_comments_system_update(){
 	global $wpdb;
 	
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
-	if(KBOARD_COMMNETS_VERSION <= get_option('kboard_comments_version')) return;
+	if(version_compare(KBOARD_COMMNETS_VERSION, get_option('kboard_comments_version'), '<=')) return;
 	
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
 	if(get_option('kboard_comments_version') !== false) update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
