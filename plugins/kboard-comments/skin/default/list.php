@@ -1,4 +1,4 @@
-<div class="kboard-comments">
+<div id="kboard-comments" class="kboard-comments">
 	<div class="kboard-comments-wrap">
 		
 		<!-- 등록된 댓글 수 시작 -->

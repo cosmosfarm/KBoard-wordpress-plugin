@@ -77,7 +77,7 @@ class KBCommentController {
 		$commentList = new KBCommentList($content_uid);
 		$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
 		
-		header("Location: {$referer}");
+		header("Location: {$referer}#kboard-comments");
 		exit;
 	}
 	
