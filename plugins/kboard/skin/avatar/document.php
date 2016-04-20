@@ -20,7 +20,7 @@
 					<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
 					<div class="detail-value">
 						<?php if($content->member_uid):?>
-							<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 32, $default, $content->member_display)?></span>
+							<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 32, '', $content->member_display, array('class'=>'kboard-avatar'))?></span>
 						<?php endif?>
 						<?php echo $content->member_display?>
 					</div>
@@ -62,7 +62,7 @@
 				?>
 				<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>">
 					<span class="navi-arrow">«</span>
-					<span class="navi-document-title cut_strings"><?php echo $bottom_content->title?></span>
+					<span class="navi-document-title kboard-avatar-cut-strings"><?php echo $bottom_content->title?></span>
 				</a>
 				<?php endif?>
 			</div>
@@ -75,7 +75,7 @@
 				$top_content->initWithUID($top_content_uid);
 				?>
 				<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>">
-					<span class="navi-document-title cut_strings"><?php echo $top_content->title?></span>
+					<span class="navi-document-title kboard-avatar-cut-strings"><?php echo $top_content->title?></span>
 					<span class="navi-arrow">»</span>
 				</a>
 				<?php endif?>

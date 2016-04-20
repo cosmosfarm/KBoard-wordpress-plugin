@@ -64,7 +64,7 @@
 				?>
 				<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>">
 					<span class="navi-arrow">«</span>
-					<span class="navi-document-title cut_strings"><?php echo $bottom_content->title?></span>
+					<span class="navi-document-title kboard-customer-cut-strings"><?php echo $bottom_content->title?></span>
 				</a>
 				<?php endif?>
 			</div>
@@ -77,7 +77,7 @@
 				$top_content->initWithUID($top_content_uid);
 				?>
 				<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>">
-					<span class="navi-document-title cut_strings"><?php echo $top_content->title?></span>
+					<span class="navi-document-title kboard-customer-cut-strings"><?php echo $top_content->title?></span>
 					<span class="navi-arrow">»</span>
 				</a>
 				<?php endif?>

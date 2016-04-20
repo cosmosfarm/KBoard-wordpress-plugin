@@ -41,6 +41,9 @@ img { border: 0; }
 #kboard-default-list .kboard-list tbody tr.kboard-list-notice td.kboard-list-uid { font-weight: bold; color: #515151; }
 #kboard-default-list .kboard-list tbody td.kboard-list-title { text-align: left; }
 #kboard-default-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
+#kboard-default-list .kboard-list .kboard-mobile-contents { display: none; font-size: 12px; color: #c2c2c2; }
+#kboard-default-list .kboard-list .kboard-mobile-contents .contents-item { padding: 0 5px 0 0; }
+#kboard-default-list .kboard-list .kboard-mobile-contents .contents-item img { width: 12px; height: 12px; vertical-align: middle; }
 #kboard-default-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; line-height: 40px; list-style: none; text-align: center; border: 0; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
@@ -89,10 +92,10 @@ img { border: 0; }
 #kboard-default-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; box-shadow: none; color: #545861; }
 #kboard-default-document .kboard-document-navi .navi-document-title { display: block; }
 #kboard-default-document .kboard-document-navi .navi-arrow { position: absolute; display: block; }
-#kboard-default-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 50%; }
+#kboard-default-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 45%; }
 #kboard-default-document .kboard-document-navi .kboard-prev-document .navi-document-title { padding-left: 15px; }
 #kboard-default-document .kboard-document-navi .kboard-prev-document .navi-arrow { left: 0; top: 0; }
-#kboard-default-document .kboard-document-navi .kboard-next-document { position: relative; float: right; width: 50%; text-align: right; }
+#kboard-default-document .kboard-document-navi .kboard-next-document { position: relative; float: right; width: 45%; text-align: right; }
 #kboard-default-document .kboard-document-navi .kboard-next-document .navi-document-title { padding-right: 15px; }
 #kboard-default-document .kboard-document-navi .kboard-next-document .navi-arrow { right: 0; top: 0; }
 #kboard-default-document .kboard-control { float: left; padding: 15px 0;  width: 100%; }
@@ -113,10 +116,15 @@ img { border: 0; }
 	#kboard-default-list .kboard-search select { float: left; margin-right: 1%; width: 29%; }
 	#kboard-default-list .kboard-search input { float: left; margin-right: 1%; width: 49%; }
 	#kboard-default-list .kboard-search button { float: left; width: 20%; }
-	#kboard-default-list .kboard-list table td.kboard-list-uid { width: 50px; }
-	#kboard-default-list .kboard-list table td.kboard-list-date { width: 70px; }
-	#kboard-default-list .kboard-list td.kboard-list-user,
-	#kboard-default-list .kboard-list td.kboard-list-view { display: none; }
+	#kboard-default-list .kboard-list table { border-top: 1px solid #e3e3e3; }
+	#kboard-default-list .kboard-list table thead { display: none; }
+	#kboard-default-list .kboard-list table td.kboard-list-title { padding: 5px; }
+	#kboard-default-list .kboard-list table td.kboard-list-title .kboard-default-cut-strings { line-height: 40px; }
+	#kboard-default-list .kboard-list table td.kboard-list-uid,
+	#kboard-default-list .kboard-list table td.kboard-list-user,
+	#kboard-default-list .kboard-list table td.kboard-list-date,
+	#kboard-default-list .kboard-list table td.kboard-list-view { display: none; }
+	#kboard-default-list .kboard-list .kboard-mobile-contents { display: block; }
 	#kboard-default-list .kboard-pagination .kboard-pagination-pages li { display: none; }
 	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.first-page,
 	#kboard-default-list .kboard-pagination .kboard-pagination-pages li.last-page { display: inline-block; *display: inline; zoom: 1; }
@@ -136,7 +144,10 @@ img { border: 0; }
 	#kboard-default-editor .kboard-attr-row { padding: 10px 0; }
 	#kboard-default-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
 	
-	#kboard-default-document .kboard-detail .detail-attr { clear: both; }
+	#kboard-default-document .kboard-title p { padding: 10px 5px; font-size: 18px; }
+	#kboard-default-document .kboard-content .content-view { padding: 10px 5px; }
+	#kboard-default-document .kboard-detail .detail-attr { clear: both; padding: 10px 5px; line-height: normal; }
+	#kboard-default-document .kboard-attach { padding: 5px; }
 	#kboard-default-document .kboard-document-navi .kboard-prev-document { width: 100%; }
 	#kboard-default-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
 }
