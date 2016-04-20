@@ -7,7 +7,7 @@ if(!defined('ABSPATH')) exit;
  * @license http://www.gnu.org/licenses/gpl.html
  */
 function kboard_pagination($current_page, $total, $limit){
-	foreach($_GET as $key => $value){
+	foreach($_GET as $key=>$value){
 		if($key != 'pageid' && $value){
 			$query_strings[] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
 		}
@@ -43,11 +43,11 @@ function kboard_pagination($current_page, $total, $limit){
 	// 처음과 마지막 페이지가 아니라면 링크를 걸어주면 된다.
 	if($current_page != 1){
 		$prev_page = $current_page - 1;
-		$paging = "<li class=\"first-page\"><a href=\"?pageid=1{$query_strings}\">처음</a></li>" . "<li class=\"prev-page\"><a href=\"?pageid={$prev_page}{$query_strings}\">«</a></li>{$paging}";
+		$paging = "<li class=\"first-page\"><a href=\"?pageid=1{$query_strings}\">".__('First', 'kboard')."</a></li>" . "<li class=\"prev-page\"><a href=\"?pageid={$prev_page}{$query_strings}\">«</a></li>{$paging}";
 	}
 	if($current_page != $total_page){
 		$next_page = $current_page + 1;
-		$paging = "{$paging}<li class=\"next-page\"><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>" . "<li class=\"last-page\"><a href=\"?pageid={$total_page}{$query_strings}\">마지막</a></li>";
+		$paging = "{$paging}<li class=\"next-page\"><a href=\"?pageid={$next_page}{$query_strings}\">»</a></li>" . "<li class=\"last-page\"><a href=\"?pageid={$total_page}{$query_strings}\">".__('Last', 'kboard')."</a></li>";
 	}
 	
 	return $total?$paging:'<li class="active"><a href="#" onclick="return false">1</a></li>';
