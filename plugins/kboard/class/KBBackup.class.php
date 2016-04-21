@@ -19,7 +19,7 @@ class KBBackup {
 		global $wpdb;
 		$tables_result = $wpdb->get_results('SHOW TABLES', ARRAY_N);
 		foreach($tables_result as $table){
-			if(stristr($table[0], $wpdb->prefix.'kboard_')) $tables[] = $table[0];
+			if(strpos($table[0], $wpdb->prefix.'kboard_') !== false) $tables[] = $table[0];
 		}
 		return isset($tables)?$tables:array();
 	}
@@ -106,6 +106,7 @@ class KBBackup {
 		global $wpdb;
 		include 'XML2Array.class.php';
 		$xml = file_get_contents($file);
+		$xml = trim($xml);
 		$array = XML2Array::createArray($xml);
 		
 		foreach($array['kboard'] as $table=>$rows){

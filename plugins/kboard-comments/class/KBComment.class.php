@@ -7,13 +7,10 @@
  */
 class KBComment {
 	
-	var $userdata;
 	var $row;
 	
 	public function __construct(){
-		global $user_ID;
 		$this->row = new stdClass();
-		$this->userdata = get_userdata($user_ID);
 	}
 
 	public function __get($name){
@@ -30,6 +27,10 @@ class KBComment {
 		}
 	}
 	
+	public function __set($name, $value){
+		$this->row->{$name} = $value;
+	}
+	
 	/**
 	 * 댓글 고유번호를 입력받아 정보를 초기화한다.
 	 * @param int $uid
@@ -38,12 +39,12 @@ class KBComment {
 	public function initWithUID($uid){
 		global $wpdb;
 		$uid = intval($uid);
-		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid' LIMIT 1");
+		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid'");
 		return $this;
 	}
 	
 	/**
-	 * 댓글 정보를 입력받아 초기화 한다.
+	 * 댓글 정보를 입력받아 초기화한다.
 	 * @param object $comment
 	 * @return KBComment
 	 */
@@ -61,7 +62,7 @@ class KBComment {
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->content_uid}'");
 		$board = new KBoard($board_id);
 		
-		if(isset($this->userdata->data->ID) && $this->user_uid == $this->userdata->data->ID){
+		if(is_user_logged_in() && $this->user_uid == get_current_user_id()){
 			// 본인인 경우
 			return true;
 		}
@@ -71,6 +72,21 @@ class KBComment {
 		}
 		else{
 			return false;
+		}
+	}
+	
+	/**
+	 * 댓글 정보를 업데이트 한다.
+	 */
+	public function update(){
+		global $wpdb;
+		if($this->uid){
+			foreach($this->row as $key=>$value){
+				if($key == 'uid') continue;
+				$value = esc_sql($value);
+				$update[] = "`$key`='$value'";
+			}
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
 		}
 	}
 }

@@ -58,11 +58,6 @@ function kboard_mime_type($file){
 	/*
 	 * http://php.net/manual/en/function.mime-content-type.php#87856
 	 */
-	
-	if(function_exists('mime_content_type')){
-		return mime_content_type($file);
-	}
-	
 	$mime_types = array(
 			'txt' => 'text/plain',
 			'htm' => 'text/html',
@@ -141,7 +136,10 @@ function kboard_mime_type($file){
 	if(array_key_exists($ext, $mime_types)){
 		$mime_type = $mime_types[$ext];
 	}
-	else if(function_exists('finfo_open')){
+	else if(function_exists('mime_content_type') && file_exists($file)){
+		$mime_type = mime_content_type($file);
+	}
+	else if(function_exists('finfo_open') && file_exists($file)){
 		$finfo = finfo_open(FILEINFO_MIME);
 		$mime_type = finfo_file($finfo, $file);
 		finfo_close($finfo);

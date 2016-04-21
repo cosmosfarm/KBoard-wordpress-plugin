@@ -22,7 +22,7 @@ class KBCommentUrl {
 	}
 	
 	/**
-	 * 댓글 입력 URL
+	 * 댓글 입력 실행 URL
 	 * @return string
 	 */
 	public function getInsertURL(){
@@ -30,7 +30,7 @@ class KBCommentUrl {
 	}
 	
 	/**
-	 * 댓글 삭제 URL
+	 * 댓글 삭제 실행 URL
 	 * @return string
 	 */
 	public function getDeleteURL(){
@@ -38,11 +38,27 @@ class KBCommentUrl {
 	}
 	
 	/**
-	 * 댓글 비밀번호 확인 URL
+	 * 댓글 비밀번호 확인 페이지 URL
 	 * @return string
 	 */
 	public function getConfirmURL(){
 		return home_url("?action=kboard_comment_confirm&uid={$this->comment_uid}");
+	}
+	
+	/**
+	 * 댓글 수정 페이지 URL
+	 * @return string
+	 */
+	public function getEditURL(){
+		return home_url("?action=kboard_comment_edit&uid={$this->comment_uid}");
+	}
+	
+	/**
+	 * 댓글 업데이트 실행 URL
+	 * @return string
+	 */
+	public function getUpdateURL(){
+		return home_url("?action=kboard_comment_update&uid={$this->comment_uid}");
 	}
 }
 ?>

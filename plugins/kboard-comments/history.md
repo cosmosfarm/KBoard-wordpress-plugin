@@ -7,7 +7,8 @@ Next version
 
   1. 스킨 업데이트
   2. kboard_comments_skin_list 필터 추가
-  3. 버그 수정
+  3. 댓글 수정 기능 추가
+  4. 버그 수정
 
 
 4.2

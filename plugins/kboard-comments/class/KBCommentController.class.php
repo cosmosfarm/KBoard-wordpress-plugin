@@ -15,6 +15,9 @@ class KBCommentController {
 		else if($action == 'kboard_comment_delete'){
 			add_action('template_redirect', array($this, 'delete'));
 		}
+		else if($action == 'kboard_comment_update'){
+			add_action('template_redirect', array($this, 'update'));
+		}
 	}
 	
 	/**
@@ -85,8 +88,6 @@ class KBCommentController {
 	 * 댓글 삭제
 	 */
 	public function delete(){
-		global $user_ID;
-		
 		header("Content-Type: text/html; charset=UTF-8");
 		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
@@ -100,14 +101,13 @@ class KBCommentController {
 		}
 		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		
-		$userdata = $user_ID?get_userdata($user_ID):new stdClass();
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?$_POST['password']:'';
 		
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		else if((!isset($userdata->ID) || !$userdata->ID) && !$password){
+		else if(!is_user_logged_in() && !$password){
 			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
@@ -130,6 +130,54 @@ class KBCommentController {
 			// 삭제권한이 있는 사용자일 경우 팝업창은 없기 때문에 페이지 이동한다.
 			header("Location: {$referer}");
 		}
+		exit;
+	}
+	
+	/**
+	 * 댓글 수정
+	 */
+	public function update(){
+		header("Content-Type: text/html; charset=UTF-8");
+		
+		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
+		if($referer){
+			$url = parse_url($referer);
+			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
+		}
+		else{
+			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+		}
+		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+		
+		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
+		$password = isset($_POST['password'])?$_POST['password']:'';
+		$content = isset($_POST['content'])?$_POST['content']:'';
+		
+		if(!$uid){
+			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		else if(!$content){
+			die("<script>alert('".__('Please enter the content.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		else if(!is_user_logged_in() && !$password){
+			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		
+		$comment = new KBComment();
+		$comment->initWithUID($uid);
+		
+		if(!$comment->isEditor() && $comment->password != $password){
+			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		
+		$comment->content = $content;
+		$comment->update();
+		
+		echo '<script>';
+		echo 'opener.window.location.reload();';
+		echo 'window.close();';
+		echo '</script>';
 		exit;
 	}
 }

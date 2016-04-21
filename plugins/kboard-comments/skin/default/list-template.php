@@ -19,6 +19,10 @@
 				</span>
 				<span style="color:#a0a0a0;">|</span>
 				<span>
+					<a href="<?php echo $commentURL->getEditURL()?>" onclick="return kboard_comments_open_edit(this.href);"><?php echo __('Edit', 'kboard-comments')?></a>
+				</span>
+				<span style="color:#a0a0a0;">|</span>
+				<span>
 					<a href="#" onclick="return kboard_comments_reply(this, '#kboard_comments_reply_form_<?php echo $comment->uid?>', '#kboard_comments_form');" class="kboard-reply"><?php echo __('Reply', 'kboard-comments')?></a>
 				</span>
 			</div>

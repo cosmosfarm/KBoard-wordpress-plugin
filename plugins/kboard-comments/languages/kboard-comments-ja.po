@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-04-06 22:16+0900\n"
-"PO-Revision-Date: 2016-04-06 22:22+0900\n"
+"POT-Creation-Date: 2016-04-21 12:14+0900\n"
+"PO-Revision-Date: 2016-04-21 12:15+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -17,45 +17,56 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBCommentController.class.php:33
-#: class/KBCommentController.class.php:35
-#: class/KBCommentController.class.php:99
-#: class/KBCommentController.class.php:101
+#: class/KBCommentController.class.php:36
+#: class/KBCommentController.class.php:38
+#: class/KBCommentController.class.php:100
+#: class/KBCommentController.class.php:102
+#: class/KBCommentController.class.php:149
+#: class/KBCommentController.class.php:151
 msgid "This page is restricted from external access."
 msgstr "このページは、外部アクセスから制限されています。"
 
-#: class/KBCommentController.class.php:54 index.php:94
+#: class/KBCommentController.class.php:57 index.php:94
 msgid "Please enter the author."
 msgstr "著者を入力してください。"
 
-#: class/KBCommentController.class.php:57 index.php:95 template/confirm.php:46
+#: class/KBCommentController.class.php:60 index.php:95 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "パスワードを入力してください。"
 
-#: class/KBCommentController.class.php:60
+#: class/KBCommentController.class.php:63
 msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
 msgstr "CAPTCHAは無効です。CAPTCHAを入力してください。"
 
-#: class/KBCommentController.class.php:63 index.php:97
+#: class/KBCommentController.class.php:66
+#: class/KBCommentController.class.php:161 index.php:97 template/edit.php:37
 msgid "Please enter the content."
 msgstr "内容を入力してください。"
 
-#: class/KBCommentController.class.php:66
+#: class/KBCommentController.class.php:69
 msgid "content_uid is required."
 msgstr "content_uidのが必要です。"
 
-#: class/KBCommentController.class.php:74
+#: class/KBCommentController.class.php:77
 #: class/KBCommentController.class.php:117
+#: class/KBCommentController.class.php:171
 msgid "You do not have permission."
 msgstr "あなたが権限を持っていません。"
 
-#: class/KBCommentController.class.php:108 template/confirm.php:6
+#: class/KBCommentController.class.php:108
+#: class/KBCommentController.class.php:158 class/KBCommentTemplate.class.php:26
+#: class/KBCommentTemplate.class.php:50
 msgid "uid is required."
 msgstr "uidが必要です。"
 
 #: class/KBCommentController.class.php:111
+#: class/KBCommentController.class.php:164
 msgid "Please log in to continue."
 msgstr "継続するには、ログインしてください。"
+
+#: class/KBCommentTemplate.class.php:33 class/KBCommentTemplate.class.php:57
+msgid "Comment does not exist."
+msgstr "コメントは存在しません。"
 
 #: index.php:16
 msgid "KBoard : 댓글"
@@ -65,7 +76,7 @@ msgstr "KBoard : Comments"
 msgid "전체 댓글"
 msgstr "全体コメント"
 
-#: index.php:92 skin/default/list-template.php:22
+#: index.php:92 skin/default/list-template.php:26
 msgid "Reply"
 msgstr "応答"
 
@@ -101,6 +112,10 @@ msgstr "あなたが削除してもよろしいですか？"
 msgid "Delete"
 msgstr "削除"
 
+#: skin/default/list-template.php:22
+msgid "Edit"
+msgstr "編集"
+
 #: skin/default/list.php:6
 msgid "Total Reply"
 msgstr "全体"
@@ -113,21 +128,21 @@ msgstr "個"
 msgid "Author"
 msgstr "投稿者"
 
-#: skin/default/list.php:29 skin/default/list.php:30
+#: skin/default/list.php:29 skin/default/list.php:30 template/confirm.php:26
 msgid "Password"
 msgstr "パスワード"
 
-#: skin/default/list.php:40 template/confirm.php:40
+#: skin/default/list.php:40 template/confirm.php:27 template/edit.php:28
 msgid "Submit"
 msgstr "登録"
 
-#: template/confirm.php:13
-msgid "Comment does not exist."
-msgstr "コメントは存在しません。"
-
-#: template/confirm.php:25 template/confirm.php:38
+#: template/confirm.php:9 template/confirm.php:23 template/edit.php:9
 msgid "Password confirmation"
 msgstr "パスワードの確認"
+
+#: template/edit.php:23
+msgid "Edit content"
+msgstr "内容の編集"
 
 #~ msgid "No document UID."
 #~ msgstr "投稿の固有番号がありません。"
@@ -195,9 +210,6 @@ msgstr "パスワードの確認"
 #~ msgid "Next"
 #~ msgstr "다음글"
 
-#~ msgid "Edit"
-#~ msgstr "글수정"
-
 #~ msgid "The Best of WordPress Board"
 #~ msgstr "의미있는 워드프레스 게시판"
 
@@ -236,9 +248,6 @@ msgstr "パスワードの確認"
 
 #~ msgid "All"
 #~ msgstr "전체"
-
-#~ msgid "Content"
-#~ msgstr "내용"
 
 #~ msgid "Search"
 #~ msgstr "검색"
