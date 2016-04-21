@@ -693,6 +693,15 @@ function kboard_scripts(){
 	// KBoard 미디어 추가 스타일 속성 등록
 	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
 	
+	// 설정 등록
+	$localize = array(
+			'post_url' => admin_url('admin-post.php'),
+			'alax_url' => admin_url('admin-ajax.php'),
+			'plugin_url' => KBOARD_URL_PATH,
+			'media_group' => uniqid(),
+	);
+	wp_localize_script('kboard-script', 'kboard_settings', $localize);
+	
 	// 번역 등록
 	$localize = array(
 			'kboard_add_media' => __('KBoard Add Media', 'kboard'),

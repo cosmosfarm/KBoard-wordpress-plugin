@@ -72,7 +72,7 @@ class KBoardBuilder {
 		// 소셜댓글 플러그인 생성
 		if(!$check_kboard_comments_plugin_once){
 			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
-				add_action('wp_footer', array($this, 'footerAddPluginInfo'), 1);
+				wp_localize_script('kboard-script', 'cosmosfarm_comments_plugin_id', $this->meta->comments_plugin_id);
 				wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
 				wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
 			}
@@ -82,18 +82,8 @@ class KBoardBuilder {
 		if(!$is_latest){
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
-						
-			// 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
-			add_action('wp_footer', array($this, 'footerAddMediaGroup'));
 			
-			// 플러그인 주소를 출력한다.
-			add_action('wp_footer', array($this, 'footerAddPluginURL'));
-			
-			// 게시글 고유번호를 출력한다.
-			add_action('wp_footer', array($this, 'footerAddBoardID'));
-			
-			// 게시글 고유번호를 출력한다.
-			add_action('wp_footer', array($this, 'footerAddContentUID'));
+			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
 			
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
@@ -448,41 +438,6 @@ class KBoardBuilder {
 		
 		include KBOARD_DIR_PATH . "/skin/{$this->skin}/latest.php";
 		return ob_get_clean();
-	}
-	
-	/**
-	 * 페이지 하단에 소셜댓글 플러그인 ID 정보를 출력한다.
-	 */
-	public function footerAddPluginInfo(){
-		echo "<script>var cosmosfarm_comments_plugin_id='{$this->meta->comments_plugin_id}';</script>\n";
-	}
-	
-	/**
-	 * 이미지 업로드를 위한 임시 미디어 그룹을 출력한다.
-	 */
-	public function footerAddMediaGroup(){
-		echo "<script>var kbaord_media_group='".uniqid()."';</script>\n";
-	}
-	
-	/**
-	 * 플러그인 주소를 출력한다.
-	 */
-	public function footerAddPluginURL(){
-		echo "<script>var kbaord_plugin_url='".KBOARD_URL_PATH."';</script>\n";
-	}
-	
-	/**
-	 * 게시판 번호를 출력한다.
-	 */
-	public function footerAddBoardID(){
-		echo "<script>var kbaord_board_id='{$_SESSION['kboard_board_id']}';</script>\n";
-	}
-	
-	/**
-	 * 게시글 고유번호를 출력한다.
-	 */
-	public function footerAddContentUID(){
-		echo "<script>var kbaord_content_uid='{$this->uid}';</script>\n";
 	}
 }
 ?>

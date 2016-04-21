@@ -2,11 +2,13 @@
  * @author http://www.cosmosfarm.com/
  */
 
+var kboard_ajax_lock = false;
+
 function kboard_editor_open_media(){
 	var w = 900;
 	var h = 500;
 	
-	if(kbaord_board_id){
+	if(kbaord_current.board_id){
 		var wrapper = jQuery('<div id="kboard_media_wrapper"></div>');
 		var background = jQuery('<div id="kboard_media_background"></div>').css({opacity:'0.5'}).click(function(){
 			kboard_media_close();
@@ -23,11 +25,11 @@ function kboard_editor_open_media(){
 		init_window_size();
 		jQuery(window).resize(init_window_size);
 		
-		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', '?action=kboard_media&board_id='+kbaord_board_id+'&media_group='+kbaord_media_group+'&content_uid='+kbaord_content_uid));
+		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', '?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
 		jQuery('body').append(background).append(wrapper);
 		
-		if(!jQuery('input[name=media_group]').filter(function(){return this.value==kbaord_media_group}).length){
-			jQuery('[name="board_id"]').parents('form').append(jQuery('<input type="hidden" name="media_group">').val(kbaord_media_group));
+		if(!jQuery('input[name=media_group]').filter(function(){return this.value==kboard_settings.media_group}).length){
+			jQuery('[name="board_id"]').parents('form').append(jQuery('<input type="hidden" name="media_group">').val(kboard_settings.media_group));
 		}
 	}
 }
@@ -48,4 +50,84 @@ function kboard_editor_insert_media(url){
 function kboard_media_close(){
 	jQuery('#kboard_media_background').remove();
 	jQuery('#kboard_media_wrapper').remove();
+}
+
+function kboard_document_like(button){
+	if(!kboard_ajax_lock){
+		kboard_ajax_lock = true;
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid')}, function(res){
+			kboard_ajax_lock = false;
+			if(res){
+				alert('추천 했습니다.');
+				jQuery('.kboard-document-like-count', button).text(res);
+			}
+			else{
+				alert('이미 추천 또는 반대 하셨습니다.');
+			}
+		});
+	}
+	else{
+		alert('잠시만 기다려 주세요.');
+	}
+	return false;
+}
+
+function kboard_document_unlike(button){
+	if(!kboard_ajax_lock){
+		kboard_ajax_lock = true;
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid')}, function(res){
+			kboard_ajax_lock = false;
+			if(res){
+				alert('반대 했습니다.');
+				jQuery('.kboard-document-unlike-count', button).text(res);
+			}
+			else{
+				alert('이미 추천 또는 반대 하셨습니다.');
+			}
+		});
+	}
+	else{
+		alert('잠시만 기다려 주세요.');
+	}
+	return false;
+}
+
+function kboard_comment_like(button){
+	if(!kboard_ajax_lock){
+		kboard_ajax_lock = true;
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid')}, function(res){
+			kboard_ajax_lock = false;
+			if(res){
+				alert('추천 했습니다.');
+				jQuery('.kboard-comment-like-count', button).text(res);
+			}
+			else{
+				alert('이미 추천 또는 반대 하셨습니다.');
+			}
+		});
+	}
+	else{
+		alert('잠시만 기다려 주세요.');
+	}
+	return false;
+}
+
+function kboard_comment_unlike(button){
+	if(!kboard_ajax_lock){
+		kboard_ajax_lock = true;
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid')}, function(res){
+			kboard_ajax_lock = false;
+			if(res){
+				alert('반대 했습니다.');
+				jQuery('.kboard-comment-unlike-count', button).text(res);
+			}
+			else{
+				alert('이미 추천 또는 반대 하셨습니다.');
+			}
+		});
+	}
+	else{
+		alert('잠시만 기다려 주세요.');
+	}
+	return false;
 }
