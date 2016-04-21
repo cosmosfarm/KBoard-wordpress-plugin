@@ -41,11 +41,23 @@
 				</div>
 			</div>
 			
-			<?php foreach($content->attach as $key=>$attach):?>
-			<div class="kboard-attach">
-				<?php echo __('Attachment', 'kboard')?> : <a href="<?php echo $url->getDownloadURLWithAttach($content->uid, $key)?>"><?php echo $attach[1]?></a>
+			<div class="kboard-document-action">
+				<div class="left">
+					<button type="button" class="kboard-button-action kboard-button-like" onclick="kboard_document_like(this)" data-uid="<?php echo $content->uid?>" title="<?php echo __('Like', 'kboard')?>"><?php echo __('Like', 'kboard')?> <span class="kboard-document-like-count"><?php echo intval($content->like)?></span></button>
+					<button type="button" class="kboard-button-action kboard-button-unlike" onclick="kboard_document_unlike(this)" data-uid="<?php echo $content->uid?>" title="<?php echo __('Unlike', 'kboard')?>"><?php echo __('Unlike', 'kboard')?> <span class="kboard-document-unlike-count"><?php echo intval($content->unlike)?></span></button>
+				</div>
+				<div class="right">
+					<button type="button" class="kboard-button-action kboard-button-print" onclick="" data-uid="<?php echo $content->uid?>" title="<?php echo __('Print', 'kboard')?>"><?php echo __('Print', 'kboard')?></button>
+				</div>
 			</div>
-			<?php endforeach?>
+			
+			<?php if(count((array)$content->attach) > 0):?>
+			<div class="kboard-attach">
+				<?php foreach($content->attach as $key=>$attach):?>
+				<button type="button" class="kboard-button-action kboard-button-download" onclick="window.location.href='<?php echo $url->getDownloadURLWithAttach($content->uid, $key)?>'" title="<?php echo sprintf(__('Download %s', 'kboard'), $attach[1])?>"><?php echo $attach[1]?></button>
+				<?php endforeach?>
+			</div>
+			<?php endif?>
 		</div>
 		
 		<?php if($content->visibleComments()):?>

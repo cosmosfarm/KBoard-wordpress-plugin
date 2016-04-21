@@ -88,7 +88,15 @@ img { border: 0; }
 #kboard-avatar-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
 #kboard-avatar-document .kboard-content .content-view img { margin-top: 0; margin-bottom: 0; max-width: 100%; }
 #kboard-avatar-document .kboard-content .content-view .thumbnail-area { text-align: center; }
-#kboard-avatar-document .kboard-attach { padding: 0 0 5px 22px; font-size: 12px; }
+#kboard-avatar-document .kboard-document-action { padding: 0 22px 5px 22px; overflow: hidden; line-height: 1; }
+#kboard-avatar-document .kboard-document-action .left { position: static; float: left; }
+#kboard-avatar-document .kboard-document-action .right { position: static; float: right; text-align: right; }
+#kboard-avatar-document .kboard-attach { margin: 0 22px; padding: 10px 0 5px 0; font-size: 12px; overflow: hidden; line-height: 1; border-top: 1px dashed #ededed; }
+#kboard-avatar-document .kboard-button-action { margin: 0 0 5px 0; padding: 4px 5px; font-size: 12px; font-weight: normal; line-height: 12px; text-align: left; border: 1px solid #ededed; background: none; background-color: transparent; border-radius: 2px; letter-spacing: normal; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
+#kboard-avatar-document .kboard-button-like { color: #ff5959; }
+#kboard-avatar-document .kboard-button-unlike { color: #3d62aa; }
+#kboard-avatar-document .kboard-button-print { color: gray; }
+#kboard-avatar-document .kboard-button-download { color: gray; }
 #kboard-avatar-document .kboard-comments-area { float: left; width: 100%; }
 #kboard-avatar-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
 #kboard-avatar-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; box-shadow: none; color: #545861; }
@@ -150,7 +158,8 @@ img { border: 0; }
 	#kboard-avatar-document .kboard-content .content-view { padding: 10px 5px; }
 	#kboard-avatar-document .kboard-detail .detail-attr { clear: both; padding: 10px 5px; line-height: normal; }
 	#kboard-avatar-document .kboard-detail .detail-attr.detail-writer { line-height: 32px; }
-	#kboard-avatar-document .kboard-attach { padding: 5px; }
+	#kboard-avatar-document .kboard-document-action { padding: 10px 5px 5px 5px; }
+	#kboard-avatar-document .kboard-attach { margin: 0 5px; padding: 10px 0 5px 0; }
 	#kboard-avatar-document .kboard-document-navi .kboard-prev-document { width: 100%; }
 	#kboard-avatar-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
 }

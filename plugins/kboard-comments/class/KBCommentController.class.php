@@ -207,7 +207,6 @@ class KBCommentController {
 				}
 			}
 		}
-		echo 0;
 		exit;
 	}
 	
@@ -231,7 +230,6 @@ class KBCommentController {
 				}
 			}
 		}
-		echo 0;
 		exit;
 	}
 }

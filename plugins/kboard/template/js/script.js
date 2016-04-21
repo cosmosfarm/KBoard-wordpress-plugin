@@ -58,16 +58,15 @@ function kboard_document_like(button){
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
 			if(res){
-				alert('추천 했습니다.');
 				jQuery('.kboard-document-like-count', button).text(res);
 			}
 			else{
-				alert('이미 추천 또는 반대 하셨습니다.');
+				alert(kboard_localize_strings.you_have_already_voted);
 			}
 		});
 	}
 	else{
-		alert('잠시만 기다려 주세요.');
+		alert(kboard_localize_strings.please_wait);
 	}
 	return false;
 }
@@ -78,16 +77,15 @@ function kboard_document_unlike(button){
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
 			if(res){
-				alert('반대 했습니다.');
 				jQuery('.kboard-document-unlike-count', button).text(res);
 			}
 			else{
-				alert('이미 추천 또는 반대 하셨습니다.');
+				alert(kboard_localize_strings.you_have_already_voted);
 			}
 		});
 	}
 	else{
-		alert('잠시만 기다려 주세요.');
+		alert(kboard_localize_strings.please_wait);
 	}
 	return false;
 }
@@ -98,16 +96,15 @@ function kboard_comment_like(button){
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
 			if(res){
-				alert('추천 했습니다.');
 				jQuery('.kboard-comment-like-count', button).text(res);
 			}
 			else{
-				alert('이미 추천 또는 반대 하셨습니다.');
+				alert(kboard_localize_strings.you_have_already_voted);
 			}
 		});
 	}
 	else{
-		alert('잠시만 기다려 주세요.');
+		alert(kboard_localize_strings.please_wait);
 	}
 	return false;
 }
@@ -118,16 +115,15 @@ function kboard_comment_unlike(button){
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
 			if(res){
-				alert('반대 했습니다.');
 				jQuery('.kboard-comment-unlike-count', button).text(res);
 			}
 			else{
-				alert('이미 추천 또는 반대 하셨습니다.');
+				alert(kboard_localize_strings.you_have_already_voted);
 			}
 		});
 	}
 	else{
-		alert('잠시만 기다려 주세요.');
+		alert(kboard_localize_strings.please_wait);
 	}
 	return false;
 }

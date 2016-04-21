@@ -332,7 +332,6 @@ class KBController {
 				}
 			}
 		}
-		echo 0;
 		exit;
 	}
 	
@@ -356,7 +355,6 @@ class KBController {
 				}
 			}
 		}
-		echo 0;
 		exit;
 	}
 }
