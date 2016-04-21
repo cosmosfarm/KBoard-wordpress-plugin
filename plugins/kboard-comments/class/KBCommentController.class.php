@@ -18,6 +18,12 @@ class KBCommentController {
 		else if($action == 'kboard_comment_update'){
 			add_action('template_redirect', array($this, 'update'));
 		}
+		
+		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
+		add_action('wp_ajax_nopriv_kboard_comment_like', array($this, 'commentLike'));
+		
+		add_action('wp_ajax_kboard_comment_unlike', array($this, 'commentUnlike'));
+		add_action('wp_ajax_nopriv_kboard_comment_unlike', array($this, 'commentUnlike'));
 	}
 	
 	/**
@@ -178,6 +184,54 @@ class KBCommentController {
 		echo 'opener.window.location.reload();';
 		echo 'window.close();';
 		echo '</script>';
+		exit;
+	}
+	
+	/**
+	 * 댓글 좋아요
+	 */
+	public function commentLike(){
+		if(isset($_POST['comment_uid']) && intval($_POST['comment_uid'])){
+			if(!@in_array($_POST['comment_uid'], $_SESSION['comment_vote'])){
+				$_SESSION['comment_vote'][] = $_POST['comment_uid'];
+				
+				$comment = new KBComment();
+				$comment->initWithUID($_POST['comment_uid']);
+				
+				if($comment->uid){
+					$comment->like+=1;
+					$comment->vote = $comment->like - $comment->unlike;
+					$comment->update();
+					echo intval($comment->like);
+					exit;
+				}
+			}
+		}
+		echo 0;
+		exit;
+	}
+	
+	/**
+	 * 댓글 싫어요
+	 */
+	public function commentUnlike(){
+		if(isset($_POST['comment_uid']) && intval($_POST['comment_uid'])){
+			if(!@in_array($_POST['comment_uid'], $_SESSION['comment_vote'])){
+				$_SESSION['comment_vote'][] = $_POST['comment_uid'];
+				
+				$comment = new KBComment();
+				$comment->initWithUID($_POST['comment_uid']);
+				
+				if($comment->uid){
+					$comment->unlike+=1;
+					$comment->vote = $comment->like - $comment->unlike;
+					$comment->update();
+					echo intval($comment->unlike);
+					exit;
+				}
+			}
+		}
+		echo 0;
 		exit;
 	}
 }

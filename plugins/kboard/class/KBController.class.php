@@ -26,6 +26,12 @@ class KBController {
 		else if($action == 'kboard_file_download'){
 			add_action('template_redirect', array($this, 'fileDownload'), 0);
 		}
+		
+		add_action('wp_ajax_kboard_document_like', array($this, 'documentLike'));
+		add_action('wp_ajax_nopriv_kboard_document_like', array($this, 'documentLike'));
+		
+		add_action('wp_ajax_kboard_document_unlike', array($this, 'documentUnlike'));
+		add_action('wp_ajax_nopriv_kboard_document_unlike', array($this, 'documentUnlike'));
 	}
 	
 	/**
@@ -303,6 +309,54 @@ class KBController {
 			fpassthru($fp);
 			fclose($fp);
 		}
+		exit;
+	}
+	
+	/**
+	 * 게시글 좋아요
+	 */
+	public function documentLike(){
+		if(isset($_POST['document_uid']) && intval($_POST['document_uid'])){
+			if(!@in_array($_POST['document_uid'], $_SESSION['document_vote'])){
+				$_SESSION['document_vote'][] = $_POST['document_uid'];
+				
+				$content = new KBContent();
+				$content->initWithUID($_POST['document_uid']);
+				
+				if($content->uid){
+					$content->like+=1;
+					$content->vote = $content->like - $content->unlike;
+					$content->updateContent();
+					echo intval($content->like);
+					exit;
+				}
+			}
+		}
+		echo 0;
+		exit;
+	}
+	
+	/**
+	 * 게시글 싫어요
+	 */
+	function documentUnlike(){
+		if(isset($_POST['document_uid']) && intval($_POST['document_uid'])){
+			if(!@in_array($_POST['document_uid'], $_SESSION['document_vote'])){
+				$_SESSION['document_vote'][] = $_POST['document_uid'];
+				
+				$content = new KBContent();
+				$content->initWithUID($_POST['document_uid']);
+				
+				if($content->uid){
+					$content->unlike+=1;
+					$content->vote = $content->like - $content->unlike;
+					$content->updateContent();
+					echo intval($content->unlike);
+					exit;
+				}
+			}
+		}
+		echo 0;
 		exit;
 	}
 }
