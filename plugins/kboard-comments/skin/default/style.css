@@ -16,10 +16,11 @@
 .kboard-comments .comments-list ul li { margin: 0; padding: 15px 0 0 0; list-style: none; border: 0; background: none; }
 .kboard-comments .comments-list .comments-list-item { float: left; margin: 0; padding-right: 10px; font-size: 11px; color: #a0a0a0; }
 .kboard-comments .comments-list .comments-list-username { float: left; margin: 0; padding-right: 10px; width: auto; font-size: 12px; color: #3b3b3b; font-weight: bold; }
-.kboard-comments .comments-list .comments-list-create { float: left; margin: 0; padding-right: 10px; width: auto; font-size: 12px; color: #3b3b3b; }
+.kboard-comments .comments-list .comments-list-username img { display: inline; width: auto; height: auto; max-width: 100%; vertical-align: middle; border-radius: 50%; }
+.kboard-comments .comments-list .comments-list-create { float: left; margin: 0; padding-right: 10px; width: auto; font-size: 12px; color: gray; }
 .kboard-comments .comments-list .comments-list-content { clear: both; float: inherit; margin: 0; padding: 10px 0; width: 100%; font-size: 12px;  color: #3b3b3b; }
 .kboard-comments .comments-list .comments-list-content a { color: #f05726; text-decoration: none; border: 0; text-shadow: none; box-shadow: none; }
-.kboard-comments .comments-list .comments-list-content img { display: inline; width: auto; max-width: 100%; vertical-align: middle; }
+.kboard-comments .comments-list .comments-list-content img { display: inline; width: auto; height: auto; max-width: 100%; vertical-align: middle; }
 .kboard-comments .comments-list .comments-list-controller { float: inherit; margin: 0; }
 .kboard-comments .comments-list .comments-list-controller span { font-size: 11px; }
 .kboard-comments .comments-list .comments-list-controller a { color: #f05726; text-decoration: none; border: 0; text-shadow: none; box-shadow: none; }

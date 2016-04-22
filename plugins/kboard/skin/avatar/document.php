@@ -19,10 +19,7 @@
 				<div class="detail-attr detail-writer">
 					<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
 					<div class="detail-value">
-						<?php if($content->member_uid):?>
-							<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 32, '', $content->member_display, array('class'=>'kboard-avatar'))?></span>
-						<?php endif?>
-						<?php echo $content->member_display?>
+						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display, array('class'=>'kboard-avatar'))?></span> <?php echo $content->member_display?>
 					</div>
 				</div>
 				<div class="detail-attr detail-date">
