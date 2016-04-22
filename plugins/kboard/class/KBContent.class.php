@@ -137,12 +137,16 @@ class KBContent {
 			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
-			// captcha 코드 확인
-			include_once 'KBCaptcha.class.php';
-			$captcha = new KBCaptcha();
-			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
-			if(!$captcha->textCheck($captcha_text)){
-				die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
+			$board = $this->getBoard();
+			
+			if($board->useCAPTCHA()){
+				// captcha 코드 확인
+				include_once 'KBCaptcha.class.php';
+				$captcha = new KBCaptcha();
+				$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
+				if(!$captcha->textCheck($captcha_text)){
+					die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
+				}
 			}
 			
 			// 신규게시물 등록
@@ -154,8 +158,6 @@ class KBContent {
 				$this->addMediaRelationships();
 				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
-				$board = new KBoard();
-				$board->setID($this->board_id);
 				if($board->meta->latest_alerts){
 					include_once 'KBMail.class.php';
 					/*
@@ -649,14 +651,8 @@ class KBContent {
 	 */
 	public function getCommentsCount($prefix='(', $endfix=')', $default=''){
 		if($this->uid){
-			if(isset($this->board->id) && $this->board->id){
-				$meta = $this->board->meta;
-			}
-			else if($this->board_id){
-				$meta = new KBoardMeta($this->board_id);
-			}
-			
-			if($meta->comments_plugin_id && $meta->use_comments_plugin){
+			$board = $this->getBoard();
+			if($board->meta->comments_plugin_id && $board->meta->use_comments_plugin){
 				$url = new KBUrl();
 				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.$url->getCommentsPluginURLWithUID($this->uid).'" data-prefix="'.$prefix.'" data-endfix="'.$endfix.'" data-default="'.$default.'"></span>';
 			}
@@ -777,6 +773,20 @@ class KBContent {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * 게시판 정보를 반환한다.
+	 * @return KBoard
+	 */
+	public function getBoard(){
+		if(isset($this->board->id) && $this->board->id){
+			return $this->board;
+		}
+		else if($this->board_id){
+			$this->board = new KBoard($this->board_id);
+			return $this->board;
+		}
 	}
 	
 	/**

@@ -94,6 +94,15 @@
 		</p>
 	</li>
 	<li>
+		<h4>모든 게시판에서 <?php echo get_option('kboard_captcha_stop')?'비로그인 사용자 CAPTCHA 기능이 중지되었습니다.':'비로그인 사용자 CAPTCHA 기능을 사용중입니다.'?></h4>		
+		<p>
+		CAPTCHA(캡챠)란 기계는 인식 할 수없는 임의의 문자를 생성하여 입력 받아, 스팸을 차단하는 기능입니다.<br>
+		게시판과 댓글 작성시 비로그인 사용자는 CAPTCHA 보안코드를 입력하도록 합니다.<br>
+		비활성화 하게되면 스팸이 등록될 확률이 높아집니다.
+		</p>
+		<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_captcha_stop', '<?php echo get_option('kboard_captcha_stop')?'':'1'?>')">모든 게시판에서 비로그인 사용자 CAPTCHA 기능 <?php echo get_option('kboard_captcha_stop')?'사용하기':'중지하기'?></button></p>
+	</li>
+	<li>
 		<h4>커스텀 CSS</h4>
 		<p>
 		스킨파일 수정없이 새로운 디자인 속성을 추가할 수 있습니다.<br>

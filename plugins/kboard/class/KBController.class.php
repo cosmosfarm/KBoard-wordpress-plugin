@@ -38,8 +38,6 @@ class KBController {
 	 * 게시글 등록 및 수정
 	 */
 	public function editorExecute(){
-		global $user_ID;
-		
 		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
 			header('Content-Type: text/html; charset=UTF-8');
 			
@@ -52,7 +50,7 @@ class KBController {
 			}
 			
 			if($board->isWriter() && $board->permission_write=='all' && $_POST['title']){
-				if(!$user_ID && !$_POST['password']){
+				if(!is_user_logged_in() && !$_POST['password']){
 					die('<script>alert("'.__('Please enter your password.', 'kboard').'");history.go(-1);";</script>');
 				}
 			}
@@ -60,6 +58,7 @@ class KBController {
 			$content = new KBContent();
 			$content->initWithUID($uid);
 			$content->setBoardID($board_id);
+			$content->board = $board;
 			
 			if(!$uid && !$board->isWriter()){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');

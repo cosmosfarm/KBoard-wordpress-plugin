@@ -54,6 +54,9 @@
 			<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?></label>
 			<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
 		</div>
+		<?php endif?>
+		
+		<?php if($board->useCAPTCHA() && !$content->uid):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name" for="kboard-input-captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
 			<div class="attr-value"><input type="text" id="kboard-input-captcha" name="captcha" value="" placeholder="<?php echo __('CAPTCHA', 'kboard')?>..."></div>

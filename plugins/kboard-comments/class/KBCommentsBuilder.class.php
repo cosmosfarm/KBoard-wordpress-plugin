@@ -34,8 +34,7 @@ class KBCommentsBuilder {
 	 * @return string
 	 */
 	public function create(){
-		global $user_ID;
-		$userdata = $user_ID?get_userdata($user_ID):new stdClass();
+		$board = $this->board;
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
 		
@@ -45,8 +44,9 @@ class KBCommentsBuilder {
 		$commentList = new KBCommentList($this->content_uid);
 		$commentBuilder = $this;
 		
-		$member_uid = isset($userdata->ID)?$userdata->ID:'';
-		$member_display = isset($userdata->display_name)?$userdata->display_name:'';
+		$current_user = wp_get_current_user();
+		$member_uid = $current_user->ID;
+		$member_display = $current_user->display_name;
 		
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
@@ -57,8 +57,7 @@ class KBCommentsBuilder {
 	 * @param int $parent_uid
 	 */
 	public function buildTreeList($template, $parent_uid=''){
-		global $user_ID;
-		$userdata = $user_ID?get_userdata($user_ID):new stdClass();
+		$board = $this->board;
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
 		
@@ -66,8 +65,9 @@ class KBCommentsBuilder {
 		$commentList = new KBCommentList();
 		$commentBuilder = $this;
 		
-		$member_uid = isset($userdata->ID)?$userdata->ID:'';
-		$member_display = isset($userdata->display_name)?$userdata->display_name:'';
+		$current_user = wp_get_current_user();
+		$member_uid = $current_user->ID;
+		$member_display = $current_user->display_name;
 		
 		if($parent_uid) $commentList->initWithParentUID($parent_uid);
 		else $commentList->initWithUID($this->content_uid);
@@ -80,8 +80,6 @@ class KBCommentsBuilder {
 	 * @return boolean
 	 */
 	public function isWriter(){
-		global $user_ID;
-		
 		if(!$this->permission_comment_write){
 			return true;
 		}
@@ -90,9 +88,8 @@ class KBCommentsBuilder {
 				return true;
 			}
 			else if($this->permission_comment_write=='roles'){
-				$board = new KBoard($this->board_id);
-				$userdata = $user_ID?get_userdata($user_ID):new stdClass();
-				if(isset($userdata->roles) && array_intersect($board->getCommentRoles(), $userdata->roles)){
+				$current_user = wp_get_current_user();
+				if(isset($current_user->roles) && array_intersect($this->board->getCommentRoles(), $current_user->roles)){
 					return true;
 				}
 			}

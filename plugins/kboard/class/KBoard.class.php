@@ -357,5 +357,15 @@ class KBoard {
 		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$board_id'");
 		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$board_id'");
 	}
+	
+	/**
+	 * 게시판에서 CAPTCHA 사용 여부를 확인한다.
+	 */
+	public function useCAPTCHA(){
+		if(is_user_logged_in() || get_option('kboard_captcha_stop')){
+			return false;
+		}
+		return true;
+	}
 }
 ?>

@@ -59,13 +59,26 @@ class KBCommentController {
 		$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
 		$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
 		
-		if(!is_user_logged_in() && !$member_display){
+		$document = new KBContent();
+		$document->initWithUID($content_uid);
+		$board = new KBoard($document->board_id);
+		
+		if(!$board->id){
+			die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		else if(!$document->uid){
+			die("<script>alert('".__('Document does not exist.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		else if(!is_user_logged_in() && $board->meta->permission_comment_write){
+			die('<script>alert("'.__('You do not have permission.', 'kboard-comments').'");history.go(-1);</script>');
+		}
+		else if(!is_user_logged_in() && !$member_display){
 			die("<script>alert('".__('Please enter the author.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!is_user_logged_in() && !$password){
 			die("<script>alert('".__('Please enter the password.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		else if(!$captcha->textCheck($captcha_text)){
+		else if($board->useCAPTCHA() && !$captcha->textCheck($captcha_text)){
 			die("<script>alert('".__('The CAPTCHA is invalid. Please enter the CAPTCHA.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!$content){
@@ -73,14 +86,6 @@ class KBCommentController {
 		}
 		else if(!$content_uid){
 			die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		
-		$document = new KBContent();
-		$document->initWithUID($content_uid);
-		$setting = new KBoardMeta($document->board_id);
-		
-		if(!is_user_logged_in() && $setting->permission_comment_write=='1'){
-			die('<script>alert("'.__('You do not have permission.', 'kboard-comments').'");history.go(-1);</script>');
 		}
 		
 		$commentList = new KBCommentList($content_uid);
