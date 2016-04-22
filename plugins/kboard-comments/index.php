@@ -95,6 +95,7 @@ function kboard_comments_script(){
 			'please_enter_the_password' => __('Please enter the password.', 'kboard-comments'),
 			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard-comments'),
 			'please_enter_the_content' => __('Please enter the content.', 'kboard-comments'),
+			'are_you_sure_you_want_to_delete' => __('Are you sure you want to delete?', 'kboard-comments'),
 	);
 	wp_localize_script('jquery', 'kboard_comments_localize_strings', $localize);
 }

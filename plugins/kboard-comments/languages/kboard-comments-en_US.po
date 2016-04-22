@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-04-21 12:15+0900\n"
-"PO-Revision-Date: 2016-04-21 12:15+0900\n"
+"POT-Creation-Date: 2016-04-22 11:50+0900\n"
+"PO-Revision-Date: 2016-04-22 11:50+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -17,50 +17,50 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBCommentController.class.php:36
-#: class/KBCommentController.class.php:38
-#: class/KBCommentController.class.php:100
-#: class/KBCommentController.class.php:102
-#: class/KBCommentController.class.php:149
-#: class/KBCommentController.class.php:151
+#: class/KBCommentController.class.php:42
+#: class/KBCommentController.class.php:44
+#: class/KBCommentController.class.php:106
+#: class/KBCommentController.class.php:108
+#: class/KBCommentController.class.php:155
+#: class/KBCommentController.class.php:157
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBCommentController.class.php:57 index.php:94
+#: class/KBCommentController.class.php:63 index.php:94
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: class/KBCommentController.class.php:60 index.php:95 template/confirm.php:36
+#: class/KBCommentController.class.php:66 index.php:95 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
-#: class/KBCommentController.class.php:63
+#: class/KBCommentController.class.php:69
 msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
 msgstr "The CAPTCHA is invalid. Please enter the CAPTCHA."
 
-#: class/KBCommentController.class.php:66
-#: class/KBCommentController.class.php:161 index.php:97 template/edit.php:37
+#: class/KBCommentController.class.php:72
+#: class/KBCommentController.class.php:167 index.php:97 template/edit.php:37
 msgid "Please enter the content."
 msgstr "Please enter the content."
 
-#: class/KBCommentController.class.php:69
+#: class/KBCommentController.class.php:75
 msgid "content_uid is required."
 msgstr "content_uid is required."
 
-#: class/KBCommentController.class.php:77
-#: class/KBCommentController.class.php:117
-#: class/KBCommentController.class.php:171
+#: class/KBCommentController.class.php:83
+#: class/KBCommentController.class.php:123
+#: class/KBCommentController.class.php:177 class/KBCommentTemplate.class.php:70
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBCommentController.class.php:108
-#: class/KBCommentController.class.php:158 class/KBCommentTemplate.class.php:26
+#: class/KBCommentController.class.php:114
+#: class/KBCommentController.class.php:164 class/KBCommentTemplate.class.php:26
 #: class/KBCommentTemplate.class.php:50
 msgid "uid is required."
 msgstr "uid is required."
 
-#: class/KBCommentController.class.php:111
-#: class/KBCommentController.class.php:164
+#: class/KBCommentController.class.php:117
+#: class/KBCommentController.class.php:170
 msgid "Please log in to continue."
 msgstr "Please log in to continue."
 
@@ -76,7 +76,7 @@ msgstr "KBoard : Comments"
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:92 skin/default/list-template.php:26
+#: index.php:92 skin/default/list-template.php:23
 msgid "Reply"
 msgstr "Reply"
 
@@ -87,6 +87,10 @@ msgstr "Cancel"
 #: index.php:96
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
+
+#: index.php:98
+msgid "Are you sure you want to delete?"
+msgstr "Are you sure you want to delete?"
 
 #: pages/comments_list.php:5
 msgid "홈페이지"
@@ -104,17 +108,21 @@ msgstr "Support"
 msgid "블로그"
 msgstr "Blog"
 
-#: skin/default/list-template.php:15
-msgid "Are you sure you want to delete?"
-msgstr "Are you sure you want to delete?"
-
-#: skin/default/list-template.php:15 skin/default/list-template.php:17
+#: skin/default/list-template.php:18 skin/default/list-template.php:20
 msgid "Delete"
 msgstr "Delete"
 
 #: skin/default/list-template.php:22
 msgid "Edit"
 msgstr "Edit"
+
+#: skin/default/list-template.php:26
+msgid "Like"
+msgstr "Like"
+
+#: skin/default/list-template.php:27
+msgid "Unlike"
+msgstr "Unlike"
 
 #: skin/default/list.php:6
 msgid "Total Reply"

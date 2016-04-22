@@ -13,21 +13,19 @@
 			
 			<?php if($commentBuilder->isWriter()):?>
 			<div class="comments-list-controller">
-				<span>
+				<div class="left">
 					<?php if($comment->isEditor()):?>
-					<a href="<?php echo $commentURL->getDeleteURL()?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard-comments')?>');"><?php echo __('Delete', 'kboard-comments')?></a>
+					<button type="button" class="comments-button-action comments-button-delete" onclick="kboard_comments_delete('<?php echo $commentURL->getDeleteURL()?>');" title="<?php echo __('Delete', 'kboard-comments')?>"><?php echo __('Delete', 'kboard-comments')?></button>
 					<?php else:?>
-					<a href="<?php echo $commentURL->getConfirmURL()?>" onclick="return kboard_comments_open_confirm(this.href);"><?php echo __('Delete', 'kboard-comments')?></a>
+					<button type="button" class="comments-button-action comments-button-delete" onclick="kboard_comments_open_confirm('<?php echo $commentURL->getConfirmURL()?>');" title="<?php echo __('Delete', 'kboard-comments')?>"><?php echo __('Delete', 'kboard-comments')?></button>
 					<?php endif?>
-				</span>
-				<span style="color:#a0a0a0;">|</span>
-				<span>
-					<a href="<?php echo $commentURL->getEditURL()?>" onclick="return kboard_comments_open_edit(this.href);"><?php echo __('Edit', 'kboard-comments')?></a>
-				</span>
-				<span style="color:#a0a0a0;">|</span>
-				<span>
-					<a href="#" onclick="return kboard_comments_reply(this, '#kboard_comments_reply_form_<?php echo $comment->uid?>', '#kboard_comments_form');" class="kboard-reply"><?php echo __('Reply', 'kboard-comments')?></a>
-				</span>
+					<button type="button" class="comments-button-action comments-button-edit" onclick="kboard_comments_open_edit('<?php echo $commentURL->getEditURL()?>');" title="<?php echo __('Edit', 'kboard-comments')?>"><?php echo __('Edit', 'kboard-comments')?></button>
+					<button type="button" class="comments-button-action comments-button-reply kboard-reply" onclick="kboard_comments_reply(this, '#kboard_comments_reply_form_<?php echo $comment->uid?>', '#kboard_comments_form');" title="<?php echo __('Reply', 'kboard-comments')?>"><?php echo __('Reply', 'kboard-comments')?></button>
+				</div>
+				<div class="right">
+					<button type="button" class="comments-button-action comments-button-like" onclick="kboard_comment_like(this)" data-uid="<?php echo $comment->uid?>" title="<?php echo __('Like', 'kboard-comments')?>"><?php echo __('Like', 'kboard-comments')?> <span class="kboard-comment-like-count"><?php echo intval($comment->like)?></span></button>
+					<button type="button" class="comments-button-action comments-button-unlike" onclick="kboard_comment_unlike(this)" data-uid="<?php echo $comment->uid?>" title="<?php echo __('Unlike', 'kboard-comments')?>"><?php echo __('Unlike', 'kboard-comments')?> <span class="kboard-comment-unlike-count"><?php echo intval($comment->unlike)?></span></button>
+				</div>
 			</div>
 			<?php endif?>
 			

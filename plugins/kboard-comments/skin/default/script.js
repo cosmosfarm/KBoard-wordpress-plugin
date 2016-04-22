@@ -31,6 +31,13 @@ function kboard_comments_execute(form){
 	return true;
 }
 
+function kboard_comments_delete(url){
+	if(confirm(kboard_comments_localize_strings.are_you_sure_you_want_to_delete)){
+		window.location.href = url;
+	}
+	return false;
+}
+
 function kboard_comments_open_confirm(url){
 	var width = 500;
 	var height = 250;
