@@ -52,6 +52,11 @@ function kboard_media_close(){
 	jQuery('#kboard_media_wrapper').remove();
 }
 
+function kboard_document_print(url){
+	window.open(url, 'kboard_document_print');
+	return false;
+}
+
 function kboard_document_like(button){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;

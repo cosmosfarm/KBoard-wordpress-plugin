@@ -197,5 +197,15 @@ class KBUrl {
 		}
 		return '';
 	}
+	
+	/**
+	 * 게시글을 프린트하기 위한 주소를 반환한다.
+	 * @param int $uid
+	 * @return string
+	 */
+	public function getDocumentPrint($uid){
+		$uid = intval($uid);
+		return home_url("?action=kboard_document_print&uid={$uid}");
+	}
 }
 ?>

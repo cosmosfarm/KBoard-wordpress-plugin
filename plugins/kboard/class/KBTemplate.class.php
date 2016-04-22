@@ -12,6 +12,9 @@ class KBTemplate {
 		if($action == 'kboard_media'){
 			add_action('template_redirect', array($this, 'media'));
 		}
+		else if($action == 'kboard_document_print'){
+			add_action('template_redirect', array($this, 'documentPrint'));
+		}
 		
 		add_action('template_redirect', array($this, 'boardSwitch'));
 	}
@@ -75,6 +78,29 @@ class KBTemplate {
 		$media->media_group = kboard_htmlclear(isset($_GET['media_group'])?$_GET['media_group']:'');
 		
 		include_once KBOARD_DIR_PATH . '/template/media.php';
+		exit;
+	}
+	
+	/**
+	 * 이미지 추가하기 팝업창 화면을 출력한다.
+	 */
+	public function documentPrint(){
+		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
+		
+		$content = new KBContent();
+		$content->initWithUID($uid);
+		
+		if(!$content->uid){
+			wp_die(__('You do not have permission.', 'kboard'));
+		}
+		
+		$board = new KBoard($content->board_id);
+		
+		if(!$board->isReader($content->member_uid, $content->secret)){
+			wp_die(__('You do not have permission.', 'kboard'));
+		}
+		
+		include_once KBOARD_DIR_PATH . '/template/document_print.php';
 		exit;
 	}
 }

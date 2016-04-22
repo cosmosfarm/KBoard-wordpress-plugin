@@ -235,7 +235,7 @@ add_action('admin_post_kboard_update_action', 'kboard_update');
 function kboard_update(){
 	global $wpdb;
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
+	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 	
 	if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
 		
@@ -355,7 +355,7 @@ function kboard_latestview_new(){
 add_action('admin_post_kboard_latestview_action', 'kboard_latestview_update');
 function kboard_latestview_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
+	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 	
 	$latestview_uid = intval($_POST['latestview_uid']);
 	$latestview_link = $_POST['latestview_link'];
@@ -403,7 +403,7 @@ function kboard_backup(){
  * 게시판 업그레이드
  */
 function kboard_upgrade(){
-	if(!current_user_can('activate_plugins')) wp_die(__('관리 권한이 없습니다.', 'kboard'));
+	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 	
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
