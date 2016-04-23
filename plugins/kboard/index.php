@@ -713,6 +713,9 @@ function kboard_scripts(){
 			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard'),
 			'you_have_already_voted' => __('You have already voted.', 'kboard'),
 			'please_wait' => __('Please wait.', 'kboard'),
+			'newest' => __('Newest', 'kboard'),
+			'best' => __('Best', 'kboard'),
+			'updated' => __('Updated', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-04-22 03:55+0900\n"
-"PO-Revision-Date: 2016-04-22 04:00+0900\n"
+"POT-Creation-Date: 2016-04-24 03:24+0900\n"
+"PO-Revision-Date: 2016-04-24 03:26+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -34,13 +34,12 @@ msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "KBoard コメントポイントを管理します。"
 
 #: class/KBAdminController.class.php:19 class/KBAdminController.class.php:54
-#: index.php:238 index.php:358 index.php:406
 msgid "관리 권한이 없습니다."
 msgstr "管理権限がありません。"
 
 #: class/KBAdminController.class.php:30 class/KBAdminController.class.php:32
-#: class/KBController.class.php:142 class/KBController.class.php:144
-#: class/KBController.class.php:210 class/KBController.class.php:212
+#: class/KBController.class.php:141 class/KBController.class.php:143
+#: class/KBController.class.php:209 class/KBController.class.php:211
 #: class/KBoardBuilder.class.php:388
 msgid "This page is restricted from external access."
 msgstr "このページは外部からのアクセスを制限しています。"
@@ -57,16 +56,16 @@ msgstr "正しい復元ファイルがありません。"
 msgid "파일 업로드에 실패 했습니다."
 msgstr "ファイルアップロードに失敗しました。"
 
-#: class/KBContent.class.php:145
+#: class/KBContent.class.php:148
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 msgstr "セキュリティーナンバーが正しくありません。"
 
-#: class/KBContent.class.php:168
+#: class/KBContent.class.php:170
 msgid "KBoard new document"
 msgstr "KBoard 新規登録"
 
-#: class/KBContent.class.php:384 class/KBContent.class.php:424
-#: class/KBContent.class.php:511
+#: class/KBContent.class.php:386 class/KBContent.class.php:426
+#: class/KBContent.class.php:513
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "アップロード経路がありません。IDを入力した後、初期化してください。"
 
@@ -129,22 +128,23 @@ msgstr "はい"
 msgid "아니오"
 msgstr "いいえ"
 
-#: class/KBController.class.php:51 class/KBController.class.php:65
-#: class/KBController.class.php:70 class/KBController.class.php:74
-#: class/KBController.class.php:158 class/KBController.class.php:183
-#: class/KBController.class.php:226 class/KBController.class.php:252
-#: class/KBController.class.php:257 class/KBController.class.php:262
-#: class/KBController.class.php:275 class/KBoardBuilder.class.php:250
+#: class/KBController.class.php:49 class/KBController.class.php:64
+#: class/KBController.class.php:69 class/KBController.class.php:73
+#: class/KBController.class.php:157 class/KBController.class.php:182
+#: class/KBController.class.php:225 class/KBController.class.php:251
+#: class/KBController.class.php:256 class/KBController.class.php:261
+#: class/KBController.class.php:274 class/KBTemplate.class.php:94
+#: class/KBTemplate.class.php:100 class/KBoardBuilder.class.php:250
 #: class/KBoardBuilder.class.php:311 class/KBoardBuilder.class.php:320
-#: class/KBoardBuilder.class.php:404
+#: class/KBoardBuilder.class.php:404 index.php:238 index.php:358 index.php:406
 msgid "You do not have permission."
 msgstr "権限がありません。"
 
-#: class/KBController.class.php:56 class/KBoardBuilder.class.php:297
+#: class/KBController.class.php:54 class/KBoardBuilder.class.php:297
 msgid "Please enter your password."
 msgstr "パスワードを入力してください。。"
 
-#: class/KBController.class.php:243 class/KBoardBuilder.class.php:222
+#: class/KBController.class.php:242 class/KBoardBuilder.class.php:222
 msgid "Please Log in to continue."
 msgstr "ログインしてください。"
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "File copy failed, directory requires write permission."
 msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権限が必要です。。"
 
-#: class/KBUrl.class.php:157
+#: class/KBUrl.class.php:159
 msgid "No document."
 msgstr "書き込みがありません"
 
@@ -337,8 +337,8 @@ msgstr "ストア"
 msgid "전체 댓글"
 msgstr "全体コメント"
 
-#: index.php:707 skin/avatar/editor.php:84 skin/customer/editor.php:94
-#: skin/default/editor.php:84 skin/thumbnail/editor.php:84
+#: index.php:707 skin/avatar/editor.php:87 skin/customer/editor.php:97
+#: skin/default/editor.php:87 skin/thumbnail/editor.php:87
 msgid "KBoard Add Media"
 msgstr "KBoard メディアを追加"
 
@@ -373,6 +373,18 @@ msgstr "すでに投票しました。"
 #: index.php:715
 msgid "Please wait."
 msgstr "少々お待ちください。"
+
+#: index.php:716
+msgid "Newest"
+msgstr "最新順"
+
+#: index.php:717
+msgid "Best"
+msgstr "人気順"
+
+#: index.php:718
+msgid "Updated"
+msgstr "更新順"
 
 #: pages/kboard_backup.php:5
 msgid "KBoard : 백업 및 복구"
@@ -450,7 +462,7 @@ msgstr "KBoard : ダッシュボード"
 msgid "시스템 설정"
 msgstr "システムの設定"
 
-#: pages/kboard_dashboard.php:101
+#: pages/kboard_dashboard.php:110
 msgid "커뮤니티로 이동"
 msgstr "コミュニティに移動"
 
@@ -564,12 +576,12 @@ msgstr "パスワード"
 msgid "Document"
 msgstr "本文"
 
-#: skin/avatar/confirm.php:13 skin/avatar/document.php:99
-#: skin/avatar/editor.php:125 skin/customer/confirm.php:13
-#: skin/customer/document.php:101 skin/customer/editor.php:135
+#: skin/avatar/confirm.php:13 skin/avatar/document.php:96
+#: skin/avatar/editor.php:128 skin/customer/confirm.php:13
+#: skin/customer/document.php:101 skin/customer/editor.php:138
 #: skin/default/confirm.php:13 skin/default/document.php:94
-#: skin/default/editor.php:125 skin/thumbnail/confirm.php:13
-#: skin/thumbnail/document.php:94 skin/thumbnail/editor.php:125
+#: skin/default/editor.php:128 skin/thumbnail/confirm.php:13
+#: skin/thumbnail/document.php:94 skin/thumbnail/editor.php:128
 msgid "List"
 msgstr "リスト"
 
@@ -580,25 +592,24 @@ msgstr "パスワードの確認"
 
 #: skin/avatar/document.php:20 skin/avatar/editor.php:50
 #: skin/avatar/editor.php:51 skin/avatar/list.php:35 skin/avatar/list.php:51
-#: skin/avatar/list.php:73 skin/avatar/list.php:108
-#: skin/avatar/reply-template.php:18 skin/customer/document.php:20
-#: skin/customer/editor.php:50 skin/customer/editor.php:51
-#: skin/customer/list.php:35 skin/customer/list.php:51
-#: skin/customer/list.php:69 skin/customer/list.php:92
-#: skin/customer/reply-template.php:14 skin/default/document.php:20
-#: skin/default/editor.php:50 skin/default/editor.php:51
-#: skin/default/list.php:35 skin/default/list.php:51 skin/default/list.php:69
-#: skin/default/list.php:92 skin/default/reply-template.php:14
-#: skin/thumbnail/document.php:20 skin/thumbnail/editor.php:50
-#: skin/thumbnail/editor.php:51 skin/thumbnail/list.php:35
-#: skin/thumbnail/list.php:52 skin/thumbnail/list.php:75
-#: skin/thumbnail/list.php:103 skin/thumbnail/reply-template.php:19
+#: skin/customer/document.php:20 skin/customer/editor.php:50
+#: skin/customer/editor.php:51 skin/customer/list.php:35
+#: skin/customer/list.php:51 skin/customer/list.php:69
+#: skin/customer/list.php:92 skin/customer/reply-template.php:14
+#: skin/default/document.php:20 skin/default/editor.php:50
+#: skin/default/editor.php:51 skin/default/list.php:35 skin/default/list.php:51
+#: skin/default/list.php:69 skin/default/list.php:92
+#: skin/default/reply-template.php:14 skin/thumbnail/document.php:20
+#: skin/thumbnail/editor.php:50 skin/thumbnail/editor.php:51
+#: skin/thumbnail/list.php:35 skin/thumbnail/list.php:52
+#: skin/thumbnail/list.php:75 skin/thumbnail/list.php:103
+#: skin/thumbnail/reply-template.php:19
 msgid "Author"
 msgstr "投稿者"
 
-#: skin/avatar/document.php:29 skin/avatar/latest.php:6 skin/avatar/list.php:52
-#: skin/avatar/list.php:76 skin/avatar/list.php:111
-#: skin/avatar/reply-template.php:21 skin/customer/document.php:24
+#: skin/avatar/document.php:26 skin/avatar/latest.php:6 skin/avatar/list.php:52
+#: skin/avatar/list.php:72 skin/avatar/list.php:101
+#: skin/avatar/reply-template.php:17 skin/customer/document.php:24
 #: skin/customer/latest.php:6 skin/customer/list.php:52
 #: skin/customer/list.php:70 skin/customer/list.php:93
 #: skin/customer/reply-template.php:15 skin/default/document.php:24
@@ -610,8 +621,8 @@ msgstr "投稿者"
 msgid "Date"
 msgstr "投稿日"
 
-#: skin/avatar/document.php:33 skin/avatar/list.php:53 skin/avatar/list.php:77
-#: skin/avatar/list.php:112 skin/avatar/reply-template.php:22
+#: skin/avatar/document.php:30 skin/avatar/list.php:53 skin/avatar/list.php:73
+#: skin/avatar/list.php:102 skin/avatar/reply-template.php:18
 #: skin/customer/document.php:28 skin/customer/list.php:53
 #: skin/customer/list.php:71 skin/customer/list.php:94
 #: skin/customer/reply-template.php:16 skin/default/document.php:28
@@ -622,53 +633,53 @@ msgstr "投稿日"
 msgid "Views"
 msgstr "閲覧数"
 
-#: skin/avatar/document.php:46 skin/customer/document.php:48
+#: skin/avatar/document.php:43 skin/customer/document.php:48
 #: skin/default/document.php:41 skin/thumbnail/document.php:41
 msgid "Like"
 msgstr "いいよ"
 
-#: skin/avatar/document.php:47 skin/customer/document.php:49
+#: skin/avatar/document.php:44 skin/customer/document.php:49
 #: skin/default/document.php:42 skin/thumbnail/document.php:42
 msgid "Unlike"
 msgstr "いやだ"
 
-#: skin/avatar/document.php:50 skin/customer/document.php:52
+#: skin/avatar/document.php:47 skin/customer/document.php:52
 #: skin/default/document.php:45 skin/thumbnail/document.php:45
 msgid "Print"
 msgstr "印刷"
 
-#: skin/avatar/document.php:57 skin/customer/document.php:59
+#: skin/avatar/document.php:54 skin/customer/document.php:59
 #: skin/default/document.php:52 skin/thumbnail/document.php:52
 #, php-format
 msgid "Download %s"
 msgstr "ダウンロード %s"
 
-#: skin/avatar/document.php:100 skin/customer/document.php:102
+#: skin/avatar/document.php:97 skin/customer/document.php:102
 #: skin/default/document.php:95 skin/thumbnail/document.php:95
 msgid "Reply"
 msgstr "コメントの作成"
 
-#: skin/avatar/document.php:104 skin/customer/document.php:106
+#: skin/avatar/document.php:101 skin/customer/document.php:106
 #: skin/default/document.php:99 skin/thumbnail/document.php:99
 msgid "Edit"
 msgstr "修正"
 
-#: skin/avatar/document.php:105 skin/avatar/editor.php:91
-#: skin/avatar/editor.php:102 skin/customer/document.php:107
-#: skin/customer/editor.php:101 skin/customer/editor.php:112
-#: skin/default/document.php:100 skin/default/editor.php:91
-#: skin/default/editor.php:102 skin/thumbnail/document.php:100
-#: skin/thumbnail/editor.php:91 skin/thumbnail/editor.php:102
+#: skin/avatar/document.php:102 skin/avatar/editor.php:94
+#: skin/avatar/editor.php:105 skin/customer/document.php:107
+#: skin/customer/editor.php:104 skin/customer/editor.php:115
+#: skin/default/document.php:100 skin/default/editor.php:94
+#: skin/default/editor.php:105 skin/thumbnail/document.php:100
+#: skin/thumbnail/editor.php:94 skin/thumbnail/editor.php:105
 #: template/media.php:160
 msgid "Are you sure you want to delete?"
 msgstr "削除しますか？"
 
-#: skin/avatar/document.php:105 skin/customer/document.php:107
+#: skin/avatar/document.php:102 skin/customer/document.php:107
 #: skin/default/document.php:100 skin/thumbnail/document.php:100
 msgid "Delete"
 msgstr "削除"
 
-#: skin/avatar/document.php:111 skin/avatar/list.php:150
+#: skin/avatar/document.php:108 skin/avatar/list.php:138
 #: skin/customer/document.php:113 skin/customer/list.php:126
 #: skin/default/document.php:106 skin/default/list.php:126
 #: skin/thumbnail/document.php:106 skin/thumbnail/list.php:137
@@ -706,87 +717,87 @@ msgstr "カテゴリ"
 msgid "Select"
 msgstr "選択"
 
-#: skin/avatar/editor.php:59 skin/customer/editor.php:59
-#: skin/default/editor.php:59 skin/thumbnail/editor.php:59
+#: skin/avatar/editor.php:62 skin/customer/editor.php:62
+#: skin/default/editor.php:62 skin/thumbnail/editor.php:62
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
-#: skin/avatar/editor.php:64 skin/customer/editor.php:74
-#: skin/default/editor.php:64 skin/thumbnail/editor.php:64
+#: skin/avatar/editor.php:67 skin/customer/editor.php:77
+#: skin/default/editor.php:67 skin/thumbnail/editor.php:67
 msgid "Options"
 msgstr "オプション"
 
-#: skin/avatar/editor.php:66 skin/avatar/latest.php:16 skin/avatar/list.php:65
-#: skin/avatar/list.php:100 skin/avatar/reply-template.php:10
-#: skin/customer/editor.php:76 skin/customer/latest.php:16
+#: skin/avatar/editor.php:69 skin/avatar/latest.php:16 skin/avatar/list.php:65
+#: skin/avatar/list.php:94 skin/avatar/reply-template.php:10
+#: skin/customer/editor.php:79 skin/customer/latest.php:16
 #: skin/customer/list.php:65 skin/customer/list.php:88
-#: skin/customer/reply-template.php:10 skin/default/editor.php:66
+#: skin/customer/reply-template.php:10 skin/default/editor.php:69
 #: skin/default/latest.php:16 skin/default/list.php:65 skin/default/list.php:88
-#: skin/default/reply-template.php:10 skin/thumbnail/editor.php:66
+#: skin/default/reply-template.php:10 skin/thumbnail/editor.php:69
 #: skin/thumbnail/latest.php:16 skin/thumbnail/list.php:71
 #: skin/thumbnail/list.php:99 skin/thumbnail/reply-template.php:15
 msgid "Secret"
 msgstr "非公開"
 
-#: skin/avatar/editor.php:68 skin/avatar/list.php:59
-#: skin/customer/editor.php:78 skin/customer/list.php:59
-#: skin/default/editor.php:68 skin/default/list.php:59
-#: skin/thumbnail/editor.php:68 skin/thumbnail/list.php:60
+#: skin/avatar/editor.php:71 skin/avatar/list.php:59
+#: skin/customer/editor.php:81 skin/customer/list.php:59
+#: skin/default/editor.php:71 skin/default/list.php:59
+#: skin/thumbnail/editor.php:71 skin/thumbnail/list.php:60
 msgid "Notice"
 msgstr "お知らせ"
 
-#: skin/avatar/editor.php:82 skin/customer/editor.php:92
-#: skin/default/editor.php:82 skin/thumbnail/editor.php:82
+#: skin/avatar/editor.php:85 skin/customer/editor.php:95
+#: skin/default/editor.php:85 skin/thumbnail/editor.php:85
 msgid "Photos"
 msgstr "写真"
 
-#: skin/avatar/editor.php:89 skin/customer/editor.php:99
-#: skin/default/editor.php:89 skin/thumbnail/editor.php:89
+#: skin/avatar/editor.php:92 skin/customer/editor.php:102
+#: skin/default/editor.php:92 skin/thumbnail/editor.php:92
 #: skin/thumbnail/list.php:50
 msgid "Thumbnail"
 msgstr "サームーネーム"
 
-#: skin/avatar/editor.php:91 skin/avatar/editor.php:102
-#: skin/customer/editor.php:101 skin/customer/editor.php:112
-#: skin/default/editor.php:91 skin/default/editor.php:102
-#: skin/thumbnail/editor.php:91 skin/thumbnail/editor.php:102
+#: skin/avatar/editor.php:94 skin/avatar/editor.php:105
+#: skin/customer/editor.php:104 skin/customer/editor.php:115
+#: skin/default/editor.php:94 skin/default/editor.php:105
+#: skin/thumbnail/editor.php:94 skin/thumbnail/editor.php:105
 msgid "Delete file"
 msgstr "ファイルの削除"
 
-#: skin/avatar/editor.php:100 skin/customer/editor.php:110
-#: skin/default/editor.php:100 skin/thumbnail/editor.php:100
+#: skin/avatar/editor.php:103 skin/customer/editor.php:113
+#: skin/default/editor.php:103 skin/thumbnail/editor.php:103
 msgid "Attachment"
 msgstr "添付ファイル"
 
-#: skin/avatar/editor.php:111 skin/customer/editor.php:121
-#: skin/default/editor.php:111 skin/thumbnail/editor.php:111
+#: skin/avatar/editor.php:114 skin/customer/editor.php:124
+#: skin/default/editor.php:114 skin/thumbnail/editor.php:114
 msgid "WP Search"
 msgstr "検索"
 
-#: skin/avatar/editor.php:114 skin/customer/editor.php:124
-#: skin/default/editor.php:114 skin/thumbnail/editor.php:114
+#: skin/avatar/editor.php:117 skin/customer/editor.php:127
+#: skin/default/editor.php:117 skin/thumbnail/editor.php:117
 msgid "Public"
 msgstr "タイトルと内容の検索許容"
 
-#: skin/avatar/editor.php:115 skin/customer/editor.php:125
-#: skin/default/editor.php:115 skin/thumbnail/editor.php:115
+#: skin/avatar/editor.php:118 skin/customer/editor.php:128
+#: skin/default/editor.php:118 skin/thumbnail/editor.php:118
 msgid "Only title (secret document)"
 msgstr "タイトルのみ検索"
 
-#: skin/avatar/editor.php:116 skin/customer/editor.php:126
-#: skin/default/editor.php:116 skin/thumbnail/editor.php:116
+#: skin/avatar/editor.php:119 skin/customer/editor.php:129
+#: skin/default/editor.php:119 skin/thumbnail/editor.php:119
 msgid "Exclusion"
 msgstr "検索除外"
 
-#: skin/avatar/editor.php:124 skin/avatar/editor.php:127
-#: skin/customer/editor.php:134 skin/customer/editor.php:137
-#: skin/default/editor.php:124 skin/default/editor.php:127
-#: skin/thumbnail/editor.php:124 skin/thumbnail/editor.php:127
+#: skin/avatar/editor.php:127 skin/avatar/editor.php:130
+#: skin/customer/editor.php:137 skin/customer/editor.php:140
+#: skin/default/editor.php:127 skin/default/editor.php:130
+#: skin/thumbnail/editor.php:127 skin/thumbnail/editor.php:130
 msgid "Back"
 msgstr "前へ"
 
-#: skin/avatar/editor.php:132 skin/customer/editor.php:142
-#: skin/default/editor.php:132 skin/thumbnail/editor.php:132
+#: skin/avatar/editor.php:135 skin/customer/editor.php:145
+#: skin/default/editor.php:135 skin/thumbnail/editor.php:135
 msgid "Save"
 msgstr "登録"
 
@@ -813,18 +824,18 @@ msgstr "検索"
 msgid "Number"
 msgstr "ナンバー"
 
-#: skin/avatar/list.php:144 skin/customer/list.php:120
+#: skin/avatar/list.php:132 skin/customer/list.php:120
 #: skin/default/list.php:120 skin/thumbnail/list.php:131
 msgid "New"
 msgstr "書く"
 
-#: skin/customer/document.php:37 skin/customer/editor.php:64
-#: skin/customer/editor.php:65
+#: skin/customer/document.php:37 skin/customer/editor.php:67
+#: skin/customer/editor.php:68
 msgid "Name"
 msgstr "名前"
 
-#: skin/customer/document.php:38 skin/customer/editor.php:69
-#: skin/customer/editor.php:70
+#: skin/customer/document.php:38 skin/customer/editor.php:72
+#: skin/customer/editor.php:73
 msgid "Phone number"
 msgstr "連絡先"
 
