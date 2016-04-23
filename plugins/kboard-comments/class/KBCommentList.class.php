@@ -12,11 +12,29 @@ class KBCommentList {
 	var $parent_uid;
 	var $resource;
 	var $row;
-	var $order = 'ASC';
+	var $sort = 'vote';
+	var $order = 'DESC';
 	var $rpp = 20;
 	var $page = 1;
 	
 	public function __construct($content_uid=''){
+		
+		if($this->getSorting() == 'best'){
+			// 인기순서
+			$this->sort = 'vote';
+			$this->order = 'DESC';
+		}
+		else if($this->getSorting() == 'oldest'){
+			// 작성순서
+			$this->sort = 'created';
+			$this->order = 'ASC';
+		}
+		else if($this->getSorting() == 'newest'){
+			// 최신순서
+			$this->sort = 'created';
+			$this->order = 'DESC';
+		}
+		
 		if($content_uid) $this->setContentUID($content_uid);
 	}
 	
@@ -26,10 +44,10 @@ class KBCommentList {
 	public function init(){
 		global $wpdb;
 		if($this->content_uid){
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `uid` {$this->order}");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `{$this->sort}` {$this->order}");
 		}
 		else{
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `uid` {$this->order} LIMIT ".($this->page-1)*$this->rpp.",{$this->rpp}");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `{$this->sort}` {$this->order} LIMIT ".($this->page-1)*$this->rpp.",{$this->rpp}");
 		}
 		return $this->resource;
 	}
@@ -50,7 +68,7 @@ class KBCommentList {
 	public function initWithParentUID($parent_uid){
 		global $wpdb;
 		$this->parent_uid = $parent_uid;
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY `uid` {$this->order}");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY `{$this->sort}` {$this->order}");
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'");
 	}
 	
@@ -210,6 +228,29 @@ class KBCommentList {
 			// 자식 댓글을 삭제한다.
 			$this->deleteChildren($child->uid);
 		}
+	}
+	
+	/**
+	 * 정렬 순서를 반환한다.
+	 * @return string
+	 */
+	public function getSorting(){
+		static $kboard_comments_sort;
+		
+		if($kboard_comments_sort){
+			return $kboard_comments_sort;
+		}
+		
+		$kboard_comments_sort = isset($_SESSION['kboard_comments_sort'])?$_SESSION['kboard_comments_sort']:'best';
+		$kboard_comments_sort = isset($_GET['kboard_comments_sort'])?$_GET['kboard_comments_sort']:$kboard_comments_sort;
+		
+		if(!in_array($kboard_comments_sort, array('best', 'oldest', 'newest'))){
+			$kboard_comments_sort = 'best';
+		}
+		
+		$_SESSION['kboard_comments_sort'] = $kboard_comments_sort;
+		
+		return $kboard_comments_sort;
 	}
 }
 ?>

@@ -1,12 +1,24 @@
-<div id="kboard-comments" class="kboard-comments">
+<div id="kboard-comments" class="kboard-comments-default">
 	<div class="kboard-comments-wrap">
 		
-		<!-- 등록된 댓글 수 시작 -->
-		<div class="comments-count">
-			<?php echo __('Total Reply', 'kboard-comments')?> <span class="comments-total-count"><?php echo $commentList->getCount()?></span><?php echo __('Count', 'kboard-comments')?>
+		<div class="comments-header">
+			<div class="comments-count">
+				<?php echo __('Total Reply', 'kboard-comments')?> <span class="comments-total-count"><?php echo $commentList->getCount()?></span><?php echo __('Count', 'kboard-comments')?>
+			</div>
+			
+			<div class="comments-sort">
+				<form id="kboard-comments-sort-form" method="get" action="<?php echo $url->toString()?>#kboard-comments">
+					<?php echo $url->set('uid', $commentList->content_uid)->set('mod', 'document')->toInput()?>
+					<select name="kboard_comments_sort" onchange="jQuery('#kboard-comments-sort-form').submit();">
+						<option value="best"<?php if($commentList->getSorting() == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard-comments')?></option>
+						<option value="oldest"<?php if($commentList->getSorting() == 'oldest'):?> selected<?php endif?>><?php echo __('Oldest', 'kboard-comments')?></option>
+						<option value="newest"<?php if($commentList->getSorting() == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard-comments')?></option>
+					</select>
+				</form>
+			</div>
+			
 			<hr>
 		</div>
-		<!-- 등록된 댓글 수 끝 -->
 		
 		<!-- 댓글 리스트 시작 -->
 		<?php $commentBuilder->buildTreeList('list-template.php')?>

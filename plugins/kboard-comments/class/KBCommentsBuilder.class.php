@@ -40,6 +40,7 @@ class KBCommentsBuilder {
 		
 		if(!$this->content_uid) return 'KBoard 댓글 알림 :: content_uid=null, content_uid값은 필수 입니다.';
 		
+		$url = new KBUrl();
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
 		$commentBuilder = $this;
@@ -61,6 +62,7 @@ class KBCommentsBuilder {
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
 		
+		$url = new KBUrl();
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList();
 		$commentBuilder = $this;
