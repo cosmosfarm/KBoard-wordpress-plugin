@@ -7,11 +7,15 @@
  */
 class KBContentList {
 	
+	private static $kboard_list_sort;
+	
 	var $board_id;
 	var $total;
 	var $index;
 	var $col_category1;
 	var $col_category2;
+	var $sort = 'date';
+	var $order = 'DESC';
 	var $rpp = 10;
 	var $page = 1;
 	var $resource;
@@ -126,6 +130,23 @@ class KBContentList {
 	 */
 	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
+		
+		if($this->getSorting() == 'newest'){
+			// 최신순서
+			$this->sort = 'date';
+			$this->order = 'DESC';
+		}
+		else if($this->getSorting() == 'best'){
+			// 인기순서
+			$this->sort = 'vote';
+			$this->order = 'DESC';
+		}
+		else if($this->getSorting() == 'updated'){
+			// 업데이트순서
+			$this->sort = 'update';
+			$this->order = 'DESC';
+		}
+		
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
 				$board_ids[] = "'$value'";
@@ -143,9 +164,9 @@ class KBContentList {
 		if($this->col_category2) $where[] = "`category2`='$this->col_category2'";
 		
 		// kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
-		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id);
-		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id);
-		$orderby = apply_filters('kboard_list_orderby', '`date` DESC', $this->board_id);
+		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
+		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id, $this);
+		$orderby = apply_filters('kboard_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM $from WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM $from WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
@@ -280,6 +301,54 @@ class KBContentList {
 			unset($this->resource_reply);
 			return '';
 		}
+	}
+	
+	/**
+	 * 정렬 순서를 반환한다.
+	 * @return string
+	 */
+	public function getSorting(){
+		if(self::$kboard_list_sort){
+			return self::$kboard_list_sort;
+		}
+		
+		self::$kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
+		self::$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:self::$kboard_list_sort;
+		
+		if(!in_array(self::$kboard_list_sort, array('newest', 'best', 'updated'))){
+			self::$kboard_list_sort = $this->getDefaultSorting();
+		}
+		
+		$_SESSION["kboard_list_sort_{$this->board_id}"] = self::$kboard_list_sort;
+		
+		return self::$kboard_list_sort;
+	}
+	
+	/**
+	 * 정렬 순서를 설정한다.
+	 * @param string $sort
+	 */
+	public function setSorting($sort){
+		if($sort == 'newest'){
+			// 최신순서
+			self::$kboard_list_sort = $sort;
+		}
+		else if($sort == 'best'){
+			// 인기순서
+			self::$kboard_list_sort = $sort;
+		}
+		else if($sort == 'updated'){
+			// 업데이트순서
+			self::$kboard_list_sort = $sort;
+		}
+	}
+	
+	/**
+	 * 기본 정렬 순서를 반환한다.
+	 * @return string
+	 */
+	public function getDefaultSorting(){
+		return apply_filters('kboard_list_default_sorting', 'newest', $this->board_id, $this);
 	}
 }
 ?>

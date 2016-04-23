@@ -429,6 +429,7 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
+		$list->setSorting('newest');
 		$list->rpp($this->rpp)->getList('', '', true);
 		
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";

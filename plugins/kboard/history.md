@@ -20,7 +20,8 @@ Next version
   13. 좋아요, 싫어요 기능 추가
   14. CAPTCHA 기능 비활성화 기능 추가
   15. 인쇄버튼 및 기능 추가
-  16. 버그 수정
+  16. kboard_list_default_sorting 필터 추가
+  17. 버그 수정
 
 
 5.1
