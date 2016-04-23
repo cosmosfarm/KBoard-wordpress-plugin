@@ -83,8 +83,8 @@ function kboard_comments_builder($atts){
 /*
  * 댓글 스크립트 추가
  */
-add_action('wp_enqueue_scripts', 'kboard_comments_script', 999);
-function kboard_comments_script(){
+add_action('wp_enqueue_scripts', 'kboard_comments_scripts', 999);
+function kboard_comments_scripts(){
 	wp_enqueue_script('jquery');
 	
 	// 번역 등록
