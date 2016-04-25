@@ -65,6 +65,9 @@ class KBSeo {
 			add_action('kboard_head', array($this, 'date'));
 			add_action('kboard_head', array($this, 'rss'));
 			
+			// Jetpack Open Graph Tags
+			add_filter('jetpack_enable_open_graph', '__return_false');
+			
 			// Yoast SEO
 			add_filter('wpseo_title', array($this, 'getTitle'));
 			add_filter('wpseo_metadesc', array($this, 'getDescription'));
