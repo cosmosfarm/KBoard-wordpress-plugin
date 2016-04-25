@@ -55,22 +55,24 @@ class KBSeo {
 	public function init(){
 		global $check_kboard_seo_init_once;
 		if($this->content->uid && !$check_kboard_seo_init_once){
-			
 			remove_action('wp_head', 'rel_canonical');
 			remove_action('wp_head', 'wp_shortlink_wp_head');
-				
+			
 			add_action('kboard_head', array($this, 'ogp'));
 			add_action('kboard_head', array($this, 'twitter'));
 			add_action('kboard_head', array($this, 'description'));
 			add_action('kboard_head', array($this, 'author'));
 			add_action('kboard_head', array($this, 'date'));
 			add_action('kboard_head', array($this, 'rss'));
-				
+			
+			// Yoast SEO
 			add_filter('wpseo_title', array($this, 'getTitle'));
 			add_filter('wpseo_metadesc', array($this, 'getDescription'));
 			add_filter('wpseo_opengraph_image', array($this, 'getImage'));
 			add_filter('wpseo_canonical', '__return_false');
-				
+			
+			// All in One SEO Pack
+			add_filter('aioseop_title_page', array($this, 'getTitle'));
 			add_filter('aioseop_description', array($this, 'getDescription'));
 			add_filter('aioseop_canonical_url', '__return_false');
 			

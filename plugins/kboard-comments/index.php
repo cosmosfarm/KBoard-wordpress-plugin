@@ -158,11 +158,15 @@ function kboard_comments_system_update(){
 	if(version_compare(KBOARD_COMMNETS_VERSION, get_option('kboard_comments_version'), '<=')) return;
 	
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
-	if(get_option('kboard_comments_version') !== false) update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
-	else add_option('kboard_comments_version', KBOARD_COMMNETS_VERSION, null, 'no');
-	
-	// 관리자 알림
-	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href); return false;\">홈페이지 열기</a></p></div>';"));
+	if(get_option('kboard_comments_version') !== false){
+		update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
+		
+		// 관리자 알림
+		add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업데이트 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
+	}
+	else{
+		add_option('kboard_comments_version', KBOARD_COMMNETS_VERSION, null, 'no');
+	}
 	
 	$networkwide = is_plugin_active_for_network(__FILE__);
 	

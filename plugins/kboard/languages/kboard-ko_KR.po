@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-04-24 03:24+0900\n"
-"PO-Revision-Date: 2016-04-24 03:26+0900\n"
+"POT-Creation-Date: 2016-04-25 11:37+0900\n"
+"PO-Revision-Date: 2016-04-25 11:37+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -387,31 +387,19 @@ msgid "KBoard : 백업 및 복구"
 msgstr "KBoard : 백업 및 복구"
 
 #: pages/kboard_backup.php:6 pages/kboard_content_list.php:6
-#: pages/kboard_dashboard.php:6 pages/kboard_latestview.php:6
-#: pages/kboard_latestview_setting.php:11 pages/kboard_list.php:6
-#: pages/kboard_setting.php:11 pages/kboard_store.php:7
-msgid "홈페이지"
+msgid "Home"
 msgstr "홈페이지"
 
 #: pages/kboard_backup.php:7 pages/kboard_content_list.php:7
-#: pages/kboard_dashboard.php:7 pages/kboard_latestview.php:7
-#: pages/kboard_latestview_setting.php:12 pages/kboard_list.php:7
-#: pages/kboard_setting.php:12 pages/kboard_store.php:8
-msgid "커뮤니티"
+msgid "Community"
 msgstr "커뮤니티"
 
 #: pages/kboard_backup.php:8 pages/kboard_content_list.php:8
-#: pages/kboard_dashboard.php:8 pages/kboard_latestview.php:8
-#: pages/kboard_latestview_setting.php:13 pages/kboard_list.php:8
-#: pages/kboard_setting.php:13 pages/kboard_store.php:9
-msgid "고객지원"
+msgid "Support"
 msgstr "고객지원"
 
 #: pages/kboard_backup.php:9 pages/kboard_content_list.php:9
-#: pages/kboard_dashboard.php:9 pages/kboard_latestview.php:9
-#: pages/kboard_latestview_setting.php:14 pages/kboard_list.php:9
-#: pages/kboard_setting.php:14 pages/kboard_store.php:10
-msgid "블로그"
+msgid "Blog"
 msgstr "블로그"
 
 #: pages/kboard_backup.php:14 pages/kboard_backup.php:19
@@ -453,6 +441,30 @@ msgstr "검색"
 #: pages/kboard_dashboard.php:5
 msgid "KBoard : 대시보드"
 msgstr "KBoard : 대시보드"
+
+#: pages/kboard_dashboard.php:6 pages/kboard_latestview.php:6
+#: pages/kboard_latestview_setting.php:11 pages/kboard_list.php:6
+#: pages/kboard_setting.php:11 pages/kboard_store.php:7
+msgid "홈페이지"
+msgstr "홈페이지"
+
+#: pages/kboard_dashboard.php:7 pages/kboard_latestview.php:7
+#: pages/kboard_latestview_setting.php:12 pages/kboard_list.php:7
+#: pages/kboard_setting.php:12 pages/kboard_store.php:8
+msgid "커뮤니티"
+msgstr "커뮤니티"
+
+#: pages/kboard_dashboard.php:8 pages/kboard_latestview.php:8
+#: pages/kboard_latestview_setting.php:13 pages/kboard_list.php:8
+#: pages/kboard_setting.php:13 pages/kboard_store.php:9
+msgid "고객지원"
+msgstr "고객지원"
+
+#: pages/kboard_dashboard.php:9 pages/kboard_latestview.php:9
+#: pages/kboard_latestview_setting.php:14 pages/kboard_list.php:9
+#: pages/kboard_setting.php:14 pages/kboard_store.php:10
+msgid "블로그"
+msgstr "블로그"
 
 #: pages/kboard_dashboard.php:17
 msgid "시스템 설정"
@@ -934,9 +946,6 @@ msgstr "이미지 파일만 업로드 가능합니다."
 
 #~ msgid "Title and content searchable"
 #~ msgstr "제목과 내용 검색허용"
-
-#~ msgid "Go Home"
-#~ msgstr "홈으로"
 
 #~ msgid "Back to top"
 #~ msgstr "뒤로가기"

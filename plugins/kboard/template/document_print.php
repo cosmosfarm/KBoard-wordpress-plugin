@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<meta name="robots" content="noindex">
+	<meta name="robots" content="noindex,follow">
 	<title><?php echo $content->title?></title>
 </head>
 <body>

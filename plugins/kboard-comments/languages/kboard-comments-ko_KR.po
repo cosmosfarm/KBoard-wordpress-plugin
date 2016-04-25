@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-04-24 02:13+0900\n"
-"PO-Revision-Date: 2016-04-24 02:17+0900\n"
+"POT-Creation-Date: 2016-04-25 11:36+0900\n"
+"PO-Revision-Date: 2016-04-25 11:36+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -101,19 +101,19 @@ msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
 #: pages/comments_list.php:5
-msgid "홈페이지"
+msgid "Home"
 msgstr "홈페이지"
 
 #: pages/comments_list.php:6
-msgid "커뮤니티"
+msgid "Community"
 msgstr "커뮤니티"
 
 #: pages/comments_list.php:7
-msgid "고객지원"
+msgid "Support"
 msgstr "고객지원"
 
 #: pages/comments_list.php:8
-msgid "블로그"
+msgid "Blog"
 msgstr "블로그"
 
 #: skin/default/list-template.php:18 skin/default/list-template.php:20
@@ -171,6 +171,18 @@ msgstr "비밀번호 확인"
 #: template/edit.php:23
 msgid "Edit content"
 msgstr "내용 편집"
+
+#~ msgid "홈페이지"
+#~ msgstr "홈페이지"
+
+#~ msgid "커뮤니티"
+#~ msgstr "커뮤니티"
+
+#~ msgid "고객지원"
+#~ msgstr "고객지원"
+
+#~ msgid "블로그"
+#~ msgstr "블로그"
 
 #~ msgid "No UID of comments."
 #~ msgstr "댓글 고유번호가 없습니다."
@@ -300,9 +312,6 @@ msgstr "내용 편집"
 
 #~ msgid "Title and content searchable"
 #~ msgstr "제목과 내용 검색허용"
-
-#~ msgid "Go Home"
-#~ msgstr "홈으로"
 
 #~ msgid "Back to top"
 #~ msgstr "뒤로가기"

@@ -81,8 +81,13 @@ function kboard_init(){
 	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
-	
-	// SEO를 위해서 head에 정보 출력
+}
+
+/*
+ * KBoard SEO 시작
+ */
+add_action('init', 'kboard_seo_init', 999);
+function kboard_seo_init(){
 	$seo = new KBSeo();
 }
 
@@ -1098,11 +1103,15 @@ function kboard_system_update(){
 	if(version_compare(KBOARD_VERSION, get_option('kboard_version'), '<=')) return;
 	
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
-	if(get_option('kboard_version') !== false) update_option('kboard_version', KBOARD_VERSION);
-	else add_option('kboard_version', KBOARD_VERSION, null, 'no');
-	
-	// 관리자 알림
-	add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업그레이드 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
+	if(get_option('kboard_version') !== false){
+		update_option('kboard_version', KBOARD_VERSION);
+		
+		// 관리자 알림
+		add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업데이트 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
+	}
+	else{
+		add_option('kboard_version', KBOARD_VERSION, null, 'no');
+	}
 	
 	$networkwide = is_plugin_active_for_network(__FILE__);
 	
