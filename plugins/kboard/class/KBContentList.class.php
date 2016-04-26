@@ -77,7 +77,7 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function setBoardID($board_id){
-		$this->board_id = intval($board_id);
+		$this->board_id = $board_id;
 		return $this;
 	}
 	
@@ -149,12 +149,16 @@ class KBContentList {
 		
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
-				$board_ids[] = "'$value'";
+				$value = intval($value);
+				$board_ids[] = "'{$value}'";
 			}
 			$board_ids = implode(',', $board_ids);
 			$where[] = "`board_id` IN ($board_ids)";
 		}
-		else $where[] = "`board_id`='$this->board_id'";
+		else{
+			$this->board_id = intval($this->board_id);
+			$where[] = "`board_id`='$this->board_id'";
+		}
 		
 		if(!$with_notice) $where[] = "`notice`=''";
 		if(!$keyword) $where[] = "`parent_uid`='0'";
@@ -182,12 +186,16 @@ class KBContentList {
 		global $wpdb;
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
-				$board_ids[] = "'$value'";
+				$value = intval($value);
+				$board_ids[] = "'{$value}'";
 			}
 			$board_ids = implode(',', $board_ids);
-			$where = "`board_id` IN ($board_ids)";
+			$where[] = "`board_id` IN ($board_ids)";
 		}
-		else $where = "`board_id`='$this->board_id'";
+		else{
+			$this->board_id = intval($this->board_id);
+			$where[] = "`board_id`='$this->board_id'";
+		}
 		
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC");
@@ -231,12 +239,16 @@ class KBContentList {
 		global $wpdb;
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
-				$board_ids[] = "'$value'";
+				$value = intval($value);
+				$board_ids[] = "'{$value}'";
 			}
 			$board_ids = implode(',', $board_ids);
 			$where[] = "`board_id` IN ($board_ids)";
 		}
-		else $where[] = "`board_id`='$this->board_id'";
+		else{
+			$this->board_id = intval($this->board_id);
+			$where[] = "`board_id`='$this->board_id'";
+		}
 		$where[] = "`notice`!=''";
 		
 		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
