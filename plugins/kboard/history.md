@@ -2,7 +2,7 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-Next version
+5.2
 ----------------------------------
 
   1. KBoard 미디어 추가 기능 개선

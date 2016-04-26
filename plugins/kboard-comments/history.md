@@ -2,7 +2,7 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-Next version
+4.3
 ----------------------------------
 
   1. 스킨 업데이트
