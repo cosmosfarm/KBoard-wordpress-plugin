@@ -24,7 +24,7 @@
 	.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
 	.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; border-radius: 12px; box-shadow: 2px 2px 2px RGBA(0,0,0,0.2); }
 	.media-wrap .media-item .media-image-wrap { width: 150px; }
-	.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; }
+	.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; background-size: cover; background-position: center; }
 	.media-wrap .media-item .media-control { text-align: center; background-color: #f5f5f5; }
 	.media-wrap .media-item .media-control input { display: none; }
 	.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: transparent; color: #757575; font-size: 14px; cursor: pointer; text-decoration: none; }
@@ -76,7 +76,7 @@
 	<label class="media-item" data-media-uid="<?php echo $row->uid?>">
 		<img class="selected-media" src="<?php echo KBOARD_URL_PATH?>/images/selected-media.png" alt="<?php echo __('선택됨', 'kboard')?>">
 		<div class="media-image-wrap">
-			<div class="media-image" style="background-image:url(<?php echo site_url($row->file_path)?>);background-size:cover"></div>
+			<div class="media-image" style="background-image:url(<?php echo site_url($row->file_path)?>)"></div>
 		</div>
 		<div class="media-control">
 			<input type="checkbox" name="media_src" value="<?php echo site_url($row->file_path)?>" data-media-uid="<?php echo $row->uid?>" onchange="kboard_media_select()">

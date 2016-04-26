@@ -270,7 +270,7 @@ class KBoardBuilder {
 			}
 			
 			// 게시글 숏코드(Shortcode) 실행
-			if($this->meta->shortcode_execute==1){
+			if($this->meta->shortcode_execute == 1){
 				$content->content = do_shortcode($content->content);
 			}
 			
