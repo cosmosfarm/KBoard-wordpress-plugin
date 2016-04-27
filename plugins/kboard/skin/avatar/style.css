@@ -32,7 +32,7 @@ img { border: 0; }
 #kboard-avatar-list .kboard-list table td.kboard-list-title { width: auto; }
 #kboard-avatar-list .kboard-list table td.kboard-list-title img { display: inline; margin: 0; width: 16px; height: 16px; vertical-align: middle; }
 #kboard-avatar-list .kboard-list table td.kboard-list-user { width: 80px; }
-#kboard-avatar-list .kboard-list table td.kboard-list-user img { display: inline; margin: 0; width: auto; height: auto; max-width: 100%; border-radius: 50%; vertical-align: middle; }
+#kboard-avatar-list .kboard-list table td.kboard-list-user img { display: inline; margin: 0; width: 24px; height: 24px; max-width: 100%; border-radius: 50%; vertical-align: middle; }
 #kboard-avatar-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-avatar-list .kboard-list table td.kboard-list-view { width: 55px; }
 #kboard-avatar-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #e3e3e3; }
@@ -83,7 +83,7 @@ img { border: 0; }
 #kboard-avatar-document .kboard-detail .detail-attr { display: inline-block; *display: inline; zoom: 1; float: left; margin: 0; padding: 12px 35px 12px 22px; line-height: 24px; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; text-align: right; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
-#kboard-avatar-document .kboard-detail .detail-attr .detail-value img { display: inline; margin: 0; width: auto; height: auto; max-width: 100%; border-radius: 50%; vertical-align: middle; }
+#kboard-avatar-document .kboard-detail .detail-attr .detail-value img { display: inline; margin: 0; width: 24px; height: 24px; max-width: 100%; border-radius: 50%; vertical-align: middle; }
 #kboard-avatar-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
 #kboard-avatar-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
 #kboard-avatar-document .kboard-content .content-view img { margin-top: 0; margin-bottom: 0; max-width: 100%; }
