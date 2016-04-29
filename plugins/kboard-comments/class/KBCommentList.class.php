@@ -47,6 +47,9 @@ class KBCommentList {
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `{$this->sort}` {$this->order}");
 		}
 		else{
+			// 전체 댓글을 불러올땐 최신순서로 정렬한다.
+			$this->sort = 'created';
+			$this->order = 'DESC';
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `{$this->sort}` {$this->order} LIMIT ".($this->page-1)*$this->rpp.",{$this->rpp}");
 		}
 		return $this->resource;
