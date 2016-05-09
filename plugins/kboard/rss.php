@@ -25,7 +25,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 			<description><![CDATA[<?php echo $content->content?>]]></description>
 			<author><![CDATA[<?php echo $content->member_display?>]]></author>
 			<pubDate><?php echo gmdate(DATE_RSS, strtotime($content->date))?></pubDate>
-			<category><?php echo $kboard->board_name?></category>
+			<category><![CDATA[<?php echo $kboard->board_name?>]]></category>
 		</item>
 		<?php endwhile;?>
 	</channel>
