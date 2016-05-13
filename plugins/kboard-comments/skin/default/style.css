@@ -28,6 +28,7 @@
 .kboard-comments-default .comments-list .comments-list-controller .left { position: static; float: left; }
 .kboard-comments-default .comments-list .comments-list-controller .right { position: static; float: right; text-align: right; }
 .kboard-comments-default .comments-list .comments-list-controller .comments-button-action { margin: 0 0 5px 0; padding: 3px 4px; font-size: 12px; font-weight: normal; line-height: 12px; text-align: left; border: 1px solid #ededed; background: none; background-color: transparent; border-radius: 2px; letter-spacing: normal; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
+.kboard-comments-default .comments-list .comments-list-controller .comments-button-action span { position: static; display: inline; margin: 0; padding: 0; }
 .kboard-comments-default .comments-list .comments-list-controller .comments-button-like { color: #ff5959; }
 .kboard-comments-default .comments-list .comments-list-controller .comments-button-unlike { color: #3d62aa; }
 .kboard-comments-default .comments-list .comments-list-controller .comments-button-delete { color: gray; }
