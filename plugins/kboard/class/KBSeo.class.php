@@ -57,12 +57,16 @@ class KBSeo {
 		if($this->content->uid && !$check_kboard_seo_init_once){
 			remove_action('wp_head', 'rel_canonical');
 			remove_action('wp_head', 'wp_shortlink_wp_head');
+			remove_action('wp_head', 'adjacent_posts_rel_link', 10);
+			remove_action('wp_head', 'wlwmanifest_link');
+			remove_action('template_redirect', 'wp_shortlink_header', 11);
 			
 			add_action('kboard_head', array($this, 'ogp'));
 			add_action('kboard_head', array($this, 'twitter'));
 			add_action('kboard_head', array($this, 'description'));
 			add_action('kboard_head', array($this, 'author'));
 			add_action('kboard_head', array($this, 'date'));
+			add_action('kboard_head', array($this, 'canonical'));
 			add_action('kboard_head', array($this, 'rss'));
 			
 			// Jetpack Open Graph Tags
@@ -112,9 +116,11 @@ class KBSeo {
 	 * 게시물 정보 Open Graph protocol(OGP)을 추가한다.
 	 */
 	public function ogp(){
-	echo '<meta property="og:title" content="' . $this->getTitle() . '">';
+		echo '<meta property="og:title" content="' . $this->getTitle() . '">';
 		echo "\n";
 		echo '<meta property="og:description" content="' . $this->getDescription() . '">';
+		echo "\n";
+		echo '<meta property="og:url" content="' . $this->getCanonical() . '">';
 		echo "\n";
 		$image = $this->getImage();
 		if($image){
@@ -160,6 +166,16 @@ class KBSeo {
 	}
 	
 	/**
+	 * Canonical 주소를 추가한다.
+	 */
+	public function canonical(){
+		echo '<link rel="canonical" href="' . $this->getCanonical() . '">';
+		echo "\n";
+		echo '<link rel="shortlink" href="' . $this->getCanonical() . '">';
+		echo "\n";
+	}
+	
+	/**
 	 * RSS 피드 주소를 추가한다.
 	 */
 	public function rss(){
@@ -181,9 +197,7 @@ class KBSeo {
 		if($this->content->title){
 			return kboard_htmlclear($this->content->title);
 		}
-		else{
-			return $title;
-		}
+		return $title;
 	}
 	
 	/**
@@ -195,9 +209,7 @@ class KBSeo {
 		if($this->content->content){
 			return trim(str_replace("\n", ' ', kboard_htmlclear($this->content->content)));
 		}
-		else{
-			return $description;
-		}
+		return $description;
 	}
 	
 	/**
@@ -209,9 +221,7 @@ class KBSeo {
 		if($this->content->getThumbnail()){
 			return $this->content->getThumbnail();
 		}
-		else{
-			return $image;
-		}
+		return $image;
 	}
 	
 	/**
@@ -223,9 +233,20 @@ class KBSeo {
 		if($this->content->member_display){
 			return trim(kboard_htmlclear($this->content->member_display));
 		}
-		else{
-			return $username;
+		return $username;
+	}
+	
+	/**
+	 * Canonical 주소를 반환한다.
+	 * @param string $canonical_url
+	 * @return string
+	 */
+	public function getCanonical($canonical_url=''){
+		if($this->content->uid){
+			$url = new KBUrl();
+			return $url->getDocumentRedirect($this->content->uid);
 		}
+		return $canonical_url;
 	}
 }
 ?>

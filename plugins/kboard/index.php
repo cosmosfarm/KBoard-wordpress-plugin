@@ -721,6 +721,9 @@ function kboard_scripts(){
 			'newest' => __('Newest', 'kboard'),
 			'best' => __('Best', 'kboard'),
 			'updated' => __('Updated', 'kboard'),
+			'yes' => __('Yes', 'kboard'),
+			'no' => __('No', 'kboard'),
+			'did_it_help' => __('Did it help?', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

@@ -38,7 +38,8 @@ class KBRouter {
 	public function contentRedirect($content_uid){
 		$content_url = $this->getContentURL($content_uid);
 		if($content_url){
-			header("Location: {$content_url}");
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: {$content_url}", true, 301);
 			exit;
 		}
 		$this->error();
@@ -89,7 +90,8 @@ class KBRouter {
 	public function boardRedirect($board_id){
 		$board_url = $this->getBoardURL($board_id);
 		if($board_url){
-			header("Location: {$board_url}");
+			header("HTTP/1.1 301 Moved Permanently");
+			header("Location: {$board_url}", true, 301);
 			exit;
 		}
 		$this->error();
