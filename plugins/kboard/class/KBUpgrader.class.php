@@ -54,6 +54,7 @@ final class KBUpgrader {
 			return json_decode($data);
 		}
 		else{
+			$data = new stdClass();
 			$data->error = __('Unable to connect to Cosmosfarm server.', 'kboard');
 			return $data;
 		}
