@@ -30,7 +30,7 @@ class KBContent {
 	}
 	
 	public function __get($name){
-		if(isset($this->row->{$name}) && $this->row->{$name}){
+		if(isset($this->row->{$name})){
 			return stripslashes($this->row->{$name});
 		}
 		return '';
