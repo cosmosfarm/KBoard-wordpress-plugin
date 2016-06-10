@@ -94,13 +94,7 @@ class KBSeo {
 	 * @return string
 	 */
 	public function title($title){
-		if(isset($title['title']) && $title['title']){
-			$new_title['title'] = $this->getTitle();
-			return $new_title;
-		}
-		else{
-			return $this->getTitle();
-		}
+		return $this->getTitle();
 	}
 	
 	/**
