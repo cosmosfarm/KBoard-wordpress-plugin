@@ -93,7 +93,7 @@
 		
 		<div class="kboard-control">
 			<div class="left">
-				<a href="<?php echo $url->toString()?>" class="kboard-avatar-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-avatar-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php if($board->isWriter() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-avatar-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
 			</div>
 			<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>

@@ -8,7 +8,10 @@ if(!defined('ABSPATH')) exit;
  */
 function kboard_pagination($current_page, $total, $limit){
 	foreach($_GET as $key=>$value){
-		if($key != 'pageid' && $value){
+		if($key == 'mod'){
+			$query_strings[] = 'mod=list';
+		}
+		else if($key != 'pageid' && $value){
 			$query_strings[] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
 		}
 	}
