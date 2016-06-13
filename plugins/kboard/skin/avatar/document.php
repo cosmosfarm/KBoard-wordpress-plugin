@@ -2,7 +2,7 @@
 	<div id="kboard-avatar-document">
 		<div class="kboard-document-wrap" itemscope itemtype="http://schema.org/Article">
 			<div class="kboard-title" itemprop="name">
-				<p><?php echo $content->title?></p>
+				<h1><?php echo $content->title?></h1>
 			</div>
 			
 			<div class="kboard-detail">
