@@ -90,11 +90,17 @@ class KBSeo {
 	
 	/**
 	 * 워드프레스 사이트 제목에 게시물 제목을 추가한다.
-	 * @param string $title
-	 * @return string
+	 * @param string|array $title
+	 * @return string|array
 	 */
 	public function title($title){
-		return $this->getTitle();
+		if(isset($title['title']) && $title['title']){
+			$title['title'] = $this->getTitle();
+			return $title;
+		}
+		else{
+			return $this->getTitle();
+		}
 	}
 	
 	/**
