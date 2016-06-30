@@ -512,7 +512,7 @@ class KBContent {
 		global $wpdb;
 		if(!$this->thumbnail_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
-		if($this->uid && $_FILES['thumbnail']['tmp_name']){
+		if($this->uid && isset($_FILES['thumbnail']) && $_FILES['thumbnail']['tmp_name']){
 			$file = new KBFileHandler();
 			$file->setPath($this->thumbnail_store_path);
 			$upload = $file->upload('thumbnail');
