@@ -161,12 +161,16 @@ class KBoardBuilder {
 		}
 		
 		if($this->meta->pass_autop == 'enable'){
+			do_action('kboard_skin_header', $this);
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
+			do_action('kboard_skin_footer', $this);
 			return '';
 		}
 		else{
 			ob_start();
+			do_action('kboard_skin_header', $this);
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
+			do_action('kboard_skin_footer', $this);
 			return ob_get_clean();
 		}
 	}

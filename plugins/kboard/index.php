@@ -510,6 +510,14 @@ function kboard_builder($args){
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);
 		$board_builder->board = $board;
+		
+		if(isset($args['category1']) && $args['category1']){
+			$board_builder->category1 = $args['category1'];
+		}
+		if(isset($args['category2']) && $args['category2']){
+			$board_builder->category2 = $args['category2'];
+		}
+		
 		$kboard = $board_builder->create();
 		return $kboard;
 	}
