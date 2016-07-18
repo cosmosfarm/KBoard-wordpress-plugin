@@ -51,7 +51,7 @@ class KBController {
 			
 			if($board->isWriter() && $board->permission_write=='all' && $_POST['title']){
 				if(!is_user_logged_in() && !$_POST['password']){
-					die('<script>alert("'.__('Please enter your password.', 'kboard').'");history.go(-1);";</script>');
+					die('<script>alert("'.__('Please enter your password.', 'kboard').'");history.go(-1);</script>');
 				}
 			}
 			

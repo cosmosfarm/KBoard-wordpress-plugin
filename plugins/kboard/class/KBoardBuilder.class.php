@@ -223,7 +223,7 @@ class KBoardBuilder {
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!$user_ID && $this->board->permission_read!='all'){
-				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
+				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 			}
 			else if($content->secret){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
@@ -342,7 +342,7 @@ class KBoardBuilder {
 						echo $meta->conversion_tracking_code;
 					}
 				}
-				echo "<script>location.href='{$next_page_url}';</script>";
+				echo "<script>window.location.href='{$next_page_url}';</script>";
 				exit;
 			}
 			else{
