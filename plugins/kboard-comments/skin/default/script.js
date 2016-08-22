@@ -7,6 +7,17 @@ function kboard_comments_execute(form){
 		return this.length>0;
 	};
 	
+	/*
+	 * 잠시만 기다려주세요.
+	 */
+	if(jQuery(form).data('submitted')){
+		alert(kboard_comments_localize_strings.please_wait);
+		return false;
+	}
+	
+	/*
+	 * 폼 유효성 검사
+	 */
 	if(jQuery('input[name=member_display]', form).exists() && !jQuery('input[name=member_display]', form).val()){
 		alert(kboard_comments_localize_strings.please_enter_the_author);
 		jQuery('[name=member_display]', form).focus();
@@ -28,6 +39,7 @@ function kboard_comments_execute(form){
 		return false;
 	}
 	
+	jQuery(form).data('submitted', 'submitted');
 	return true;
 }
 

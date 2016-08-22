@@ -60,10 +60,10 @@
 					<td class="kboard-list-title">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
 							<div class="kboard-customer-cut-strings">
-								<?php echo $content->title?>
-								<?php echo $content->getCommentsCount()?>
 								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
 								<?php if($content->isNew()):?><span class="kboard-customer-new-notify">New</span><?php endif?>
+								<?php echo $content->title?>
+								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
 							<div class="kboard-mobile-contents">
 								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-user.png" alt="<?php echo __('Author', 'kboard')?>"> <?php echo $content->member_display?></span>
@@ -83,10 +83,10 @@
 					<td class="kboard-list-title">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
 							<div class="kboard-customer-cut-strings">
-								<?php echo $content->title?>
-								<?php echo $content->getCommentsCount()?>
-								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
 								<?php if($content->isNew()):?><span class="kboard-customer-new-notify">New</span><?php endif?>
+								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+								<?php echo $content->title?>
+								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
 							<div class="kboard-mobile-contents">
 								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-user.png" alt="<?php echo __('Author', 'kboard')?>"> <?php echo $content->member_display?></span>
