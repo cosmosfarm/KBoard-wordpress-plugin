@@ -62,8 +62,9 @@ function kboard_document_like(button){
 		kboard_ajax_lock = true;
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
-			if(res){
-				jQuery('.kboard-document-like-count', button).text(res);
+			var count = parseInt(res);
+			if(count){
+				jQuery('.kboard-document-like-count', button).text(count);
 			}
 			else{
 				alert(kboard_localize_strings.you_have_already_voted);
@@ -81,8 +82,9 @@ function kboard_document_unlike(button){
 		kboard_ajax_lock = true;
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
-			if(res){
-				jQuery('.kboard-document-unlike-count', button).text(res);
+			var count = parseInt(res);
+			if(count){
+				jQuery('.kboard-document-unlike-count', button).text(count);
 			}
 			else{
 				alert(kboard_localize_strings.you_have_already_voted);
@@ -100,8 +102,9 @@ function kboard_comment_like(button){
 		kboard_ajax_lock = true;
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
-			if(res){
-				jQuery('.kboard-comment-like-count', button).text(res);
+			var count = parseInt(res);
+			if(count){
+				jQuery('.kboard-comment-like-count', button).text(count);
 			}
 			else{
 				alert(kboard_localize_strings.you_have_already_voted);
@@ -119,8 +122,9 @@ function kboard_comment_unlike(button){
 		kboard_ajax_lock = true;
 		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid')}, function(res){
 			kboard_ajax_lock = false;
-			if(res){
-				jQuery('.kboard-comment-unlike-count', button).text(res);
+			var count = parseInt(res);
+			if(count){
+				jQuery('.kboard-comment-unlike-count', button).text(count);
 			}
 			else{
 				alert(kboard_localize_strings.you_have_already_voted);

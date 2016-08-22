@@ -9,22 +9,16 @@ class KBController {
 	
 	public function __construct(){
 		$action = isset($_POST['action'])?$_POST['action']:'';
-		if($action == 'kboard_editor_execute'){
-			add_action('template_redirect', array($this, 'editorExecute'), 0);
-		}
-		else if($action == 'kboard_media_upload'){
-			add_action('template_redirect', array($this, 'mediaUpload'), 0);
-		}
-		else if($action == 'kboard_media_delete'){
-			add_action('template_redirect', array($this, 'mediaDelete'), 0);
+		switch($action){
+			case 'kboard_editor_execute': add_action('template_redirect', array($this, 'editorExecute'), 0); break;
+			case 'kboard_media_upload': add_action('template_redirect', array($this, 'mediaUpload'), 0); break;
+			case 'kboard_media_delete': add_action('template_redirect', array($this, 'mediaDelete'), 0); break;
 		}
 		
 		$action = isset($_GET['action'])?$_GET['action']:'';
-		if($action == 'kboard_file_delete'){
-			add_action('template_redirect', array($this, 'fileDelete'), 0);
-		}
-		else if($action == 'kboard_file_download'){
-			add_action('template_redirect', array($this, 'fileDownload'), 0);
+		switch($action){
+			case 'kboard_file_delete': add_action('template_redirect', array($this, 'fileDelete'), 0); break;
+			case 'kboard_file_download': add_action('template_redirect', array($this, 'fileDownload'), 0); break;
 		}
 		
 		add_action('wp_ajax_kboard_document_like', array($this, 'documentLike'));

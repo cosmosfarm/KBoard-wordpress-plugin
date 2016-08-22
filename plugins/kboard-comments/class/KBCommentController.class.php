@@ -9,14 +9,10 @@ class KBCommentController {
 	
 	public function __construct(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
-		if($action == 'kboard_comment_insert'){
-			add_action('template_redirect', array($this, 'insert'));
-		}
-		else if($action == 'kboard_comment_delete'){
-			add_action('template_redirect', array($this, 'delete'));
-		}
-		else if($action == 'kboard_comment_update'){
-			add_action('template_redirect', array($this, 'update'));
+		switch($action){
+			case 'kboard_comment_insert': add_action('template_redirect', array($this, 'insert')); break;
+			case 'kboard_comment_delete': add_action('template_redirect', array($this, 'delete')); break;
+			case 'kboard_comment_update': add_action('template_redirect', array($this, 'update')); break;
 		}
 		
 		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
