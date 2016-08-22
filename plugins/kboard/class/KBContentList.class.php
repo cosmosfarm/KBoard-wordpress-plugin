@@ -196,6 +196,7 @@ class KBContentList {
 			$this->board_id = intval($this->board_id);
 			$where[] = "`board_id`='$this->board_id'";
 		}
+		$where = implode(' AND ', $where);
 		
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC");
@@ -324,14 +325,14 @@ class KBContentList {
 			return self::$kboard_list_sort;
 		}
 		
-		self::$kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"])?$_COOKIE["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
+		self::$kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
 		self::$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:self::$kboard_list_sort;
 		
 		if(!in_array(self::$kboard_list_sort, array('newest', 'best', 'updated'))){
 			self::$kboard_list_sort = $this->getDefaultSorting();
 		}
 		
-		setcookie("kboard_list_sort_{$this->board_id}", self::$kboard_list_sort, strtotime('+1 year'), COOKIEPATH);
+		$_SESSION["kboard_list_sort_{$this->board_id}"] = self::$kboard_list_sort;
 		
 		return self::$kboard_list_sort;
 	}
