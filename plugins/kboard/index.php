@@ -81,6 +81,13 @@ function kboard_init(){
 	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
+	
+	$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:'';
+	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember'])?intval($_GET['kboard_list_sort_remember']):'';
+	if($kboard_list_sort && $kboard_list_sort_remember){
+		$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
+		setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH);
+	}
 }
 
 /*

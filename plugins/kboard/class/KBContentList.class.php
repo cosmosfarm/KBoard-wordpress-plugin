@@ -325,7 +325,8 @@ class KBContentList {
 			return self::$kboard_list_sort;
 		}
 		
-		self::$kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
+		self::$kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"])?$_COOKIE["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
+		self::$kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:self::$kboard_list_sort;
 		self::$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:self::$kboard_list_sort;
 		
 		if(!in_array(self::$kboard_list_sort, array('newest', 'best', 'updated'))){

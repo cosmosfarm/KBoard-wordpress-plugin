@@ -37,6 +37,12 @@ function kboard_comments_init(){
 	
 	// 템플릿 시작
 	$comment_template = new KBCommentTemplate();
+	
+	$kboard_comments_sort = isset($_GET['kboard_comments_sort'])?$_GET['kboard_comments_sort']:'';
+	if($kboard_comments_sort){
+		$_COOKIE['kboard_comments_sort'] = $kboard_comments_sort;
+		setcookie('kboard_comments_sort', $kboard_comments_sort, strtotime('+1 year'), COOKIEPATH);
+	}
 }
 
 /*

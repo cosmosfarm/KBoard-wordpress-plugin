@@ -245,13 +245,10 @@ class KBCommentList {
 		}
 		
 		$kboard_comments_sort = isset($_COOKIE['kboard_comments_sort'])?$_COOKIE['kboard_comments_sort']:'best';
-		$kboard_comments_sort = isset($_GET['kboard_comments_sort'])?$_GET['kboard_comments_sort']:$kboard_comments_sort;
 		
 		if(!in_array($kboard_comments_sort, array('best', 'oldest', 'newest'))){
 			$kboard_comments_sort = 'best';
 		}
-		
-		setcookie('kboard_comments_sort', $kboard_comments_sort, strtotime('+1 year'), COOKIEPATH);
 		
 		return $kboard_comments_sort;
 	}
