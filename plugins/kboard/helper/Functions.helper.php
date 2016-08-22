@@ -309,4 +309,123 @@ function kboard_allow_file_extensions($to_array=false){
 	}
 	return $file_extensions;
 }
+
+/**
+ * category1 값을 반환한다.
+ * @return string
+ */
+function kboard_category1(){
+	static $category1;
+	if($category1 === null){
+		$_GET['category1'] = isset($_GET['category1'])?kboard_htmlclear($_GET['category1']):'';
+		$category1 = $_GET['category1'];
+	}
+	return $category1;
+}
+
+/**
+ * category2 값을 반환한다.
+ * @return string
+ */
+function kboard_category2(){
+	static $category2;
+	if($category2 === null){
+		$_GET['category2'] = isset($_GET['category2'])?kboard_htmlclear($_GET['category2']):'';
+		$category2 = $_GET['category2'];
+	}
+	return $category2;
+}
+
+/**
+ * uid 값을 반환한다.
+ * @return string
+ */
+function kboard_uid(){
+	static $uid;
+	if($uid === null){
+		$_GET['uid'] = isset($_GET['uid'])?intval($_GET['uid']):'';
+		$_POST['uid'] = isset($_POST['uid'])?intval($_POST['uid']):'';
+		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
+	}
+	return $uid;
+}
+
+/**
+ * mod 값을 반환한다.
+ * @return string
+ */
+function kboard_mod(){
+	static $mod;
+	if($mod === null){
+		$_GET['mod'] = isset($_GET['mod'])?sanitize_key($_GET['mod']):'';
+		$_POST['mod'] = isset($_POST['mod'])?sanitize_key($_POST['mod']):'';
+		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
+	}
+	return $mod;
+}
+
+/**
+ * keyword 값을 반환한다.
+ * @return string
+ */
+function kboard_keyword(){
+	static $keyword;
+	if($keyword === null){
+		$_GET['keyword'] = isset($_GET['keyword'])?kboard_htmlclear($_GET['keyword']):'';
+		$keyword = $_GET['keyword'];
+	}
+	return $keyword;
+}
+
+/**
+ * target 값을 반환한다.
+ * @return string
+ */
+function kboard_target(){
+	static $target;
+	if($target === null){
+		$_GET['target'] = isset($_GET['target'])?sanitize_key($_GET['target']):'';
+		$target = $_GET['target'];
+	}
+	return $target;
+}
+
+/**
+ * pageid 값을 반환한다.
+ * @return string
+ */
+function kboard_pageid(){
+	static $pageid;
+	if($pageid === null){
+		$_GET['pageid'] = isset($_GET['pageid'])?intval($_GET['pageid']):1;
+		$pageid = $_GET['pageid'];
+	}
+	return $pageid;
+}
+
+/**
+ * parent_uid 값을 반환한다.
+ * @return string
+ */
+function kboard_parent_uid(){
+	static $parent_uid;
+	if($parent_uid === null){
+		$_GET['parent_uid'] = isset($_GET['parent_uid'])?intval($_GET['parent_uid']):'';
+		$parent_uid = $_GET['parent_uid'];
+	}
+	return $parent_uid;
+}
+
+/**
+ * kboard_id 값을 반환한다.
+ * @return string
+ */
+function kboard_id(){
+	static $kboard_id;
+	if($kboard_id === null){
+		$_GET['kboard_id'] = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
+		$kboard_id = $_GET['kboard_id'];
+	}
+	return $kboard_id;
+}
 ?>

@@ -11,7 +11,7 @@
 					<select name="category1" onchange="jQuery('#kboard-search-form').submit();">
 						<option value=""><?php echo __('All', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($_GET['category1'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if(kboard_category1() == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				<?php endif?>
@@ -20,7 +20,7 @@
 					<select name="category2" onchange="jQuery('#kboard-search-form').submit();">
 						<option value=""><?php echo __('All', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($_GET['category2'] == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if(kboard_category2() == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				<?php endif?>
@@ -30,11 +30,11 @@
 			<div class="kboard-search">
 				<select name="target">
 					<option value=""><?php echo __('All', 'kboard')?></option>
-					<option value="title"<?php if($_GET['target'] == 'title'):?> selected="selected"<?php endif?>><?php echo __('Title', 'kboard')?></option>
-					<option value="content"<?php if($_GET['target'] == 'content'):?> selected="selected"<?php endif?>><?php echo __('Content', 'kboard')?></option>
-					<option value="member_display"<?php if($_GET['target'] == 'member_display'):?> selected="selected"<?php endif?>><?php echo __('Author', 'kboard')?></option>
+					<option value="title"<?php if(kboard_target() == 'title'):?> selected="selected"<?php endif?>><?php echo __('Title', 'kboard')?></option>
+					<option value="content"<?php if(kboard_target() == 'content'):?> selected="selected"<?php endif?>><?php echo __('Content', 'kboard')?></option>
+					<option value="member_display"<?php if(kboard_target() == 'member_display'):?> selected="selected"<?php endif?>><?php echo __('Author', 'kboard')?></option>
 				</select>
-				<input type="text" name="keyword" value="<?php echo $_GET['keyword']?>">
+				<input type="text" name="keyword" value="<?php echo kboard_keyword()?>">
 				<button type="submit" class="kboard-avatar-button-small"><?php echo __('Search', 'kboard')?></button>
 			</div>
 		</form>

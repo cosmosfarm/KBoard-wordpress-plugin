@@ -19,26 +19,10 @@ class KBoardBuilder {
 	var $meta;
 	
 	public function __construct($board_id='', $is_latest=false){
-		$_GET['uid'] = isset($_GET['uid'])?intval($_GET['uid']):'';
-		$_GET['parent_uid'] = isset($_GET['parent_uid'])?intval($_GET['parent_uid']):'';
-		$_GET['pageid'] = isset($_GET['pageid'])?intval($_GET['pageid']):'';
-		$_GET['mod'] = isset($_GET['mod'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['mod']))):'';
-		$_GET['category1'] = isset($_GET['category1'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['category1']))):'';
-		$_GET['category2'] = isset($_GET['category2'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['category2']))):'';
-		$_GET['keyword'] = isset($_GET['keyword'])?addslashes(str_replace(array('/', '\\', '"', '\'', ':', '+', '-', '=', '`', '[', ']', '{', '}', '(', ')', '<', '>'), '', kboard_xssfilter(kboard_htmlclear($_GET['keyword'])))):'';
-		$_GET['target'] = isset($_GET['target'])?addslashes(kboard_xssfilter(kboard_htmlclear($_GET['target']))):'';
-		$_GET['kboard_id'] = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
-		
-		$_POST['uid'] = isset($_POST['uid'])?intval($_POST['uid']):'';
-		$_POST['mod'] = isset($_POST['mod'])?addslashes(kboard_xssfilter(kboard_htmlclear($_POST['mod']))):'';
-		
-		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
-		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
-		
-		$this->mod = in_array($mod, array('list', 'document', 'editor', 'remove'))?$mod:apply_filters('kboard_default_build_mod', 'list', $board_id);
-		$this->category1 = $_GET['category1'];
-		$this->category2 = $_GET['category2'];
-		$this->uid = $uid;
+		$this->mod = in_array(kboard_mod(), array('list', 'document', 'editor', 'remove')) ? kboard_mod() : apply_filters('kboard_default_build_mod', 'list', $board_id);
+		$this->category1 = kboard_category1();
+		$this->category2 = kboard_category2();
+		$this->uid = kboard_uid();
 		$this->skin = 'default';
 		
 		if($board_id) $this->setBoardID($board_id, $is_latest);
@@ -116,7 +100,7 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
-		$list->rpp($this->rpp)->page($_GET['pageid'])->getList($_GET['keyword'], $_GET['target']);
+		$list->rpp($this->rpp)->page(kboard_pageid())->getList(kboard_keyword(), kboard_target());
 		return $list;
 	}
 	
@@ -155,9 +139,9 @@ class KBoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		if($this->meta->view_iframe && !intval($_GET['kboard_id'])){
+		if($this->meta->view_iframe && !kboard_id()){
 			$url = new KBUrl();
-			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', $_GET['uid'])->set('mod', $_GET['mod'])->set('mod', $_GET['mod'])->set('category1', $_GET['category1'])->set('category2', $_GET['category2'])->set('keyword', $_GET['keyword'])->set('target', $_GET['target'])->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 		}
 		
 		if($this->meta->pass_autop == 'enable'){
@@ -179,8 +163,6 @@ class KBoardBuilder {
 	 * 게시판 리스트 페이지를 생성한다.
 	 */
 	public function builderList(){
-		global $user_ID;
-		
 		$url = new KBUrl();
 		$list = $this->getList();
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
@@ -209,8 +191,6 @@ class KBoardBuilder {
 	 * 게시판 본문 페이지를 생성한다.
 	 */
 	public function builderDocument(){
-		global $user_ID;
-		
 		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
@@ -222,8 +202,9 @@ class KBoardBuilder {
 		
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
-			if(!$user_ID && $this->board->permission_read!='all'){
-				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
+			if(!is_user_logged_in() && $this->board->permission_read!='all'){
+				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
+				echo '<script>window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 			}
 			else if($content->secret){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
@@ -293,12 +274,14 @@ class KBoardBuilder {
 	 * 게시판 에디터 페이지를 생성한다.
 	 */
 	public function builderEditor(){
-		global $user_ID;
-		
 		$url = new KBUrl();
 		if($this->board->isWriter() && $this->board->permission_write=='all' && isset($_POST['title']) && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
-			if(!$user_ID && (!isset($_POST['password']) || !$_POST['password'])) die('<script>alert("'.__('Please enter your password.', 'kboard').'");location.href="' . $next_url . '";</script>');
+			if(!is_user_logged_in() && (!isset($_POST['password']) || !$_POST['password'])){
+				echo '<script>alert("'.__('Please enter your password.', 'kboard').'");</script>';
+				echo '<script>window.location.href="' . $next_url . '";</script>';
+				exit;
+			}
 		}
 		
 		$content = new KBContent();
@@ -355,9 +338,9 @@ class KBoardBuilder {
 				}
 					
 				// 새로운 답글 쓰기에서만 실행한다.
-				if(isset($_GET['parent_uid']) && $_GET['parent_uid'] && !$content->uid && !$content->parent_uid){
+				if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
 					$parent = new KBContent();
-					$parent->initWithUID($_GET['parent_uid']);
+					$parent->initWithUID(kboard_parent_uid());
 					
 					// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
 					$content->parent_uid = $parent->uid;

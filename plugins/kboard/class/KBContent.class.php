@@ -104,21 +104,21 @@ class KBContent {
 	public function execute(){
 		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
 		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
-		$this->member_display = isset($_POST['member_display'])?kboard_htmlclear(trim($_POST['member_display'])):'';
-		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['title']))):'';
-		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter(trim($_POST['kboard_content']))):'';
-		$this->date = isset($_POST['date'])?kboard_htmlclear(trim($_POST['date'])):'';
+		$this->member_display = isset($_POST['member_display'])?kboard_htmlclear($_POST['member_display']):'';
+		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter($_POST['title'])):'';
+		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter($_POST['kboard_content'])):'';
+		$this->date = isset($_POST['date'])?kboard_htmlclear($_POST['date']):'';
 		if(isset($_POST['view'])) $this->view = intval($_POST['view']);
 		if(isset($_POST['comment'])) $this->comment = intval($_POST['comment']);
 		if(isset($_POST['like'])) $this->like = intval($_POST['like']);
 		if(isset($_POST['unlike'])) $this->unlike = intval($_POST['unlike']);
 		if(isset($_POST['vote'])) $this->vote = intval($_POST['vote']);
-		$this->category1 = isset($_POST['category1'])?kboard_htmlclear(trim($_POST['category1'])):'';
-		$this->category2 = isset($_POST['category2'])?kboard_htmlclear(trim($_POST['category2'])):'';
-		$this->secret = isset($_POST['secret'])?kboard_htmlclear(trim($_POST['secret'])):'';
-		$this->notice = isset($_POST['notice'])?kboard_htmlclear(trim($_POST['notice'])):'';
+		$this->category1 = isset($_POST['category1'])?kboard_htmlclear($_POST['category1']):'';
+		$this->category2 = isset($_POST['category2'])?kboard_htmlclear($_POST['category2']):'';
+		$this->secret = isset($_POST['secret'])?kboard_htmlclear($_POST['secret']):'';
+		$this->notice = isset($_POST['notice'])?kboard_htmlclear($_POST['notice']):'';
 		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'3';
-		$this->password = isset($_POST['password'])?kboard_htmlclear(trim($_POST['password'])):'';
+		$this->password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
 		
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
@@ -401,7 +401,7 @@ class KBContent {
 			
 			foreach($_FILES as $key=>$value){
 				if(strpos($key, $this->skin_attach_prefix) === false) continue;
-				$key = str_replace($this->skin_attach_prefix, '', $key);
+				$key = sanitize_key(str_replace($this->skin_attach_prefix, '', $key));
 			
 				$upload = $file->upload($this->skin_attach_prefix . $key);
 				$original_name = $upload['original_name'];
@@ -466,7 +466,7 @@ class KBContent {
 	public function removeAttached($key){
 		global $wpdb;
 		if($this->uid){
-			$key = esc_sql($key);
+			$key = esc_sql(sanitize_key($key));
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 			if($file){
 				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($file));
@@ -484,10 +484,8 @@ class KBContent {
 		if($this->uid){
 			$this->option = new KBContentOption($this->uid);
 			foreach($_POST as $key=>$value){
-				$key = trim($key);
-				$value = trim($value);
 				if(strpos($key, $this->skin_option_prefix) !== false){
-					$key = kboard_htmlclear(str_replace($this->skin_option_prefix, '', $key));
+					$key = sanitize_key(str_replace($this->skin_option_prefix, '', $key));
 					$value = kboard_safeiframe(kboard_xssfilter($value));
 					$this->option->{$key} = $value;
 				}

@@ -12,8 +12,8 @@ class KBContentList {
 	var $board_id;
 	var $total;
 	var $index;
-	var $col_category1;
-	var $col_category2;
+	var $category1;
+	var $category2;
 	var $sort = 'date';
 	var $order = 'DESC';
 	var $rpp = 10;
@@ -107,7 +107,7 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function category1($category){
-		if($category) $this->col_category1 = $category;
+		if($category) $this->category1 = $category;
 		return $this;
 	}
 	
@@ -117,7 +117,7 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function category2($category){
-		if($category) $this->col_category2 = $category;
+		if($category) $this->category2 = $category;
 		return $this;
 	}
 	
@@ -164,8 +164,8 @@ class KBContentList {
 		if(!$keyword) $where[] = "`parent_uid`='0'";
 		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
 		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
-		if($this->col_category1) $where[] = "`category1`='$this->col_category1'";
-		if($this->col_category2) $where[] = "`category2`='$this->col_category2'";
+		if($this->category1) $where[] = "`category1`='$this->category1'";
+		if($this->category2) $where[] = "`category2`='$this->category2'";
 		
 		// kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
 		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);

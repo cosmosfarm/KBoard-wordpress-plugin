@@ -23,7 +23,7 @@
 					<select id="kboard-select-category1" name="category1">
 						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				</div>
@@ -37,7 +37,7 @@
 					<select id="kboard-select-category2" name="category2">
 						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected="selected"<?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 				</div>

@@ -275,7 +275,7 @@ class KBFileHandler {
 			
 			return apply_filters('kboard_uploaded_file', array(
 					'stored_name' => $file_unique_name,
-					'original_name' => $file['name'],
+					'original_name' => sanitize_file_name($file['name']),
 					'temp_name' => $file['tmp_name'],
 					'error' => $file['error'],
 					'type' => $file['type'],
@@ -358,7 +358,7 @@ class KBFileHandler {
 					
 				$files[] = array(
 						'stored_name' => $file_unique_name,
-						'original_name' => $file['name'][$key],
+						'original_name' => sanitize_file_name($file['name'][$key]),
 						'temp_name' => $file['tmp_name'][$key],
 						'error' => $file['error'][$key],
 						'type' => $file['type'][$key],

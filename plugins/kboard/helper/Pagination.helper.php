@@ -12,7 +12,7 @@ function kboard_pagination($current_page, $total, $limit){
 			$query_strings[] = 'mod=list';
 		}
 		else if($key != 'pageid' && $value){
-			$query_strings[] = urlencode(kboard_xssfilter(kboard_htmlclear(trim($key)))).'='.urlencode(kboard_xssfilter(kboard_htmlclear(trim($value))));
+			$query_strings[] = sanitize_key($key).'='.urlencode(kboard_htmlclear($value));
 		}
 	}
 	if(isset($query_strings) && $query_strings) $query_strings = '&' . implode('&', $query_strings);

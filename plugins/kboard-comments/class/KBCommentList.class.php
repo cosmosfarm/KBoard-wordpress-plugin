@@ -152,13 +152,13 @@ class KBCommentList {
 		$content_uid = $this->content_uid;
 		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);
-		$user_display = esc_sql(kboard_htmlclear(trim($user_display)));
-		$content = esc_sql(kboard_safeiframe(kboard_xssfilter(trim($content))));
+		$user_display = esc_sql(kboard_htmlclear($user_display));
+		$content = esc_sql(kboard_safeiframe(kboard_xssfilter($content)));
 		$like = 0;
 		$unlike = 0;
 		$vote = 0;
 		$created = date('YmdHis', current_time('timestamp'));
-		$password = esc_sql(kboard_htmlclear(trim($password)));
+		$password = esc_sql(kboard_htmlclear($password));
 		
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$like', '$unlike', '$vote', '$created', '$password')");
 		$insert_id = $wpdb->insert_id;

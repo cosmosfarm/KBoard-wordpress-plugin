@@ -48,7 +48,7 @@ function kboard_xssfilter($data){
 		}
 		$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['KBOARD']['HTMLPurifier_Config']);
 	}
-	return $data;
+	return trim($data);
 }
 
 /**
@@ -90,7 +90,7 @@ function kboard_safeiframe($data){
  */
 function kboard_htmlclear($data){
 	if(is_array($data)) return array_map('kboard_htmlclear', $data);
-	$data = strip_tags($data);
+	$data = sanitize_text_field($data);
 	return htmlspecialchars($data);
 }
 
