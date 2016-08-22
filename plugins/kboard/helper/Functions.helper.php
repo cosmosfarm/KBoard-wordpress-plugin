@@ -13,13 +13,12 @@ if(!defined('ABSPATH')) exit;
  * @return string
  */
 function kboard_json_encode($val){
-	if(function_exists('json_encode')){
-		return json_encode($val);
-	}
-	
 	/*
 	 * http://kr1.php.net/json_encode#113219
 	 */
+	if(function_exists('json_encode')){
+		return json_encode($val);
+	}
 	
 	if(is_string($val)) return '"'.addslashes($val).'"';
 	if(is_numeric($val)) return $val;

@@ -9,11 +9,9 @@ class KBCommentTemplate {
 	
 	public function __construct(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
-		if($action == 'kboard_comment_confirm'){
-			add_action('template_redirect', array($this, 'confirm'));
-		}
-		else if($action == 'kboard_comment_edit'){
-			add_action('template_redirect', array($this, 'edit'));
+		switch($action){
+			case 'kboard_comment_confirm': add_action('template_redirect', array($this, 'confirm')); break;
+			case 'kboard_comment_edit': add_action('template_redirect', array($this, 'edit')); break;
 		}
 	}
 	
