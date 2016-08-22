@@ -48,7 +48,7 @@
 				</div>
 			</div>
 			
-			<?php if(count((array)$content->attach) > 0):?>
+			<?php if($content->isAttached()):?>
 			<div class="kboard-attach">
 				<?php foreach($content->attach as $key=>$attach):?>
 				<button type="button" class="kboard-button-action kboard-button-download" onclick="window.location.href='<?php echo $url->getDownloadURLWithAttach($content->uid, $key)?>'" title="<?php echo sprintf(__('Download %s', 'kboard'), $attach[1])?>"><?php echo $attach[1]?></button>

@@ -765,6 +765,7 @@ class KBContent {
 	
 	/**
 	 * 새글인지 확인한다.
+	 * @return boolean
 	 */
 	public function isNew(){
 		if($this->uid){
@@ -787,6 +788,19 @@ class KBContent {
 			$this->board = new KBoard($this->board_id);
 			return $this->board;
 		}
+	}
+	
+	/**
+	 * 첨부파일이 있는지 확인한다.
+	 * @return boolean
+	 */
+	public function isAttached(){
+		if($this->uid){
+			if(count((array)$this->attach) > 0){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
