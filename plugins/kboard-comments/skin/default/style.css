@@ -10,8 +10,8 @@
 .kboard-comments-default input[type=password] { display: inline; margin: 0; padding: 6px 2px; width: 60%; height: auto; line-height: normal; font-size: 12px; border: 1px solid #eaeaea; }
 .kboard-comments-default .kboard-comments-wrap { padding: 15px 15px 0 0; overflow: hidden; }
 .kboard-comments-default .comments-header { padding: 0 0 0 15px; overflow: hidden; line-height: 1; }
-.kboard-comments-default .comments-count { display: inline; color: #8a8a8a; font-size: 12px;}
-.kboard-comments-default .comments-count .comments-total-count { color: #f05726; }
+.kboard-comments-default .comments-count { display: inline; color: #8a8a8a; font-size: 12px; }
+.kboard-comments-default .comments-count .comments-total-count { color: #f05726; font-size: 12px; }
 .kboard-comments-default .comments-sort { float: right; text-align: right; }
 .kboard-comments-default .comments-sort select { display: block; margin: 0; padding: 0; border: 0; color: #66666a; font-size: 12px; background: none; background-color: transparent; cursor: pointer; box-shadow: none; }
 .kboard-comments-default .comments-list { padding: 0 0 0 15px; overflow: hidden; }
