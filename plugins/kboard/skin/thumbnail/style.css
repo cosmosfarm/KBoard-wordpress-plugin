@@ -7,26 +7,22 @@ img { border: 0; }
 
 .kboard-thumbnail-button-small,
 .kboard-thumbnail-button-small:link,
-.kboard-thumbnail-button-small:visited { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; color: white; background-image: none; background-color: #428bca; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
+.kboard-thumbnail-button-small:visited { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; color: white; background-image: none; background-color: #00a8e7; border: none; border-radius: 0; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; }
 .kboard-thumbnail-button-small:hover,
 .kboard-thumbnail-button-small:focus,
-.kboard-thumbnail-button-small:active { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; color: white; background-image: none; background-color: #428bca; border: none; border-radius: 3px; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
+.kboard-thumbnail-button-small:active { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; color: white; background-image: none; background-color: #00a8e7; border: none; border-radius: 0; text-decoration: none; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; opacity: 0.7; transition-duration: 0.3s; }
 
 .kboard-thumbnail-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; }
-.kboard-thumbnail-new-notify { display: inline-block; *display: inline; zoom: 1; padding: 2px 2px; line-height: 10px; font-size: 10px; color: white; background-color: #5bc0de; }
+.kboard-thumbnail-new-notify { display: inline-block; *display: inline; zoom: 1; padding: 2px 2px; line-height: 10px; font-size: 10px; color: white; background-color: #f61b5d; }
 .kboard-thumbnail-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 #kboard-thumbnail-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-thumbnail-list .kboard-header { float: left; margin-top: 0; width: 100%; }
 #kboard-thumbnail-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
 #kboard-thumbnail-list .kboard-category select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; font-size: 12px; width: 120px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; box-shadow: none; }
-#kboard-thumbnail-list .kboard-search { float: right; padding-bottom: 5px; width: 50%; text-align: right; }
-#kboard-thumbnail-list .kboard-search select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; width: 80px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; vertical-align: middle; box-shadow: none; }
-#kboard-thumbnail-list .kboard-search input { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 6px 2px; width: 120px; height: auto; font-size: 12px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; line-height: 12px; vertical-align: middle; box-shadow: none; }
-#kboard-thumbnail-list .kboard-list { float: left; width: 100%; background-color: white; }
-#kboard-thumbnail-list .kboard-list table { display: table; table-layout: fixed; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
+#kboard-thumbnail-list .kboard-list { float: left; padding-bottom: 15px; width: 100%; background-color: white; }
+#kboard-thumbnail-list .kboard-list table { display: table; table-layout: fixed; margin: 0; padding: 0; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
 #kboard-thumbnail-list .kboard-list table a { color: black; text-decoration: none; border: 0; box-shadow: none; font-size: 13px; }
-#kboard-thumbnail-list .kboard-list table tr { border: 0; }
+#kboard-thumbnail-list .kboard-list table tr { border: 0; transition-duration: 0.3s; }
 #kboard-thumbnail-list .kboard-list table td { padding: 10px 0; height: auto; text-align: center; vertical-align: middle; font-size: 13px; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-uid { width: 72px; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-thumbnail { width: 130px; }
@@ -37,39 +33,59 @@ img { border: 0; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-user { width: 80px; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-view { width: 55px; }
-#kboard-thumbnail-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #e3e3e3; }
-#kboard-thumbnail-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #e3e3e3; }
+#kboard-thumbnail-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #f1f1f1; }
+#kboard-thumbnail-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #f1f1f1; }
 #kboard-thumbnail-list .kboard-list tbody tr:hover { background-color: #f7f7f7; }
 #kboard-thumbnail-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
 #kboard-thumbnail-list .kboard-list tbody tr.kboard-list-notice td.kboard-list-uid { font-weight: bold; color: #515151; }
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-title { text-align: left; }
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
+#kboard-thumbnail-list .kboard-list tbody td.kboard-list-title .kboard-comments-count { color: #00a8e7; }
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents { display: none; font-size: 12px; color: #c2c2c2; }
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-item { padding: 0 5px 0 0; }
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-item img { width: 12px; height: 12px; vertical-align: middle; }
-#kboard-thumbnail-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
+#kboard-thumbnail-list .kboard-pagination { float: left; padding-bottom: 15px; width: 100%; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; line-height: 40px; list-style: none; text-align: center; border: 0; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
-#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 1px solid #dddddd; text-decoration: none; font-size: 13px; color: #999999; background-color: white; box-shadow: none; }
-#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.active a { border: 1px solid #d9534f; color: white; background-color: #d9534f; }
+#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 0; text-decoration: none; font-size: 13px; color: #999999; background-color: #f9f9f9; box-shadow: none; transition-duration: 0.3s; }
+#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:hover a,
+#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: white; background-color: #00a8e7; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
-#kboard-thumbnail-list .kboard-control { float: left; padding: 15px 0 1px 0; width: 100%; text-align: right; }
+#kboard-thumbnail-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
+#kboard-thumbnail-list .kboard-search select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; width: 100px; height: auto; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background-color: white; vertical-align: middle; box-shadow: none; }
+#kboard-thumbnail-list .kboard-search input { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 6px 2px; width: 200px; height: auto; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background-color: white; line-height: 12px; vertical-align: middle; box-shadow: none; }
+#kboard-thumbnail-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-thumbnail-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 5px 2px; font-size: 12px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #cccccc; box-shadow: none; background-color: transparent; }
+#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 5px 2px; font-size: 12px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; }
 #kboard-thumbnail-editor input[type=text],
 #kboard-thumbnail-editor input[type=email],
 #kboard-thumbnail-editor input[type=number],
 #kboard-thumbnail-editor input[type=data],
-#kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 6px 2px; width: 30%; height: 28px; line-height: 28px; font-size: 12px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #cccccc; box-shadow: none; background-color: transparent; }
+#kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 6px 2px; width: 30%; height: 28px; line-height: 28px; font-size: 12px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; }
+#kboard-thumbnail-editor select:hover,
+#kboard-thumbnail-editor input[type=text]:hover,
+#kboard-thumbnail-editor input[type=email]:hover,
+#kboard-thumbnail-editor input[type=number]:hover,
+#kboard-thumbnail-editor input[type=data]:hover,
+#kboard-thumbnail-editor input[type=password]:hover { border-bottom: 1px solid #9e9e9e; }
+#kboard-thumbnail-editor select:focus,
+#kboard-thumbnail-editor input[type=text]:focus,
+#kboard-thumbnail-editor input[type=email]:focus,
+#kboard-thumbnail-editor input[type=number]:focus,
+#kboard-thumbnail-editor input[type=data]:focus,
+#kboard-thumbnail-editor input[type=password]:focus { border-bottom: 2px solid #9e9e9e; }
 #kboard-thumbnail-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 12px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
-#kboard-thumbnail-editor .kboard-attr-title input { width: 80%; }
+#kboard-thumbnail-editor .kboard-attr-title input { width: 70%; }
 #kboard-thumbnail-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; max-width: 100%; vertical-align: middle; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value { font-size: 12px; line-height: 30px; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { padding-right: 20px; cursor: pointer; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-value .description { padding: 0; padding-left: 120px; line-height: 30px; color: #666666; }
+#kboard-thumbnail-editor .kboard-confirm-row { padding: 100px 0; }
 #kboard-thumbnail-editor .kboard-content { float: left; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
 #kboard-thumbnail-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 98%; height: 250px; font-size: 12px; }
 #kboard-thumbnail-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
@@ -80,7 +96,7 @@ img { border: 0; }
 #kboard-thumbnail-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
 #kboard-thumbnail-document .kboard-title { float: left; width: 100%; }
 #kboard-thumbnail-document .kboard-title h1 { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 22px; line-height: 30px; text-align: left; }
-#kboard-thumbnail-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #e3e3e3; border-bottom: 1px solid #e3e3e3; background-color: #f9f9f9; font-size: 12px; }
+#kboard-thumbnail-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #f1f1f1; border-bottom: 1px solid #f1f1f1; background-color: #f9f9f9; font-size: 12px; }
 #kboard-thumbnail-document .kboard-detail .detail-attr { display: inline-block; *display: inline; zoom: 1; float: left; margin: 0; padding: 12px 35px 12px 22px; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; text-align: right; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
@@ -114,23 +130,20 @@ img { border: 0; }
 #kboard-thumbnail-document .kboard-control .left { position: static; float: left; }
 #kboard-thumbnail-document .kboard-control .right { position: static; float: right; text-align: right; }
 
-#kboard-thumbnail-latest table { display: table; table-layout: fixed; width: 100%; border: 0; border-bottom: 1px solid #e3e3e3; }
+#kboard-thumbnail-latest table { display: table; table-layout: fixed; width: 100%; border: 0; border-bottom: 1px solid #f1f1f1; }
 #kboard-thumbnail-latest table tr { padding: 0; border: 0; }
 #kboard-thumbnail-latest table th { padding: 5px 0; height: auto; border: 0; text-align: center; }
-#kboard-thumbnail-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #e3e3e3; }
+#kboard-thumbnail-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; }
 #kboard-thumbnail-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
 #kboard-thumbnail-latest table .kboard-latest-title a { text-decoration: none; box-shadow: none; }
 #kboard-thumbnail-latest table .kboard-latest-title img { display: inline; }
+#kboard-thumbnail-latest table .kboard-latest-title .kboard-comments-count { }
 #kboard-thumbnail-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media screen and (max-width: 600px) {
 	#kboard-thumbnail-list .kboard-category { padding: 0; width: 100%; text-align: center; }
 	#kboard-thumbnail-list .kboard-category select { margin-bottom: 5px; width: 100%; }
-	#kboard-thumbnail-list .kboard-search { clear: both; float: left; width: 100%; text-align: center; }
-	#kboard-thumbnail-list .kboard-search select { float: left; margin-right: 1%; width: 29%; }
-	#kboard-thumbnail-list .kboard-search input { float: left; margin-right: 1%; width: 49%; }
-	#kboard-thumbnail-list .kboard-search button { float: left; width: 20%; }
-	#kboard-thumbnail-list .kboard-list table { border-top: 1px solid #e3e3e3; }
+	#kboard-thumbnail-list .kboard-list table { border-top: 1px solid #f1f1f1; }
 	#kboard-thumbnail-list .kboard-list table thead { display: none; }
 	#kboard-thumbnail-list .kboard-list table td.kboard-list-thumbnail { padding: 5px; width: 100px; }
 	#kboard-thumbnail-list .kboard-list table td.kboard-list-title .kboard-thumbnail-cut-strings { line-height: 40px; }
@@ -147,6 +160,9 @@ img { border: 0; }
 	#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
 	#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 6px 18px; }
 	#kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-thumbnail-list .kboard-search select { float: left; margin-right: 1%; width: 29%; }
+	#kboard-thumbnail-list .kboard-search input { float: left; margin-right: 1%; width: 49%; }
+	#kboard-thumbnail-list .kboard-search button { float: left; width: 20%; }
 	
 	#kboard-thumbnail-editor select,
 	#kboard-thumbnail-editor input[type=text],
@@ -157,6 +173,7 @@ img { border: 0; }
 	#kboard-thumbnail-editor input[type=file] { width: 100%; }
 	#kboard-thumbnail-editor .kboard-attr-row { padding: 10px 0; }
 	#kboard-thumbnail-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
+	#kboard-thumbnail-editor .kboard-attr-row .attr-value .description { padding: 0; }
 	
 	#kboard-thumbnail-document .kboard-title p { padding: 10px 5px; font-size: 18px; }
 	#kboard-thumbnail-document .kboard-content .content-view { padding: 10px 5px; }

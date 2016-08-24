@@ -149,6 +149,12 @@ class KBContent {
 				}
 			}
 			
+			if(is_user_logged_in()){
+				$current_user = wp_get_current_user();
+				$this->member_uid = $current_user->ID;
+				$this->member_display = $this->member_display?$this->member_display:$current_user->display_name;
+			}
+			
 			// 신규게시물 등록
 			$this->initUploadAttachFiles();
 			if($this->insertContent()){
@@ -188,40 +194,32 @@ class KBContent {
 	 * 게시글을 등록한다.
 	 * @return int
 	 */
-	public function insertContent(){
-		global $user_ID, $wpdb;
+	public function insertContent($data = array()){
+		global $wpdb;
 		
-		if($user_ID){
-			$userdata = get_userdata($user_ID);
-			$member_uid = $userdata->data->ID;
-			$member_display = $this->member_display?$this->member_display:$userdata->data->display_name;
+		if(!$data){
+			$data['board_id'] = $this->board_id;
+			$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
+			$data['member_uid'] = $this->member_uid;
+			$data['member_display'] = $this->member_display;
+			$data['title'] = $this->title;
+			$data['content'] = $this->content;
+			$data['date'] = date('YmdHis', current_time('timestamp'));
+			$data['update'] = date('YmdHis', current_time('timestamp'));
+			$data['view'] = 0;
+			$data['comment'] = 0;
+			$data['like'] = 0;
+			$data['unlike'] = 0;
+			$data['vote'] = 0;
+			$data['category1'] = $this->category1;
+			$data['category2'] = $this->category2;
+			$data['secret'] = $this->secret;
+			$data['notice'] = $this->notice;
+			$data['search'] = $this->search;
+			$data['thumbnail_file'] = '';
+			$data['thumbnail_name'] = '';
+			$data['password'] = $this->password?$this->password:'';
 		}
-		else{
-			$member_uid = 0;
-			$member_display = $this->member_display;
-		}
-		
-		$data['board_id'] = $this->board_id;
-		$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
-		$data['member_uid'] = $member_uid;
-		$data['member_display'] = $member_display;
-		$data['title'] = $this->title;
-		$data['content'] = $this->content;
-		$data['date'] = date('YmdHis', current_time('timestamp'));
-		$data['update'] = date('YmdHis', current_time('timestamp'));
-		$data['view'] = 0;
-		$data['comment'] = 0;
-		$data['like'] = 0;
-		$data['unlike'] = 0;
-		$data['vote'] = 0;
-		$data['category1'] = $this->category1;
-		$data['category2'] = $this->category2;
-		$data['secret'] = $this->secret;
-		$data['notice'] = $this->notice;
-		$data['search'] = $this->search;
-		$data['thumbnail_file'] = '';
-		$data['thumbnail_name'] = '';
-		$data['password'] = $this->password?$this->password:'';
 		
 		/*
 		 * 입력할 데이터 필터
@@ -245,28 +243,32 @@ class KBContent {
 	/**
 	 * 게시글 정보를 수정한다.
 	 */
-	public function updateContent(){
+	public function updateContent($data = array()){
 		global $wpdb;
 		if($this->uid){
-			$data['board_id'] = $this->board_id;
-			$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
-			$data['member_uid'] = $this->member_uid;
-			$data['member_display'] = $this->member_display;
-			$data['title'] = $this->title;
-			$data['content'] = $this->content;
-			$data['date'] = $this->date;
-			$data['update'] = date('YmdHis', current_time('timestamp'));
-			$data['view'] = $this->view;
-			$data['comment'] = $this->comment;
-			$data['like'] = $this->like;
-			$data['unlike'] = $this->unlike;
-			$data['vote'] = $this->vote;
-			$data['category1'] = $this->category1;
-			$data['category2'] = $this->category2;
-			$data['secret'] = $this->secret;
-			$data['notice'] = $this->notice;
-			$data['search'] = $this->search;
-			if($this->password) $data['password'] = $this->password;
+			
+			if(!$data){
+				$data['board_id'] = $this->board_id;
+				$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
+				$data['member_uid'] = $this->member_uid;
+				$data['member_display'] = $this->member_display;
+				$data['title'] = $this->title;
+				$data['content'] = $this->content;
+				$data['date'] = $this->date;
+				$data['update'] = date('YmdHis', current_time('timestamp'));
+				$data['view'] = $this->view;
+				$data['comment'] = $this->comment;
+				$data['like'] = $this->like;
+				$data['unlike'] = $this->unlike;
+				$data['vote'] = $this->vote;
+				$data['category1'] = $this->category1;
+				$data['category2'] = $this->category2;
+				$data['secret'] = $this->secret;
+				$data['notice'] = $this->notice;
+				$data['search'] = $this->search;
+				if($this->member_uid) $data['password'] = $this->password;
+				else if($this->password) $data['password'] = $this->password;
+			}
 			
 			/*
 			 * 수정할 데이터 필터
@@ -277,6 +279,7 @@ class KBContent {
 				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
 			}
+			
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
 			
 			$post_id = $this->getPostID();

@@ -199,6 +199,7 @@ class KBoardBuilder {
 		$board = $this->board;
 		$boardBuilder = $this;
 		$content->board = $board;
+		$board->content = $content;
 		
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
@@ -292,19 +293,22 @@ class KBoardBuilder {
 		$board = $this->board;
 		$boardBuilder = $this;
 		$content->board = $board;
+		$board->content = $content;
 		
 		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){
-			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+			exit;
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
-			if($this->board->permission_write=='all'){
+			if($this->board->permission_write=='all' && !$content->member_uid){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
 					$confirm_view = true;
 				}
 			}
 			else{
-				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				exit;
 			}
 		}
 		
@@ -382,13 +386,14 @@ class KBoardBuilder {
 		
 		$confirm_view = false;
 		if(!$this->board->isEditor($content->member_uid)){
-			if($this->board->permission_write=='all'){
+			if($this->board->permission_write=='all' && !$content->member_uid){
 				if(!$this->board->isConfirm($content->password, $content->uid, true)){
 					$confirm_view = true;
 				}
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				exit;
 			}
 		}
 		

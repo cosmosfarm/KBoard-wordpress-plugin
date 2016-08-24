@@ -9,6 +9,7 @@ class KBoard {
 	
 	var $id;
 	var $row;
+	var $content;
 	var $category;
 	var $category_row;
 	var $userdata;
@@ -241,7 +242,7 @@ class KBoard {
 	public function isConfirm($password, $content_uid, $reauth=false){
 		if(!$password || !$content_uid) return false;
 		
-		$submitted_password = isset($_POST['password'])?kboard_htmlclear(trim($_POST['password'])):'';
+		$submitted_password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
 		
 		if($reauth){
 			if($submitted_password == $password){
@@ -254,6 +255,18 @@ class KBoard {
 		}
 		else if($submitted_password == $password){
 			$_SESSION['kboard_confirm'][$content_uid] = $password;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 비밀번호 확인에 실패했는지 확인한다.
+	 * @return boolean
+	 */
+	public function isConfirmFailed(){
+		$submitted_password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
+		if($submitted_password){
 			return true;
 		}
 		return false;
@@ -360,12 +373,24 @@ class KBoard {
 	
 	/**
 	 * 게시판에서 CAPTCHA 사용 여부를 확인한다.
+	 * @return boolean
 	 */
 	public function useCAPTCHA(){
 		if(is_user_logged_in() || get_option('kboard_captcha_stop')){
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 게시판에서 비로그인 작성자 입력 필드 보여줄지 확인한다.
+	 * @return boolean
+	 */
+	public function viewUsernameField(){
+		if(!is_user_logged_in() || ($this->content->uid && !$this->content->member_uid)){
+			return true;
+		}
+		return false;
 	}
 }
 ?>

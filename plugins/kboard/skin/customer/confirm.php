@@ -1,10 +1,14 @@
 <div id="kboard-customer-editor">
-	<form method="post" action="<?php echo $url->set('mod', $_GET['mod'])->set('uid', $_GET['uid'])->toString()?>">
-		<div class="kboard-attr-row kboard-attr-title">
+	<form method="post" action="<?php echo $url->set('mod', kboard_mod())->set('uid', kboard_uid())->toString()?>">
+		<div class="kboard-attr-row kboard-confirm-row kboard-attr-title">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
-			<div class="attr-value"><input type="password" name="password" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
+			<div class="attr-value">
+				<input type="password" name="password" placeholder="<?php echo __('Password', 'kboard')?>..." autofocus required>
+				<?php if($board->isConfirmFailed()):?>
+					<div class="description"><?php echo __('※ Your password is incorrect.', 'kboard')?></div>
+				<?php endif?>
+			</div>
 		</div>
-		
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>

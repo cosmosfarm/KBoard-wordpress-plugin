@@ -1,5 +1,5 @@
 <div id="kboard-customer-editor">
-	<form method="post" action="<?php echo $url->getContentEditorExecute()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
+	<form class="kboard-form" method="post" action="<?php echo $url->getContentEditorExecute()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
 		<?php wp_nonce_field('kboard-editor-execute', 'kboard-editor-execute-nonce');?>
 		<input type="hidden" name="action" value="kboard_editor_execute">
 		<input type="hidden" name="mod" value="editor">
@@ -9,10 +9,21 @@
 		<input type="hidden" name="member_uid" value="<?php echo $content->member_uid?>">
 		<input type="hidden" name="member_display" value="<?php echo $content->member_display?>">
 		<input type="hidden" name="date" value="<?php echo $content->date?>">
+		<input type="hidden" name="user_id" value="<?php echo get_current_user_id()?>">
 		
 		<div class="kboard-attr-row kboard-attr-title">
 			<label class="attr-name" for="kboard-input-title"><?php echo __('Title', 'kboard')?></label>
 			<div class="attr-value"><input type="text" id="kboard-input-title" name="title" value="<?php echo $content->title?>" placeholder="<?php echo __('Title', 'kboard')?>..."></div>
+		</div>
+		
+		<div class="kboard-attr-row">
+			<div class="attr-name"><?php echo __('Options', 'kboard')?></div>
+			<div class="attr-value">
+				<label class="attr-value-option"><input type="checkbox" name="secret" value="true" onchange="kboard_toggle_password_field(this)"<?php if($content->secret):?> checked<?php endif?>> <?php echo __('Secret', 'kboard')?></label>
+				<?php if($board->isAdmin()):?>
+				<label class="attr-value-option"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
+				<?php endif?>
+			</div>
 		</div>
 		
 		<?php if($board->use_category):?>
@@ -45,7 +56,7 @@
 			<?php endif?>
 		<?php endif?>
 		
-		<?php if(!is_user_logged_in()):?>
+		<?php if($board->viewUsernameField()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name" for="kboard-input-member-display"><?php echo __('Author', 'kboard')?></label>
 			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" value="<?php echo $content->member_display?>" placeholder="<?php echo __('Author', 'kboard')?>..."></div>
@@ -54,6 +65,15 @@
 			<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?></label>
 			<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
 		</div>
+		<?php else:?>
+		<input style="display:none" type="text" name="fake-autofill-fields">
+		<input style="display:none" type="password" name="fake-autofill-fields">
+		<!-- 비밀글 비밀번호 필드 시작 -->
+		<div class="kboard-attr-row secret-password-row"<?php if(!$content->secret):?> style="display:none"<?php endif?>>
+			<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?></label>
+			<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
+		</div>
+		<!-- 비밀글 비밀번호 필드 끝 -->
 		<?php endif?>
 		
 		<?php if($board->useCAPTCHA() && !$content->uid):?>
@@ -71,16 +91,6 @@
 		<div class="kboard-attr-row">
 			<label class="attr-name" for="kboard-input-option-tel"><?php echo __('Phone number', 'kboard')?></label>
 			<div class="attr-value"><input type="text" id="kboard-input-option-tel" name="kboard_option_tel" value="<?php echo $content->option->tel?>" placeholder="<?php echo __('Phone number', 'kboard')?>..."></div>
-		</div>
-		
-		<div class="kboard-attr-row">
-			<div class="attr-name"><?php echo __('Options', 'kboard')?></div>
-			<div class="attr-value">
-				<label class="attr-value-option"><input type="checkbox" name="secret" value="true"<?php if($content->secret):?> checked<?php endif?>> <?php echo __('Secret', 'kboard')?></label>
-				<?php if($board->isAdmin()):?>
-				<label class="attr-value-option"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
-				<?php endif?>
-			</div>
 		</div>
 		
 		<div class="kboard-content">
