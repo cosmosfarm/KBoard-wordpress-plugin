@@ -82,12 +82,12 @@ img { border: 0; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; max-width: 100%; vertical-align: middle; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value { font-size: 12px; line-height: 30px; }
-#kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { padding-right: 20px; cursor: pointer; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .description { padding: 0; padding-left: 120px; line-height: 30px; color: #666666; }
 #kboard-thumbnail-editor .kboard-confirm-row { padding: 100px 0; }
 #kboard-thumbnail-editor .kboard-content { float: left; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
-#kboard-thumbnail-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 98%; height: 250px; font-size: 12px; }
+#kboard-thumbnail-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 98%; max-width: none; height: 250px; font-size: 12px; }
 #kboard-thumbnail-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-thumbnail-editor .kboard-control .left { position: static; float: left; }
 #kboard-thumbnail-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }

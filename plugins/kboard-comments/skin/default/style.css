@@ -42,7 +42,7 @@
 .kboard-comments-default .kboard-comments-form .comments-field img { display: inline; width: auto; max-width: 100%; vertical-align: middle; }
 .kboard-comments-default .kboard-comments-form .comments-submit { display: table; width: 100%; }
 .kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-text { display: table-cell; }
-.kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-text textarea { margin: 0; padding: 0; width: 100%; height: 65px; border: 1px solid #eaeaea; font-size: 12px; vertical-align: middle; }
+.kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-text textarea { margin: 0; padding: 0; width: 100%; max-width: none; height: 65px; border: 1px solid #eaeaea; font-size: 12px; vertical-align: middle; }
 .kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-button { display: table-cell; *padding: 10px 0 0 10px; width: 80px; height: 65px; text-align: right; vertical-align: top; }
 .kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-button input[type=submit] { margin: 0; padding: 0; width: 69px; min-width: inherit; height: 65px; line-height: 65px; vertical-align: middle; }
 
