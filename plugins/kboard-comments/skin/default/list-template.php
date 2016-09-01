@@ -32,7 +32,7 @@
 			<hr>
 			
 			<!-- 댓글 리스트 시작 -->
-			<?php $commentBuilder->buildTreeList('list-template.php', $comment->uid)?>
+			<?php $commentBuilder->buildTreeList('list-template.php', $comment->uid, $depth+1)?>
 			<!-- 댓글 리스트 끝 -->
 			
 			<!-- 댓글 입력 폼 시작 -->

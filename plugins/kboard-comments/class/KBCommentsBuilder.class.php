@@ -56,8 +56,9 @@ class KBCommentsBuilder {
 	 * 댓글 리스트 트리를 생성한다.
 	 * @param string $template
 	 * @param int $parent_uid
+	 * @param int $depth
 	 */
-	public function buildTreeList($template, $parent_uid=''){
+	public function buildTreeList($template, $parent_uid='', $depth=0){
 		$board = $this->board;
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
