@@ -27,6 +27,7 @@
 		<?php if($commentBuilder->isWriter()):?>
 		<!-- 댓글 입력 폼 시작 -->
 		<form id="kboard_comments_form" method="post" action="<?php echo $commentURL->getInsertURL()?>" onsubmit="return kboard_comments_execute(this);">
+			<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
 			<input type="hidden" name="content_uid" value="<?php echo $commentList->content_uid?>">
 			<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
 			<div class="kboard-comments-form">

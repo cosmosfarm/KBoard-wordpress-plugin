@@ -26,69 +26,71 @@ class KBCommentController {
 	 * 댓글 입력
 	 */
 	public function insert(){
-		header("Content-Type: text/html; charset=UTF-8");
-		
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		if($referer){
-			$url = parse_url($referer);
-			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
+		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
+			header("Content-Type: text/html; charset=UTF-8");
+			
+			$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+			$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
+			if($referer){
+				$url = parse_url($referer);
+				$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
+			}
+			else{
+				wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+			}
+			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+			
+			$content = isset($_POST['content'])?$_POST['content']:'';
+			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
+			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
+			$password = isset($_POST['password'])?$_POST['password']:'';
+			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
+			
+			if(!class_exists('KBCaptcha')){
+				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+			}
+			
+			$captcha = new KBCaptcha();
+			$content = $content?$content:$comment_content;
+			$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
+			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
+			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
+			
+			$document = new KBContent();
+			$document->initWithUID($content_uid);
+			$board = new KBoard($document->board_id);
+			
+			if(!$board->id){
+				die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			else if(!$document->uid){
+				die("<script>alert('".__('Document does not exist.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			else if(!is_user_logged_in() && $board->meta->permission_comment_write){
+				die('<script>alert("'.__('You do not have permission.', 'kboard-comments').'");history.go(-1);</script>');
+			}
+			else if(!is_user_logged_in() && !$member_display){
+				die("<script>alert('".__('Please enter the author.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			else if(!is_user_logged_in() && !$password){
+				die("<script>alert('".__('Please enter the password.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			else if($board->useCAPTCHA() && !$captcha->textCheck($captcha_text)){
+				die("<script>alert('".__('The CAPTCHA is invalid. Please enter the CAPTCHA.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			else if(!$content){
+				die("<script>alert('".__('Please enter the content.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			else if(!$content_uid){
+				die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+			
+			$commentList = new KBCommentList($content_uid);
+			$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
+			
+			header("Location: {$referer}#kboard-comments");
 		}
-		else{
-			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
-		}
-		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
-		
-		$content = isset($_POST['content'])?$_POST['content']:'';
-		$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
-		$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
-		$password = isset($_POST['password'])?$_POST['password']:'';
-		$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
-		
-		if(!class_exists('KBCaptcha')){
-			include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
-		}
-		
-		$captcha = new KBCaptcha();
-		$content = $content?$content:$comment_content;
-		$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
-		$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
-		$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
-		
-		$document = new KBContent();
-		$document->initWithUID($content_uid);
-		$board = new KBoard($document->board_id);
-		
-		if(!$board->id){
-			die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if(!$document->uid){
-			die("<script>alert('".__('Document does not exist.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if(!is_user_logged_in() && $board->meta->permission_comment_write){
-			die('<script>alert("'.__('You do not have permission.', 'kboard-comments').'");history.go(-1);</script>');
-		}
-		else if(!is_user_logged_in() && !$member_display){
-			die("<script>alert('".__('Please enter the author.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if(!is_user_logged_in() && !$password){
-			die("<script>alert('".__('Please enter the password.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if($board->useCAPTCHA() && !$captcha->textCheck($captcha_text)){
-			die("<script>alert('".__('The CAPTCHA is invalid. Please enter the CAPTCHA.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if(!$content){
-			die("<script>alert('".__('Please enter the content.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		else if(!$content_uid){
-			die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
-		}
-		
-		$commentList = new KBCommentList($content_uid);
-		$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
-		
-		header("Location: {$referer}#kboard-comments");
-		exit;
+		wp_die(__('You do not have permission.', 'kboard-comments'));
 	}
 	
 	/**
