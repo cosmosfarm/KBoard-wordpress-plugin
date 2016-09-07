@@ -80,7 +80,7 @@ img { border: 0; }
 #kboard-thumbnail-editor .kboard-attr-title input { width: 70%; }
 #kboard-thumbnail-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 12px; font-weight: bold; }
-#kboard-thumbnail-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; max-width: 100%; vertical-align: middle; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value { font-size: 12px; line-height: 30px; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
