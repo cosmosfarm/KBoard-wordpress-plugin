@@ -17,8 +17,18 @@ img { border: 0; }
 .kboard-avatar-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 #kboard-avatar-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-avatar-list .kboard-category { float: left; padding-bottom: 5px; width: 50%; text-align: left; }
-#kboard-avatar-list .kboard-category select { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 5px 2px; font-size: 12px; width: 120px; color: #666666; border-radius: 3px; border: 1px solid #cccccc; box-shadow: none; }
+#kboard-avatar-list .kboard-category { float: left; padding-bottom: 15px; width: 100%; }
+#kboard-avatar-list .kboard-category.category-mobile { display: none; }
+#kboard-avatar-list .kboard-category.category-pc { display: block; }
+#kboard-avatar-list .kboard-category select { display: inline; margin: 0 0 5px 0; padding: 5px; width: 100%; height: auto; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background-color: white; vertical-align: middle; box-shadow: none; }
+#kboard-avatar-list .kboard-category .kboard-category-list { margin: 0 0 5px 0; padding: 0; list-style: none; border: 1px solid #f1f1f1; background-color: #f9f9f9; overflow: hidden; }
+#kboard-avatar-list .kboard-category .kboard-category-list li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 5px; border: 0; list-style: none; }
+#kboard-avatar-list .kboard-category .kboard-category-list li a { display: block; padding: 10px 10px 8px 10px; border: 0; border-bottom: 2px solid transparent; text-decoration: none; text-shadow: none; box-shadow: none; color: #999999; }
+#kboard-avatar-list .kboard-category .kboard-category-list li.kboard-category-selected a { font-weight: bold; border-bottom: 2px solid #545861; color: #545861; }
+#kboard-avatar-list .kboard-list-header { float: left; display: table; padding-bottom: 15px; width: 100%; }
+#kboard-avatar-list .kboard-list-header .kboard-total-count { *float: left; display: table-cell; }
+#kboard-avatar-list .kboard-list-header .kboard-sort { *float: right; display: table-cell; text-align: right; }
+#kboard-avatar-list .kboard-list-header .kboard-sort select { display: inline; margin: 0; padding: 5px 2px; width: auto; height: auto; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background-color: white; vertical-align: middle; box-shadow: none; }
 #kboard-avatar-list .kboard-list { float: left; padding-bottom: 15px; width: 100%; background-color: white; }
 #kboard-avatar-list .kboard-list table { display: table; table-layout: fixed; margin: 0; padding: 0; width: 100%; border: 0; font-size: 13px; border-collapse: collapse; }
 #kboard-avatar-list .kboard-list table a { color: black; text-decoration: none; border: 0; box-shadow: none; font-size: 13px; }
@@ -26,10 +36,9 @@ img { border: 0; }
 #kboard-avatar-list .kboard-list table td { padding: 10px 0; height: auto; text-align: center; vertical-align: middle; font-size: 13px; }
 #kboard-avatar-list .kboard-list table td.kboard-list-uid { width: 65px; }
 #kboard-avatar-list .kboard-list table td.kboard-list-title { width: auto; }
-#kboard-avatar-list .kboard-list table td.kboard-list-title img { display: inline; margin: 0; width: 16px; height: 16px; vertical-align: middle; }
 #kboard-avatar-list .kboard-list table td.kboard-list-user { width: 80px; }
-#kboard-avatar-list .kboard-list table td.kboard-list-user img { display: inline; margin: 0; width: 24px; height: 24px; max-width: 100%; border-radius: 50%; vertical-align: middle; }
 #kboard-avatar-list .kboard-list table td.kboard-list-date { width: 75px; }
+#kboard-avatar-list .kboard-list table td.kboard-list-vote { width: 55px; }
 #kboard-avatar-list .kboard-list table td.kboard-list-view { width: 55px; }
 #kboard-avatar-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #f1f1f1; }
 #kboard-avatar-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #f1f1f1; }
@@ -37,16 +46,17 @@ img { border: 0; }
 #kboard-avatar-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
 #kboard-avatar-list .kboard-list tbody tr.kboard-list-notice td.kboard-list-uid { font-weight: bold; color: #515151; }
 #kboard-avatar-list .kboard-list tbody td.kboard-list-title { text-align: left; }
-#kboard-avatar-list .kboard-list tbody td.kboard-list-title img { display: inline; vertical-align: text-bottom; }
+#kboard-avatar-list .kboard-list tbody td.kboard-list-title img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
 #kboard-avatar-list .kboard-list tbody td.kboard-list-title .kboard-comments-count { color: #00a8e7; }
-#kboard-avatar-list .kboard-list .kboard-mobile-contents { display: none; font-size: 12px; color: #c2c2c2; }
-#kboard-avatar-list .kboard-list .kboard-mobile-contents .contents-item { padding: 0 5px 0 0; }
-#kboard-avatar-list .kboard-list .kboard-mobile-contents .contents-item img { width: 12px; height: 12px; vertical-align: middle; }
-#kboard-avatar-list .kboard-list .kboard-mobile-contents .contents-item img.kboard-avatar { width: 24px; height: 24px; }
+#kboard-avatar-list .kboard-list tbody td.kboard-list-user img { display: inline; margin: 0; width: 24px; height: 24px; vertical-align: middle; max-width: 100%; border-radius: 50%; }
+#kboard-avatar-list .kboard-list .kboard-mobile-contents { display: none; font-size: 12px; color: #999999; }
+#kboard-avatar-list .kboard-list .kboard-mobile-contents .contents-item { display: inline; margin: 0; padding: 0; }
+#kboard-avatar-list .kboard-list .kboard-mobile-contents .contents-item img.kboard-avatar { display: inline; margin: 0; width: 24px; height: 24px; vertical-align: middle; }
+#kboard-avatar-list .kboard-list .kboard-mobile-contents .contents-separator { display: inline; margin: 0; padding: 0 2px; color: #bebebe; }
 #kboard-avatar-list .kboard-pagination { float: left; padding-bottom: 15px; width: 100%; }
-#kboard-avatar-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; line-height: 40px; list-style: none; text-align: center; border: 0; }
+#kboard-avatar-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; list-style: none; text-align: center; border: 0; }
 #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
-#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li a { padding: 6px 11px; border: 0; text-decoration: none; font-size: 13px; color: #999999; background-color: #f9f9f9; box-shadow: none; transition-duration: 0.3s; }
+#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li a { display: block; padding: 6px 11px; border: 0; text-decoration: none; font-size: 13px; color: #999999; background-color: #f9f9f9; box-shadow: none; transition-duration: 0.3s; }
 #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li:hover a,
 #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: white; background-color: #00a8e7; }
 #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
@@ -135,20 +145,21 @@ img { border: 0; }
 #kboard-avatar-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; }
 #kboard-avatar-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
 #kboard-avatar-latest table .kboard-latest-title a { text-decoration: none; box-shadow: none; }
-#kboard-avatar-latest table .kboard-latest-title img { display: inline; }
+#kboard-avatar-latest table .kboard-latest-title img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
 #kboard-avatar-latest table .kboard-latest-title .kboard-comments-count { }
 #kboard-avatar-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media screen and (max-width: 600px) {
-	#kboard-avatar-list .kboard-category { padding: 0; width: 100%; text-align: center; }
-	#kboard-avatar-list .kboard-category select { margin-bottom: 5px; width: 100%; }
+	#kboard-avatar-list .kboard-category.category-mobile { display: block; }
+	#kboard-avatar-list .kboard-category.category-pc { display: none; }
 	#kboard-avatar-list .kboard-list table { border-top: 1px solid #f1f1f1; }
 	#kboard-avatar-list .kboard-list table thead { display: none; }
-	#kboard-avatar-list .kboard-list table td.kboard-list-title { padding: 5px; }
-	#kboard-avatar-list .kboard-list table td.kboard-list-title .kboard-avatar-cut-strings { line-height: 40px; }
+	#kboard-avatar-list .kboard-list table td.kboard-list-title { padding: 10px 5px; }
+	#kboard-avatar-list .kboard-list table td.kboard-list-title .kboard-avatar-cut-strings { margin-bottom: 10px; white-space: normal; font-size: 15px; line-height: 23px; }
 	#kboard-avatar-list .kboard-list table td.kboard-list-uid,
 	#kboard-avatar-list .kboard-list table td.kboard-list-user,
 	#kboard-avatar-list .kboard-list table td.kboard-list-date,
+	#kboard-avatar-list .kboard-list table td.kboard-list-vote,
 	#kboard-avatar-list .kboard-list table td.kboard-list-view { display: none; }
 	#kboard-avatar-list .kboard-list .kboard-mobile-contents { display: block; }
 	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li { display: none; }

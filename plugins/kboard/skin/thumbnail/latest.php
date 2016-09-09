@@ -19,7 +19,7 @@
 						</div>
 					</a>
 				</td>
-				<td class="kboard-latest-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
+				<td class="kboard-latest-date"><?php echo $content->getDate()?></td>
 			</tr>
 			<?php endwhile?>
 		</tbody>

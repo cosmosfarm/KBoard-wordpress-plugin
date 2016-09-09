@@ -7,6 +7,8 @@
  */
 class KBoard {
 	
+	private static $total = -1;
+	
 	var $id;
 	var $row;
 	var $content;
@@ -27,7 +29,7 @@ class KBoard {
 	}
 	
 	public function __get($name){
-		if(isset($this->row->{$name}) && $this->row->{$name}){
+		if(isset($this->row->{$name})){
 			return $this->row->{$name};
 		}
 		else{
@@ -391,6 +393,22 @@ class KBoard {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 게시판에 등록된 전체 게시글 숫자를 반환한다.
+	 * @return int
+	 */
+	public function getTotal(){
+		global $wpdb;
+		if(!$this->id){
+			return 0;	
+		}
+		if(self::$total >= 0){
+			return self::$total;
+		}
+		self::$total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id'"));
+		return self::$total;
 	}
 }
 ?>

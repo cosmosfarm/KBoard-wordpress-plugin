@@ -1,6 +1,6 @@
 <div id="kboard-thumbnail-editor">
 	<form class="kboard-form" method="post" action="<?php echo $url->getContentEditorExecute()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
-		<?php wp_nonce_field('kboard-editor-execute', 'kboard-editor-execute-nonce');?>
+		<?php wp_nonce_field('kboard-editor-execute', 'kboard-editor-execute-nonce')?>
 		<input type="hidden" name="action" value="kboard_editor_execute">
 		<input type="hidden" name="mod" value="editor">
 		<input type="hidden" name="uid" value="<?php echo $content->uid?>">

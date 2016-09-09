@@ -25,6 +25,7 @@ class KBUrl {
 		$this->data['uid'] = '';
 		$this->data['parent_uid'] = '';
 		$this->data['kboard_list_sort'] = '';
+		$this->data['kboard_list_sort_remember'] = '';
 		$this->data['kboard_comments_sort'] = '';
 		return $this;
 	}

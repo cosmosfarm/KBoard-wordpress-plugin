@@ -2,12 +2,12 @@
 
 	<?php if($board->use_category == 'yes'):?>
 	<!-- 카테고리 시작 -->
-	<div class="kboard-category">
-		<form id="kboard-search-form" method="get" action="<?php echo $url->toString()?>">
+	<div class="kboard-category category-mobile">
+		<form id="kboard-category-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
 			<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
 			
 			<?php if($board->initCategory1()):?>
-				<select name="category1" onchange="jQuery('#kboard-search-form').submit();">
+				<select name="category1" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
 					<option value=""><?php echo __('All', 'kboard')?></option>
 					<?php while($board->hasNextCategory()):?>
 					<option value="<?php echo $board->currentCategory()?>"<?php if(kboard_category1() == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
@@ -16,7 +16,7 @@
 			<?php endif?>
 			
 			<?php if($board->initCategory2()):?>
-				<select name="category2" onchange="jQuery('#kboard-search-form').submit();">
+				<select name="category2" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
 					<option value=""><?php echo __('All', 'kboard')?></option>
 					<?php while($board->hasNextCategory()):?>
 					<option value="<?php echo $board->currentCategory()?>"<?php if(kboard_category2() == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
@@ -25,8 +25,53 @@
 			<?php endif?>
 		</form>
 	</div>
+	
+	<div class="kboard-category category-pc">
+		<?php if($board->initCategory1()):?>
+			<ul class="kboard-category-list">
+				<li<?php if(!kboard_category1()):?> class="kboard-category-selected"<?php endif?>><a href="<?php echo $url->set('category1', '')->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->tostring()?>"><?php echo __('All', 'kboard')?></a></li>
+				<?php while($board->hasNextCategory()):?>
+				<li<?php if(kboard_category1() == $board->currentCategory()):?> class="kboard-category-selected"<?php endif?>>
+					<a href="<?php echo $url->set('category1', $board->currentCategory())->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->toString()?>"><?php echo $board->currentCategory()?></a>
+				</li>
+				<?php endwhile?>
+			</ul>
+		<?php endif?>
+		
+		<?php if($board->initCategory2()):?>
+			<ul class="kboard-category-list">
+				<li<?php if(!kboard_category2()):?> class="kboard-category-selected"<?php endif?>><a href="<?php echo $url->set('category2', '')->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->tostring()?>"><?php echo __('All', 'kboard')?></a></li>
+				<?php while($board->hasNextCategory()):?>
+				<li<?php if(kboard_category2() == $board->currentCategory()):?> class="kboard-category-selected"<?php endif?>>
+					<a href="<?php echo $url->set('category2', $board->currentCategory())->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->toString()?>"><?php echo $board->currentCategory()?></a>
+				</li>
+				<?php endwhile?>
+			</ul>
+		<?php endif?>
+	</div>
 	<!-- 카테고리 끝 -->
 	<?php endif?>
+	
+	<!-- 게시판 정보 시작 -->
+	<div class="kboard-list-header">
+		<div class="kboard-total-count">
+			전체 <?php echo number_format($board->getTotal())?>
+		</div>
+		
+		<div class="kboard-sort">
+			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
+				<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->set('kboard_list_sort_remember', $board->id)->toInput()?>
+				
+				<select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-<?php echo $board->id?>').submit();">
+					<option value="newest"<?php if($list->getSorting() == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard')?></option>
+					<option value="best"<?php if($list->getSorting() == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard')?></option>
+					<option value="viewed"<?php if($list->getSorting() == 'viewed'):?> selected<?php endif?>><?php echo __('Viewed', 'kboard')?></option>
+					<option value="updated"<?php if($list->getSorting() == 'updated'):?> selected<?php endif?>><?php echo __('Updated', 'kboard')?></option>
+				</select>
+			</form>
+		</div>
+	</div>
+	<!-- 게시판 정보 끝 -->
 	
 	<!-- 리스트 시작 -->
 	<div class="kboard-list">
@@ -38,6 +83,7 @@
 					<td class="kboard-list-title"><?php echo __('Title', 'kboard')?></td>
 					<td class="kboard-list-user"><?php echo __('Author', 'kboard')?></td>
 					<td class="kboard-list-date"><?php echo __('Date', 'kboard')?></td>
+					<td class="kboard-list-vote"><?php echo __('Votes', 'kboard')?></td>
 					<td class="kboard-list-view"><?php echo __('Views', 'kboard')?></td>
 				</tr>
 			</thead>
@@ -52,6 +98,9 @@
 					</td>
 					<td class="kboard-list-title">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+							<div class="kboard-mobile-contents">
+								<?php if($content->getThumbnail(96, 70)):?><img src="<?php echo $content->getThumbnail(96, 70)?>" alt="" class="contents-thumbnail"><?php endif?>
+							</div>
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->isNew()):?><span class="kboard-thumbnail-new-notify">New</span><?php endif?>
 								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
@@ -59,14 +108,19 @@
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
 							<div class="kboard-mobile-contents">
-								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-user.png" alt="<?php echo __('Author', 'kboard')?>"> <?php echo $content->member_display?></span>
-								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-date.png" alt="<?php echo __('Date', 'kboard')?>"> <?php echo date("Y.m.d", strtotime($content->date))?></span>
-								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-view.png" alt="<?php echo __('Views', 'kboard')?>"> <?php echo $content->view?></span>
+								<span class="contents-item"><?php echo $content->member_display?></span>
+								<span class="contents-separator">|</span>
+								<span class="contents-item"><?php echo $content->getDate()?></span>
+								<span class="contents-separator">|</span>
+								<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
+								<span class="contents-separator">|</span>
+								<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
 							</div>
 						</a>
 					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
-					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
+					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
+					<td class="kboard-list-vote"><?php echo $content->vote?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
 				</tr>
 				<?php endwhile?>
@@ -80,6 +134,9 @@
 					</td>
 					<td class="kboard-list-title">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+							<div class="kboard-mobile-contents">
+								<?php if($content->getThumbnail(96, 70)):?><img src="<?php echo $content->getThumbnail(96, 70)?>" alt="" class="contents-thumbnail"><?php endif?>
+							</div>
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->isNew()):?><span class="kboard-thumbnail-new-notify">New</span><?php endif?>
 								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
@@ -87,14 +144,19 @@
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
 							<div class="kboard-mobile-contents">
-								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-user.png" alt="<?php echo __('Author', 'kboard')?>"> <?php echo $content->member_display?></span>
-								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-date.png" alt="<?php echo __('Date', 'kboard')?>"> <?php echo date("Y.m.d", strtotime($content->date))?></span>
-								<span class="contents-item"><img src="<?php echo $skin_path?>/images/icon-view.png" alt="<?php echo __('Views', 'kboard')?>"> <?php echo $content->view?></span>
+								<span class="contents-item"><?php echo $content->member_display?></span>
+								<span class="contents-separator">|</span>
+								<span class="contents-item"><?php echo $content->getDate()?></span>
+								<span class="contents-separator">|</span>
+								<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
+								<span class="contents-separator">|</span>
+								<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
 							</div>
 						</a>
 					</td>
 					<td class="kboard-list-user"><?php echo $content->member_display?></td>
-					<td class="kboard-list-date"><?php echo date("Y.m.d", strtotime($content->date))?></td>
+					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
+					<td class="kboard-list-vote"><?php echo $content->vote?></td>
 					<td class="kboard-list-view"><?php echo $content->view?></td>
 				</tr>
 				<?php $boardBuilder->builderReply($content->uid)?>
@@ -114,8 +176,9 @@
 	
 	<!-- 검색폼 시작 -->
 	<div class="kboard-search">
-		<form method="get" action="<?php echo $url->toString()?>">
+		<form id="kboard-search-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
 			<?php echo $url->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
+			
 			<select name="target">
 				<option value=""><?php echo __('All', 'kboard')?></option>
 				<option value="title"<?php if(kboard_target() == 'title'):?> selected="selected"<?php endif?>><?php echo __('Title', 'kboard')?></option>

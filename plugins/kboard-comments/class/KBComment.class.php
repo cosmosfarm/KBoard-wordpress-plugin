@@ -12,7 +12,7 @@ class KBComment {
 	public function __construct(){
 		$this->row = new stdClass();
 	}
-
+	
 	public function __get($name){
 		if(isset($this->row->{$name})){
 			if($name == 'content'){
@@ -39,7 +39,7 @@ class KBComment {
 	public function initWithUID($uid){
 		global $wpdb;
 		$uid = intval($uid);
-		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='$uid'");
+		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}'");
 		return $this;
 	}
 	
@@ -86,7 +86,7 @@ class KBComment {
 				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
 			}
-			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
 		}
 	}
 }

@@ -805,6 +805,22 @@ class KBContent {
 	}
 	
 	/**
+	 * 날짜를 반환한다.
+	 * @return string
+	 */
+	public function getDate(){
+		if($this->uid){
+			if(date('Ymd', current_time('timestamp')) == date('Ymd', strtotime($this->date))){
+				return date('H:i', strtotime($this->date));
+			}
+			else{
+				return date('Y.m.d', strtotime($this->date));
+			}
+		}
+		return '';
+	}
+	
+	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.
 	 */
 	static function autolink($contents){

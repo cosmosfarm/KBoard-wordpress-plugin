@@ -137,8 +137,13 @@ class KBContentList {
 			$this->order = 'DESC';
 		}
 		else if($this->getSorting() == 'best'){
-			// 인기순서
+			// 추천순서
 			$this->sort = 'vote';
+			$this->order = 'DESC';
+		}
+		else if($this->getSorting() == 'viewed'){
+			// 조회순서
+			$this->sort = 'view';
 			$this->order = 'DESC';
 		}
 		else if($this->getSorting() == 'updated'){
@@ -329,7 +334,7 @@ class KBContentList {
 		self::$kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:self::$kboard_list_sort;
 		self::$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:self::$kboard_list_sort;
 		
-		if(!in_array(self::$kboard_list_sort, array('newest', 'best', 'updated'))){
+		if(!in_array(self::$kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
 			self::$kboard_list_sort = $this->getDefaultSorting();
 		}
 		

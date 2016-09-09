@@ -1,4 +1,4 @@
-<div id="kboard-comments" class="kboard-comments-default">
+<div id="kboard-comments-<?php echo $content_uid?>" class="kboard-comments-default">
 	<div class="kboard-comments-wrap">
 		
 		<div class="comments-header">
@@ -7,9 +7,10 @@
 			</div>
 			
 			<div class="comments-sort">
-				<form id="kboard-comments-sort-form" method="get" action="<?php echo $url->toString()?>#kboard-comments">
+				<form id="kboard-comments-sort-form-<?php echo $content_uid?>" method="get" action="<?php echo $url->toString()?>#kboard-comments-<?php echo $content_uid?>">
 					<?php echo $url->set('uid', $commentList->content_uid)->set('mod', 'document')->toInput()?>
-					<select name="kboard_comments_sort" onchange="jQuery('#kboard-comments-sort-form').submit();">
+					
+					<select name="kboard_comments_sort" onchange="jQuery('#kboard-comments-sort-form-<?php echo $content_uid?>').submit();">
 						<option value="best"<?php if($commentList->getSorting() == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard-comments')?></option>
 						<option value="oldest"<?php if($commentList->getSorting() == 'oldest'):?> selected<?php endif?>><?php echo __('Oldest', 'kboard-comments')?></option>
 						<option value="newest"<?php if($commentList->getSorting() == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard-comments')?></option>
@@ -26,12 +27,13 @@
 		
 		<?php if($commentBuilder->isWriter()):?>
 		<!-- 댓글 입력 폼 시작 -->
-		<form id="kboard_comments_form" method="post" action="<?php echo $commentURL->getInsertURL()?>" onsubmit="return kboard_comments_execute(this);">
-			<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
-			<input type="hidden" name="content_uid" value="<?php echo $commentList->content_uid?>">
+		<form id="kboard-comments-form-<?php echo $content_uid?>" method="post" action="<?php echo $commentURL->getInsertURL()?>" onsubmit="return kboard_comments_execute(this);">
+			<input type="hidden" name="content_uid" value="<?php echo $content_uid?>">
 			<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
-			<div class="kboard-comments-form">
 			
+			<div class="kboard-comments-form">
+				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
+				
 				<?php if(is_user_logged_in()):?>
 				<input type="hidden" name="member_display" value="<?php echo $member_display?>">
 				<?php else:?>
