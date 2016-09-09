@@ -1,5 +1,26 @@
 <div id="kboard-avatar-list">
-
+	
+	<!-- 게시판 정보 시작 -->
+	<div class="kboard-list-header">
+		<div class="kboard-total-count">
+			<?php echo __('Total', 'kboard')?> <?php echo number_format($board->getTotal())?>
+		</div>
+		
+		<div class="kboard-sort">
+			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
+				<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->set('kboard_list_sort_remember', $board->id)->toInput()?>
+				
+				<select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-<?php echo $board->id?>').submit();">
+					<option value="newest"<?php if($list->getSorting() == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard')?></option>
+					<option value="best"<?php if($list->getSorting() == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard')?></option>
+					<option value="viewed"<?php if($list->getSorting() == 'viewed'):?> selected<?php endif?>><?php echo __('Viewed', 'kboard')?></option>
+					<option value="updated"<?php if($list->getSorting() == 'updated'):?> selected<?php endif?>><?php echo __('Updated', 'kboard')?></option>
+				</select>
+			</form>
+		</div>
+	</div>
+	<!-- 게시판 정보 끝 -->
+	
 	<?php if($board->use_category == 'yes'):?>
 	<!-- 카테고리 시작 -->
 	<div class="kboard-category category-mobile">
@@ -52,27 +73,6 @@
 	<!-- 카테고리 끝 -->
 	<?php endif?>
 	
-	<!-- 게시판 정보 시작 -->
-	<div class="kboard-list-header">
-		<div class="kboard-total-count">
-			전체 <?php echo number_format($board->getTotal())?>
-		</div>
-		
-		<div class="kboard-sort">
-			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
-				<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->set('kboard_list_sort_remember', $board->id)->toInput()?>
-				
-				<select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-<?php echo $board->id?>').submit();">
-					<option value="newest"<?php if($list->getSorting() == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard')?></option>
-					<option value="best"<?php if($list->getSorting() == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard')?></option>
-					<option value="viewed"<?php if($list->getSorting() == 'viewed'):?> selected<?php endif?>><?php echo __('Viewed', 'kboard')?></option>
-					<option value="updated"<?php if($list->getSorting() == 'updated'):?> selected<?php endif?>><?php echo __('Updated', 'kboard')?></option>
-				</select>
-			</form>
-		</div>
-	</div>
-	<!-- 게시판 정보 끝 -->
-	
 	<!-- 리스트 시작 -->
 	<div class="kboard-list">
 		<table>
@@ -88,7 +88,7 @@
 			</thead>
 			<tbody>
 				<?php while($content = $list->hasNextNotice()):?>
-				<tr class="kboard-list-notice">
+				<tr class="kboard-list-notice<?php if($content->uid == kboard_uid()):?> kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-title">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
@@ -122,7 +122,7 @@
 				</tr>
 				<?php endwhile?>
 				<?php while($content = $list->hasNext()):?>
-				<tr>
+				<tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-title">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
