@@ -27,6 +27,25 @@ class KBLatestviewList {
 	}
 	
 	/**
+	 * 모아보기 리스트 이름을 검색해 리스트를 초기화한다.
+	 * @param string $keyword
+	 * @return KBLatestviewList
+	 */
+	public function initWithKeyword($keyword=''){
+		global $wpdb;
+		if($keyword){
+			$keyword = esc_sql($keyword);
+			$where = "`name` LIKE '%$keyword%'";
+		}
+		else{
+			$where = '1';
+		}
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_latestview` WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview` WHERE $where ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		return $this;
+	}
+	
+	/**
 	 * 리스트에서 다음 게시물을 반환한다.
 	 * @return Latestview
 	 */

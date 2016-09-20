@@ -1,20 +1,20 @@
 <?php
 /**
- * KBoard 게시판 리스트 테이블
+ * KBoard 최신글 모아보기 테이블
  * @link www.cosmosfarm.com
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-class KBoardListTable extends WP_List_Table {
+class KBLatestviewListTable extends WP_List_Table {
 	
-	var $board;
+	var $latestview;
 	var $list;
 	
 	public function __construct(){
 		parent::__construct();
 		
-		$this->board = new KBoard();
-		$this->list = new KBoardList();
+		$this->latestview = new KBLatestview();
+		$this->list = new KBLatestviewList();
 	}
 	
 	public function prepare_items(){
@@ -36,24 +36,20 @@ class KBoardListTable extends WP_List_Table {
 	public function get_table_classes(){
 		$classes = parent::get_table_classes();
 		$classes[] = 'kboard';
-		$classes[] = 'kboard-list';
+		$classes[] = 'kboard-latestview';
 		return $classes;
 	}
 	
 	public function no_items(){
-		echo __('게시판이 없습니다.', 'kboard');
+		echo __('최신글 뷰가 없습니다.', 'kboard');
 	}
 	
 	public function get_columns(){
 		return array(
 				'cb' => '<input type="checkbox">',
-				'thumbnail' => __('썸네일', 'kboard'),
-				'board_name' => __('게시판 이름', 'kboard'),
-				'auto_page' => __('설치된 페이지', 'kboard'),
+				'name' => __('이름', 'kboard'),
 				'skin' => __('스킨', 'kboard'),
-				'permission_read' => __('읽기권한', 'kboard'),
-				'permission_write' => __('쓰기권한', 'kboard'),
-				'permission_comments_write' => __('댓글쓰기권한', 'kboard'),
+				'rpp' => __('게시물 표시', 'kboard'),
 				'date' => __('생성일자', 'kboard')
 		);
 	}
@@ -66,62 +62,30 @@ class KBoardListTable extends WP_List_Table {
 	
 	public function display_rows(){
 		foreach($this->items as $item){
-			$this->board->initWithRow($item);
-			$this->single_row($this->board);
+			$this->latestview->initWithRow($item);
+			$this->single_row($this->latestview);
 		}
 	}
 	
 	public function single_row($item){
-		$edit_url = admin_url("admin.php?page=kboard_list&board_id={$item->uid}");
+		$edit_url = admin_url("admin.php?page=kboard_latestview&latestview_uid={$item->uid}");
 		
-		echo '<tr data-board-id="'.$item->uid.'">';
+		echo '<tr data-uid="'.$item->uid.'">';
 		
 		echo '<th scope="row" class="check-column">';
-		echo '<input type="checkbox" name="board_id[]" value="'.$item->uid.'">';
+		echo '<input type="checkbox" name="latestview_uid[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
 		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
-		echo '<img src="'.KBOARD_URL_PATH."/skin/{$item->skin}/thumbnail.png".'" style="width:100px;height:100px;" alt="">';
+		echo $item->name;
 		echo '</a></td>';
-		
-		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
-		echo $item->board_name;
-		echo '</a></td>';
-		
-		echo '<td>';
-		if($item->meta->auto_page){
-			$post = get_post($item->meta->auto_page);
-			echo '<a href="'.get_permalink($post).'" title="'.__('페이지 보기', 'kboard').'" style="display:block">';
-			echo $post->post_title;
-			echo '</a>';
-		}
-		else{
-			echo __('페이지 연결 없음', 'kboard');
-		}
-		echo '</td>';
 		
 		echo '<td>';
 		echo $item->skin;
 		echo '</td>';
 		
 		echo '<td>';
-		echo kboard_permission($item->permission_read);
-		echo '</td>';
-		
-		echo '<td>';
-		echo kboard_permission($item->permission_write);
-		echo '</td>';
-		
-		echo '<td>';
-		if(!$item->meta->permission_comment_write){
-			echo kboard_permission('all');
-		}
-		else if($item->meta->permission_comment_write == 1){
-			echo kboard_permission('author');
-		}
-		else if($item->meta->permission_comment_write == 'roles'){
-			echo kboard_permission('roles');
-		}
+		echo "{$item->rpp}개";
 		echo '</td>';
 		
 		echo '<td>';

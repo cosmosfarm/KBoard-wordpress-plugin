@@ -10,7 +10,8 @@ Next Version
   3. kboard_skin_footer 액션 추가 (게시판 스킨 출력후에 실행)
   4. 비밀글 작성 개선
   5. 스킨 디자인 레이아웃 변경
-  6. 버그 수정
+  6. KBLatestviewListTable 클래스 추가
+  7. 버그 수정
 
 
 5.2

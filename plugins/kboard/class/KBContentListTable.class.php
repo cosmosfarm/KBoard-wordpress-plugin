@@ -25,7 +25,7 @@ class KBContentListTable extends WP_List_Table {
 		$this->board_list = new KBoardList();
 		$this->board_list->init();
 		
-		$keyword = isset($_GET['s'])?$_GET['s']:'';
+		$keyword = isset($_GET['s'])?esc_attr($_GET['s']):'';
 		
 		$list = new KBContentList($this->filter_board_id);
 		$list->rpp = 20;
@@ -34,6 +34,13 @@ class KBContentListTable extends WP_List_Table {
 		$this->items = $list->resource;
 		
 		$this->set_pagination_args(array('total_items'=>$list->total, 'per_page'=>$list->rpp));
+	}
+	
+	public function get_table_classes(){
+		$classes = parent::get_table_classes();
+		$classes[] = 'kboard';
+		$classes[] = 'kboard-content-list';
+		return $classes;
 	}
 	
 	public function no_items(){

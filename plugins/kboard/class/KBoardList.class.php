@@ -31,8 +31,13 @@ class KBoardList {
 	 */
 	public function initWithKeyword($keyword=''){
 		global $wpdb;
-		if($keyword) $where = "`board_name` LIKE '%$keyword%'";
-		else $where = '1';
+		if($keyword){
+			$keyword = esc_sql($keyword);
+			$where = "`board_name` LIKE '%$keyword%'";
+		}
+		else{
+			$where = '1';
+		}
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_setting` WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE $where ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		return $this;

@@ -45,7 +45,10 @@ class KBContentList {
 	 */
 	public function initWithKeyword($keyword=''){
 		global $wpdb;
-		if($keyword) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
+		if($keyword){
+			$keyword = esc_sql($keyword);
+			$where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
+		}
 		if($this->board_id) $where[] = "`board_id`='$this->board_id'";
 		if(!isset($where) || !$where) $where[] = '1';
 		$where = implode(' AND ', $where);
@@ -73,7 +76,7 @@ class KBContentList {
 	
 	/**
 	 * 게시판 아이디를 입력한다.
-	 * @param int $board_id
+	 * @param int|array $board_id
 	 * @return KBContentList
 	 */
 	public function setBoardID($board_id){
@@ -87,7 +90,7 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function page($page){
-		if($page) $this->page = $page;
+		if($page) $this->page = intval($page);
 		return $this;
 	}
 	
@@ -165,12 +168,21 @@ class KBContentList {
 			$where[] = "`board_id`='$this->board_id'";
 		}
 		
+		$search = esc_sql($search);
+		$keyword = esc_sql($keyword);
+		
 		if(!$with_notice) $where[] = "`notice`=''";
 		if(!$keyword) $where[] = "`parent_uid`='0'";
 		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
 		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
-		if($this->category1) $where[] = "`category1`='$this->category1'";
-		if($this->category2) $where[] = "`category2`='$this->category2'";
+		if($this->category1){
+			$category1 = esc_sql($this->category1);
+			$where[] = "`category1`='$category1'";
+		}
+		if($this->category2){
+			$category2 = esc_sql($this->category2);
+			$where[] = "`category2`='$category2'";
+		}
 		
 		// kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
 		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);

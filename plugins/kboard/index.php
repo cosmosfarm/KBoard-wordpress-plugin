@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.2.2
+Version: 5.2.3
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.2.2');
+define('KBOARD_VERSION', '5.2.3');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -337,17 +337,16 @@ function kboard_latestview(){
 		include_once 'pages/kboard_latestview_setting.php';
 	}
 	else{
-		$action = isset($_POST['action'])?$_POST['action']:'';
-		$action2 = isset($_POST['action2'])?$_POST['action2']:'';
-		if(($action=='remove' || $action2=='remove') && isset($_POST['latestview_uid']) && $_POST['latestview_uid']){
+		include_once 'class/KBLatestviewListTable.class.php';
+		$table = new KBLatestviewListTable();
+		if(isset($_POST['latestview_uid']) && $table->current_action() == 'delete'){
 			$latestview = new KBLatestview();
-			foreach($_POST['latestview_uid'] AS $key => $uid){
-				$latestview->initWithUID($uid);
+			foreach($_POST['latestview_uid'] as $key=>$latestview_uid){
+				$latestview->initWithUID($latestview_uid);
 				$latestview->delete();
 			}
 		}
-		$latestviewList = new KBLatestviewList();
-		$latestviewList->init();
+		$table->prepare_items();
 		include_once 'pages/kboard_latestview.php';
 	}
 }

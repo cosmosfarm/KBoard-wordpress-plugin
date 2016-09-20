@@ -37,13 +37,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="<?php echo $value?>"<?php if($latestview->skin == $value):?> selected<?php endif?>>
 								<?php echo $value?>
 							</option>
-							<?php endforeach;?>
+							<?php endforeach?>
 						</select>
 						<p class="description">최신글 스킨에 따라 모양과 기능이 변합니다. 디자인 수정은 스킨 폴더의 latest.php 파일을 수정해 주세요.</p>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="rpp">표시 리스트 수</label></th>
+					<th scope="row"><label for="rpp">게시물 표시</label></th>
 					<td>
 						<select name="rpp" id="rpp" class="">
 							<?php if(!$latestview->rpp) $latestview->rpp=10;?>
