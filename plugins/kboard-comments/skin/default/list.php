@@ -3,7 +3,7 @@
 		
 		<div class="comments-header">
 			<div class="comments-count">
-				<?php echo __('Total Reply', 'kboard-comments')?> <span class="comments-total-count"><?php echo $commentList->getCount()?></span><?php echo __('Count', 'kboard-comments')?>
+				<?php echo __('Total Reply', 'kboard-comments')?> <span class="comments-total-count"><?php echo $commentList->getCount()?></span>
 			</div>
 			
 			<div class="comments-sort">
@@ -61,6 +61,10 @@
 			</div>
 		</form>
 		<!-- 댓글 입력 폼 끝 -->
+		<?php else:?>
+		<div class="kboard-comments-login">
+			<?php echo sprintf(__('You must be <a href="%s">logged in</a> to post a comment.', 'kboard-comments'), wp_login_url($_SERVER['REQUEST_URI']))?>
+		</div>
 		<?php endif?>
 	</div>
 </div>
