@@ -45,7 +45,7 @@ class KBController {
 			
 			if($board->isWriter() && $board->permission_write=='all' && $_POST['title']){
 				if(!is_user_logged_in() && !$_POST['password']){
-					die('<script>alert("'.__('Please enter your password.', 'kboard').'");history.go(-1);</script>');
+					die('<script>alert("'.__('Please enter the password.', 'kboard').'");history.go(-1);</script>');
 				}
 			}
 			
@@ -68,7 +68,9 @@ class KBController {
 				}
 			}
 			
+			// 실행
 			$execute_uid = $content->execute();
+			
 			// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 			if($content->password) $board->isConfirm($content->password, $execute_uid);
 			
@@ -86,7 +88,7 @@ class KBController {
 			wp_redirect($next_page_url);
 		}
 		else{
-			wp_redirect(site_url());
+			wp_redirect(home_url());
 		}
 		exit;
 	}

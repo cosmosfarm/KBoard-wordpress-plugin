@@ -242,7 +242,6 @@ class KBoardBuilder {
 		
 		if($allow_document){
 			$content->increaseView();
-			$content->initWithUID($this->uid);
 			
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){

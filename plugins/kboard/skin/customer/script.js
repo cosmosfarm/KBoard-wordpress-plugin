@@ -63,6 +63,9 @@ function kboard_toggle_password_field(checkbox){
 	var form = jQuery(checkbox).parents('.kboard-form');
 	if(jQuery(checkbox).prop('checked')){
 		jQuery('.secret-password-row', form).show();
+		setTimeout(function(){
+			jQuery('.secret-password-row input[name=password]', form).focus();
+		}, 0);
 	}
 	else{
 		jQuery('.secret-password-row', form).hide();

@@ -353,6 +353,7 @@ class KBContent {
 		if($this->uid && !@in_array($this->uid, $_SESSION['increased_document_uid'])){
 			$_SESSION['increased_document_uid'][] = $this->uid;
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `view`=`view`+1 WHERE `uid`='$this->uid'");
+			$this->view = $this->view + 1;
 		}
 	}
 	
