@@ -45,7 +45,7 @@ class KBContent {
 	 * @param int $board_id
 	 */
 	public function setBoardID($board_id){
-		$this->board_id = $board_id;
+		$this->board_id = intval($board_id);
 		
 		// 첨부파일 업로드 경로를 만든다.
 		$upload_dir = wp_upload_dir();
@@ -700,7 +700,23 @@ class KBContent {
 	public function getNextUID(){
 		global $wpdb;
 		if($this->uid){
-			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`>'$this->uid' ORDER BY `uid` ASC LIMIT 1");
+			$category1 = kboard_category1();
+			$category2 = kboard_category2();
+			
+			$where[] = "`board_id`='{$this->board_id}'";
+			$where[] = "`uid`>'{$this->uid}'";
+			
+			if($category1){
+				$category1 = esc_sql($category1);
+				$where[] = "`category1`='{$category1}'";
+			}
+			if($category2){
+				$category2 = esc_sql($category2);
+				$where[] = "`category2`='{$category2}'";
+			}
+			
+			$where = implode(' AND ', $where);
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `uid` ASC LIMIT 1");
 		}
 		else{
 			$uid = 0;
@@ -714,7 +730,23 @@ class KBContent {
 	public function getPrevUID(){
 		global $wpdb;
 		if($this->uid){
-			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->board_id' AND `uid`<'$this->uid' ORDER BY `uid` DESC LIMIT 1");
+			$category1 = kboard_category1();
+			$category2 = kboard_category2();
+				
+			$where[] = "`board_id`='{$this->board_id}'";
+			$where[] = "`uid`<'{$this->uid}'";
+				
+			if($category1){
+				$category1 = esc_sql($category1);
+				$where[] = "`category1`='{$category1}'";
+			}
+			if($category2){
+				$category2 = esc_sql($category2);
+				$where[] = "`category2`='{$category2}'";
+			}
+				
+			$where = implode(' AND ', $where);
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `uid` DESC LIMIT 1");
 		}
 		else{
 			$uid = 0;
