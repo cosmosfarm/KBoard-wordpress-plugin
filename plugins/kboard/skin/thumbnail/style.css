@@ -47,6 +47,7 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-date { width: 75px; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-vote { width: 55px; }
 #kboard-thumbnail-list .kboard-list table td.kboard-list-view { width: 55px; }
+#kboard-thumbnail-list .kboard-list thead { background-color: transparent; }
 #kboard-thumbnail-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #f1f1f1; }
 #kboard-thumbnail-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #f1f1f1; }
 #kboard-thumbnail-list .kboard-list tbody tr:hover { background-color: #f7f7f7; }

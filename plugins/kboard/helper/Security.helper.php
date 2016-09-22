@@ -10,12 +10,11 @@ if(!defined('ABSPATH')) exit;
 // 시스템 설정을 가져온다.
 $kboard_xssfilter_active = get_option('kboard_xssfilter')?false:true;
 if($kboard_xssfilter_active){
-	// HTMLPurifier 클래스를 불러온다.
+	// HTML Purifier 클래스를 불러온다.
 	if(!class_exists('HTMLPurifier')){
 		include_once KBOARD_DIR_PATH.'/htmlpurifier/HTMLPurifier.standalone.php';
 	}
-	
-	// HTMLPurifier 설정 캐시 경로 디렉토리 생성
+	// HTML Purifier 캐시 저장을 위한 디렉토리 생성
 	wp_mkdir_p(WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
 }
 
@@ -29,7 +28,7 @@ function kboard_xssfilter($data){
 	if($kboard_xssfilter_active){
 		if(!isset($GLOBALS['KBOARD']) || !isset($GLOBALS['KBOARD']['HTMLPurifier']) && !$GLOBALS['KBOARD']['HTMLPurifier'] || !isset($GLOBALS['KBOARD']['HTMLPurifier_Config']) || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
 			$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
-			$HTMLPurifier_Config->set('URI.AllowedSchemes', array('http'=>true,'https'=>true,'mailto'=>true));
+			$HTMLPurifier_Config->set('URI.AllowedSchemes', array('http'=>true,'https'=>true,'mailto'=>true,'tel'=>true));
 			$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
 			$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 			$HTMLPurifier_Config->set('HTML.SafeObject', true);
