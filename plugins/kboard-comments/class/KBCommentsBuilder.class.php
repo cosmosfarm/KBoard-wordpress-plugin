@@ -43,6 +43,7 @@ class KBCommentsBuilder {
 		$url = new KBUrl();
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
+		$commentList->board = $board;
 		$commentBuilder = $this;
 		
 		$current_user = wp_get_current_user();
@@ -66,6 +67,7 @@ class KBCommentsBuilder {
 		$url = new KBUrl();
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList();
+		$commentList->board = $board;
 		$commentBuilder = $this;
 		
 		$current_user = wp_get_current_user();

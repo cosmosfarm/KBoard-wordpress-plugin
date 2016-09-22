@@ -25,7 +25,7 @@ class KBoard {
 		if(!isset($this->userdata->roles)) $this->userdata->roles = array();
 		if(!isset($this->userdata->ID)) $this->userdata->ID = '';
 		if(!isset($this->userdata->user_login)) $this->userdata->user_login = '';
-		if($id) $this->setID($id);
+		$this->setID($id);
 	}
 	
 	public function __get($name){
@@ -45,15 +45,16 @@ class KBoard {
 	public function setID($id){
 		global $wpdb;
 		$id = intval($id);
-		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$id'");
-		if(isset($this->row->uid) && $this->row->uid){
-			$this->id = $this->row->uid;
-			$this->meta = new KBoardMeta($this->row->uid);
+		if($id){
+			$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$id'");
+			if(isset($this->row->uid) && $this->row->uid){
+				$this->id = $this->row->uid;
+				$this->meta = new KBoardMeta($this->row->uid);
+				return $this;
+			}
 		}
-		else{
-			$this->id = 0;
-			$this->meta = new KBoardMeta();
-		}
+		$this->id = 0;
+		$this->meta = new KBoardMeta();
 		return $this;
 	}
 	

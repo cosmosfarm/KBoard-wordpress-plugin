@@ -88,7 +88,7 @@ class KBCommentController {
 			$commentList = new KBCommentList($content_uid);
 			$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
 			
-			header("Location: {$referer}#kboard-comments");
+			header("Location: {$referer}#kboard-comments-{$content_uid}");
 			exit;
 		}
 		wp_die(__('You do not have permission.', 'kboard-comments'));

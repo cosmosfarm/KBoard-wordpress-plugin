@@ -111,7 +111,7 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 #kboard-avatar-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
 #kboard-avatar-document .kboard-title { float: left; width: 100%; }
 #kboard-avatar-document .kboard-title h1 { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 22px; line-height: 30px; text-align: left; }
-#kboard-avatar-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #f1f1f1; border-bottom: 1px solid #f1f1f1; background-color: #f9f9f9; font-size: 12px; }
+#kboard-avatar-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #f1f1f1; border-bottom: 1px solid #f1f1f1; background-color: #f9f9f9; font-size: 13px; }
 #kboard-avatar-document .kboard-detail .detail-attr { display: inline-block; *display: inline; zoom: 1; float: left; margin: 0; padding: 12px 35px 12px 22px; line-height: 24px; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; text-align: right; }
 #kboard-avatar-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }

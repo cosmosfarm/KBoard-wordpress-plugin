@@ -7,6 +7,7 @@
  */
 class KBCommentList {
 	
+	var $board;
 	var $total;
 	var $content_uid;
 	var $parent_uid;
@@ -18,6 +19,7 @@ class KBCommentList {
 	var $page = 1;
 	
 	public function __construct($content_uid=''){
+		$this->board = new KBoard();
 		
 		if($this->getSorting() == 'best'){
 			// 인기순서
@@ -111,6 +113,7 @@ class KBCommentList {
 			next($this->resource);
 			$comment = new KBComment();
 			$comment->initWithRow($this->row);
+			$comment->board = $this->board;
 			return $comment;
 		}
 		else{

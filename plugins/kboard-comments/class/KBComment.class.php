@@ -7,9 +7,11 @@
  */
 class KBComment {
 	
+	var $board;
 	var $row;
 	
 	public function __construct(){
+		$this->board = new KBoard();
 		$this->row = new stdClass();
 	}
 	
@@ -59,20 +61,28 @@ class KBComment {
 	 */
 	public function isEditor(){
 		global $wpdb;
-		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->content_uid}'");
-		$board = new KBoard($board_id);
-		
-		if(is_user_logged_in() && $this->user_uid == get_current_user_id()){
-			// 본인인 경우
-			return true;
+		if($this->uid && is_user_logged_in()){
+			if($this->user_uid == get_current_user_id()){
+				// 본인인 경우
+				return true;
+			}
+			
+			if($this->board->id){
+				if($this->board->isAdmin()){
+					// 게시판 관리자 허용
+					return true;
+				}
+			}
+			else{
+				$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->content_uid}'");
+				$board = new KBoard($board_id);
+				if($board->isAdmin()){
+					// 게시판 관리자 허용
+					return true;
+				}
+			}
 		}
-		else if($board->isAdmin()){
-			// 게시판 관리자 허용
-			return true;
-		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	/**

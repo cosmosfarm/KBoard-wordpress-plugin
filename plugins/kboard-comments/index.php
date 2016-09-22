@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 4.3.2
+Version: 4.3.3
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
-define('KBOARD_COMMNETS_VERSION', '4.3.2');
+define('KBOARD_COMMNETS_VERSION', '4.3.3');
 define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
@@ -73,7 +73,7 @@ function kboard_comments_list(){
 }
 
 /*
- * 페이지 표시 단축코드
+ * 댓글 숏코드
  */
 add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
@@ -105,6 +105,14 @@ function kboard_comments_scripts(){
 			'please_wait' => __('Please wait.', 'kboard'),
 	);
 	wp_localize_script('jquery', 'kboard_comments_localize_strings', $localize);
+}
+
+/*
+ * 댓글 스킨에서 로그인 메시지 출력
+ */
+add_action('kboard_comments_login_content', 'kboard_comments_login_content', 10, 3);
+function kboard_comments_login_content($board, $content_uid, $comment_builder){
+	echo sprintf(__('You must be <a href="%s">logged in</a> to post a comment.', 'kboard-comments'), wp_login_url($_SERVER['REQUEST_URI']));
 }
 
 /*

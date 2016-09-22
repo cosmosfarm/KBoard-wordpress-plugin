@@ -63,7 +63,10 @@
 		<!-- 댓글 입력 폼 끝 -->
 		<?php else:?>
 		<div class="kboard-comments-login">
-			<?php echo sprintf(__('You must be <a href="%s">logged in</a> to post a comment.', 'kboard-comments'), wp_login_url($_SERVER['REQUEST_URI']))?>
+			<?php
+			// 로그인 메시지 출력
+			do_action('kboard_comments_login_content', $board, $content_uid, $commentBuilder);
+			?>
 		</div>
 		<?php endif?>
 	</div>
