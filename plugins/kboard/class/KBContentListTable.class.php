@@ -44,7 +44,7 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	public function no_items(){
-		echo __('게시글이 없습니다.', 'kboard');
+		echo __('No documents found.', 'kboard');
 	}
 	
 	public function get_columns(){

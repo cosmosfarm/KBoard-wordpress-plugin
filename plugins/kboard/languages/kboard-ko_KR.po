@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-09-09 16:50+0900\n"
-"PO-Revision-Date: 2016-09-09 16:51+0900\n"
+"POT-Creation-Date: 2016-09-23 13:45+0900\n"
+"PO-Revision-Date: 2016-09-23 13:45+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -38,9 +38,9 @@ msgid "관리 권한이 없습니다."
 msgstr "관리 권한이 없습니다."
 
 #: class/KBAdminController.class.php:30 class/KBAdminController.class.php:32
-#: class/KBController.class.php:135 class/KBController.class.php:137
-#: class/KBController.class.php:203 class/KBController.class.php:205
-#: class/KBoardBuilder.class.php:379
+#: class/KBController.class.php:137 class/KBController.class.php:139
+#: class/KBController.class.php:205 class/KBController.class.php:207
+#: class/KBoardBuilder.class.php:378
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
@@ -64,87 +64,88 @@ msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주
 msgid "KBoard new document"
 msgstr "KBoard 신규등록"
 
-#: class/KBContent.class.php:389 class/KBContent.class.php:429
-#: class/KBContent.class.php:514
+#: class/KBContent.class.php:390 class/KBContent.class.php:430
+#: class/KBContent.class.php:515
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
 
-#: class/KBContentListTable.class.php:40
-msgid "게시글이 없습니다."
+#: class/KBContentListTable.class.php:47
+msgid "No documents found."
 msgstr "게시글이 없습니다."
 
-#: class/KBContentListTable.class.php:46
+#: class/KBContentListTable.class.php:53
 msgid "게시판"
 msgstr "게시판"
 
-#: class/KBContentListTable.class.php:47
+#: class/KBContentListTable.class.php:54
 msgid "제목/내용"
 msgstr "제목/내용"
 
-#: class/KBContentListTable.class.php:48
+#: class/KBContentListTable.class.php:55
 msgid "작성자"
 msgstr "작성자"
 
-#: class/KBContentListTable.class.php:49
+#: class/KBContentListTable.class.php:56
 msgid "조회수"
 msgstr "조회수"
 
-#: class/KBContentListTable.class.php:50
+#: class/KBContentListTable.class.php:57
 msgid "비밀글"
 msgstr "비밀글"
 
-#: class/KBContentListTable.class.php:51
+#: class/KBContentListTable.class.php:58
 msgid "공지사항"
 msgstr "공지사항"
 
-#: class/KBContentListTable.class.php:52
+#: class/KBContentListTable.class.php:59
 msgid "작성일"
 msgstr "작성일"
 
-#: class/KBContentListTable.class.php:58
+#: class/KBContentListTable.class.php:65
 msgid "게시판 변경"
 msgstr "게시판 변경"
 
-#: class/KBContentListTable.class.php:59 class/KBoardListTable.class.php:56
+#: class/KBContentListTable.class.php:66
+#: class/KBLatestviewListTable.class.php:59 class/KBoardListTable.class.php:63
 #: template/media.php:84
 msgid "삭제"
 msgstr "삭제"
 
-#: class/KBContentListTable.class.php:109
+#: class/KBContentListTable.class.php:116
 msgid "답글입니다."
 msgstr "답글입니다."
 
-#: class/KBContentListTable.class.php:116
+#: class/KBContentListTable.class.php:123
 msgid "새창열기"
 msgstr "새창열기"
 
-#: class/KBContentListTable.class.php:130
-#: class/KBContentListTable.class.php:133
+#: class/KBContentListTable.class.php:137
+#: class/KBContentListTable.class.php:140
 msgid "예"
 msgstr "예"
 
-#: class/KBContentListTable.class.php:130
-#: class/KBContentListTable.class.php:133
+#: class/KBContentListTable.class.php:137
+#: class/KBContentListTable.class.php:140
 msgid "아니오"
 msgstr "아니오"
 
 #: class/KBController.class.php:43 class/KBController.class.php:58
 #: class/KBController.class.php:63 class/KBController.class.php:67
-#: class/KBController.class.php:151 class/KBController.class.php:176
-#: class/KBController.class.php:219 class/KBController.class.php:245
-#: class/KBController.class.php:250 class/KBController.class.php:255
-#: class/KBController.class.php:268 class/KBTemplate.class.php:85
+#: class/KBController.class.php:153 class/KBController.class.php:178
+#: class/KBController.class.php:221 class/KBController.class.php:247
+#: class/KBController.class.php:252 class/KBController.class.php:257
+#: class/KBController.class.php:270 class/KBTemplate.class.php:85
 #: class/KBTemplate.class.php:91 class/KBoardBuilder.class.php:236
-#: class/KBoardBuilder.class.php:300 class/KBoardBuilder.class.php:310
-#: class/KBoardBuilder.class.php:395 index.php:250 index.php:370 index.php:418
+#: class/KBoardBuilder.class.php:299 class/KBoardBuilder.class.php:309
+#: class/KBoardBuilder.class.php:394 index.php:250 index.php:369 index.php:417
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
-#: class/KBController.class.php:48 class/KBoardBuilder.class.php:282
-msgid "Please enter your password."
+#: class/KBController.class.php:48 index.php:731
+msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
-#: class/KBController.class.php:236 class/KBoardBuilder.class.php:207
+#: class/KBController.class.php:238 class/KBoardBuilder.class.php:207
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -168,6 +169,31 @@ msgstr "%s 파일의 용량이 너무 큽니다."
 #, php-format
 msgid "%s 파일 업로드 중 오류가 발생했습니다."
 msgstr "%s 파일 업로드 중 오류가 발생했습니다."
+
+#: class/KBLatestviewListTable.class.php:44
+msgid "No latestview found."
+msgstr "최신글 뷰가 없습니다."
+
+#: class/KBLatestviewListTable.class.php:50
+msgid "이름"
+msgstr "이름"
+
+#: class/KBLatestviewListTable.class.php:51 class/KBoardListTable.class.php:53
+msgid "스킨"
+msgstr "스킨"
+
+#: class/KBLatestviewListTable.class.php:52
+msgid "게시물 표시"
+msgstr "게시물 표시"
+
+#: class/KBLatestviewListTable.class.php:53 class/KBoardListTable.class.php:57
+msgid "생성일자"
+msgstr "생성일자"
+
+#: class/KBLatestviewListTable.class.php:79 class/KBoardListTable.class.php:83
+#: class/KBoardListTable.class.php:87
+msgid "편집"
+msgstr "편집"
 
 #: class/KBRouter.class.php:133
 msgid "Go home"
@@ -209,51 +235,43 @@ msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
 msgid "No document."
 msgstr "글이 없습니다."
 
-#: class/KBoardListTable.class.php:37
-msgid "게시판이 없습니다."
+#: class/KBoardBuilder.class.php:281
+msgid "Please enter your password."
+msgstr "비밀번호를 입력해주세요."
+
+#: class/KBoardListTable.class.php:44
+msgid "No forum found."
 msgstr "게시판이 없습니다."
 
-#: class/KBoardListTable.class.php:43
+#: class/KBoardListTable.class.php:50
 msgid "썸네일"
 msgstr "썸네일"
 
-#: class/KBoardListTable.class.php:44
+#: class/KBoardListTable.class.php:51
 msgid "게시판 이름"
 msgstr "게시판 이름"
 
-#: class/KBoardListTable.class.php:45
+#: class/KBoardListTable.class.php:52
 msgid "설치된 페이지"
 msgstr "설치된 페이지"
 
-#: class/KBoardListTable.class.php:46
-msgid "스킨"
-msgstr "스킨"
-
-#: class/KBoardListTable.class.php:47
+#: class/KBoardListTable.class.php:54
 msgid "읽기권한"
 msgstr "읽기권한"
 
-#: class/KBoardListTable.class.php:48
+#: class/KBoardListTable.class.php:55
 msgid "쓰기권한"
 msgstr "쓰기권한"
 
-#: class/KBoardListTable.class.php:49
+#: class/KBoardListTable.class.php:56
 msgid "댓글쓰기권한"
 msgstr "댓글쓰기권한"
 
-#: class/KBoardListTable.class.php:50
-msgid "생성일자"
-msgstr "생성일자"
-
-#: class/KBoardListTable.class.php:76 class/KBoardListTable.class.php:80
-msgid "편집"
-msgstr "편집"
-
-#: class/KBoardListTable.class.php:87
+#: class/KBoardListTable.class.php:94
 msgid "페이지 보기"
 msgstr "페이지 보기"
 
-#: class/KBoardListTable.class.php:92
+#: class/KBoardListTable.class.php:99
 msgid "페이지 연결 없음"
 msgstr "페이지 연결 없음"
 
@@ -333,72 +351,68 @@ msgstr "스토어"
 msgid "전체 댓글"
 msgstr "전체 댓글"
 
-#: index.php:727 skin/avatar/editor.php:97 skin/customer/editor.php:107
+#: index.php:726 skin/avatar/editor.php:97 skin/customer/editor.php:107
 #: skin/default/editor.php:97 skin/thumbnail/editor.php:97
 msgid "KBoard Add Media"
 msgstr "KBoard 미디어 추가"
 
-#: index.php:728
+#: index.php:727
 msgid "Next"
 msgstr "다음"
 
-#: index.php:729
+#: index.php:728
 msgid "Prev"
 msgstr "이전"
 
-#: index.php:730
+#: index.php:729
 msgid "Please enter the title."
 msgstr "제목을 입력해주세요."
 
-#: index.php:731
+#: index.php:730
 msgid "Please enter the author."
 msgstr "작성자를 입력해주세요."
 
 #: index.php:732
-msgid "Please enter the password."
-msgstr "비밀번호를 입력해주세요."
-
-#: index.php:733
 msgid "Please enter the CAPTCHA."
 msgstr "옆에 보이는 보안코드를 입력해주세요."
 
-#: index.php:734
+#: index.php:733
 msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
-#: index.php:735
+#: index.php:734
 msgid "Please wait."
 msgstr "잠시만 기다려주세요."
 
-#: index.php:736 skin/avatar/list.php:14 skin/customer/list.php:14
+#: index.php:735 skin/avatar/list.php:14 skin/customer/list.php:14
 #: skin/default/list.php:14 skin/thumbnail/list.php:14
 msgid "Newest"
 msgstr "최신순"
 
-#: index.php:737 skin/avatar/list.php:15 skin/customer/list.php:15
+#: index.php:736 skin/avatar/list.php:15 skin/customer/list.php:15
 #: skin/default/list.php:15 skin/thumbnail/list.php:15
 msgid "Best"
 msgstr "추천순"
 
-#: index.php:738 skin/avatar/list.php:17 skin/customer/list.php:17
+#: index.php:737 skin/avatar/list.php:17 skin/customer/list.php:17
 #: skin/default/list.php:17 skin/thumbnail/list.php:17
 msgid "Updated"
 msgstr "업데이트순"
 
-#: index.php:739 skin/avatar/list.php:16 skin/customer/list.php:16
+#: index.php:738 skin/avatar/list.php:16 skin/customer/list.php:16
 #: skin/default/list.php:16 skin/thumbnail/list.php:16
 msgid "Viewed"
 msgstr "조회순"
 
-#: index.php:740
+#: index.php:739
 msgid "Yes"
 msgstr "예"
 
-#: index.php:741
+#: index.php:740
 msgid "No"
 msgstr "아니요"
 
-#: index.php:742
+#: index.php:741
 msgid "Did it help?"
 msgstr "도움이 되었나요?"
 
@@ -462,11 +476,24 @@ msgstr ""
 "xml 파일을 선택하고 복구하기 버튼을 누르세요. 지금까지의 데이터는 삭제되고 복"
 "원파일 데이터를 입력합니다."
 
+#: pages/kboard_backup.php:37
+msgid "Attachments"
+msgstr "첨부 파일"
+
+#: pages/kboard_backup.php:39
+msgid ""
+"<code>/wp-content/uploads/kboard_attached</code> 이 경로의 모든 파일을 FTP를 "
+"사용해서 다운로드받아 옮겨주세요."
+msgstr ""
+"<code>/wp-content/uploads/kboard_attached</code> 이 경로의 모든 파일을 FTP를 "
+"사용해서 다운로드받아 옮겨주세요."
+
 #: pages/kboard_content_list.php:5
 msgid "KBoard : 전체 게시글"
 msgstr "KBoard : 전체 게시글"
 
-#: pages/kboard_content_list.php:14 pages/kboard_list.php:13
+#: pages/kboard_content_list.php:14 pages/kboard_latestview.php:13
+#: pages/kboard_list.php:13
 msgid "검색"
 msgstr "검색"
 
@@ -931,6 +958,29 @@ msgstr "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "이미지 파일만 업로드 가능합니다."
+
+#~ msgid ""
+#~ "<code>/wp-content/uploads/kboard_attached</code> 경로의 모든 파일을 FTP를 "
+#~ "사용해서 다운로드받아 옮겨주세요."
+#~ msgstr ""
+#~ "<code>/wp-content/uploads/kboard_attached</code> 경로의 모든 파일을 FTP를 "
+#~ "사용해서 다운로드받아 옮겨주세요."
+
+#~ msgid ""
+#~ "/wp-content/uploads/kboard_attached 경로의 모든 파일을 FTP로 다운로드받아 "
+#~ "옮겨주세요."
+#~ msgstr ""
+#~ "/wp-content/uploads/kboard_attached 경로의 모든 파일을 FTP로 다운로드받아 "
+#~ "옮겨주세요."
+
+#~ msgid "게시글이 없습니다."
+#~ msgstr "게시글이 없습니다."
+
+#~ msgid "최신글 뷰가 없습니다."
+#~ msgstr "최신글 뷰가 없습니다."
+
+#~ msgid "게시판이 없습니다."
+#~ msgstr "게시판이 없습니다."
 
 #~ msgid "Vote"
 #~ msgstr "추천"

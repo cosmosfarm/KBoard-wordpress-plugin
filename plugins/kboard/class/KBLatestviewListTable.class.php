@@ -41,7 +41,7 @@ class KBLatestviewListTable extends WP_List_Table {
 	}
 	
 	public function no_items(){
-		echo __('최신글 뷰가 없습니다.', 'kboard');
+		echo __('No latestview found.', 'kboard');
 	}
 	
 	public function get_columns(){

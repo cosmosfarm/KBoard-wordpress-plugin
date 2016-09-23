@@ -33,6 +33,12 @@
 					</form>
 				</td>
 			</tr>
+			<tr valign="top">
+				<th scope="row"><label for=""><?php echo __('Attachments', 'kboard')?></label></th>
+				<td>
+					<p class="description"><?php echo __('<code>/wp-content/uploads/kboard_attached</code> 이 경로의 모든 파일을 FTP를 사용해서 다운로드받아 옮겨주세요.', 'kboard')?></p>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </div>
