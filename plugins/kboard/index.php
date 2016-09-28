@@ -178,7 +178,6 @@ function kboard_settings_menu(){
  * 스토어 상품 리스트 페이지
  */
 function kboard_store(){
-	if(isset($_GET['access_token']) && $_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
 	KBStore::productsList();
 }
 
@@ -186,7 +185,6 @@ function kboard_store(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	if(isset($_GET['access_token']) && $_GET['access_token']) kboard_set_cosmosfarm_access_token($_GET['access_token']);
 	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
@@ -648,19 +646,6 @@ function kboard_system_option_update(){
 		}
 	}
 	exit;
-}
-
-/*
- * 액세스 토큰 저장
- */
-function kboard_set_cosmosfarm_access_token($new_access_token){
-	$option_name = 'cosmosfarm_access_token';
-	if(get_option($option_name) !== false){
-		update_option($option_name, $new_access_token);
-	}
-	else{
-		add_option($option_name, $new_access_token, null, 'no');
-	}
 }
 
 /*

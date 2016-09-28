@@ -73,7 +73,7 @@ var cf_list_page = 1;
 var cf_list_continue = true;
 var cf_list_lock = false;
 window.onload = function(){
-	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo get_option('cosmosfarm_access_token')?>');
+	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo KBStore::getAccessToken()?>');
 	cosmosfarm.oauthStatus(function(res){
 		if(res.status == 'valid'){
 			cosmosfarm.getProfile(function(res){
