@@ -11,7 +11,7 @@
 	<form method="get">
 		<input type="hidden" name="page" value="kboard_content_list">
 		<input type="hidden" name="filter_board_id" value="<?php echo $table->filter_board_id?>">
-		<?php $table->search_box(__('검색', 'kboard'), 'kboard_content_list_search')?>
+		<?php $table->search_box(__('Search', 'kboard'), 'kboard_content_list_search')?>
 	</form>
 	<form method="post">
 		<?php $table->display()?>

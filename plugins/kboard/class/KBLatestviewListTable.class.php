@@ -56,7 +56,7 @@ class KBLatestviewListTable extends WP_List_Table {
 	
 	function get_bulk_actions(){
 		return array(
-				'delete' => __('삭제', 'kboard')
+				'delete' => __('Delete', 'kboard')
 		);
 	}
 	

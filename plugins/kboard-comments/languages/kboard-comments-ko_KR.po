@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-09-21 21:32+0900\n"
-"PO-Revision-Date: 2016-09-21 21:32+0900\n"
+"POT-Creation-Date: 2016-09-28 23:56+0900\n"
+"PO-Revision-Date: 2016-09-28 23:57+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -21,8 +21,8 @@ msgstr ""
 #: class/KBCommentController.class.php:41
 #: class/KBCommentController.class.php:110
 #: class/KBCommentController.class.php:112
-#: class/KBCommentController.class.php:159
-#: class/KBCommentController.class.php:161
+#: class/KBCommentController.class.php:160
+#: class/KBCommentController.class.php:162
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
@@ -36,16 +36,16 @@ msgstr "게시글이 존재하지 않습니다."
 
 #: class/KBCommentController.class.php:70
 #: class/KBCommentController.class.php:94
-#: class/KBCommentController.class.php:127
-#: class/KBCommentController.class.php:181 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:128
+#: class/KBCommentController.class.php:182 class/KBCommentTemplate.class.php:68
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
-#: class/KBCommentController.class.php:73 index.php:100
+#: class/KBCommentController.class.php:73 index.php:97
 msgid "Please enter the author."
 msgstr "작성자명을 입력해주세요."
 
-#: class/KBCommentController.class.php:76 index.php:101 template/confirm.php:36
+#: class/KBCommentController.class.php:76 index.php:98 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
@@ -54,7 +54,7 @@ msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
 msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
 
 #: class/KBCommentController.class.php:82
-#: class/KBCommentController.class.php:171 index.php:103 template/edit.php:37
+#: class/KBCommentController.class.php:172 index.php:100 template/edit.php:37
 msgid "Please enter the content."
 msgstr "내용을 입력해주세요."
 
@@ -63,15 +63,48 @@ msgid "content_uid is required."
 msgstr "content_uid는 필수입니다."
 
 #: class/KBCommentController.class.php:118
-#: class/KBCommentController.class.php:168 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:169 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:48
 msgid "uid is required."
 msgstr "uid는 필수입니다."
 
 #: class/KBCommentController.class.php:121
-#: class/KBCommentController.class.php:174
+#: class/KBCommentController.class.php:175
 msgid "Please log in to continue."
 msgstr "로그인 해주세요."
+
+#: class/KBCommentListTable.class.php:44
+msgid "No comment found."
+msgstr "댓글이 없습니다."
+
+#: class/KBCommentListTable.class.php:50
+msgid "Forum"
+msgstr "게시판"
+
+#: class/KBCommentListTable.class.php:51
+msgid "Name"
+msgstr "이름"
+
+#: class/KBCommentListTable.class.php:52
+msgid "Content"
+msgstr "내용"
+
+#: class/KBCommentListTable.class.php:53
+msgid "Date"
+msgstr "작성일"
+
+#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:18
+#: skin/default/list-template.php:20
+msgid "Delete"
+msgstr "삭제"
+
+#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:22
+msgid "Edit"
+msgstr "편집"
+
+#: class/KBCommentListTable.class.php:95
+msgid "Open"
+msgstr "페이지 열기"
 
 #: class/KBCommentTemplate.class.php:31 class/KBCommentTemplate.class.php:55
 msgid "Comment does not exist."
@@ -85,25 +118,30 @@ msgstr "KBoard : 댓글"
 msgid "전체 댓글"
 msgstr "전체 댓글"
 
-#: index.php:98 skin/default/list-template.php:23
+#: index.php:95 skin/default/list-template.php:23
 msgid "Reply"
 msgstr "답글"
 
-#: index.php:99
+#: index.php:96
 msgid "Cancel"
 msgstr "취소"
 
-#: index.php:102
+#: index.php:99
 msgid "Please enter the CAPTCHA."
 msgstr "보안코드를 입력해주세요."
 
-#: index.php:104
+#: index.php:101
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
-#: index.php:105
+#: index.php:102
 msgid "Please wait."
 msgstr "잠시만 기다려주세요."
+
+#: index.php:112
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr "댓글을 남기려면 <a href=\"%s\">로그인</a>하세요."
 
 #: pages/comments_list.php:5
 msgid "Home"
@@ -121,13 +159,9 @@ msgstr "고객지원"
 msgid "Blog"
 msgstr "블로그"
 
-#: skin/default/list-template.php:18 skin/default/list-template.php:20
-msgid "Delete"
-msgstr "삭제"
-
-#: skin/default/list-template.php:22
-msgid "Edit"
-msgstr "수정"
+#: pages/comments_list.php:13
+msgid "Search"
+msgstr "검색"
 
 #: skin/default/list-template.php:26
 msgid "Like"
@@ -165,11 +199,6 @@ msgstr "비밀번호"
 msgid "Submit"
 msgstr "입력"
 
-#: skin/default/list.php:66
-#, php-format
-msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
-msgstr "댓글을 남기려면 <a href=\"%s\">로그인</a>하세요."
-
 #: template/confirm.php:9 template/confirm.php:23 template/edit.php:9
 msgid "Password confirmation"
 msgstr "비밀번호 확인"
@@ -177,6 +206,21 @@ msgstr "비밀번호 확인"
 #: template/edit.php:23
 msgid "Edit content"
 msgstr "내용 편집"
+
+#~ msgid "게시판"
+#~ msgstr "게시판"
+
+#~ msgid "작성자"
+#~ msgstr "작성자"
+
+#~ msgid "내용"
+#~ msgstr "내용"
+
+#~ msgid "일자"
+#~ msgstr "일자"
+
+#~ msgid "편집"
+#~ msgstr "편집"
 
 #~ msgid "Count"
 #~ msgstr "개"
@@ -250,9 +294,6 @@ msgstr "내용 편집"
 #~ msgid "List"
 #~ msgstr "목록보기"
 
-#~ msgid "Date"
-#~ msgstr "작성일"
-
 #~ msgid "Views"
 #~ msgstr "조회"
 
@@ -304,17 +345,11 @@ msgstr "내용 편집"
 #~ msgid "All"
 #~ msgstr "전체"
 
-#~ msgid "Search"
-#~ msgstr "검색"
-
 #~ msgid "Number"
 #~ msgstr "번호"
 
 #~ msgid "New"
 #~ msgstr "글쓰기"
-
-#~ msgid "Name"
-#~ msgstr "이름"
 
 #~ msgid "Phone number"
 #~ msgstr "연락처"

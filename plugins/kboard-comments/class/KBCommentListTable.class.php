@@ -41,22 +41,22 @@ class KBCommentListTable extends WP_List_Table {
 	}
 	
 	public function no_items(){
-		echo __('No comment found.', 'kboard');
+		echo __('No comment found.', 'kboard-comments');
 	}
 	
 	public function get_columns(){
 		return array(
 				'cb' => '<input type="checkbox">',
-				'board_name' => __('게시판', 'kboard'),
-				'user_display' => __('작성자', 'kboard'),
-				'content' => __('내용', 'kboard'),
-				'date' => __('일자', 'kboard')
+				'board_name' => __('Forum', 'kboard-comments'),
+				'user_display' => __('Name', 'kboard-comments'),
+				'content' => __('Content', 'kboard-comments'),
+				'date' => __('Date', 'kboard-comments')
 		);
 	}
 	
 	function get_bulk_actions(){
 		return array(
-				'delete' => __('삭제', 'kboard')
+				'delete' => __('Delete', 'kboard-comments')
 		);
 	}
 	
@@ -78,7 +78,7 @@ class KBCommentListTable extends WP_List_Table {
 		echo '<input type="checkbox" name="comment_uid[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
-		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
+		echo '<td><a href="'.$edit_url.'" title="'.__('Edit', 'kboard-comments').'" style="display:block">';
 		echo $board->board_name;
 		echo '</a></td>';
 		
@@ -92,7 +92,7 @@ class KBCommentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td>';
-		echo $item->content.' - <a href="'.$this->url->getDocumentRedirect($item->content_uid).'" titlt="페이지에서 보기" onclick="window.open(this.href);return false;">페이지에서 보기</a>';
+		echo $item->content.' - <a href="'.$this->url->getDocumentRedirect($item->content_uid).'" titlt="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a>';
 		echo '</td>';
 		
 		echo '<td>';

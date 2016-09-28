@@ -10,7 +10,7 @@
 	</h1>
 	<form method="get">
 		<input type="hidden" name="page" value="kboard_latestview">
-		<?php $table->search_box(__('검색', 'kboard'), 'kboard_latestview_search')?>
+		<?php $table->search_box(__('Search', 'kboard'), 'kboard_latestview_search')?>
 	</form>
 	<form method="post">
 		<?php $table->display()?>

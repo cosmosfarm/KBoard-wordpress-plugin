@@ -63,7 +63,7 @@ class KBContentListTable extends WP_List_Table {
 	function get_bulk_actions(){
 		return array(
 				'board_change' => __('게시판 변경', 'kboard'),
-				'delete' => __('삭제', 'kboard')
+				'delete' => __('Delete', 'kboard')
 		);
 	}
 	
@@ -120,7 +120,7 @@ class KBContentListTable extends WP_List_Table {
 		echo '<td class="kboard-content-list-title">';
 		$url = new KBUrl();
 		echo '<h4>'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</h4>';
-		echo '<span class="row-actions"><span class="edit"> | <a href="'.$url->getDocumentRedirect($item->uid).'" onclick="window.open(this.href);return false;">'.__('새창열기', 'kboard').'</a></span></span>';
+		echo '<span class="row-actions"><span class="edit"> | <a href="'.$url->getDocumentRedirect($item->uid).'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard').'</a></span></span>';
 		echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
 		echo '</td>';
 		

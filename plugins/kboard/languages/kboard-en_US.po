@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-09-23 13:46+0900\n"
-"PO-Revision-Date: 2016-09-23 13:46+0900\n"
+"POT-Creation-Date: 2016-09-29 00:02+0900\n"
+"PO-Revision-Date: 2016-09-29 00:02+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -107,8 +107,9 @@ msgstr "Forum change"
 
 #: class/KBContentListTable.class.php:66
 #: class/KBLatestviewListTable.class.php:59 class/KBoardListTable.class.php:63
-#: template/media.php:84
-msgid "삭제"
+#: skin/avatar/document.php:102 skin/customer/document.php:107
+#: skin/default/document.php:100 skin/thumbnail/document.php:100
+msgid "Delete"
 msgstr "Delete"
 
 #: class/KBContentListTable.class.php:116
@@ -116,7 +117,7 @@ msgid "답글입니다."
 msgstr "The reply."
 
 #: class/KBContentListTable.class.php:123
-msgid "새창열기"
+msgid "Open"
 msgstr "Open"
 
 #: class/KBContentListTable.class.php:137
@@ -495,8 +496,9 @@ msgid "KBoard : 전체 게시글"
 msgstr "KBoard : All Documents"
 
 #: pages/kboard_content_list.php:14 pages/kboard_latestview.php:13
-#: pages/kboard_list.php:13
-msgid "검색"
+#: pages/kboard_list.php:13 skin/avatar/list.php:184 skin/customer/list.php:172
+#: skin/default/list.php:172 skin/thumbnail/list.php:189
+msgid "Search"
 msgstr "Search"
 
 #: pages/kboard_dashboard.php:5
@@ -721,11 +723,6 @@ msgstr "Edit"
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
-#: skin/avatar/document.php:102 skin/customer/document.php:107
-#: skin/default/document.php:100 skin/thumbnail/document.php:100
-msgid "Delete"
-msgstr "Delete"
-
 #: skin/avatar/document.php:109 skin/avatar/list.php:198
 #: skin/customer/document.php:114 skin/customer/list.php:186
 #: skin/default/document.php:107 skin/default/list.php:186
@@ -885,11 +882,6 @@ msgstr "Votes"
 msgid "Content"
 msgstr "Content"
 
-#: skin/avatar/list.php:184 skin/customer/list.php:172
-#: skin/default/list.php:172 skin/thumbnail/list.php:189
-msgid "Search"
-msgstr "Search"
-
 #: skin/avatar/list.php:192 skin/customer/list.php:180
 #: skin/default/list.php:180 skin/thumbnail/list.php:197
 msgid "New"
@@ -937,6 +929,10 @@ msgstr "Selected"
 msgid "삽입"
 msgstr "Insert"
 
+#: template/media.php:84
+msgid "삭제"
+msgstr "Delete"
+
 #: template/media.php:90
 msgid "업로드된 이미지가 없습니다."
 msgstr "There is no uploaded images."
@@ -961,6 +957,12 @@ msgstr "You insert the selected image in the body. Would you close the window?"
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "Only image files can be uploaded."
+
+#~ msgid "새창열기"
+#~ msgstr "Open"
+
+#~ msgid "검색"
+#~ msgstr "Search"
 
 #~ msgid ""
 #~ "<code>/wp-content/uploads/kboard_attached</code> 경로의 모든 파일을 FTP를 "
