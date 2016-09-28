@@ -56,19 +56,16 @@ function kboard_comments_settings_menu(){
  * 댓글 목록 페이지
  */
 function kboard_comments_list(){
-	kboard_comments_system_update();
-	$commentList = new KBCommentList();
-	$action = isset($_POST['action'])?$_POST['action']:'';
-	$action2 = isset($_POST['action2'])?$_POST['action2']:'';
-	if(($action=='remove' || $action2=='remove') && isset($_POST['comment_uid']) && $_POST['comment_uid']){
-		foreach($_POST['comment_uid'] as $key=>$value){
-			$commentList->delete($value);
+	include_once 'class/KBCommentListTable.class.php';
+	$table = new KBCommentListTable();
+	if(isset($_POST['comment_uid']) && $table->current_action() == 'delete'){
+		$comment = new KBComment();
+		foreach($_POST['comment_uid'] as $key=>$comment_uid){
+			$comment->initWithUID($comment_uid);
+			$comment->delete();
 		}
 	}
-	
-	$commentList->order = 'DESC';
-	$commentList->page = isset($_GET['pageid'])?intval($_GET['pageid']):1;
-	$commentList->init();
+	$table->prepare_items();
 	include_once 'pages/comments_list.php';
 }
 
@@ -77,13 +74,13 @@ function kboard_comments_list(){
  */
 add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
-	$commentBuilder = new KBCommentsBuilder();
-	$commentBuilder->board = $atts['board'];
-	$commentBuilder->board_id = $atts['board_id'];
-	$commentBuilder->content_uid = $atts['content_uid'];
-	$commentBuilder->permission_comment_write = $atts['permission_comment_write'];
-	$commentBuilder->setSkin($atts['skin']);
-	return $commentBuilder->create();
+	$comment_builder = new KBCommentsBuilder();
+	$comment_builder->board = $atts['board'];
+	$comment_builder->board_id = $atts['board_id'];
+	$comment_builder->content_uid = $atts['content_uid'];
+	$comment_builder->permission_comment_write = $atts['permission_comment_write'];
+	$comment_builder->setSkin($atts['skin']);
+	return $comment_builder->create();
 }
 
 /*
@@ -158,7 +155,9 @@ function kboard_comments_skin_functions(){
 	global $wpdb;
 	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
 	foreach($result as $row){
-		if(file_exists(KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php")) include_once KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php";
+		if(file_exists(KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php")){
+			include_once KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php";
+		}
 	}
 }
 
@@ -292,7 +291,7 @@ function kboard_comments_activation_execute(){
 		`unlike` int(10) unsigned DEFAULT NULL,
 		`vote` int(11) DEFAULT NULL,
 		`created` char(14) NOT NULL,
-		`password` varchar(127) default NULL,
+		`password` varchar(127) DEFAULT NULL,
 		PRIMARY KEY (`uid`),
 		KEY `content_uid` (`content_uid`),
 		KEY `parent_uid` (`parent_uid`)

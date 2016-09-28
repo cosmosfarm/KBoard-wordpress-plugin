@@ -60,7 +60,6 @@ class KBComment {
 	 * @return boolean
 	 */
 	public function isEditor(){
-		global $wpdb;
 		if($this->uid && is_user_logged_in()){
 			if($this->user_uid == get_current_user_id()){
 				// 본인인 경우
@@ -74,8 +73,8 @@ class KBComment {
 				}
 			}
 			else{
-				$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->content_uid}'");
-				$board = new KBoard($board_id);
+				$board = new KBoard();
+				$board->initWithContentUID($this->content_uid);
 				if($board->isAdmin()){
 					// 게시판 관리자 허용
 					return true;
@@ -97,6 +96,52 @@ class KBComment {
 				$update[] = "`$key`='$value'";
 			}
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
+		}
+	}
+	
+	/**
+	 * 댓글을 삭제한다.
+	 */
+	public function delete(){
+		global $wpdb;
+		if($this->uid){
+			// 댓글 삭제 액션 훅 실행
+			do_action('kboard_comments_delete', $this->uid, $this->content_uid);
+			
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$this->uid}'");
+			
+			// 게시물의 댓글 숫자를 변경한다.
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
+			
+			// 자식 댓글을 삭제한다.
+			$this->deleteChildren();
+		}
+	}
+	
+	/**
+	 * 자식 댓글을 삭제한다.
+	 * @param int $parent_uid
+	 */
+	public function deleteChildren($parent_uid=''){
+		global $wpdb;
+		if($this->uid){
+			if($parent_uid){
+				$parent_uid = intval($parent_uid);
+			}
+			else{
+				$parent_uid = $this->uid;
+			}
+			
+			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$parent_uid}'");
+			foreach($results as $key=>$child){
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$child->uid}'");
+					
+				// 게시물의 댓글 숫자를 변경한다.
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
+					
+				// 자식 댓글을 삭제한다.
+				$this->deleteChildren($child->uid);
+			}
 		}
 	}
 }

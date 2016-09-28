@@ -121,13 +121,14 @@ class KBCommentController {
 			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
-		$commentList = new KBCommentList();
-		$comment = $commentList->getComment($uid);
+		$comment = new KBComment();
+		$comment->initWithUID($uid);
+		
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		$commentList->setContentUID($comment->content_uid);
-		$commentList->delete($uid);
+		
+		$comment->delete();
 		
 		if($comment->password && $comment->password == $password){
 			// 팝업창으로 비밀번호 확인 후 opener 윈도우를 새로고침 한다.

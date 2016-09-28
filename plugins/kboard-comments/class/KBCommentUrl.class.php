@@ -16,9 +16,11 @@ class KBCommentUrl {
 	/**
 	 * 댓글 UID를 입력한다.
 	 * @param string $comment_uid
+	 * @return KBCommentUrl
 	 */
 	public function setCommentUID($comment_uid){
 		$this->comment_uid = intval($comment_uid);
+		return $this;
 	}
 	
 	/**

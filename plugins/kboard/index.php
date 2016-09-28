@@ -759,7 +759,9 @@ add_action('init', 'kboard_skin_functions');
 function kboard_skin_functions(){
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() as $key=>$value){
-		if(file_exists(KBOARD_DIR_PATH . "/skin/{$value}/functions.php")) include_once KBOARD_DIR_PATH . "/skin/{$value}/functions.php";
+		if(file_exists(KBOARD_DIR_PATH . "/skin/{$value}/functions.php")){
+			include_once KBOARD_DIR_PATH . "/skin/{$value}/functions.php";
+		}
 	}
 }
 

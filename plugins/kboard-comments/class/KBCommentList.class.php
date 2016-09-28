@@ -42,6 +42,7 @@ class KBCommentList {
 	
 	/**
 	 * 댓글 목록을 초기화 한다.
+	 * @return KBCommentList
 	 */
 	public function init(){
 		global $wpdb;
@@ -54,27 +55,50 @@ class KBCommentList {
 			$this->order = 'DESC';
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `{$this->sort}` {$this->order} LIMIT ".($this->page-1)*$this->rpp.",{$this->rpp}");
 		}
-		return $this->resource;
+		return $this;
 	}
 	
 	/**
 	 * 고유번호로 댓글 목록을 초기화 한다.
 	 * @param int $content_uid
+	 * @return KBCommentList
 	 */
 	public function initWithUID($content_uid){
 		$this->setContentUID($content_uid);
 		$this->init();
+		return $this;
 	}
 	
 	/**
 	 * 부모 고유번호로 초기화 한다.
 	 * @param int $parent_uid
+	 * @return KBCommentList
 	 */
 	public function initWithParentUID($parent_uid){
 		global $wpdb;
 		$this->parent_uid = $parent_uid;
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY `{$this->sort}` {$this->order}");
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'");
+		return $this;
+	}
+	
+	/**
+	 * 댓글을 검색해 리스트를 초기화한다.
+	 * @param string $keyword
+	 * @return KBCommentList
+	 */
+	public function initWithKeyword($keyword=''){
+		global $wpdb;
+		if($keyword){
+			$keyword = esc_sql($keyword);
+			$where = "`content` LIKE '%$keyword%'";
+		}
+		else{
+			$where = '1';
+		}
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE $where ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		return $this;
 	}
 	
 	/**
@@ -87,6 +111,7 @@ class KBCommentList {
 	
 	/**
 	 * 총 댓글 개수를 반환한다.
+	 * @return int
 	 */
 	public function getCount(){
 		global $wpdb;
@@ -118,28 +143,19 @@ class KBCommentList {
 		}
 		else{
 			unset($this->resource);
-			return $this->row;
+			return '';
 		}
 	}
 	
 	/**
 	 * 댓글 고유번호를 입력받아 해당 댓글을 반환한다.
 	 * @param int $uid
-	 * @return Comment
+	 * @return KBComment
 	 */
 	public function getComment($uid){
-		global $wpdb;
-		$uid = intval($uid);
-		$row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}' LIMIT 1");
-		
-		if($row){
-			$comment = new KBComment();
-			$comment->initWithRow($row);
-			return $comment;
-		}
-		else{
-			return $row;
-		}
+		$comment = new KBComment();
+		$comment->initWithUID($row);
+		return $comment;
 	}
 	
 	/**
@@ -181,59 +197,9 @@ class KBCommentList {
 	 * @param int $uid
 	 */
 	public function delete($uid){
-		global $wpdb;
-		$uid = intval($uid);
-		
-		if($this->content_uid){
-			$content_uid = $this->content_uid;
-		}
-		else{
-			$comment = new KBComment();
-			$comment->initWithUID($uid);
-			$content_uid = $comment->content_uid;
-			$this->setContentUID($content_uid);
-		}
-		
-		// 댓글 삭제 액션 훅 실행
-		do_action('kboard_comments_delete', $uid, $content_uid);
-		
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}'");
-		
-		// 게시물의 댓글 숫자를 변경한다.
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$content_uid}'");
-		
-		// 자식 댓글을 삭제한다.
-		$this->deleteChildren($uid);
-	}
-	
-	/**
-	 * 자식 댓글을 삭제한다.
-	 * @param int $parent_uid
-	 */
-	public function deleteChildren($parent_uid){
-		global $wpdb;
-		$parent_uid = intval($parent_uid);
-		
-		if($this->content_uid){
-			$content_uid = $this->content_uid;
-		}
-		else{
-			$comment = new KBComment();
-			$comment->initWithUID($uid);
-			$content_uid = $comment->content_uid;
-			$this->setContentUID($content_uid);
-		}
-		
-		$resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$parent_uid}'");
-		foreach($resource as $key=>$child){
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$child->uid}'");
-			
-			// 게시물의 댓글 숫자를 변경한다.
-			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$content_uid}'");
-			
-			// 자식 댓글을 삭제한다.
-			$this->deleteChildren($child->uid);
-		}
+		$comment = new KBComment();
+		$comment->initWithUID($uid);
+		$comment->delete();
 	}
 	
 	/**

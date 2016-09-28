@@ -85,6 +85,27 @@ class KBoard {
 	}
 	
 	/**
+	 * 게시글이 등록된 게시판 정보를 초기화한다.
+	 * @param int $content_uid
+	 * @return KBoard
+	 */
+	public function initWithContentUID($content_uid){
+		global $wpdb;
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			$this->row = $wpdb->get_row("SELECT `board`.* FROM `{$wpdb->prefix}kboard_board_content` AS `content` LEFT JOIN `{$wpdb->prefix}kboard_board_setting` AS `board` ON `content`.`board_id`=`board`.`uid` WHERE `content`.`uid`='{$content_uid}'");
+			if(isset($this->row->uid) && $this->row->uid){
+				$this->id = $this->row->uid;
+				$this->meta = new KBoardMeta($this->row->uid);
+				return $this;
+			}
+		}
+		$this->id = 0;
+		$this->meta = new KBoardMeta();
+		return $this;
+	}
+	
+	/**
 	 * 카테고리 정보를 초기화 한다.
 	 */
 	public function initCategory1(){
