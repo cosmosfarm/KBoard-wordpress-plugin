@@ -11,7 +11,8 @@ Next Version
   4. 비밀글 작성 개선
   5. 스킨 디자인 레이아웃 변경
   6. KBLatestviewListTable 클래스 추가
-  7. 버그 수정
+  7. myCRED 플러그인 버그 수정 (포인트 기능)
+  8. 버그 수정
 
 
 5.2
