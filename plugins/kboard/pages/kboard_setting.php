@@ -55,7 +55,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width: 350px" id="shortcode">[kboard id=<?php echo $board->uid?>]</textarea>
+							<textarea style="width:350px" id="shortcode">[kboard id=<?php echo $board->uid?>]</textarea>
 							<p class="description">게시판 자동설치에 문제가 있을 경우 이 숏코드를 페이지에 입력하세요.</p>
 						</td>
 					</tr>
@@ -63,8 +63,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="latest_shortcode">최신글 숏코드(Shortcode)</label></th>
 						<td>
 							<textarea style="width: 350px" id="latest_shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
-							<p class="description">최신글 리스트를 생성합니다. 페이지주소 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고, 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
-							<p class="description">예제: [kboard_latest id=<?php echo $board->uid?> url=<?php echo home_url()?>/freeboard rpp=5 category1=유머 category2=동영상]</p>
+							<p class="description">최신글 리스트를 생성합니다. <span style="font-weight:bold">페이지주소</span> 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고, 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
+							<p class="description">예제: <code>[kboard_latest id=<?php echo $board->uid?> url=<?php echo home_url()?>/freeboard rpp=5 category1=유머 category2=동영상]</code></p>
+							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>">최신글 뷰</a> 기능을 사용하세요.</p>
 						</td>
 					</tr>
 					<?php endif?>

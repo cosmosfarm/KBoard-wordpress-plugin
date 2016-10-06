@@ -300,7 +300,7 @@ function kboard_allow_file_extensions($to_array=false){
 	$file_extensions = trim($file_extensions);
 	
 	if(!$file_extensions){
-		$file_extensions = 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi';
+		$file_extensions = 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4';
 	}
 	
 	if($to_array){
