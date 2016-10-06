@@ -267,7 +267,7 @@ class KBController {
 		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id);
 		
 		if(!$file_info->file_path || !file_exists($file_info->full_path)){
-			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			die('<script>alert("'.__('File does not exist.', 'kboard').'");history.go(-1);</script>');
 		}
 		
 		if(get_option('kboard_attached_copy_download')){

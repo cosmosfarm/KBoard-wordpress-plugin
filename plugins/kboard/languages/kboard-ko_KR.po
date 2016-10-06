@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-09-29 00:02+0900\n"
-"PO-Revision-Date: 2016-09-29 00:02+0900\n"
+"POT-Creation-Date: 2016-10-06 22:52+0900\n"
+"PO-Revision-Date: 2016-10-06 22:52+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -17,19 +17,19 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard-comments\n"
 
-#: addons/mycred.php:6
+#: addons/mycred.php:5
 msgid "KBoard 게시판 포인트"
 msgstr "KBoard 게시판 포인트"
 
-#: addons/mycred.php:7
+#: addons/mycred.php:6
 msgid "KBoard 게시판의 활동 포인트를 관리합니다."
 msgstr "KBoard 게시판의 활동 포인트를 관리합니다."
 
-#: addons/mycred.php:108
+#: addons/mycred.php:15
 msgid "KBoard 댓글 포인트"
 msgstr "KBoard 댓글 포인트"
 
-#: addons/mycred.php:109
+#: addons/mycred.php:16
 msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "KBoard 댓글 포인트를 관리합니다."
 
@@ -135,20 +135,24 @@ msgstr "아니오"
 #: class/KBController.class.php:153 class/KBController.class.php:178
 #: class/KBController.class.php:221 class/KBController.class.php:247
 #: class/KBController.class.php:252 class/KBController.class.php:257
-#: class/KBController.class.php:270 class/KBTemplate.class.php:85
-#: class/KBTemplate.class.php:91 class/KBoardBuilder.class.php:236
-#: class/KBoardBuilder.class.php:299 class/KBoardBuilder.class.php:309
-#: class/KBoardBuilder.class.php:394 index.php:250 index.php:369 index.php:417
+#: class/KBTemplate.class.php:85 class/KBTemplate.class.php:91
+#: class/KBoardBuilder.class.php:236 class/KBoardBuilder.class.php:299
+#: class/KBoardBuilder.class.php:309 class/KBoardBuilder.class.php:394
+#: index.php:248 index.php:367 index.php:415
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
-#: class/KBController.class.php:48 index.php:731
+#: class/KBController.class.php:48 index.php:716
 msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
 #: class/KBController.class.php:238 class/KBoardBuilder.class.php:207
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
+
+#: class/KBController.class.php:270
+msgid "File does not exist."
+msgstr "파일이 없습니다."
 
 #: class/KBFileHandler.class.php:235 class/KBFileHandler.class.php:309
 #, php-format
@@ -352,68 +356,68 @@ msgstr "스토어"
 msgid "전체 댓글"
 msgstr "전체 댓글"
 
-#: index.php:726 skin/avatar/editor.php:97 skin/customer/editor.php:107
+#: index.php:711 skin/avatar/editor.php:97 skin/customer/editor.php:107
 #: skin/default/editor.php:97 skin/thumbnail/editor.php:97
 msgid "KBoard Add Media"
 msgstr "KBoard 미디어 추가"
 
-#: index.php:727
+#: index.php:712
 msgid "Next"
 msgstr "다음"
 
-#: index.php:728
+#: index.php:713
 msgid "Prev"
 msgstr "이전"
 
-#: index.php:729
+#: index.php:714
 msgid "Please enter the title."
 msgstr "제목을 입력해주세요."
 
-#: index.php:730
+#: index.php:715
 msgid "Please enter the author."
 msgstr "작성자를 입력해주세요."
 
-#: index.php:732
+#: index.php:717
 msgid "Please enter the CAPTCHA."
 msgstr "옆에 보이는 보안코드를 입력해주세요."
 
-#: index.php:733
+#: index.php:718
 msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
-#: index.php:734
+#: index.php:719
 msgid "Please wait."
 msgstr "잠시만 기다려주세요."
 
-#: index.php:735 skin/avatar/list.php:14 skin/customer/list.php:14
+#: index.php:720 skin/avatar/list.php:14 skin/customer/list.php:14
 #: skin/default/list.php:14 skin/thumbnail/list.php:14
 msgid "Newest"
 msgstr "최신순"
 
-#: index.php:736 skin/avatar/list.php:15 skin/customer/list.php:15
+#: index.php:721 skin/avatar/list.php:15 skin/customer/list.php:15
 #: skin/default/list.php:15 skin/thumbnail/list.php:15
 msgid "Best"
 msgstr "추천순"
 
-#: index.php:737 skin/avatar/list.php:17 skin/customer/list.php:17
+#: index.php:722 skin/avatar/list.php:17 skin/customer/list.php:17
 #: skin/default/list.php:17 skin/thumbnail/list.php:17
 msgid "Updated"
 msgstr "업데이트순"
 
-#: index.php:738 skin/avatar/list.php:16 skin/customer/list.php:16
+#: index.php:723 skin/avatar/list.php:16 skin/customer/list.php:16
 #: skin/default/list.php:16 skin/thumbnail/list.php:16
 msgid "Viewed"
 msgstr "조회순"
 
-#: index.php:739
+#: index.php:724
 msgid "Yes"
 msgstr "예"
 
-#: index.php:740
+#: index.php:725
 msgid "No"
 msgstr "아니요"
 
-#: index.php:741
+#: index.php:726
 msgid "Did it help?"
 msgstr "도움이 되었나요?"
 
