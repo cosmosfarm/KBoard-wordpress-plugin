@@ -249,6 +249,17 @@ function kboard_comments_system_update(){
 		return;
 	}
 	unset($index);
+	
+	/*
+	 * KBoard 댓글 4.4
+	 * kboard_comments 테이블에 status 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_comments` `status`", ARRAY_N);
+	if(!$name){
+		kboard_comments_activation($networkwide);
+		return;
+	}
+	unset($name);
 }
 } // KBoard 게시판 플러그인이 활성화 돼 있어야 동작하는 구간 완료
 
@@ -291,6 +302,7 @@ function kboard_comments_activation_execute(){
 		`unlike` int(10) unsigned DEFAULT NULL,
 		`vote` int(11) DEFAULT NULL,
 		`created` char(14) NOT NULL,
+		`status` varchar(20) DEFAULT NULL,
 		`password` varchar(127) DEFAULT NULL,
 		PRIMARY KEY (`uid`),
 		KEY `content_uid` (`content_uid`),
@@ -356,6 +368,16 @@ function kboard_comments_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_comments` ADD INDEX (`parent_uid`)");
 	}
 	unset($index);
+	
+	/*
+	 * KBoard 댓글 4.4
+	 * kboard_comments 테이블에 status 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_comments` `status`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_comments` ADD `status` varchar(20) DEFAULT NULL AFTER `created`");
+	}
+	unset($name);
 }
 
 /*

@@ -868,6 +868,7 @@ function kboard_activation_execute(){
 		`secret` varchar(5) DEFAULT NULL,
 		`notice` varchar(5) DEFAULT NULL,
 		`search` char(1) DEFAULT NULL,
+		`status` varchar(20) DEFAULT NULL,
 		`password` varchar(127) DEFAULT NULL,
 		PRIMARY KEY (`uid`),
 		KEY `board_id` (`board_id`),
@@ -1048,6 +1049,16 @@ function kboard_activation_execute(){
 	if(!$name){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `update` char(14) NULL AFTER `date`");
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `update`=`date` WHERE 1");
+	}
+	unset($name);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 status 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `status`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `status` varchar(20) DEFAULT NULL AFTER `search`");
 	}
 	unset($name);
 }
@@ -1311,6 +1322,17 @@ function kboard_system_update(){
 	 * kboard_board_content 테이블에 update 컬럼 생성 확인
 	 */
 	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `update`", ARRAY_N);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 status 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `status`", ARRAY_N);
 	if(!$name){
 		kboard_activation($networkwide);
 		return;
