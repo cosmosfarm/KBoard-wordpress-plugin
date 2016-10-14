@@ -40,24 +40,31 @@ final class KBUpgrader {
 	 * @return data
 	 */
 	static public function connect($url){
+		$url = wp_parse_url($url);
 		$host = self::$sever_host;
 		$fp = @fsockopen($host, 80, $errno, $errstr, 3);
 		if($fp){
 			$output = '';
-			fputs($fp, "GET ".$url." HTTP/1.0\r\n"."Host: $host\r\n"."Referer: ".$_SERVER['HTTP_HOST']."\r\n"."\r\n");
+			fputs($fp, "GET {$url['path']} HTTP/1.0\r\n"."Host: {$host}\r\n"."Referer: {$_SERVER['HTTP_HOST']}\r\n"."\r\n");
 			while(!feof($fp)){
 				$output .= fgets($fp, 1024);
 			}
 			fclose($fp);
-			$data = @explode("\r\n\r\n", $output);
-			$data = @end($data);
-			return json_decode($data);
+			if($output){
+				$data = @explode("\r\n\r\n", $output);
+				$data = @end($data);
+				$data = json_decode($data);
+				if(!isset($data->kboard) || !$data->kboard) $data->kboard = 0;
+				if(!isset($data->comments) || !$data->comments) $data->comments = 0;
+				$data->error = '';
+				return $data;
+			}
 		}
-		else{
-			$data = new stdClass();
-			$data->error = __('Unable to connect to Cosmosfarm server.', 'kboard');
-			return $data;
-		}
+		$data = new stdClass();
+		$data->kboard = 0;
+		$data->comments = 0;
+		$data->error = __('Unable to connect to Cosmosfarm server.', 'kboard');
+		return $data;
 	}
 	
 	/**
@@ -65,17 +72,14 @@ final class KBUpgrader {
 	 * @return string
 	 */
 	static public function getLatestVersion(){
-		if(isset($_SESSION['kboard_latest_version']) && $_SESSION['kboard_latest_version']){
+		if(self::$latest_version){
+			return self::$latest_version;
+		}
+		else if(isset($_SESSION['kboard_latest_version']) && $_SESSION['kboard_latest_version']){
 			self::$latest_version = $_SESSION['kboard_latest_version'];
 		}
 		else if(!self::$latest_version){
-			$data = self::connect(self::$CONNECT_VERSION.'?version='.KBOARD_VERSION);
-			if(isset($data->error) && $data->error){
-				echo 'null';
-			}
-			else{
-				self::$latest_version = $data;
-			}
+			self::$latest_version = self::connect(self::$CONNECT_VERSION.'?version='.KBOARD_VERSION);
 		}
 		$_SESSION['kboard_latest_version'] = self::$latest_version;
 		return self::$latest_version;

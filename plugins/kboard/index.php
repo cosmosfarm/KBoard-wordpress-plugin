@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.2.4
+Version: 5.2.5
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.2.4');
+define('KBOARD_VERSION', '5.2.5');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -417,52 +417,52 @@ function kboard_upgrade(){
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
 	$download_version = isset($_GET['download_version'])?kboard_htmlclear($_GET['download_version']):'';
-	$form_url = wp_nonce_url(admin_url("/admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
+	$form_url = wp_nonce_url(admin_url("admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
 	$upgrader = KBUpgrader::getInstance();
 	
 	if($action == 'kboard'){
-		if($upgrader->getLatestVersion()->kboard <= KBOARD_VERSION){
+		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '>=')){
 			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, get_option('cosmosfarm_access_token'));
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
-			if($upgrader->getLatestVersion()->comments <= KBOARD_COMMNETS_VERSION){
+			if(version_compare(KBOARD_COMMNETS_VERSION, $upgrader->getLatestVersion()->comments, '>=')){
 				die('<script>alert("최신버전 입니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 			}
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, get_option('cosmosfarm_access_token'));
+		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
+		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");window.location.href="' . admin_url('/plugins.php') . '"</script>');
+		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");window.location.href="' . admin_url('plugins.php') . '"</script>');
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
+		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
-		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");window.location.href="' . admin_url('/themes.php') . '"</script>');
+		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");window.location.href="' . admin_url('themes.php') . '"</script>');
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
+		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
-		$download_file = $upgrader->download($download_url, $download_version, get_option('cosmosfarm_access_token'));
+		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('/admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
 	}
 	else{
 		die('<script>alert("설치에 실패 했습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
