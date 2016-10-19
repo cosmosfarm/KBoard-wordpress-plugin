@@ -254,13 +254,17 @@ class KBoardBuilder {
 				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->content);
 			}
 			
+			// kboard_content 필터 실행
+			$content->content = apply_filters('kboard_content', $content->content, $content->uid, $this->board_id);
+			
 			// 게시글 숏코드(Shortcode) 실행
 			if($this->meta->shortcode_execute == 1){
 				$content->content = do_shortcode($content->content);
 			}
-			
-			// kboard_content 필터 실행
-			$content->content = apply_filters('kboard_content', $content->content, $content->uid, $this->board_id);
+			else{
+				$content->content = str_replace('[', '&#91;', $content->content);
+				$content->content = str_replace(']', '&#93;', $content->content);
+			}
 			
 			include KBOARD_DIR_PATH . "/skin/{$this->skin}/document.php";
 			
@@ -362,7 +366,11 @@ class KBoardBuilder {
 						$content->content = '';
 					}
 				}
-					
+				
+				// 숏코드(Shortcode)를 실행하지 못하게 변경한다.
+				$content->content = str_replace('[', '&#91;', $content->content);
+				$content->content = str_replace(']', '&#93;', $content->content);
+				
 				include KBOARD_DIR_PATH . "/skin/{$this->skin}/editor.php";
 			}
 		}
