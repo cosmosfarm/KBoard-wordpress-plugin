@@ -129,7 +129,7 @@
 
 <script>
 function kboard_system_option_update(option, value){
-	jQuery.post('<?php echo admin_url('admin-ajax.php')?>', {'action':'kboard_system_option_update', 'option':option, 'value':value}, function(res){
+	jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':option, 'value':value}, function(res){
 		window.location.reload();
 	});
 	return false;

@@ -4,9 +4,9 @@
 		<h2><?php echo __('코스모스팜 대시보드 입니다.', 'kboard')?></h2>
 		<p class="about-description"><?php echo __('최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.', 'kboard')?></p>
 	</div>
-	<div style="float:right;"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width: 500px; height:60px;" allowTransparency="true"></iframe></div>
+	<div style="float:right"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none;overflow:hidden;width:500px;height:60px" allowTransparency="true"></iframe></div>
 	<div class="welcome-panel-column-container">
-		<div class="welcome-panel-column" style="overflow:hidden;">
+		<div class="welcome-panel-column" style="overflow:hidden">
 			<h4><?php echo __('KBoard 버전', 'kboard')?></h4>
 			<ul>
 				<li>
@@ -25,7 +25,7 @@
 					<?php endif?>
 				</li>
 			</ul>
-			<iframe src="//www.cosmosfarm.com/display/size/320_100" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none;"></iframe>
+			<iframe src="//www.cosmosfarm.com/display/size/320_100" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none"></iframe>
 		</div>
 		<div class="welcome-panel-column">
 			<h4><?php echo __('스토어', 'kboard')?></h4>
@@ -34,7 +34,7 @@
 			</ul>
 		</div>
 		<div class="welcome-panel-column">
-			<iframe src="//www.cosmosfarm.com/display/size/300_250" frameborder="0" scrolling="no" style="margin-top:20px;width:300px;height:250px;border:none;"></iframe>
+			<iframe src="//www.cosmosfarm.com/display/size/300_250" frameborder="0" scrolling="no" style="margin-top:20px;width:300px;height:250px;border:none"></iframe>
 		</div>
 	</div>
 </div>

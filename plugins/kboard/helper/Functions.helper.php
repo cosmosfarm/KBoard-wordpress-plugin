@@ -19,7 +19,7 @@ function kboard_json_encode($val){
 	if(function_exists('json_encode')){
 		return json_encode($val);
 	}
-	
+
 	if(is_string($val)) return '"'.addslashes($val).'"';
 	if(is_numeric($val)) return $val;
 	if($val === null) return 'null';
@@ -44,7 +44,7 @@ function kboard_json_encode($val){
 		$res[] = $v;
 	}
 	$res = implode(',', $res);
-	
+
 	return ($assoc)? '{'.$res.'}' : '['.$res.']';
 }
 
@@ -68,7 +68,7 @@ function kboard_mime_type($file){
 			'xml' => 'application/xml',
 			'swf' => 'application/x-shockwave-flash',
 			'flv' => 'video/x-flv',
-			
+				
 			// images
 			'png' => 'image/png',
 			'jpe' => 'image/jpeg',
@@ -81,7 +81,7 @@ function kboard_mime_type($file){
 			'tif' => 'image/tiff',
 			'svg' => 'image/svg+xml',
 			'svgz' => 'image/svg+xml',
-			
+				
 			// archives
 			'zip' => 'application/zip',
 			'rar' => 'application/x-rar-compressed',
@@ -89,19 +89,19 @@ function kboard_mime_type($file){
 			'msi' => 'application/x-msdownload',
 			'cab' => 'application/vnd.ms-cab-compressed',
 			'7z' => 'application/x-7z-compressed',
-			
+				
 			// audio/video
 			'mp3' => 'audio/mpeg',
 			'qt' => 'video/quicktime',
 			'mov' => 'video/quicktime',
-			
+				
 			// adobe
 			'pdf' => 'application/pdf',
 			'psd' => 'image/vnd.adobe.photoshop',
 			'ai' => 'application/postscript',
 			'eps' => 'application/postscript',
 			'ps' => 'application/postscript',
-			
+				
 			// ms office
 			'doc' => 'application/msword',
 			'rtf' => 'application/rtf',
@@ -117,21 +117,21 @@ function kboard_mime_type($file){
 			'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 			'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
 			'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-			
+				
 			// open office
 			'odt' => 'application/vnd.oasis.opendocument.text',
 			'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-			
+				
 			// etc
 			'hwp' => 'application/hangul',
 	);
-	
+
 	$mime_type = '';
 	$temp = basename($file);
 	$temp = explode('.', $temp);
 	$temp = array_pop($temp);
 	$ext = strtolower($temp);
-	
+
 	if(array_key_exists($ext, $mime_types)){
 		$mime_type = $mime_types[$ext];
 	}
@@ -143,7 +143,7 @@ function kboard_mime_type($file){
 		$mime_type = finfo_file($finfo, $file);
 		finfo_close($finfo);
 	}
-	
+
 	if($mime_type) return $mime_type;
 	else return 'application/octet-stream';
 }
@@ -196,18 +196,18 @@ function kboard_resize($image_src, $width, $height){
 	$dirname = dirname($image_src);
 	$dirname = explode('/wp-content/uploads', $dirname);
 	$resize_dir = end($dirname);
-	
+
 	$basename = basename($image_src);
 	$fileinfo = pathinfo($basename);
 	$resize_name = basename($image_src, '.'.$fileinfo['extension']) . "-{$width}x{$height}.{$fileinfo['extension']}";
-	
+
 	$new_image = $upload_dir['basedir'] . "{$resize_dir}/{$resize_name}";
 	$new_image_src = content_url("uploads{$resize_dir}/{$resize_name}");
-	
+
 	if(file_exists($new_image)){
 		return $new_image_src;
 	}
-	
+
 	$image_editor = wp_get_image_editor($upload_dir['basedir'] . "{$resize_dir}/{$basename}");
 	if(!is_wp_error($image_editor)){
 		$image_editor->resize($width, $height, true);
@@ -298,11 +298,11 @@ function kboard_parse_size($size){
 function kboard_allow_file_extensions($to_array=false){
 	$file_extensions = get_option('kboard_allow_file_extensions');
 	$file_extensions = trim($file_extensions);
-	
+
 	if(!$file_extensions){
 		$file_extensions = 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4';
 	}
-	
+
 	if($to_array){
 		$file_extensions = explode(',', $file_extensions);
 		return array_map('trim', $file_extensions);
@@ -352,14 +352,18 @@ function kboard_uid(){
 
 /**
  * mod 값을 반환한다.
+ * @param string $default
  * @return string
  */
-function kboard_mod(){
+function kboard_mod($default=''){
 	static $mod;
 	if($mod === null){
 		$_GET['mod'] = isset($_GET['mod'])?sanitize_key($_GET['mod']):'';
 		$_POST['mod'] = isset($_POST['mod'])?sanitize_key($_POST['mod']):'';
 		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
+	}
+	if(!in_array($mod, array('list', 'document', 'editor', 'remove'))){
+		$mod = $default;
 	}
 	return $mod;
 }

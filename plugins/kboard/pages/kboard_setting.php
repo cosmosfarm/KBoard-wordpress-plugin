@@ -339,6 +339,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</div>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="permit">관리자 승인</label></th>
+						<td>
+							<select name="permit" id="permit">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->permit):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">읽기/쓰기 권한과는 관계없이 관리자가 승인한 게시글만 정상적으로 보입니다. <a href="<?php echo admin_url('admin.php?page=kboard_content_list')?>">전체 게시글 관리</a></p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

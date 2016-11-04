@@ -1,17 +1,17 @@
 <?php
 /**
  * KBoard 게시글
- * @link www.cosmosfarm.com
- * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl.html
- */
+* @link www.cosmosfarm.com
+* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+* @license http://www.gnu.org/licenses/gpl.html
+*/
 class KBContent {
-	
+
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
 	var $skin_attach_prefix = 'kboard_attach_';
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	var $skin_option_prefix = 'kboard_option_';
-	
+
 	var $board;
 	var $board_id;
 	var $option;
@@ -21,38 +21,53 @@ class KBContent {
 	var $row;
 	var $execute_action;
 	var $thumbnail;
-	
+
 	private $upload_attach_files;
-	
+
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
 		if($board_id) $this->setBoardID($board_id);
 	}
-	
+
 	public function __get($name){
 		if(isset($this->row->{$name})){
+			if($this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
+				$board = $this->getBoard();
+				if($board->isAdmin()){
+					switch($name){
+						case 'title': return sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title); break;
+						case 'content': return sprintf(__('<p>&#91;Waiting for administrator Approval.&#93;</p>%s', 'kboard'), $this->row->content); break;
+					}
+				}
+				else{
+					switch($name){
+						case 'title': return __('&#91;Pending&#93; Waiting for administrator Approval.', 'kboard'); break;
+						case 'content': return __('&#91;Waiting for administrator Approval.&#93;', 'kboard'); break;
+					}
+				}
+			}
 			return stripslashes($this->row->{$name});
 		}
 		return '';
 	}
-	
+
 	public function __set($name, $value){
 		$this->row->{$name} = $value;
 	}
-	
+
 	/**
 	 * 게시판 ID를 입력받는다.
 	 * @param int $board_id
 	 */
 	public function setBoardID($board_id){
 		$this->board_id = intval($board_id);
-		
+
 		// 첨부파일 업로드 경로를 만든다.
 		$upload_dir = wp_upload_dir();
 		$this->attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$board_id}/" . date('Ym', current_time('timestamp')) . '/';
 		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/{$board_id}/" . date('Ym', current_time('timestamp')) . '/';
 	}
-	
+
 	/**
 	 * 게시글 고유번호를 입력받아 정보를 초기화한다.
 	 * @param int $uid
@@ -78,7 +93,7 @@ class KBContent {
 		$this->execute_action = '';
 		return $this;
 	}
-	
+
 	/**
 	 * 게시글 정보를 입력받는다.
 	 * @param object $row
@@ -97,7 +112,7 @@ class KBContent {
 		$this->execute_action = '';
 		return $this;
 	}
-	
+
 	/**
 	 * 게시글을 등록/수정한다.
 	 */
@@ -118,8 +133,9 @@ class KBContent {
 		$this->secret = isset($_POST['secret'])?kboard_htmlclear($_POST['secret']):'';
 		$this->notice = isset($_POST['notice'])?kboard_htmlclear($_POST['notice']):'';
 		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'3';
+		if(isset($_POST['status'])) $this->status = kboard_htmlclear($_POST['status']);
 		$this->password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
-		
+
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
 			$this->initUploadAttachFiles();
@@ -128,17 +144,17 @@ class KBContent {
 			$this->updateOptions();
 			$this->updateAttach();
 			$this->addMediaRelationships();
-			
+
 			// 게시글 수정 액션 훅 실행
 			do_action('kboard_document_update', $this->uid, $this->board_id);
-			
+
 			$this->execute_action = 'update';
-			
+
 			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
 			$board = $this->getBoard();
-			
+
 			if($board->useCAPTCHA()){
 				// captcha 코드 확인
 				include_once 'KBCaptcha.class.php';
@@ -148,13 +164,18 @@ class KBContent {
 					die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
 				}
 			}
-			
+
 			if(is_user_logged_in()){
 				$current_user = wp_get_current_user();
 				$this->member_uid = $current_user->ID;
 				$this->member_display = $this->member_display?$this->member_display:$current_user->display_name;
 			}
-			
+
+			if($board->meta->permit){
+				// 게시글 승인 대기
+				$this->status = 'pending_approval';
+			}
+
 			// 신규게시물 등록
 			$this->initUploadAttachFiles();
 			if($this->insertContent()){
@@ -162,7 +183,7 @@ class KBContent {
 				$this->updateOptions();
 				$this->updateAttach();
 				$this->addMediaRelationships();
-				
+
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				if($board->meta->latest_alerts){
 					include_once 'KBMail.class.php';
@@ -178,25 +199,25 @@ class KBContent {
 					$mail->url = $url->getDocumentRedirect($this->uid);
 					$mail->send();
 				}
-				
+
 				// 게시글 입력 액션 훅 실행
 				do_action('kboard_document_insert', $this->uid, $this->board_id);
 			}
-			
+
 			$this->execute_action = 'insert';
-			
+
 			return $this->uid;
 		}
 		return '';
 	}
-	
+
 	/**
 	 * 게시글을 등록한다.
 	 * @return int
 	 */
 	public function insertContent($data = array()){
 		global $wpdb;
-		
+
 		if(!$data){
 			$data['board_id'] = $this->board_id;
 			$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
@@ -218,35 +239,36 @@ class KBContent {
 			$data['search'] = $this->search;
 			$data['thumbnail_file'] = '';
 			$data['thumbnail_name'] = '';
+			$data['status'] = $this->status;
 			$data['password'] = $this->password?$this->password:'';
 		}
-		
+
 		/*
 		 * 입력할 데이터 필터
 		 */
 		$data = apply_filters('kboard_insert_data', $data, $this->board_id);
-		
+
 		foreach($data as $key=>$value){
 			$value = esc_sql($value);
 			$insert_key[] = "`$key`";
 			$insert_data[] = "'$value'";
 		}
-		
+
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
 		$this->uid = $wpdb->insert_id;
-		
+
 		$this->insertPost($this->uid, $data['member_uid']);
-		
+
 		return $this->uid;
 	}
-	
+
 	/**
 	 * 게시글 정보를 수정한다.
 	 */
 	public function updateContent($data = array()){
 		global $wpdb;
 		if($this->uid){
-			
+
 			if(!$data){
 				$data['board_id'] = $this->board_id;
 				$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
@@ -266,22 +288,23 @@ class KBContent {
 				$data['secret'] = $this->secret;
 				$data['notice'] = $this->notice;
 				$data['search'] = $this->search;
+				$data['status'] = $this->status;
 				if($this->member_uid) $data['password'] = $this->password;
 				else if($this->password) $data['password'] = $this->password;
 			}
-			
+
 			/*
 			 * 수정할 데이터 필터
 			 */
 			$data = apply_filters('kboard_update_data', $data, $this->board_id);
-			
+
 			foreach($data as $key=>$value){
 				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
 			}
-			
+
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
-			
+
 			$post_id = $this->getPostID();
 			if($post_id){
 				if($this->search==3){
@@ -296,7 +319,7 @@ class KBContent {
 			}
 		}
 	}
-	
+
 	/**
 	 * posts 테이블에 내용을 입력한다.
 	 * @param int $content_uid
@@ -305,20 +328,20 @@ class KBContent {
 	public function insertPost($content_uid, $member_uid){
 		if($content_uid && $this->search>0 && $this->search<3){
 			$kboard_post = array(
-				'post_author'   => $member_uid,
-				'post_title'    => $this->title,
-				'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
-				'post_status'   => 'publish',
-				'comment_status'=> 'closed',
-				'ping_status'   => 'closed',
-				'post_name'     => $content_uid,
-				'post_parent'   => $this->board_id,
-				'post_type'     => 'kboard'
+					'post_author'   => $member_uid,
+					'post_title'    => $this->title,
+					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
+					'post_status'   => 'publish',
+					'comment_status'=> 'closed',
+					'ping_status'   => 'closed',
+					'post_name'     => $content_uid,
+					'post_parent'   => $this->board_id,
+					'post_type'     => 'kboard'
 			);
 			wp_insert_post($kboard_post);
 		}
 	}
-	
+
 	/**
 	 * posts 테이블에 내용을 수정한다.
 	 * @param int $post_id
@@ -327,16 +350,16 @@ class KBContent {
 	public function updatePost($post_id, $member_uid){
 		if($post_id && $this->search>0 && $this->search<3){
 			$kboard_post = array(
-				'ID'            => $post_id,
-				'post_author'   => $member_uid,
-				'post_title'    => $this->title,
-				'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
-				'post_parent'   => $this->board_id
+					'ID'            => $post_id,
+					'post_author'   => $member_uid,
+					'post_title'    => $this->title,
+					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
+					'post_parent'   => $this->board_id
 			);
 			wp_update_post($kboard_post);
 		}
 	}
-	
+
 	/**
 	 * posts 테이블에 내용을 삭제한다.
 	 * @param int $post_id
@@ -344,7 +367,7 @@ class KBContent {
 	public function deletePost($post_id){
 		wp_delete_post($post_id);
 	}
-	
+
 	/**
 	 * 게시물의 조회수를 증가한다.
 	 */
@@ -356,7 +379,7 @@ class KBContent {
 			$this->view = $this->view + 1;
 		}
 	}
-	
+
 	/**
 	 * 게시글 옵션 정보를 초기화 한다.
 	 * @return string
@@ -365,7 +388,7 @@ class KBContent {
 		global $wpdb;
 		$this->option = new KBContentOption($this->uid);
 	}
-	
+
 	/**
 	 * 게시글 첨부파일 정보를 초기화 한다.
 	 * @return array
@@ -381,14 +404,14 @@ class KBContent {
 		$this->attach = (object)$file;
 		return $file;
 	}
-	
+
 	/**
 	 * 첨부파일을 초기화한다.
 	 */
 	public function initUploadAttachFiles(){
 		global $wpdb;
 		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
-		
+
 		// 업로드된 파일이 있는지 확인한다. (없으면 중단)
 		$upload_checker = false;
 		foreach($_FILES as $key=>$value){
@@ -398,19 +421,19 @@ class KBContent {
 				break;
 			}
 		}
-		
+
 		if($upload_checker){
 			$file = new KBFileHandler();
 			$file->setPath($this->attach_store_path);
-			
+
 			foreach($_FILES as $key=>$value){
 				if(strpos($key, $this->skin_attach_prefix) === false) continue;
 				$key = sanitize_key(str_replace($this->skin_attach_prefix, '', $key));
-			
+					
 				$upload = $file->upload($this->skin_attach_prefix . $key);
 				$original_name = $upload['original_name'];
 				$file_path = $upload['path'] . $upload['stored_name'];
-			
+					
 				if($original_name){
 					$attach_file = new stdClass();
 					$attach_file->key = $key;
@@ -421,20 +444,20 @@ class KBContent {
 			}
 		}
 	}
-	
+
 	/**
 	 * 게시글의 첨부파일을 업데이트한다. (입력/수정)
 	 */
 	public function updateAttach(){
 		global $wpdb;
 		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
-		
+
 		if($this->uid && $this->upload_attach_files && is_array($this->upload_attach_files)){
 			foreach($this->upload_attach_files as $attach_file){
 				$key = esc_sql($attach_file->key);
 				$file_path = esc_sql($attach_file->path);
 				$file_name = esc_sql($attach_file->name);
-				
+
 				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 				if($present_file){
 					@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
@@ -447,7 +470,7 @@ class KBContent {
 			}
 		}
 	}
-	
+
 	/**
 	 * 게시글의 모든 첨부파일을 삭제한다.
 	 */
@@ -462,7 +485,7 @@ class KBContent {
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid'");
 		}
 	}
-	
+
 	/**
 	 * 첨부파일을 삭제한다.
 	 * @param string $key
@@ -479,7 +502,7 @@ class KBContent {
 			}
 		}
 	}
-	
+
 	/**
 	 * 게시글의 옵션을 업데이트한다. (입력/수정/삭제)
 	 */
@@ -496,7 +519,7 @@ class KBContent {
 			}
 		}
 	}
-	
+
 	/**
 	 * 옵션을 삭제한다.
 	 */
@@ -506,23 +529,23 @@ class KBContent {
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->uid'");
 		}
 	}
-	
+
 	/**
 	 * 썸네일을 등록한다.
 	 */
 	public function setThumbnail(){
 		global $wpdb;
 		if(!$this->thumbnail_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
-		
+
 		if($this->uid && isset($_FILES['thumbnail']) && $_FILES['thumbnail']['tmp_name']){
 			$file = new KBFileHandler();
 			$file->setPath($this->thumbnail_store_path);
 			$upload = $file->upload('thumbnail');
 			$original_name = esc_sql($upload['original_name']);
 			$file = esc_sql($upload['path'] . $upload['stored_name']);
-			
+
 			if($original_name){
-				
+
 				// 업로드된 원본 이미지 크기를 줄인다.
 				$upload_dir = wp_upload_dir();
 				$file_path = explode('/wp-content/uploads', $upload['path'] . $upload['stored_name']);
@@ -533,13 +556,13 @@ class KBContent {
 					$image_editor->resize($thumbnail_size[0], $thumbnail_size[0]);
 					$image_editor->save($file_path);
 				}
-				
+
 				$this->removeThumbnail(false);
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='$file', `thumbnail_name`='$original_name' WHERE `uid`='$this->uid'");
 			}
 		}
 	}
-	
+
 	/**
 	 * 썸네일 주소를 반환한다.
 	 * @param int $width
@@ -588,7 +611,14 @@ class KBContent {
 		}
 		return '';
 	}
-	
+
+	/**
+	 * 게시글을 삭제한다.
+	 */
+	public function delete(){
+		$this->remove();
+	}
+
 	/**
 	 * 게시글을 삭제한다.
 	 */
@@ -597,7 +627,7 @@ class KBContent {
 		if($this->uid){
 			// 게시글 삭제 액션 실행
 			do_action('kboard_document_delete', $this->uid, $this->board_id);
-			
+
 			$this->_deleteAllOptions();
 			$this->_deleteAllAttached();
 			$this->removeThumbnail(false);
@@ -606,15 +636,15 @@ class KBContent {
 			if(defined('KBOARD_COMMNETS_VERSION')){
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->uid'");
 			}
-			
+
 			// 미디어 파일을 삭제한다.
 			$media = new KBContentMedia();
 			$media->deleteWithContentUID($this->uid);
-			
+
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid'");
 		}
 	}
-	
+
 	/**
 	 * 썸네일 파일을 삭제한다.
 	 * @param boolean $update
@@ -624,13 +654,13 @@ class KBContent {
 		if($this->uid && $this->thumbnail_file){
 			kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($this->thumbnail_file));
 			@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($this->thumbnail_file));
-			
+
 			if($update){
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
 			}
 		}
 	}
-	
+
 	/**
 	 * 답글을 삭제한다.
 	 * @param int $parent_uid
@@ -643,7 +673,7 @@ class KBContent {
 			$this->deleteReply($content->uid);
 		}
 	}
-	
+
 	/**
 	 * 게시글의 댓글 개수를 반환한다.
 	 * @param string $prefix
@@ -665,7 +695,7 @@ class KBContent {
 		}
 		return '';
 	}
-	
+
 	/**
 	 * 게시글의 댓글 개수를 반환한다.
 	 * @param string $prefix
@@ -680,7 +710,7 @@ class KBContent {
 		}
 		return '';
 	}
-	
+
 	/**
 	 * posts 테이블에 등록된 게시글의 ID 값을 가져온다.
 	 */
@@ -694,7 +724,7 @@ class KBContent {
 		}
 		return intval($post_id);
 	}
-	
+
 	/**
 	 * 다음 게시물의 UID를 반환한다.
 	 */
@@ -703,10 +733,10 @@ class KBContent {
 		if($this->uid){
 			$category1 = kboard_category1();
 			$category2 = kboard_category2();
-			
+
 			$where[] = "`board_id`='{$this->board_id}'";
 			$where[] = "`uid`>'{$this->uid}'";
-			
+
 			if($category1){
 				$category1 = esc_sql($category1);
 				$where[] = "`category1`='{$category1}'";
@@ -715,7 +745,7 @@ class KBContent {
 				$category2 = esc_sql($category2);
 				$where[] = "`category2`='{$category2}'";
 			}
-			
+
 			$where = implode(' AND ', $where);
 			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `uid` ASC LIMIT 1");
 		}
@@ -724,7 +754,7 @@ class KBContent {
 		}
 		return intval($uid);
 	}
-	
+
 	/**
 	 * 이전 게시물의 UID를 반환한다.
 	 */
@@ -733,10 +763,10 @@ class KBContent {
 		if($this->uid){
 			$category1 = kboard_category1();
 			$category2 = kboard_category2();
-				
+
 			$where[] = "`board_id`='{$this->board_id}'";
 			$where[] = "`uid`<'{$this->uid}'";
-				
+
 			if($category1){
 				$category1 = esc_sql($category1);
 				$where[] = "`category1`='{$category1}'";
@@ -745,7 +775,7 @@ class KBContent {
 				$category2 = esc_sql($category2);
 				$where[] = "`category2`='{$category2}'";
 			}
-				
+
 			$where = implode(' AND ', $where);
 			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `uid` DESC LIMIT 1");
 		}
@@ -754,7 +784,7 @@ class KBContent {
 		}
 		return intval($uid);
 	}
-	
+
 	/**
 	 * 최상위 부모 UID를 반환한다.
 	 * @return int
@@ -767,7 +797,7 @@ class KBContent {
 		}
 		return $this->uid;
 	}
-	
+
 	/**
 	 * 게시글과 미디어의 관계를 입력한다.
 	 */
@@ -779,7 +809,7 @@ class KBContent {
 			$media->createRelationships();
 		}
 	}
-	
+
 	/**
 	 * 게시글에서 댓글을 보여줄지 확인한다.
 	 */
@@ -796,7 +826,7 @@ class KBContent {
 		}
 		return apply_filters('kboard_visible_comments', $visible, $this);
 	}
-	
+
 	/**
 	 * 새글인지 확인한다.
 	 * @return boolean
@@ -809,7 +839,7 @@ class KBContent {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 게시판 정보를 반환한다.
 	 * @return KBoard
@@ -823,7 +853,7 @@ class KBContent {
 			return $this->board;
 		}
 	}
-	
+
 	/**
 	 * 첨부파일이 있는지 확인한다.
 	 * @return boolean
@@ -836,7 +866,7 @@ class KBContent {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 날짜를 반환한다.
 	 * @return string
@@ -852,7 +882,29 @@ class KBContent {
 		}
 		return '';
 	}
-	
+
+	/**
+	 * 제목을 반환한다.
+	 * @return string
+	 */
+	public function getTitle(){
+		if($this->uid){
+			return $this->row->title;
+		}
+		return '';
+	}
+
+	/**
+	 * 내용을 반환한다.
+	 * @return string
+	 */
+	public function getContent(){
+		if($this->uid){
+			return $this->row->content;
+		}
+		return '';
+	}
+
 	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.
 	 */

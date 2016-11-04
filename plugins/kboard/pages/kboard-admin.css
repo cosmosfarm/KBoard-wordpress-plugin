@@ -38,5 +38,5 @@
 .link-control-area .link-control-area-right { float: left; }
 .latestview-preview { width: 300px; border: 1px solid gray; }
 
-.wp-list-table.kboard .kboard-content-list-board select { width: 100%; }
-.wp-list-table.kboard .kboard-content-list-title h4 { float: left; margin: 0; }
+.wp-list-table.kboard select { width: 100%; }
+.wp-list-table.kboard h4 { margin: 0; }

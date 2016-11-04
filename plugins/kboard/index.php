@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: KBoard : 게시판
+ Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.2.5
+Version: 5.2.6
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.2.5');
+define('KBOARD_VERSION', '5.2.6');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -63,25 +63,24 @@ foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
  */
 add_action('init', 'kboard_init', 0);
 function kboard_init(){
-	
+
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
-	
-	// 관리자 컨트롤러 시작
-	$admin_controller = new KBAdminController();
-	
+
 	// 컨트롤러 시작
 	$controller = new KBController();
-	
+
 	// 템플릿 시작
 	$template = new KBTemplate();
-	
+
+	// SEO 시작
+	$seo = new KBSeo();
+
 	// ajax 등록
 	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
-	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
-	
+
 	$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:'';
 	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember'])?intval($_GET['kboard_list_sort_remember']):'';
 	if($kboard_list_sort && $kboard_list_sort_remember){
@@ -91,11 +90,16 @@ function kboard_init(){
 }
 
 /*
- * KBoard SEO 시작
+ * KBoard 관리자 기능 실행
  */
-add_action('init', 'kboard_seo_init', 999);
-function kboard_seo_init(){
-	$seo = new KBSeo();
+add_action('admin_init', 'kboard_admin_init');
+function kboard_admin_init(){
+
+	// 관리자 컨트롤러 시작
+	$admin_controller = new KBAdminController();
+
+	// ajax 등록
+	add_action('wp_ajax_kboard_system_option_update', 'kboard_system_option_update');
 }
 
 /*
@@ -147,7 +151,7 @@ add_action('admin_menu', 'kboard_settings_menu');
 function kboard_settings_menu(){
 	$position = 51.23456;
 	while(isset($GLOBALS['menu'][$position]) && $GLOBALS['menu'][$position]) $position++;
-	
+
 	// KBoard 메뉴 등록
 	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $position);
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'administrator', 'kboard_dashboard');
@@ -157,19 +161,19 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 생성', 'kboard'), 'administrator', 'kboard_latestview_new', 'kboard_latestview_new');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'administrator', 'kboard_backup', 'kboard_backup');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'administrator', 'kboard_content_list', 'kboard_content_list');
-	
+
 	// 표시되지 않는 페이지
 	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, __('게시판 업데이트', 'kboard'), 'administrator', 'kboard_upgrade', 'kboard_upgrade');
-	
+
 	// 스토어 메뉴 등록
 	$position++;
 	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'administrator', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $position);
 	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'administrator', 'kboard_store');
-	
+
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
 	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
 	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3') kboard_comments_settings_menu();
-	
+
 	// 메뉴 액션 실행
 	do_action('kboard_admin_menu');
 }
@@ -246,9 +250,9 @@ function kboard_update(){
 	global $wpdb;
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-	
+
 	if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
-		
+
 		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
 		$board_name = isset($_POST['board_name'])?addslashes($_POST['board_name']):'';
 		$skin = isset($_POST['skin'])?$_POST['skin']:'';
@@ -262,7 +266,7 @@ function kboard_update(){
 		$category1_list = isset($_POST['category1_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category1_list'])))):'';
 		$category2_list = isset($_POST['category2_list'])?implode(',', array_map('addslashes', array_map('trim', explode(',', $_POST['category2_list'])))):'';
 		$create = date('YmdHis', current_time('timestamp'));
-		
+
 		$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
 		if($auto_page){
 			$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
@@ -272,7 +276,7 @@ function kboard_update(){
 				exit;
 			}
 		}
-		
+
 		if(!$board_id){
 			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
 			$board_id = $wpdb->insert_id;
@@ -280,7 +284,7 @@ function kboard_update(){
 		else{
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
 		}
-		
+
 		$meta = new KBoardMeta($board_id);
 		$meta->auto_page = $auto_page;
 		$meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
@@ -299,7 +303,8 @@ function kboard_update(){
 		$meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
 		$meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
 		$meta->max_attached_count = isset($_POST['max_attached_count'])?$_POST['max_attached_count']:'';
-		
+		$meta->permit = isset($_POST['permit'])?$_POST['permit']:'';
+
 		if(isset($_POST['permission_read_roles'])){
 			$meta->permission_read_roles = serialize($_POST['permission_read_roles']);
 		}
@@ -309,10 +314,10 @@ function kboard_update(){
 		if(isset($_POST['permission_comment_write_roles'])){
 			$meta->permission_comment_write_roles = serialize($_POST['permission_comment_write_roles']);
 		}
-		
+
 		// kboard_extends_setting_update 액션 실행
 		do_action('kboard_extends_setting_update', $meta, $board_id);
-		
+
 		$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
 		wp_redirect(admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting));
 	}
@@ -365,23 +370,23 @@ add_action('admin_post_kboard_latestview_action', 'kboard_latestview_update');
 function kboard_latestview_update(){
 	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-	
+
 	$latestview_uid = intval($_POST['latestview_uid']);
 	$latestview_link = $_POST['latestview_link'];
 	$latestview_unlink = $_POST['latestview_unlink'];
 	$name = $_POST['name'];
 	$skin = $_POST['skin'];
 	$rpp = $_POST['rpp'];
-	
+
 	$latestview = new KBLatestview();
 	if($latestview_uid) $latestview->initWithUID($latestview_uid);
 	else $latestview->create();
-	
+
 	$latestview->name = $name;
 	$latestview->skin = $skin;
 	$latestview->rpp = $rpp;
 	$latestview->update();
-	
+
 	$latestview_link = explode(',', $latestview_link);
 	if(is_array($latestview_link)){
 		foreach($latestview_link as $key=>$value){
@@ -389,7 +394,7 @@ function kboard_latestview_update(){
 			if($value) $latestview->pushBoard($value);
 		}
 	}
-	
+
 	$latestview_unlink = explode(',', $latestview_unlink);
 	if(is_array($latestview_unlink)){
 		foreach($latestview_unlink as $key=>$value){
@@ -397,7 +402,7 @@ function kboard_latestview_update(){
 			if($value) $latestview->popBoard($value);
 		}
 	}
-	
+
 	die('<script>window.location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
 }
 
@@ -413,13 +418,13 @@ function kboard_backup(){
  */
 function kboard_upgrade(){
 	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-	
+
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
 	$download_version = isset($_GET['download_version'])?kboard_htmlclear($_GET['download_version']):'';
 	$form_url = wp_nonce_url(admin_url("admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
 	$upgrader = KBUpgrader::getInstance();
-	
+
 	if($action == 'kboard'){
 		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '>=')){
 			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
@@ -478,20 +483,24 @@ function kboard_content_list(){
 	if(isset($_POST['uid'])){
 		$action = $table->current_action();
 		$content = new KBContent();
-		if($action == 'board_change'){
-			foreach($_POST['uid'] as $key=>$value){
-				$board_id = $_POST['board_id_'.$value];
-				if($board_id){
-					$content->initWithUID($value);
-					$content->board_id = $board_id;
-					$content->updateContent();
-				}
-			}
-		}
-		else if($action == 'delete'){
+		if($action == 'delete'){
 			foreach($_POST['uid'] as $key=>$value){
 				$content->initWithUID($value);
 				$content->remove();
+			}
+		}
+		else if($action == 'trash'){
+			foreach($_POST['uid'] as $key=>$value){
+				$content->initWithUID($value);
+				$content->status = 'trash';
+				$content->updateContent();
+			}
+		}
+		else if($action == 'published'){
+			foreach($_POST['uid'] as $key=>$value){
+				$content->initWithUID($value);
+				$content->status = '';
+				$content->updateContent();
 			}
 		}
 	}
@@ -505,23 +514,23 @@ function kboard_content_list(){
 add_shortcode('kboard', 'kboard_builder');
 function kboard_builder($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
-	
+
 	$board = new KBoard();
 	$board->setID($args['id']);
-	
+
 	if($board->uid){
 		$board_builder = new KBoardBuilder($board->uid);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);
 		$board_builder->board = $board;
-		
+
 		if(isset($args['category1']) && $args['category1']){
 			$board_builder->category1 = $args['category1'];
 		}
 		if(isset($args['category2']) && $args['category2']){
 			$board_builder->category2 = $args['category2'];
 		}
-		
+
 		$kboard = $board_builder->create();
 		return $kboard;
 	}
@@ -551,24 +560,24 @@ function kboard_latest_shortcode($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	else if(!$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수입니다.';
 	if(!$args['rpp']) $args['rpp'] = 5;
-	
+
 	$board = new KBoard();
 	$board->setID($args['id']);
-	
+
 	if($board->uid){
 		$board_builder = new KBoardBuilder($board->uid, true);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($args['rpp']);
 		$board_builder->setURL($args['url']);
 		$board_builder->board = $board;
-		
+
 		if(isset($args['category1']) && $args['category1']){
 			$board_builder->category1 = $args['category1'];
 		}
 		if(isset($args['category2']) && $args['category2']){
 			$board_builder->category2 = $args['category2'];
 		}
-		
+
 		$kboard_latest = $board_builder->createLatest();
 		return $kboard_latest;
 	}
@@ -583,7 +592,7 @@ function kboard_latest_shortcode($args){
 add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
 function kboard_latestview_shortcode($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
-	
+
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
 		$board_builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
@@ -612,10 +621,10 @@ function kboard_languages(){
  */
 function kboard_ajax_builder(){
 	if(!isset($_SESSION['kboard_board_id']) || !$_SESSION['kboard_board_id']) die('KBoard 알림 :: id=null, 아이디값은 필수입니다.');
-	
+
 	$board = new KBoard();
 	$board->setID($_SESSION['kboard_board_id']);
-	
+
 	if($board->uid){
 		$board_builder = new KBoardBuilder($board->uid);
 		$board_builder->setSkin($board->skin);
@@ -670,7 +679,7 @@ function kboard_admin_notices(){
 add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
 	wp_enqueue_script('jquery');
-	
+
 	// font-awesome 출력
 	if(!get_option('kboard_fontawesome')){
 		global $wp_styles;
@@ -678,7 +687,7 @@ function kboard_style(){
 		wp_enqueue_style('font-awesome-ie7', KBOARD_URL_PATH . '/font-awesome/css/font-awesome-ie7.min.css', array(), KBOARD_VERSION);
 		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 	}
-	
+
 	// 활성화된 스킨의 style.css 등록
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() as $key => $value){
@@ -693,10 +702,10 @@ add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
 function kboard_scripts(){
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('kboard-script', KBOARD_URL_PATH . '/template/js/script.js', array(), KBOARD_VERSION, true);
-	
+
 	// KBoard 미디어 추가 스타일 속성 등록
 	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
-	
+
 	// 설정 등록
 	$localize = array(
 			'post_url' => admin_url('admin-post.php'),
@@ -705,7 +714,7 @@ function kboard_scripts(){
 			'media_group' => uniqid(),
 	);
 	wp_localize_script('kboard-script', 'kboard_settings', $localize);
-	
+
 	// 번역 등록
 	$localize = array(
 			'kboard_add_media' => __('KBoard Add Media', 'kboard'),
@@ -784,7 +793,7 @@ function kboard_head(){
 register_activation_hook(__FILE__, 'kboard_activation');
 function kboard_activation($networkwide){
 	global $wpdb;
-	
+
 	if(function_exists('is_multisite') && is_multisite()){
 		if($networkwide){
 			$old_blog = $wpdb->blogid;
@@ -805,7 +814,7 @@ function kboard_activation($networkwide){
  */
 function kboard_activation_execute(){
 	global $wpdb;
-	
+
 	/*
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
@@ -817,112 +826,113 @@ function kboard_activation_execute(){
 		if($prefix == 'kboard_') $wpdb->query("RENAME TABLE `{$table}` TO `{$wpdb->prefix}{$table}`");
 	}
 	unset($tables, $table, $prefix);
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_setting` (
-		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		`board_name` varchar(127) NOT NULL,
-		`skin` varchar(127) NOT NULL,
-		`use_comment` varchar(5) NOT NULL,
-		`use_editor` varchar(5) NOT NULL,
-		`permission_read` varchar(127) NOT NULL,
-		`permission_write` varchar(127) NOT NULL,
-		`admin_user` text NOT NULL,
-		`use_category` varchar(5) NOT NULL,
-		`category1_list` text NOT NULL,
-		`category2_list` text NOT NULL,
-		`page_rpp` int(10) unsigned NOT NULL,
-		`created` char(14) NOT NULL,
-		PRIMARY KEY (`uid`)
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`board_name` varchar(127) NOT NULL,
+	`skin` varchar(127) NOT NULL,
+	`use_comment` varchar(5) NOT NULL,
+	`use_editor` varchar(5) NOT NULL,
+	`permission_read` varchar(127) NOT NULL,
+	`permission_write` varchar(127) NOT NULL,
+	`admin_user` text NOT NULL,
+	`use_category` varchar(5) NOT NULL,
+	`category1_list` text NOT NULL,
+	`category2_list` text NOT NULL,
+	`page_rpp` int(10) unsigned NOT NULL,
+	`created` char(14) NOT NULL,
+	PRIMARY KEY (`uid`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_attached` (
-		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		`content_uid` bigint(20) unsigned NOT NULL,
-		`file_key` varchar(127) NOT NULL,
-		`date` char(14) NOT NULL,
-		`file_path` varchar(127) NOT NULL,
-		`file_name` varchar(127) NOT NULL,
-		PRIMARY KEY (`uid`),
-		KEY `content_uid` (`content_uid`)
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`content_uid` bigint(20) unsigned NOT NULL,
+	`file_key` varchar(127) NOT NULL,
+	`date` char(14) NOT NULL,
+	`file_path` varchar(127) NOT NULL,
+	`file_name` varchar(127) NOT NULL,
+	PRIMARY KEY (`uid`),
+	KEY `content_uid` (`content_uid`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
-		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		`board_id` bigint(20) unsigned NOT NULL,
-		`parent_uid` bigint(20) unsigned DEFAULT NULL,
-		`member_uid` bigint(20) unsigned DEFAULT NULL,
-		`member_display` varchar(127) DEFAULT NULL,
-		`title` varchar(127) NOT NULL,
-		`content` longtext NOT NULL,
-		`date` char(14) DEFAULT NULL,
-		`update` char(14) DEFAULT NULL,
-		`view` int(10) unsigned DEFAULT NULL,
-		`comment` int(10) unsigned DEFAULT NULL,
-		`like` int(10) unsigned DEFAULT NULL,
-		`unlike` int(10) unsigned DEFAULT NULL,
-		`vote` int(11) DEFAULT NULL,
-		`thumbnail_file` varchar(127) DEFAULT NULL,
-		`thumbnail_name` varchar(127) DEFAULT NULL,
-		`category1` varchar(127) DEFAULT NULL,
-		`category2` varchar(127) DEFAULT NULL,
-		`secret` varchar(5) DEFAULT NULL,
-		`notice` varchar(5) DEFAULT NULL,
-		`search` char(1) DEFAULT NULL,
-		`status` varchar(20) DEFAULT NULL,
-		`password` varchar(127) DEFAULT NULL,
-		PRIMARY KEY (`uid`),
-		KEY `board_id` (`board_id`),
-		KEY `parent_uid` (`parent_uid`)
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`board_id` bigint(20) unsigned NOT NULL,
+	`parent_uid` bigint(20) unsigned DEFAULT NULL,
+	`member_uid` bigint(20) unsigned DEFAULT NULL,
+	`member_display` varchar(127) DEFAULT NULL,
+	`title` varchar(127) NOT NULL,
+	`content` longtext NOT NULL,
+	`date` char(14) DEFAULT NULL,
+	`update` char(14) DEFAULT NULL,
+	`view` int(10) unsigned DEFAULT NULL,
+	`comment` int(10) unsigned DEFAULT NULL,
+	`like` int(10) unsigned DEFAULT NULL,
+	`unlike` int(10) unsigned DEFAULT NULL,
+	`vote` int(11) DEFAULT NULL,
+	`thumbnail_file` varchar(127) DEFAULT NULL,
+	`thumbnail_name` varchar(127) DEFAULT NULL,
+	`category1` varchar(127) DEFAULT NULL,
+	`category2` varchar(127) DEFAULT NULL,
+	`secret` varchar(5) DEFAULT NULL,
+	`notice` varchar(5) DEFAULT NULL,
+	`search` char(1) DEFAULT NULL,
+	`status` varchar(20) DEFAULT NULL,
+	`password` varchar(127) DEFAULT NULL,
+	PRIMARY KEY (`uid`),
+	KEY `board_id` (`board_id`),
+	KEY `parent_uid` (`parent_uid`),
+	KEY `status` (`status`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
-		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		`content_uid` bigint(20) unsigned NOT NULL,
-		`option_key` varchar(127) NOT NULL,
-		`option_value` text NOT NULL,
-		PRIMARY KEY (`uid`),
-		UNIQUE KEY `content_uid` (`content_uid`,`option_key`)
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`content_uid` bigint(20) unsigned NOT NULL,
+	`option_key` varchar(127) NOT NULL,
+	`option_value` text NOT NULL,
+	PRIMARY KEY (`uid`),
+	UNIQUE KEY `content_uid` (`content_uid`,`option_key`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
-		`board_id` bigint(20) unsigned NOT NULL,
-		`key` varchar(127) NOT NULL,
-		`value` text NOT NULL,
-		UNIQUE KEY `meta_index` (`board_id`,`key`)
+	`board_id` bigint(20) unsigned NOT NULL,
+	`key` varchar(127) NOT NULL,
+	`value` text NOT NULL,
+	UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview` (
-		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		`name` varchar(127) NOT NULL,
-		`skin` varchar(127) NOT NULL,
-		`rpp` int(10) unsigned NOT NULL,
-		`created` char(14) NOT NULL,
-		PRIMARY KEY (`uid`)
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`name` varchar(127) NOT NULL,
+	`skin` varchar(127) NOT NULL,
+	`rpp` int(10) unsigned NOT NULL,
+	`created` char(14) NOT NULL,
+	PRIMARY KEY (`uid`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
-		`latestview_uid` bigint(20) unsigned NOT NULL,
-		`board_id` bigint(20) unsigned NOT NULL,
-		UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
+	`latestview_uid` bigint(20) unsigned NOT NULL,
+	`board_id` bigint(20) unsigned NOT NULL,
+	UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida` (
-		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-		`media_group` varchar(127) DEFAULT NULL,
-		`date` char(14) DEFAULT NULL,
-		`file_path` varchar(127) DEFAULT NULL,
-		`file_name` varchar(127) DEFAULT NULL,
-		PRIMARY KEY (`uid`),
-		KEY `media_group` (`media_group`)
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`media_group` varchar(127) DEFAULT NULL,
+	`date` char(14) DEFAULT NULL,
+	`file_path` varchar(127) DEFAULT NULL,
+	`file_name` varchar(127) DEFAULT NULL,
+	PRIMARY KEY (`uid`),
+	KEY `media_group` (`media_group`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida_relationships` (
-		`content_uid` bigint(20) unsigned NOT NULL,
-		`media_uid` bigint(20) unsigned NOT NULL,
-		UNIQUE KEY `content_uid` (`content_uid`,`media_uid`),
-		KEY `media_uid` (`media_uid`)
+	`content_uid` bigint(20) unsigned NOT NULL,
+	`media_uid` bigint(20) unsigned NOT NULL,
+	UNIQUE KEY `content_uid` (`content_uid`,`media_uid`),
+	KEY `media_uid` (`media_uid`)
 	) DEFAULT CHARSET=utf8");
-	
+
 	/*
 	 * KBoard 2.9
 	 * kboard_board_meta 테이블의 value 컬럼 데이터형 text로 변경
@@ -932,7 +942,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_meta` CHANGE `value` `value` TEXT NOT NULL");
 	}
 	unset($name, $type);
-	
+
 	/*
 	 * KBoard 3.5
 	 * kboard_board_content 테이블에 search 컬럼 생성 확인
@@ -942,7 +952,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` char(1) DEFAULT NULL AFTER `notice`");
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 4.1
 	 * kboard_board_content 테이블에 comment 컬럼 생성 확인
@@ -960,7 +970,7 @@ function kboard_activation_execute(){
 		}
 	}
 	unset($name, $count);
-	
+
 	/*
 	 * KBoard 4.2
 	 * kboard_board_content 테이블에 parent_uid 컬럼 생성 확인
@@ -970,7 +980,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `board_id`");
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 4.5
 	 * kboard_board_meta 테이블의 content 컬럼 데이터형 longtext로 변경
@@ -980,7 +990,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` CHANGE `content` `content` LONGTEXT NOT NULL");
 	}
 	unset($name, $type);
-	
+
 	/*
 	 * KBoard 4.5
 	 * kboard_board_content 테이블에 like 컬럼 추가
@@ -990,7 +1000,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` int(10) unsigned DEFAULT NULL AFTER `comment`");
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_option 테이블에 content_uid 인덱스 추가
@@ -1000,7 +1010,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_option` ADD UNIQUE (`content_uid`, `option_key`)");
 	}
 	unset($index);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 unlike 컬럼 추가
@@ -1010,7 +1020,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `unlike` int(10) UNSIGNED NULL AFTER `like`");
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 vote 컬럼 추가
@@ -1040,7 +1050,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_attached` ADD INDEX (`content_uid`)");
 	}
 	unset($index);
-	
+
 	/*
 	 * KBoard 5.2
 	 * kboard_board_content 테이블에 update 컬럼 추가
@@ -1051,7 +1061,7 @@ function kboard_activation_execute(){
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `update`=`date` WHERE 1");
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.3
 	 * kboard_board_content 테이블에 status 컬럼 추가
@@ -1061,6 +1071,16 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `status` varchar(20) DEFAULT NULL AFTER `search`");
 	}
 	unset($name);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 status 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='status'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`status`)");
+	}
+	unset($index);
 }
 
 /*
@@ -1068,7 +1088,7 @@ function kboard_activation_execute(){
  */
 register_deactivation_hook(__FILE__, 'kboard_deactivation');
 function kboard_deactivation($networkwide){
-	
+
 }
 
 /*
@@ -1095,17 +1115,17 @@ function kboard_uninstall(){
  */
 function kboard_uninstall_execute(){
 	global $wpdb;
-	$wpdb->query("DROP TABLE 
-		`{$wpdb->prefix}kboard_board_attached`,
-		`{$wpdb->prefix}kboard_board_content`,
-		`{$wpdb->prefix}kboard_board_option`,
-		`{$wpdb->prefix}kboard_board_setting`,
-		`{$wpdb->prefix}kboard_board_meta`,
-		`{$wpdb->prefix}kboard_board_latestview`,
-		`{$wpdb->prefix}kboard_board_latestview_link`,
-		`{$wpdb->prefix}kboard_meida`,
-		`{$wpdb->prefix}kboard_meida_relationships`
-	");
+	$wpdb->query("DROP TABLE
+			`{$wpdb->prefix}kboard_board_attached`,
+			`{$wpdb->prefix}kboard_board_content`,
+			`{$wpdb->prefix}kboard_board_option`,
+			`{$wpdb->prefix}kboard_board_setting`,
+			`{$wpdb->prefix}kboard_board_meta`,
+			`{$wpdb->prefix}kboard_board_latestview`,
+			`{$wpdb->prefix}kboard_board_latestview_link`,
+			`{$wpdb->prefix}kboard_meida`,
+			`{$wpdb->prefix}kboard_meida_relationships`
+			");
 }
 
 /*
@@ -1114,23 +1134,23 @@ function kboard_uninstall_execute(){
 add_action('admin_init', 'kboard_system_update');
 function kboard_system_update(){
 	global $wpdb;
-	
+
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
 	if(version_compare(KBOARD_VERSION, get_option('kboard_version'), '<=')) return;
-	
+
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
 	if(get_option('kboard_version') !== false){
 		update_option('kboard_version', KBOARD_VERSION);
-		
+
 		// 관리자 알림
 		add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업데이트 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
 	}
 	else{
 		add_option('kboard_version', KBOARD_VERSION, null, 'no');
 	}
-	
+
 	$networkwide = is_plugin_active_for_network(__FILE__);
-	
+
 	/*
 	 * KBoard 2.0
 	 * kboard_board_meta 테이블 추가 생성
@@ -1139,7 +1159,7 @@ function kboard_system_update(){
 		kboard_activation($networkwide);
 		return;
 	}
-	
+
 	/*
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
@@ -1154,7 +1174,7 @@ function kboard_system_update(){
 		}
 	}
 	unset($tables, $table, $prefix);
-	
+
 	/*
 	 * KBoard 2.9
 	 * kboard_board_meta 테이블의 value 컬럼 데이터형 text로 변경
@@ -1165,13 +1185,13 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name, $type);
-	
+
 	/*
 	 * KBoard 3.2
 	 * captcha.php 파일 제거
 	 */
 	@unlink(KBOARD_DIR_PATH . '/execute/captcha.php');
-	
+
 	/*
 	 * KBoard 3.5
 	 * kboard_board_content 테이블에 search 컬럼 생성 확인
@@ -1187,7 +1207,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 3.5
 	 * 파일 제거
@@ -1208,7 +1228,7 @@ function kboard_system_update(){
 	@unlink(KBOARD_DIR_PATH . '/Security.helper.php');
 	@unlink(KBOARD_DIR_PATH . '/Url.class.php');
 	@unlink(KBOARD_DIR_PATH . '/XML2Array.class.php');
-	
+
 	/*
 	 * KBoard 4.1
 	 * kboard_board_content 테이블에 comment 컬럼 생성 확인
@@ -1219,7 +1239,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 4.2
 	 * kboard_board_content 테이블에 parent_uid 컬럼 생성 확인
@@ -1241,7 +1261,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name, $type);
-	
+
 	/*
 	 * KBoard 4.5
 	 * kboard_board_content 테이블에 like 컬럼 생성 확인
@@ -1252,7 +1272,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.0
 	 * kboard_meida, kboard_meida_relationships 테이블 추가 생성
@@ -1261,7 +1281,7 @@ function kboard_system_update(){
 		kboard_activation($networkwide);
 		return;
 	}
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_option 테이블에 content_uid 인덱스 추가
@@ -1272,7 +1292,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($index);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 unlike 컬럼 생성 확인
@@ -1283,7 +1303,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 vote 컬럼 생성 확인
@@ -1294,7 +1314,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 parent_uid 인덱스 추가
@@ -1305,7 +1325,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($index);
-	
+
 	/*
 	 * KBoard 5.1
 	 * kboard_board_attached 테이블에 content_uid 인덱스 추가
@@ -1316,7 +1336,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($index);
-	
+
 	/*
 	 * KBoard 5.2
 	 * kboard_board_content 테이블에 update 컬럼 생성 확인
@@ -1327,7 +1347,7 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
-	
+
 	/*
 	 * KBoard 5.3
 	 * kboard_board_content 테이블에 status 컬럼 생성 확인
@@ -1338,5 +1358,16 @@ function kboard_system_update(){
 		return;
 	}
 	unset($name);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 status 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_attached` WHERE `Key_name`='status'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
 }
 ?>

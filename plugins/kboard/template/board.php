@@ -10,7 +10,7 @@
 	<?php
 	// SEO 정보 출력
 	$seo = new KBSeo();
-	$seo->init()->head();
+	$seo->head();
 	
 	// 어드민바 제거
 	add_filter('show_admin_bar', '__return_false');
@@ -48,6 +48,8 @@
 	html, body { margin: 0; padding: 0; width: 1px; min-width: 100%; *width: 100%; overflow: hidden; }
 	a { color: #545861; }
 	</style>
+	
+	<?php kboard_head()?>
 </head>
 <body>
 	<div id="kboard" style="float:left;width:100%;min-height:250px">

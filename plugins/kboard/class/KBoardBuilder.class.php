@@ -1,12 +1,12 @@
 <?php
 /**
  * KBoard 워드프레스 게시판 생성
- * @link www.cosmosfarm.com
- * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl.html
- */
+* @link www.cosmosfarm.com
+* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+* @license http://www.gnu.org/licenses/gpl.html
+*/
 class KBoardBuilder {
-	
+
 	var $mod;
 	var $board_id;
 	var $uid;
@@ -17,17 +17,17 @@ class KBoardBuilder {
 	var $url;
 	var $board;
 	var $meta;
-	
+
 	public function __construct($board_id='', $is_latest=false){
-		$this->mod = in_array(kboard_mod(), array('list', 'document', 'editor', 'remove')) ? kboard_mod() : apply_filters('kboard_default_build_mod', 'list', $board_id);
+		$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', 'list', $board_id));
 		$this->category1 = kboard_category1();
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
 		$this->skin = 'default';
-		
+
 		if($board_id) $this->setBoardID($board_id, $is_latest);
 	}
-	
+
 	/**
 	 * 게시판 뷰(View)를 설정한다. (List/Document/Editor/Remove)
 	 * @param string $mod
@@ -35,7 +35,7 @@ class KBoardBuilder {
 	public function setMOD($mod){
 		$this->mod = $mod;
 	}
-	
+
 	/**
 	 * 게시판 스킨을 설정한다.
 	 * @param string $skin
@@ -43,7 +43,7 @@ class KBoardBuilder {
 	public function setSkin($skin){
 		$this->skin = $skin;
 	}
-	
+
 	/**
 	 * 게시판 ID를 설정한다.
 	 * @param int $board_id
@@ -52,7 +52,7 @@ class KBoardBuilder {
 		global $check_kboard_comments_plugin_once;
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
-		
+
 		// 소셜댓글 플러그인 생성
 		if(!$check_kboard_comments_plugin_once){
 			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
@@ -62,20 +62,20 @@ class KBoardBuilder {
 			}
 			$check_kboard_comments_plugin_once = true;
 		}
-		
+
 		if(!$is_latest){
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
-			
+
 			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
-			
+
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
 			add_filter('mce_external_plugins', 'kboard_add_media_button');
 		}
 	}
-	
+
 	/**
 	 * 페이지당 게시물 숫자를 설정한다.
 	 * @param int $rpp
@@ -83,7 +83,7 @@ class KBoardBuilder {
 	public function setRpp($rpp){
 		$this->rpp = $rpp;
 	}
-	
+
 	/**
 	 * 게시판 실제 주소를 설정한다.
 	 * @param string $url
@@ -91,7 +91,7 @@ class KBoardBuilder {
 	public function setURL($url){
 		$this->url = $url;
 	}
-	
+
 	/**
 	 * 게시판 리스트를 반환한다.
 	 * @return KBContentList
@@ -103,7 +103,7 @@ class KBoardBuilder {
 		$list->rpp($this->rpp)->page(kboard_pageid())->getList(kboard_keyword(), kboard_target());
 		return $list;
 	}
-	
+
 	/**
 	 * 게시판 데이터를 JSON 형식으로 반환한다.
 	 */
@@ -133,7 +133,7 @@ class KBoardBuilder {
 		}
 		return kboard_json_encode($data);
 	}
-	
+
 	/**
 	 * 게시판 페이지를 생성하고 반환한다.
 	 * @return string
@@ -143,7 +143,7 @@ class KBoardBuilder {
 			$url = new KBUrl();
 			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 		}
-		
+
 		if($this->meta->pass_autop == 'enable'){
 			do_action('kboard_skin_header', $this);
 			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
@@ -158,7 +158,7 @@ class KBoardBuilder {
 			return ob_get_clean();
 		}
 	}
-	
+
 	/**
 	 * 게시판 리스트 페이지를 생성한다.
 	 */
@@ -168,10 +168,10 @@ class KBoardBuilder {
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
-		
+
 		include KBOARD_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
-	
+
 	/**
 	 * 답글 리스트를 생성한다.
 	 * @param int $parent_uid
@@ -183,10 +183,10 @@ class KBoardBuilder {
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
-		
+
 		include KBOARD_DIR_PATH . "/skin/{$this->skin}/reply-template.php";
 	}
-	
+
 	/**
 	 * 게시판 본문 페이지를 생성한다.
 	 */
@@ -194,13 +194,18 @@ class KBoardBuilder {
 		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-		
+
+		if(!$content->uid){
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
+			wp_die();
+		}
+
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
 		$content->board = $board;
 		$board->content = $content;
-		
+
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
@@ -239,41 +244,41 @@ class KBoardBuilder {
 		else{
 			$allow_document = true;
 		}
-		
+
 		if($allow_document){
 			$content->increaseView();
-			
+
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){
 				include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
-				$content->content = nl2br(kboard_autolink($content->content));
-				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->content);
+				$content->content = nl2br(kboard_autolink($content->getContent()));
+				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->getContent());
 			}
 			else{
-				$content->content = nl2br($content->content);
-				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->content);
+				$content->content = nl2br($content->getContent());
+				$content->content = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", $content->getContent());
 			}
-			
+
 			// kboard_content 필터 실행
-			$content->content = apply_filters('kboard_content', $content->content, $content->uid, $this->board_id);
-			
+			$content->content = apply_filters('kboard_content', $content->getContent(), $content->uid, $this->board_id);
+
 			// 게시글 숏코드(Shortcode) 실행
 			if($this->meta->shortcode_execute == 1){
-				$content->content = do_shortcode($content->content);
+				$content->content = do_shortcode($content->getContent());
 			}
 			else{
-				$content->content = str_replace('[', '&#91;', $content->content);
-				$content->content = str_replace(']', '&#93;', $content->content);
+				$content->content = str_replace('[', '&#91;', $content->getContent());
+				$content->content = str_replace(']', '&#93;', $content->getContent());
 			}
-			
+
 			include KBOARD_DIR_PATH . "/skin/{$this->skin}/document.php";
-			
+
 			if($board->meta->always_view_list){
 				$this->builderList();
 			}
 		}
 	}
-	
+
 	/**
 	 * 게시판 에디터 페이지를 생성한다.
 	 */
@@ -284,24 +289,24 @@ class KBoardBuilder {
 			if(!is_user_logged_in() && (!isset($_POST['password']) || !$_POST['password'])){
 				echo '<script>alert("'.__('Please enter your password.', 'kboard').'");</script>';
 				echo '<script>window.location.href="' . $next_url . '";</script>';
-				exit;
+				wp_die();
 			}
 		}
-		
+
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
 		$content->setBoardID($this->board_id);
-		
+
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
 		$content->board = $board;
 		$board->content = $content;
-		
+
 		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){
 			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
-			exit;
+			wp_die();
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all' && !$content->member_uid){
@@ -311,10 +316,10 @@ class KBoardBuilder {
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
-				exit;
+				wp_die();
 			}
 		}
-		
+
 		if($confirm_view){
 			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 		}
@@ -323,17 +328,17 @@ class KBoardBuilder {
 			if($execute_uid){
 				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
-				
+
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 				$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id);
-				
+
 				if($content->execute_action == 'insert'){
 					if($this->board->meta->conversion_tracking_code){
 						echo $meta->conversion_tracking_code;
 					}
 				}
 				echo "<script>window.location.href='{$next_page_url}';</script>";
-				exit;
+				wp_die();
 			}
 			else{
 				// execute후 POST 데이터를 지우고 다시 초기화 한다.
@@ -348,16 +353,16 @@ class KBoardBuilder {
 				if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
 					$parent = new KBContent();
 					$parent->initWithUID(kboard_parent_uid());
-					
+
 					// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
 					$content->parent_uid = $parent->uid;
-					
+
 					// 부모의 제목을 가져온다.
 					$content->title = 'Re:' . $parent->title;
-					
+
 					// 답글 기본 내용을 설정한다.
 					if($this->meta->reply_copy_content=='1'){
-						$content->content = $parent->content;
+						$content->content = $parent->getContent();
 					}
 					else if($this->meta->reply_copy_content=='2'){
 						$content->content = $this->meta->default_content;
@@ -366,31 +371,31 @@ class KBoardBuilder {
 						$content->content = '';
 					}
 				}
-				
+
 				// 숏코드(Shortcode)를 실행하지 못하게 변경한다.
-				$content->content = str_replace('[', '&#91;', $content->content);
-				$content->content = str_replace(']', '&#93;', $content->content);
-				
+				$content->content = str_replace('[', '&#91;', $content->getContent());
+				$content->content = str_replace(']', '&#93;', $content->getContent());
+
 				include KBOARD_DIR_PATH . "/skin/{$this->skin}/editor.php";
 			}
 		}
 	}
-	
+
 	/**
 	 * 게시물 삭제 페이지를 생성한다. (완료 후 바로 리다이렉션)
 	 */
 	public function builderRemove(){
 		$url = new KBUrl();
-		
+
 		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false){
 			echo '<script>alert("'.__('This page is restricted from external access.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
-			exit;
+			wp_die();
 		}
-		
+
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-		
+
 		$confirm_view = false;
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all' && !$content->member_uid){
@@ -400,42 +405,51 @@ class KBoardBuilder {
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
-				exit;
+				wp_die();
 			}
 		}
-		
+
 		if($confirm_view){
 			$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 			$board = $this->board;
 			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 		}
 		else{
-			$content->remove();
+			$move_to_trash =  true;
+			
+			if($move_to_trash){
+				$content->status = 'trash';
+				$content->updateContent();
+			}
+			else{
+				$content->remove();
+			}
+			
 			// 삭제뒤 게시판 리스트로 이동한다.
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
-			exit;
+			wp_die();
 		}
 	}
-	
+
 	/**
 	 * 최신 게시물 리스트를 생성한다.
 	 * @return string
 	 */
 	public function createLatest(){
 		ob_start();
-		
+
 		$url = new KBUrl();
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		$list->setSorting('newest');
 		$list->rpp($this->rpp)->getList('', '', true);
-		
+
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$board_url = $this->url;
 		$boardBuilder = $this;
-		
+
 		include KBOARD_DIR_PATH . "/skin/{$this->skin}/latest.php";
 		return ob_get_clean();
 	}

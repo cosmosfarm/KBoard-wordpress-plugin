@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-10-06 22:53+0900\n"
-"PO-Revision-Date: 2016-10-06 22:53+0900\n"
+"POT-Creation-Date: 2016-11-04 23:53+0900\n"
+"PO-Revision-Date: 2016-11-04 23:53+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -33,101 +33,198 @@ msgstr "KBoard Comments points"
 msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "Manage comments KBoard point."
 
-#: class/KBAdminController.class.php:19 class/KBAdminController.class.php:54
+#: class/KBAdminController.class.php:20 class/KBAdminController.class.php:55
 msgid "관리 권한이 없습니다."
 msgstr "You do not have administrative privileges."
 
-#: class/KBAdminController.class.php:30 class/KBAdminController.class.php:32
+#: class/KBAdminController.class.php:31 class/KBAdminController.class.php:33
 #: class/KBController.class.php:137 class/KBController.class.php:139
 #: class/KBController.class.php:205 class/KBController.class.php:207
-#: class/KBoardBuilder.class.php:378
+#: class/KBoardBuilder.class.php:391
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBAdminController.class.php:67
+#: class/KBAdminController.class.php:68
 msgid "복원파일의 데이터로 복구 되었습니다."
 msgstr "It has recovered the data from the restored files."
 
-#: class/KBAdminController.class.php:70
+#: class/KBAdminController.class.php:71
 msgid "올바른 복원파일이 아닙니다."
 msgstr "This is not a valid restore file."
 
-#: class/KBAdminController.class.php:75
+#: class/KBAdminController.class.php:76
 msgid "파일 업로드에 실패 했습니다."
 msgstr "Failed to upload files."
 
-#: class/KBContent.class.php:148
+#: class/KBContent.class.php:38
+#, php-format
+msgid "&#91;Pending&#93; %s"
+msgstr "&#91;Pending&#93; %s"
+
+#: class/KBContent.class.php:39
+#, php-format
+msgid "<p>&#91;Waiting for administrator Approval.&#93;</p>%s"
+msgstr "<p>&#91;Waiting for administrator Approval.&#93;</p>%s"
+
+#: class/KBContent.class.php:44
+msgid "&#91;Pending&#93; Waiting for administrator Approval."
+msgstr "&#91;Pending&#93; Waiting for administrator Approval."
+
+#: class/KBContent.class.php:45
+msgid "&#91;Waiting for administrator Approval.&#93;"
+msgstr "&#91;Waiting for administrator Approval.&#93;"
+
+#: class/KBContent.class.php:164
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 msgstr "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 
-#: class/KBContent.class.php:176
+#: class/KBContent.class.php:197
 msgid "KBoard new document"
 msgstr "KBoard new document"
 
-#: class/KBContent.class.php:390 class/KBContent.class.php:430
-#: class/KBContent.class.php:515
+#: class/KBContent.class.php:413 class/KBContent.class.php:453
+#: class/KBContent.class.php:538
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "No upload path. Please enter board ID and initialize."
 
-#: class/KBContentListTable.class.php:47
+#: class/KBContentListTable.class.php:54 skin/avatar/list.php:32
+#: skin/avatar/list.php:41 skin/avatar/list.php:53 skin/avatar/list.php:64
+#: skin/avatar/list.php:178 skin/customer/list.php:32 skin/customer/list.php:41
+#: skin/customer/list.php:53 skin/customer/list.php:64
+#: skin/customer/list.php:166 skin/default/list.php:32 skin/default/list.php:41
+#: skin/default/list.php:53 skin/default/list.php:64 skin/default/list.php:166
+#: skin/thumbnail/list.php:32 skin/thumbnail/list.php:41
+#: skin/thumbnail/list.php:53 skin/thumbnail/list.php:64
+#: skin/thumbnail/list.php:183
+msgid "All"
+msgstr "All"
+
+#: class/KBContentListTable.class.php:57 class/KBContentListTable.class.php:176
+msgid "Published"
+msgstr "Published"
+
+#: class/KBContentListTable.class.php:60 class/KBContentListTable.class.php:177
+msgid "Pending approval"
+msgstr "Pending approval"
+
+#: class/KBContentListTable.class.php:63 class/KBContentListTable.class.php:178
+msgid "Trash"
+msgstr "Trash"
+
+#: class/KBContentListTable.class.php:69
 msgid "No documents found."
 msgstr "No documents found."
 
-#: class/KBContentListTable.class.php:53
-msgid "게시판"
+#: class/KBContentListTable.class.php:75
+msgid "Forum"
 msgstr "Forum"
 
-#: class/KBContentListTable.class.php:54
-msgid "제목/내용"
-msgstr "Title/Content"
+#: class/KBContentListTable.class.php:76 skin/avatar/editor.php:15
+#: skin/avatar/editor.php:16 skin/avatar/latest.php:5 skin/avatar/list.php:82
+#: skin/avatar/list.php:179 skin/customer/editor.php:15
+#: skin/customer/editor.php:16 skin/customer/latest.php:5
+#: skin/customer/list.php:82 skin/customer/list.php:167
+#: skin/default/editor.php:15 skin/default/editor.php:16
+#: skin/default/latest.php:5 skin/default/list.php:82 skin/default/list.php:167
+#: skin/thumbnail/editor.php:15 skin/thumbnail/editor.php:16
+#: skin/thumbnail/latest.php:5 skin/thumbnail/list.php:83
+#: skin/thumbnail/list.php:184
+msgid "Title"
+msgstr "Title"
 
-#: class/KBContentListTable.class.php:55
-msgid "작성자"
+#: class/KBContentListTable.class.php:77 skin/avatar/document.php:20
+#: skin/avatar/editor.php:61 skin/avatar/editor.php:62 skin/avatar/list.php:83
+#: skin/avatar/list.php:181 skin/customer/document.php:20
+#: skin/customer/editor.php:61 skin/customer/editor.php:62
+#: skin/customer/list.php:83 skin/customer/list.php:169
+#: skin/customer/reply-template.php:13 skin/default/document.php:20
+#: skin/default/editor.php:61 skin/default/editor.php:62
+#: skin/default/list.php:83 skin/default/list.php:169
+#: skin/default/reply-template.php:13 skin/thumbnail/document.php:20
+#: skin/thumbnail/editor.php:61 skin/thumbnail/editor.php:62
+#: skin/thumbnail/list.php:84 skin/thumbnail/list.php:186
+#: skin/thumbnail/reply-template.php:18
+msgid "Author"
 msgstr "Author"
 
-#: class/KBContentListTable.class.php:56
-msgid "조회수"
+#: class/KBContentListTable.class.php:78 skin/avatar/document.php:30
+#: skin/avatar/list.php:86 skin/avatar/list.php:110 skin/avatar/list.php:144
+#: skin/avatar/reply-template.php:17 skin/customer/document.php:28
+#: skin/customer/list.php:86 skin/customer/list.php:108
+#: skin/customer/list.php:136 skin/customer/reply-template.php:15
+#: skin/default/document.php:28 skin/default/list.php:86
+#: skin/default/list.php:108 skin/default/list.php:136
+#: skin/default/reply-template.php:15 skin/thumbnail/document.php:28
+#: skin/thumbnail/list.php:87 skin/thumbnail/list.php:117
+#: skin/thumbnail/list.php:153 skin/thumbnail/reply-template.php:20
+msgid "Views"
 msgstr "Views"
 
-#: class/KBContentListTable.class.php:57
-msgid "비밀글"
+#: class/KBContentListTable.class.php:79 skin/avatar/editor.php:22
+#: skin/avatar/latest.php:16 skin/avatar/list.php:97 skin/avatar/list.php:131
+#: skin/avatar/reply-template.php:8 skin/customer/editor.php:22
+#: skin/customer/latest.php:16 skin/customer/list.php:96
+#: skin/customer/list.php:125 skin/customer/reply-template.php:8
+#: skin/default/editor.php:22 skin/default/latest.php:16
+#: skin/default/list.php:97 skin/default/list.php:125
+#: skin/default/reply-template.php:8 skin/thumbnail/editor.php:22
+#: skin/thumbnail/latest.php:16 skin/thumbnail/list.php:106
+#: skin/thumbnail/list.php:142 skin/thumbnail/reply-template.php:13
+msgid "Secret"
 msgstr "Secret"
 
-#: class/KBContentListTable.class.php:58
-msgid "공지사항"
+#: class/KBContentListTable.class.php:80 skin/avatar/editor.php:24
+#: skin/avatar/list.php:92 skin/customer/editor.php:24
+#: skin/customer/list.php:92 skin/default/editor.php:24
+#: skin/default/list.php:92 skin/thumbnail/editor.php:24
+#: skin/thumbnail/list.php:93
+msgid "Notice"
 msgstr "Notice"
 
-#: class/KBContentListTable.class.php:59
-msgid "작성일"
+#: class/KBContentListTable.class.php:81 skin/avatar/document.php:26
+#: skin/avatar/latest.php:6 skin/avatar/list.php:84
+#: skin/avatar/reply-template.php:16 skin/customer/document.php:24
+#: skin/customer/latest.php:6 skin/customer/list.php:84
+#: skin/customer/reply-template.php:14 skin/default/document.php:24
+#: skin/default/latest.php:6 skin/default/list.php:84
+#: skin/default/reply-template.php:14 skin/thumbnail/document.php:24
+#: skin/thumbnail/latest.php:6 skin/thumbnail/list.php:85
+#: skin/thumbnail/reply-template.php:19
+msgid "Date"
 msgstr "Date"
 
-#: class/KBContentListTable.class.php:65
-msgid "게시판 변경"
-msgstr "Forum change"
+#: class/KBContentListTable.class.php:82
+msgid "Status"
+msgstr "Status"
 
-#: class/KBContentListTable.class.php:66
-#: class/KBLatestviewListTable.class.php:59 class/KBoardListTable.class.php:63
-#: skin/avatar/document.php:102 skin/customer/document.php:107
-#: skin/default/document.php:100 skin/thumbnail/document.php:100
-msgid "Delete"
-msgstr "Delete"
+#: class/KBContentListTable.class.php:89
+msgid "Restore"
+msgstr "Restore"
 
-#: class/KBContentListTable.class.php:116
-msgid "답글입니다."
+#: class/KBContentListTable.class.php:90
+msgid "Delete Permanently"
+msgstr "Delete Permanently"
+
+#: class/KBContentListTable.class.php:94
+msgid "Move to Trash"
+msgstr "Move to Trash"
+
+#: class/KBContentListTable.class.php:111
+msgid "Filter"
+msgstr "Filter"
+
+#: class/KBContentListTable.class.php:146
+msgid "The reply."
 msgstr "The reply."
 
-#: class/KBContentListTable.class.php:123
-msgid "Open"
-msgstr "Open"
-
-#: class/KBContentListTable.class.php:137
-#: class/KBContentListTable.class.php:140
-msgid "예"
+#: class/KBContentListTable.class.php:166
+#: class/KBContentListTable.class.php:169 index.php:733
+msgid "Yes"
 msgstr "Yes"
 
-#: class/KBContentListTable.class.php:137
-#: class/KBContentListTable.class.php:140
-msgid "아니오"
+#: class/KBContentListTable.class.php:166
+#: class/KBContentListTable.class.php:169 index.php:734
+msgid "No"
 msgstr "No"
 
 #: class/KBController.class.php:43 class/KBController.class.php:58
@@ -136,17 +233,17 @@ msgstr "No"
 #: class/KBController.class.php:221 class/KBController.class.php:247
 #: class/KBController.class.php:252 class/KBController.class.php:257
 #: class/KBTemplate.class.php:85 class/KBTemplate.class.php:91
-#: class/KBoardBuilder.class.php:236 class/KBoardBuilder.class.php:299
-#: class/KBoardBuilder.class.php:309 class/KBoardBuilder.class.php:394
-#: index.php:248 index.php:367 index.php:415
+#: class/KBoardBuilder.class.php:241 class/KBoardBuilder.class.php:308
+#: class/KBoardBuilder.class.php:318 class/KBoardBuilder.class.php:407
+#: index.php:252 index.php:372 index.php:420
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBController.class.php:48 index.php:716
+#: class/KBController.class.php:48 index.php:725
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
-#: class/KBController.class.php:238 class/KBoardBuilder.class.php:207
+#: class/KBController.class.php:238 class/KBoardBuilder.class.php:212
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
@@ -195,6 +292,12 @@ msgstr "Posts per page"
 msgid "생성일자"
 msgstr "Date"
 
+#: class/KBLatestviewListTable.class.php:59 class/KBoardListTable.class.php:63
+#: skin/avatar/document.php:102 skin/customer/document.php:107
+#: skin/default/document.php:100 skin/thumbnail/document.php:100
+msgid "Delete"
+msgstr "Delete"
+
 #: class/KBLatestviewListTable.class.php:79 class/KBoardListTable.class.php:83
 #: class/KBoardListTable.class.php:87
 msgid "편집"
@@ -212,15 +315,15 @@ msgstr "Go back"
 msgid "It is an invalid access."
 msgstr "It is an invalid access."
 
-#: class/KBSeo.class.php:185
+#: class/KBSeo.class.php:182
 msgid "Integration feed"
 msgstr "Integration feed"
 
-#: class/KBUpgrader.class.php:58
+#: class/KBUpgrader.class.php:66
 msgid "Unable to connect to Cosmosfarm server."
 msgstr "Unable to connect to Cosmosfarm server."
 
-#: class/KBUpgrader.class.php:100
+#: class/KBUpgrader.class.php:104
 msgid ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
@@ -228,7 +331,7 @@ msgstr ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
 
-#: class/KBUpgrader.class.php:127
+#: class/KBUpgrader.class.php:131
 msgid ""
 "Download file is decompression failed, please check directory and file "
 "permissions."
@@ -236,7 +339,7 @@ msgstr ""
 "Download file is decompression failed, please check directory and file "
 "permissions."
 
-#: class/KBUpgrader.class.php:162
+#: class/KBUpgrader.class.php:166
 msgid "File copy failed, directory requires write permission."
 msgstr "File copy failed, directory requires write permission."
 
@@ -244,7 +347,7 @@ msgstr "File copy failed, directory requires write permission."
 msgid "No document."
 msgstr "No document."
 
-#: class/KBoardBuilder.class.php:281
+#: class/KBoardBuilder.class.php:290
 msgid "Please enter your password."
 msgstr "Please enter your password."
 
@@ -316,112 +419,104 @@ msgstr "Last"
 msgid "KBoard : 게시판"
 msgstr "KBoard : Forum"
 
-#: index.php:105 template/media.php:9 template/media.php:64
+#: index.php:109 template/media.php:9 template/media.php:64
 msgid "KBoard 미디어 추가"
 msgstr "KBoard Add Media"
 
-#: index.php:130 index.php:155
+#: index.php:134 index.php:159
 msgid "게시판 생성"
 msgstr "New Forum"
 
-#: index.php:153
+#: index.php:157
 msgid "대시보드"
 msgstr "Dashboard"
 
-#: index.php:154
+#: index.php:158
 msgid "게시판 목록"
 msgstr "Forum List"
 
-#: index.php:156
+#: index.php:160
 msgid "최신글 뷰 목록"
 msgstr "Latestview List"
 
-#: index.php:157
+#: index.php:161
 msgid "최신글 뷰 생성"
 msgstr "New Latestview"
 
-#: index.php:158
+#: index.php:162
 msgid "백업 및 복구"
 msgstr "Backup and Restore"
 
-#: index.php:159
+#: index.php:163
 msgid "전체 게시글"
 msgstr "All Documents"
 
-#: index.php:162
+#: index.php:166
 msgid "게시판 업데이트"
 msgstr "Update"
 
-#: index.php:166 index.php:167 pages/welcome.php:31
+#: index.php:170 index.php:171 pages/welcome.php:31
 msgid "스토어"
 msgstr "Store"
 
-#: index.php:170
+#: index.php:174
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:711 skin/avatar/editor.php:97 skin/customer/editor.php:107
+#: index.php:720 skin/avatar/editor.php:97 skin/customer/editor.php:107
 #: skin/default/editor.php:97 skin/thumbnail/editor.php:97
 msgid "KBoard Add Media"
 msgstr "KBoard Add Media"
 
-#: index.php:712
+#: index.php:721
 msgid "Next"
 msgstr "Next"
 
-#: index.php:713
+#: index.php:722
 msgid "Prev"
 msgstr "Prev"
 
-#: index.php:714
+#: index.php:723
 msgid "Please enter the title."
 msgstr "Please enter the title."
 
-#: index.php:715
+#: index.php:724
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: index.php:717
+#: index.php:726
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
 
-#: index.php:718
+#: index.php:727
 msgid "You have already voted."
 msgstr "You have already voted."
 
-#: index.php:719
+#: index.php:728
 msgid "Please wait."
 msgstr "Please wait."
 
-#: index.php:720 skin/avatar/list.php:14 skin/customer/list.php:14
+#: index.php:729 skin/avatar/list.php:14 skin/customer/list.php:14
 #: skin/default/list.php:14 skin/thumbnail/list.php:14
 msgid "Newest"
 msgstr "Newest"
 
-#: index.php:721 skin/avatar/list.php:15 skin/customer/list.php:15
+#: index.php:730 skin/avatar/list.php:15 skin/customer/list.php:15
 #: skin/default/list.php:15 skin/thumbnail/list.php:15
 msgid "Best"
 msgstr "Best"
 
-#: index.php:722 skin/avatar/list.php:17 skin/customer/list.php:17
+#: index.php:731 skin/avatar/list.php:17 skin/customer/list.php:17
 #: skin/default/list.php:17 skin/thumbnail/list.php:17
 msgid "Updated"
 msgstr "Updated"
 
-#: index.php:723 skin/avatar/list.php:16 skin/customer/list.php:16
+#: index.php:732 skin/avatar/list.php:16 skin/customer/list.php:16
 #: skin/default/list.php:16 skin/thumbnail/list.php:16
 msgid "Viewed"
 msgstr "Viewed"
 
-#: index.php:724
-msgid "Yes"
-msgstr "Yes"
-
-#: index.php:725
-msgid "No"
-msgstr "No"
-
-#: index.php:726
+#: index.php:735
 msgid "Did it help?"
 msgstr "Did it help?"
 
@@ -499,7 +594,7 @@ msgstr ""
 msgid "KBoard : 전체 게시글"
 msgstr "KBoard : All Documents"
 
-#: pages/kboard_content_list.php:14 pages/kboard_latestview.php:13
+#: pages/kboard_content_list.php:15 pages/kboard_latestview.php:13
 #: pages/kboard_list.php:13 skin/avatar/list.php:184 skin/customer/list.php:172
 #: skin/default/list.php:172 skin/thumbnail/list.php:189
 msgid "Search"
@@ -553,7 +648,7 @@ msgstr "Social comments"
 msgid "확장설정"
 msgstr "Extended"
 
-#: pages/kboard_setting.php:483
+#: pages/kboard_setting.php:494
 msgid "변경 사항 저장"
 msgstr "Save changes"
 
@@ -598,14 +693,6 @@ msgstr "Current comments version"
 msgid "등록된 상품이 없습니다."
 msgstr "No product."
 
-#: pages/welcome.php:57
-msgid "다음 페이지에서 게시판과 댓글 플러그인 모두를 업데이트해주세요."
-msgstr "Please update both Board and Comments plugin."
-
-#: pages/welcome.php:61
-msgid "KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요."
-msgstr "Please install the \"kboard-downloader\" plugin."
-
 #: rss.php:15 rss.php:17
 msgid "WordPress KBoard feed"
 msgstr "WordPress KBoard feed"
@@ -648,43 +735,6 @@ msgstr "List"
 #: skin/default/confirm.php:20 skin/thumbnail/confirm.php:20
 msgid "Password confirm"
 msgstr "Password confirm"
-
-#: skin/avatar/document.php:20 skin/avatar/editor.php:61
-#: skin/avatar/editor.php:62 skin/avatar/list.php:83 skin/avatar/list.php:181
-#: skin/customer/document.php:20 skin/customer/editor.php:61
-#: skin/customer/editor.php:62 skin/customer/list.php:83
-#: skin/customer/list.php:169 skin/customer/reply-template.php:13
-#: skin/default/document.php:20 skin/default/editor.php:61
-#: skin/default/editor.php:62 skin/default/list.php:83
-#: skin/default/list.php:169 skin/default/reply-template.php:13
-#: skin/thumbnail/document.php:20 skin/thumbnail/editor.php:61
-#: skin/thumbnail/editor.php:62 skin/thumbnail/list.php:84
-#: skin/thumbnail/list.php:186 skin/thumbnail/reply-template.php:18
-msgid "Author"
-msgstr "Author"
-
-#: skin/avatar/document.php:26 skin/avatar/latest.php:6 skin/avatar/list.php:84
-#: skin/avatar/reply-template.php:16 skin/customer/document.php:24
-#: skin/customer/latest.php:6 skin/customer/list.php:84
-#: skin/customer/reply-template.php:14 skin/default/document.php:24
-#: skin/default/latest.php:6 skin/default/list.php:84
-#: skin/default/reply-template.php:14 skin/thumbnail/document.php:24
-#: skin/thumbnail/latest.php:6 skin/thumbnail/list.php:85
-#: skin/thumbnail/reply-template.php:19
-msgid "Date"
-msgstr "Date"
-
-#: skin/avatar/document.php:30 skin/avatar/list.php:86 skin/avatar/list.php:110
-#: skin/avatar/list.php:144 skin/avatar/reply-template.php:17
-#: skin/customer/document.php:28 skin/customer/list.php:86
-#: skin/customer/list.php:108 skin/customer/list.php:136
-#: skin/customer/reply-template.php:15 skin/default/document.php:28
-#: skin/default/list.php:86 skin/default/list.php:108 skin/default/list.php:136
-#: skin/default/reply-template.php:15 skin/thumbnail/document.php:28
-#: skin/thumbnail/list.php:87 skin/thumbnail/list.php:117
-#: skin/thumbnail/list.php:153 skin/thumbnail/reply-template.php:20
-msgid "Views"
-msgstr "Views"
 
 #: skin/avatar/document.php:43 skin/customer/document.php:48
 #: skin/default/document.php:41 skin/thumbnail/document.php:41
@@ -735,42 +785,10 @@ msgstr "Are you sure you want to delete?"
 msgid "KBoard is the best community software available for WordPress"
 msgstr "KBoard is the best community software available for WordPress"
 
-#: skin/avatar/editor.php:15 skin/avatar/editor.php:16 skin/avatar/latest.php:5
-#: skin/avatar/list.php:82 skin/avatar/list.php:179 skin/customer/editor.php:15
-#: skin/customer/editor.php:16 skin/customer/latest.php:5
-#: skin/customer/list.php:82 skin/customer/list.php:167
-#: skin/default/editor.php:15 skin/default/editor.php:16
-#: skin/default/latest.php:5 skin/default/list.php:82 skin/default/list.php:167
-#: skin/thumbnail/editor.php:15 skin/thumbnail/editor.php:16
-#: skin/thumbnail/latest.php:5 skin/thumbnail/list.php:83
-#: skin/thumbnail/list.php:184
-msgid "Title"
-msgstr "Title"
-
 #: skin/avatar/editor.php:20 skin/customer/editor.php:20
 #: skin/default/editor.php:20 skin/thumbnail/editor.php:20
 msgid "Options"
 msgstr "Options"
-
-#: skin/avatar/editor.php:22 skin/avatar/latest.php:16 skin/avatar/list.php:97
-#: skin/avatar/list.php:131 skin/avatar/reply-template.php:8
-#: skin/customer/editor.php:22 skin/customer/latest.php:16
-#: skin/customer/list.php:96 skin/customer/list.php:125
-#: skin/customer/reply-template.php:8 skin/default/editor.php:22
-#: skin/default/latest.php:16 skin/default/list.php:97
-#: skin/default/list.php:125 skin/default/reply-template.php:8
-#: skin/thumbnail/editor.php:22 skin/thumbnail/latest.php:16
-#: skin/thumbnail/list.php:106 skin/thumbnail/list.php:142
-#: skin/thumbnail/reply-template.php:13
-msgid "Secret"
-msgstr "Secret"
-
-#: skin/avatar/editor.php:24 skin/avatar/list.php:92
-#: skin/customer/editor.php:24 skin/customer/list.php:92
-#: skin/default/editor.php:24 skin/default/list.php:92
-#: skin/thumbnail/editor.php:24 skin/thumbnail/list.php:93
-msgid "Notice"
-msgstr "Notice"
 
 #: skin/avatar/editor.php:32 skin/avatar/editor.php:35
 #: skin/avatar/editor.php:46 skin/avatar/editor.php:49
@@ -854,18 +872,6 @@ msgstr "Save"
 #: skin/thumbnail/list.php:6
 msgid "Total"
 msgstr "Total"
-
-#: skin/avatar/list.php:32 skin/avatar/list.php:41 skin/avatar/list.php:53
-#: skin/avatar/list.php:64 skin/avatar/list.php:178 skin/customer/list.php:32
-#: skin/customer/list.php:41 skin/customer/list.php:53
-#: skin/customer/list.php:64 skin/customer/list.php:166
-#: skin/default/list.php:32 skin/default/list.php:41 skin/default/list.php:53
-#: skin/default/list.php:64 skin/default/list.php:166
-#: skin/thumbnail/list.php:32 skin/thumbnail/list.php:41
-#: skin/thumbnail/list.php:53 skin/thumbnail/list.php:64
-#: skin/thumbnail/list.php:183
-msgid "All"
-msgstr "All"
 
 #: skin/avatar/list.php:81 skin/customer/list.php:81 skin/default/list.php:81
 #: skin/thumbnail/list.php:81
@@ -961,6 +967,48 @@ msgstr "You insert the selected image in the body. Would you close the window?"
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "Only image files can be uploaded."
+
+#~ msgid "답글입니다."
+#~ msgstr "The reply."
+
+#~ msgid "게시판"
+#~ msgstr "Forum"
+
+#~ msgid "제목/내용"
+#~ msgstr "Title/Content"
+
+#~ msgid "작성자"
+#~ msgstr "Author"
+
+#~ msgid "조회수"
+#~ msgstr "Views"
+
+#~ msgid "비밀글"
+#~ msgstr "Secret"
+
+#~ msgid "공지사항"
+#~ msgstr "Notice"
+
+#~ msgid "작성일"
+#~ msgstr "Date"
+
+#~ msgid "게시판 변경"
+#~ msgstr "Forum change"
+
+#~ msgid "Open"
+#~ msgstr "Open"
+
+#~ msgid "예"
+#~ msgstr "Yes"
+
+#~ msgid "아니오"
+#~ msgstr "No"
+
+#~ msgid "다음 페이지에서 게시판과 댓글 플러그인 모두를 업데이트해주세요."
+#~ msgstr "Please update both Board and Comments plugin."
+
+#~ msgid "KBoard 게시판 설치도구 플러그인을 먼저 설치해주세요."
+#~ msgstr "Please install the \"kboard-downloader\" plugin."
 
 #~ msgid "새창열기"
 #~ msgstr "Open"

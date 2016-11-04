@@ -82,7 +82,7 @@ class KBController {
 				if($board->meta->conversion_tracking_code){
 					echo $board->meta->conversion_tracking_code;
 					echo "<script>window.location.href='{$next_page_url}';</script>";
-					exit;
+					wp_die();
 				}
 			}
 			wp_redirect($next_page_url);
@@ -90,7 +90,7 @@ class KBController {
 		else{
 			wp_redirect(home_url());
 		}
-		exit;
+		wp_die();
 	}
 	
 	/**
@@ -171,7 +171,7 @@ class KBController {
 					$url = new KBUrl();
 					$skin_path = KBOARD_URL_PATH . "/skin/$board->skin";
 					include KBOARD_DIR_PATH . "/skin/$board->skin/confirm.php";
-					exit;
+					wp_die();
 				}
 			}
 			else{
@@ -182,8 +182,8 @@ class KBController {
 		if($file == 'thumbnail') $content->removeThumbnail();
 		else $content->removeAttached($file);
 		
-		header("Location: {$referer}");
-		exit;
+		wp_redirect($referer);
+		wp_die();
 	}
 	
 	/**
@@ -304,7 +304,7 @@ class KBController {
 			fpassthru($fp);
 			fclose($fp);
 		}
-		exit;
+		wp_die();
 	}
 	
 	/**
@@ -323,11 +323,10 @@ class KBController {
 					$content->vote = $content->like - $content->unlike;
 					$content->updateContent();
 					echo intval($content->like);
-					exit;
 				}
 			}
 		}
-		exit;
+		wp_die();
 	}
 	
 	/**
@@ -346,11 +345,10 @@ class KBController {
 					$content->vote = $content->like - $content->unlike;
 					$content->updateContent();
 					echo intval($content->unlike);
-					exit;
 				}
 			}
 		}
-		exit;
+		wp_die();
 	}
 }
 ?>
