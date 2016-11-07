@@ -432,5 +432,25 @@ class KBoard {
 		self::$total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id'"));
 		return self::$total;
 	}
+	
+	/**
+	 * 게시판 리스트에 표시되는 게시글 숫자를 반환한다.
+	 * @return int
+	 */
+	public function getListTotal(){
+		global $wpdb;
+		if(!$this->id){
+			return 0;
+		}
+		if(self::$total >= 0){
+			return self::$total;
+		}
+		
+		$where[] = "`board_id`='$this->id'";
+		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+		
+		self::$total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where)));
+		return self::$total;
+	}
 }
 ?>

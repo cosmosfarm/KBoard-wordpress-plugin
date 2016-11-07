@@ -3,7 +3,7 @@
 	<!-- 게시판 정보 시작 -->
 	<div class="kboard-list-header">
 		<div class="kboard-total-count">
-			<?php echo __('Total', 'kboard')?> <?php echo number_format($board->getTotal())?>
+			<?php echo __('Total', 'kboard')?> <?php echo number_format($board->getListTotal())?>
 		</div>
 		
 		<div class="kboard-sort">
