@@ -41,11 +41,11 @@ class KBAdminController {
 			}
 				
 			$backup->download($data, 'xml');
-			wp_die();
+			exit;
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_backup');
 		echo "<script>window.location.href='{$redirect_url}';</script>";
-		wp_die();
+		exit;
 	}
 
 	/**
@@ -78,7 +78,7 @@ class KBAdminController {
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_backup');
 		echo "<script>window.location.href='{$redirect_url}';</script>";
-		wp_die();
+		exit;
 	}
 
 	public function content_list_update(){
@@ -90,7 +90,7 @@ class KBAdminController {
 			$content->status = $_POST['status'][$uid];
 			$content->updateContent();
 		}
-		wp_die();
+		exit;
 	}
 }
 ?>

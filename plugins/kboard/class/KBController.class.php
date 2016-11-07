@@ -82,7 +82,7 @@ class KBController {
 				if($board->meta->conversion_tracking_code){
 					echo $board->meta->conversion_tracking_code;
 					echo "<script>window.location.href='{$next_page_url}';</script>";
-					wp_die();
+					exit;
 				}
 			}
 			wp_redirect($next_page_url);
@@ -90,7 +90,7 @@ class KBController {
 		else{
 			wp_redirect(home_url());
 		}
-		wp_die();
+		exit;
 	}
 	
 	/**
@@ -171,7 +171,7 @@ class KBController {
 					$url = new KBUrl();
 					$skin_path = KBOARD_URL_PATH . "/skin/$board->skin";
 					include KBOARD_DIR_PATH . "/skin/$board->skin/confirm.php";
-					wp_die();
+					exit;
 				}
 			}
 			else{
@@ -183,7 +183,7 @@ class KBController {
 		else $content->removeAttached($file);
 		
 		wp_redirect($referer);
-		wp_die();
+		exit;
 	}
 	
 	/**
@@ -304,7 +304,7 @@ class KBController {
 			fpassthru($fp);
 			fclose($fp);
 		}
-		wp_die();
+		exit;
 	}
 	
 	/**
@@ -326,7 +326,7 @@ class KBController {
 				}
 			}
 		}
-		wp_die();
+		exit;
 	}
 	
 	/**
@@ -348,7 +348,7 @@ class KBController {
 				}
 			}
 		}
-		wp_die();
+		exit;
 	}
 }
 ?>

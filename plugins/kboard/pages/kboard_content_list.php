@@ -32,5 +32,8 @@ function kboard_content_list_filter(){
 	if(board_id){
 		window.location.href='<?php echo admin_url('admin.php?page=kboard_content_list&filter_board_id=')?>'+board_id;
 	}
+	else{
+		window.location.href='<?php echo admin_url('admin.php?page=kboard_content_list')?>';
+	}
 }
 </script>

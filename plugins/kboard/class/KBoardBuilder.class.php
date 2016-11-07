@@ -49,7 +49,7 @@ class KBoardBuilder {
 	 * @param int $board_id
 	 */
 	public function setBoardID($board_id, $is_latest=false){
-		global $check_kboard_comments_plugin_once;
+		static $check_kboard_comments_plugin_once;
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
 
@@ -197,7 +197,7 @@ class KBoardBuilder {
 
 		if(!$content->uid){
 			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
-			wp_die();
+			exit;
 		}
 
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
@@ -289,7 +289,7 @@ class KBoardBuilder {
 			if(!is_user_logged_in() && (!isset($_POST['password']) || !$_POST['password'])){
 				echo '<script>alert("'.__('Please enter your password.', 'kboard').'");</script>';
 				echo '<script>window.location.href="' . $next_url . '";</script>';
-				wp_die();
+				exit;
 			}
 		}
 
@@ -306,7 +306,7 @@ class KBoardBuilder {
 		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){
 			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
-			wp_die();
+			exit;
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all' && !$content->member_uid){
@@ -316,7 +316,7 @@ class KBoardBuilder {
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
-				wp_die();
+				exit;
 			}
 		}
 
@@ -338,7 +338,7 @@ class KBoardBuilder {
 					}
 				}
 				echo "<script>window.location.href='{$next_page_url}';</script>";
-				wp_die();
+				exit;
 			}
 			else{
 				// execute후 POST 데이터를 지우고 다시 초기화 한다.
@@ -390,7 +390,7 @@ class KBoardBuilder {
 		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false){
 			echo '<script>alert("'.__('This page is restricted from external access.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
-			wp_die();
+			exit;
 		}
 
 		$content = new KBContent($this->board_id);
@@ -405,7 +405,7 @@ class KBoardBuilder {
 			}
 			else{
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
-				wp_die();
+				exit;
 			}
 		}
 
@@ -427,7 +427,7 @@ class KBoardBuilder {
 			
 			// 삭제뒤 게시판 리스트로 이동한다.
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
-			wp_die();
+			exit;
 		}
 	}
 
