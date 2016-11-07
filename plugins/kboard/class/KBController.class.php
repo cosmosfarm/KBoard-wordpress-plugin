@@ -75,7 +75,19 @@ class KBController {
 			if($content->password) $board->isConfirm($content->password, $execute_uid);
 			
 			$url = new KBUrl();
-			$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
+			
+			if($content->execute_action == 'insert'){
+				if(!$board->meta->after_executing_mod){
+					$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
+				}
+				else{
+					$next_page_url = $url->set('execute_uid', $execute_uid)->set('mod', $board->meta->after_executing_mod)->toString();
+				}
+			}
+			else{
+				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
+			}
+			
 			$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $board_id);
 			
 			if($content->execute_action == 'insert'){

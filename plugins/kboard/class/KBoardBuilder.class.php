@@ -19,7 +19,6 @@ class KBoardBuilder {
 	var $meta;
 
 	public function __construct($board_id='', $is_latest=false){
-		$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', 'list', $board_id));
 		$this->category1 = kboard_category1();
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
@@ -52,7 +51,11 @@ class KBoardBuilder {
 		static $check_kboard_comments_plugin_once;
 		$this->meta = new KBoardMeta($board_id);
 		$this->board_id = $board_id;
-
+		
+		$default_build_mod = $this->meta->default_build_mod;
+		if(!$default_build_mod) $default_build_mod = 'list';
+		$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $board_id));
+		
 		// 소셜댓글 플러그인 생성
 		if(!$check_kboard_comments_plugin_once){
 			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){

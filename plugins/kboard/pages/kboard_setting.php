@@ -428,6 +428,27 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">게시글 등록 전환추적을 위한 코드(HTML 태그 또는 자바스크립트 소스)를 입력해주세요. 이 코드가 존재하면 새로운 게시글이 저장된 직후 실행됩니다.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="default_build_mod">게시판 기본 화면</label></th>
+						<td>
+							<select name="default_build_mod" id="default_build_mod">
+								<option value="">글목록 화면</option>
+								<option value="editor"<?php if($meta->default_build_mod == 'editor'):?> selected<?php endif?>>글쓰기 화면</option>
+							</select>
+							<p class="description">게시판에서 첫 번째로 보일 화면을 정합니다. 별다른 이유가 없다면 글목록 화면으로 선택해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="after_executing_mod">글 쓴 후 이동 화면</label></th>
+						<td>
+							<select name="after_executing_mod" id="after_executing_mod">
+								<option value="">작성된 글 화면</option>
+								<option value="list"<?php if($meta->after_executing_mod == 'list'):?> selected<?php endif?>>글목록 화면</option>
+								<option value="editor"<?php if($meta->after_executing_mod == 'editor'):?> selected<?php endif?>>글쓰기 화면</option>
+							</select>
+							<p class="description">글쓰기를 완료하고 보일 화면을 정합니다. 보통의 경우라면 작성된 글 화면으로 이동해주세요.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

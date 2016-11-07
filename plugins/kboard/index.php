@@ -304,6 +304,8 @@ function kboard_update(){
 		$meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
 		$meta->max_attached_count = isset($_POST['max_attached_count'])?$_POST['max_attached_count']:'';
 		$meta->permit = isset($_POST['permit'])?$_POST['permit']:'';
+		$meta->default_build_mod = isset($_POST['default_build_mod'])?$_POST['default_build_mod']:'';
+		$meta->after_executing_mod = isset($_POST['after_executing_mod'])?$_POST['after_executing_mod']:'';
 
 		if(isset($_POST['permission_read_roles'])){
 			$meta->permission_read_roles = serialize($_POST['permission_read_roles']);
