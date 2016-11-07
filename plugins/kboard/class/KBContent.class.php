@@ -31,18 +31,20 @@ class KBContent {
 
 	public function __get($name){
 		if(isset($this->row->{$name})){
-			if($this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
-				$board = $this->getBoard();
-				if($board->isAdmin()){
-					switch($name){
-						case 'title': return sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title); break;
-						case 'content': return sprintf(__('<p>&#91;Waiting for administrator Approval.&#93;</p>%s', 'kboard'), $this->row->content); break;
+			if($name == 'status'){
+				if($this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
+					$board = $this->getBoard();
+					if($board->isAdmin()){
+						switch($name){
+							case 'title': return sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title); break;
+							case 'content': return sprintf(__('<p>&#91;Waiting for administrator Approval.&#93;</p>%s', 'kboard'), $this->row->content); break;
+						}
 					}
-				}
-				else{
-					switch($name){
-						case 'title': return __('&#91;Pending&#93; Waiting for administrator Approval.', 'kboard'); break;
-						case 'content': return __('&#91;Waiting for administrator Approval.&#93;', 'kboard'); break;
+					else{
+						switch($name){
+							case 'title': return __('&#91;Pending&#93; Waiting for administrator Approval.', 'kboard'); break;
+							case 'content': return __('&#91;Waiting for administrator Approval.&#93;', 'kboard'); break;
+						}
 					}
 				}
 			}
