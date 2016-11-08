@@ -11,6 +11,7 @@ class KBAdminController {
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('admin_post_kboard_backup_download', array($this, 'backup'));
 		add_action('admin_post_kboard_restore_execute', array($this, 'restore'));
+		add_action('admin_post_kboard_latestview_action', array($this, 'latestview_update'));
 	}
 	
 	/**
@@ -82,7 +83,7 @@ class KBAdminController {
 	}
 	
 	/**
-	 * 게시글 정보 업데이트
+	 * 전체 게시글 정보 업데이트
 	 */
 	public function content_list_update(){
 		if(current_user_can('activate_plugins')){
@@ -94,6 +95,50 @@ class KBAdminController {
 				$content->updateContent();
 			}
 		}
+		exit;
+	}
+	
+	/**
+	 * 최신글 뷰 업데이트
+	 */
+	function latestview_update(){
+		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+	
+		$latestview_uid = $_POST['latestview_uid'];
+		$latestview_link = $_POST['latestview_link'];
+		$latestview_unlink = $_POST['latestview_unlink'];
+		$name = $_POST['name'];
+		$skin = $_POST['skin'];
+		$rpp = $_POST['rpp'];
+		$sort = $_POST['sort'];
+	
+		$latestview = new KBLatestview();
+		if($latestview_uid) $latestview->initWithUID($latestview_uid);
+		else $latestview->create();
+	
+		$latestview->name = $name;
+		$latestview->skin = $skin;
+		$latestview->rpp = $rpp;
+		$latestview->sort = $sort;
+		$latestview->update();
+	
+		$latestview_link = explode(',', $latestview_link);
+		if(is_array($latestview_link)){
+			foreach($latestview_link as $key=>$value){
+				$value = intval($value);
+				if($value) $latestview->pushBoard($value);
+			}
+		}
+	
+		$latestview_unlink = explode(',', $latestview_unlink);
+		if(is_array($latestview_unlink)){
+			foreach($latestview_unlink as $key=>$value){
+				$value = intval($value);
+				if($value) $latestview->popBoard($value);
+			}
+		}
+	
+		echo '<script>window.location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>';
 		exit;
 	}
 }

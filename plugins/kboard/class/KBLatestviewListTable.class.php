@@ -49,14 +49,15 @@ class KBLatestviewListTable extends WP_List_Table {
 				'cb' => '<input type="checkbox">',
 				'name' => __('이름', 'kboard'),
 				'skin' => __('스킨', 'kboard'),
-				'rpp' => __('게시물 표시', 'kboard'),
-				'date' => __('생성일자', 'kboard')
+				'rpp' => __('게시글 표시 수', 'kboard'),
+				'Sort' => __('정렬 순서', 'kboard'),
+				'date' => __('생성일', 'kboard'),
 		);
 	}
 	
 	function get_bulk_actions(){
 		return array(
-				'delete' => __('Delete', 'kboard')
+				'delete' => __('Delete Permanently', 'kboard'),
 		);
 	}
 	
@@ -68,7 +69,6 @@ class KBLatestviewListTable extends WP_List_Table {
 	}
 	
 	public function single_row($item){
-		$edit_url = admin_url("admin.php?page=kboard_latestview&latestview_uid={$item->uid}");
 		
 		echo '<tr data-uid="'.$item->uid.'">';
 		
@@ -76,7 +76,7 @@ class KBLatestviewListTable extends WP_List_Table {
 		echo '<input type="checkbox" name="latestview_uid[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
-		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
+		echo '<td><a href="'.admin_url("admin.php?page=kboard_latestview&latestview_uid={$item->uid}").'" title="'.__('Edit', 'kboard').'" style="display:block">';
 		echo $item->name;
 		echo '</a></td>';
 		
@@ -86,6 +86,10 @@ class KBLatestviewListTable extends WP_List_Table {
 		
 		echo '<td>';
 		echo "{$item->rpp}개";
+		echo '</td>';
+		
+		echo '<td>';
+		echo __(ucfirst($item->sort), 'kboard');
 		echo '</td>';
 		
 		echo '<td>';

@@ -10,17 +10,13 @@ class KBLatestview {
 	var $row;
 	
 	public function __construct($uid=''){
-		$uid = intval($uid);
-		if($uid){
-			$this->initWithUID($uid);
-		}
-		else{
-			$this->row = new stdClass();
-		}
+		$this->row = new stdClass();
+		if($uid) $this->initWithUID($uid);
 	}
 	
 	public function __get($name){
-		if(isset($this->row->{$name}) && $this->row->{$name}){
+		if(isset($this->row->{$name})){
+			if($name == 'sort' && !$this->row->{$name}) return 'newest';
 			return stripslashes($this->row->{$name});
 		}
 		return '';
@@ -57,7 +53,7 @@ class KBLatestview {
 	public function create(){
 		global $wpdb;
 		$date = date('YmdHis', current_time('timestamp'));
-		$result = $wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview` (`name`, `skin`, `rpp`, `created`) VALUE ('', '', '0', '$date')");
+		$result = $wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview` (`name`, `skin`, `rpp`, `sort`, `created`) VALUE ('', '', '0', '', '$date')");
 		$this->uid = $wpdb->insert_id;
 		return $this->uid;
 	}
@@ -70,6 +66,7 @@ class KBLatestview {
 		if($this->uid){
 			foreach($this->row as $key=>$value){
 				if($key != 'uid'){
+					$key = sanitize_key($key);
 					$value = esc_sql($value);
 					$data[] = "`$key`='$value'";
 				}
@@ -118,9 +115,11 @@ class KBLatestview {
 	 */
 	public function getLinkedBoard(){
 		global $wpdb;
-		$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
-		foreach($result as $row){
-			$list[] = $row->board_id;
+		if($this->uid){
+			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_latestview_link` WHERE `latestview_uid`='$this->uid'");
+			foreach($result as $row){
+				$list[] = $row->board_id;
+			}
 		}
 		return isset($list)?$list:array();
 	}

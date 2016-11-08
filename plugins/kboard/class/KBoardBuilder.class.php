@@ -14,6 +14,7 @@ class KBoardBuilder {
 	var $category1;
 	var $category2;
 	var $rpp;
+	var $sort;
 	var $url;
 	var $board;
 	var $meta;
@@ -23,6 +24,7 @@ class KBoardBuilder {
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
 		$this->skin = 'default';
+		$this->sort = 'newest';
 
 		if($board_id) $this->setBoardID($board_id, $is_latest);
 	}
@@ -80,13 +82,21 @@ class KBoardBuilder {
 	}
 
 	/**
-	 * 페이지당 게시물 숫자를 설정한다.
+	 * 페이지당 게시글 개수를 설정한다.
 	 * @param int $rpp
 	 */
 	public function setRpp($rpp){
 		$this->rpp = $rpp;
 	}
-
+	
+	/**
+	 * 게시글 정렬 순서를 설정한다.
+	 * @param string $sort
+	 */
+	public function setSorting($sort){
+		$this->sort = $sort;
+	}
+	
 	/**
 	 * 게시판 실제 주소를 설정한다.
 	 * @param string $url
@@ -445,7 +455,7 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
-		$list->setSorting('newest');
+		$list->setSorting($this->sort);
 		$list->rpp($this->rpp)->getList('', '', true);
 
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";

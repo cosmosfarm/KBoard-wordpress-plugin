@@ -54,13 +54,13 @@ class KBoardListTable extends WP_List_Table {
 				'permission_read' => __('읽기권한', 'kboard'),
 				'permission_write' => __('쓰기권한', 'kboard'),
 				'permission_comments_write' => __('댓글쓰기권한', 'kboard'),
-				'date' => __('생성일자', 'kboard')
+				'date' => __('생성일', 'kboard'),
 		);
 	}
 	
 	function get_bulk_actions(){
 		return array(
-				'delete' => __('Delete', 'kboard')
+				'delete' => __('Delete Permanently', 'kboard'),
 		);
 	}
 	

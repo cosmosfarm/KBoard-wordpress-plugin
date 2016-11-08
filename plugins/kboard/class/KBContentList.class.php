@@ -378,7 +378,11 @@ class KBContentList {
 			self::$kboard_list_sort = $sort;
 		}
 		else if($sort == 'best'){
-			// 인기순서
+			// 추천순서
+			self::$kboard_list_sort = $sort;
+		}
+		else if($sort == 'viewed'){
+			// 조회순서
 			self::$kboard_list_sort = $sort;
 		}
 		else if($sort == 'updated'){

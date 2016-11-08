@@ -3,7 +3,7 @@
  Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.2.6
+Version: 5.2.7
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.2.6');
+define('KBOARD_VERSION', '5.2.7');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -337,7 +337,7 @@ function kboard_latestview(){
 		$skin = KBoardSkin::getInstance();
 		$latestview = new KBLatestview();
 		$latestview->initWithUID($_GET['latestview_uid']);
-		$linkedBoard = $latestview->getLinkedBoard();
+		$linked_board = $latestview->getLinkedBoard();
 		$board_list = new KBoardList();
 		include_once 'pages/kboard_latestview_setting.php';
 	}
@@ -362,50 +362,9 @@ function kboard_latestview(){
 function kboard_latestview_new(){
 	$skin = KBoardSkin::getInstance();
 	$latestview = new KBLatestview();
+	$linked_board = $latestview->getLinkedBoard();
+	$board_list = new KBoardList();
 	include_once 'pages/kboard_latestview_setting.php';
-}
-
-/*
- * 최신글 뷰 수정
- */
-add_action('admin_post_kboard_latestview_action', 'kboard_latestview_update');
-function kboard_latestview_update(){
-	if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-
-	$latestview_uid = intval($_POST['latestview_uid']);
-	$latestview_link = $_POST['latestview_link'];
-	$latestview_unlink = $_POST['latestview_unlink'];
-	$name = $_POST['name'];
-	$skin = $_POST['skin'];
-	$rpp = $_POST['rpp'];
-
-	$latestview = new KBLatestview();
-	if($latestview_uid) $latestview->initWithUID($latestview_uid);
-	else $latestview->create();
-
-	$latestview->name = $name;
-	$latestview->skin = $skin;
-	$latestview->rpp = $rpp;
-	$latestview->update();
-
-	$latestview_link = explode(',', $latestview_link);
-	if(is_array($latestview_link)){
-		foreach($latestview_link as $key=>$value){
-			$value = intval($value);
-			if($value) $latestview->pushBoard($value);
-		}
-	}
-
-	$latestview_unlink = explode(',', $latestview_unlink);
-	if(is_array($latestview_unlink)){
-		foreach($latestview_unlink as $key=>$value){
-			$value = intval($value);
-			if($value) $latestview->popBoard($value);
-		}
-	}
-
-	die('<script>window.location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>');
 }
 
 /*
@@ -600,6 +559,7 @@ function kboard_latestview_shortcode($args){
 		$board_builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
 		$board_builder->setSkin($latestview->skin);
 		$board_builder->setRpp($latestview->rpp);
+		$board_builder->setSorting($latestview->sort);
 		$kboard_latest = $board_builder->createLatest();
 		return $kboard_latest;
 	}
@@ -908,6 +868,7 @@ function kboard_activation_execute(){
 	`name` varchar(127) NOT NULL,
 	`skin` varchar(127) NOT NULL,
 	`rpp` int(10) unsigned NOT NULL,
+	`sort` varchar(20) NOT NULL,
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)
 	) DEFAULT CHARSET=utf8");
@@ -1083,6 +1044,16 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`status`)");
 	}
 	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_latestview 테이블에 sort 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_latestview` `sort`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_latestview` ADD `sort` varchar(20) NOT NULL AFTER `rpp`");
+	}
+	unset($name);
 }
 
 /*
@@ -1371,5 +1342,16 @@ function kboard_system_update(){
 		return;
 	}
 	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_latestview 테이블에 sort 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_latestview` `sort`", ARRAY_N);
+	if(!$name){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($name);
 }
 ?>

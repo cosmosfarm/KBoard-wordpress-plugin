@@ -88,7 +88,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="page_rpp">게시물 표시</label></th>
+						<th scope="row"><label for="page_rpp">게시글 표시 수</label></th>
 						<td>
 							<select name="page_rpp" id="page_rpp">
 								<?php if(!$board->page_rpp) $board->page_rpp=10;?>
@@ -111,7 +111,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="50"<?php if($board->page_rpp == 50):?> selected<?php endif?>>50개</option>
 								<option value="100"<?php if($board->page_rpp == 100):?> selected<?php endif?>>100개</option>
 							</select>
-							<p class="description">한 페이지에 보여지는 게시물 숫자를 정합니다.</p>
+							<p class="description">한 페이지에 보여지는 게시글 개수를 정합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

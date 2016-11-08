@@ -1,9 +1,4 @@
-<?php
-if(!defined('ABSPATH')) exit;
-if(!defined('KBOARD_COMMNETS_VERSION')){
-	die('<script>alert("KBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-}
-?>
+<?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
 	<h1>
@@ -23,7 +18,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<tr valign="top">
 					<th scope="row"><label for="name">최신글 뷰 이름</label></th>
 					<td>
-						<input type="text" id="name" name="name" size="30" tabindex="1" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
+						<input type="text" id="name" name="name" size="30" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
 					</td>
 				</tr>
 				<tr valign="top">
@@ -43,9 +38,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="rpp">게시물 표시</label></th>
+					<th scope="row"><label for="rpp">게시글 표시 수</label></th>
 					<td>
-						<select name="rpp" id="rpp" class="">
+						<select name="rpp" id="rpp">
 							<?php if(!$latestview->rpp) $latestview->rpp=10;?>
 							<option value="1"<?php if($latestview->rpp == 1):?> selected<?php endif?>>1개</option>
 							<option value="2"<?php if($latestview->rpp == 2):?> selected<?php endif?>>2개</option>
@@ -66,10 +61,21 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<option value="50"<?php if($latestview->rpp == 50):?> selected<?php endif?>>50개</option>
 							<option value="100"<?php if($latestview->rpp == 100):?> selected<?php endif?>>100개</option>
 						</select>
-						<p class="description">최신글 리스트에 보여지는 게시물 숫자를 정합니다.</p>
+						<p class="description">최신글 리스트에 보여지는 게시글 개수를 정합니다.</p>
 					</td>
 				</tr>
-				<?php if($latestview->uid):?>
+				<tr valign="top">
+					<th scope="row"><label for="sort">정렬 순서</label></th>
+					<td>
+						<select name="sort" id="sort">
+							<option value="newest"<?php if(!$latestview->sort || $latestview->sort == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard')?></option>
+							<option value="best"<?php if($latestview->sort == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard')?></option>
+							<option value="viewed"<?php if($latestview->sort == 'viewed'):?> selected<?php endif?>><?php echo __('Viewed', 'kboard')?></option>
+							<option value="updated"<?php if($latestview->sort == 'updated'):?> selected<?php endif?>><?php echo __('Updated', 'kboard')?></option>
+						</select>
+						<p class="description">최신글 뷰에 표시되는 게시글 정렬순서를 정합니다.</p>
+					</td>
+				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="link">모아볼 게시판</label></th>
 					<td>
@@ -78,7 +84,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<p>모아볼 게시판</p>
 								<select name="link" id="link" size="10" multiple="multiple">
 									<?php $board_list->init(); while($board = $board_list->hasNext()):?>
-										<?php if(in_array($board->uid, $linkedBoard)):?>
+										<?php if(in_array($board->uid, $linked_board)):?>
 											<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
 										<?php endif?>
 									<?php endwhile?>
@@ -94,7 +100,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<p>제외된 게시판</p>
 								<select name="unlink" id="unlink" size="10" multiple="multiple">
 									<?php $board_list->init(); while($board = $board_list->hasNext()):?>
-										<?php if(!in_array($board->uid, $linkedBoard)):?>
+										<?php if(!in_array($board->uid, $linked_board)):?>
 											<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
 										<?php endif?>
 									<?php endwhile?>
@@ -104,11 +110,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<p class="description">모아볼 게시판들을 선택합니다.</p>
 					</td>
 				</tr>
+				<?php if($latestview->uid):?>
 				<tr valign="top">
-					<th scope="row"><label for="shortcode">모아보기 숏코드(Shortcode)</label></th>
+					<th scope="row"><label for="shortcode">최신글 뷰 숏코드(Shortcode)</label></th>
 					<td>
 						<textarea style="width: 350px" id="shortcode">[kboard_latestview id=<?php echo $latestview->uid?>]</textarea>
-						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 모아보기를 생성합니다.</p>
+						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 뷰를 출력합니다.</p>
 					</td>
 				</tr>
 				<?php endif?>
