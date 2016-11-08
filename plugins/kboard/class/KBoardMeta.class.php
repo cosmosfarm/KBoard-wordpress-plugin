@@ -17,7 +17,7 @@ class KBoardMeta {
 	}
 	
 	public function __get($name){
-		$name = esc_sql($name);
+		$name = sanitize_key($name);
 		if(isset($this->meta->{$name})){
 			return stripslashes($this->meta->{$name});
 		}
@@ -27,7 +27,7 @@ class KBoardMeta {
 	public function __set($name, $value){
 		global $wpdb;
 		if($this->board_id){
-			$name = esc_sql($name);
+			$name = sanitize_key($name);
 			$value = esc_sql($value);
 			if($value){
 				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");

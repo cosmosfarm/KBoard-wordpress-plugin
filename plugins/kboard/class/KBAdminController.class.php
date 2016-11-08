@@ -6,13 +6,13 @@
 * @license http://www.gnu.org/licenses/gpl.html
 */
 class KBAdminController {
-
+	
 	public function __construct(){
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('admin_post_kboard_backup_download', array($this, 'backup'));
 		add_action('admin_post_kboard_restore_execute', array($this, 'restore'));
 	}
-
+	
 	/**
 	 * 백업
 	 */
@@ -47,7 +47,7 @@ class KBAdminController {
 		echo "<script>window.location.href='{$redirect_url}';</script>";
 		exit;
 	}
-
+	
 	/**
 	 * 복원
 	 */
@@ -80,15 +80,19 @@ class KBAdminController {
 		echo "<script>window.location.href='{$redirect_url}';</script>";
 		exit;
 	}
-
+	
+	/**
+	 * 게시글 정보 업데이트
+	 */
 	public function content_list_update(){
-		if(!current_user_can('activate_plugins')) return;
-		$content = new KBContent();
-		foreach($_POST['board_id'] as $uid=>$value){
-			$content->initWithUID($uid);
-			$content->board_id = $_POST['board_id'][$uid];
-			$content->status = $_POST['status'][$uid];
-			$content->updateContent();
+		if(current_user_can('activate_plugins')){
+			$content = new KBContent();
+			foreach($_POST['board_id'] as $uid=>$value){
+				$content->initWithUID($uid);
+				$content->board_id = $_POST['board_id'][$uid];
+				$content->status = $_POST['status'][$uid];
+				$content->updateContent();
+			}
 		}
 		exit;
 	}

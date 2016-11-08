@@ -16,8 +16,8 @@ class KBContentOption {
 	}
 	
 	public function __get($key){
-		$key = esc_sql($key);
-		if(isset($this->row->{$key}) && $this->row->{$key}){
+		$key = sanitize_key($key);
+		if(isset($this->row->{$key})){
 			return stripslashes($this->row->{$key});
 		}
 		return '';
@@ -26,7 +26,7 @@ class KBContentOption {
 	public function __set($key, $value){
 		global $wpdb;
 		if($this->content_uid){
-			$key = esc_sql($key);
+			$key = sanitize_key($key);
 			$value = esc_sql($value);
 			if($value){
 				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUE ('$this->content_uid', '$key', '$value') ON DUPLICATE KEY UPDATE `option_value`='$value'");
