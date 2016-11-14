@@ -51,29 +51,30 @@ class KBoardBuilder {
 	 */
 	public function setBoardID($board_id, $is_latest=false){
 		static $check_kboard_comments_plugin_once;
-		$this->meta = new KBoardMeta($board_id);
+		
 		$this->board_id = $board_id;
+		$this->meta = new KBoardMeta($this->board_id);
 		
-		$default_build_mod = $this->meta->default_build_mod;
-		if(!$default_build_mod) $default_build_mod = 'list';
-		$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $board_id));
-		
-		// 소셜댓글 플러그인 생성
+		// 코스모스팜 소셜댓글 스크립트 추가
 		if(!$check_kboard_comments_plugin_once){
-			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin && !is_admin()){
+			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
 				wp_localize_script('kboard-script', 'cosmosfarm_comments_plugin_id', $this->meta->comments_plugin_id);
 				wp_enqueue_script('cosmosfarm-comments-plugin', 'https://plugin.cosmosfarm.com/comments.js', array(), '1.0', true);
 				wp_enqueue_script('kboard-comments-plugin', KBOARD_URL_PATH . '/template/js/comments_plugin.js', array(), KBOARD_VERSION, true);
+				$check_kboard_comments_plugin_once = true;
 			}
-			$check_kboard_comments_plugin_once = true;
 		}
-
+		
 		if(!$is_latest){
+			$default_build_mod = $this->meta->default_build_mod;
+			if(!$default_build_mod) $default_build_mod = 'list';
+			$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $this->board_id));
+			
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
-
+			
 			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
-
+			
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');

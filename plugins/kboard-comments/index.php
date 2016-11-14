@@ -291,6 +291,8 @@ function kboard_comments_activation($networkwide){
 function kboard_comments_activation_execute(){
 	global $wpdb;
 	
+	$charset_collate = $wpdb->get_charset_collate();
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_comments` (
 		`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 		`content_uid` bigint(20) unsigned NOT NULL,
@@ -307,7 +309,7 @@ function kboard_comments_activation_execute(){
 		PRIMARY KEY (`uid`),
 		KEY `content_uid` (`content_uid`),
 		KEY `parent_uid` (`parent_uid`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 	
 	/*
 	 * KBoard 댓글 3.2

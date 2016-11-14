@@ -14,7 +14,7 @@ function kboard_editor_open_media(){
 			kboard_media_close();
 		});
 		
-		var init_window_size = function(){
+		function init_window_size(){
 			if(window.innerWidth <= 900){
 				wrapper.css({left:0, top:0, margin:'10px', width:(window.innerWidth-20), height:(window.innerHeight-20)});
 			}
@@ -28,7 +28,7 @@ function kboard_editor_open_media(){
 		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', '?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
 		jQuery('body').append(background).append(wrapper);
 		
-		if(!jQuery('input[name=media_group]').filter(function(){return this.value==kboard_settings.media_group}).length){
+		if(!jQuery('input[name="media_group"]').filter(function(){return this.value==kboard_settings.media_group}).length){
 			jQuery('[name="board_id"]').parents('form').append(jQuery('<input type="hidden" name="media_group">').val(kboard_settings.media_group));
 		}
 	}
@@ -42,7 +42,7 @@ function kboard_editor_insert_media(url){
 	}
 	else{
 		jQuery('#kboard_content').val(function(index, value){
-		     return value + (!value?'':' ') + '<img src="'+url+'" alt="">';
+			return value + (!value?'':' ') + '<img src="'+url+'" alt="">';
 		});
 	}
 }

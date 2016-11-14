@@ -1,21 +1,21 @@
 <?php
 /**
  * KBoard 워드프레스 게시판 메타
- * @link www.cosmosfarm.com
- * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl.html
- */
+* @link www.cosmosfarm.com
+* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+* @license http://www.gnu.org/licenses/gpl.html
+*/
 class KBoardMeta {
-	
+
 	private $board_id;
 	private $meta;
-	
+
 	public function __construct($board_id=''){
 		$this->meta = new stdClass();
 		$this->board_id = 0;
 		if($board_id) $this->setBoardID($board_id);
 	}
-	
+
 	public function __get($name){
 		$name = sanitize_key($name);
 		if(isset($this->meta->{$name})){
@@ -23,7 +23,7 @@ class KBoardMeta {
 		}
 		return '';
 	}
-	
+
 	public function __set($name, $value){
 		global $wpdb;
 		if($this->board_id){
@@ -38,7 +38,7 @@ class KBoardMeta {
 			$this->meta->{$name} = $value;
 		}
 	}
-	
+
 	/**
 	 * 게시판 아이디를 입력받는다.
 	 * @param int $board_id
@@ -46,10 +46,20 @@ class KBoardMeta {
 	public function setBoardID($board_id){
 		global $wpdb;
 		$this->meta = new stdClass();
-		$this->board_id = intval($board_id);
-		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id'");
-		foreach($results as $row){
-			$this->meta->{$row->key} = $row->value;
+		$this->board_id = 0;
+		if(is_array($board_id)){
+			$board_id = implode(',', $board_id);
+			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id` IN ($board_id) AND (`key`='comments_plugin_id' OR `key`='use_comments_plugin')");
+			foreach($results as $row){
+				$this->meta->{$row->key} = $row->value;
+			}
+		}
+		else{
+			$this->board_id = intval($board_id);
+			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id'");
+			foreach($results as $row){
+				$this->meta->{$row->key} = $row->value;
+			}
 		}
 	}
 }

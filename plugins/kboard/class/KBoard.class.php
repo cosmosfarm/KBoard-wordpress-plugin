@@ -32,9 +32,7 @@ class KBoard {
 		if(isset($this->row->{$name})){
 			return $this->row->{$name};
 		}
-		else{
-			return '';
-		}
+		return '';
 	}
 	
 	/**
@@ -334,9 +332,7 @@ class KBoard {
 		if($this->meta->permission_read_roles){
 			return unserialize($this->meta->permission_read_roles);
 		}
-		else{
-			return array();
-		}
+		return array();
 	}
 	
 	/**
@@ -347,9 +343,7 @@ class KBoard {
 		if($this->meta->permission_write_roles){
 			return unserialize($this->meta->permission_write_roles);
 		}
-		else{
-			return array();
-		}
+		return array();
 	}
 	
 	/**
@@ -360,9 +354,7 @@ class KBoard {
 		if($this->meta->permission_comment_write_roles){
 			return unserialize($this->meta->permission_comment_write_roles);
 		}
-		else{
-			return array();
-		}
+		return array();
 	}
 	
 	/**

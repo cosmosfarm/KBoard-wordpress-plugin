@@ -20,13 +20,9 @@ class KBComment {
 			if($name == 'content'){
 				return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}), $this->row->uid, $this->row->content_uid);
 			}
-			else{
-				return stripslashes($this->row->{$name});
-			}
+			return stripslashes($this->row->{$name});
 		}
-		else{
-			return '';
-		}
+		return '';
 	}
 	
 	public function __set($name, $value){

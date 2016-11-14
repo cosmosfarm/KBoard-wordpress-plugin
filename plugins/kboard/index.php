@@ -776,7 +776,7 @@ function kboard_activation($networkwide){
  */
 function kboard_activation_execute(){
 	global $wpdb;
-
+	
 	/*
 	 * KBoard 2.5
 	 * table 이름에 prefix 추가
@@ -788,7 +788,9 @@ function kboard_activation_execute(){
 		if($prefix == 'kboard_') $wpdb->query("RENAME TABLE `{$table}` TO `{$wpdb->prefix}{$table}`");
 	}
 	unset($tables, $table, $prefix);
-
+	
+	$charset_collate = $wpdb->get_charset_collate();
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_setting` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`board_name` varchar(127) NOT NULL,
@@ -804,7 +806,7 @@ function kboard_activation_execute(){
 	`page_rpp` int(10) unsigned NOT NULL,
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_attached` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -815,7 +817,7 @@ function kboard_activation_execute(){
 	`file_name` varchar(127) NOT NULL,
 	PRIMARY KEY (`uid`),
 	KEY `content_uid` (`content_uid`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -845,7 +847,7 @@ function kboard_activation_execute(){
 	KEY `board_id` (`board_id`),
 	KEY `parent_uid` (`parent_uid`),
 	KEY `status` (`status`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -854,14 +856,14 @@ function kboard_activation_execute(){
 	`option_value` text NOT NULL,
 	PRIMARY KEY (`uid`),
 	UNIQUE KEY `content_uid` (`content_uid`,`option_key`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
 	`board_id` bigint(20) unsigned NOT NULL,
 	`key` varchar(127) NOT NULL,
 	`value` text NOT NULL,
 	UNIQUE KEY `meta_index` (`board_id`,`key`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -871,13 +873,13 @@ function kboard_activation_execute(){
 	`sort` varchar(20) NOT NULL,
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
 	`latestview_uid` bigint(20) unsigned NOT NULL,
 	`board_id` bigint(20) unsigned NOT NULL,
 	UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -887,14 +889,14 @@ function kboard_activation_execute(){
 	`file_name` varchar(127) DEFAULT NULL,
 	PRIMARY KEY (`uid`),
 	KEY `media_group` (`media_group`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida_relationships` (
 	`content_uid` bigint(20) unsigned NOT NULL,
 	`media_uid` bigint(20) unsigned NOT NULL,
 	UNIQUE KEY `content_uid` (`content_uid`,`media_uid`),
 	KEY `media_uid` (`media_uid`)
-	) DEFAULT CHARSET=utf8");
+	) {$charset_collate};");
 
 	/*
 	 * KBoard 2.9

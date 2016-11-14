@@ -1,11 +1,11 @@
 /**
  * @author http://www.cosmosfarm.com/
  */
-jQuery(document).ready(function($){
+jQuery(document).ready(function(){
 	if(cosmosfarm_comments_plugin_id){
 		cosmosfarm_comments.init({plugin_id:cosmosfarm_comments_plugin_id});
-		$('.cosmosfarm-comments-plugin-count').each(function(){
-			var count_obj = $(this);
+		jQuery('.cosmosfarm-comments-plugin-count').each(function(){
+			var count_obj = jQuery(this);
 			var url = count_obj.attr('data-url');
 			if(url){
 				cosmosfarm_comments.count(url, function(res){

@@ -1,7 +1,6 @@
 /**
  * @author http://www.cosmosfarm.com/
  */
-
 (function(){
 	tinymce.create('tinymce.plugins.KBoard_Media_Button', {
 		init:function(ed, url){
