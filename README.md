@@ -1,9 +1,9 @@
 ## 워드프레스 게시판 KBoard
 
 KBoard는 다년간의 업데이트로 안정성이 뛰어난 워드프레스 게시판입니다.
-[KBoard 게시판 설치도구](https://wordpress.org/plugins/kboard-downloader/)를 사용하면 더 편리하게 설치 및 업데이트가 가능합니다.
 자세한 설명은 홈페이지를 확인해주세요.
-- [홈페이지](http://www.cosmosfarm.com/products/kboard)
+- [홈페이지](http://www.cosmosfarm.com/)
+- [KBoard 다운로드](http://www.cosmosfarm.com/products/kboard)
 - [페이스북](https://www.facebook.com/cosmosfarm.sns)
 - [트위터](https://twitter.com/cosmosfarm)
 - [블로그](http://blog.cosmosfarm.com/)
