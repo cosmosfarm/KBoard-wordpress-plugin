@@ -874,13 +874,11 @@ class KBContent {
 	 * @return string
 	 */
 	public function getDate(){
-		if($this->uid){
-			if(date('Ymd', current_time('timestamp')) == date('Ymd', strtotime($this->date))){
-				return date('H:i', strtotime($this->date));
+		if(isset($this->row->date)){
+			if(date('Ymd', current_time('timestamp')) == date('Ymd', strtotime($this->row->date))){
+				return date('H:i', strtotime($this->row->date));
 			}
-			else{
-				return date('Y.m.d', strtotime($this->date));
-			}
+			return date('Y.m.d', strtotime($this->row->date));
 		}
 		return '';
 	}
@@ -890,7 +888,7 @@ class KBContent {
 	 * @return string
 	 */
 	public function getTitle(){
-		if($this->uid){
+		if(isset($this->row->title)){
 			return $this->row->title;
 		}
 		return '';
@@ -901,7 +899,7 @@ class KBContent {
 	 * @return string
 	 */
 	public function getContent(){
-		if($this->uid){
+		if(isset($this->row->content)){
 			return $this->row->content;
 		}
 		return '';
