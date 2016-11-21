@@ -51,10 +51,10 @@ class KBoardBuilder {
 	 */
 	public function setBoardID($board_id, $is_latest=false){
 		static $check_kboard_comments_plugin_once;
-		
+
 		$this->board_id = $board_id;
 		$this->meta = new KBoardMeta($this->board_id);
-		
+
 		// 코스모스팜 소셜댓글 스크립트 추가
 		if(!$check_kboard_comments_plugin_once){
 			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
@@ -64,17 +64,17 @@ class KBoardBuilder {
 				$check_kboard_comments_plugin_once = true;
 			}
 		}
-		
+
 		if(!$is_latest){
 			$default_build_mod = $this->meta->default_build_mod;
 			if(!$default_build_mod) $default_build_mod = 'list';
 			$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $this->board_id));
-			
+				
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
-			
+				
 			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
-			
+				
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
@@ -89,7 +89,7 @@ class KBoardBuilder {
 	public function setRpp($rpp){
 		$this->rpp = $rpp;
 	}
-	
+
 	/**
 	 * 게시글 정렬 순서를 설정한다.
 	 * @param string $sort
@@ -97,7 +97,7 @@ class KBoardBuilder {
 	public function setSorting($sort){
 		$this->sort = $sort;
 	}
-	
+
 	/**
 	 * 게시판 실제 주소를 설정한다.
 	 * @param string $url
@@ -355,14 +355,20 @@ class KBoardBuilder {
 				exit;
 			}
 			else{
-				// execute후 POST 데이터를 지우고 다시 초기화 한다.
-				$content->initWithUID($this->uid);
-					
+				if($this->uid){
+					// execute후 POST 데이터를 지우고 다시 초기화 한다.
+					$content->initWithUID($this->uid);
+				}
+				else{
+					// 빈 글이라면 임시저장된 데이터로 초기화 한다.
+					$content->initWithTemporary();
+				}
+
 				// 내용이 없으면 등록된 기본 양식을 가져온다.
 				if(!$content->content){
 					$content->content = $this->meta->default_content;
 				}
-					
+
 				// 새로운 답글 쓰기에서만 실행한다.
 				if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
 					$parent = new KBContent();
@@ -430,7 +436,7 @@ class KBoardBuilder {
 		}
 		else{
 			$move_to_trash =  true;
-			
+				
 			if($move_to_trash){
 				$content->status = 'trash';
 				$content->updateContent();
@@ -438,7 +444,7 @@ class KBoardBuilder {
 			else{
 				$content->remove();
 			}
-			
+				
 			// 삭제뒤 게시판 리스트로 이동한다.
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;

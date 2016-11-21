@@ -117,8 +117,10 @@ class KBContent {
 
 	/**
 	 * 게시글을 등록/수정한다.
+	 * @param boolean $save_temporary;
+	 * @return int
 	 */
-	public function execute(){
+	public function execute($save_temporary = false){
 		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
 		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
 		$this->member_display = isset($_POST['member_display'])?kboard_htmlclear($_POST['member_display']):'';
@@ -138,6 +140,11 @@ class KBContent {
 		if(isset($_POST['status'])) $this->status = kboard_htmlclear($_POST['status']);
 		$this->password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
 
+		if($save_temporary){
+			// 임시저장
+			$this->saveTemporary();
+		}
+
 		if($this->uid && $this->date){
 			// 기존게시물 업데이트
 			$this->initUploadAttachFiles();
@@ -151,7 +158,10 @@ class KBContent {
 			do_action('kboard_document_update', $this->uid, $this->board_id);
 
 			$this->execute_action = 'update';
-
+				
+			// 임시저장 삭제
+			$this->cleanTemporary();
+				
 			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
@@ -205,12 +215,15 @@ class KBContent {
 				// 게시글 입력 액션 훅 실행
 				do_action('kboard_document_insert', $this->uid, $this->board_id);
 			}
-
+				
 			$this->execute_action = 'insert';
-
+				
+			// 임시저장 삭제
+			$this->cleanTemporary();
+				
 			return $this->uid;
 		}
-		return '';
+		return 0;
 	}
 
 	/**
@@ -903,6 +916,37 @@ class KBContent {
 			return $this->row->content;
 		}
 		return '';
+	}
+
+	/**
+	 * 게시글 정보를 쿠키에 저장한다.
+	 */
+	public function saveTemporary(){
+		$password = $this->password;
+		$this->password = '';
+		setcookie('kboard_temporary_content', base64_encode(serialize($this->row)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		$this->password = $password;
+	}
+
+	/**
+	 * 쿠키에 저장된 게시글 정보로 초기화 한다.
+	 */
+	public function initWithTemporary(){
+		if(isset($_COOKIE['kboard_temporary_content']) && $_COOKIE['kboard_temporary_content']){
+			$this->row = unserialize(base64_decode($_COOKIE['kboard_temporary_content']));
+		}
+		else{
+			$this->row = new stdClass();
+		}
+	}
+
+	/**
+	 * 쿠키에 저장된 게시글 정보를 비운다.
+	 */
+	public function cleanTemporary(){
+		if(isset($_COOKIE['kboard_temporary_content'])){
+			setcookie('kboard_temporary_content', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
 	}
 
 	/**
