@@ -6,14 +6,14 @@
 * @license http://www.gnu.org/licenses/gpl.html
 */
 class KBSeo {
-
+	
 	private $content;
-
+	
 	public function __construct(){
 		if(kboard_mod() == 'document'){
 			$this->content = new KBContent();
 			$this->content->initWithUID(kboard_uid());
-				
+			
 			if($this->content->uid){
 				if(current_theme_supports('title-tag')){
 					add_filter('document_title_parts', array($this, 'title'), 10, 1);
@@ -21,7 +21,7 @@ class KBSeo {
 				else{
 					add_filter('wp_title', array($this, 'title'), 10, 1);
 				}
-
+				
 				$is_display = false;
 				$board = new KBoard($this->content->board_id);
 				if(!$board->meta->view_iframe){
@@ -34,7 +34,7 @@ class KBSeo {
 						}
 					}
 				}
-
+				
 				if($is_display){
 					$this->init();
 				}
@@ -50,16 +50,16 @@ class KBSeo {
 	 */
 	public function init(){
 		static $check_kboard_seo_init_once;
-
+		
 		if($this->content->uid && !$check_kboard_seo_init_once){
 			$check_kboard_seo_init_once = true;
-				
+			
 			remove_action('wp_head', 'rel_canonical');
 			remove_action('wp_head', 'wp_shortlink_wp_head');
 			remove_action('wp_head', 'adjacent_posts_rel_link', 10);
 			remove_action('wp_head', 'wlwmanifest_link');
 			remove_action('template_redirect', 'wp_shortlink_header', 11);
-				
+			
 			add_action('kboard_head', array($this, 'ogp'));
 			add_action('kboard_head', array($this, 'twitter'));
 			add_action('kboard_head', array($this, 'description'));
@@ -67,19 +67,23 @@ class KBSeo {
 			add_action('kboard_head', array($this, 'date'));
 			add_action('kboard_head', array($this, 'canonical'));
 			add_action('kboard_head', array($this, 'rss'));
-				
+			
 			// Jetpack Open Graph Tags
 			add_filter('jetpack_enable_open_graph', '__return_false');
-				
+			
 			// Yoast SEO
-			add_filter('wpseo_title', array($this, 'getTitle'));
-			add_filter('wpseo_metadesc', array($this, 'getDescription'));
-			add_filter('wpseo_opengraph_image', array($this, 'getImage'));
+			add_filter('wpseo_title', '__return_false');
+			add_filter('wpseo_metadesc', '__return_false');
+			add_filter('wpseo_opengraph_desc', '__return_false');
+			add_filter('wpseo_opengraph_image', '__return_false');
+			add_filter('wpseo_twitter_card_type', '__return_false');
+			add_filter('wpseo_twitter_description', '__return_false');
+			add_filter('wpseo_twitter_image', '__return_false');
 			add_filter('wpseo_canonical', '__return_false');
-				
+			
 			// All in One SEO Pack
-			add_filter('aioseop_title_page', array($this, 'getTitle'));
-			add_filter('aioseop_description', array($this, 'getDescription'));
+			add_filter('aioseop_title_page', '__return_false');
+			add_filter('aioseop_description', '__return_false');
 			add_filter('aioseop_canonical_url', '__return_false');
 		}
 		return $this;
