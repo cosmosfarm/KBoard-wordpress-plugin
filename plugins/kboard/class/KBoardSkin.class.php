@@ -50,7 +50,7 @@ class KBoardSkin {
 		foreach($result as $row){
 			$list[] = stripslashes($row->skin);
 		}
-		return isset($list) && $list?$list:array();
+		return (isset($list) && $list) ? $list : array();
 	}
 }
 ?>
