@@ -22,16 +22,16 @@ function kboard_comments_mycred_setup_hook($installed){
 add_action('mycred_load_hooks', 'kboard_document_mycred_load_hook');
 function kboard_document_mycred_load_hook(){
 	class myCRED_KBoard_Document extends myCRED_Hook {
-		function __construct($hook_prefs, $type='mycred_default'){
+		function __construct($hook_prefs, $type){
 			parent::__construct( array(
 					'id'       => 'kboard_document',
 					'defaults' => array(
-							'insert'=>array('creds' => 2,'log' => 'KBoard 게시글 작성'),
-							'delete'=>array('creds' => -2,'log' => 'KBoard 게시글 삭제'),
+							'insert' => array('creds'=>2, 'log'=>'KBoard 게시글 작성'),
+							'delete' => array('creds'=>-2, 'log'=>'KBoard 게시글 삭제'),
 					)
 			), $hook_prefs, $type);
 		}
-		
+
 		public function run(){
 			if($this->prefs['insert']['creds'] != 0){
 				add_action('kboard_document_insert', array($this, 'kboard_document_insert'), 10, 2);
@@ -40,7 +40,7 @@ function kboard_document_mycred_load_hook(){
 				add_action('kboard_document_delete', array($this, 'kboard_document_delete'), 10, 2);
 			}
 		}
-		
+
 		public function kboard_document_insert($content_uid, $board_id){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
@@ -48,7 +48,7 @@ function kboard_document_mycred_load_hook(){
 				$this->core->add_creds('kboard_document_insert', $content->member_uid, $this->prefs['insert']['creds'], $this->prefs['insert']['log'], 0, '', $this->mycred_type);
 			}
 		}
-		
+
 		public function kboard_document_delete($content_uid, $board_id){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
@@ -56,30 +56,29 @@ function kboard_document_mycred_load_hook(){
 				$this->core->add_creds('kboard_document_delete', $content->member_uid, $this->prefs['delete']['creds'], $this->prefs['delete']['log'], 0, '', $this->mycred_type);
 			}
 		}
-		
+
 		public function preferences(){
 			$prefs = $this->prefs;
 			?>
-			<label class="subheader" for="<?php echo $this->field_id( 'creds' )?>"><?php _e('신규 게시글 작성', 'kboard')?></label>
 			<ol>
 				<li>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('creds')?>" id="<?php echo $this->field_id('creds')?>" value="<?php echo $this->core->format_number( $prefs['insert']['creds'] )?>" size="8"></div>
+					<label class="subheader" for="<?php echo $this->field_id(array('insert', 'creds'))?>"><?php _e('신규 게시글 작성', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('insert', 'creds'))?>" id="<?php echo $this->field_id(array('insert', 'creds'))?>" value="<?php echo $this->core->format_number($prefs['insert']['creds'])?>" size="8">
+				</li>
+				<li>
+					<label for="<?php echo $this->field_id(array('insert', 'log'))?>"><?php _e('로그 템플릿', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('insert', 'log'))?>" id="<?php echo $this->field_id(array('insert', 'log'))?>" value="<?php echo esc_attr($prefs['insert']['log'])?>" class="long">
 				</li>
 				<li class="empty">&nbsp;</li>
-				<li>
-					<label for="<?php echo $this->field_id( 'log' )?>"><?php _e('로그 템플릿', 'kboard')?></label>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('log')?>" id="<?php echo $this->field_id('log')?>" value="<?php echo esc_attr( $prefs['insert']['log'] )?>" class="long"></div>
-				</li>
 			</ol>
-			<label class="subheader" for="<?php echo $this->field_id( 'creds' )?>"><?php _e('기존 게시글 삭제', 'kboard')?></label>
 			<ol>
 				<li>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('creds')?>" id="<?php echo $this->field_id('creds')?>" value="<?php echo $this->core->format_number( $prefs['delete']['creds'] )?>" size="8"></div>
+					<label class="subheader" for="<?php echo $this->field_id(array('delete', 'log'))?>"><?php _e('기존 게시글 삭제', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('delete', 'creds'))?>" id="<?php echo $this->field_id(array('delete', 'creds'))?>" value="<?php echo $this->core->format_number($prefs['delete']['creds'])?>" size="8">
 				</li>
-				<li class="empty">&nbsp;</li>
 				<li>
-					<label for="<?php echo $this->field_id( 'log' )?>"><?php _e('로그 템플릿', 'kboard')?></label>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('log')?>" id="<?php echo $this->field_id('log')?>" value="<?php echo esc_attr( $prefs['delete']['log'] )?>" class="long"></div>
+					<label for="<?php echo $this->field_id(array('delete', 'log'))?>"><?php _e('로그 템플릿', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('delete', 'log'))?>" id="<?php echo $this->field_id(array('delete', 'log'))?>" value="<?php echo esc_attr($prefs['delete']['log'])?>" class="long">
 				</li>
 			</ol>
 			<?php
@@ -90,12 +89,12 @@ function kboard_document_mycred_load_hook(){
 add_action('mycred_load_hooks', 'kboard_comments_mycred_load_hook');
 function kboard_comments_mycred_load_hook(){
 	class myCRED_KBoard_Comments extends myCRED_Hook {
-		function __construct($hook_prefs, $type='mycred_default'){
+		function __construct($hook_prefs, $type){
 			parent::__construct( array(
 					'id'       => 'kboard_comments',
 					'defaults' => array(
-							'insert'=>array('creds' => 1,'log' => 'KBoard 댓글 작성'),
-							'delete'=>array('creds' => -1,'log' => 'KBoard 댓글 삭제'),
+							'insert' => array('creds'=>1, 'log'=>'KBoard 댓글 작성'),
+							'delete' => array('creds'=>-1, 'log'=>'KBoard 댓글 삭제'),
 					)
 			), $hook_prefs, $type);
 		}
@@ -128,26 +127,25 @@ function kboard_comments_mycred_load_hook(){
 		public function preferences(){
 			$prefs = $this->prefs;
 			?>
-			<label class="subheader" for="<?php echo $this->field_id( 'creds' )?>"><?php _e('신규 댓글 작성', 'kboard')?></label>
 			<ol>
 				<li>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('creds')?>" id="<?php echo $this->field_id('creds')?>" value="<?php echo $this->core->format_number( $prefs['insert']['creds'] )?>" size="8"></div>
+					<label class="subheader" for="<?php echo $this->field_id(array('insert', 'creds'))?>"><?php _e('신규 댓글 작성', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('insert', 'creds'))?>" id="<?php echo $this->field_id(array('insert', 'creds'))?>" value="<?php echo $this->core->format_number($prefs['insert']['creds'])?>" size="8">
+				</li>
+				<li>
+					<label for="<?php echo $this->field_id(array('insert', 'log'))?>"><?php _e('로그 템플릿', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('insert', 'log'))?>" id="<?php echo $this->field_id(array('insert', 'log'))?>" value="<?php echo esc_attr($prefs['insert']['log'])?>" class="long">
 				</li>
 				<li class="empty">&nbsp;</li>
-				<li>
-					<label for="<?php echo $this->field_id( 'log' )?>"><?php _e('로그 템플릿', 'kboard')?></label>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('log')?>" id="<?php echo $this->field_id('log')?>" value="<?php echo esc_attr( $prefs['insert']['log'] )?>" class="long"></div>
-				</li>
 			</ol>
-			<label class="subheader" for="<?php echo $this->field_id( 'creds' )?>"><?php _e('기존 댓글 삭제', 'kboard')?></label>
 			<ol>
 				<li>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('creds')?>" id="<?php echo $this->field_id('creds')?>" value="<?php echo $this->core->format_number( $prefs['delete']['creds'] )?>" size="8"></div>
+					<label class="subheader" for="<?php echo $this->field_id(array('delete', 'log'))?>"><?php _e('기존 댓글 삭제', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('delete', 'creds'))?>" id="<?php echo $this->field_id(array('delete', 'creds'))?>" value="<?php echo $this->core->format_number($prefs['delete']['creds'])?>" size="8">
 				</li>
-				<li class="empty">&nbsp;</li>
 				<li>
-					<label for="<?php echo $this->field_id( 'log' )?>"><?php _e('로그 템플릿', 'kboard')?></label>
-					<div class="h2"><input type="text" name="<?php echo $this->field_name('log')?>" id="<?php echo $this->field_id('log')?>" value="<?php echo esc_attr( $prefs['delete']['log'] )?>" class="long"></div>
+					<label for="<?php echo $this->field_id(array('delete', 'log'))?>"><?php _e('로그 템플릿', 'kboard')?></label>
+					<input type="text" name="<?php echo $this->field_name(array('delete', 'log'))?>" id="<?php echo $this->field_id(array('delete', 'log'))?>" value="<?php echo esc_attr($prefs['delete']['log'])?>" class="long">
 				</li>
 			</ol>
 			<?php
