@@ -35,7 +35,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="board_name">게시판 이름</label></th>
 						<td>
-							<input type="text" name="board_name" size="30" value="<?php if(!$board->board_name):?>무명게시판 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $board->board_name?><?php endif?>" id="board_name">
+							<input type="text" name="board_name" size="30" value="<?php if(!$board->board_name):?>무명게시판 <?php echo date('Y-m-d', current_time('timestamp'))?><?php else:?><?php echo $board->board_name?><?php endif?>" id="board_name">
 						</td>
 					</tr>
 					<tr valign="top">
@@ -62,14 +62,23 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="latest_shortcode">최신글 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width: 350px" id="latest_shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
+							<textarea style="width:350px" id="latest_shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
 							<p class="description">최신글 리스트를 생성합니다. <span style="font-weight:bold">페이지주소</span> 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고, 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
 							<p class="description">예제: <code>[kboard_latest id=<?php echo $board->uid?> url=<?php echo home_url()?>/freeboard rpp=5 category1=유머 category2=동영상]</code></p>
 							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>">최신글 뷰</a> 기능을 사용하세요.</p>
 						</td>
 					</tr>
 					<?php endif?>
-					
+					<tr valign="top">
+						<th scope="row"><label for="add_menu_page">관리자 페이지에서 게시판 보기</label></th>
+						<td>
+							<select name="add_menu_page" id="add_menu_page">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->add_menu_page):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">워드프레스 관리자 페이지의 KBoard 메뉴에 게시판을 추가합니다.</p>
+						</td>
+					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="skin">게시판 스킨 선택</label></th>
 						<td>
@@ -340,7 +349,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="permit">관리자 승인</label></th>
+						<th scope="row"><label for="permit">관리자 승인(베타)</label></th>
 						<td>
 							<select name="permit" id="permit">
 								<option value="">비활성화</option>

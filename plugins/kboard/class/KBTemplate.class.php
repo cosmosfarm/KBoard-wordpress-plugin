@@ -1,23 +1,26 @@
 <?php
 /**
  * KBoard 템플릿 페이지 설정
- * @link www.cosmosfarm.com
- * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl.html
- */
+* @link www.cosmosfarm.com
+* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+* @license http://www.gnu.org/licenses/gpl.html
+*/
 class KBTemplate {
-	
-	public function __construct(){
+
+	/**
+	 * 템플릿 페이지를 표시한다.
+	 */
+	public function route(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
 			case 'kboard_media': add_action('template_redirect', array($this, 'media')); break;
 			case 'kboard_document_print': add_action('template_redirect', array($this, 'documentPrint')); break;
 		}
-		
+
 		$kboard_id = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		if($kboard_id) $this->board($kboard_id);
 	}
-	
+
 	/**
 	 * 게시판 화면을 출력한다.
 	 * @param int $board_id
@@ -30,7 +33,7 @@ class KBTemplate {
 			exit;
 		}
 	}
-	
+
 	/**
 	 * 코스모스팜 소셜댓글 출력한다.
 	 * @param KBoardMeta $meta
@@ -43,7 +46,7 @@ class KBTemplate {
 		include KBOARD_DIR_PATH . '/template/comments_plugin.php';
 		return ob_get_clean();
 	}
-	
+
 	/**
 	 * 코스모스팜 소셜댓글의 회원연동 API 토큰을 반환한다.
 	 * @return string
@@ -57,7 +60,7 @@ class KBTemplate {
 			return '';
 		}
 	}
-	
+
 	/**
 	 * 이미지 추가하기 팝업창 화면을 출력한다.
 	 */
@@ -71,26 +74,26 @@ class KBTemplate {
 		include_once KBOARD_DIR_PATH . '/template/media.php';
 		exit;
 	}
-	
+
 	/**
 	 * 이미지 추가하기 팝업창 화면을 출력한다.
 	 */
 	public function documentPrint(){
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-		
+
 		$content = new KBContent();
 		$content->initWithUID($uid);
-		
+
 		if(!$content->uid){
 			wp_die(__('You do not have permission.', 'kboard'));
 		}
-		
+
 		$board = new KBoard($content->board_id);
-		
+
 		if(!$board->isReader($content->member_uid, $content->secret)){
 			wp_die(__('You do not have permission.', 'kboard'));
 		}
-		
+
 		include_once KBOARD_DIR_PATH . '/template/document_print.php';
 		exit;
 	}

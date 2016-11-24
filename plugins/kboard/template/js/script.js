@@ -25,7 +25,7 @@ function kboard_editor_open_media(){
 		init_window_size();
 		jQuery(window).resize(init_window_size);
 		
-		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', '?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
+		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
 		jQuery('body').append(background).append(wrapper);
 		
 		if(!jQuery('input[name="media_group"]').filter(function(){return this.value==kboard_settings.media_group}).length){

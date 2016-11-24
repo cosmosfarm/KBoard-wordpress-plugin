@@ -153,7 +153,7 @@ class KBoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		if($this->meta->view_iframe && !kboard_id()){
+		if(($this->meta->view_iframe || is_admin()) && !kboard_id()){
 			$url = new KBUrl();
 			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 		}
