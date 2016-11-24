@@ -867,6 +867,7 @@ class KBContent {
 			$this->board = new KBoard($this->board_id);
 			return $this->board;
 		}
+		return new KBoard();
 	}
 
 	/**

@@ -649,8 +649,13 @@ function kboard_add_toolbar_link($wp_admin_bar){
 	}
 }
 
+/*
+ * head 태그 사이에 내용을 출력한다.
+ */
 add_action('wp_head', 'kboard_head', 999);
 function kboard_head(){
+	print_late_styles();
+	
 	$custom_css = get_option('kboard_custom_css');
 	if($custom_css){
 		echo "<style type=\"text/css\">{$custom_css}</style>";

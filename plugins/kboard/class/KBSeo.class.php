@@ -24,7 +24,7 @@ class KBSeo {
 				
 				$is_display = false;
 				$board = new KBoard($this->content->board_id);
-				if(!$board->meta->view_iframe){
+				if(!$board->meta->view_iframe && !is_admin()){
 					if($board->isReader($this->content->member_uid, $this->content->secret)){
 						$is_display = true;
 					}
