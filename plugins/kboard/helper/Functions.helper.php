@@ -296,18 +296,44 @@ function kboard_parse_size($size){
  * @param boolean $to_array
  */
 function kboard_allow_file_extensions($to_array=false){
-	$file_extensions = get_option('kboard_allow_file_extensions');
+	$file_extensions = get_option('kboard_allow_file_extensions', 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4');
 	$file_extensions = trim($file_extensions);
-
-	if(!$file_extensions){
-		$file_extensions = 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4';
-	}
-
+	
 	if($to_array){
 		$file_extensions = explode(',', $file_extensions);
 		return array_map('trim', $file_extensions);
 	}
 	return $file_extensions;
+}
+
+/**
+ * 작성자 금지단어를 반환한다.
+ * @param string $to_array
+ */
+function kboard_name_filter($to_array=false){
+	$name_filter = get_option('kboard_name_filter', '관리자, 운영자, admin, administrator');
+	$name_filter = trim($name_filter);
+	
+	if($to_array){
+		$name_filter = explode(',', $name_filter);
+		return array_map('trim', $name_filter);
+	}
+	return $name_filter;
+}
+
+/**
+ * 본문/제목/댓글 금지단어를 반환한다.
+ * @param string $to_array
+ */
+function kboard_content_filter($to_array=false){
+	$content_filter = get_option('kboard_content_filter', '');
+	$content_filter = trim($content_filter);
+	
+	if($to_array){
+		$content_filter = explode(',', $content_filter);
+		return array_map('trim', $content_filter);
+	}
+	return $content_filter;
 }
 
 /**

@@ -140,9 +140,33 @@ class KBContent {
 		if(isset($_POST['status'])) $this->status = kboard_htmlclear($_POST['status']);
 		$this->password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
 
+		// 임시저장
 		if($save_temporary){
-			// 임시저장
 			$this->saveTemporary();
+		}
+		
+		$board = $this->getBoard();
+		if(!$board->isAdmin()){
+			
+			// 작성자 금지단어 체크
+			$name_filter = kboard_name_filter(true);
+			if($name_filter){
+				foreach($name_filter as $filter){
+					if($filter && strpos($this->member_display, $filter) !== false){
+						die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
+					}
+				}
+			}
+			
+			// 본문/제목/댓글 금지단어 체크
+			$content_filter = kboard_content_filter(true);
+			if($content_filter){
+				foreach($content_filter as $filter){
+					if($filter && strpos($this->content, $filter) !== false){
+						die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
+					}
+				}
+			}
 		}
 
 		if($this->uid && $this->date){
@@ -165,8 +189,6 @@ class KBContent {
 			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
-			$board = $this->getBoard();
-
 			if($board->useCAPTCHA()){
 				// captcha 코드 확인
 				include_once 'KBCaptcha.class.php';

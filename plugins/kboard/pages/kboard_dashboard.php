@@ -65,7 +65,7 @@
 		첨부파일 업로드에 문제가 있다면 먼저 호스팅 관리자에게 문의 해보세요.
 		</p>
 		<p>
-			<input type="text" name="kboard_allow_file_extensions" value="<?php echo kboard_allow_file_extensions()?>" style="width:100%;">
+			<input type="text" name="kboard_allow_file_extensions" value="<?php echo kboard_allow_file_extensions()?>" style="width:100%">
 			<button class="button-secondary" onclick="kboard_system_option_update('kboard_allow_file_extensions', jQuery('input[name=kboard_allow_file_extensions]').val())">확장자 업데이트</button>
 		</p>
 	</li>
@@ -123,6 +123,30 @@
 		<p>
 			<textarea rows="10" name="kboard_iframe_whitelist"><?php echo kboard_iframe_whitelist()?></textarea>
 			<button class="button-secondary" onclick="kboard_system_option_update('kboard_iframe_whitelist', jQuery('textarea[name=kboard_iframe_whitelist]').val())">아이프레임 화이트리스트 업데이트</button>
+		</p>
+	</li>
+	<li>
+		<h4>작성자 금지단어</h4>
+		<p>
+		작성자 이름으로 사용할 수 없는 단어를 입력해주세요.<br>
+		관리자가 아닌 경우에 포함된 단어가 존재하면 게시판 글 작성을 중단합니다.<br>
+		단어를 콤마(,)로 구분해서 추가해주세요.
+		</p>
+		<p>
+			<input type="text" name="kboard_name_filter" value="<?php echo kboard_name_filter()?>" style="width:100%">
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_name_filter', jQuery('input[name=kboard_name_filter]').val())">금지단어 업데이트</button>
+		</p>
+	</li>
+	<li>
+		<h4>본문/제목/댓글 금지단어</h4>
+		<p>
+		게시글 본문과 제목 그리고 댓글에 사용할 수 없는 단어를 입력해주세요.<br>
+		관리자가 아닌 경우에 포함된 단어가 존재하면 게시판 글 작성을 중단합니다.<br>
+		단어를 콤마(,)로 구분해서 추가해주세요.
+		</p>
+		<p>
+			<input type="text" name="kboard_content_filter" value="<?php echo kboard_content_filter()?>" style="width:100%">
+			<button class="button-secondary" onclick="kboard_system_option_update('kboard_content_filter', jQuery('input[name=kboard_content_filter]').val())">금지단어 업데이트</button>
 		</p>
 	</li>
 </ul>

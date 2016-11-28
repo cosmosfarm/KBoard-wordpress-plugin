@@ -17,7 +17,6 @@ class KBCommentController {
 		
 		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_nopriv_kboard_comment_like', array($this, 'commentLike'));
-		
 		add_action('wp_ajax_kboard_comment_unlike', array($this, 'commentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_comment_unlike', array($this, 'commentUnlike'));
 	}
@@ -85,10 +84,34 @@ class KBCommentController {
 				die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			
+			if(!$board->isAdmin()){
+				
+				// 작성자 금지단어 체크
+				$name_filter = kboard_name_filter(true);
+				if($name_filter){
+					foreach($name_filter as $filter){
+						if($filter && strpos($member_display, $filter) !== false){
+							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
+						}
+					}
+				}
+					
+				// 본문/제목/댓글 금지단어 체크
+				$content_filter = kboard_content_filter(true);
+				if($content_filter){
+					foreach($content_filter as $filter){
+						if($filter && strpos($content, $filter) !== false){
+							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
+						}
+					}
+				}
+			}
+			
 			$commentList = new KBCommentList($content_uid);
 			$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
 			
-			header("Location: {$referer}#kboard-comments-{$content_uid}");
+			//header("Location: {$referer}#kboard-comments-{$content_uid}");
+			wp_redirect("{$referer}#kboard-comments-{$content_uid}");
 			exit;
 		}
 		wp_die(__('You do not have permission.', 'kboard-comments'));
@@ -139,7 +162,8 @@ class KBCommentController {
 		}
 		else{
 			// 삭제권한이 있는 사용자일 경우 팝업창은 없기 때문에 페이지 이동한다.
-			header("Location: {$referer}");
+			//header("Location: {$referer}");
+			wp_redirect($referer);
 		}
 		exit;
 	}

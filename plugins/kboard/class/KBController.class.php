@@ -14,16 +14,15 @@ class KBController {
 			case 'kboard_media_upload': add_action('template_redirect', array($this, 'mediaUpload'), 0); break;
 			case 'kboard_media_delete': add_action('template_redirect', array($this, 'mediaDelete'), 0); break;
 		}
-
+		
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
 			case 'kboard_file_delete': add_action('template_redirect', array($this, 'fileDelete'), 0); break;
 			case 'kboard_file_download': add_action('template_redirect', array($this, 'fileDownload'), 0); break;
 		}
-
+		
 		add_action('wp_ajax_kboard_document_like', array($this, 'documentLike'));
 		add_action('wp_ajax_nopriv_kboard_document_like', array($this, 'documentLike'));
-
 		add_action('wp_ajax_kboard_document_unlike', array($this, 'documentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_document_unlike', array($this, 'documentUnlike'));
 	}
@@ -34,26 +33,26 @@ class KBController {
 	public function editorExecute(){
 		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
 			header('Content-Type: text/html; charset=UTF-8');
-				
+			
 			$uid = intval(isset($_POST['uid'])?$_POST['uid']:'');
 			$board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
-				
+			
 			$board = new KBoard($board_id);
 			if(!$board->id){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
-				
+			
 			if($board->isWriter() && $board->permission_write=='all' && $_POST['title']){
 				if(!is_user_logged_in() && !$_POST['password']){
 					die('<script>alert("'.__('Please enter the password.', 'kboard').'");history.go(-1);</script>');
 				}
 			}
-				
+			
 			$content = new KBContent();
 			$content->initWithUID($uid);
 			$content->setBoardID($board_id);
 			$content->board = $board;
-				
+			
 			if(!$uid && !$board->isWriter()){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
@@ -67,18 +66,18 @@ class KBController {
 					die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 				}
 			}
-				
+			
 			// 임시저장
 			$save_temporary = true;
-				
+			
 			// 실행
 			$execute_uid = $content->execute($save_temporary);
-				
+			
 			// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 			if($content->password) $board->isConfirm($content->password, $execute_uid);
-				
+			
 			$url = new KBUrl();
-				
+			
 			if($content->execute_action == 'insert'){
 				if(!$board->meta->after_executing_mod){
 					$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
@@ -90,9 +89,9 @@ class KBController {
 			else{
 				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
 			}
-				
+			
 			$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $board_id);
-				
+			
 			if($content->execute_action == 'insert'){
 				if($board->meta->conversion_tracking_code){
 					echo $board->meta->conversion_tracking_code;
@@ -115,7 +114,7 @@ class KBController {
 	public function mediaUpload(){
 		if(isset($_POST['kboard-media-upload-nonce']) && wp_verify_nonce($_POST['kboard-media-upload-nonce'], 'kboard-media-upload')){
 			header('Content-Type: text/html; charset=UTF-8');
-				
+			
 			$media = new KBContentMedia();
 			$media->board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
 			$media->media_group = kboard_htmlclear(isset($_POST['media_group'])?$_POST['media_group']:'');
@@ -130,7 +129,7 @@ class KBController {
 	public function mediaDelete(){
 		if(isset($_POST['kboard-media-upload-nonce']) && wp_verify_nonce($_POST['kboard-media-upload-nonce'], 'kboard-media-upload')){
 			header("Content-Type: text/html; charset=UTF-8");
-				
+			
 			$media_uid = intval(isset($_POST['media_uid'])?$_POST['media_uid']:'');
 			$media = new KBContentMedia();
 			$media->deleteWithMediaUID($media_uid);

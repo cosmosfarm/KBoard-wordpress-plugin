@@ -9,7 +9,8 @@ Next Version
   2. 스킨 내부에 $depth 변수 추가 (답글의 경우 $depth 값 증가)
   3. kboard_comments_login_content 액션 추가
   4. KBCommentListTable 클래스 추가
-  5. 버그 수정
+  5. 작성자/본문 금지단어 기능 추가
+  6. 버그 수정
 
 
 4.3

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-11-08 23:48+0900\n"
-"PO-Revision-Date: 2016-11-08 23:52+0900\n"
+"POT-Creation-Date: 2016-11-28 21:52+0900\n"
+"PO-Revision-Date: 2016-11-28 21:53+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -33,40 +33,38 @@ msgstr "KBoard コメントポイント"
 msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "KBoard コメントポイントを管理します。"
 
-#: class/KBAdminController.class.php:21 class/KBAdminController.class.php:56
-msgid "관리 권한이 없습니다."
-msgstr "管理権限がありません。"
+#: class/KBAdminController.class.php:26 class/KBAdminController.class.php:110
+#: class/KBAdminController.class.php:145 class/KBAdminController.class.php:178
+#: class/KBController.class.php:43 class/KBController.class.php:58
+#: class/KBController.class.php:63 class/KBController.class.php:67
+#: class/KBController.class.php:169 class/KBController.class.php:194
+#: class/KBController.class.php:237 class/KBController.class.php:263
+#: class/KBController.class.php:268 class/KBController.class.php:273
+#: class/KBTemplate.class.php:99 class/KBTemplate.class.php:105
+#: class/KBoardBuilder.class.php:255 class/KBoardBuilder.class.php:322
+#: class/KBoardBuilder.class.php:332 class/KBoardBuilder.class.php:427
+#: index.php:297
+msgid "You do not have permission."
+msgstr "権限がありません。"
 
-#: class/KBAdminController.class.php:32 class/KBAdminController.class.php:34
-#: class/KBController.class.php:149 class/KBController.class.php:151
-#: class/KBController.class.php:217 class/KBController.class.php:219
-#: class/KBoardBuilder.class.php:404
+#: class/KBAdminController.class.php:121 class/KBAdminController.class.php:123
+#: class/KBController.class.php:153 class/KBController.class.php:155
+#: class/KBController.class.php:221 class/KBController.class.php:223
+#: class/KBoardBuilder.class.php:411
 msgid "This page is restricted from external access."
 msgstr "このページは外部からのアクセスを制限しています。"
 
-#: class/KBAdminController.class.php:69
+#: class/KBAdminController.class.php:158
 msgid "복원파일의 데이터로 복구 되었습니다."
 msgstr "復元ファイルのデータに復元なりました。"
 
-#: class/KBAdminController.class.php:72
+#: class/KBAdminController.class.php:161
 msgid "올바른 복원파일이 아닙니다."
 msgstr "正しい復元ファイルがありません。"
 
-#: class/KBAdminController.class.php:77
+#: class/KBAdminController.class.php:166
 msgid "파일 업로드에 실패 했습니다."
 msgstr "ファイルアップロードに失敗しました。"
-
-#: class/KBAdminController.class.php:105 class/KBController.class.php:43
-#: class/KBController.class.php:58 class/KBController.class.php:63
-#: class/KBController.class.php:67 class/KBController.class.php:165
-#: class/KBController.class.php:190 class/KBController.class.php:233
-#: class/KBController.class.php:259 class/KBController.class.php:264
-#: class/KBController.class.php:269 class/KBTemplate.class.php:85
-#: class/KBTemplate.class.php:91 class/KBoardBuilder.class.php:254
-#: class/KBoardBuilder.class.php:321 class/KBoardBuilder.class.php:331
-#: class/KBoardBuilder.class.php:420 index.php:252 index.php:381
-msgid "You do not have permission."
-msgstr "権限がありません。"
 
 #: class/KBContent.class.php:39
 #, php-format
@@ -86,16 +84,21 @@ msgstr "&#91;承認待ち&#93; 管理者の承認を待っています。"
 msgid "&#91;Waiting for administrator Approval.&#93;"
 msgstr "&#91;管理者の承認を待っています。&#93;"
 
-#: class/KBContent.class.php:166
+#: class/KBContent.class.php:156 class/KBContent.class.php:166
+#, php-format
+msgid "\"%s\" is not available."
+msgstr "\"%s\"は使用できません。"
+
+#: class/KBContent.class.php:198
 msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 msgstr "セキュリティーナンバーが正しくありません。"
 
-#: class/KBContent.class.php:199
+#: class/KBContent.class.php:231
 msgid "KBoard new document"
 msgstr "KBoard 新規登録"
 
-#: class/KBContent.class.php:415 class/KBContent.class.php:455
-#: class/KBContent.class.php:540
+#: class/KBContent.class.php:450 class/KBContent.class.php:490
+#: class/KBContent.class.php:575
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "アップロード経路がありません。IDを入力した後、初期化してください。"
 
@@ -231,24 +234,24 @@ msgid "The reply."
 msgstr "コメントの作成"
 
 #: class/KBContentListTable.class.php:172
-#: class/KBContentListTable.class.php:175 index.php:695
+#: class/KBContentListTable.class.php:175 index.php:603
 msgid "Yes"
 msgstr "はい"
 
 #: class/KBContentListTable.class.php:172
-#: class/KBContentListTable.class.php:175 index.php:696
+#: class/KBContentListTable.class.php:175 index.php:604
 msgid "No"
 msgstr "いいえ"
 
-#: class/KBController.class.php:48 index.php:687
+#: class/KBController.class.php:48 index.php:595
 msgid "Please enter the password."
 msgstr "パスワードを入力してください。。"
 
-#: class/KBController.class.php:250 class/KBoardBuilder.class.php:225
+#: class/KBController.class.php:254 class/KBoardBuilder.class.php:226
 msgid "Please Log in to continue."
 msgstr "ログインしてください。"
 
-#: class/KBController.class.php:282
+#: class/KBController.class.php:286
 msgid "File does not exist."
 msgstr "ファイルがありません。"
 
@@ -315,7 +318,7 @@ msgstr "前へ"
 msgid "It is an invalid access."
 msgstr "許可がありません。"
 
-#: class/KBSeo.class.php:182
+#: class/KBSeo.class.php:186
 msgid "Integration feed"
 msgstr "全体フィード"
 
@@ -347,7 +350,7 @@ msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権
 msgid "No document."
 msgstr "書き込みがありません"
 
-#: class/KBoardBuilder.class.php:303
+#: class/KBoardBuilder.class.php:304
 msgid "Please enter your password."
 msgstr "パスワードを入力してください。。"
 
@@ -423,142 +426,143 @@ msgstr "最後"
 msgid "KBoard : 게시판"
 msgstr "KBoard : Forum"
 
-#: index.php:109 template/media.php:9 template/media.php:64
+#: index.php:107 template/media.php:9 template/media.php:64
 msgid "KBoard 미디어 추가"
 msgstr "KBoard メディアを追加"
 
-#: index.php:134 index.php:159
+#: index.php:132 index.php:157
 msgid "게시판 생성"
 msgstr "Forum生成"
 
-#: index.php:157
+#: index.php:155
 msgid "대시보드"
 msgstr "ダッシュボード"
 
-#: index.php:158
+#: index.php:156
 msgid "게시판 목록"
 msgstr "Forumリスト"
 
-#: index.php:160
+#: index.php:158
 msgid "최신글 뷰 목록"
 msgstr "Latestviewリスト"
 
-#: index.php:161
+#: index.php:159
 msgid "최신글 뷰 생성"
 msgstr "Latestview生成"
 
-#: index.php:162
+#: index.php:160
 msgid "백업 및 복구"
 msgstr "バックアップおよび復元"
 
-#: index.php:163
+#: index.php:161
 msgid "전체 게시글"
 msgstr "全体掲示文"
 
-#: index.php:166
+#: index.php:164
 msgid "게시판 업데이트"
 msgstr "アップデート"
 
-#: index.php:170 index.php:171 pages/welcome.php:31
+#: index.php:168 index.php:169 pages/welcome.php:31
 msgid "스토어"
 msgstr "ストア"
 
-#: index.php:174
+#: index.php:172
 msgid "전체 댓글"
 msgstr "全体コメント"
 
-#: index.php:682 skin/avatar/editor.php:97 skin/customer/editor.php:107
+#: index.php:590 skin/avatar/editor.php:97 skin/customer/editor.php:107
 #: skin/default/editor.php:97 skin/thumbnail/editor.php:97
 msgid "KBoard Add Media"
 msgstr "KBoard メディアを追加"
 
-#: index.php:683
+#: index.php:591
 msgid "Next"
 msgstr "次へ"
 
-#: index.php:684
+#: index.php:592
 msgid "Prev"
 msgstr "前へ"
 
-#: index.php:685
+#: index.php:593
 msgid "Please enter the title."
 msgstr "タイトルを入力してください。"
 
-#: index.php:686
+#: index.php:594
 msgid "Please enter the author."
 msgstr "投稿者を入力してください。"
 
-#: index.php:688
+#: index.php:596
 msgid "Please enter the CAPTCHA."
 msgstr "セキュリティーナンバーを入力してください。"
 
-#: index.php:689
+#: index.php:597
 msgid "You have already voted."
 msgstr "すでに投票しました。"
 
-#: index.php:690
+#: index.php:598
 msgid "Please wait."
 msgstr "少々お待ちください。"
 
-#: index.php:691 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:14
+#: index.php:599 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:14
 #: skin/customer/list.php:14 skin/default/list.php:14
 #: skin/thumbnail/list.php:14
 msgid "Newest"
 msgstr "最新順"
 
-#: index.php:692 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:15
+#: index.php:600 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:15
 #: skin/customer/list.php:15 skin/default/list.php:15
 #: skin/thumbnail/list.php:15
 msgid "Best"
 msgstr "推薦順"
 
-#: index.php:693 pages/kboard_latestview_setting.php:74 skin/avatar/list.php:17
+#: index.php:601 pages/kboard_latestview_setting.php:74 skin/avatar/list.php:17
 #: skin/customer/list.php:17 skin/default/list.php:17
 #: skin/thumbnail/list.php:17
 msgid "Updated"
 msgstr "更新順"
 
-#: index.php:694 pages/kboard_latestview_setting.php:73 skin/avatar/list.php:16
+#: index.php:602 pages/kboard_latestview_setting.php:73 skin/avatar/list.php:16
 #: skin/customer/list.php:16 skin/default/list.php:16
 #: skin/thumbnail/list.php:16
 msgid "Viewed"
 msgstr "照会順"
 
-#: index.php:697
+#: index.php:605
 msgid "Did it help?"
 msgstr "役に立ちましたか?"
+
+#: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
+#: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6
+#: pages/kboard_latestview.php:6 pages/kboard_latestview_setting.php:6
+#: pages/kboard_list.php:6 pages/kboard_setting.php:11 pages/kboard_store.php:7
+msgid "Home"
+msgstr "ホームページ"
+
+#: pages/kboard_admin_view.php:7 pages/kboard_backup.php:7
+#: pages/kboard_content_list.php:7 pages/kboard_dashboard.php:7
+#: pages/kboard_latestview.php:7 pages/kboard_latestview_setting.php:7
+#: pages/kboard_list.php:7 pages/kboard_setting.php:12 pages/kboard_store.php:8
+msgid "Community"
+msgstr "フォーラム"
+
+#: pages/kboard_admin_view.php:8 pages/kboard_backup.php:8
+#: pages/kboard_content_list.php:8 pages/kboard_dashboard.php:8
+#: pages/kboard_latestview.php:8 pages/kboard_latestview_setting.php:8
+#: pages/kboard_list.php:8 pages/kboard_setting.php:13 pages/kboard_store.php:9
+msgid "Support"
+msgstr "顧客支援"
+
+#: pages/kboard_admin_view.php:9 pages/kboard_backup.php:9
+#: pages/kboard_content_list.php:9 pages/kboard_dashboard.php:9
+#: pages/kboard_latestview.php:9 pages/kboard_latestview_setting.php:9
+#: pages/kboard_list.php:9 pages/kboard_setting.php:14
+#: pages/kboard_store.php:10
+msgid "Blog"
+msgstr "ブログ"
 
 #: pages/kboard_backup.php:5
 msgid "KBoard : 백업 및 복구"
 msgstr "KBoard : バックアップおよび復元"
-
-#: pages/kboard_backup.php:6 pages/kboard_content_list.php:6
-#: pages/kboard_dashboard.php:6 pages/kboard_latestview.php:6
-#: pages/kboard_latestview_setting.php:6 pages/kboard_list.php:6
-#: pages/kboard_setting.php:11 pages/kboard_store.php:7
-msgid "Home"
-msgstr "ホームページ"
-
-#: pages/kboard_backup.php:7 pages/kboard_content_list.php:7
-#: pages/kboard_dashboard.php:7 pages/kboard_latestview.php:7
-#: pages/kboard_latestview_setting.php:7 pages/kboard_list.php:7
-#: pages/kboard_setting.php:12 pages/kboard_store.php:8
-msgid "Community"
-msgstr "フォーラム"
-
-#: pages/kboard_backup.php:8 pages/kboard_content_list.php:8
-#: pages/kboard_dashboard.php:8 pages/kboard_latestview.php:8
-#: pages/kboard_latestview_setting.php:8 pages/kboard_list.php:8
-#: pages/kboard_setting.php:13 pages/kboard_store.php:9
-msgid "Support"
-msgstr "顧客支援"
-
-#: pages/kboard_backup.php:9 pages/kboard_content_list.php:9
-#: pages/kboard_dashboard.php:9 pages/kboard_latestview.php:9
-#: pages/kboard_latestview_setting.php:9 pages/kboard_list.php:9
-#: pages/kboard_setting.php:14 pages/kboard_store.php:10
-msgid "Blog"
-msgstr "ブログ"
 
 #: pages/kboard_backup.php:14 pages/kboard_backup.php:19
 msgid "백업파일 다운로드"
@@ -658,7 +662,7 @@ msgstr "ソーシャル書き込み"
 msgid "확장설정"
 msgstr "拡張設定"
 
-#: pages/kboard_setting.php:515
+#: pages/kboard_setting.php:524
 msgid "변경 사항 저장"
 msgstr "変更事項保存"
 
@@ -977,6 +981,9 @@ msgstr "選択したイメージを本文に挿入しました。 窓を閉め�
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "イメージファイルだけをアップロード可能です。"
+
+#~ msgid "관리 권한이 없습니다."
+#~ msgstr "管理権限がありません。"
 
 #~ msgid "게시물 표시"
 #~ msgstr "掲示物表示"
