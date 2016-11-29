@@ -1,12 +1,12 @@
 <?php
 /**
  * KBoard Comments Controller
- * @link www.cosmosfarm.com
- * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
- * @license http://www.gnu.org/licenses/gpl.html
- */
+* @link www.cosmosfarm.com
+* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+* @license http://www.gnu.org/licenses/gpl.html
+*/
 class KBCommentController {
-	
+
 	public function __construct(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
@@ -14,20 +14,20 @@ class KBCommentController {
 			case 'kboard_comment_delete': add_action('template_redirect', array($this, 'delete')); break;
 			case 'kboard_comment_update': add_action('template_redirect', array($this, 'update')); break;
 		}
-		
+
 		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_nopriv_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_kboard_comment_unlike', array($this, 'commentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_comment_unlike', array($this, 'commentUnlike'));
 	}
-	
+
 	/**
 	 * 댓글 입력
 	 */
 	public function insert(){
 		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
-			
+				
 			$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 			$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 			if($referer){
@@ -38,27 +38,32 @@ class KBCommentController {
 				wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 			}
 			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
-			
+				
 			$content = isset($_POST['content'])?$_POST['content']:'';
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
 			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
 			$password = isset($_POST['password'])?$_POST['password']:'';
 			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
-			
+				
 			if(!class_exists('KBCaptcha')){
 				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
 			}
-			
+				
 			$captcha = new KBCaptcha();
 			$content = $content?$content:$comment_content;
 			$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
 			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
 			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
-			
+				
 			$document = new KBContent();
 			$document->initWithUID($content_uid);
 			$board = new KBoard($document->board_id);
-			
+				
+			$temporary = new stdClass();
+			$temporary->member_display = $member_display;
+			$temporary->content = $content;
+			setcookie('kboard_temporary_comments', base64_encode(serialize($temporary)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+				
 			if(!$board->id){
 				die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
 			}
@@ -83,9 +88,9 @@ class KBCommentController {
 			else if(!$content_uid){
 				die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 			}
-			
-			if(!$board->isAdmin()){
 				
+			if(!$board->isAdmin()){
+
 				// 작성자 금지단어 체크
 				$name_filter = kboard_name_filter(true);
 				if($name_filter){
@@ -106,23 +111,26 @@ class KBCommentController {
 					}
 				}
 			}
-			
+				
 			$commentList = new KBCommentList($content_uid);
-			$commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
-			
-			//header("Location: {$referer}#kboard-comments-{$content_uid}");
+			$insert_id = $commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
+				
+			if($insert_id){
+				setcookie('kboard_temporary_comments', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+			}
+				
 			wp_redirect("{$referer}#kboard-comments-{$content_uid}");
 			exit;
 		}
 		wp_die(__('You do not have permission.', 'kboard-comments'));
 	}
-	
+
 	/**
 	 * 댓글 삭제
 	 */
 	public function delete(){
 		header("Content-Type: text/html; charset=UTF-8");
-		
+
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
@@ -133,26 +141,26 @@ class KBCommentController {
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		}
 		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
-		
+
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?$_POST['password']:'';
-		
+
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!is_user_logged_in() && !$password){
 			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		
+
 		$comment = new KBComment();
 		$comment->initWithUID($uid);
-		
+
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		
+
 		$comment->delete();
-		
+
 		if($comment->password && $comment->password == $password){
 			// 팝업창으로 비밀번호 확인 후 opener 윈도우를 새로고침 한다.
 			echo '<script>';
@@ -162,18 +170,17 @@ class KBCommentController {
 		}
 		else{
 			// 삭제권한이 있는 사용자일 경우 팝업창은 없기 때문에 페이지 이동한다.
-			//header("Location: {$referer}");
 			wp_redirect($referer);
 		}
 		exit;
 	}
-	
+
 	/**
 	 * 댓글 수정
 	 */
 	public function update(){
 		header("Content-Type: text/html; charset=UTF-8");
-		
+
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
@@ -184,11 +191,11 @@ class KBCommentController {
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		}
 		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
-		
+
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?$_POST['password']:'';
 		$content = isset($_POST['content'])?$_POST['content']:'';
-		
+
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
@@ -198,24 +205,24 @@ class KBCommentController {
 		else if(!is_user_logged_in() && !$password){
 			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		
+
 		$comment = new KBComment();
 		$comment->initWithUID($uid);
-		
+
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-		
+
 		$comment->content = $content;
 		$comment->update();
-		
+
 		echo '<script>';
 		echo 'opener.window.location.reload();';
 		echo 'window.close();';
 		echo '</script>';
 		exit;
 	}
-	
+
 	/**
 	 * 댓글 좋아요
 	 */
@@ -223,10 +230,10 @@ class KBCommentController {
 		if(isset($_POST['comment_uid']) && intval($_POST['comment_uid'])){
 			if(!@in_array($_POST['comment_uid'], $_SESSION['comment_vote'])){
 				$_SESSION['comment_vote'][] = $_POST['comment_uid'];
-				
+
 				$comment = new KBComment();
 				$comment->initWithUID($_POST['comment_uid']);
-				
+
 				if($comment->uid){
 					$comment->like+=1;
 					$comment->vote = $comment->like - $comment->unlike;
@@ -238,7 +245,7 @@ class KBCommentController {
 		}
 		exit;
 	}
-	
+
 	/**
 	 * 댓글 싫어요
 	 */
@@ -246,10 +253,10 @@ class KBCommentController {
 		if(isset($_POST['comment_uid']) && intval($_POST['comment_uid'])){
 			if(!@in_array($_POST['comment_uid'], $_SESSION['comment_vote'])){
 				$_SESSION['comment_vote'][] = $_POST['comment_uid'];
-				
+
 				$comment = new KBComment();
 				$comment->initWithUID($_POST['comment_uid']);
-				
+
 				if($comment->uid){
 					$comment->unlike+=1;
 					$comment->vote = $comment->like - $comment->unlike;

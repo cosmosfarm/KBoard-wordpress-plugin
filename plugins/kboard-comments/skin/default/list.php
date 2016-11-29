@@ -39,7 +39,7 @@
 				<?php else:?>
 				<div class="comments-field">
 					<label class="comments-field-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label>
-					<input type="text" id="comments_member_display" name="member_display" value="" placeholder="<?php echo __('Author', 'kboard-comments')?>...">
+					<input type="text" id="comments_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>...">
 				</div>
 				<div class="comments-field">
 					<label class="comments-field-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label>
@@ -55,7 +55,7 @@
 				<?php endif?>
 				
 				<div class="comments-submit">
-					<div class="comments-submit-text"><textarea name="content"></textarea></div>
+					<div class="comments-submit-text"><textarea name="content"><?php echo $temporary->content?></textarea></div>
 					<div class="comments-submit-button"><input type="submit" value="<?php echo __('Submit', 'kboard-comments')?>"></div>
 				</div>
 			</div>
