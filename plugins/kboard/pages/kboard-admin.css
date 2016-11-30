@@ -6,6 +6,12 @@
 .kboard-header-logo  { float: left; margin: 7px 8px 0 0; width: 36px; height: 34px; background: url(../images/icon-big.png) left top no-repeat; }
 .kboard-hide { display: none; }
 
+.kboard-content-list .column-title { width: 40%; }
+.kboard-comments-list .column-board_name { width: 150px; }
+.kboard-comments-list .column-user_display { width: 100px; }
+.kboard-comments-list .column-content { width: 40%; }
+.kboard-comments-list .kboard-comments-open { margin-top: 20px; }
+
 .kbstore-thumbnail { width: 100px; }
 .kbstore-title { width: 250px; }
 .kbstore-category { width: 150px; }
@@ -21,8 +27,8 @@
 #kbstore-products-list .show-little .kbstore-description-wrap { height: 50px; }
 
 .nav-tab-wrapper { border-bottom: 1px solid #ccc; }
-#kboard-dashboard-options { margin: 0; padding: 0; overflow: hidden; }
-#kboard-dashboard-options li { margin: 0 10px 20px 10px; padding: 10px; background-color: #fafafa; border: 1px solid #e5e5e5; }
+#kboard-dashboard-options { margin: 23px 0 0 0; padding: 0; overflow: hidden; }
+#kboard-dashboard-options li { margin: 0 0 20px 0; padding: 10px; background-color: #fafafa; border: 1px solid #e5e5e5; }
 #kboard-dashboard-options li:hover { border: 1px solid #00aeef; }
 #kboard-dashboard-options li h4 { font-weight: bold; }
 #kboard-dashboard-options li textarea { width: 100%; }
