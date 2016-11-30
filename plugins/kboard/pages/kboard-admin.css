@@ -14,7 +14,11 @@
 #kbstore-products-list td { border: 0; border-bottom: 1px solid #e1e1e1; }
 #kbstore-products-list tr:last-child td { border: 0; }
 #kbstore-products-list img { max-width: 100%; }
+#kbstore-products-list .kbstore-product-title { font-size: 16px; }
+#kbstore-products-list .action-links { margin-top: 20px; }
 #kbstore-products-list .kbstore-thumbnail-img { width: 100px; height: 100px; }
+#kbstore-products-list .kbstore-description-wrap { margin-top: -40px; padding-top: 40px; height: auto; overflow: hidden; transition-duration: .3s; }
+#kbstore-products-list .show-little .kbstore-description-wrap { height: 50px; }
 
 .nav-tab-wrapper { border-bottom: 1px solid #ccc; }
 #kboard-dashboard-options { margin: 0; padding: 0; overflow: hidden; }

@@ -115,6 +115,8 @@ function cf_get_kbstore_list(page){
 	cf_list_page+=1;
 }
 function cf_add_kbstore_product(thumbnail, title, link, download, formatted_category, category, version, description, price, purchased){
+	var row_id = encodeURIComponent(title);
+	
 	var td1 = document.createElement('td');
 	var img = document.createElement('img');
 	img.setAttribute('class', 'kbstore-thumbnail-img');
@@ -123,6 +125,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	
 	var td2 = document.createElement('td');
 	var strong = document.createElement('strong');
+	strong.className = 'kbstore-product-title';
 	strong.innerHTML = title;
 	td2.appendChild(strong);
 	
@@ -130,6 +133,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	action_links.setAttribute('class', 'action-links');
 	
 	var a_detail = document.createElement('a');
+	a_detail.className = 'button';
 	a_detail.innerHTML = '세부사항';
 	a_detail.setAttribute('href', link);
 	a_detail.onclick = function(){
@@ -137,6 +141,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	}
 	
 	var a_purchase = document.createElement('a');
+	a_purchase.className = 'button';
 	a_purchase.innerHTML = '구매하기';
 	a_purchase.setAttribute('href', link);
 	a_purchase.onclick = function(){
@@ -145,28 +150,29 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	}
 	
 	var a_download = document.createElement('a');
+	a_download.className = 'button';
 	a_download.innerHTML = '다운로드';
 	a_download.setAttribute('href', download+'?app_id='+cosmosfarm.app_id+'&access_token='+cosmosfarm.access_token);
 	a_download.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
-				location.href = download+'?app_id='+cosmosfarm.app_id+'&access_token='+cosmosfarm.access_token;
+				window.location.href = download+'?app_id='+cosmosfarm.app_id+'&access_token='+cosmosfarm.access_token;
 			}
 			else{
 				if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-					location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
+					window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 				}
 			}
 		}, function(res){
 			if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
+				window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
 		return false;
 	}
 
 	action_links.appendChild(a_detail);
-	action_links.appendChild(document.createTextNode(' | '));
+	action_links.appendChild(document.createTextNode(' '));
 	if(category=='design'){
 		if(purchased=='1' || price<=0) action_links.appendChild(a_download);
 		else action_links.appendChild(a_purchase);
@@ -192,7 +198,16 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	td4.innerHTML = version;
 
 	var td5 = document.createElement('td');
-	td5.innerHTML = description;
+	var td5_wrap = document.createElement('div');
+	var td5_more = document.createElement('p');
+	td5.className = 'manage-column kbstore-description show-little';
+	td5.appendChild(td5_wrap);
+	td5.appendChild(td5_more);
+	td5_wrap.setAttribute('id', row_id);
+	td5_wrap.className = 'kbstore-description-wrap';
+	td5_wrap.innerHTML = description;
+	td5_more.className = 'kbstore-description-more';
+	td5_more.innerHTML = '<a href="#'+row_id+'" class="button" onclick="return cf_kbstore_description_full(this)">설명 펼치기</a>';
 
 	var tr = document.createElement('tr');
 	tr.appendChild(td1);
@@ -206,27 +221,42 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 }
 function cf_get_a_install(action, download, version){
 	var a_install = document.createElement('a');
-	a_install.innerHTML = '지금 설치하기';
+	a_install.className = 'button';
+	a_install.innerHTML = '설치하기';
 	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
 	a_install.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
-				if(confirm('설치를 계속 할까요?')){
-					location.href = '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면, 새로운 파일로 교체됩니다.')){
+					window.location.href = '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
 				}
 			}
 			else{
-				if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-					location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
+				if(confirm('먼저 코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+					window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 				}
 			}
 		}, function(res){
-			if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
-				location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
+			if(confirm('먼저 코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+				window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
 		return false;
 	}
 	return a_install;
+}
+function cf_kbstore_description_full(obj){
+	var column = jQuery(obj).parents('.kbstore-description');
+	if(column.hasClass('show-little')){
+		jQuery('#kbstore-products-list .kbstore-description').addClass('show-little');
+		jQuery('#kbstore-products-list .kbstore-description-more .button').text('설명 펼치기');
+
+		column.find('.kbstore-description-more .button').text('설명 닫기');
+		column.removeClass('show-little');
+	}
+	else{
+		column.find('.kbstore-description-more .button').text('설명 펼치기');
+		column.addClass('show-little');
+	}
 }
 </script>
