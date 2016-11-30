@@ -130,15 +130,17 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 #kboard-customer-document .kboard-button-download { color: gray; }
 #kboard-customer-document .kboard-comments-area { float: left; width: 100%; }
 #kboard-customer-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
-#kboard-customer-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; box-shadow: none; color: #545861; }
+#kboard-customer-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 13px; line-height: 20px; box-shadow: none; color: #545861; transition-duration: .3s; }
 #kboard-customer-document .kboard-document-navi .navi-document-title { display: block; }
 #kboard-customer-document .kboard-document-navi .navi-arrow { position: absolute; display: block; }
 #kboard-customer-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 45%; }
 #kboard-customer-document .kboard-document-navi .kboard-prev-document .navi-document-title { padding-left: 15px; }
 #kboard-customer-document .kboard-document-navi .kboard-prev-document .navi-arrow { left: 0; top: 0; }
+#kboard-customer-document .kboard-document-navi .kboard-prev-document:hover a { color: black; }
 #kboard-customer-document .kboard-document-navi .kboard-next-document { position: relative; float: right; width: 45%; text-align: right; }
 #kboard-customer-document .kboard-document-navi .kboard-next-document .navi-document-title { padding-right: 15px; }
 #kboard-customer-document .kboard-document-navi .kboard-next-document .navi-arrow { right: 0; top: 0; }
+#kboard-customer-document .kboard-document-navi .kboard-next-document:hover a { color: black; }
 #kboard-customer-document .kboard-control { float: left; padding: 15px 0;  width: 100%; }
 #kboard-customer-document .kboard-control .left { position: static; float: left; }
 #kboard-customer-document .kboard-control .right { position: static; float: right; text-align: right; }

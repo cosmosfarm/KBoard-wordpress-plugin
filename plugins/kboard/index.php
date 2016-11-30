@@ -382,6 +382,8 @@ function kboard_content_list(){
 		}
 	}
 	$table->prepare_items();
+	wp_enqueue_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
+	wp_enqueue_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
 	include_once 'pages/kboard_content_list.php';
 }
 
@@ -612,7 +614,9 @@ function kboard_scripts(){
  */
 add_action('admin_enqueue_scripts', 'kboard_admin_style', 999);
 function kboard_admin_style(){
+	wp_enqueue_script('jquery-ui-datepicker');
 	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH . '/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
+	wp_enqueue_script('jquery-timepicker', KBOARD_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_VERSION);
 	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH . '/pages/kboard-admin.css', array(), KBOARD_VERSION);
 }
 
