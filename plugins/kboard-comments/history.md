@@ -10,7 +10,8 @@ Next Version
   3. kboard_comments_login_content 액션 추가
   4. KBCommentListTable 클래스 추가
   5. 작성자/본문 금지단어 기능 추가
-  6. 버그 수정
+  6. kboard_comments_field 액션 추가
+  7. 버그 수정
 
 
 4.3

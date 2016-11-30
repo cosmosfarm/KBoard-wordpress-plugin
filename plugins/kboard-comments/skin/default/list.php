@@ -34,30 +34,44 @@
 			<div class="kboard-comments-form">
 				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
 				
-				<?php if(is_user_logged_in()):?>
-				<input type="hidden" name="member_display" value="<?php echo $member_display?>">
-				<?php else:?>
 				<div class="comments-field">
-					<label class="comments-field-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label>
-					<input type="text" id="comments_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>...">
+					<textarea name="content" placeholder="<?php echo __('Add a comment', 'kboard-comments')?>..." onfocus="kboard_comments_field_show()"><?php echo $temporary->content?></textarea>
 				</div>
-				<div class="comments-field">
-					<label class="comments-field-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label>
-					<input type="password" id="comments_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>...">
-				</div>
-				<?php endif?>
 				
-				<?php if($board->useCAPTCHA()):?>
-				<div class="comments-field">
-					<label class="comments-field-label" for="comments_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-					<input type="text" id="comments_captcha" name="captcha" value="" placeholder="CAPTCHA...">
+				<div class="comments-field-wrap">
+					
+					<?php ob_start()?>
+					
+					<?php if(is_user_logged_in()):?>
+					<input type="hidden" name="member_display" value="<?php echo $member_display?>">
+					<?php else:?>
+					<div class="comments-field">
+						<label class="comments-field-label" for="comments_member_display"><?php echo __('Author', 'kboard-comments')?></label>
+						<input type="text" id="comments_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>...">
+					</div>
+					<div class="comments-field">
+						<label class="comments-field-label" for="comments_password"><?php echo __('Password', 'kboard-comments')?></label>
+						<input type="password" id="comments_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>...">
+					</div>
+					<?php endif?>
+					
+					<?php if($board->useCAPTCHA()):?>
+					<div class="comments-field">
+						<label class="comments-field-label" for="comments_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
+						<input type="text" id="comments_captcha" name="captcha" value="" placeholder="CAPTCHA...">
+					</div>
+					<?php endif?>
+					
+					<?php
+					$field_html = ob_get_clean();
+					
+					// 댓글 입력 필드 출력
+					do_action('kboard_comments_field', $field_html, $board, $content_uid, $commentBuilder);
+					?>
+					
 				</div>
-				<?php endif?>
 				
-				<div class="comments-submit">
-					<div class="comments-submit-text"><textarea name="content"><?php echo $temporary->content?></textarea></div>
-					<div class="comments-submit-button"><input type="submit" value="<?php echo __('Submit', 'kboard-comments')?>"></div>
-				</div>
+				<div class="comments-submit-button"><input type="submit" value="<?php echo __('Submit', 'kboard-comments')?>"></div>
 			</div>
 		</form>
 		<!-- 댓글 입력 폼 끝 -->

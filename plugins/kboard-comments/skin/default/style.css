@@ -8,13 +8,13 @@
 .kboard-comments-default hr { clear: both; margin: 0; padding: 5px 0 0 0; height:0; border: 0; border-bottom: 1px dashed #d8d8d8; background: none; }
 .kboard-comments-default input[type=text],
 .kboard-comments-default input[type=email],
-.kboard-comments-default input[type=password] { display: inline; margin: 0; padding: 6px 2px; width: 60%; height: auto; line-height: normal; font-size: 12px; border: 1px solid #eaeaea; }
+.kboard-comments-default input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 50%; height: 26px; line-height: 26px; font-size: 13px; border: 1px solid #eaeaea; background-color: white; color: #8a8a8a; vertical-align: top; box-sizing: content-box; }
 .kboard-comments-default .kboard-comments-wrap { padding: 15px 15px 0 0; overflow: hidden; }
 .kboard-comments-default .comments-header { padding: 0 0 0 15px; overflow: hidden; line-height: 1; }
 .kboard-comments-default .comments-count { display: inline; color: #8a8a8a; font-size: 13px; }
 .kboard-comments-default .comments-count .comments-total-count { color: #f05726; font-size: 13px; }
 .kboard-comments-default .comments-sort { float: right; text-align: right; }
-.kboard-comments-default .comments-sort select { display: inline; margin: 0; padding: 0; border: 0; width: auto; height: auto; color: #66666a; font-size: 12px; background: none; background-color: transparent; cursor: pointer; box-shadow: none; }
+.kboard-comments-default .comments-sort select { display: inline; margin: 0; padding: 0; border: 0; width: auto; height: auto; color: #66666a; font-size: 13px; background: none; background-color: transparent; cursor: pointer; box-shadow: none; }
 .kboard-comments-default .comments-list { padding: 0 0 0 15px; overflow: hidden; }
 .kboard-comments-default .comments-list ul { margin: 0 !important; padding: 0 !important; list-style: none; border: 0; background: none; }
 .kboard-comments-default .comments-list ul li { margin: 0 !important; padding: 15px 0 0 0 !important; list-style: none; border: 0; background: none; }
@@ -37,19 +37,22 @@
 .kboard-comments-default .comments-list .comments-list-controller .kboard-reply-active { }
 .kboard-comments-default .comments-list .comments-reply-form { }
 .kboard-comments-default .kboard-comments-form { padding: 15px 0 15px 15px; overflow: hidden; }
-.kboard-comments-default .kboard-comments-form .comments-field { float: left; padding-bottom: 10px; width: 25%; }
-.kboard-comments-default .kboard-comments-form .comments-field .comments-field-label { display: inline-block !important; margin: 0; padding: 0; width: 60px; font-size: 12px; color: #8a8a8a; vertical-align: middle; }
-.kboard-comments-default .kboard-comments-form .comments-field img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
-.kboard-comments-default .kboard-comments-form .comments-submit { display: table; width: 100%; }
-.kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-text { display: table-cell; }
-.kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-text textarea { margin: 0; padding: 0; width: 100%; max-width: 100%; height: 65px; border: 1px solid #eaeaea; font-size: 13px; vertical-align: middle; background-color: white; }
-.kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-button { display: table-cell; *padding: 10px 0 0 10px; width: 80px; height: 65px; text-align: right; vertical-align: top; }
-.kboard-comments-default .kboard-comments-form .comments-submit .comments-submit-button input[type=submit] { margin: 0; padding: 0; width: 69px; min-width: inherit; height: 65px; line-height: 65px; vertical-align: middle; }
+.kboard-comments-default .kboard-comments-form textarea { margin: 0; padding: 5px; width: 100%; min-width: 100%; max-width: 100%; height: 60px; border: 1px solid #eaeaea; font-size: 13px; background-color: white; color: #8a8a8a; vertical-align: top; box-sizing: border-box; }
+.kboard-comments-default .kboard-comments-form .comments-field-wrap { display: none; float: left; width: 50%; }
+.kboard-comments-default .kboard-comments-form .comments-field { margin-bottom: 10px; line-height: 28px; }
+.kboard-comments-default .kboard-comments-form .comments-field .comments-field-label { display: inline-block !important; margin: 0; padding: 0; width: 60px; font-size: 13px; color: #8a8a8a; vertical-align: top; }
+.kboard-comments-default .kboard-comments-form .comments-field img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: top; }
+.kboard-comments-default .kboard-comments-form .comments-submit-button { display: none; float: right; }
+.kboard-comments-default .kboard-comments-form .comments-submit-button input[type=submit] { margin: 0; padding: 10px 20px; width: auto; min-width: inherit; max-width: inherit; border: 0; background-color: black; color: white; font-weight: bold; cursor: pointer; text-align: center; vertical-align: top; }
 .kboard-comments-default .kboard-comments-login { padding: 15px 0 15px 15px; text-align: center; font-size: 13px; overflow: hidden; }
 
 @media screen and (max-width: 600px) {
-	.kboard-comments-default .kboard-comments-form .comments-field { float: none; padding: 0 0 10px 0; width: auto; }
+	.kboard-comments-default input[type=text],
+	.kboard-comments-default input[type=email],
+	.kboard-comments-default input[type=password] { width: 100%; height: 28px; line-height: 28px; box-sizing: border-box; }
+	.kboard-comments-default .kboard-comments-form .comments-field { float: none; width: auto; }
 	.kboard-comments-default .kboard-comments-form .comments-field .comments-field-label { display: block; margin: 0; }
-	.kboard-comments-default .kboard-comments-form .comments-field input[type=text],
-	.kboard-comments-default .kboard-comments-form .comments-field input[type=password] { width: 100%; }
+	.kboard-comments-default .kboard-comments-form .comments-field-wrap { float: left; width: 100%; }
+	.kboard-comments-default .kboard-comments-form .comments-submit-button { float: left; width: 100%; }
+	.kboard-comments-default .kboard-comments-form .comments-submit-button input[type=submit] { padding: 10px 0; width: 100%; box-sizing: border-box; }
 }

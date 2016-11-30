@@ -77,3 +77,8 @@ function kboard_comments_reply(obj, form_id, cancel_id){
 	}
 	return false;
 }
+
+function kboard_comments_field_show(){
+	jQuery('.comments-field-wrap').show();
+	jQuery('.comments-submit-button').show();
+}
