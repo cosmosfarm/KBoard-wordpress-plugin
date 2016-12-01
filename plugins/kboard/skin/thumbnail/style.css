@@ -80,19 +80,19 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-editor input[type=text],
 #kboard-thumbnail-editor input[type=email],
 #kboard-thumbnail-editor input[type=number],
-#kboard-thumbnail-editor input[type=data],
+#kboard-thumbnail-editor input[type=date],
 #kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; }
 #kboard-thumbnail-editor select:hover,
 #kboard-thumbnail-editor input[type=text]:hover,
 #kboard-thumbnail-editor input[type=email]:hover,
 #kboard-thumbnail-editor input[type=number]:hover,
-#kboard-thumbnail-editor input[type=data]:hover,
+#kboard-thumbnail-editor input[type=date]:hover,
 #kboard-thumbnail-editor input[type=password]:hover { border-bottom: 1px solid #9e9e9e; }
 #kboard-thumbnail-editor select:focus,
 #kboard-thumbnail-editor input[type=text]:focus,
 #kboard-thumbnail-editor input[type=email]:focus,
 #kboard-thumbnail-editor input[type=number]:focus,
-#kboard-thumbnail-editor input[type=data]:focus,
+#kboard-thumbnail-editor input[type=date]:focus,
 #kboard-thumbnail-editor input[type=password]:focus { border-bottom: 2px solid #9e9e9e; }
 #kboard-thumbnail-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 12px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
 #kboard-thumbnail-editor .kboard-attr-title input { width: 70%; }
@@ -190,7 +190,7 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 	#kboard-thumbnail-editor input[type=text],
 	#kboard-thumbnail-editor input[type=email],
 	#kboard-thumbnail-editor input[type=number],
-	#kboard-thumbnail-editor input[type=data],
+	#kboard-thumbnail-editor input[type=date],
 	#kboard-thumbnail-editor input[type=password],
 	#kboard-thumbnail-editor input[type=file] { width: 100%; box-sizing: border-box; }
 	#kboard-thumbnail-editor .kboard-attr-row { padding: 10px 0; }

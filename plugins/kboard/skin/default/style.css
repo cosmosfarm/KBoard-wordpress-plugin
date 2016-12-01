@@ -76,19 +76,19 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-editor input[type=text],
 #kboard-default-editor input[type=email],
 #kboard-default-editor input[type=number],
-#kboard-default-editor input[type=data],
+#kboard-default-editor input[type=date],
 #kboard-default-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
 #kboard-default-editor select:hover,
 #kboard-default-editor input[type=text]:hover,
 #kboard-default-editor input[type=email]:hover,
 #kboard-default-editor input[type=number]:hover,
-#kboard-default-editor input[type=data]:hover,
+#kboard-default-editor input[type=date]:hover,
 #kboard-default-editor input[type=password]:hover { border-bottom: 1px solid #9e9e9e; }
 #kboard-default-editor select:focus,
 #kboard-default-editor input[type=text]:focus,
 #kboard-default-editor input[type=email]:focus,
 #kboard-default-editor input[type=number]:focus,
-#kboard-default-editor input[type=data]:focus,
+#kboard-default-editor input[type=date]:focus,
 #kboard-default-editor input[type=password]:focus { border-bottom: 2px solid #9e9e9e; }
 #kboard-default-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 12px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
 #kboard-default-editor .kboard-attr-title input { width: 70%; }
@@ -185,7 +185,7 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 	#kboard-default-editor input[type=text],
 	#kboard-default-editor input[type=email],
 	#kboard-default-editor input[type=number],
-	#kboard-default-editor input[type=data],
+	#kboard-default-editor input[type=date],
 	#kboard-default-editor input[type=password],
 	#kboard-default-editor input[type=file] { width: 100%; box-sizing: border-box; }
 	#kboard-default-editor .kboard-attr-row { padding: 10px 0; }
