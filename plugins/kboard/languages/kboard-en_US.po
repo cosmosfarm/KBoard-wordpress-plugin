@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-11-28 21:52+0900\n"
-"PO-Revision-Date: 2016-11-28 21:52+0900\n"
+"POT-Creation-Date: 2016-12-01 20:14+0900\n"
+"PO-Revision-Date: 2016-12-01 20:14+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -33,36 +33,36 @@ msgstr "KBoard Comments points"
 msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "Manage comments KBoard point."
 
-#: class/KBAdminController.class.php:26 class/KBAdminController.class.php:110
-#: class/KBAdminController.class.php:145 class/KBAdminController.class.php:178
-#: class/KBController.class.php:43 class/KBController.class.php:58
-#: class/KBController.class.php:63 class/KBController.class.php:67
-#: class/KBController.class.php:169 class/KBController.class.php:194
-#: class/KBController.class.php:237 class/KBController.class.php:263
-#: class/KBController.class.php:268 class/KBController.class.php:273
+#: class/KBAdminController.class.php:25 class/KBAdminController.class.php:109
+#: class/KBAdminController.class.php:144 class/KBAdminController.class.php:177
+#: class/KBController.class.php:42 class/KBController.class.php:57
+#: class/KBController.class.php:62 class/KBController.class.php:66
+#: class/KBController.class.php:168 class/KBController.class.php:193
+#: class/KBController.class.php:236 class/KBController.class.php:262
+#: class/KBController.class.php:267 class/KBController.class.php:272
 #: class/KBTemplate.class.php:99 class/KBTemplate.class.php:105
-#: class/KBoardBuilder.class.php:255 class/KBoardBuilder.class.php:322
-#: class/KBoardBuilder.class.php:332 class/KBoardBuilder.class.php:427
+#: class/KBoardBuilder.class.php:255 class/KBoardBuilder.class.php:320
+#: class/KBoardBuilder.class.php:330 class/KBoardBuilder.class.php:425
 #: index.php:297
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBAdminController.class.php:121 class/KBAdminController.class.php:123
-#: class/KBController.class.php:153 class/KBController.class.php:155
-#: class/KBController.class.php:221 class/KBController.class.php:223
-#: class/KBoardBuilder.class.php:411
+#: class/KBAdminController.class.php:120 class/KBAdminController.class.php:122
+#: class/KBController.class.php:152 class/KBController.class.php:154
+#: class/KBController.class.php:220 class/KBController.class.php:222
+#: class/KBoardBuilder.class.php:409
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBAdminController.class.php:158
+#: class/KBAdminController.class.php:157
 msgid "복원파일의 데이터로 복구 되었습니다."
 msgstr "It has recovered the data from the restored files."
 
-#: class/KBAdminController.class.php:161
+#: class/KBAdminController.class.php:160
 msgid "올바른 복원파일이 아닙니다."
 msgstr "This is not a valid restore file."
 
-#: class/KBAdminController.class.php:166
+#: class/KBAdminController.class.php:165
 msgid "파일 업로드에 실패 했습니다."
 msgstr "Failed to upload files."
 
@@ -97,8 +97,8 @@ msgstr "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 msgid "KBoard new document"
 msgstr "KBoard new document"
 
-#: class/KBContent.class.php:450 class/KBContent.class.php:490
-#: class/KBContent.class.php:575
+#: class/KBContent.class.php:449 class/KBContent.class.php:489
+#: class/KBContent.class.php:574
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "No upload path. Please enter board ID and initialize."
 
@@ -114,15 +114,15 @@ msgstr "No upload path. Please enter board ID and initialize."
 msgid "All"
 msgstr "All"
 
-#: class/KBContentListTable.class.php:61 class/KBContentListTable.class.php:182
+#: class/KBContentListTable.class.php:61 class/KBContentListTable.class.php:184
 msgid "Published"
 msgstr "Published"
 
-#: class/KBContentListTable.class.php:65 class/KBContentListTable.class.php:183
+#: class/KBContentListTable.class.php:65 class/KBContentListTable.class.php:185
 msgid "Pending approval"
 msgstr "Pending approval"
 
-#: class/KBContentListTable.class.php:69 class/KBContentListTable.class.php:184
+#: class/KBContentListTable.class.php:69 class/KBContentListTable.class.php:186
 msgid "Trash"
 msgstr "Trash"
 
@@ -234,24 +234,28 @@ msgid "The reply."
 msgstr "The reply."
 
 #: class/KBContentListTable.class.php:172
-#: class/KBContentListTable.class.php:175 index.php:603
+#: class/KBContentListTable.class.php:175 index.php:605
 msgid "Yes"
 msgstr "Yes"
 
 #: class/KBContentListTable.class.php:172
-#: class/KBContentListTable.class.php:175 index.php:604
+#: class/KBContentListTable.class.php:175 index.php:606
 msgid "No"
 msgstr "No"
 
-#: class/KBController.class.php:48 index.php:595
+#: class/KBContentListTable.class.php:180
+msgid "Update"
+msgstr "Update"
+
+#: class/KBController.class.php:47 index.php:597
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
-#: class/KBController.class.php:254 class/KBoardBuilder.class.php:226
+#: class/KBController.class.php:253 class/KBoardBuilder.class.php:226
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
-#: class/KBController.class.php:286
+#: class/KBController.class.php:285
 msgid "File does not exist."
 msgstr "File does not exist."
 
@@ -350,7 +354,7 @@ msgstr "File copy failed, directory requires write permission."
 msgid "No document."
 msgstr "No document."
 
-#: class/KBoardBuilder.class.php:304
+#: class/KBoardBuilder.class.php:302
 msgid "Please enter your password."
 msgstr "Please enter your password."
 
@@ -470,64 +474,64 @@ msgstr "Store"
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:590 skin/avatar/editor.php:97 skin/customer/editor.php:107
+#: index.php:592 skin/avatar/editor.php:97 skin/customer/editor.php:107
 #: skin/default/editor.php:97 skin/thumbnail/editor.php:97
 msgid "KBoard Add Media"
 msgstr "KBoard Add Media"
 
-#: index.php:591
+#: index.php:593
 msgid "Next"
 msgstr "Next"
 
-#: index.php:592
+#: index.php:594
 msgid "Prev"
 msgstr "Prev"
 
-#: index.php:593
+#: index.php:595
 msgid "Please enter the title."
 msgstr "Please enter the title."
 
-#: index.php:594
+#: index.php:596
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: index.php:596
+#: index.php:598
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
 
-#: index.php:597
+#: index.php:599
 msgid "You have already voted."
 msgstr "You have already voted."
 
-#: index.php:598
+#: index.php:600
 msgid "Please wait."
 msgstr "Please wait."
 
-#: index.php:599 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:14
+#: index.php:601 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:14
 #: skin/customer/list.php:14 skin/default/list.php:14
 #: skin/thumbnail/list.php:14
 msgid "Newest"
 msgstr "Newest"
 
-#: index.php:600 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:15
+#: index.php:602 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:15
 #: skin/customer/list.php:15 skin/default/list.php:15
 #: skin/thumbnail/list.php:15
 msgid "Best"
 msgstr "Best"
 
-#: index.php:601 pages/kboard_latestview_setting.php:74 skin/avatar/list.php:17
+#: index.php:603 pages/kboard_latestview_setting.php:74 skin/avatar/list.php:17
 #: skin/customer/list.php:17 skin/default/list.php:17
 #: skin/thumbnail/list.php:17
 msgid "Updated"
 msgstr "Updated"
 
-#: index.php:602 pages/kboard_latestview_setting.php:73 skin/avatar/list.php:16
+#: index.php:604 pages/kboard_latestview_setting.php:73 skin/avatar/list.php:16
 #: skin/customer/list.php:16 skin/default/list.php:16
 #: skin/thumbnail/list.php:16
 msgid "Viewed"
 msgstr "Viewed"
 
-#: index.php:605
+#: index.php:607
 msgid "Did it help?"
 msgstr "Did it help?"
 
@@ -616,11 +620,11 @@ msgstr "Search"
 msgid "KBoard : 대시보드"
 msgstr "KBoard : Dashboard"
 
-#: pages/kboard_dashboard.php:17
+#: pages/kboard_dashboard.php:15
 msgid "시스템 설정"
 msgstr "System Settings"
 
-#: pages/kboard_dashboard.php:110
+#: pages/kboard_dashboard.php:107
 msgid "커뮤니티로 이동"
 msgstr "Go to the Community"
 

@@ -43,6 +43,10 @@
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->
 	
-	<?php wp_footer()?>
+	<?php
+	if(is_admin()) do_action('admin_print_footer_scripts');
+	
+	wp_footer();
+	?>
 </body>
 </html>

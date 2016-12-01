@@ -207,7 +207,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	td5_wrap.className = 'kbstore-description-wrap';
 	td5_wrap.innerHTML = description;
 	td5_more.className = 'kbstore-description-more';
-	td5_more.innerHTML = '<a href="#'+row_id+'" class="button" onclick="return cf_kbstore_description_full(this)">설명 펼치기</a>';
+	td5_more.innerHTML = '<a href="#'+row_id+'" class="button button-small" onclick="return cf_kbstore_description_full(this)">설명 펼치기</a>';
 
 	var tr = document.createElement('tr');
 	tr.appendChild(td1);

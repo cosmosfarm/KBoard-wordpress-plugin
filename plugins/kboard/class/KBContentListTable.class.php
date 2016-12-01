@@ -177,7 +177,7 @@ class KBContentListTable extends WP_List_Table {
 		echo '<td>';
 		echo '<input type="text" name="date['.$item->uid.']" class="kboard-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->date)).'">';
 		echo '<input type="text" name="time['.$item->uid.']" class="kboard-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->date)).'">';
-		echo '<button type="button" class="button" onclick="kboard_content_list_update()">업데이트</button>';
+		echo '<button type="button" class="button button-small" onclick="kboard_content_list_update()">'.__('Update', 'kboard').'</button>';
 		echo '</td>';
 		echo '<td>';
 		echo '<select name="status['.$item->uid.']" onchange="kboard_content_list_update()">';
