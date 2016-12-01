@@ -37,28 +37,21 @@ class KBCommentsBuilder {
 		$board = $this->board;
 		$content_uid = $this->content_uid;
 		$skin_path = $this->skin_path;
-
+		
 		if(!$this->content_uid) return 'KBoard 댓글 알림 :: content_uid=null, content_uid값은 필수 입니다.';
-
+		
 		$url = new KBUrl();
 		$commentURL = new KBCommentUrl();
 		$commentList = new KBCommentList($this->content_uid);
 		$commentList->board = $board;
 		$commentBuilder = $this;
-
+		
 		$current_user = wp_get_current_user();
 		$member_uid = $current_user->ID;
 		$member_display = $current_user->display_name;
-
-		if(isset($_COOKIE['kboard_temporary_comments']) && $_COOKIE['kboard_temporary_comments']){
-			$temporary = unserialize(base64_decode($_COOKIE['kboard_temporary_comments']));
-		}
-		else{
-			$temporary = new stdClass();
-			$temporary->member_display = '';
-			$temporary->content = '';
-		}
-
+		
+		$temporary = kboard_comments_get_temporary();
+		
 		include KBOARD_COMMENTS_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
 

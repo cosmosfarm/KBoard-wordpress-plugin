@@ -11,7 +11,8 @@ Next Version
   4. KBCommentListTable 클래스 추가
   5. 작성자/본문 금지단어 기능 추가
   6. kboard_comments_field 액션 추가
-  7. 버그 수정
+  7. 댓글 스킨에 입력필드 추가 가능
+  8. 버그 수정
 
 
 4.3

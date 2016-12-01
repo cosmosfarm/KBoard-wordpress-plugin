@@ -6,7 +6,10 @@
 * @license http://www.gnu.org/licenses/gpl.html
 */
 class KBCommentController {
-
+	
+	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
+	var $skin_option_prefix = 'comment_option_';
+	
 	public function __construct(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
@@ -27,7 +30,7 @@ class KBCommentController {
 	public function insert(){
 		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
-				
+			
 			$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 			$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 			if($referer){
@@ -38,32 +41,42 @@ class KBCommentController {
 				wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 			}
 			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
-				
+			
 			$content = isset($_POST['content'])?$_POST['content']:'';
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
 			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
 			$password = isset($_POST['password'])?$_POST['password']:'';
 			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
-				
+			
 			if(!class_exists('KBCaptcha')){
 				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
 			}
-				
+			
 			$captcha = new KBCaptcha();
 			$content = $content?$content:$comment_content;
 			$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
 			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
 			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
-				
+			
+			$option = new stdClass();
+			foreach($_POST as $key=>$value){
+				if(strpos($key, $this->skin_option_prefix) !== false){
+					$key = sanitize_key(str_replace($this->skin_option_prefix, '', $key));
+					$value = kboard_safeiframe(kboard_xssfilter($value));
+					$option->{$key} = $value;
+				}
+			}
+			
 			$document = new KBContent();
 			$document->initWithUID($content_uid);
 			$board = new KBoard($document->board_id);
-				
+			
 			$temporary = new stdClass();
 			$temporary->member_display = $member_display;
 			$temporary->content = $content;
+			$temporary->option = $option;
 			setcookie('kboard_temporary_comments', base64_encode(serialize($temporary)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
-				
+			
 			if(!$board->id){
 				die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
 			}
@@ -88,9 +101,9 @@ class KBCommentController {
 			else if(!$content_uid){
 				die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 			}
-				
+			
 			if(!$board->isAdmin()){
-
+				
 				// 작성자 금지단어 체크
 				$name_filter = kboard_name_filter(true);
 				if($name_filter){
@@ -100,7 +113,7 @@ class KBCommentController {
 						}
 					}
 				}
-					
+				
 				// 본문/제목/댓글 금지단어 체크
 				$content_filter = kboard_content_filter(true);
 				if($content_filter){
@@ -111,14 +124,19 @@ class KBCommentController {
 					}
 				}
 			}
-				
+			
 			$commentList = new KBCommentList($content_uid);
 			$insert_id = $commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
-				
+			
+			$comment_option = new KBCommentOption($insert_id);
+			foreach($option as $key=>$value){
+				$comment_option->{$key} = $value;
+			}
+			
 			if($insert_id){
 				setcookie('kboard_temporary_comments', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 			}
-				
+			
 			wp_redirect("{$referer}#kboard-comments-{$content_uid}");
 			exit;
 		}
@@ -212,10 +230,19 @@ class KBCommentController {
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-
+		
 		$comment->content = $content;
 		$comment->update();
-
+		
+		$option = new stdClass();
+		foreach($_POST as $key=>$value){
+			if(strpos($key, $this->skin_option_prefix) !== false){
+				$key = sanitize_key(str_replace($this->skin_option_prefix, '', $key));
+				$value = kboard_safeiframe(kboard_xssfilter($value));
+				$comment->option->{$key} = $value;
+			}
+		}
+		
 		echo '<script>';
 		echo 'opener.window.location.reload();';
 		echo 'window.close();';

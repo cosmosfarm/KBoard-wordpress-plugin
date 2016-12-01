@@ -422,7 +422,6 @@ class KBContent {
 	 * @return string
 	 */
 	public function initOptions(){
-		global $wpdb;
 		$this->option = new KBContentOption($this->uid);
 	}
 

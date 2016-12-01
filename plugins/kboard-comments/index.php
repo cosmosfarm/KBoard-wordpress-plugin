@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 4.3.5
+Version: 4.3.6
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
-define('KBOARD_COMMNETS_VERSION', '4.3.5');
+define('KBOARD_COMMNETS_VERSION', '4.3.6');
 define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
@@ -21,6 +21,7 @@ define('KBOARD_COMMENTS_LIST_PAGE', admin_url('admin.php?page=kboard_comments_li
 include_once 'class/KBComment.class.php';
 include_once 'class/KBCommentController.class.php';
 include_once 'class/KBCommentList.class.php';
+include_once 'class/KBCommentOption.class.php';
 include_once 'class/KBCommentsBuilder.class.php';
 include_once 'class/KBCommentSkin.class.php';
 include_once 'class/KBCommentTemplate.class.php';
@@ -50,6 +51,27 @@ function kboard_comments_init(){
  */
 function kboard_comments_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard-comments'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+}
+
+/*
+ * 댓글 임시저장 데이터를 반환한다.
+ */
+function kboard_comments_get_temporary(){
+	static $temporary;
+	if($temporary === null){
+		if(isset($_COOKIE['kboard_temporary_comments']) && $_COOKIE['kboard_temporary_comments']){
+			$temporary = unserialize(base64_decode($_COOKIE['kboard_temporary_comments']));
+		}
+		else{
+			$temporary = new stdClass();
+			$temporary->member_display = '';
+			$temporary->content = '';
+		}
+		if(!isset($temporary->option) || !(array)$temporary->option){
+			$temporary->option = new KBCommentOption();
+		}
+	}
+	return $temporary;
 }
 
 /*
@@ -250,8 +272,8 @@ function kboard_comments_system_update(){
 	 * KBoard 댓글 4.2
 	 * kboard_comments 테이블의 인덱스 생성 확인
 	 */
-	$content_uid_index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='content_uid'");
-	$parent_uid_index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='parent_uid'");
+	$content_uid_index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_comments` WHERE `Key_name`='content_uid'");
+	$parent_uid_index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_comments` WHERE `Key_name`='parent_uid'");
 	if(!count($content_uid_index) || !count($parent_uid_index)){
 		kboard_activation($networkwide);
 		return;
@@ -268,6 +290,15 @@ function kboard_comments_system_update(){
 		return;
 	}
 	unset($name);
+	
+	/*
+	 * KBoard 댓글 4.4
+	 * kboard_comments_option 테이블 추가 생성
+	 */
+	if(!$wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}kboard_comments_option'")){
+		kboard_comments_activation($networkwide);
+		return;
+	}
 }
 } // KBoard 게시판 플러그인이 활성화 돼 있어야 동작하는 구간 완료
 
@@ -317,6 +348,15 @@ function kboard_comments_activation_execute(){
 		PRIMARY KEY (`uid`),
 		KEY `content_uid` (`content_uid`),
 		KEY `parent_uid` (`parent_uid`)
+	) {$charset_collate};");
+	
+	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_comments_option` (
+	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`comment_uid` bigint(20) unsigned NOT NULL,
+	`option_key` varchar(127) NOT NULL,
+	`option_value` text NOT NULL,
+	PRIMARY KEY (`uid`),
+	UNIQUE KEY `comment_uid` (`comment_uid`,`option_key`)
 	) {$charset_collate};");
 	
 	/*
@@ -423,6 +463,9 @@ function kboard_comments_uninstall(){
  */
 function kboard_comments_uninstall_exeucte(){
 	global $wpdb;
-	$wpdb->query("DROP TABLE `{$wpdb->prefix}kboard_comments`");
+	$wpdb->query("DROP TABLE
+			`{$wpdb->prefix}kboard_comments`,
+			`{$wpdb->prefix}kboard_comments_option`
+			");
 }
 ?>

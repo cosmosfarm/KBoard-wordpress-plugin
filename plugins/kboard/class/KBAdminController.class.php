@@ -21,7 +21,6 @@ class KBAdminController {
 	 */
 	public function update(){
 		global $wpdb;
-		
 		if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
@@ -211,7 +210,7 @@ class KBAdminController {
 			}
 		}
 	
-		echo '<script>window.location.href="' . admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}") . '"</script>';
+		echo '<script>window.location.href="'.admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}").'"</script>';
 		exit;
 	}
 	

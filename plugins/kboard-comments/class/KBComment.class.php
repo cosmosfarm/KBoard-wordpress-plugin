@@ -9,10 +9,12 @@ class KBComment {
 	
 	var $board;
 	var $row;
+	var $option;
 	
 	public function __construct(){
 		$this->board = new KBoard();
 		$this->row = new stdClass();
+		$this->option = new KBCommentOption();
 	}
 	
 	public function __get($name){
@@ -38,6 +40,7 @@ class KBComment {
 		global $wpdb;
 		$uid = intval($uid);
 		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}'");
+		$this->option = new KBCommentOption($this->uid);
 		return $this;
 	}
 	
@@ -48,6 +51,7 @@ class KBComment {
 	 */
 	public function initWithRow($comment){
 		$this->row = $comment;
+		$this->option = new KBCommentOption($this->uid);
 		return $this;
 	}
 	
@@ -105,6 +109,7 @@ class KBComment {
 			do_action('kboard_comments_delete', $this->uid, $this->content_uid);
 			
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$this->uid}'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$this->uid}'");
 			
 			// 게시물의 댓글 숫자를 변경한다.
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
@@ -131,6 +136,7 @@ class KBComment {
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$parent_uid}'");
 			foreach($results as $key=>$child){
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$child->uid}'");
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$this->uid}'");
 					
 				// 게시물의 댓글 숫자를 변경한다.
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
