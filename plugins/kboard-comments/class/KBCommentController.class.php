@@ -42,21 +42,27 @@ class KBCommentController {
 			}
 			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 			
+			if(!class_exists('KBCaptcha')){
+				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+			}
+			$captcha = new KBCaptcha();
+			
 			$content = isset($_POST['content'])?$_POST['content']:'';
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
+			$content = $content?$content:$comment_content;
+			
+			$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
+			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
+			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
 			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
 			$password = isset($_POST['password'])?$_POST['password']:'';
 			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
 			
-			if(!class_exists('KBCaptcha')){
-				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+			if(is_user_logged_in()){
+				$current_user = wp_get_current_user();
+				$member_uid = $current_user->ID;
+				$member_display = $member_display?$member_display:$current_user->display_name;
 			}
-			
-			$captcha = new KBCaptcha();
-			$content = $content?$content:$comment_content;
-			$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
-			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
-			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
 			
 			$option = new stdClass();
 			foreach($_POST as $key=>$value){
