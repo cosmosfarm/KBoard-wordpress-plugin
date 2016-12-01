@@ -18,7 +18,7 @@ class KBCommentOption {
 	public function __get($key){
 		$key = sanitize_key($key);
 		if(isset($this->row->{$key})){
-			return stripslashes($this->row->{$key});
+			return $this->row->{$key};
 		}
 		return '';
 	}

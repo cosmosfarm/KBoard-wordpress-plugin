@@ -26,6 +26,8 @@
 .kboard-comments-default .comments-list .comments-list-content { clear: both; padding: 10px 0; font-size: 13px;  color: #3b3b3b; overflow: hidden; }
 .kboard-comments-default .comments-list .comments-list-content a { color: #f05726; text-decoration: none; border: 0; text-shadow: none; box-shadow: none; }
 .kboard-comments-default .comments-list .comments-list-content img { display: inline; width: auto; height: auto; max-width: 100%; vertical-align: middle; }
+.kboard-comments-default .comments-list .comments-list-content p { margin: 0 0 0.75em; }
+.kboard-comments-default .comments-list .comments-list-content p:last-child { margin: 0; }
 .kboard-comments-default .comments-list .comments-list-controller { clear: both; overflow: hidden; line-height: 1; }
 .kboard-comments-default .comments-list .comments-list-controller .left { position: static; float: left; }
 .kboard-comments-default .comments-list .comments-list-controller .right { position: static; float: right; text-align: right; }

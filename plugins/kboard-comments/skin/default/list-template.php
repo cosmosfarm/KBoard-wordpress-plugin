@@ -8,7 +8,7 @@
 			</div>
 			<div class="comments-list-create" itemprop="dateCreated"><?php echo date('Y-m-d H:i', strtotime($comment->created))?></div>
 			<div class="comments-list-content" itemprop="description">
-				<?php echo nl2br($comment->content)?>
+				<?php echo wpautop($comment->content)?>
 			</div>
 			
 			<?php if($commentBuilder->isWriter()):?>

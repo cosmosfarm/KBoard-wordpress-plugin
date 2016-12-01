@@ -116,7 +116,9 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 #kboard-customer-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
 #kboard-customer-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
 #kboard-customer-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
-#kboard-customer-document .kboard-content .content-view img { margin-top: 0; margin-bottom: 0; max-width: 100%; }
+#kboard-customer-document .kboard-content .content-view img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
+#kboard-customer-document .kboard-content .content-view p { margin: 0 0 0.75em; }
+#kboard-customer-document .kboard-content .content-view p:last-child { margin: 0; }
 #kboard-customer-document .kboard-content .content-view .thumbnail-area { text-align: center; }
 #kboard-customer-document .kboard-document-action { padding: 0 22px 5px 22px; overflow: hidden; line-height: 1; }
 #kboard-customer-document .kboard-document-action .left { position: static; float: left; }

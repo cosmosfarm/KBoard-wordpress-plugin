@@ -48,7 +48,7 @@ class KBContent {
 					}
 				}
 			}
-			return stripslashes($this->row->{$name});
+			return $this->row->{$name};
 		}
 		return '';
 	}
@@ -966,9 +966,7 @@ class KBContent {
 	 * 쿠키에 저장된 게시글 정보를 비운다.
 	 */
 	public function cleanTemporary(){
-		if(isset($_COOKIE['kboard_temporary_content'])){
-			setcookie('kboard_temporary_content', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
-		}
+		setcookie('kboard_temporary_content', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 	}
 
 	/**

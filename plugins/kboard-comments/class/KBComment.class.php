@@ -20,9 +20,13 @@ class KBComment {
 	public function __get($name){
 		if(isset($this->row->{$name})){
 			if($name == 'content'){
-				return apply_filters('kboard_comments_content', stripslashes($this->row->{$name}), $this->row->uid, $this->row->content_uid);
+				$content = $this->row->{$name};
+				$content = apply_filters('kboard_comments_content', $content, $this->row->uid, $this->row->content_uid);
+				$content = str_replace('[', '&#91;', $content);
+				$content = str_replace(']', '&#93;', $content);
+				return $content;
 			}
-			return stripslashes($this->row->{$name});
+			return $this->row->{$name};
 		}
 		return '';
 	}
@@ -56,6 +60,22 @@ class KBComment {
 	}
 	
 	/**
+	 * 게시판 정보를 반환한다.
+	 * @return KBoard
+	 */
+	public function getBoard(){
+		if(isset($this->board->id) && $this->board->id){
+			return $this->board;
+		}
+		else if($this->content_uid){
+			$this->board = new KBoard();
+			$this->board->initWithContentUID($this->content_uid);
+			return $this->board;
+		}
+		return new KBoard();
+	}
+	
+	/**
 	 * 관리 권한이 있는지 확인한다.
 	 * @return boolean
 	 */
@@ -66,15 +86,8 @@ class KBComment {
 				return true;
 			}
 			
-			if($this->board->id){
-				if($this->board->isAdmin()){
-					// 게시판 관리자 허용
-					return true;
-				}
-			}
-			else{
-				$board = new KBoard();
-				$board->initWithContentUID($this->content_uid);
+			$board = $this->getBoard();
+			if($board->id){
 				if($board->isAdmin()){
 					// 게시판 관리자 허용
 					return true;
