@@ -337,6 +337,70 @@ function kboard_content_filter($to_array=false){
 }
 
 /**
+ * 구글 reCAPTCHA 사용 여부를 체크한다.
+ * @return boolean
+ */
+function kboard_use_recaptcha(){
+	static $use_recaptcha;
+	if($use_recaptcha === null){
+		$site_key = get_option('kboard_recaptcha_site_key');
+		$secret_key = get_option('kboard_recaptcha_secret_key');
+		
+		if($site_key && $secret_key){
+			$use_recaptcha = true;
+		}
+		else{
+			$use_recaptcha = false;
+		}
+	}
+	return $use_recaptcha;
+}
+
+/**
+ * 구글 reCAPTCHA의 Site key를 반환한다.
+ * @return string
+ */
+function kboard_recaptcha_site_key(){
+	static $recaptcha_site_key;
+	if($recaptcha_site_key === null){
+		$recaptcha_site_key = get_option('kboard_recaptcha_site_key');
+	}
+	return $recaptcha_site_key;
+}
+
+/**
+ * 구글 reCAPTCHA의 Secret key를 반환한다.
+ * @return string
+ */
+function kboard_recaptcha_secret_key(){
+	static $recaptcha_secret_key;
+	if($recaptcha_secret_key === null){
+		$recaptcha_secret_key = get_option('kboard_recaptcha_secret_key');
+	}
+	return $recaptcha_secret_key;
+}
+
+/**
+ * 사용자 IP 주소를 반환한다.
+ * @return string
+ */
+function kboard_user_ip(){
+	static $ip;
+	if($ip === null){
+		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		}
+		else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		else{
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+	}
+	return $ip;
+}
+
+/**
  * category1 값을 반환한다.
  * @return string
  */

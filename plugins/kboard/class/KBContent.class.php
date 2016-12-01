@@ -190,11 +190,9 @@ class KBContent {
 		}
 		else if(!$this->uid && $this->title){
 			if($board->useCAPTCHA()){
-				// captcha 코드 확인
 				include_once 'KBCaptcha.class.php';
 				$captcha = new KBCaptcha();
-				$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
-				if(!$captcha->textCheck($captcha_text)){
+				if(!$captcha->validate()){
 					die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
 				}
 			}

@@ -77,10 +77,17 @@
 		<?php endif?>
 		
 		<?php if($board->useCAPTCHA() && !$content->uid):?>
-		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-input-captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-			<div class="attr-value"><input type="text" id="kboard-input-captcha" name="captcha" value="" placeholder="<?php echo __('CAPTCHA', 'kboard')?>..."></div>
-		</div>
+			<?php if(kboard_use_recaptcha()):?>
+				<div class="kboard-attr-row">
+					<label class="attr-name"></label>
+					<div class="attr-value"><div class="g-recaptcha" data-sitekey="<?php echo kboard_recaptcha_site_key()?>"></div></div>
+				</div>
+			<?php else:?>
+				<div class="kboard-attr-row">
+					<label class="attr-name" for="kboard-input-captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
+					<div class="attr-value"><input type="text" id="kboard-input-captcha" name="captcha" value="" placeholder="<?php echo __('CAPTCHA', 'kboard')?>..."></div>
+				</div>
+			<?php endif?>
 		<?php endif?>
 		
 		<div class="kboard-content">

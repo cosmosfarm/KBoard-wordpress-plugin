@@ -42,11 +42,6 @@ class KBCommentController {
 			}
 			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 			
-			if(!class_exists('KBCaptcha')){
-				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
-			}
-			$captcha = new KBCaptcha();
-			
 			$content = isset($_POST['content'])?$_POST['content']:'';
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
 			$content = $content?$content:$comment_content;
@@ -56,7 +51,6 @@ class KBCommentController {
 			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
 			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
 			$password = isset($_POST['password'])?$_POST['password']:'';
-			$captcha_text = isset($_POST['captcha'])?$_POST['captcha']:'';
 			
 			if(is_user_logged_in()){
 				$current_user = wp_get_current_user();
@@ -83,6 +77,11 @@ class KBCommentController {
 			$temporary->option = $option;
 			setcookie('kboard_temporary_comments', base64_encode(serialize($temporary)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 			
+			if(!class_exists('KBCaptcha')){
+				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+			}
+			$captcha = new KBCaptcha();
+			
 			if(!$board->id){
 				die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
 			}
@@ -98,7 +97,7 @@ class KBCommentController {
 			else if(!is_user_logged_in() && !$password){
 				die("<script>alert('".__('Please enter the password.', 'kboard-comments')."');history.go(-1);</script>");
 			}
-			else if($board->useCAPTCHA() && !$captcha->textCheck($captcha_text)){
+			else if($board->useCAPTCHA() && !$captcha->validate()){
 				die("<script>alert('".__('The CAPTCHA is invalid. Please enter the CAPTCHA.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			else if(!$content){

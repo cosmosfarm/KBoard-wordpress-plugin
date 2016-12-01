@@ -100,6 +100,20 @@
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_captcha_stop', '<?php echo get_option('kboard_captcha_stop')?'':'1'?>')">모든 게시판에서 비로그인 사용자 CAPTCHA 기능 <?php echo get_option('kboard_captcha_stop')?'사용하기':'중지하기'?></button></p>
 		</li>
 		<li>
+			<h4>구글 reCAPTCHA</h4>
+			<p>
+			구글 reCAPTCHA는 게시판에서 스팸을 막기 위한 효과적인 솔루션입니다.<br>
+			구글 reCAPTCHA를 활성화하면 KBoard에 내장된 CAPTCHA 보안코드 대신 구글 reCAPTCHA를 사용하게 됩니다.<br>
+			<a href="https://www.google.com/recaptcha/admin" onclick="window.open(this.href);return false;">https://www.google.com/recaptcha/admin</a> 에서 발급받은 Site key와 Secret key를 입력하면 자동으로 활성화됩니다.<br>
+			구글 reCAPTCHA 기능이 없는 일부 스킨에서는 동작하지 않습니다.
+			</p>
+			<p>
+				Site key <input type="text" name="kboard_recaptcha_site_key" value="<?php echo get_option('kboard_recaptcha_site_key')?>" placeholder="Site key"><br>
+				Secret key <input type="text" name="kboard_recaptcha_secret_key" value="<?php echo get_option('kboard_recaptcha_secret_key')?>" placeholder="Secret key"><br>
+				<button class="button-secondary" onclick="kboard_recaptcha_update()">구글 reCAPTCHA 정보 업데이트</button>
+			</p>
+		</li>
+		<li>
 			<h4>커스텀 CSS</h4>
 			<p>
 			스킨파일 수정없이 새로운 디자인 속성을 추가할 수 있습니다.<br>
@@ -152,6 +166,14 @@
 function kboard_system_option_update(option, value){
 	jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':option, 'value':value}, function(res){
 		window.location.reload();
+	});
+	return false;
+}
+function kboard_recaptcha_update(){
+	jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_recaptcha_site_key', 'value':jQuery('input[name=kboard_recaptcha_site_key]').val()}, function(res){
+		jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_recaptcha_secret_key', 'value':jQuery('input[name=kboard_recaptcha_secret_key]').val()}, function(res){
+			window.location.reload();
+		});
 	});
 	return false;
 }

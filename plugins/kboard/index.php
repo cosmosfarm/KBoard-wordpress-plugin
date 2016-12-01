@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.2.8
+Version: 5.2.9
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.2.8');
+define('KBOARD_VERSION', '5.2.9');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -549,7 +549,10 @@ function kboard_admin_notices(){
 add_action('wp_enqueue_scripts', 'kboard_style', 999);
 function kboard_style(){
 	wp_enqueue_script('jquery');
-
+	
+	// KBoard 미디어 추가 스타일 속성 등록
+	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
+	
 	// font-awesome 출력
 	if(!get_option('kboard_fontawesome')){
 		global $wp_styles;
@@ -572,10 +575,11 @@ add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
 function kboard_scripts(){
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('kboard-script', KBOARD_URL_PATH . '/template/js/script.js', array(), KBOARD_VERSION, true);
-
-	// KBoard 미디어 추가 스타일 속성 등록
-	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
-
+	
+	if(kboard_use_recaptcha()){
+		wp_enqueue_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
+	}
+	
 	// 설정 등록
 	$localize = array(
 			'home_url' => home_url('/', 'relative'),

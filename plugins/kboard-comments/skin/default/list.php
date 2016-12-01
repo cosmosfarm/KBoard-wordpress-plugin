@@ -58,10 +58,16 @@
 					<?php endif?>
 					
 					<?php if($board->useCAPTCHA()):?>
-					<div class="comments-field">
-						<label class="comments-field-label" for="comment_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-						<input type="text" id="comment_captcha" name="captcha" value="" placeholder="CAPTCHA...">
-					</div>
+						<?php if(kboard_use_recaptcha()):?>
+							<div class="comments-field">
+								<div class="g-recaptcha" data-sitekey="<?php echo kboard_recaptcha_site_key()?>"></div>
+							</div>
+						<?php else:?>
+							<div class="comments-field">
+								<label class="comments-field-label" for="comment_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
+								<input type="text" id="comment_captcha" name="captcha" value="" placeholder="CAPTCHA...">
+							</div>
+						<?php endif?>
 					<?php endif?>
 					
 					<?php

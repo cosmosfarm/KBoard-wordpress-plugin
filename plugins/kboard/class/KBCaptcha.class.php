@@ -54,22 +54,44 @@ class KBCaptcha {
 	}
 	
 	/**
-	 * 저장된 Captcha 문자와 비교한다.
-	 * @param string $text
+	 * Captcha 검증
 	 * @return boolean
 	 */
-	public function textCheck($text){
+	public function validate(){
 		if(is_user_logged_in()){
 			return true;
 		}
-		else if(!isset($_SESSION['kboard_captcha'])){
-			return true;
+		if(isset($_POST['g-recaptcha-response'])){
+			if($this->recaptcha()){
+				return true;
+			}
 		}
-		else if(in_array(strtoupper($text), $_SESSION['kboard_captcha'])){
-			unset($_SESSION['kboard_captcha']);
-			return true;
+		if(isset($_POST['captcha'])){
+			if(in_array(strtoupper($_POST['captcha']), $_SESSION['kboard_captcha'])){
+				unset($_SESSION['kboard_captcha']);
+				return true;
+			}
 		}
 		return false;
+	}
+	
+	/**
+	 * 구글 reCAPTCHA 검증
+	 * @return boolean
+	 */
+	function recaptcha(){
+		$siteverify_url = add_query_arg(array(
+				'secret'   => kboard_recaptcha_secret_key(),
+				'response' => isset($_POST['g-recaptcha-response']) ? $_POST['g-recaptcha-response'] : '',
+				'remoteip' => kboard_user_ip()
+		), 'https://www.google.com/recaptcha/api/siteverify');
+		
+		$response = wp_remote_get($siteverify_url);
+		
+		if(is_wp_error($response) || empty($response['body']) || ! ($json = json_decode($response['body'])) || !$json->success){
+			return false;
+		}
+		return true;
 	}
 }
 ?>
