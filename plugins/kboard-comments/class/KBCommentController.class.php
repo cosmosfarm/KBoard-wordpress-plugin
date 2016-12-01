@@ -31,6 +31,8 @@ class KBCommentController {
 		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
 			
+			$_POST = stripslashes_deep($_POST);
+			
 			$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 			$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 			if($referer){
@@ -153,7 +155,7 @@ class KBCommentController {
 	 */
 	public function delete(){
 		header("Content-Type: text/html; charset=UTF-8");
-
+		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){
@@ -203,7 +205,9 @@ class KBCommentController {
 	 */
 	public function update(){
 		header("Content-Type: text/html; charset=UTF-8");
-
+		
+		$_POST = stripslashes_deep($_POST);
+		
 		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
 		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
 		if($referer){

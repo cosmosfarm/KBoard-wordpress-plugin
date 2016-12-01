@@ -34,6 +34,8 @@ class KBController {
 		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
 			header('Content-Type: text/html; charset=UTF-8');
 			
+			$_POST = stripslashes_deep($_POST);
+			
 			$uid = intval(isset($_POST['uid'])?$_POST['uid']:'');
 			$board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
 			

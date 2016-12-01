@@ -40,12 +40,13 @@ function kboard_xssfilter($data){
 			$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
 			$HTMLPurifier_Config->set('Output.FlashCompat', true);
 			$HTMLPurifier_Config->set('Core.RemoveInvalidImg', true);
+			$HTMLPurifier_Config->set('Core.LexerImpl', 'DirectLex');
 			$HTMLPurifier_Config->set('Cache.SerializerPath', WP_CONTENT_DIR.'/uploads/kboard_htmlpurifier');
 			$GLOBALS['KBOARD']['HTMLPurifier_Config'] = $HTMLPurifier_Config;
 			$GLOBALS['KBOARD']['HTMLPurifier'] = HTMLPurifier::getInstance();
 			unset($HTMLPurifier_Config);
 		}
-		$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify(stripslashes($data), $GLOBALS['KBOARD']['HTMLPurifier_Config']);
+		$data = $GLOBALS['KBOARD']['HTMLPurifier']->purify($data, $GLOBALS['KBOARD']['HTMLPurifier_Config']);
 	}
 	return trim($data);
 }
