@@ -117,60 +117,16 @@ class KBContent {
 
 	/**
 	 * 게시글을 등록/수정한다.
-	 * @param boolean $save_temporary;
 	 * @return int
 	 */
-	public function execute($save_temporary = false){
-		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
-		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
-		$this->member_display = isset($_POST['member_display'])?kboard_htmlclear($_POST['member_display']):'';
-		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter($_POST['title'])):'';
-		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter($_POST['kboard_content'])):'';
-		$this->date = isset($_POST['date'])?kboard_htmlclear($_POST['date']):'';
-		if(isset($_POST['view'])) $this->view = intval($_POST['view']);
-		if(isset($_POST['comment'])) $this->comment = intval($_POST['comment']);
-		if(isset($_POST['like'])) $this->like = intval($_POST['like']);
-		if(isset($_POST['unlike'])) $this->unlike = intval($_POST['unlike']);
-		if(isset($_POST['vote'])) $this->vote = intval($_POST['vote']);
-		$this->category1 = isset($_POST['category1'])?kboard_htmlclear($_POST['category1']):'';
-		$this->category2 = isset($_POST['category2'])?kboard_htmlclear($_POST['category2']):'';
-		$this->secret = isset($_POST['secret'])?kboard_htmlclear($_POST['secret']):'';
-		$this->notice = isset($_POST['notice'])?kboard_htmlclear($_POST['notice']):'';
-		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'3';
-		if(isset($_POST['status'])) $this->status = kboard_htmlclear($_POST['status']);
-		$this->password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
-
-		// 임시저장
-		if($save_temporary){
-			$this->saveTemporary();
-		}
-		
+	public function execute(){
 		$board = $this->getBoard();
-		if(!$board->isAdmin()){
-			
-			// 작성자 금지단어 체크
-			$name_filter = kboard_name_filter(true);
-			if($name_filter){
-				foreach($name_filter as $filter){
-					if($filter && strpos($this->member_display, $filter) !== false){
-						die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
-					}
-				}
-			}
-			
-			// 본문/제목/댓글 금지단어 체크
-			$content_filter = kboard_content_filter(true);
-			if($content_filter){
-				foreach($content_filter as $filter){
-					if($filter && strpos($this->content, $filter) !== false){
-						die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
-					}
-				}
-			}
-		}
-
+		
 		if($this->uid && $this->date){
-			// 기존게시물 업데이트
+			/*
+			 * 기존 게시글 업데이트
+			 */
+			
 			$this->initUploadAttachFiles();
 			$this->updateContent();
 			$this->setThumbnail();
@@ -182,33 +138,34 @@ class KBContent {
 			do_action('kboard_document_update', $this->uid, $this->board_id);
 
 			$this->execute_action = 'update';
-				
-			// 임시저장 삭제
-			$this->cleanTemporary();
-				
+			
 			return $this->uid;
 		}
 		else if(!$this->uid && $this->title){
+			/*
+			 * 신규 게시글 등록
+			 */
+			
+			// Captcha 검증
 			if($board->useCAPTCHA()){
-				include_once 'KBCaptcha.class.php';
+				if(!class_exists('KBCaptcha')){
+					include_once 'KBCaptcha.class.php';
+				}
 				$captcha = new KBCaptcha();
+				
 				if(!$captcha->validate()){
-					die("<script>alert('".__('The CAPTCHA code is not valid. Please enter the CAPTCHA code.', 'kboard')."');history.go(-1);</script>");
+					die("<script>alert('".__('CAPTCHA is invalid.', 'kboard')."');history.go(-1);</script>");
 				}
 			}
-
-			if(is_user_logged_in()){
-				$current_user = wp_get_current_user();
-				$this->member_uid = $current_user->ID;
-				$this->member_display = $this->member_display?$this->member_display:$current_user->display_name;
-			}
-
+			
 			if($board->meta->permit){
 				// 게시글 승인 대기
 				$this->status = 'pending_approval';
 			}
-
-			// 신규게시물 등록
+			
+			// 글쓴이의 id값 등록
+			$this->member_uid = get_current_user_id();
+			
 			$this->initUploadAttachFiles();
 			if($this->insertContent()){
 				$this->setThumbnail();
@@ -218,7 +175,9 @@ class KBContent {
 
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				if($board->meta->latest_alerts){
-					include_once 'KBMail.class.php';
+					if(!class_exists('KBMail')){
+						include_once 'KBMail.class.php';
+					}
 					/*
 					 * http://www.cosmosfarm.com/threads/document/3025
 					 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
@@ -235,12 +194,12 @@ class KBContent {
 				// 게시글 입력 액션 훅 실행
 				do_action('kboard_document_insert', $this->uid, $this->board_id);
 			}
-				
+			
 			$this->execute_action = 'insert';
-				
-			// 임시저장 삭제
+			
+			// 임시저장 데이터 삭제
 			$this->cleanTemporary();
-				
+			
 			return $this->uid;
 		}
 		return 0;
@@ -278,9 +237,7 @@ class KBContent {
 			$data['password'] = $this->password?$this->password:'';
 		}
 
-		/*
-		 * 입력할 데이터 필터
-		 */
+		// 입력할 데이터 필터
 		$data = apply_filters('kboard_insert_data', $data, $this->board_id);
 
 		foreach($data as $key=>$value){
@@ -302,8 +259,8 @@ class KBContent {
 	 */
 	public function updateContent($data = array()){
 		global $wpdb;
+		
 		if($this->uid){
-
 			if(!$data){
 				$data['board_id'] = $this->board_id;
 				$data['parent_uid'] = $this->parent_uid?$this->parent_uid:0;
@@ -328,9 +285,7 @@ class KBContent {
 				else if($this->password) $data['password'] = $this->password;
 			}
 
-			/*
-			 * 수정할 데이터 필터
-			 */
+			// 수정할 데이터 필터
 			$data = apply_filters('kboard_update_data', $data, $this->board_id);
 
 			foreach($data as $key=>$value){
@@ -338,7 +293,7 @@ class KBContent {
 				$update[] = "`$key`='$value'";
 			}
 
-			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='$this->uid'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
 
 			$post_id = $this->getPostID();
 			if($post_id){
@@ -410,7 +365,7 @@ class KBContent {
 		global $wpdb;
 		if($this->uid && !@in_array($this->uid, $_SESSION['increased_document_uid'])){
 			$_SESSION['increased_document_uid'][] = $this->uid;
-			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `view`=`view`+1 WHERE `uid`='$this->uid'");
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `view`=`view`+1 WHERE `uid`='{$this->uid}'");
 			$this->view = $this->view + 1;
 		}
 	}
@@ -488,19 +443,25 @@ class KBContent {
 
 		if($this->uid && $this->upload_attach_files && is_array($this->upload_attach_files)){
 			foreach($this->upload_attach_files as $attach_file){
-				$key = esc_sql($attach_file->key);
+				$file_key = esc_sql($attach_file->key);
 				$file_path = esc_sql($attach_file->path);
 				$file_name = esc_sql($attach_file->name);
 
-				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
+				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				if($present_file){
-					@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($present_file));
-					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name' WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
+					@unlink(KBOARD_WORDPRESS_ROOT . $present_file);
+					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name' WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				}
 				else{
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$this->uid', '$key', '$date', '$file_path', '$file_name')");
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$this->uid', '$file_key', '$date', '$file_path', '$file_name')");
 				}
+			}
+		}
+		else if($this->upload_attach_files && is_array($this->upload_attach_files)){
+			foreach($this->upload_attach_files as $attach_file){
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $attach_file->path);
+				@unlink(KBOARD_WORDPRESS_ROOT . $attach_file->path);
 			}
 		}
 	}
@@ -513,8 +474,8 @@ class KBContent {
 		if($this->uid){
 			$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid'");
 			foreach($result as $file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
-				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file->file_path));
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file->file_path);
+				@unlink(KBOARD_WORDPRESS_ROOT . $file->file_path);
 			}
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid'");
 		}
@@ -530,8 +491,8 @@ class KBContent {
 			$key = esc_sql(sanitize_key($key));
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 			if($file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($file));
-				@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($file));
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file);
+				@unlink(KBOARD_WORDPRESS_ROOT . $file);
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 			}
 		}
@@ -560,7 +521,7 @@ class KBContent {
 	private function _deleteAllOptions(){
 		global $wpdb;
 		if($this->uid){
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->uid'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='{$this->uid}'");
 		}
 	}
 
@@ -575,10 +536,11 @@ class KBContent {
 			$file = new KBFileHandler();
 			$file->setPath($this->thumbnail_store_path);
 			$upload = $file->upload('thumbnail');
-			$original_name = esc_sql($upload['original_name']);
-			$file = esc_sql($upload['path'] . $upload['stored_name']);
+			
+			$thumbnail_name = esc_sql($upload['original_name']);
+			$thumbnail_file = esc_sql($upload['path'] . $upload['stored_name']);
 
-			if($original_name){
+			if($thumbnail_name){
 
 				// 업로드된 원본 이미지 크기를 줄인다.
 				$upload_dir = wp_upload_dir();
@@ -592,7 +554,7 @@ class KBContent {
 				}
 
 				$this->removeThumbnail(false);
-				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='$file', `thumbnail_name`='$original_name' WHERE `uid`='$this->uid'");
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='{$thumbnail_file}', `thumbnail_name`='{$thumbnail_name}' WHERE `uid`='{$this->uid}'");
 			}
 		}
 	}
@@ -668,14 +630,14 @@ class KBContent {
 			$this->deletePost($this->getPostID());
 			$this->deleteReply($this->uid);
 			if(defined('KBOARD_COMMNETS_VERSION')){
-				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='$this->uid'");
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->uid}'");
 			}
 
 			// 미디어 파일을 삭제한다.
 			$media = new KBContentMedia();
 			$media->deleteWithContentUID($this->uid);
 
-			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$this->uid'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->uid}'");
 		}
 	}
 
@@ -686,11 +648,11 @@ class KBContent {
 	public function removeThumbnail($update=true){
 		global $wpdb;
 		if($this->uid && $this->thumbnail_file){
-			kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($this->thumbnail_file));
-			@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($this->thumbnail_file));
+			kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $this->thumbnail_file);
+			@unlink(KBOARD_WORDPRESS_ROOT . $this->thumbnail_file);
 
 			if($update){
-				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='$this->uid'");
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='{$this->uid}'");
 			}
 		}
 	}
@@ -942,9 +904,44 @@ class KBContent {
 	 * 게시글 정보를 쿠키에 저장한다.
 	 */
 	public function saveTemporary(){
-		$password = $this->password;
+		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
+		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
+		$this->member_display = isset($_POST['member_display'])?kboard_htmlclear($_POST['member_display']):'';
+		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter($_POST['title'])):'';
+		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter($_POST['kboard_content'])):'';
+		$this->date = isset($_POST['date'])?kboard_htmlclear($_POST['date']):'';
+		if(isset($_POST['view'])) $this->view = intval($_POST['view']);
+		if(isset($_POST['comment'])) $this->comment = intval($_POST['comment']);
+		if(isset($_POST['like'])) $this->like = intval($_POST['like']);
+		if(isset($_POST['unlike'])) $this->unlike = intval($_POST['unlike']);
+		if(isset($_POST['vote'])) $this->vote = intval($_POST['vote']);
+		$this->category1 = isset($_POST['category1'])?kboard_htmlclear($_POST['category1']):'';
+		$this->category2 = isset($_POST['category2'])?kboard_htmlclear($_POST['category2']):'';
+		$this->secret = isset($_POST['secret'])?kboard_htmlclear($_POST['secret']):'';
+		$this->notice = isset($_POST['notice'])?kboard_htmlclear($_POST['notice']):'';
+		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'3';
+		if(isset($_POST['status'])) $this->status = kboard_htmlclear($_POST['status']);
+		$password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
 		$this->password = '';
-		setcookie('kboard_temporary_content', base64_encode(serialize($this->row)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+
+		if(is_user_logged_in() && !$this->member_display){
+			$current_user = wp_get_current_user();
+			$this->member_display = $current_user->display_name;
+		}
+		
+		$option = new stdClass();
+		foreach($_POST as $key=>$value){
+			if(strpos($key, $this->skin_option_prefix) !== false){
+				$key = sanitize_key(str_replace($this->skin_option_prefix, '', $key));
+				$value = kboard_safeiframe(kboard_xssfilter($value));
+				$option->{$key} = $value;
+			}
+		}
+		
+		$temporary = $this->row;
+		$temporary->option = $option;
+		setcookie('kboard_temporary_content', base64_encode(serialize($temporary)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		
 		$this->password = $password;
 	}
 
@@ -953,10 +950,18 @@ class KBContent {
 	 */
 	public function initWithTemporary(){
 		if(isset($_COOKIE['kboard_temporary_content']) && $_COOKIE['kboard_temporary_content']){
-			$this->row = unserialize(base64_decode($_COOKIE['kboard_temporary_content']));
+			$temporary = unserialize(base64_decode($_COOKIE['kboard_temporary_content']));
+			$this->row = $temporary;
 		}
 		else{
 			$this->row = new stdClass();
+		}
+		
+		if(!isset($temporary->option) || !(array)$temporary->option){
+			$this->option = new KBContentOption();
+		}
+		else{
+			$this->option = $temporary->option;
 		}
 	}
 

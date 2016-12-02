@@ -33,9 +33,9 @@ function kboard_comments_execute(form){
 		jQuery('input[name=captcha]', form).focus();
 		return false;
 	}
-	else if(jQuery('textarea[name=content]', form).exists() && !jQuery('textarea[name=content]', form).val()){
+	else if(jQuery('textarea[name=comment_content]', form).exists() && !jQuery('textarea[name=comment_content]', form).val()){
 		alert(kboard_comments_localize_strings.please_enter_the_content);
-		jQuery('textarea[name=content]', form).focus();
+		jQuery('textarea[name=comment_content]', form).focus();
 		return false;
 	}
 	

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-11-29 13:49+0900\n"
-"PO-Revision-Date: 2016-11-29 13:50+0900\n"
+"POT-Creation-Date: 2016-12-02 14:46+0900\n"
+"PO-Revision-Date: 2016-12-02 14:46+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -17,65 +17,59 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBCommentController.class.php:38
-#: class/KBCommentController.class.php:40
-#: class/KBCommentController.class.php:141
-#: class/KBCommentController.class.php:143
-#: class/KBCommentController.class.php:191
-#: class/KBCommentController.class.php:193
+#: class/KBCommentController.class.php:43
+#: class/KBCommentController.class.php:45
+#: class/KBCommentController.class.php:172
+#: class/KBCommentController.class.php:174
+#: class/KBCommentController.class.php:224
+#: class/KBCommentController.class.php:226
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
-#: class/KBCommentController.class.php:68
-msgid "Board does not exist."
-msgstr "게시판이 존재하지 않습니다."
-
-#: class/KBCommentController.class.php:71
-msgid "Document does not exist."
-msgstr "게시글이 존재하지 않습니다."
-
-#: class/KBCommentController.class.php:74
-#: class/KBCommentController.class.php:125
-#: class/KBCommentController.class.php:159
-#: class/KBCommentController.class.php:213 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:84
+#: class/KBCommentController.class.php:87
+#: class/KBCommentController.class.php:90
+#: class/KBCommentController.class.php:156
+#: class/KBCommentController.class.php:190
+#: class/KBCommentController.class.php:249 class/KBCommentTemplate.class.php:68
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
-#: class/KBCommentController.class.php:77 index.php:97
+#: class/KBCommentController.class.php:93 index.php:119
 msgid "Please enter the author."
 msgstr "작성자명을 입력해주세요."
 
-#: class/KBCommentController.class.php:80 index.php:98 template/confirm.php:36
+#: class/KBCommentController.class.php:96 index.php:120 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
-#: class/KBCommentController.class.php:83
-msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
-msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
-
-#: class/KBCommentController.class.php:86
-#: class/KBCommentController.class.php:203 index.php:100 template/edit.php:37
+#: class/KBCommentController.class.php:99
+#: class/KBCommentController.class.php:239 index.php:122 template/edit.php:37
 msgid "Please enter the content."
 msgstr "내용을 입력해주세요."
 
-#: class/KBCommentController.class.php:89
+#: class/KBCommentController.class.php:102
 msgid "content_uid is required."
 msgstr "content_uid는 필수입니다."
 
-#: class/KBCommentController.class.php:99
-#: class/KBCommentController.class.php:109
+#: class/KBCommentController.class.php:113
+#: class/KBCommentController.class.php:123
 #, php-format
 msgid "\"%s\" is not available."
 msgstr "\"%s\"는 사용할 수 없습니다."
 
-#: class/KBCommentController.class.php:149
-#: class/KBCommentController.class.php:200 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:137
+msgid "CAPTCHA is invalid."
+msgstr "CAPTCHA가 올바르지 않습니다."
+
+#: class/KBCommentController.class.php:180
+#: class/KBCommentController.class.php:236 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:48
 msgid "uid is required."
 msgstr "uid는 필수입니다."
 
-#: class/KBCommentController.class.php:152
-#: class/KBCommentController.class.php:206
+#: class/KBCommentController.class.php:183
+#: class/KBCommentController.class.php:242
 msgid "Please log in to continue."
 msgstr "로그인 해주세요."
 
@@ -120,31 +114,31 @@ msgstr "댓글이 존재하지 않습니다."
 msgid "KBoard : 댓글"
 msgstr "KBoard : 댓글"
 
-#: index.php:52
+#: index.php:53
 msgid "전체 댓글"
 msgstr "전체 댓글"
 
-#: index.php:95 skin/default/list-template.php:23
+#: index.php:117 skin/default/list-template.php:23
 msgid "Reply"
 msgstr "답글"
 
-#: index.php:96
+#: index.php:118
 msgid "Cancel"
 msgstr "취소"
 
-#: index.php:99
+#: index.php:121
 msgid "Please enter the CAPTCHA."
 msgstr "보안코드를 입력해주세요."
 
-#: index.php:101
+#: index.php:123
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
-#: index.php:102
+#: index.php:124
 msgid "Please wait."
 msgstr "잠시만 기다려주세요."
 
-#: index.php:112
+#: index.php:134
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "댓글을 남기려면 <a href=\"%s\">로그인</a>하세요."
@@ -197,15 +191,15 @@ msgstr "최신순"
 msgid "Add a comment"
 msgstr "댓글 달기"
 
-#: skin/default/list.php:49 skin/default/list.php:50
+#: skin/default/list.php:51 skin/default/list.php:52
 msgid "Author"
 msgstr "작성자"
 
-#: skin/default/list.php:53 skin/default/list.php:54 template/confirm.php:26
+#: skin/default/list.php:55 skin/default/list.php:56 template/confirm.php:26
 msgid "Password"
 msgstr "비밀번호"
 
-#: skin/default/list.php:74 template/confirm.php:27 template/edit.php:28
+#: skin/default/list.php:80 template/confirm.php:27 template/edit.php:28
 msgid "Submit"
 msgstr "입력"
 
@@ -216,6 +210,15 @@ msgstr "비밀번호 확인"
 #: template/edit.php:23
 msgid "Edit content"
 msgstr "내용 편집"
+
+#~ msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
+#~ msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
+
+#~ msgid "Board does not exist."
+#~ msgstr "게시판이 존재하지 않습니다."
+
+#~ msgid "Document does not exist."
+#~ msgstr "게시글이 존재하지 않습니다."
 
 #~ msgid "게시판"
 #~ msgstr "게시판"

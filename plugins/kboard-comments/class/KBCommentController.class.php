@@ -73,22 +73,18 @@ class KBCommentController {
 			$document->initWithUID($content_uid);
 			$board = new KBoard($document->board_id);
 			
+			// 임시저장
 			$temporary = new stdClass();
 			$temporary->member_display = $member_display;
 			$temporary->content = $content;
 			$temporary->option = $option;
 			setcookie('kboard_temporary_comments', base64_encode(serialize($temporary)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 			
-			if(!class_exists('KBCaptcha')){
-				include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
-			}
-			$captcha = new KBCaptcha();
-			
 			if(!$board->id){
-				die("<script>alert('".__('Board does not exist.', 'kboard-comments')."');history.go(-1);</script>");
+				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			else if(!$document->uid){
-				die("<script>alert('".__('Document does not exist.', 'kboard-comments')."');history.go(-1);</script>");
+				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			else if(!is_user_logged_in() && $board->meta->permission_comment_write){
 				die('<script>alert("'.__('You do not have permission.', 'kboard-comments').'");history.go(-1);</script>');
@@ -99,9 +95,6 @@ class KBCommentController {
 			else if(!is_user_logged_in() && !$password){
 				die("<script>alert('".__('Please enter the password.', 'kboard-comments')."');history.go(-1);</script>");
 			}
-			else if($board->useCAPTCHA() && !$captcha->validate()){
-				die("<script>alert('".__('The CAPTCHA is invalid. Please enter the CAPTCHA.', 'kboard-comments')."');history.go(-1);</script>");
-			}
 			else if(!$content){
 				die("<script>alert('".__('Please enter the content.', 'kboard-comments')."');history.go(-1);</script>");
 			}
@@ -109,6 +102,7 @@ class KBCommentController {
 				die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			
+			// 금지단어 체크
 			if(!$board->isAdmin()){
 				
 				// 작성자 금지단어 체크
@@ -129,6 +123,18 @@ class KBCommentController {
 							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
 						}
 					}
+				}
+			}
+			
+			// Captcha 검증
+			if($board->useCAPTCHA()){
+				if(!class_exists('KBCaptcha')){
+					include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+				}
+				$captcha = new KBCaptcha();
+			
+				if(!$captcha->validate()){
+					die("<script>alert('".__('CAPTCHA is invalid.', 'kboard-comments')."');history.go(-1);</script>");
 				}
 			}
 			
@@ -219,9 +225,12 @@ class KBCommentController {
 		}
 		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 
+		$content = isset($_POST['content'])?$_POST['content']:'';
+		$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
+		$content = $content?$content:$comment_content;
+		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?$_POST['password']:'';
-		$content = isset($_POST['content'])?$_POST['content']:'';
 
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");

@@ -36,24 +36,14 @@ class KBController {
 			
 			$_POST = stripslashes_deep($_POST);
 			
-			$uid = intval(isset($_POST['uid'])?$_POST['uid']:'');
-			$board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
-			
-			$board = new KBoard($board_id);
-			if(!$board->id){
-				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
-			}
-			
-			if($board->isWriter() && $board->permission_write=='all' && $_POST['title']){
-				if(!is_user_logged_in() && !$_POST['password']){
-					die('<script>alert("'.__('Please enter the password.', 'kboard').'");history.go(-1);</script>');
-				}
-			}
+			$uid = isset($_POST['uid'])?intval($_POST['uid']):0;
+			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):0;
 			
 			$content = new KBContent();
 			$content->initWithUID($uid);
 			$content->setBoardID($board_id);
-			$content->board = $board;
+			$content->saveTemporary();
+			$board = $content->getBoard();
 			
 			if(!$uid && !$board->isWriter()){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
@@ -69,11 +59,48 @@ class KBController {
 				}
 			}
 			
-			// 임시저장
-			$save_temporary = true;
+			if(!$board->id){
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			}
+			else if(!$content->title){
+				die("<script>alert('".__('Please enter the title.', 'kboard')."');history.go(-1);</script>");
+			}
+			else if(!is_user_logged_in() && !$content->member_display){
+				die("<script>alert('".__('Please enter the author.', 'kboard')."');history.go(-1);</script>");
+			}
+			else if(!is_user_logged_in() && !$content->password){
+				die("<script>alert('".__('Please enter the password.', 'kboard')."');history.go(-1);</script>");
+			}
+			else if(!$content->content){
+				die("<script>alert('".__('Please enter the content.', 'kboard')."');history.go(-1);</script>");
+			}
+			
+			// 금지단어 체크
+			if(!$board->isAdmin()){
+					
+				// 작성자 금지단어 체크
+				$name_filter = kboard_name_filter(true);
+				if($name_filter){
+					foreach($name_filter as $filter){
+						if($filter && strpos($content->member_display, $filter) !== false){
+							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
+						}
+					}
+				}
+					
+				// 본문/제목/댓글 금지단어 체크
+				$content_filter = kboard_content_filter(true);
+				if($content_filter){
+					foreach($content_filter as $filter){
+						if($filter && strpos($content->content, $filter) !== false){
+							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
+						}
+					}
+				}
+			}
 			
 			// 실행
-			$execute_uid = $content->execute($save_temporary);
+			$execute_uid = $content->execute();
 			
 			// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 			if($content->password) $board->isConfirm($content->password, $execute_uid);

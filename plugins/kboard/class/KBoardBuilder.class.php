@@ -336,66 +336,44 @@ class KBoardBuilder {
 			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
 		}
 		else{
-			$execute_uid = $content->execute();
-			if($execute_uid){
-				// 비밀번호가 입력되면 즉시 인증과정을 거친다.
-				if($content->password) $this->board->isConfirm($content->password, $execute_uid);
-
-				$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
-				$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $this->board_id);
-
-				if($content->execute_action == 'insert'){
-					if($this->board->meta->conversion_tracking_code){
-						echo $meta->conversion_tracking_code;
-					}
-				}
-				echo "<script>window.location.href='{$next_page_url}';</script>";
-				exit;
+			if(!$this->uid){
+				// 빈 글이라면 임시저장된 데이터로 초기화 한다.
+				$content->initWithTemporary();
 			}
-			else{
-				if($this->uid){
-					// execute후 POST 데이터를 지우고 다시 초기화 한다.
-					$content->initWithUID($this->uid);
+			
+			// 내용이 없으면 등록된 기본 양식을 가져온다.
+			if(!$content->content){
+				$content->content = $this->meta->default_content;
+			}
+			
+			// 새로운 답글 쓰기에서만 실행한다.
+			if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
+				$parent = new KBContent();
+				$parent->initWithUID(kboard_parent_uid());
+			
+				// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
+				$content->parent_uid = $parent->uid;
+			
+				// 부모의 제목을 가져온다.
+				$content->title = 'Re:' . $parent->title;
+			
+				// 답글 기본 내용을 설정한다.
+				if($this->meta->reply_copy_content=='1'){
+					$content->content = $parent->getContent();
 				}
-				else{
-					// 빈 글이라면 임시저장된 데이터로 초기화 한다.
-					$content->initWithTemporary();
-				}
-
-				// 내용이 없으면 등록된 기본 양식을 가져온다.
-				if(!$content->content){
+				else if($this->meta->reply_copy_content=='2'){
 					$content->content = $this->meta->default_content;
 				}
-
-				// 새로운 답글 쓰기에서만 실행한다.
-				if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
-					$parent = new KBContent();
-					$parent->initWithUID(kboard_parent_uid());
-
-					// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
-					$content->parent_uid = $parent->uid;
-
-					// 부모의 제목을 가져온다.
-					$content->title = 'Re:' . $parent->title;
-
-					// 답글 기본 내용을 설정한다.
-					if($this->meta->reply_copy_content=='1'){
-						$content->content = $parent->getContent();
-					}
-					else if($this->meta->reply_copy_content=='2'){
-						$content->content = $this->meta->default_content;
-					}
-					else{
-						$content->content = '';
-					}
+				else{
+					$content->content = '';
 				}
-
-				// 숏코드(Shortcode)를 실행하지 못하게 변경한다.
-				$content->content = str_replace('[', '&#91;', $content->getContent());
-				$content->content = str_replace(']', '&#93;', $content->getContent());
-
-				include KBOARD_DIR_PATH . "/skin/{$this->skin}/editor.php";
 			}
+			
+			// 숏코드(Shortcode)를 실행하지 못하게 변경한다.
+			$content->content = str_replace('[', '&#91;', $content->getContent());
+			$content->content = str_replace(']', '&#93;', $content->getContent());
+			
+			include KBOARD_DIR_PATH . "/skin/{$this->skin}/editor.php";
 		}
 	}
 

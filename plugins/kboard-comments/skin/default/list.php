@@ -35,7 +35,7 @@
 				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
 				
 				<div class="comments-field">
-					<textarea name="content" placeholder="<?php echo __('Add a comment', 'kboard-comments')?>..." onfocus="kboard_comments_field_show()"><?php echo $temporary->content?></textarea>
+					<textarea name="comment_content" placeholder="<?php echo __('Add a comment', 'kboard-comments')?>..." onfocus="kboard_comments_field_show()" required><?php echo $temporary->content?></textarea>
 				</div>
 				
 				<div class="comments-field-wrap">
@@ -49,11 +49,11 @@
 					<?php else:?>
 					<div class="comments-field">
 						<label class="comments-field-label" for="comment_member_display"><?php echo __('Author', 'kboard-comments')?></label>
-						<input type="text" id="comment_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>...">
+						<input type="text" id="comment_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>..." required>
 					</div>
 					<div class="comments-field">
 						<label class="comments-field-label" for="comment_password"><?php echo __('Password', 'kboard-comments')?></label>
-						<input type="password" id="comment_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>...">
+						<input type="password" id="comment_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>..." required>
 					</div>
 					<?php endif?>
 					
@@ -65,7 +65,7 @@
 						<?php else:?>
 							<div class="comments-field">
 								<label class="comments-field-label" for="comment_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
-								<input type="text" id="comment_captcha" name="captcha" value="" placeholder="CAPTCHA...">
+								<input type="text" id="comment_captcha" name="captcha" value="" placeholder="CAPTCHA..." required>
 							</div>
 						<?php endif?>
 					<?php endif?>

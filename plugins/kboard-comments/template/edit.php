@@ -24,18 +24,18 @@
 <form id="kbaord-comments-confirm-form" method="post" action="<?php echo $submit_action_url?>" onsubmit="return submit_checker(this)">
 	<input type="hidden" name="password" value="<?php echo $comment->password?>">
 	<div class="kboard-popup-form">
-		<div class="kboard-popup-row"><textarea name="content" rows="5" required><?php echo $comment->content?></textarea></div>
+		<div class="kboard-popup-row"><textarea name="comment_content" rows="5" required><?php echo $comment->content?></textarea></div>
 		<div class="kboard-popup-row row-button"><button type="submit"><?php echo __('Submit', 'kboard-comments')?></button></div>
 	</div>
 </form>
 <script>
 window.onload = function(){
-	jQuery('textarea[name=content]').focus();
+	jQuery('textarea[name=comment_content]').focus();
 }
 function submit_checker(form){
-	if(!jQuery('textarea[name=content]').val()){
+	if(!jQuery('textarea[name=comment_content]').val()){
 		alert('<?php echo __('Please enter the content.', 'kboard-comments')?>');
-		jQuery('textarea[name=content]').focus();
+		jQuery('textarea[name=comment_content]').focus();
 		return false;
 	}
 	return true;

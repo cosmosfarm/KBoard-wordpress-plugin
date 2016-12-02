@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-12-01 20:14+0900\n"
-"PO-Revision-Date: 2016-12-01 20:14+0900\n"
+"POT-Creation-Date: 2016-12-02 14:46+0900\n"
+"PO-Revision-Date: 2016-12-02 14:47+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -35,22 +35,22 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 
 #: class/KBAdminController.class.php:25 class/KBAdminController.class.php:109
 #: class/KBAdminController.class.php:144 class/KBAdminController.class.php:177
-#: class/KBController.class.php:42 class/KBController.class.php:57
-#: class/KBController.class.php:62 class/KBController.class.php:66
-#: class/KBController.class.php:168 class/KBController.class.php:193
-#: class/KBController.class.php:236 class/KBController.class.php:262
-#: class/KBController.class.php:267 class/KBController.class.php:272
+#: class/KBController.class.php:49 class/KBController.class.php:54
+#: class/KBController.class.php:58 class/KBController.class.php:63
+#: class/KBController.class.php:197 class/KBController.class.php:222
+#: class/KBController.class.php:265 class/KBController.class.php:291
+#: class/KBController.class.php:296 class/KBController.class.php:301
 #: class/KBTemplate.class.php:99 class/KBTemplate.class.php:105
 #: class/KBoardBuilder.class.php:255 class/KBoardBuilder.class.php:320
-#: class/KBoardBuilder.class.php:330 class/KBoardBuilder.class.php:425
+#: class/KBoardBuilder.class.php:330 class/KBoardBuilder.class.php:403
 #: index.php:297
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
 #: class/KBAdminController.class.php:120 class/KBAdminController.class.php:122
-#: class/KBController.class.php:152 class/KBController.class.php:154
-#: class/KBController.class.php:220 class/KBController.class.php:222
-#: class/KBoardBuilder.class.php:409
+#: class/KBController.class.php:181 class/KBController.class.php:183
+#: class/KBController.class.php:249 class/KBController.class.php:251
+#: class/KBoardBuilder.class.php:387
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
@@ -84,21 +84,16 @@ msgstr "&#91;승인대기&#93; 관리자의 승인을 기다리고 있습니다.
 msgid "&#91;Waiting for administrator Approval.&#93;"
 msgstr "&#91;관리자의 승인을 기다리고 있습니다.&#93;"
 
-#: class/KBContent.class.php:156 class/KBContent.class.php:166
-#, php-format
-msgid "\"%s\" is not available."
-msgstr "\"%s\"는 사용할 수 없습니다."
+#: class/KBContent.class.php:157
+msgid "CAPTCHA is invalid."
+msgstr "CAPTCHA가 올바르지 않습니다."
 
-#: class/KBContent.class.php:198
-msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
-msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
-
-#: class/KBContent.class.php:231
+#: class/KBContent.class.php:188
 msgid "KBoard new document"
 msgstr "KBoard 신규등록"
 
-#: class/KBContent.class.php:449 class/KBContent.class.php:489
-#: class/KBContent.class.php:574
+#: class/KBContent.class.php:402 class/KBContent.class.php:442
+#: class/KBContent.class.php:533
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
 
@@ -234,12 +229,12 @@ msgid "The reply."
 msgstr "댓글입니다."
 
 #: class/KBContentListTable.class.php:172
-#: class/KBContentListTable.class.php:175 index.php:605
+#: class/KBContentListTable.class.php:175 index.php:609
 msgid "Yes"
 msgstr "예"
 
 #: class/KBContentListTable.class.php:172
-#: class/KBContentListTable.class.php:175 index.php:606
+#: class/KBContentListTable.class.php:175 index.php:610
 msgid "No"
 msgstr "아니요"
 
@@ -247,15 +242,32 @@ msgstr "아니요"
 msgid "Update"
 msgstr "업데이트"
 
-#: class/KBController.class.php:47 index.php:597
+#: class/KBController.class.php:66 index.php:599
+msgid "Please enter the title."
+msgstr "제목을 입력해주세요."
+
+#: class/KBController.class.php:69 index.php:600
+msgid "Please enter the author."
+msgstr "작성자를 입력해주세요."
+
+#: class/KBController.class.php:72 index.php:601
 msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
-#: class/KBController.class.php:253 class/KBoardBuilder.class.php:226
+#: class/KBController.class.php:75
+msgid "Please enter the content."
+msgstr "내용을 입력해주세요."
+
+#: class/KBController.class.php:86 class/KBController.class.php:96
+#, php-format
+msgid "\"%s\" is not available."
+msgstr "\"%s\"는 사용할 수 없습니다."
+
+#: class/KBController.class.php:282 class/KBoardBuilder.class.php:226
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
-#: class/KBController.class.php:285
+#: class/KBController.class.php:314
 msgid "File does not exist."
 msgstr "파일이 없습니다."
 
@@ -470,64 +482,56 @@ msgstr "스토어"
 msgid "전체 댓글"
 msgstr "전체 댓글"
 
-#: index.php:592 skin/avatar/editor.php:97 skin/customer/editor.php:107
-#: skin/default/editor.php:97 skin/thumbnail/editor.php:97
+#: index.php:596 skin/avatar/editor.php:104 skin/customer/editor.php:114
+#: skin/default/editor.php:104 skin/thumbnail/editor.php:104
 msgid "KBoard Add Media"
 msgstr "KBoard 미디어 추가"
 
-#: index.php:593
+#: index.php:597
 msgid "Next"
 msgstr "다음"
 
-#: index.php:594
+#: index.php:598
 msgid "Prev"
 msgstr "이전"
 
-#: index.php:595
-msgid "Please enter the title."
-msgstr "제목을 입력해주세요."
-
-#: index.php:596
-msgid "Please enter the author."
-msgstr "작성자를 입력해주세요."
-
-#: index.php:598
+#: index.php:602
 msgid "Please enter the CAPTCHA."
 msgstr "옆에 보이는 보안코드를 입력해주세요."
 
-#: index.php:599
+#: index.php:603
 msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
-#: index.php:600
+#: index.php:604
 msgid "Please wait."
 msgstr "잠시만 기다려주세요."
 
-#: index.php:601 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:14
+#: index.php:605 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:14
 #: skin/customer/list.php:14 skin/default/list.php:14
 #: skin/thumbnail/list.php:14
 msgid "Newest"
 msgstr "최신순"
 
-#: index.php:602 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:15
+#: index.php:606 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:15
 #: skin/customer/list.php:15 skin/default/list.php:15
 #: skin/thumbnail/list.php:15
 msgid "Best"
 msgstr "추천순"
 
-#: index.php:603 pages/kboard_latestview_setting.php:74 skin/avatar/list.php:17
+#: index.php:607 pages/kboard_latestview_setting.php:74 skin/avatar/list.php:17
 #: skin/customer/list.php:17 skin/default/list.php:17
 #: skin/thumbnail/list.php:17
 msgid "Updated"
 msgstr "업데이트순"
 
-#: index.php:604 pages/kboard_latestview_setting.php:73 skin/avatar/list.php:16
+#: index.php:608 pages/kboard_latestview_setting.php:73 skin/avatar/list.php:16
 #: skin/customer/list.php:16 skin/default/list.php:16
 #: skin/thumbnail/list.php:16
 msgid "Viewed"
 msgstr "조회순"
 
-#: index.php:607
+#: index.php:611
 msgid "Did it help?"
 msgstr "도움이 되었나요?"
 
@@ -622,7 +626,7 @@ msgstr "KBoard : 대시보드"
 msgid "시스템 설정"
 msgstr "시스템 설정"
 
-#: pages/kboard_dashboard.php:107
+#: pages/kboard_dashboard.php:121
 msgid "커뮤니티로 이동"
 msgstr "커뮤니티로 이동"
 
@@ -737,11 +741,11 @@ msgid "Document"
 msgstr "본문보기"
 
 #: skin/avatar/confirm.php:17 skin/avatar/document.php:96
-#: skin/avatar/editor.php:138 skin/customer/confirm.php:17
-#: skin/customer/document.php:101 skin/customer/editor.php:148
+#: skin/avatar/editor.php:145 skin/customer/confirm.php:17
+#: skin/customer/document.php:101 skin/customer/editor.php:155
 #: skin/default/confirm.php:17 skin/default/document.php:94
-#: skin/default/editor.php:138 skin/thumbnail/confirm.php:17
-#: skin/thumbnail/document.php:94 skin/thumbnail/editor.php:138
+#: skin/default/editor.php:145 skin/thumbnail/confirm.php:17
+#: skin/thumbnail/document.php:94 skin/thumbnail/editor.php:145
 msgid "List"
 msgstr "목록보기"
 
@@ -776,12 +780,12 @@ msgstr "다운로드 %s"
 msgid "Reply"
 msgstr "답글쓰기"
 
-#: skin/avatar/document.php:102 skin/avatar/editor.php:104
-#: skin/avatar/editor.php:115 skin/customer/document.php:107
-#: skin/customer/editor.php:114 skin/customer/editor.php:125
-#: skin/default/document.php:100 skin/default/editor.php:104
-#: skin/default/editor.php:115 skin/thumbnail/document.php:100
-#: skin/thumbnail/editor.php:104 skin/thumbnail/editor.php:115
+#: skin/avatar/document.php:102 skin/avatar/editor.php:111
+#: skin/avatar/editor.php:122 skin/customer/document.php:107
+#: skin/customer/editor.php:121 skin/customer/editor.php:132
+#: skin/default/document.php:100 skin/default/editor.php:111
+#: skin/default/editor.php:122 skin/thumbnail/document.php:100
+#: skin/thumbnail/editor.php:111 skin/thumbnail/editor.php:122
 #: template/media.php:160
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
@@ -822,63 +826,63 @@ msgstr "카테고리"
 msgid "Select"
 msgstr "선택"
 
-#: skin/avatar/editor.php:82 skin/customer/editor.php:82
-#: skin/default/editor.php:82 skin/thumbnail/editor.php:82
+#: skin/avatar/editor.php:88 skin/customer/editor.php:88
+#: skin/default/editor.php:88 skin/thumbnail/editor.php:88
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
-#: skin/avatar/editor.php:95 skin/customer/editor.php:105
-#: skin/default/editor.php:95 skin/thumbnail/editor.php:95
+#: skin/avatar/editor.php:102 skin/customer/editor.php:112
+#: skin/default/editor.php:102 skin/thumbnail/editor.php:102
 msgid "Photos"
 msgstr "사진"
 
-#: skin/avatar/editor.php:102 skin/customer/editor.php:112
-#: skin/default/editor.php:102 skin/thumbnail/editor.php:102
+#: skin/avatar/editor.php:109 skin/customer/editor.php:119
+#: skin/default/editor.php:109 skin/thumbnail/editor.php:109
 #: skin/thumbnail/list.php:82
 msgid "Thumbnail"
 msgstr "썸네일"
 
-#: skin/avatar/editor.php:104 skin/avatar/editor.php:115
-#: skin/customer/editor.php:114 skin/customer/editor.php:125
-#: skin/default/editor.php:104 skin/default/editor.php:115
-#: skin/thumbnail/editor.php:104 skin/thumbnail/editor.php:115
+#: skin/avatar/editor.php:111 skin/avatar/editor.php:122
+#: skin/customer/editor.php:121 skin/customer/editor.php:132
+#: skin/default/editor.php:111 skin/default/editor.php:122
+#: skin/thumbnail/editor.php:111 skin/thumbnail/editor.php:122
 msgid "Delete file"
 msgstr "파일 삭제"
 
-#: skin/avatar/editor.php:113 skin/customer/editor.php:123
-#: skin/default/editor.php:113 skin/thumbnail/editor.php:113
+#: skin/avatar/editor.php:120 skin/customer/editor.php:130
+#: skin/default/editor.php:120 skin/thumbnail/editor.php:120
 msgid "Attachment"
 msgstr "첨부파일"
 
-#: skin/avatar/editor.php:124 skin/customer/editor.php:134
-#: skin/default/editor.php:124 skin/thumbnail/editor.php:124
+#: skin/avatar/editor.php:131 skin/customer/editor.php:141
+#: skin/default/editor.php:131 skin/thumbnail/editor.php:131
 msgid "WP Search"
 msgstr "통합검색"
 
-#: skin/avatar/editor.php:127 skin/customer/editor.php:137
-#: skin/default/editor.php:127 skin/thumbnail/editor.php:127
+#: skin/avatar/editor.php:134 skin/customer/editor.php:144
+#: skin/default/editor.php:134 skin/thumbnail/editor.php:134
 msgid "Public"
 msgstr "제목과 내용 검색허용"
 
-#: skin/avatar/editor.php:128 skin/customer/editor.php:138
-#: skin/default/editor.php:128 skin/thumbnail/editor.php:128
+#: skin/avatar/editor.php:135 skin/customer/editor.php:145
+#: skin/default/editor.php:135 skin/thumbnail/editor.php:135
 msgid "Only title (secret document)"
 msgstr "제목만 검색허용 (비밀글)"
 
-#: skin/avatar/editor.php:129 skin/customer/editor.php:139
-#: skin/default/editor.php:129 skin/thumbnail/editor.php:129
+#: skin/avatar/editor.php:136 skin/customer/editor.php:146
+#: skin/default/editor.php:136 skin/thumbnail/editor.php:136
 msgid "Exclusion"
 msgstr "통합검색 제외"
 
-#: skin/avatar/editor.php:137 skin/avatar/editor.php:140
-#: skin/customer/editor.php:147 skin/customer/editor.php:150
-#: skin/default/editor.php:137 skin/default/editor.php:140
-#: skin/thumbnail/editor.php:137 skin/thumbnail/editor.php:140
+#: skin/avatar/editor.php:144 skin/avatar/editor.php:147
+#: skin/customer/editor.php:154 skin/customer/editor.php:157
+#: skin/default/editor.php:144 skin/default/editor.php:147
+#: skin/thumbnail/editor.php:144 skin/thumbnail/editor.php:147
 msgid "Back"
 msgstr "돌아가기"
 
-#: skin/avatar/editor.php:145 skin/customer/editor.php:155
-#: skin/default/editor.php:145 skin/thumbnail/editor.php:145
+#: skin/avatar/editor.php:152 skin/customer/editor.php:162
+#: skin/default/editor.php:152 skin/thumbnail/editor.php:152
 msgid "Save"
 msgstr "저장하기"
 
@@ -911,13 +915,13 @@ msgstr "내용"
 msgid "New"
 msgstr "글쓰기"
 
-#: skin/customer/document.php:37 skin/customer/editor.php:87
-#: skin/customer/editor.php:88
+#: skin/customer/document.php:37 skin/customer/editor.php:94
+#: skin/customer/editor.php:95
 msgid "Name"
 msgstr "이름"
 
-#: skin/customer/document.php:38 skin/customer/editor.php:92
-#: skin/customer/editor.php:93
+#: skin/customer/document.php:38 skin/customer/editor.php:99
+#: skin/customer/editor.php:100
 msgid "Phone number"
 msgstr "연락처"
 
@@ -980,6 +984,9 @@ msgstr "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "이미지 파일만 업로드 가능합니다."
+
+#~ msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
+#~ msgstr "보안코드가 올바르지 않습니다. 보안 코드를 입력해주세요."
 
 #~ msgid "관리 권한이 없습니다."
 #~ msgstr "관리 권한이 없습니다."
