@@ -21,6 +21,7 @@ class KBContent {
 	var $row;
 	var $execute_action;
 	var $thumbnail;
+	var $previous_status;
 
 	private $upload_attach_files;
 
@@ -31,10 +32,9 @@ class KBContent {
 
 	public function __get($name){
 		if(isset($this->row->{$name})){
-			if($name == 'status'){
-				if($this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
-					$board = $this->getBoard();
-					if($board->isAdmin()){
+			if(in_array($name, array('title', 'content'))){
+				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
+					if($this->isEditor()){
 						switch($name){
 							case 'title': return sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title); break;
 							case 'content': return sprintf(__('<p>&#91;Waiting for administrator Approval.&#93;</p>%s', 'kboard'), $this->row->content); break;
@@ -93,6 +93,7 @@ class KBContent {
 		$this->initOptions();
 		$this->initAttachedFiles();
 		$this->execute_action = '';
+		$this->previous_status = $this->status;
 		return $this;
 	}
 
@@ -112,6 +113,7 @@ class KBContent {
 		$this->initOptions();
 		$this->initAttachedFiles();
 		$this->execute_action = '';
+		$this->previous_status = $this->status;
 		return $this;
 	}
 
@@ -138,6 +140,9 @@ class KBContent {
 			do_action('kboard_document_update', $this->uid, $this->board_id);
 
 			$this->execute_action = 'update';
+			
+			// 임시저장 데이터 삭제
+			$this->cleanTemporary();
 			
 			return $this->uid;
 		}
@@ -239,19 +244,28 @@ class KBContent {
 
 		// 입력할 데이터 필터
 		$data = apply_filters('kboard_insert_data', $data, $this->board_id);
-
-		foreach($data as $key=>$value){
-			$value = esc_sql($value);
-			$insert_key[] = "`$key`";
-			$insert_data[] = "'$value'";
+		
+		if($data['board_id'] && $data['title']){
+			foreach($data as $key=>$value){
+				$value = esc_sql($value);
+				$insert_key[] = "`$key`";
+				$insert_data[] = "'$value'";
+			}
+			
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
+			$this->uid = $wpdb->insert_id;
+			
+			$this->insertPost($this->uid, $data['member_uid']);
+			
+			$board = $this->getBoard();
+			$board->meta->total = $board->getTotal() + 1;
+			if($this->status != 'trash'){
+				$board->meta->list_total = $board->getListTotal() + 1;
+			}
+			
+			return $this->uid;
 		}
-
-		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
-		$this->uid = $wpdb->insert_id;
-
-		$this->insertPost($this->uid, $data['member_uid']);
-
-		return $this->uid;
+		return 0;
 	}
 
 	/**
@@ -281,31 +295,41 @@ class KBContent {
 				$data['notice'] = $this->notice;
 				$data['search'] = $this->search;
 				$data['status'] = $this->status;
-				if($this->member_uid) $data['password'] = $this->password;
-				else if($this->password) $data['password'] = $this->password;
+				if($this->member_uid || $this->password) $data['password'] = $this->password;
 			}
 
 			// 수정할 데이터 필터
 			$data = apply_filters('kboard_update_data', $data, $this->board_id);
-
-			foreach($data as $key=>$value){
-				$value = esc_sql($value);
-				$update[] = "`$key`='$value'";
-			}
-
-			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
-
-			$post_id = $this->getPostID();
-			if($post_id){
-				if($this->search==3){
-					$this->deletePost($post_id);
+			
+			if($data['board_id'] && $data['title']){
+				foreach($data as $key=>$value){
+					$value = esc_sql($value);
+					$update[] = "`$key`='$value'";
+				}
+				
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
+				
+				$post_id = $this->getPostID();
+				if($post_id){
+					if($this->search==3){
+						$this->deletePost($post_id);
+					}
+					else{
+						$this->updatePost($post_id, $data['member_uid']);
+					}
 				}
 				else{
-					$this->updatePost($post_id, $data['member_uid']);
+					$this->insertPost($this->uid, $data['member_uid']);
 				}
-			}
-			else{
-				$this->insertPost($this->uid, $data['member_uid']);
+				
+				if($this->previous_status != $this->status){
+					if($this->status == 'trash'){
+						$this->moveReplyToTrash($this->uid);
+					}
+					else if($this->previous_status == 'trash'){
+						$this->restoreReplyFromTrash($this->uid);
+					}
+				}
 			}
 		}
 	}
@@ -607,22 +631,27 @@ class KBContent {
 		}
 		return '';
 	}
-
+	
 	/**
 	 * 게시글을 삭제한다.
+	 * @param boolean $delete_action
 	 */
-	public function delete(){
-		$this->remove();
+	public function delete($delete_action=true){
+		$this->remove($delete_action);
 	}
-
+	
 	/**
 	 * 게시글을 삭제한다.
+	 * @param boolean $delete_action
 	 */
-	public function remove(){
+	public function remove($delete_action=true){
 		global $wpdb;
 		if($this->uid){
-			// 게시글 삭제 액션 실행
-			do_action('kboard_document_delete', $this->uid, $this->board_id);
+			
+			if($delete_action){
+				// 게시글 삭제 액션 실행
+				do_action('kboard_document_delete', $this->uid, $this->board_id);
+			}
 
 			$this->_deleteAllOptions();
 			$this->_deleteAllAttached();
@@ -638,6 +667,9 @@ class KBContent {
 			$media->deleteWithContentUID($this->uid);
 
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$this->uid}'");
+			
+			$board = $this->getBoard();
+			$board->meta->total = $board->getTotal() - 1;
 		}
 	}
 
@@ -662,11 +694,51 @@ class KBContent {
 	 * @param int $parent_uid
 	 */
 	public function deleteReply($parent_uid){
-		$list = new KBContentList();
-		$list->getReplyList($parent_uid);
-		while($content = $list->hasNextReply()){
-			$content->remove();
+		global $wpdb;
+		
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$parent_uid'");
+		foreach($results as $row){
+			$content = new KBContent();
+			$content->initWithRow($row);
+			$content->board = $this->getBoard();
+			$content->remove(false);
 			$this->deleteReply($content->uid);
+		}
+	}
+	
+	/**
+	 * 휴지통으로 이동할 때 실행한다.
+	 * @param string $content_uid
+	 */
+	public function moveReplyToTrash($parent_uid){
+		global $wpdb;
+		
+		$board = $this->getBoard();
+		$board->meta->list_total = $board->getListTotal() - 1;
+		
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$parent_uid'");
+		foreach($results as $row){
+			if($row->status != 'trash'){
+				$this->moveReplyToTrash($row->uid);
+			}
+		}
+	}
+	
+	/**
+	 * 휴지통에서 복구할 때 실행한다.
+	 * @param string $content_uid
+	 */
+	public function restoreReplyFromTrash($parent_uid){
+		global $wpdb;
+		
+		$board = $this->getBoard();
+		$board->meta->list_total = $board->getListTotal() + 1;
+		
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$parent_uid'");
+		foreach($results as $row){
+			if($row->status != 'trash'){
+				$this->restoreReplyFromTrash($row->uid);
+			}
 		}
 	}
 
@@ -971,7 +1043,24 @@ class KBContent {
 	public function cleanTemporary(){
 		setcookie('kboard_temporary_content', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 	}
-
+	
+	/**
+	 * 글 수정 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isEditor(){
+		if($this->uid){
+			$board = $this->getBoard();
+			if($board->isEditor($this->member_uid)){
+				return true;
+			}
+			else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$this->uid]) && $_SESSION['kboard_confirm'][$this->uid] == $this->password){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.
 	 */

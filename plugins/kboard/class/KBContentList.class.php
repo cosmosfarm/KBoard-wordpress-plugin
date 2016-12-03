@@ -143,7 +143,7 @@ class KBContentList {
 	 */
 	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
-
+		
 		if($this->getSorting() == 'newest'){
 			// 최신순서
 			$this->sort = 'date';
@@ -201,7 +201,7 @@ class KBContentList {
 		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
 		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
-
+		
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM $from WHERE $where");
 		$this->resource = $wpdb->get_results("SELECT * FROM $from WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$this->index = $this->total - (($this->page-1) * $this->rpp);
@@ -214,6 +214,7 @@ class KBContentList {
 	 */
 	public function getAllList(){
 		global $wpdb;
+		
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
 				$value = intval($value);
@@ -268,6 +269,7 @@ class KBContentList {
 	 */
 	public function getNoticeList(){
 		global $wpdb;
+		
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
 				$value = intval($value);
@@ -280,8 +282,12 @@ class KBContentList {
 			$this->board_id = intval($this->board_id);
 			$where[] = "`board_id`='$this->board_id'";
 		}
+		
 		$where[] = "`notice`!=''";
-
+		
+		// 휴지통에 없는 게시글만 불러온다.
+		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+		
 		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
 		return $this->resource_notice;
 	}
@@ -303,7 +309,7 @@ class KBContentList {
 	public function hasNextNotice(){
 		if(!$this->resource_notice) $this->getNoticeList();
 		$this->row = current($this->resource_notice);
-
+		
 		if($this->row){
 			next($this->resource_notice);
 			$content = new KBContent();
@@ -322,7 +328,13 @@ class KBContentList {
 	 */
 	public function getReplyList($parent_uid){
 		global $wpdb;
-		$this->resource_reply = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$parent_uid' ORDER BY `date` ASC");
+		
+		$where[] = "`parent_uid`='$parent_uid'";
+		
+		// 휴지통에 없는 게시글만 불러온다.
+		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+		
+		$this->resource_reply = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` ASC");
 		return $this->resource_reply;
 	}
 

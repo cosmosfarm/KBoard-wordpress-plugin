@@ -304,23 +304,23 @@ function kboard_upgrade(){
 
 	if($action == 'kboard'){
 		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '>=')){
-			die('<script>alert("최신버전 입니다.");location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+			die('<script>alert("최신버전 입니다.");location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
 	}
 	else if($action == 'comments'){
 		if(defined('KBOARD_COMMNETS_VERSION')){
 			if(version_compare(KBOARD_COMMNETS_VERSION, $upgrader->getLatestVersion()->comments, '>=')){
-				die('<script>alert("최신버전 입니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+				die('<script>alert("최신버전 입니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
 			}
 		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -338,16 +338,16 @@ function kboard_upgrade(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 설정 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
+		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
 	}
 	else{
-		die('<script>alert("설치에 실패 했습니다.");window.location.href="' . KBOARD_DASHBOARD_PAGE . '"</script>');
+		die('<script>alert("설치에 실패 했습니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
 	}
 }
 
@@ -767,6 +767,14 @@ function kboard_activation_execute(){
 	PRIMARY KEY (`uid`),
 	KEY `board_id` (`board_id`),
 	KEY `parent_uid` (`parent_uid`),
+	KEY `member_uid` (`member_uid`),
+	KEY `date` (`date`),
+	KEY `update` (`update`),
+	KEY `view` (`view`),
+	KEY `vote` (`vote`),
+	KEY `category1` (`category1`),
+	KEY `category2` (`category2`),
+	KEY `notice` (`notice`),
 	KEY `status` (`status`)
 	) {$charset_collate};");
 
@@ -957,6 +965,86 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `status` varchar(20) DEFAULT NULL AFTER `search`");
 	}
 	unset($name);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 member_uid 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='member_uid'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`member_uid`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 date 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='date'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`date`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 update 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='update'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`update`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 view 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='view'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`view`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 vote 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='vote'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`vote`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 category1 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='category1'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`category1`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 category2 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='category2'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`category2`)");
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 notice 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='notice'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`notice`)");
+	}
+	unset($index);
 
 	/*
 	 * KBoard 5.3
@@ -977,6 +1065,12 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_latestview` ADD `sort` varchar(20) NOT NULL AFTER `rpp`");
 	}
 	unset($name);
+	
+	/*
+	 * KBoard 5.3
+	 * kboard_board_meta 테이블에서 게시판의 total, list_total 데이터를 지움으로써 초기화한다.
+	 */
+	$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='total' OR `key`='list_total'");
 }
 
 /*
@@ -1257,9 +1351,97 @@ function kboard_system_update(){
 
 	/*
 	 * KBoard 5.3
+	 * kboard_board_content 테이블에 member_uid 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='member_uid'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 date 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='date'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 update 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='update'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 view 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='view'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 view 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='vote'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 category1 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='category1'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 category2 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='category2'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
+	 * kboard_board_content 테이블에 notice 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='notice'");
+	if(!count($index)){
+		kboard_activation($networkwide);
+		return;
+	}
+	unset($index);
+
+	/*
+	 * KBoard 5.3
 	 * kboard_board_content 테이블에 status 인덱스 추가
 	 */
-	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_attached` WHERE `Key_name`='status'");
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_content` WHERE `Key_name`='status'");
 	if(!count($index)){
 		kboard_activation($networkwide);
 		return;

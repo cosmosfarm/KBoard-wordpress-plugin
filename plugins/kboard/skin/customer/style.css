@@ -172,12 +172,12 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 	#kboard-customer-list .kboard-list .kboard-mobile-contents { display: block; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li { display: none; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.first-page,
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.last-page { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.last-page,
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.prev-page,
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page,
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
 	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 6px 18px; }
-	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-customer-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 0 18px; }
 	#kboard-customer-list .kboard-search select { float: left; margin-right: 1%; width: 29%; min-width: 29%; height: 28px; line-height: 28px; box-sizing: border-box; }
 	#kboard-customer-list .kboard-search input { float: left; margin-right: 1%; width: 49%; min-width: 49%; height: 28px; line-height: 28px; box-sizing: border-box; }
 	#kboard-customer-list .kboard-search button { float: left; width: 20%; min-width: 20%; box-sizing: border-box; }

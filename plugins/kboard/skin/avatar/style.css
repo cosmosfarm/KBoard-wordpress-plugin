@@ -175,12 +175,12 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 	#kboard-avatar-list .kboard-list .kboard-mobile-contents { display: block; }
 	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li { display: none; }
 	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.first-page,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.last-page { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.last-page,
 	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.prev-page,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page,
+	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
 	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 6px 18px; }
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; *display: inline; zoom: 1; }
+	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 0 18px; }
 	#kboard-avatar-list .kboard-search select { float: left; margin-right: 1%; width: 29%; min-width: 29%; height: 28px; line-height: 28px; box-sizing: border-box; }
 	#kboard-avatar-list .kboard-search input { float: left; margin-right: 1%; width: 49%; min-width: 49%; height: 28px; line-height: 28px; box-sizing: border-box; }
 	#kboard-avatar-list .kboard-search button { float: left; width: 20%; min-width: 20%; box-sizing: border-box; }

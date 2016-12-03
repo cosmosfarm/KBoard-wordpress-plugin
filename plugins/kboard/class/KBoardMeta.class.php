@@ -19,7 +19,7 @@ class KBoardMeta {
 	public function __get($name){
 		$name = sanitize_key($name);
 		if(isset($this->meta->{$name})){
-			return stripslashes($this->meta->{$name});
+			return $this->meta->{$name};
 		}
 		return '';
 	}

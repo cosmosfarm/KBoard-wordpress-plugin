@@ -222,19 +222,9 @@ class KBAdminController {
 			$content = new KBContent();
 			foreach($_POST['board_id'] as $uid=>$value){
 				$content->initWithUID($uid);
-				
-				if($_POST['board_id'][$uid]){
-					$content->board_id = $_POST['board_id'][$uid];
-				}
-				
-				if($_POST['status'][$uid]){
-					$content->status = $_POST['status'][$uid];
-				}
-				
-				if($_POST['date'][$uid] && $_POST['time'][$uid]){
-					$content->date = date('YmdHis', strtotime($_POST['date'][$uid] . ' ' . $_POST['time'][$uid]));
-				}
-				
+				$content->board_id = $_POST['board_id'][$uid];
+				$content->status = $_POST['status'][$uid];
+				$content->date = date('YmdHis', strtotime($_POST['date'][$uid] . ' ' . $_POST['time'][$uid]));
 				$content->updateContent();
 			}
 		}

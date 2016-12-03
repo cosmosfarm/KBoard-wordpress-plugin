@@ -349,7 +349,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="permit">관리자 승인(베타)</label></th>
+						<th scope="row"><label for="permit">관리자 승인(Beta)</label></th>
 						<td>
 							<select name="permit" id="permit">
 								<option value="">비활성화</option>
@@ -438,7 +438,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="default_build_mod">게시판 기본 화면</label></th>
+						<th scope="row"><label for="default_build_mod">게시판 기본 화면(Beta)</label></th>
 						<td>
 							<select name="default_build_mod" id="default_build_mod">
 								<option value="">글목록 화면</option>
@@ -448,7 +448,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="after_executing_mod">글 쓴 후 이동 화면</label></th>
+						<th scope="row"><label for="after_executing_mod">글 쓴 후 이동 화면(Beta)</label></th>
 						<td>
 							<select name="after_executing_mod" id="after_executing_mod">
 								<option value="">작성된 글 화면</option>

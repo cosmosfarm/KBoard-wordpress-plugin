@@ -418,11 +418,10 @@ class KBoard {
 		if(!$this->id){
 			return 0;	
 		}
-		if(self::$total >= 0){
-			return self::$total;
+		if(!$this->meta->total || $this->meta->total<=0){
+			$this->meta->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id'");
 		}
-		self::$total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id'"));
-		return self::$total;
+		return intval($this->meta->total);
 	}
 	
 	/**
@@ -434,15 +433,18 @@ class KBoard {
 		if(!$this->id){
 			return 0;
 		}
-		if(self::$total >= 0){
-			return self::$total;
+		if(!$this->meta->list_total || $this->meta->list_total<=0){
+			$this->meta->list_total = $this->getTotal();
+			
+			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `status`='trash'");
+			foreach($results as $row){
+				$content = new KBContent();
+				$content->initWithRow($row);
+				$content->board = $this;
+				$content->moveReplyToTrash($content->uid);
+			}
 		}
-		
-		$where[] = "`board_id`='$this->id'";
-		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
-		
-		self::$total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where)));
-		return self::$total;
+		return intval($this->meta->list_total);
 	}
 }
 ?>
