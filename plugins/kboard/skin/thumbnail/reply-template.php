@@ -1,5 +1,5 @@
 <?php while($content = $list->hasNextReply()):?>
-<tr>
+<tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 	<td class="kboard-list-uid"></td>
 	<td class="kboard-list-thumbnail">
 		<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
