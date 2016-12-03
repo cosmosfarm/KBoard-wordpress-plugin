@@ -61,9 +61,24 @@ class KBContentList {
 		}
 		if(!isset($where) || !$where) $where[] = '1';
 		$where = implode(' AND ', $where);
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		$this->index = $this->total;
+		
+		$offset = ($this->page-1)*$this->rpp;
+		
+		$results = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT $offset,$this->rpp");
+		foreach($results as $row){
+			$select_uid[] = intval($row->uid);
+		}
+		
+		if(!isset($select_uid)){
+			$this->total = 0;
+			$this->resource = array();
+		}
+		else{
+			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY `date` DESC");
+		}
+		
+		$this->index = $this->total - $offset;
 		return $this;
 	}
 
@@ -202,9 +217,23 @@ class KBContentList {
 		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM $from WHERE $where");
-		$this->resource = $wpdb->get_results("SELECT * FROM $from WHERE $where ORDER BY $orderby LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
-		$this->index = $this->total - (($this->page-1) * $this->rpp);
+		$offset = ($this->page-1)*$this->rpp;
+		
+		$results = $wpdb->get_results("SELECT `uid` FROM $from WHERE $where ORDER BY $orderby LIMIT $offset,$this->rpp");
+		foreach($results as $row){
+			$select_uid[] = intval($row->uid);
+		}
+		
+		if(!isset($select_uid)){
+			$this->total = 0;
+			$this->resource = array();
+		}
+		else{
+			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM $from WHERE $where");
+			$this->resource = $wpdb->get_results("SELECT * FROM $from WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY $orderby");
+		}
+		
+		$this->index = $this->total - $offset;
 		return $this->resource;
 	}
 

@@ -89,6 +89,7 @@ class KBCommentList {
 	 */
 	public function initWithKeyword($keyword=''){
 		global $wpdb;
+		
 		if($keyword){
 			$keyword = esc_sql($keyword);
 			$where = "`content` LIKE '%$keyword%'";
@@ -96,8 +97,23 @@ class KBCommentList {
 		else{
 			$where = '1';
 		}
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE $where");
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE $where ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		
+		$offset = ($this->page-1)*$this->rpp;
+		
+		$results = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_comments` WHERE $where ORDER BY `uid` DESC LIMIT $offset,$this->rpp");
+		foreach($results as $row){
+			$select_uid[] = intval($row->uid);
+		}
+		
+		if(!isset($select_uid)){
+			$this->total = 0;
+			$this->resource = array();
+		}
+		else{
+			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE $where");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY `uid` DESC");
+		}
+		
 		return $this;
 	}
 	
