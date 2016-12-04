@@ -37,33 +37,22 @@ final class KBUpgrader {
 	/**
 	 * 서버에 접속한다.
 	 * @param string $url
-	 * @return data
+	 * @return object
 	 */
 	static public function connect($url){
-		$url = wp_parse_url($url);
-		$host = self::$sever_host;
-		$fp = @fsockopen($host, 80, $errno, $errstr, 3);
-		if($fp){
-			$output = '';
-			fputs($fp, "GET {$url['path']} HTTP/1.0\r\n"."Host: {$host}\r\n"."Referer: {$_SERVER['HTTP_HOST']}\r\n"."\r\n");
-			while(!feof($fp)){
-				$output .= fgets($fp, 1024);
-			}
-			fclose($fp);
-			if($output){
-				$data = @explode("\r\n\r\n", $output);
-				$data = @end($data);
-				$data = json_decode($data);
-				if(!isset($data->kboard) || !$data->kboard) $data->kboard = 0;
-				if(!isset($data->comments) || !$data->comments) $data->comments = 0;
-				$data->error = '';
-				return $data;
-			}
+		$response = wp_remote_get($url, array('headers'=>array('Referer'=>$_SERVER['HTTP_HOST']), 'sslverify'=>false));
+		
+		if(is_wp_error($response) || !isset($response['body']) || !$response['body']){
+			$data = new stdClass();
+			$data->kboard = 0;
+			$data->comments = 0;
+			$data->error = $response->get_error_message();
 		}
-		$data = new stdClass();
-		$data->kboard = 0;
-		$data->comments = 0;
-		$data->error = __('Unable to connect to Cosmosfarm server.', 'kboard');
+		else{
+			$data = json_decode($response['body']);
+			$data->error = '';
+		}
+		
 		return $data;
 	}
 	

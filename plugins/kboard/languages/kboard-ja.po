@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2016-12-02 14:49+0900\n"
-"PO-Revision-Date: 2016-12-02 14:49+0900\n"
+"POT-Creation-Date: 2016-12-05 08:30+0900\n"
+"PO-Revision-Date: 2016-12-05 08:30+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -84,16 +84,16 @@ msgstr "&#91;承認待ち&#93; 管理者の承認を待っています。"
 msgid "&#91;Waiting for administrator Approval.&#93;"
 msgstr "&#91;管理者の承認を待っています。&#93;"
 
-#: class/KBContent.class.php:157
+#: class/KBContent.class.php:162
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHAが正しくありません。"
 
-#: class/KBContent.class.php:188
+#: class/KBContent.class.php:193
 msgid "KBoard new document"
 msgstr "KBoard 新規登録"
 
-#: class/KBContent.class.php:402 class/KBContent.class.php:442
-#: class/KBContent.class.php:533
+#: class/KBContent.class.php:426 class/KBContent.class.php:466
+#: class/KBContent.class.php:557
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "アップロード経路がありません。IDを入力した後、初期化してください。"
 
@@ -147,39 +147,37 @@ msgstr "タイトル"
 #: skin/avatar/list.php:181 skin/customer/document.php:20
 #: skin/customer/editor.php:61 skin/customer/editor.php:62
 #: skin/customer/list.php:83 skin/customer/list.php:169
-#: skin/customer/reply-template.php:13 skin/default/document.php:20
-#: skin/default/editor.php:61 skin/default/editor.php:62
-#: skin/default/list.php:83 skin/default/list.php:169
-#: skin/default/reply-template.php:13 skin/thumbnail/document.php:20
+#: skin/default/document.php:20 skin/default/editor.php:61
+#: skin/default/editor.php:62 skin/default/list.php:83
+#: skin/default/list.php:169 skin/thumbnail/document.php:20
 #: skin/thumbnail/editor.php:61 skin/thumbnail/editor.php:62
 #: skin/thumbnail/list.php:84 skin/thumbnail/list.php:186
-#: skin/thumbnail/reply-template.php:18
 msgid "Author"
 msgstr "投稿者"
 
 #: class/KBContentListTable.class.php:84 skin/avatar/document.php:30
 #: skin/avatar/list.php:86 skin/avatar/list.php:110 skin/avatar/list.php:144
-#: skin/avatar/reply-template.php:17 skin/customer/document.php:28
+#: skin/avatar/reply-template.php:22 skin/customer/document.php:28
 #: skin/customer/list.php:86 skin/customer/list.php:108
-#: skin/customer/list.php:136 skin/customer/reply-template.php:15
+#: skin/customer/list.php:136 skin/customer/reply-template.php:20
 #: skin/default/document.php:28 skin/default/list.php:86
 #: skin/default/list.php:108 skin/default/list.php:136
-#: skin/default/reply-template.php:15 skin/thumbnail/document.php:28
+#: skin/default/reply-template.php:20 skin/thumbnail/document.php:28
 #: skin/thumbnail/list.php:87 skin/thumbnail/list.php:117
-#: skin/thumbnail/list.php:153 skin/thumbnail/reply-template.php:20
+#: skin/thumbnail/list.php:153 skin/thumbnail/reply-template.php:28
 msgid "Views"
 msgstr "閲覧数"
 
 #: class/KBContentListTable.class.php:85 skin/avatar/editor.php:22
 #: skin/avatar/latest.php:16 skin/avatar/list.php:97 skin/avatar/list.php:131
-#: skin/avatar/reply-template.php:8 skin/customer/editor.php:22
+#: skin/avatar/reply-template.php:9 skin/customer/editor.php:22
 #: skin/customer/latest.php:16 skin/customer/list.php:96
-#: skin/customer/list.php:125 skin/customer/reply-template.php:8
+#: skin/customer/list.php:125 skin/customer/reply-template.php:9
 #: skin/default/editor.php:22 skin/default/latest.php:16
 #: skin/default/list.php:97 skin/default/list.php:125
-#: skin/default/reply-template.php:8 skin/thumbnail/editor.php:22
+#: skin/default/reply-template.php:9 skin/thumbnail/editor.php:22
 #: skin/thumbnail/latest.php:16 skin/thumbnail/list.php:106
-#: skin/thumbnail/list.php:142 skin/thumbnail/reply-template.php:13
+#: skin/thumbnail/list.php:142 skin/thumbnail/reply-template.php:17
 msgid "Secret"
 msgstr "非公開"
 
@@ -193,13 +191,11 @@ msgstr "お知らせ"
 
 #: class/KBContentListTable.class.php:87 skin/avatar/document.php:26
 #: skin/avatar/latest.php:6 skin/avatar/list.php:84
-#: skin/avatar/reply-template.php:16 skin/customer/document.php:24
-#: skin/customer/latest.php:6 skin/customer/list.php:84
-#: skin/customer/reply-template.php:14 skin/default/document.php:24
+#: skin/customer/document.php:24 skin/customer/latest.php:6
+#: skin/customer/list.php:84 skin/default/document.php:24
 #: skin/default/latest.php:6 skin/default/list.php:84
-#: skin/default/reply-template.php:14 skin/thumbnail/document.php:24
-#: skin/thumbnail/latest.php:6 skin/thumbnail/list.php:85
-#: skin/thumbnail/reply-template.php:19
+#: skin/thumbnail/document.php:24 skin/thumbnail/latest.php:6
+#: skin/thumbnail/list.php:85
 msgid "Date"
 msgstr "投稿日"
 
@@ -338,11 +334,7 @@ msgstr "許可がありません。"
 msgid "Integration feed"
 msgstr "全体フィード"
 
-#: class/KBUpgrader.class.php:66
-msgid "Unable to connect to Cosmosfarm server."
-msgstr "コスモスファームに接続できません。"
-
-#: class/KBUpgrader.class.php:104
+#: class/KBUpgrader.class.php:94
 msgid ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
@@ -350,7 +342,7 @@ msgstr ""
 "アップデートサーバに接続できません。コスモスファームアカウントに再度接続して"
 "ください。"
 
-#: class/KBUpgrader.class.php:131
+#: class/KBUpgrader.class.php:121
 msgid ""
 "Download file is decompression failed, please check directory and file "
 "permissions."
@@ -358,7 +350,7 @@ msgstr ""
 "ダウンロードファイルの圧縮解除失敗。ディレクトリ、ファイル権限を確認してくだ"
 "さい。"
 
-#: class/KBUpgrader.class.php:166
+#: class/KBUpgrader.class.php:156
 msgid "File copy failed, directory requires write permission."
 msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権限が必要です。。"
 
@@ -901,11 +893,13 @@ msgid "Number"
 msgstr "手順"
 
 #: skin/avatar/list.php:85 skin/avatar/list.php:108 skin/avatar/list.php:142
-#: skin/customer/list.php:85 skin/customer/list.php:106
-#: skin/customer/list.php:134 skin/default/list.php:85
+#: skin/avatar/reply-template.php:20 skin/customer/list.php:85
+#: skin/customer/list.php:106 skin/customer/list.php:134
+#: skin/customer/reply-template.php:18 skin/default/list.php:85
 #: skin/default/list.php:106 skin/default/list.php:134
-#: skin/thumbnail/list.php:86 skin/thumbnail/list.php:115
-#: skin/thumbnail/list.php:151
+#: skin/default/reply-template.php:18 skin/thumbnail/list.php:86
+#: skin/thumbnail/list.php:115 skin/thumbnail/list.php:151
+#: skin/thumbnail/reply-template.php:26
 msgid "Votes"
 msgstr "推薦"
 
@@ -989,6 +983,9 @@ msgstr "選択したイメージを本文に挿入しました。 窓を閉め�
 #: template/media.php:187 template/media.php:202
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "イメージファイルだけをアップロード可能です。"
+
+#~ msgid "Unable to connect to Cosmosfarm server."
+#~ msgstr "コスモスファームに接続できません。"
 
 #~ msgid "The CAPTCHA code is not valid. Please enter the CAPTCHA code."
 #~ msgstr "セキュリティーナンバーが正しくありません。"
