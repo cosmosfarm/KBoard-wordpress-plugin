@@ -79,6 +79,8 @@ class KBAdminController {
 			$meta->default_build_mod = isset($_POST['default_build_mod'])?$_POST['default_build_mod']:'';
 			$meta->after_executing_mod = isset($_POST['after_executing_mod'])?$_POST['after_executing_mod']:'';
 			$meta->add_menu_page = isset($_POST['add_menu_page'])?$_POST['add_menu_page']:'';
+			$meta->permission_list = isset($_POST['permission_list'])?$_POST['permission_list']:'';
+			$meta->permission_access = isset($_POST['permission_access'])?$_POST['permission_access']:'';
 			
 			if(isset($_POST['permission_read_roles'])){
 				$meta->permission_read_roles = serialize($_POST['permission_read_roles']);
@@ -236,16 +238,16 @@ class KBAdminController {
 	 */
 	public function system_option_update(){
 		if(current_user_can('activate_plugins')){
-			$option_name = esc_sql($_POST['option']);
-			$new_value = esc_sql($_POST['value']);
+			$option_name = $_POST['option'];
+			$new_value = $_POST['value'];
 			if(!$new_value){
 				delete_option($option_name);
 			}
 			else if(get_option($option_name) !== false){
-				update_option($option_name, $new_value);
+				update_option($option_name, $new_value, 'yes');
 			}
 			else{
-				add_option($option_name, $new_value, null, 'no');
+				add_option($option_name, $new_value, '', 'yes');
 			}
 		}
 		exit;

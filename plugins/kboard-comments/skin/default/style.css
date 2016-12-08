@@ -16,7 +16,7 @@
 .kboard-comments-default .comments-count { display: inline; color: #8a8a8a; font-size: 13px; }
 .kboard-comments-default .comments-count .comments-total-count { color: #f05726; font-size: 13px; }
 .kboard-comments-default .comments-sort { float: right; text-align: right; }
-.kboard-comments-default .comments-sort select { display: inline; margin: 0; padding: 0; border: 0; width: auto; height: auto; color: #66666a; font-size: 13px; background: none; background-color: transparent; cursor: pointer; box-shadow: none; }
+.kboard-comments-default .comments-sort select { display: inline; margin: 0; padding: 0; border: 0; width: auto; height: auto; color: #66666a; font-size: 13px; background: none; background-color: transparent; cursor: pointer; box-shadow: none; text-indent: 0; }
 .kboard-comments-default .comments-list { padding: 0 0 0 15px; overflow: hidden; }
 .kboard-comments-default .comments-list ul { margin: 0 !important; padding: 0 !important; list-style: none; border: 0; background: none; }
 .kboard-comments-default .comments-list ul li { margin: 0 !important; padding: 15px 0 0 0 !important; list-style: none; border: 0; background: none; }

@@ -14,11 +14,13 @@ class KBContentList {
 	var $index;
 	var $category1;
 	var $category2;
+	var $member_uid = null;
 	var $sort = 'date';
 	var $order = 'DESC';
 	var $rpp = 10;
 	var $page = 1;
 	var $status;
+	var $stop;
 	var $resource;
 	var $resource_notice;
 	var $resource_reply;
@@ -148,6 +150,16 @@ class KBContentList {
 		if($category) $this->category2 = $category;
 		return $this;
 	}
+	
+	/**
+	 * 글 작성자 고유 ID값을 입력한다.
+	 * @param unknown $member_uid
+	 * @return KBContentList
+	 */
+	public function memberUID($member_uid){
+		if($member_uid) $this->member_uid = $member_uid;
+		return $this;
+	}
 
 	/**
 	 * 게시판의 리스트를 반환한다.
@@ -158,6 +170,13 @@ class KBContentList {
 	 */
 	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
+		
+		if($this->stop){
+			$this->total = 0;
+			$this->resource = array();
+			$this->index = $this->total;
+			return $this->resource;
+		}
 		
 		if($this->getSorting() == 'newest'){
 			// 최신순서
@@ -207,6 +226,10 @@ class KBContentList {
 		if($this->category2){
 			$category2 = esc_sql($this->category2);
 			$where[] = "`category2`='$category2'";
+		}
+		if(!empty($this->member_uid)){
+			$member_uid = esc_sql($this->member_uid);
+			$where[] = "`member_uid`='$member_uid'";
 		}
 
 		// 휴지통에 없는 게시글만 불러온다.

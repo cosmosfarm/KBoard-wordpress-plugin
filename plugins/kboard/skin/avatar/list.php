@@ -2,9 +2,11 @@
 	
 	<!-- 게시판 정보 시작 -->
 	<div class="kboard-list-header">
-		<div class="kboard-total-count">
-			<?php echo __('Total', 'kboard')?> <?php echo number_format($board->getListTotal())?>
-		</div>
+		<?php if(!$board->isPrivate()):?>
+			<div class="kboard-total-count">
+				<?php echo __('Total', 'kboard')?> <?php echo number_format($board->getListTotal())?>
+			</div>
+		<?php endif?>
 		
 		<div class="kboard-sort">
 			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">

@@ -867,6 +867,19 @@ class KBContent {
 	}
 
 	/**
+	 * 최상위 부모 object를 반환한다.
+	 * @return KBContent
+	 */
+	public function getTopContent(){
+		if($this->parent_uid){
+			$content = new KBContent();
+			$content->initWithUID($this->parent_uid);
+			return $content->getTopContent();
+		}
+		return $this;
+	}
+
+	/**
 	 * 게시글과 미디어의 관계를 입력한다.
 	 */
 	public function addMediaRelationships(){

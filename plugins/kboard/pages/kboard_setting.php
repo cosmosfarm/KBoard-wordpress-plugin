@@ -349,6 +349,24 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="permission_list">리스트 보기(Beta)</label></th>
+						<td>
+							<select name="permission_list" id="permission_list" onchange="kboard_permission_list_check(true)">
+								<option value="">
+									전체글 보기
+								</option>
+								<option value="1"<?php if($meta->permission_list):?> selected<?php endif?>>
+									본인의 글만 보기
+								</option>
+							</select>
+							<div class="kboard-permission-list-options-view<?php if(!$meta->permission_list):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_access" value="">
+								<label><input type="checkbox" name="permission_access" value="1"<?php if($meta->permission_list && $meta->permission_access):?> checked<?php endif?>>비로그인 사용자는 로그인 페이지로 이동</label>
+							</div>
+							<p class="description">본인의 글만 보기로 설정하면 관리자와의 1:1 게시판으로 운영이 가능합니다. 공지사항은 항상 표시됩니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="permit">관리자 승인(Beta)</label></th>
 						<td>
 							<select name="permit" id="permit">
@@ -530,7 +548,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 function kboard_setting_tab_init(){
 	var index = location.hash.slice(1).replace('tab-kboard-setting-', '');
 	kboard_setting_tab_chnage(index);
-};
+}
 kboard_setting_tab_init();
 function kboard_setting_tab_chnage(index){
 	jQuery('.tab-kboard').removeClass('nav-tab-active').eq(index).addClass('nav-tab-active');
@@ -544,11 +562,28 @@ function kboard_permission_roles_view(bind, value){
 	else{
 		jQuery(bind).addClass('kboard-hide');
 	}
+	kboard_permission_list_check();
 }
 function kboard_open_page(){
 	var permalink = jQuery('option:selected', 'select[name=auto_page]').data('permalink');
 	if(permalink){
 		window.open(permalink);
+	}
+}
+function kboard_permission_list_check(message){
+	if(jQuery('select[name=permission_list]').val()){
+		jQuery('.kboard-permission-list-options-view').removeClass('kboard-hide');
+		
+		if(jQuery('select[name=permission_read]').val() == 'all' || jQuery('select[name=permission_write]').val() == 'all'){
+			jQuery('select[name=permission_list]').val('');
+			jQuery('.kboard-permission-list-options-view').addClass('kboard-hide');
+			if(message){
+				alert('읽기권한과 쓰기권한을 모두 로그인 사용자 이상으로 변경해주세요.');
+			}
+		}
+	}
+	else{
+		jQuery('.kboard-permission-list-options-view').addClass('kboard-hide');
 	}
 }
 </script>

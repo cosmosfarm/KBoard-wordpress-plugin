@@ -29,7 +29,7 @@
 			<p>
 			Font Awesome은 오픈소스 아이콘 폰트 입니다.<br>
 			KBoard의 게시판 스킨에 사용되고 있습니다.<br>
-			테마의 다른 버튼과 충돌이 발생되면 이 옵션을 비활성화 해보세요.
+			테마의 레이아웃 또는 버튼이 깨지거나 다른 플러그인과 충돌이 발생되면 이 옵션을 비활성화해보세요.
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_fontawesome', '<?php echo get_option('kboard_fontawesome')?'':'1'?>')">Font Awesome <?php echo get_option('kboard_fontawesome')?'활성화':'비활성화'?></button></p>
 		</li>

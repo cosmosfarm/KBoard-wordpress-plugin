@@ -446,5 +446,15 @@ class KBoard {
 		}
 		return intval($this->meta->list_total);
 	}
+	
+	/**
+	 * 본인의 글만 보기인지 확인한다.
+	 */
+	public function isPrivate(){
+		if($this->meta->permission_list && !$this->isAdmin()){
+			return true;
+		}
+		return false;
+	}
 }
 ?>

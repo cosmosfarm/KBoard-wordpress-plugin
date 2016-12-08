@@ -114,6 +114,16 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
+		
+		if($this->board->isPrivate()){
+			if(is_user_logged_in()){
+				$list->memberUID(get_current_user_id());
+			}
+			else{
+				$list->stop = true;
+			}
+		}
+		
 		$list->rpp($this->rpp)->page(kboard_pageid())->getList(kboard_keyword(), kboard_target());
 		return $list;
 	}
@@ -153,23 +163,29 @@ class KBoardBuilder {
 	 * @return string
 	 */
 	public function create(){
-		if(($this->meta->view_iframe || is_admin()) && !kboard_id()){
-			$url = new KBUrl();
-			return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
-		}
-
-		if($this->meta->pass_autop == 'enable'){
-			do_action('kboard_skin_header', $this);
-			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
-			do_action('kboard_skin_footer', $this);
-			return '';
+		if($this->meta->permission_list && $this->meta->permission_access && !is_user_logged_in()){
+			echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
+			echo '<script>window.location.href="' . wp_login_url(urlencode($_SERVER['REQUEST_URI'])) . '";</script>';
 		}
 		else{
-			ob_start();
-			do_action('kboard_skin_header', $this);
-			call_user_func(array($this, 'builder'.ucfirst($this->mod)));
-			do_action('kboard_skin_footer', $this);
-			return ob_get_clean();
+			if(($this->meta->view_iframe || is_admin()) && !kboard_id()){
+				$url = new KBUrl();
+				return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+			}
+			
+			if($this->meta->pass_autop == 'enable'){
+				do_action('kboard_skin_header', $this);
+				call_user_func(array($this, 'builder'.ucfirst($this->mod)));
+				do_action('kboard_skin_footer', $this);
+				return '';
+			}
+			else{
+				ob_start();
+				do_action('kboard_skin_header', $this);
+				call_user_func(array($this, 'builder'.ucfirst($this->mod)));
+				do_action('kboard_skin_footer', $this);
+				return ob_get_clean();
+			}
 		}
 	}
 
@@ -182,7 +198,7 @@ class KBoardBuilder {
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
-
+		
 		include KBOARD_DIR_PATH . "/skin/{$this->skin}/list.php";
 	}
 
@@ -208,12 +224,25 @@ class KBoardBuilder {
 		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-
+		
 		if(!$content->uid){
 			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
-
+		
+		if($this->board->isPrivate()){
+			if(is_user_logged_in()){
+				if($content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
+					echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
+					exit;
+				}
+			}
+			else{
+				echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
+				exit;
+			}
+		}
+		
 		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
 		$boardBuilder = $this;
