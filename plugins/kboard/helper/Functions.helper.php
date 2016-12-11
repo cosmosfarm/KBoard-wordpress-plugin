@@ -441,6 +441,19 @@ function kboard_uid(){
 }
 
 /**
+ * execute_uid 값을 반환한다.
+ * @return string
+ */
+function kboard_execute_uid(){
+	static $execute_uid;
+	if($execute_uid === null){
+		$_GET['execute_uid'] = isset($_GET['execute_uid'])?intval($_GET['execute_uid']):'';
+		$execute_uid = $_GET['execute_uid'];
+	}
+	return $execute_uid;
+}
+
+/**
  * mod 값을 반환한다.
  * @param string $default
  * @return string

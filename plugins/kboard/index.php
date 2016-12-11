@@ -600,6 +600,8 @@ function kboard_scripts(){
 			'please_enter_the_author' => __('Please enter the author.', 'kboard'),
 			'please_enter_the_password' => __('Please enter the password.', 'kboard'),
 			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard'),
+			'please_enter_the_name' => __('Please enter the name.', 'kboard'),
+			'please_enter_the_email' => __('Please enter the email.', 'kboard'),
 			'you_have_already_voted' => __('You have already voted.', 'kboard'),
 			'please_wait' => __('Please wait.', 'kboard'),
 			'newest' => __('Newest', 'kboard'),
