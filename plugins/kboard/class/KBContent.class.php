@@ -252,15 +252,21 @@ class KBContent {
 				$insert_data[] = "'$value'";
 			}
 			
+			$board = $this->getBoard();
+			$board_total = $board->getTotal();
+			$board_list_total = $board->getListTotal();
+			
 			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
 			$this->uid = $wpdb->insert_id;
 			
 			$this->insertPost($this->uid, $data['member_uid']);
 			
-			$board = $this->getBoard();
-			$board->meta->total = $board->getTotal() + 1;
 			if($this->status != 'trash'){
-				$board->meta->list_total = $board->getListTotal() + 1;
+				$board->meta->total = $board_total + 1;
+				$board->meta->list_total = $board_list_total + 1;
+			}
+			else{
+				$board->meta->total = $board_total + 1;
 			}
 			
 			return $this->uid;
