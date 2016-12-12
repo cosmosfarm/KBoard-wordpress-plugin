@@ -58,7 +58,6 @@ class KBoardList {
 	public function hasNext(){
 		if(!$this->resource) return '';
 		$this->row = current($this->resource);
-		
 		if($this->row){
 			next($this->resource);
 			$board = new KBoard();
@@ -69,6 +68,19 @@ class KBoardList {
 			unset($this->resource);
 			return '';
 		}
+	}
+	
+	/**
+	 * 관리자 페이지에서 게시판 보기 리스트를 반환한다.
+	 * @return array
+	 */
+	public function getActiveAdmin(){
+		global $wpdb;
+		$results = $wpdb->get_results("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='add_menu_page'");
+		foreach($results as $row){
+			$active[] = $row->board_id;
+		}
+		return isset($active) ? $active : array();
 	}
 }
 ?>

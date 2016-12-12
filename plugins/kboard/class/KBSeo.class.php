@@ -1,10 +1,10 @@
 <?php
 /**
  * KBoard SEO (검색 엔진 최적화)
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBSeo {
 	
 	private $content;

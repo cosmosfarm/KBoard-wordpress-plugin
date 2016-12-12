@@ -1,10 +1,10 @@
 <?php
 /**
  * KBoard 템플릿 페이지 설정
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBTemplate {
 
 	/**
@@ -13,35 +13,37 @@ class KBTemplate {
 	public function route(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
-			case 'kboard_media': add_action('template_redirect', array($this, 'media')); break;
-			case 'kboard_document_print': add_action('template_redirect', array($this, 'documentPrint')); break;
+			case 'kboard_media': add_action('wp_loaded', array($this, 'media')); break;
+			case 'kboard_document_print': add_action('wp_loaded', array($this, 'documentPrint')); break;
 		}
-
-		$kboard_id = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
-		if($kboard_id) $this->board($kboard_id);
+		
+		add_action('wp_loaded', array($this, 'board'));
 	}
 
 	/**
 	 * 게시판 화면을 출력한다.
 	 * @param int $board_id
 	 */
-	public function board($board_id){
-		$meta = new KBoardMeta($board_id);
-		if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
-			
-			// 어드민바 제거
-			add_filter('show_admin_bar', '__return_false');
-			
-			// 스타일과 스크립트 등록
-			kboard_style();
-			kboard_scripts();
-			if(defined('KBOARD_COMMNETS_VERSION')){
-				kboard_comments_style();
-				kboard_comments_scripts();
+	public function board(){
+		$board_id = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
+		if($board_id){
+			$meta = new KBoardMeta($board_id);
+			if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
+					
+				// 어드민바 제거
+				add_filter('show_admin_bar', '__return_false');
+					
+				// 스타일과 스크립트 등록
+				kboard_style();
+				kboard_scripts();
+				if(defined('KBOARD_COMMNETS_VERSION')){
+					kboard_comments_style();
+					kboard_comments_scripts();
+				}
+					
+				include_once KBOARD_DIR_PATH . '/template/board.php';
+				exit;
 			}
-			
-			include_once KBOARD_DIR_PATH . '/template/board.php';
-			exit;
 		}
 	}
 

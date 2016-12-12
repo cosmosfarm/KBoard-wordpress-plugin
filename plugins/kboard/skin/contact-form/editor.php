@@ -45,17 +45,22 @@
 		<?php endif?>
 		
 		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-input-member-display"><?php echo __('Name', 'kboard')?></label>
+			<label class="attr-name" for="kboard-input-member-display"><?php echo __('Name', 'kboard')?> <span class="attr-required-text">*</span></label>
 			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" value="<?php echo $content->member_display?>" placeholder="<?php echo __('Name', 'kboard')?>..."></div>
 		</div>
 		
 		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-input-email-display"><?php echo __('Email', 'kboard')?></label>
+			<label class="attr-name" for="kboard-input-email-display"><?php echo __('Email', 'kboard')?> <span class="attr-required-text">*</span></label>
 			<div class="attr-value"><input type="email" id="kboard-input-email-display" name="kboard_option_email" value="<?php echo $content->option->email?>" placeholder="<?php echo __('Email', 'kboard')?>..."></div>
 		</div>
 		
+		<div class="kboard-attr-row">
+			<label class="attr-name" for="kboard-input-tel-display"><?php echo __('Phone number', 'kboard')?></label>
+			<div class="attr-value"><input type="text" id="kboard-input-tel-display" name="kboard_option_tel" value="<?php echo $content->option->tel?>" placeholder="<?php echo __('Phone number', 'kboard')?>..."></div>
+		</div>
+		
 		<div class="kboard-attr-row kboard-attr-title">
-			<label class="attr-name" for="kboard-input-title"><?php echo __('Title', 'kboard')?></label>
+			<label class="attr-name" for="kboard-input-title"><?php echo __('Title', 'kboard')?> <span class="attr-required-text">*</span></label>
 			<div class="attr-value"><input type="text" id="kboard-input-title" name="title" value="<?php echo $content->title?>" placeholder="<?php echo __('Title', 'kboard')?>..."></div>
 		</div>
 		
@@ -74,7 +79,7 @@
 		<?php endif?>
 		
 		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard_content"><?php echo __('Your Message', 'kboard')?></label>
+			<label class="attr-name" for="kboard_content"><?php echo __('Your Message', 'kboard')?> <span class="attr-required-text">*</span></label>
 			<div class="attr-value">
 				<?php if($board->use_editor):?>
 					<?php wp_editor($content->content, 'kboard_content', array('media_buttons'=>$board->isAdmin(), 'editor_height'=>400))?>

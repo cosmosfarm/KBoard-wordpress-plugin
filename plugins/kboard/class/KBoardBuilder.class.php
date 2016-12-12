@@ -1,16 +1,17 @@
 <?php
 /**
  * KBoard 워드프레스 게시판 생성
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBoardBuilder {
 
 	var $mod;
 	var $board_id;
 	var $uid;
 	var $skin;
+	var $skin_name;
 	var $category1;
 	var $category2;
 	var $rpp;
@@ -23,9 +24,10 @@ class KBoardBuilder {
 		$this->category1 = kboard_category1();
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
-		$this->skin = 'default';
 		$this->sort = 'newest';
-
+		
+		$this->setSkin('default');
+		
 		if($board_id) $this->setBoardID($board_id, $is_latest);
 	}
 
@@ -42,7 +44,8 @@ class KBoardBuilder {
 	 * @param string $skin
 	 */
 	public function setSkin($skin){
-		$this->skin = $skin;
+		$this->skin = KBoardSkin::getInstance();
+		$this->skin_name = $skin;
 	}
 
 	/**
@@ -193,13 +196,16 @@ class KBoardBuilder {
 	 * 게시판 리스트 페이지를 생성한다.
 	 */
 	public function builderList(){
-		$url = new KBUrl();
-		$list = $this->getList();
-		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
-		$board = $this->board;
-		$boardBuilder = $this;
+		$vars = array(
+				'list' => $this->getList(),
+				'url' => new KBUrl(),
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $this->board,
+				'boardBuilder' => $this,
+		);
 		
-		include KBOARD_DIR_PATH . "/skin/{$this->skin}/list.php";
+		echo $this->skin->load($this->skin_name, 'list.php', $vars);
 	}
 
 	/**
@@ -207,14 +213,20 @@ class KBoardBuilder {
 	 * @param int $parent_uid
 	 */
 	public function builderReply($parent_uid, $depth=0){
-		$url = new KBUrl();
 		$list = new KBContentList();
 		$list->getReplyList($parent_uid);
-		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
-		$board = $this->board;
-		$boardBuilder = $this;
-
-		include KBOARD_DIR_PATH . "/skin/{$this->skin}/reply-template.php";
+		
+		$vars = array(
+				'list' => $list,
+				'depth' => $depth,
+				'url' => new KBUrl(),
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $this->board,
+				'boardBuilder' => $this,
+		);
+		
+		echo $this->skin->load($this->skin_name, 'reply-template.php', $vars);
 	}
 
 	/**
@@ -243,12 +255,19 @@ class KBoardBuilder {
 			}
 		}
 		
-		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 		$board = $this->board;
-		$boardBuilder = $this;
 		$content->board = $board;
 		$board->content = $content;
-
+		
+		$vars = array(
+				'content' => $content,
+				'url' => $url,
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $board,
+				'boardBuilder' => $this,
+		);
+		
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
@@ -265,7 +284,7 @@ class KBoardBuilder {
 						}
 						else{
 							if(!$this->board->isConfirm($parent->password, $parent->uid)){
-								include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+								echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 							}
 							else{
 								$allow_document = true;
@@ -273,7 +292,7 @@ class KBoardBuilder {
 						}
 					}
 					else{
-						include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+						echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 					}
 				}
 				else{
@@ -311,8 +330,8 @@ class KBoardBuilder {
 				$content->content = str_replace('[', '&#91;', $content->getContent());
 				$content->content = str_replace(']', '&#93;', $content->getContent());
 			}
-
-			include KBOARD_DIR_PATH . "/skin/{$this->skin}/document.php";
+			
+			echo $this->skin->load($this->skin_name, 'document.php', $vars);
 
 			if($board->meta->always_view_list){
 				$this->builderList();
@@ -333,17 +352,24 @@ class KBoardBuilder {
 				exit;
 			}
 		}
-
+		
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
 		$content->setBoardID($this->board_id);
-
-		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
+		
 		$board = $this->board;
-		$boardBuilder = $this;
 		$content->board = $board;
 		$board->content = $content;
-
+		
+		$vars = array(
+				'content' => $content,
+				'url' => $url,
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $board,
+				'boardBuilder' => $this,
+		);
+		
 		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){
 			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
@@ -362,7 +388,7 @@ class KBoardBuilder {
 		}
 
 		if($confirm_view){
-			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+			echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 		}
 		else{
 			if(!$this->uid){
@@ -402,7 +428,7 @@ class KBoardBuilder {
 			$content->content = str_replace('[', '&#91;', $content->getContent());
 			$content->content = str_replace(']', '&#93;', $content->getContent());
 			
-			include KBOARD_DIR_PATH . "/skin/{$this->skin}/editor.php";
+			echo $this->skin->load($this->skin_name, 'editor.php', $vars);
 		}
 	}
 
@@ -411,16 +437,16 @@ class KBoardBuilder {
 	 */
 	public function builderRemove(){
 		$url = new KBUrl();
-
+		
 		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false){
 			echo '<script>alert("'.__('This page is restricted from external access.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
-
+		
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-
+		
 		$confirm_view = false;
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all' && !$content->member_uid){
@@ -435,9 +461,20 @@ class KBoardBuilder {
 		}
 
 		if($confirm_view){
-			$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
 			$board = $this->board;
-			include KBOARD_DIR_PATH . "/skin/{$this->skin}/confirm.php";
+			$content->board = $board;
+			$board->content = $content;
+			
+			$vars = array(
+					'content' => $content,
+					'url' => $url,
+					'skin_path' => $this->skin->url($this->skin_name),
+					'skin_dir' => $this->skin->dir($this->skin_name),
+					'board' => $board,
+					'boardBuilder' => $this,
+			);
+			
+			echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 		}
 		else{
 			$move_to_trash =  true;
@@ -463,19 +500,24 @@ class KBoardBuilder {
 	public function createLatest(){
 		ob_start();
 
-		$url = new KBUrl();
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		$list->setSorting($this->sort);
 		$list->rpp($this->rpp)->getList('', '', true);
-
-		$skin_path = KBOARD_URL_PATH . "/skin/{$this->skin}";
-		$board = $this->board;
-		$board_url = $this->url;
-		$boardBuilder = $this;
-
-		include KBOARD_DIR_PATH . "/skin/{$this->skin}/latest.php";
+		
+		$vars = array(
+				'board_url' => $this->url,
+				'list' => $list,
+				'url' => new KBUrl(),
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $this->board,
+				'boardBuilder' => $this,
+		);
+		
+		echo $this->skin->load($this->skin_name, 'latest.php', $vars);
+		
 		return ob_get_clean();
 	}
 }

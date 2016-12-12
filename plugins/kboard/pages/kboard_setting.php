@@ -43,7 +43,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="auto_page" id="auto_page">
 								<option value="">— 선택하기 —</option>
-								<?php foreach(get_pages() as $key => $page):?>
+								<?php foreach(get_pages() as $key=>$page):?>
 								<option value="<?php echo $page->ID?>" data-permalink="<?php echo esc_url(get_permalink($page->ID))?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
 								<?php endforeach?>
 							</select>
@@ -85,11 +85,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="skin" id="skin">
 								<?php
 								if(!$board->skin) $board->skin = 'default';
-								foreach($skin->getList() as $key => $value):
+								foreach($skin->getList() as $skin_item):
 								?>
-								<option value="<?php echo $value?>"<?php if($board->skin == $value):?> selected<?php endif?>>
-									<?php echo $value?>
-								</option>
+								<option value="<?php echo $skin_item->name?>"<?php if($board->skin == $skin_item->name):?> selected<?php endif?>><?php echo $skin_item->name?></option>
 								<?php endforeach?>
 							</select>
 							<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">스킨 더보기</a>
@@ -147,9 +145,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="comment_skin" id="comment_skin">
 								<?php
 								if(!$meta->comment_skin) $meta->comment_skin = 'default';
-								foreach($comment_skin->getList() as $key=>$value):
+								foreach($comment_skin->getList() as $comment_skin_item):
 								?>
-								<option value="<?php echo $value?>"<?php if($meta->comment_skin == $value):?> selected<?php endif?>><?php echo $value?></option>
+								<option value="<?php echo $comment_skin_item->name?>"<?php if($meta->comment_skin == $comment_skin_item->name):?> selected<?php endif?>><?php echo $comment_skin_item->name?></option>
 								<?php endforeach?>
 							</select>
 							<p class="description">댓글의 모양을 선택합니다. (KBoard 댓글 플러그인 사용)</p>

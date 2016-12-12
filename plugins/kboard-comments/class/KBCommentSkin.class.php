@@ -8,14 +8,19 @@
 class KBCommentSkin {
 	
 	static private $instance;
+	private $active;
 	private $list;
 	
 	private function __construct(){
 		$dir = KBOARD_COMMENTS_DIR_PATH . '/skin';
 		if($dh = @opendir($dir)){
-			while(($file = readdir($dh)) !== false){
-				if($file == "." || $file == "..") continue;
-				$this->list[] = $file;
+			while(($name = readdir($dh)) !== false){
+				if($name == "." || $name == ".." || $name == "readme.txt") continue;
+				$skin = new stdClass();
+				$skin->name = $name;
+				$skin->dir = KBOARD_COMMENTS_DIR_PATH . "/skin/{$name}";
+				$skin->url = KBOARD_COMMENTS_URL_PATH . "/skin/{$name}";
+				$this->list[$name] = $skin;
 			}
 		}
 		$this->list = apply_filters('kboard_comments_skin_list', $this->list);
@@ -36,8 +41,84 @@ class KBCommentSkin {
 	 * @return array
 	 */
 	public function getList(){
-		if($this->list) return $this->list;
-		else array();
+		return $this->list ? $this->list : array();
+	}
+	
+	/**
+	 * 스킨 레이아웃을 불러온다.
+	 * @param string $skin_name
+	 * @param string $file
+	 * @param array $vars
+	 * @return string
+	 */
+	public function load($skin_name, $file, $vars=array()){
+		ob_start();
+		
+		extract($vars, EXTR_SKIP);
+		
+		$is_admin = false;
+		if(is_admin()){
+			if(file_exists("{$this->list[$skin_name]->dir}/admin-{$file}")){
+				$is_admin = true;
+			}
+		}
+		
+		if($is_admin){
+			include "{$this->list[$skin_name]->dir}/admin-{$file}";
+		}
+		else{
+			include "{$this->list[$skin_name]->dir}/{$file}";
+		}
+		
+		return ob_get_clean();
+	}
+	
+	/**
+	 * 스킨의 functions.php 파일을 불러온다.
+	 * @param string $skin_name
+	 */
+	public function loadFunctions($skin_name){
+		if(file_exists("{$this->list[$skin_name]->dir}/functions.php")){
+			include_once "{$this->list[$skin_name]->dir}/functions.php";
+		}
+	}
+	
+	/**
+	 * 스킨 URL 주소를 반환한다.
+	 * @param string $skin_name
+	 * @param string $file
+	 * @return string
+	 */
+	public function url($skin_name, $file=''){
+		return "{$this->list[$skin_name]->url}" . ($file ? "/{$file}" : '');
+	}
+	
+	/**
+	 * 스킨 DIR 경로를 반환한다.
+	 * @param string $skin_name
+	 * @param string $file
+	 * @return string
+	 */
+	public function dir($skin_name, $file=''){
+		return "{$this->list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
+	}
+	
+	/**
+	 * 사용 중인 스킨 리스트를 반환한다.
+	 * @return array
+	 */
+	public function getActiveList(){
+		global $wpdb;
+		if($this->active){
+			return $this->active;
+		}
+		$results = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
+		foreach($results as $row){
+			if(!empty($row->value)){
+				$this->active[] = $row->value;
+			}
+		}
+		return $this->active ? $this->active : array();
 	}
 }
 ?>

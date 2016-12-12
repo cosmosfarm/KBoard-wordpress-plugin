@@ -1,15 +1,16 @@
 <?php
 /**
  * KBoard 게시글 관리자 리스트 테이블
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBContentListTable extends WP_List_Table {
 
 	var $board_list;
 	var $filter_board_id;
 	var $filter_view;
+	var $active_admin_board;
 
 	public function __construct(){
 		parent::__construct();
@@ -26,7 +27,8 @@ class KBContentListTable extends WP_List_Table {
 
 		$this->board_list = new KBoardList();
 		$this->board_list->init();
-
+		$this->active_admin_board =  $this->board_list->getActiveAdmin();
+		
 		$keyword = isset($_GET['s'])?esc_attr($_GET['s']):'';
 
 		$list = new KBContentList($this->filter_board_id);
@@ -129,6 +131,15 @@ class KBContentListTable extends WP_List_Table {
 	
 	public function display_rows(){
 		foreach($this->items as $key=>$item){
+			
+			if(in_array($item->board_id, $this->active_admin_board)){
+				$item->url = admin_url("admin.php?page=kboard_admin_view_{$item->board_id}&mod=document&uid={$item->uid}");
+			}
+			else{
+				$url = new KBUrl();
+				$item->url = $url->getDocumentRedirect($item->uid);
+			}
+			
 			$this->single_row($item);
 		}
 	}
@@ -154,8 +165,7 @@ class KBContentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td class="kboard-content-list-title">';
-		$url = new KBUrl();
-		echo '<h4><a href="'.$url->getDocumentRedirect($item->uid).'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
+		echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
 		echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
 		echo '</td>';
 		

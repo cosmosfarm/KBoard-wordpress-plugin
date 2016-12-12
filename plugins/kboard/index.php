@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.3-beta1
+Version: 5.3-beta2
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.3-beta1');
+define('KBOARD_VERSION', '5.3-beta2');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -220,9 +220,9 @@ function kboard_list(){
  * 새로운 게시판 생성
  */
 function kboard_new(){
-	$skin = KBoardSkin::getInstance();
 	$board = new KBoard();
 	$meta = new KBoardMeta();
+	$skin = KBoardSkin::getInstance();
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 		$comment_skin = KBCommentSkin::getInstance();
@@ -534,11 +534,11 @@ add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
 	if(current_user_can('activate_plugins')){
 		if(!is_writable(WP_CONTENT_DIR.'/uploads')){
-			echo '<div class="error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;">이 알림에 대해서 질문하기</a></p></div>';
+			echo '<div class="notice notice-error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;">이 알림에 대해서 질문하기</a></p></div>';
 		}
 		$upgrader = KBUpgrader::getInstance();
-		if(KBOARD_VERSION < $upgrader->getLatestVersion()->kboard){
-			echo '<div class="updated"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
+		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '<')){
+			echo '<div class="notice notice-info is-dismissible"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
 		}
 	}
 }
@@ -563,8 +563,8 @@ function kboard_style(){
 
 	// 활성화된 스킨의 style.css 등록
 	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() as $key => $value){
-		wp_enqueue_style("kboard-skin-{$value}", KBOARD_URL_PATH . "/skin/{$value}/style.css", array(), KBOARD_VERSION);
+	foreach($skin->getActiveList() as $skin_name){
+		wp_enqueue_style("kboard-skin-{$skin_name}", $skin->url($skin_name, 'style.css'), array(), KBOARD_VERSION);
 	}
 }
 
@@ -632,10 +632,8 @@ function kboard_admin_style(){
 add_action('init', 'kboard_skin_functions');
 function kboard_skin_functions(){
 	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() as $key=>$value){
-		if(file_exists(KBOARD_DIR_PATH . "/skin/{$value}/functions.php")){
-			include_once KBOARD_DIR_PATH . "/skin/{$value}/functions.php";
-		}
+	foreach($skin->getActiveList() as $skin_name){
+		$skin->loadFunctions($skin_name);
 	}
 }
 
@@ -664,7 +662,8 @@ function kboard_add_toolbar_link($wp_admin_bar){
  */
 add_action('wp_head', 'kboard_head', 999);
 function kboard_head(){
-	print_late_styles();
+	wp_print_head_scripts();
+	//print_late_styles();
 	
 	$custom_css = get_option('kboard_custom_css');
 	if($custom_css){

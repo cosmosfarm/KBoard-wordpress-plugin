@@ -27,11 +27,9 @@
 						<select name="skin" id="skin">
 							<?php
 							if(!$latestview->skin) $latestview->skin = 'default';
-							foreach($skin->getList() as $key => $value):
+							foreach($skin->getList() as $skin_item):
 							?>
-							<option value="<?php echo $value?>"<?php if($latestview->skin == $value):?> selected<?php endif?>>
-								<?php echo $value?>
-							</option>
+							<option value="<?php echo $skin_item->name?>"<?php if($latestview->skin == $skin_item->name):?> selected<?php endif?>><?php echo $skin_item->name?></option>
 							<?php endforeach?>
 						</select>
 						<p class="description">최신글 스킨에 따라 모양과 기능이 변합니다. 디자인 수정은 스킨 폴더의 latest.php 파일을 수정해 주세요.</p>

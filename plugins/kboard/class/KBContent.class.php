@@ -1,10 +1,10 @@
 <?php
 /**
  * KBoard 게시글
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBContent {
 
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.

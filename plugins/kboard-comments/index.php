@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 4.4-beta1
+Version: 4.4-beta2
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
-define('KBOARD_COMMNETS_VERSION', '4.4-beta1');
+define('KBOARD_COMMNETS_VERSION', '4.4-beta2');
 define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
@@ -157,8 +157,8 @@ add_action('admin_notices', 'kboard_comments_admin_notices');
 function kboard_comments_admin_notices(){
 	if(current_user_can('activate_plugins')){
 		$upgrader = KBUpgrader::getInstance();
-		if(KBOARD_COMMNETS_VERSION < $upgrader->getLatestVersion()->comments){
-			echo '<div class="updated"><p>KBoard 댓글 : ' . $upgrader->getLatestVersion()->comments . ' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
+		if(version_compare(KBOARD_COMMNETS_VERSION, $upgrader->getLatestVersion()->comments, '<')){
+			echo '<div class="notice notice-info is-dismissible"><p>KBoard 댓글 : ' . $upgrader->getLatestVersion()->comments . ' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
 		}
 	}
 }
@@ -168,12 +168,9 @@ function kboard_comments_admin_notices(){
  */
 add_action('wp_enqueue_scripts', 'kboard_comments_style', 999);
 function kboard_comments_style(){
-	global $wpdb;
-	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
-	foreach($result as $row){
-		if(!empty($row->value)){
-			wp_enqueue_style("kboard-comments-skin-{$row->value}", KBOARD_COMMENTS_URL_PATH . "/skin/{$row->value}/style.css", array(), KBOARD_COMMNETS_VERSION);
-		}
+	$skin = KBCommentSkin::getInstance();
+	foreach($skin->getActiveList() as $skin_name){
+		wp_enqueue_style("kboard-comments-skin-{$skin_name}", $skin->url($skin_name, 'style.css'), array(), KBOARD_COMMNETS_VERSION);
 	}
 }
 
@@ -182,12 +179,9 @@ function kboard_comments_style(){
  */
 add_action('init', 'kboard_comments_skin_functions');
 function kboard_comments_skin_functions(){
-	global $wpdb;
-	$result = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
-	foreach($result as $row){
-		if(file_exists(KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php")){
-			include_once KBOARD_COMMENTS_DIR_PATH . "/skin/{$row->value}/functions.php";
-		}
+	$skin = KBCommentSkin::getInstance();
+	foreach($skin->getActiveList() as $skin_name){
+		$skin->loadFunctions($skin_name);
 	}
 }
 

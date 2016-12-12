@@ -1,10 +1,10 @@
 <?php
 /**
  * KBoard Comments Controller
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBCommentController {
 	
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
@@ -13,9 +13,9 @@ class KBCommentController {
 	public function __construct(){
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
-			case 'kboard_comment_insert': add_action('template_redirect', array($this, 'insert')); break;
-			case 'kboard_comment_delete': add_action('template_redirect', array($this, 'delete')); break;
-			case 'kboard_comment_update': add_action('template_redirect', array($this, 'update')); break;
+			case 'kboard_comment_insert': add_action('wp_loaded', array($this, 'insert')); break;
+			case 'kboard_comment_delete': add_action('wp_loaded', array($this, 'delete')); break;
+			case 'kboard_comment_update': add_action('wp_loaded', array($this, 'update')); break;
 		}
 
 		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
