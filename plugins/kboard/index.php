@@ -661,9 +661,10 @@ function kboard_add_toolbar_link($wp_admin_bar){
  * head 태그 사이에 내용을 출력한다.
  */
 add_action('wp_head', 'kboard_head', 999);
+add_action('kboard_iframe_head', 'kboard_head');
 function kboard_head(){
 	wp_print_head_scripts();
-	//print_late_styles();
+	print_late_styles();
 	
 	$custom_css = get_option('kboard_custom_css');
 	if($custom_css){

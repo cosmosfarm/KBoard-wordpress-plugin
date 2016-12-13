@@ -19,8 +19,6 @@
 	
 	// 고유주소 또는 아이프레임으로 접근시 실행
 	do_action('kboard_iframe_head');
-	
-	kboard_head();
 	?>
 </head>
 <body>
