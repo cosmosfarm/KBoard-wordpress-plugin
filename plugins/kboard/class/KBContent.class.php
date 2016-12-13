@@ -256,11 +256,6 @@ class KBContent {
 			$board_total = $board->getTotal();
 			$board_list_total = $board->getListTotal();
 			
-			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
-			$this->uid = $wpdb->insert_id;
-			
-			$this->insertPost($this->uid, $data['member_uid']);
-			
 			if($this->status != 'trash'){
 				$board->meta->total = $board_total + 1;
 				$board->meta->list_total = $board_list_total + 1;
@@ -268,6 +263,12 @@ class KBContent {
 			else{
 				$board->meta->total = $board_total + 1;
 			}
+			
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
+			
+			$this->uid = $wpdb->insert_id;
+			
+			$this->insertPost($this->uid, $data['member_uid']);
 			
 			return $this->uid;
 		}
@@ -313,6 +314,15 @@ class KBContent {
 					$update[] = "`$key`='$value'";
 				}
 				
+				if($this->previous_status != $this->status){
+					if($this->status == 'trash'){
+						$this->moveReplyToTrash($this->uid);
+					}
+					else if($this->previous_status == 'trash'){
+						$this->restoreReplyFromTrash($this->uid);
+					}
+				}
+				
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
 				
 				$post_id = $this->getPostID();
@@ -326,15 +336,6 @@ class KBContent {
 				}
 				else{
 					$this->insertPost($this->uid, $data['member_uid']);
-				}
-				
-				if($this->previous_status != $this->status){
-					if($this->status == 'trash'){
-						$this->moveReplyToTrash($this->uid);
-					}
-					else if($this->previous_status == 'trash'){
-						$this->restoreReplyFromTrash($this->uid);
-					}
 				}
 			}
 		}

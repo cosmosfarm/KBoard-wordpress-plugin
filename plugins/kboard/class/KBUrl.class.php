@@ -83,7 +83,7 @@ class KBUrl {
 		}
 		else{
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			return $url['path'] . ($query_strings?'?'.$query_strings:'');
+			return (isset($url['path']) ? $url['path'] : '') . ($query_strings?'?'.$query_strings:'');
 		}
 	}
 
@@ -110,7 +110,7 @@ class KBUrl {
 		
 		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
-		return $url['path'] . ($query_strings?'?'.$query_strings:'');
+		return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? '?'.$query_strings : '');
 	}
 	
 	/**
