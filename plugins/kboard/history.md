@@ -2,7 +2,7 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-Next Version
+5.3
 ----------------------------------
 
   1. 게시판 숏코드에 카테고리 옵션 추가
@@ -21,7 +21,8 @@ Next Version
   14. kboard_iframe_head 액션 추가 (고유주소 또는 아이프레임으로 접근시 실행)
   15. 작성자/본문/제목 금지단어 기능 추가
   16. 구글 reCAPTCHA 적용
-  17. 버그 수정
+  17. Contact Form 스킨 추가
+  18. 버그 수정
 
 
 5.2

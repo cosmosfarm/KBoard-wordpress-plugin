@@ -2,7 +2,7 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-Next Version
+4.4
 ----------------------------------
 
   1. 댓글 스킨 CSS 최적화
