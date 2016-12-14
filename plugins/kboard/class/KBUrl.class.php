@@ -45,7 +45,7 @@ class KBUrl {
 				if($value) $this->set($key, $value);
 			}
 		}
-		$this->path = isset($url['path'])?$url['path']:'';
+		$this->path = isset($url['path']) ? $url['path'] : '';
 		return $this;
 	}
 	
@@ -57,7 +57,7 @@ class KBUrl {
 		foreach($this->data as $key=>$value){
 			if($value) $query_strings[$key] = sanitize_key($key).'='.urlencode(kboard_htmlclear($value));
 		}
-		return isset($query_strings)?implode('&', $query_strings):'';
+		return isset($query_strings) ? implode('&', $query_strings) : '';
 	}
 	
 	/**
@@ -79,11 +79,11 @@ class KBUrl {
 		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
 		if($this->path){
-			return $this->path . ($query_strings?'?'.$query_strings:'');
+			return $this->path . ($query_strings ? "?{$query_strings}" : '');
 		}
 		else{
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			return (isset($url['path']) ? $url['path'] : '') . ($query_strings?'?'.$query_strings:'');
+			return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? "?{$query_strings}" : '');
 		}
 	}
 
@@ -110,7 +110,7 @@ class KBUrl {
 		
 		$query_strings = $this->getCleanQueryStrings();
 		$this->init();
-		return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? '?'.$query_strings : '');
+		return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? "?{$query_strings}" : '');
 	}
 	
 	/**
@@ -122,7 +122,7 @@ class KBUrl {
 			if($value) $input[] = '<input type="hidden" name="' . sanitize_key($key) .'" value="' . kboard_htmlclear($value) . '">';
 		}
 		$this->init();
-		return isset($input)?implode('', $input):'';
+		return isset($input) ? implode('', $input) : '';
 	}
 	
 	/**
@@ -164,22 +164,22 @@ class KBUrl {
 	
 	/**
 	 * 라우터를 이용해 게시물 본문으로 이동한다.
-	 * @param int $uid
+	 * @param int $content_uid
 	 * @return string
 	 */
-	public function getDocumentRedirect($uid){
-		$uid = intval($uid);
-		return home_url("?kboard_content_redirect={$uid}");
+	public function getDocumentRedirect($content_uid){
+		$content_uid = intval($content_uid);
+		return home_url("?kboard_content_redirect={$content_uid}");
 	}
 	
 	/**
 	 * 라우터를 이용해 게시판으로 이동한다.
-	 * @param int $uid
+	 * @param int $board_id
 	 * @return string
 	 */
-	public function getBoardRedirect($uid){
-		$uid = intval($uid);
-		return home_url("?kboard_redirect={$uid}");
+	public function getBoardRedirect($board_id){
+		$board_id = intval($board_id);
+		return home_url("?kboard_redirect={$board_id}");
 	}
 	
 	/**
@@ -204,12 +204,12 @@ class KBUrl {
 	
 	/**
 	 * 게시글을 프린트하기 위한 주소를 반환한다.
-	 * @param int $uid
+	 * @param int $content_uid
 	 * @return string
 	 */
-	public function getDocumentPrint($uid){
-		$uid = intval($uid);
-		return home_url("?action=kboard_document_print&uid={$uid}");
+	public function getDocumentPrint($content_uid){
+		$content_uid = intval($content_uid);
+		return home_url("?action=kboard_document_print&uid={$content_uid}");
 	}
 }
 ?>

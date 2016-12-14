@@ -1,1 +1,1 @@
-<?php if(!is_admin() && !kboard_uid()) echo $boardBuilder->builderEditor()?>
+<?php echo $boardBuilder->builderEditor()?>

@@ -921,7 +921,8 @@ class KBContent {
 	 */
 	public function isNew(){
 		if($this->uid){
-			if((current_time('timestamp')-strtotime($this->date)) <= kboard_new_document_notify_time()){
+			$notify_time = kboard_new_document_notify_time();
+			if((current_time('timestamp')-strtotime($this->date)) <= $notify_time && $notify_time != '1'){
 				return true;
 			}
 		}

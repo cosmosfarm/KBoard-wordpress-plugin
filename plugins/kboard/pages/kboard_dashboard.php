@@ -74,7 +74,7 @@
 			</p>
 			<p>
 				<select name="kboard_new_document_notify_time">
-					<option value="0">비활성화</option>
+					<option value="1">비활성화</option>
 					<option value="3600"<?php if(kboard_new_document_notify_time() == '3600'):?> selected<?php endif?>>1시간</option>
 					<option value="10800"<?php if(kboard_new_document_notify_time() == '10800'):?> selected<?php endif?>>3시간</option>
 					<option value="21600"<?php if(kboard_new_document_notify_time() == '21600'):?> selected<?php endif?>>6시간</option>
