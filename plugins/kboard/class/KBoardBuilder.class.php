@@ -313,10 +313,7 @@ class KBoardBuilder {
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){
 				include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
-				$content->content = wpautop(kboard_autolink($content->getContent()));
-			}
-			else{
-				$content->content = wpautop($content->getContent());
+				$content->content = kboard_autolink($content->getContent());
 			}
 
 			// kboard_content 필터 실행

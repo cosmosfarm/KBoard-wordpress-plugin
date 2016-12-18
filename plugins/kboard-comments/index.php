@@ -28,6 +28,11 @@ include_once 'class/KBCommentTemplate.class.php';
 include_once 'class/KBCommentUrl.class.php';
 
 /*
+ * 댓글에 줄바꿈 태그 추가
+ */
+add_filter('kboard_comments_content', 'wpautop');
+
+/*
  * KBoard 댓글 시작
  */
 add_action('init', 'kboard_comments_init', 0);
