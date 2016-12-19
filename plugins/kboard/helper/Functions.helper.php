@@ -407,7 +407,7 @@ function kboard_user_ip(){
 function kboard_category1(){
 	static $category1;
 	if($category1 === null){
-		$_GET['category1'] = isset($_GET['category1'])?kboard_htmlclear($_GET['category1']):'';
+		$_GET['category1'] = isset($_GET['category1'])?sanitize_text_field($_GET['category1']):'';
 		$category1 = $_GET['category1'];
 	}
 	return $category1;
@@ -420,7 +420,7 @@ function kboard_category1(){
 function kboard_category2(){
 	static $category2;
 	if($category2 === null){
-		$_GET['category2'] = isset($_GET['category2'])?kboard_htmlclear($_GET['category2']):'';
+		$_GET['category2'] = isset($_GET['category2'])?sanitize_text_field($_GET['category2']):'';
 		$category2 = $_GET['category2'];
 	}
 	return $category2;
@@ -478,7 +478,7 @@ function kboard_mod($default=''){
 function kboard_keyword(){
 	static $keyword;
 	if($keyword === null){
-		$_GET['keyword'] = isset($_GET['keyword'])?kboard_htmlclear($_GET['keyword']):'';
+		$_GET['keyword'] = isset($_GET['keyword'])?sanitize_text_field($_GET['keyword']):'';
 		$keyword = $_GET['keyword'];
 	}
 	return $keyword;

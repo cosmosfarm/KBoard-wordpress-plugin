@@ -174,7 +174,7 @@ class KBCommentController {
 		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-		$password = isset($_POST['password'])?$_POST['password']:'';
+		$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
 
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
@@ -230,7 +230,7 @@ class KBCommentController {
 		$content = $content?$content:$comment_content;
 		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-		$password = isset($_POST['password'])?$_POST['password']:'';
+		$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
 
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");

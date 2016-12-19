@@ -137,7 +137,7 @@ class KBoard {
 	 * 카테고리 정보를 반환한다.
 	 */
 	public function currentCategory(){
-		return $this->category_row;
+		return sanitize_text_field($this->category_row);
 	}
 	
 	/**
@@ -264,7 +264,7 @@ class KBoard {
 	public function isConfirm($password, $content_uid, $reauth=false){
 		if(!$password || !$content_uid) return false;
 		
-		$submitted_password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
+		$submitted_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
 		
 		if($reauth){
 			if($submitted_password == $password){
