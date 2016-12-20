@@ -52,11 +52,6 @@ include_once 'helper/Security.helper.php';
 include_once 'helper/Functions.helper.php';
 
 /*
- * 게시글 본문에 줄바꿈 태그 추가
- */
-add_filter('kboard_content', 'wpautop');
-
-/*
  * 애드온 파일 로딩
  */
 foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
