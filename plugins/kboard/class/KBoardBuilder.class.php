@@ -430,6 +430,8 @@ class KBoardBuilder {
 			$content->content = str_replace('[', '&#91;', $content->getContent());
 			$content->content = str_replace(']', '&#93;', $content->getContent());
 			
+			$vars['parent'] = isset($parent) ? $parent : new KBContent();
+			
 			echo $this->skin->load($this->skin_name, 'editor.php', $vars);
 		}
 	}
