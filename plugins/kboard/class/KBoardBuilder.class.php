@@ -168,7 +168,7 @@ class KBoardBuilder {
 	public function create(){
 		if($this->meta->permission_list && $this->meta->permission_access && !is_user_logged_in()){
 			echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-			echo '<script>window.location.href="' . wp_login_url(urlencode($_SERVER['REQUEST_URI'])) . '";</script>';
+			echo '<script>window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 		}
 		else{
 			if(($this->meta->view_iframe || is_admin()) && !kboard_id()){
@@ -272,7 +272,7 @@ class KBoardBuilder {
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
 				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-				echo '<script>window.location.href="' . wp_login_url(urlencode($_SERVER['REQUEST_URI'])) . '";</script>';
+				echo '<script>window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 			}
 			else if($content->secret){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
