@@ -131,7 +131,7 @@ function kboard_comments_scripts(){
  */
 add_action('kboard_comments_login_content', 'kboard_comments_login_content', 10, 3);
 function kboard_comments_login_content($board, $content_uid, $comment_builder){
-	echo sprintf(__('You must be <a href="%s">logged in</a> to post a comment.', 'kboard-comments'), wp_login_url(urlencode($_SERVER['REQUEST_URI'])));
+	echo sprintf(__('You must be <a href="%s">logged in</a> to post a comment.', 'kboard-comments'), wp_login_url($_SERVER['REQUEST_URI']));
 }
 
 /*
