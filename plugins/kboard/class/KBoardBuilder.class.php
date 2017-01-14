@@ -481,7 +481,7 @@ class KBoardBuilder {
 			echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 		}
 		else{
-			$move_to_trash =  true;
+			$move_to_trash = true;
 				
 			if($move_to_trash){
 				$content->status = 'trash';
