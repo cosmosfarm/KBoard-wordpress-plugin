@@ -11,8 +11,8 @@
 				<?php echo nl2br($comment->content)?>
 			</div>
 			
-			<?php if($commentBuilder->isWriter()):?>
 			<div class="comments-list-controller">
+				<?php if($commentBuilder->isWriter()):?>
 				<div class="left">
 					<?php if($comment->isEditor()):?>
 					<button type="button" class="comments-button-action comments-button-delete" onclick="kboard_comments_delete('<?php echo $commentURL->getDeleteURL()?>');" title="<?php echo __('Delete', 'kboard-comments')?>"><?php echo __('Delete', 'kboard-comments')?></button>
@@ -22,12 +22,13 @@
 					<button type="button" class="comments-button-action comments-button-edit" onclick="kboard_comments_open_edit('<?php echo $commentURL->getEditURL()?>');" title="<?php echo __('Edit', 'kboard-comments')?>"><?php echo __('Edit', 'kboard-comments')?></button>
 					<button type="button" class="comments-button-action comments-button-reply kboard-reply" onclick="kboard_comments_reply(this, '#kboard-comment-reply-form-<?php echo $comment->uid?>', '#kboard-comments-form-<?php echo $content_uid?>');" title="<?php echo __('Reply', 'kboard-comments')?>"><?php echo __('Reply', 'kboard-comments')?></button>
 				</div>
+				<?php endif?>
+				
 				<div class="right">
 					<button type="button" class="comments-button-action comments-button-like" onclick="kboard_comment_like(this)" data-uid="<?php echo $comment->uid?>" title="<?php echo __('Like', 'kboard-comments')?>"><?php echo __('Like', 'kboard-comments')?> <span class="kboard-comment-like-count"><?php echo intval($comment->like)?></span></button>
 					<button type="button" class="comments-button-action comments-button-unlike" onclick="kboard_comment_unlike(this)" data-uid="<?php echo $comment->uid?>" title="<?php echo __('Unlike', 'kboard-comments')?>"><?php echo __('Unlike', 'kboard-comments')?> <span class="kboard-comment-unlike-count"><?php echo intval($comment->unlike)?></span></button>
 				</div>
 			</div>
-			<?php endif?>
 			
 			<hr>
 			
