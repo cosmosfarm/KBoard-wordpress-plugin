@@ -481,14 +481,14 @@ class KBoardBuilder {
 			echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 		}
 		else{
-			$move_to_trash = true;
+			$delete_immediately = get_option('kboard_content_delete_immediately');
 				
-			if($move_to_trash){
-				$content->status = 'trash';
-				$content->updateContent();
+			if($delete_immediately){
+				$content->remove();
 			}
 			else{
-				$content->remove();
+				$content->status = 'trash';
+				$content->updateContent();
 			}
 				
 			// 삭제뒤 게시판 리스트로 이동한다.

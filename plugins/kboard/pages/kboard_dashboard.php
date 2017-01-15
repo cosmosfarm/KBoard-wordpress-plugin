@@ -160,6 +160,15 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_content_filter', jQuery('input[name=kboard_content_filter]').val())">금지단어 업데이트</button>
 			</p>
 		</li>
+		<li>
+			<h4>게시글 바로 삭제</h4>
+			<p>
+			기본적으로 게시글을 지우면 해당 게시글은 휴지통으로 이동합니다.<br>
+			경우에 따라서 이 휴지통 기능이 필요 없을 수 있으며 휴지통 기능이 필요 없다면 이 기능을 활성화해주세요.<br>
+			현재상태 : <?php echo get_option('kboard_content_delete_immediately')?'바로 삭제':'휴지통으로 이동'?>
+			</p>
+			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_content_delete_immediately', '<?php echo get_option('kboard_content_delete_immediately')?'':'1'?>')">게시글 바로 삭제 <?php echo get_option('kboard_content_delete_immediately')?'비활성화':'활성화'?></button></p>
+		</li>
 	</ul>
 </div>
 <script>
