@@ -125,6 +125,9 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-document .kboard-content .content-view p { margin: 0 0 0.75em; }
 #kboard-thumbnail-document .kboard-content .content-view p:last-child { margin: 0; }
 #kboard-thumbnail-document .kboard-content .content-view .thumbnail-area { text-align: center; }
+#kboard-thumbnail-document .kboard-content .content-view .aligncenter { display: block; margin-right: auto; margin-left: auto; }
+#kboard-thumbnail-document .kboard-content .content-view .alignright { float:right; }
+#kboard-thumbnail-document .kboard-content .content-view .alignleft { float: left; }
 #kboard-thumbnail-document .kboard-document-action { padding: 0 22px 5px 22px; overflow: hidden; line-height: 1; }
 #kboard-thumbnail-document .kboard-document-action .left { position: static; float: left; }
 #kboard-thumbnail-document .kboard-document-action .right { position: static; float: right; text-align: right; }

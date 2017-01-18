@@ -25,6 +25,8 @@ class KBAdminController {
 		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
 			
+			$_POST = stripslashes_deep($_POST);
+			
 			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
 			$board_name = isset($_POST['board_name'])?esc_sql($_POST['board_name']):'';
 			$skin = isset($_POST['skin'])?$_POST['skin']:'';

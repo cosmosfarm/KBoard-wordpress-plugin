@@ -120,6 +120,9 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 #kboard-customer-document .kboard-content .content-view p { margin: 0 0 0.75em; }
 #kboard-customer-document .kboard-content .content-view p:last-child { margin: 0; }
 #kboard-customer-document .kboard-content .content-view .thumbnail-area { text-align: center; }
+#kboard-customer-document .kboard-content .content-view .aligncenter { display: block; margin-right: auto; margin-left: auto; }
+#kboard-customer-document .kboard-content .content-view .alignright { float:right; }
+#kboard-customer-document .kboard-content .content-view .alignleft { float: left; }
 #kboard-customer-document .kboard-document-action { padding: 0 22px 5px 22px; overflow: hidden; line-height: 1; }
 #kboard-customer-document .kboard-document-action .left { position: static; float: left; }
 #kboard-customer-document .kboard-document-action .right { position: static; float: right; text-align: right; }
