@@ -2,11 +2,12 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-5.3.1(dev)
+5.3.2(dev)
 ----------------------------------
 
   1. 대시보드에 게시글 바로 삭제 설정 추가
-  2. 버그 수정
+  2. kboard_use_captcha 필터 추가
+  3. 버그 수정
 
 
 5.3

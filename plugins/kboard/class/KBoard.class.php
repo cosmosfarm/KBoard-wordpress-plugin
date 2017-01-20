@@ -393,9 +393,9 @@ class KBoard {
 	 */
 	public function useCAPTCHA(){
 		if(is_user_logged_in() || get_option('kboard_captcha_stop')){
-			return false;
+			return apply_filters('kboard_use_captcha', false, $this);
 		}
-		return true;
+		return apply_filters('kboard_use_captcha', true, $this);
 	}
 	
 	/**

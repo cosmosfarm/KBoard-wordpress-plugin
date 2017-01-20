@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 4.4
+Version: 4.4.1
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
-define('KBOARD_COMMNETS_VERSION', '4.4');
+define('KBOARD_COMMNETS_VERSION', '4.4.1');
 define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
@@ -108,9 +108,8 @@ function kboard_comments_builder($atts){
 /*
  * 댓글 스크립트 추가
  */
-add_action('wp_enqueue_scripts', 'kboard_comments_scripts', 999);
+add_action('wp_enqueue_scripts', 'kboard_comments_scripts', 9999);
 function kboard_comments_scripts(){
-	wp_enqueue_script('jquery');
 	
 	// 번역 등록
 	$localize = array(
@@ -123,7 +122,7 @@ function kboard_comments_scripts(){
 			'are_you_sure_you_want_to_delete' => __('Are you sure you want to delete?', 'kboard-comments'),
 			'please_wait' => __('Please wait.', 'kboard'),
 	);
-	wp_localize_script('jquery', 'kboard_comments_localize_strings', $localize);
+	wp_localize_script('kboard-script', 'kboard_comments_localize_strings', $localize);
 }
 
 /*

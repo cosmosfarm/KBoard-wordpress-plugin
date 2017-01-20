@@ -242,7 +242,7 @@ class KBContentList {
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
-		$results = $wpdb->get_results("SELECT `uid` FROM $from WHERE $where ORDER BY $orderby LIMIT $offset,$this->rpp");
+		$results = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_board_content`.`uid` FROM $from WHERE $where ORDER BY $orderby LIMIT $offset,$this->rpp");
 		foreach($results as $row){
 			$select_uid[] = intval($row->uid);
 		}
