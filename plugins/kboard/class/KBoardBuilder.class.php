@@ -300,7 +300,9 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+				echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
+				exit;
 			}
 		}
 		else{
