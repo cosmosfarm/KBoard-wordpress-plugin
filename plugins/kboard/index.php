@@ -75,9 +75,6 @@ function kboard_init(){
 	$template = new KBTemplate();
 	$template->route();
 
-	// SEO 시작
-	$seo = new KBSeo();
-
 	// ajax 등록
 	add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
 	add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
@@ -88,6 +85,16 @@ function kboard_init(){
 		$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
 		setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 	}
+}
+
+/*
+ * 테마 헤더에 정보 출력
+ */
+add_action('get_header', 'kboard_get_header');
+function kboard_get_header(){
+	
+	// SEO 시작
+	$seo = new KBSeo();
 }
 
 /*
