@@ -103,7 +103,7 @@ class KBTemplate {
 
 		$board = new KBoard($content->board_id);
 
-		if(!$board->isReader($content->member_uid, $content->secret)){
+		if(!$board->isReader($content->member_uid, $content->secret) && !$board->isConfirm($content->password, $content->uid)){
 			wp_die(__('You do not have permission.', 'kboard'));
 		}
 
