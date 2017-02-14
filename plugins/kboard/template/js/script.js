@@ -9,40 +9,50 @@ function kboard_editor_open_media(){
 	var h = 500;
 	
 	if(kbaord_current.board_id){
-		var wrapper = jQuery('<div id="kboard_media_wrapper"></div>');
-		var background = jQuery('<div id="kboard_media_background"></div>').css({opacity:'0.5'}).click(function(){
-			kboard_media_close();
-		});
-		
-		function init_window_size(){
-			if(window.innerWidth <= 900){
-				wrapper.css({left:0, top:0, margin:'10px', width:(window.innerWidth-20), height:(window.innerHeight-20)});
-			}
-			else{
-				wrapper.css({left:'50%', top:'50%', margin:0, 'margin-left':(w/2)*-1, 'margin-top':(h/2)*-1, width:w, height:h});
-			}
+		if(jQuery('#kboard_media_wrapper').length){
+			jQuery('#kboard_media_wrapper').show();
+			jQuery('#kboard_media_wrapper').html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
+			jQuery('#kboard_media_background').show();
 		}
-		init_window_size();
-		jQuery(window).resize(init_window_size);
-		
-		wrapper.append(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
-		jQuery('body').append(background).append(wrapper);
-		
-		if(!jQuery('input[name="media_group"]').filter(function(){return this.value==kboard_settings.media_group}).length){
-			jQuery('[name="board_id"]').parents('form').append(jQuery('<input type="hidden" name="media_group">').val(kboard_settings.media_group));
+		else{
+			var wrapper = jQuery('<div id="kboard_media_wrapper"></div>');
+			var background = jQuery('<div id="kboard_media_background"></div>').css({opacity:'0.5'}).click(function(){
+				kboard_media_close();
+			});
+			
+			function init_window_size(){
+				if(window.innerWidth <= 900){
+					wrapper.css({left:0, top:0, margin:'10px', width:(window.innerWidth-20), height:(window.innerHeight-20)});
+				}
+				else{
+					wrapper.css({left:'50%', top:'50%', margin:0, 'margin-left':(w/2)*-1, 'margin-top':(h/2)*-1, width:w, height:h});
+				}
+			}
+			init_window_size();
+			jQuery(window).resize(init_window_size);
+			
+			wrapper.html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
+			jQuery('body').append(background);
+			jQuery('body').append(wrapper);
+			
+			if(!jQuery('input[name="media_group"]').filter(function(){return this.value==kboard_settings.media_group}).length){
+				jQuery('[name="board_id"]').parents('form').append(jQuery('<input type="hidden" name="media_group">').val(kboard_settings.media_group));
+			}
 		}
 	}
 }
 
 function kboard_editor_insert_media(url){
-	if(typeof tinyMCE != 'undefined' && typeof tinyMCE.activeEditor != 'undefined'){
-		tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
-		tinyMCE.activeEditor.focus();
-		tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('#last_kboard_media_content')[0], true);
-		tinyMCE.activeEditor.selection.collapse(false);
-		tinyMCE.activeEditor.dom.setAttrib('last_kboard_media_content', 'id', '');
+	if(typeof tinyMCE != 'undefined'){
+		if(typeof tinyMCE.activeEditor != 'undefined'){
+			tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
+			tinyMCE.activeEditor.focus();
+			tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('#last_kboard_media_content')[0], true);
+			tinyMCE.activeEditor.selection.collapse(false);
+			tinyMCE.activeEditor.dom.setAttrib('last_kboard_media_content', 'id', '');
+		}
 	}
-	else{
+	else if(jQuery('#kboard_content').length){
 		jQuery('#kboard_content').val(function(index, value){
 			return value + (!value?'':' ') + "<img src=\""+url+"\" alt=\"\">";
 		});
@@ -50,8 +60,8 @@ function kboard_editor_insert_media(url){
 }
 
 function kboard_media_close(){
-	jQuery('#kboard_media_background').remove();
-	jQuery('#kboard_media_wrapper').remove();
+	jQuery('#kboard_media_wrapper').hide();
+	jQuery('#kboard_media_background').hide();
 }
 
 function kboard_document_print(url){

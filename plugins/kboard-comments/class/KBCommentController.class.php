@@ -31,18 +31,11 @@ class KBCommentController {
 		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
 			
-			$_POST = stripslashes_deep($_POST);
-			
-			$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-			$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-			if($referer){
-				$url = parse_url($referer);
-				$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-			}
-			else{
+			if(!wp_get_referer()){
 				wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 			}
-			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+			
+			$_POST = stripslashes_deep($_POST);
 			
 			$content = isset($_POST['content'])?$_POST['content']:'';
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
@@ -150,7 +143,7 @@ class KBCommentController {
 				setcookie('kboard_temporary_comments', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 			}
 			
-			wp_redirect("{$referer}#kboard-comments-{$content_uid}");
+			wp_redirect(wp_get_referer() . "#kboard-comments-{$content_uid}");
 			exit;
 		}
 		wp_die(__('You do not have permission.', 'kboard-comments'));
@@ -162,16 +155,9 @@ class KBCommentController {
 	public function delete(){
 		header("Content-Type: text/html; charset=UTF-8");
 		
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		if($referer){
-			$url = parse_url($referer);
-			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-		}
-		else{
+		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		}
-		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
@@ -201,7 +187,7 @@ class KBCommentController {
 		}
 		else{
 			// 삭제권한이 있는 사용자일 경우 팝업창은 없기 때문에 페이지 이동한다.
-			wp_redirect($referer);
+			wp_redirect(wp_get_referer());
 		}
 		exit;
 	}
@@ -212,18 +198,11 @@ class KBCommentController {
 	public function update(){
 		header("Content-Type: text/html; charset=UTF-8");
 		
-		$_POST = stripslashes_deep($_POST);
-		
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		if($referer){
-			$url = parse_url($referer);
-			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-		}
-		else{
+		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		}
-		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard-comments'));
+		
+		$_POST = stripslashes_deep($_POST);
 
 		$content = isset($_POST['content'])?$_POST['content']:'';
 		$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';

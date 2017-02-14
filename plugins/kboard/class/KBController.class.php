@@ -167,16 +167,9 @@ class KBController {
 	public function fileDelete(){
 		header('Content-Type: text/html; charset=UTF-8');
 
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		if($referer){
-			$url = parse_url($referer);
-			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-		}
-		else{
+		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard'));
 		}
-		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard'));
 
 		$uid = intval($_GET['uid']);
 		if(isset($_GET['file'])){
@@ -222,7 +215,7 @@ class KBController {
 		if($file == 'thumbnail') $content->removeThumbnail();
 		else $content->removeAttached($file);
 
-		wp_redirect($referer);
+		wp_redirect(wp_get_referer());
 		exit;
 	}
 
@@ -235,16 +228,9 @@ class KBController {
 		header('X-Robots-Tag: noindex', true); // 검색엔진 수집 금지
 		header('Content-Type: text/html; charset=UTF-8');
 
-		$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-		$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-		if($referer){
-			$url = parse_url($referer);
-			$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-		}
-		else{
+		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard'));
 		}
-		if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard'));
 
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		if(isset($_GET['file'])){

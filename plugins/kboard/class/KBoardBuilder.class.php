@@ -25,9 +25,9 @@ class KBoardBuilder {
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
 		$this->sort = 'newest';
-		
+
 		$this->setSkin('default');
-		
+
 		if($board_id) $this->setBoardID($board_id, $is_latest);
 	}
 
@@ -72,12 +72,12 @@ class KBoardBuilder {
 			$default_build_mod = $this->meta->default_build_mod;
 			if(!$default_build_mod) $default_build_mod = 'list';
 			$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $this->board_id));
-				
+
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
-				
+
 			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
-				
+
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
@@ -117,7 +117,7 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
-		
+
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				$list->memberUID(get_current_user_id());
@@ -126,7 +126,7 @@ class KBoardBuilder {
 				$list->stop = true;
 			}
 		}
-		
+
 		$list->rpp($this->rpp)->page(kboard_pageid())->getList(kboard_keyword(), kboard_target());
 		return $list;
 	}
@@ -175,7 +175,7 @@ class KBoardBuilder {
 				$url = new KBUrl();
 				return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
-			
+				
 			if($this->meta->pass_autop == 'enable'){
 				do_action('kboard_skin_header', $this);
 				call_user_func(array($this, 'builder'.ucfirst($this->mod)));
@@ -204,7 +204,7 @@ class KBoardBuilder {
 				'board' => $this->board,
 				'boardBuilder' => $this,
 		);
-		
+
 		echo $this->skin->load($this->skin_name, 'list.php', $vars);
 	}
 
@@ -215,7 +215,7 @@ class KBoardBuilder {
 	public function builderReply($parent_uid, $depth=0){
 		$list = new KBContentList();
 		$list->getReplyList($parent_uid);
-		
+
 		$vars = array(
 				'list' => $list,
 				'depth' => $depth,
@@ -225,7 +225,7 @@ class KBoardBuilder {
 				'board' => $this->board,
 				'boardBuilder' => $this,
 		);
-		
+
 		echo $this->skin->load($this->skin_name, 'reply-template.php', $vars);
 	}
 
@@ -236,12 +236,12 @@ class KBoardBuilder {
 		$url = new KBUrl();
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-		
+
 		if(!$content->uid){
 			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
-		
+
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				if($content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
@@ -254,11 +254,11 @@ class KBoardBuilder {
 				exit;
 			}
 		}
-		
+
 		$board = $this->board;
 		$content->board = $board;
 		$board->content = $content;
-		
+
 		$vars = array(
 				'content' => $content,
 				'url' => $url,
@@ -267,7 +267,7 @@ class KBoardBuilder {
 				'board' => $board,
 				'boardBuilder' => $this,
 		);
-		
+
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
@@ -334,7 +334,7 @@ class KBoardBuilder {
 				$content->content = str_replace('[', '&#91;', $content->getContent());
 				$content->content = str_replace(']', '&#93;', $content->getContent());
 			}
-			
+				
 			echo $this->skin->load($this->skin_name, 'document.php', $vars);
 
 			if($board->meta->always_view_list){
@@ -356,15 +356,15 @@ class KBoardBuilder {
 				exit;
 			}
 		}
-		
+
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
 		$content->setBoardID($this->board_id);
-		
+
 		$board = $this->board;
 		$content->board = $board;
 		$board->content = $content;
-		
+
 		$vars = array(
 				'content' => $content,
 				'url' => $url,
@@ -373,10 +373,16 @@ class KBoardBuilder {
 				'board' => $board,
 				'boardBuilder' => $this,
 		);
-		
+
 		$confirm_view = false;
 		if(!$this->uid && !$this->board->isWriter()){
-			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+			if(wp_get_referer()){
+				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+			}
+			else{
+				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+				echo "<script>window.location.href='{$url->set('mod', 'document')->set('uid', $content->uid)->toString()}';</script>";
+			}
 			exit;
 		}
 		else if($this->uid && !$this->board->isEditor($content->member_uid)){
@@ -386,7 +392,13 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				if(wp_get_referer()){
+					echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				}
+				else{
+					echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+					echo "<script>window.location.href='{$url->set('mod', 'document')->set('uid', $content->uid)->toString()}';</script>";
+				}
 				exit;
 			}
 		}
@@ -399,23 +411,23 @@ class KBoardBuilder {
 				// 빈 글이라면 임시저장된 데이터로 초기화 한다.
 				$content->initWithTemporary();
 			}
-			
+				
 			// 내용이 없으면 등록된 기본 양식을 가져온다.
 			if(!$content->content){
 				$content->content = $this->meta->default_content;
 			}
-			
+				
 			// 새로운 답글 쓰기에서만 실행한다.
 			if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
 				$parent = new KBContent();
 				$parent->initWithUID(kboard_parent_uid());
-			
+					
 				// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
 				$content->parent_uid = $parent->uid;
-			
+					
 				// 부모의 제목을 가져온다.
 				$content->title = 'Re:' . $parent->title;
-			
+					
 				// 답글 기본 내용을 설정한다.
 				if($this->meta->reply_copy_content=='1'){
 					$content->content = $parent->getContent();
@@ -427,13 +439,13 @@ class KBoardBuilder {
 					$content->content = '';
 				}
 			}
-			
+				
 			// 숏코드(Shortcode)를 실행하지 못하게 변경한다.
 			$content->content = str_replace('[', '&#91;', $content->getContent());
 			$content->content = str_replace(']', '&#93;', $content->getContent());
-			
+				
 			$vars['parent'] = isset($parent) ? $parent : new KBContent();
-			
+				
 			echo $this->skin->load($this->skin_name, 'editor.php', $vars);
 		}
 	}
@@ -443,16 +455,16 @@ class KBoardBuilder {
 	 */
 	public function builderRemove(){
 		$url = new KBUrl();
-		
-		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false){
+
+		if(!wp_get_referer()){
 			echo '<script>alert("'.__('This page is restricted from external access.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
-		
+
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-		
+
 		$confirm_view = false;
 		if(!$this->board->isEditor($content->member_uid)){
 			if($this->board->permission_write=='all' && !$content->member_uid){
@@ -461,7 +473,13 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				if(wp_get_referer()){
+					echo '<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>';
+				}
+				else{
+					echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+					echo "<script>window.location.href='{$url->set('mod', 'document')->set('uid', $content->uid)->toString()}';</script>";
+				}
 				exit;
 			}
 		}
@@ -470,7 +488,7 @@ class KBoardBuilder {
 			$board = $this->board;
 			$content->board = $board;
 			$board->content = $content;
-			
+				
 			$vars = array(
 					'content' => $content,
 					'url' => $url,
@@ -479,12 +497,12 @@ class KBoardBuilder {
 					'board' => $board,
 					'boardBuilder' => $this,
 			);
-			
+				
 			echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 		}
 		else{
 			$delete_immediately = get_option('kboard_content_delete_immediately');
-				
+
 			if($delete_immediately){
 				$content->remove();
 			}
@@ -492,7 +510,7 @@ class KBoardBuilder {
 				$content->status = 'trash';
 				$content->updateContent();
 			}
-				
+
 			// 삭제뒤 게시판 리스트로 이동한다.
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
@@ -511,7 +529,7 @@ class KBoardBuilder {
 		$list->category2($this->category2);
 		$list->setSorting($this->sort);
 		$list->rpp($this->rpp)->getList('', '', true);
-		
+
 		$vars = array(
 				'board_url' => $this->url,
 				'list' => $list,
@@ -521,9 +539,9 @@ class KBoardBuilder {
 				'board' => $this->board,
 				'boardBuilder' => $this,
 		);
-		
+
 		echo $this->skin->load($this->skin_name, 'latest.php', $vars);
-		
+
 		return ob_get_clean();
 	}
 }

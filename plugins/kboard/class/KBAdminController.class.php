@@ -114,17 +114,6 @@ class KBAdminController {
 		if(isset($_POST['kboard-backup-download-nonce']) && wp_verify_nonce($_POST['kboard-backup-download-nonce'], 'kboard-backup-download')){
 			header('Content-Type: text/html; charset=UTF-8');
 				
-			$referer = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
-			$host = isset($_SERVER['HTTP_HOST'])?$_SERVER['HTTP_HOST']:'';
-			if($referer){
-				$url = parse_url($referer);
-				$referer_host = $url['host'] . (isset($url['port'])&&$url['port']?':'.$url['port']:'');
-			}
-			else{
-				wp_die(__('This page is restricted from external access.', 'kboard'));
-			}
-			if(!in_array($referer_host, array($host))) wp_die(__('This page is restricted from external access.', 'kboard'));
-				
 			include_once KBOARD_DIR_PATH . '/class/KBBackup.class.php';
 			$backup = new KBBackup();
 			$tables = $backup->getTables();
@@ -240,8 +229,8 @@ class KBAdminController {
 	 */
 	public function system_option_update(){
 		if(current_user_can('activate_plugins')){
-			$option_name = $_POST['option'];
-			$new_value = $_POST['value'];
+			$option_name = isset($_POST['option'])?$_POST['option']:'';
+			$new_value = isset($_POST['value'])?$_POST['value']:'';
 			if(!$new_value){
 				delete_option($option_name);
 			}
