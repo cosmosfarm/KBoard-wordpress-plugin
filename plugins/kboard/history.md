@@ -2,7 +2,7 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-5.3.2(dev)
+5.3.2
 ----------------------------------
 
   1. kboard_use_captcha 필터 추가

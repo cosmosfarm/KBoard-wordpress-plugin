@@ -2,7 +2,7 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
-4.4.1(dev)
+4.4.1
 ----------------------------------
 
   1. kboard_user_display 필터 추가
