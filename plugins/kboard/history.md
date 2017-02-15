@@ -7,7 +7,8 @@
 
   1. kboard_use_captcha 필터 추가
   2. kboard_list_select 필터 추가
-  3. 버그 수정
+  3. kboard_user_display 필터 추가
+  4. 버그 수정
 
 
 5.3.1

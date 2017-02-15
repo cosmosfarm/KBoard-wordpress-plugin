@@ -100,23 +100,21 @@
 								<?php echo $content->title?>
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
-							<div class="kboard-mobile-contents">
-								<span class="contents-item">
-									<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span> <?php echo $content->member_display?>
-								</span>
-								<span class="contents-separator">|</span>
-								<span class="contents-item"><?php echo $content->getDate()?></span>
-								<span class="contents-separator">|</span>
-								<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
-								<span class="contents-separator">|</span>
-								<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
-							</div>
 						</a>
+						<div class="kboard-mobile-contents">
+							<span class="contents-item">
+								<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).' '.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+							</span>
+							<span class="contents-separator">|</span>
+							<span class="contents-item"><?php echo $content->getDate()?></span>
+							<span class="contents-separator">|</span>
+							<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
+							<span class="contents-separator">|</span>
+							<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
+						</div>
 					</td>
 					<td class="kboard-list-user">
-						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span>
-						<br>
-						<?php echo $content->member_display?>
+						<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).'<br>'.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -134,23 +132,21 @@
 								<?php echo $content->title?>
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
-							<div class="kboard-mobile-contents">
-								<span class="contents-item">
-									<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span> <?php echo $content->member_display?>
-								</span>
-								<span class="contents-separator">|</span>
-								<span class="contents-item"><?php echo $content->getDate()?></span>
-								<span class="contents-separator">|</span>
-								<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
-								<span class="contents-separator">|</span>
-								<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
-							</div>
 						</a>
+						<div class="kboard-mobile-contents">
+							<span class="contents-item">
+								<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).' '.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+							</span>
+							<span class="contents-separator">|</span>
+							<span class="contents-item"><?php echo $content->getDate()?></span>
+							<span class="contents-separator">|</span>
+							<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
+							<span class="contents-separator">|</span>
+							<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
+						</div>
 					</td>
 					<td class="kboard-list-user">
-						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span>
-						<br>
-						<?php echo $content->member_display?>
+						<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).'<br>'.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>

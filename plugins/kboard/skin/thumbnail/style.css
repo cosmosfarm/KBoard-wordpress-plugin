@@ -58,9 +58,11 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-title { text-align: left; }
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-title img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-title .kboard-comments-count { color: #00a8e7; }
+#kboard-thumbnail-list .kboard-list tbody td.kboard-list-user img.avatar { display: inline; margin: 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents { display: none; font-size: 12px; color: #999999; }
-#kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-thumbnail { float: left; display: inline; margin: 0 10px 0 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; border: 1px solid #f1f1f1; }
+#kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-thumbnail { float: left; display: inline; margin: 0 10px 10px 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; border: 1px solid #f1f1f1; }
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-item { display: inline; margin: 0; padding: 0; }
+#kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-item img.avatar { display: inline; margin: 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-separator { display: inline; margin: 0; padding: 0 2px; color: #bebebe; }
 #kboard-thumbnail-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; list-style: none; text-align: center; border: 0; }
@@ -118,7 +120,8 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-document .kboard-detail .detail-attr { display: inline-block; *display: inline; zoom: 1; float: left; margin: 0; padding: 12px 35px 12px 22px; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; text-align: right; }
 #kboard-thumbnail-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
-#kboard-thumbnail-document .kboard-detail .detail-attr .detail-value img { vertical-align: middle; }
+#kboard-thumbnail-document .kboard-detail .detail-attr .detail-value a { color: #545861; text-decoration: none; border: 0; box-shadow: none; }
+#kboard-thumbnail-document .kboard-detail .detail-attr .detail-value img.avatar { display: inline; margin: 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
 #kboard-thumbnail-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
 #kboard-thumbnail-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
 #kboard-thumbnail-document .kboard-content .content-view img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
@@ -171,7 +174,9 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 	#kboard-thumbnail-list .kboard-list table { border-top: 1px solid #f1f1f1; }
 	#kboard-thumbnail-list .kboard-list table thead { display: none; }
 	#kboard-thumbnail-list .kboard-list table td.kboard-list-title { padding: 10px 5px; }
-	#kboard-thumbnail-list .kboard-list table td.kboard-list-title .kboard-thumbnail-cut-strings { margin-bottom: 10px; white-space: normal; font-size: 15px; line-height: 23px; }
+	#kboard-thumbnail-list .kboard-list table td.kboard-list-title .kboard-mobile-contents { float: left; width: 100%; }
+	#kboard-thumbnail-list .kboard-list table td.kboard-list-title .kboard-thumbnail-cut-strings { display: inline; margin-bottom: 10px; white-space: normal; font-size: 15px; line-height: 23px; }
+	#kboard-thumbnail-list .kboard-list table td.kboard-list-title .kboard-thumbnail-cut-strings .kboard-mobile-contents { width: auto; }
 	#kboard-thumbnail-list .kboard-list table td.kboard-list-thumbnail,
 	#kboard-thumbnail-list .kboard-list table td.kboard-list-uid,
 	#kboard-thumbnail-list .kboard-list table td.kboard-list-user,

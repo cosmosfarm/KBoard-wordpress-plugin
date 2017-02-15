@@ -3,8 +3,7 @@
 		<?php while($comment = $commentList->hasNext()): $commentURL->setCommentUID($comment->uid);?>
 		<li itemscope itemtype="http://schema.org/Comment" class="kboard-comments-item" data-username="<?php echo $comment->user_display?>" data-created="<?php echo $comment->created?>">
 			<div class="comments-list-username" itemprop="author">
-				<?php echo get_avatar($comment->user_uid, 24, '', $comment->user_display, array('class'=>'kboard-avatar'))?>
-				<?php echo $comment->user_display?>
+				<?php echo apply_filters('kboard_user_display', get_avatar($comment->user_uid, 24, '', $comment->user_display).' '.$comment->user_display, $comment->user_uid, $comment->user_display, 'kboard-comments', $commentBuilder)?>
 			</div>
 			<div class="comments-list-create" itemprop="dateCreated"><?php echo date('Y-m-d H:i', strtotime($comment->created))?></div>
 			<div class="comments-list-content" itemprop="description">
