@@ -102,7 +102,7 @@
 							</div>
 							<div class="kboard-mobile-contents">
 								<span class="contents-item">
-									<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display, array('class'=>'kboard-avatar'))?></span> <?php echo $content->member_display?>
+									<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span> <?php echo $content->member_display?>
 								</span>
 								<span class="contents-separator">|</span>
 								<span class="contents-item"><?php echo $content->getDate()?></span>
@@ -114,7 +114,7 @@
 						</a>
 					</td>
 					<td class="kboard-list-user">
-						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display, array('class'=>'kboard-avatar'))?></span>
+						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span>
 						<br>
 						<?php echo $content->member_display?>
 					</td>
@@ -136,7 +136,7 @@
 							</div>
 							<div class="kboard-mobile-contents">
 								<span class="contents-item">
-									<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display, array('class'=>'kboard-avatar'))?></span> <?php echo $content->member_display?>
+									<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span> <?php echo $content->member_display?>
 								</span>
 								<span class="contents-separator">|</span>
 								<span class="contents-item"><?php echo $content->getDate()?></span>
@@ -148,7 +148,7 @@
 						</a>
 					</td>
 					<td class="kboard-list-user">
-						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display, array('class'=>'kboard-avatar'))?></span>
+						<span title="<?php echo $content->member_display?>"><?php echo get_avatar($content->member_uid, 24, '', $content->member_display)?></span>
 						<br>
 						<?php echo $content->member_display?>
 					</td>
