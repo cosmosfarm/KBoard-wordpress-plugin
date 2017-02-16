@@ -28,6 +28,8 @@ class KBController {
 	 */
 	public function editorExecute(){
 		if(isset($_POST['kboard-editor-execute-nonce']) && wp_verify_nonce($_POST['kboard-editor-execute-nonce'], 'kboard-editor-execute')){
+			kboard_switch_to_blog();
+			
 			header('Content-Type: text/html; charset=UTF-8');
 			
 			$_POST = stripslashes_deep($_POST);
@@ -124,7 +126,7 @@ class KBController {
 					exit;
 				}
 			}
-				
+			
 			wp_redirect($next_page_url);
 		}
 		else{

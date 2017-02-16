@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.3.2
+Version: 5.3.3
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.3.2');
+define('KBOARD_VERSION', '5.3.3');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -67,7 +67,7 @@ function kboard_init(){
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
-
+	
 	// 컨트롤러 시작
 	$controller = new KBController();
 
@@ -84,6 +84,12 @@ function kboard_init(){
 	if($kboard_list_sort && $kboard_list_sort_remember){
 		$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
 		setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+	}
+	
+	// 스킨의 functions.php 파일을 실행한다.
+	$skin = KBoardSkin::getInstance();
+	foreach($skin->getActiveList() as $skin_name){
+		$skin->loadFunctions($skin_name);
 	}
 }
 
@@ -395,7 +401,7 @@ function kboard_content_list(){
 }
 
 /*
- *
+ * 관리자 페이지에서 게시판 보기
  */
 function kboard_admin_view(){
 	$screen = get_current_screen();
@@ -405,15 +411,49 @@ function kboard_admin_view(){
 }
 
 /*
+ * 게시판 디비 변경
+ */
+add_action('kboard_switch_to_blog', 'kboard_switch_to_blog', 0, 1);
+function kboard_switch_to_blog($args=array()){
+	if(isset($args['blog']) && $args['blog']){
+		switch_to_blog($args['blog']);
+	}
+	else if(isset($_SESSION['kboard_switch_to_blog']) && $_SESSION['kboard_switch_to_blog']){
+		switch_to_blog($_SESSION['kboard_switch_to_blog']);
+	}
+}
+
+/*
+ * 게시판 디비 복구
+ */
+add_action('kboard_restore_current_blog', 'kboard_restore_current_blog', 9999, 1);
+function kboard_restore_current_blog($args=array()){
+	if(isset($args['blog']) && $args['blog']){
+		restore_current_blog();
+	}
+	else if(isset($_SESSION['kboard_switch_to_blog']) && $_SESSION['kboard_switch_to_blog']){
+		restore_current_blog();
+	}
+}
+
+/*
  * 게시판 생성 숏코드
  */
 add_shortcode('kboard', 'kboard_builder');
 function kboard_builder($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
-
+	
+	if(isset($args['blog']) && $args['blog']){
+		$_SESSION['kboard_switch_to_blog'] = $args['blog'];
+		do_action('kboard_switch_to_blog', $args);
+	}
+	else{
+		$_SESSION['kboard_switch_to_blog'] = '';
+	}
+	
 	$board = new KBoard();
 	$board->setID($args['id']);
-
+	
 	if($board->uid){
 		$board_builder = new KBoardBuilder($board->uid);
 		$board_builder->setSkin($board->skin);
@@ -426,11 +466,21 @@ function kboard_builder($args){
 		if(isset($args['category2']) && $args['category2']){
 			$board_builder->category2 = $args['category2'];
 		}
-
+		
 		$kboard = $board_builder->create();
+		
+		if(isset($args['blog']) && $args['blog']){
+			do_action('kboard_restore_current_blog', $args);
+		}
+		
 		return $kboard;
 	}
 	else{
+		
+		if(isset($args['blog']) && $args['blog']){
+			do_action('kboard_restore_current_blog', $args);
+		}
+		
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
 	}
 }
@@ -456,28 +506,42 @@ function kboard_latest_shortcode($args){
 	if(!$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	else if(!$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수입니다.';
 	if(!$args['rpp']) $args['rpp'] = 5;
-
+	
+	if(isset($args['blog']) && $args['blog']){
+		do_action('kboard_switch_to_blog', $args);
+	}
+	
 	$board = new KBoard();
 	$board->setID($args['id']);
-
+	
 	if($board->uid){
 		$board_builder = new KBoardBuilder($board->uid, true);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($args['rpp']);
 		$board_builder->setURL($args['url']);
 		$board_builder->board = $board;
-
+		
 		if(isset($args['category1']) && $args['category1']){
 			$board_builder->category1 = $args['category1'];
 		}
 		if(isset($args['category2']) && $args['category2']){
 			$board_builder->category2 = $args['category2'];
 		}
-
+		
 		$kboard_latest = $board_builder->createLatest();
+		
+		if(isset($args['blog']) && $args['blog']){
+			do_action('kboard_restore_current_blog', $args);
+		}
+		
 		return $kboard_latest;
 	}
 	else{
+		
+		if(isset($args['blog']) && $args['blog']){
+			do_action('kboard_restore_current_blog', $args);
+		}
+		
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
 	}
 }
@@ -554,6 +618,7 @@ function kboard_admin_notices(){
  * 스크립트와 스타일 파일 등록
  */
 add_action('wp_enqueue_scripts', 'kboard_style', 999);
+add_action('kboard_switch_to_blog', 'kboard_style');
 function kboard_style(){
 	wp_enqueue_script('jquery');
 	
@@ -579,6 +644,7 @@ function kboard_style(){
  * 스크립트와 스타일 파일 등록
  */
 add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
+add_action('kboard_switch_to_blog', 'kboard_scripts');
 function kboard_scripts(){
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('kboard-script', KBOARD_URL_PATH . '/template/js/script.js', array(), KBOARD_VERSION, true);
@@ -631,17 +697,6 @@ function kboard_admin_style(){
 	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH . '/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
 	wp_enqueue_script('jquery-timepicker', KBOARD_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_VERSION);
 	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH . '/pages/kboard-admin.css', array(), KBOARD_VERSION);
-}
-
-/*
- * 스킨의 functions.php 파일을 실행한다.
- */
-add_action('init', 'kboard_skin_functions');
-function kboard_skin_functions(){
-	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() as $skin_name){
-		$skin->loadFunctions($skin_name);
-	}
 }
 
 /*
