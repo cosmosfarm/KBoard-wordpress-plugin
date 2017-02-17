@@ -700,6 +700,28 @@ function kboard_admin_style(){
 }
 
 /*
+ * 읽기권한이 없어서 로그인 페이지로 이동한다.
+ */
+add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_login', 10, 5);
+function kboard_cannot_read_document_go_login($action, $content, $board, $url, $board_builder){
+	if($action == 'go_login'){
+		echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
+		echo '<script>window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
+	}
+}
+
+/*
+ * 읽기권한이 없어서 게시판 리스트로 돌아간다.
+ */
+add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_back', 10, 5);
+function kboard_cannot_read_document_go_back($action, $content, $board, $url, $board_builder){
+	if($action == 'go_back'){
+		echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+		echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
+	}
+}
+
+/*
  * 툴바에 게시판 설정페이지 링크를 추가한다.
  */
 add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);

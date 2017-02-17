@@ -271,8 +271,7 @@ class KBoardBuilder {
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
-				echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-				echo '<script>window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
+				do_action('kboard_cannot_read_document', 'go_login', $content, $board, $url, $this);
 			}
 			else if($content->secret){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
@@ -300,9 +299,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
-				echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
-				exit;
+				do_action('kboard_cannot_read_document', 'go_back', $content, $board, $url, $this);
 			}
 		}
 		else{
