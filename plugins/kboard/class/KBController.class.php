@@ -185,7 +185,8 @@ class KBController {
 		}
 
 		if(!$uid || !$file){
-			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+			exit;
 		}
 
 		$content = new KBContent();
@@ -210,7 +211,8 @@ class KBController {
 				}
 			}
 			else{
-				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+				exit;
 			}
 		}
 
@@ -246,7 +248,8 @@ class KBController {
 		}
 
 		if(!$uid || !$file){
-			die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+			exit;
 		}
 
 		$content = new KBContent();
@@ -262,8 +265,9 @@ class KBController {
 		}
 
 		if(!$board->isReader($content->member_uid, $content->secret)){
-			if(!$user_ID && $board->permission_read == 'author'){
-				die('<script>alert("'.__('Please Log in to continue.', 'kboard').'");location.href="' . wp_login_url($referer) . '";</script>');
+			if(!is_user_logged_in() && $board->permission_read == 'author'){
+				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
+				exit;
 			}
 			else if($content->secret && in_array($board->permission_write, array('all', 'author')) && in_array($board->permission_read, array('all', 'author'))){
 				if(!$board->isConfirm($content->password, $content->uid)){
@@ -272,17 +276,20 @@ class KBController {
 						$parent->initWithUID($content->getTopContentUID());
 						if(!$board->isReader($parent->member_uid, $content->secret)){
 							if(!$board->isConfirm($parent->password, $parent->uid)){
-								die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+								do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $boardhis);
+								exit;
 							}
 						}
 					}
 					else{
-						die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+						do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+						exit;
 					}
 				}
 			}
 			else{
-				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+				exit;
 			}
 		}
 
@@ -295,9 +302,13 @@ class KBController {
 		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id);
 
 		if(!$file_info->file_path || !file_exists($file_info->full_path)){
-			die('<script>alert("'.__('File does not exist.', 'kboard').'");history.go(-1);</script>');
+			echo '<script>alert("'.__('File does not exist.', 'kboard').'");</script>';
+			echo '<script>window.location.href="' . wp_get_referer() . '";</script>';
+			exit;
 		}
-
+		
+		do_action('kboard_download_file', $file_info, $content, $board);
+		
 		if(get_option('kboard_attached_copy_download')){
 			$unique_dir = uniqid();
 			$upload_dir = wp_upload_dir();

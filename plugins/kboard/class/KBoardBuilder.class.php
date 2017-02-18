@@ -271,7 +271,7 @@ class KBoardBuilder {
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
-				do_action('kboard_cannot_read_document', 'go_login', $content, $board, $url, $this);
+				do_action('kboard_cannot_read_document', 'go_login', wp_login_url($_SERVER['REQUEST_URI']), $content, $board, $this);
 			}
 			else if($content->secret){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
@@ -299,7 +299,7 @@ class KBoardBuilder {
 				}
 			}
 			else{
-				do_action('kboard_cannot_read_document', 'go_back', $content, $board, $url, $this);
+				do_action('kboard_cannot_read_document', 'go_back', $url->set('mod', 'list')->toString(), $content, $board, $this);
 			}
 		}
 		else{

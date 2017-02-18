@@ -7,7 +7,9 @@
 
   1. 게시판 숏코드에 blog 옵션 추가
   2. kboard_cannot_read_document 액션 추가
-  3. 버그 수정
+  3. kboard_cannot_download_file 액션 추가
+  4. kboard_download_file 액션 추가
+  5. 버그 수정
 
 
 5.3.2
