@@ -37,6 +37,7 @@ function kboard_xssfilter($data){
 			$HTMLPurifier_Config->set('HTML.FlashAllowFullScreen', true);
 			$HTMLPurifier_Config->set('HTML.AllowedElements','img,div,a,strong,font,span,em,del,ins,br,p,u,i,b,sup,sub,small,table,thead,tbody,tfoot,tr,td,th,caption,pre,code,ul,ol,li,big,code,blockquote,center,hr,h1,h2,h3,h4,h5,h6,iframe');
 			$HTMLPurifier_Config->set('HTML.AllowedAttributes', 'a.href,a.target,img.src,iframe.src,iframe.frameborder,*.id,*.alt,*.style,*.class,*.title,*.width,*.height,*.border,*.colspan,*.rowspan');
+			$HTMLPurifier_Config->set('HTML.TargetNoreferrer', false);
 			$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
 			$HTMLPurifier_Config->set('Output.FlashCompat', true);
 			$HTMLPurifier_Config->set('Core.RemoveInvalidImg', true);
