@@ -706,7 +706,7 @@ add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_login'
 function kboard_cannot_read_document_go_login($action, $url, $content, $board, $board_builder){
 	if($action == 'go_login'){
 		echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-		echo '<script>window.location.href="' . $url . '";</script>';
+		echo '<script>top.window.location.href="' . $url . '";</script>';
 	}
 }
 
@@ -728,7 +728,7 @@ add_action('kboard_cannot_download_file', 'kboard_cannot_download_file_go_login'
 function kboard_cannot_download_file_go_login($action, $url, $content, $board){
 	if($action == 'go_login'){
 		echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-		echo '<script>window.location.href="' . $url . '";</script>';
+		echo '<script>top.window.location.href="' . $url . '";</script>';
 	}
 }
 

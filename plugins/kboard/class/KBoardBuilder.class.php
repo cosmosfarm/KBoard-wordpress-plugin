@@ -168,7 +168,7 @@ class KBoardBuilder {
 	public function create(){
 		if($this->meta->permission_list && $this->meta->permission_access && !is_user_logged_in()){
 			echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-			echo '<script>window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
+			echo '<script>top.window.location.href="' . wp_login_url($_SERVER['REQUEST_URI']) . '";</script>';
 		}
 		else{
 			if(($this->meta->view_iframe || is_admin()) && !kboard_id()){
@@ -271,7 +271,12 @@ class KBoardBuilder {
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){
-				do_action('kboard_cannot_read_document', 'go_login', wp_login_url($_SERVER['REQUEST_URI']), $content, $board, $this);
+				if($this->meta->view_iframe){
+					do_action('kboard_cannot_read_document', 'go_login', wp_login_url($url->getDocumentRedirect($content->uid)), $content, $board, $this);
+				}
+				else{
+					do_action('kboard_cannot_read_document', 'go_login', wp_login_url($_SERVER['REQUEST_URI']), $content, $board, $this);
+				}
 			}
 			else if($content->secret){
 				if(!$this->board->isConfirm($content->password, $content->uid)){
