@@ -137,7 +137,7 @@ class KBContent {
 			$this->addMediaRelationships();
 
 			// 게시글 수정 액션 훅 실행
-			do_action('kboard_document_update', $this->uid, $this->board_id);
+			do_action('kboard_document_update', $this->uid, $this->board_id, $this, $this->getBoard());
 
 			$this->execute_action = 'update';
 			
@@ -197,7 +197,7 @@ class KBContent {
 				}
 
 				// 게시글 입력 액션 훅 실행
-				do_action('kboard_document_insert', $this->uid, $this->board_id);
+				do_action('kboard_document_insert', $this->uid, $this->board_id, $this, $this->getBoard());
 			}
 			
 			$this->execute_action = 'insert';
@@ -657,7 +657,7 @@ class KBContent {
 			
 			if($delete_action){
 				// 게시글 삭제 액션 실행
-				do_action('kboard_document_delete', $this->uid, $this->board_id);
+				do_action('kboard_document_delete', $this->uid, $this->board_id, $this, $this->getBoard());
 			}
 
 			$this->_deleteAllOptions();

@@ -118,6 +118,22 @@ class KBCommentList {
 	}
 	
 	/**
+	 * 게시판 정보를 반환한다.
+	 * @return KBoard
+	 */
+	public function getBoard(){
+		if(isset($this->board->id) && $this->board->id){
+			return $this->board;
+		}
+		else if($this->content_uid){
+			$this->board = new KBoard();
+			$this->board->initWithContentUID($this->content_uid);
+			return $this->board;
+		}
+		return new KBoard();
+	}
+	
+	/**
 	 * 게시물 고유번호를 입력받는다.
 	 * @param int $content_uid
 	 */
@@ -203,7 +219,7 @@ class KBCommentList {
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1, `update`='{$update}' WHERE `uid`='{$content_uid}'");
 		
 		// 댓글 입력 액션 훅 실행
-		do_action('kboard_comments_insert', $insert_id, $content_uid);
+		do_action('kboard_comments_insert', $insert_id, $content_uid, $this->getBoard());
 		
 		return $insert_id;
 	}

@@ -119,7 +119,7 @@ class KBComment {
 		global $wpdb;
 		if($this->uid){
 			// 댓글 삭제 액션 훅 실행
-			do_action('kboard_comments_delete', $this->uid, $this->content_uid);
+			do_action('kboard_comments_delete', $this->uid, $this->content_uid, $this->getBoard());
 			
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$this->uid}'");
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$this->uid}'");

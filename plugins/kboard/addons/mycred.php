@@ -34,14 +34,14 @@ function kboard_document_mycred_load_hook(){
 
 		public function run(){
 			if($this->prefs['insert']['creds'] != 0){
-				add_action('kboard_document_insert', array($this, 'kboard_document_insert'), 10, 2);
+				add_action('kboard_document_insert', array($this, 'kboard_document_insert'), 10, 4);
 			}
 			if($this->prefs['delete']['creds'] != 0){
-				add_action('kboard_document_delete', array($this, 'kboard_document_delete'), 10, 2);
+				add_action('kboard_document_delete', array($this, 'kboard_document_delete'), 10, 4);
 			}
 		}
 
-		public function kboard_document_insert($content_uid, $board_id){
+		public function kboard_document_insert($content_uid, $board_id, $content, $board){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
 			if($content->member_uid){
@@ -49,7 +49,7 @@ function kboard_document_mycred_load_hook(){
 			}
 		}
 
-		public function kboard_document_delete($content_uid, $board_id){
+		public function kboard_document_delete($content_uid, $board_id, $content, $board){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
 			if($content->member_uid){
@@ -101,14 +101,14 @@ function kboard_comments_mycred_load_hook(){
 		
 		public function run(){
 			if($this->prefs['insert']['creds'] != 0){
-				add_action('kboard_comments_insert', array($this, 'kboard_comments_insert'), 10, 2);
+				add_action('kboard_comments_insert', array($this, 'kboard_comments_insert'), 10, 3);
 			}
 			if($this->prefs['delete']['creds'] != 0){
-				add_action('kboard_comments_delete', array($this, 'kboard_comments_delete'), 10, 2);
+				add_action('kboard_comments_delete', array($this, 'kboard_comments_delete'), 10, 3);
 			}
 		}
 		
-		public function kboard_comments_insert($comment_uid, $board_id){
+		public function kboard_comments_insert($comment_uid, $content_uid, $board){
 			$comment = new KBComment();
 			$comment->initWithUID($comment_uid);
 			if($comment->user_uid){
@@ -116,7 +116,7 @@ function kboard_comments_mycred_load_hook(){
 			}
 		}
 		
-		public function kboard_comments_delete($comment_uid, $board_id){
+		public function kboard_comments_delete($comment_uid, $content_uid, $board){
 			$comment = new KBComment();
 			$comment->initWithUID($comment_uid);
 			if($comment->user_uid){

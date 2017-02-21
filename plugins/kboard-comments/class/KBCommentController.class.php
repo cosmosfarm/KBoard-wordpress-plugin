@@ -132,6 +132,7 @@ class KBCommentController {
 			}
 			
 			$commentList = new KBCommentList($content_uid);
+			$commentList->board = $board;
 			$insert_id = $commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
 			
 			$comment_option = new KBCommentOption($insert_id);
