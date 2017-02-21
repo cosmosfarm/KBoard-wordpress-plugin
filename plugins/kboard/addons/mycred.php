@@ -23,13 +23,13 @@ add_action('mycred_load_hooks', 'kboard_document_mycred_load_hook');
 function kboard_document_mycred_load_hook(){
 	class myCRED_KBoard_Document extends myCRED_Hook {
 		function __construct($hook_prefs, $type){
-			parent::__construct( array(
+			parent::__construct(array(
 					'id'       => 'kboard_document',
 					'defaults' => array(
 							'insert' => array('creds'=>2, 'log'=>'KBoard 게시글 작성'),
 							'delete' => array('creds'=>-2, 'log'=>'KBoard 게시글 삭제'),
 					)
-			), $hook_prefs, $type);
+			), $hook_prefs, 'kboard_document');
 		}
 
 		public function run(){
@@ -90,13 +90,13 @@ add_action('mycred_load_hooks', 'kboard_comments_mycred_load_hook');
 function kboard_comments_mycred_load_hook(){
 	class myCRED_KBoard_Comments extends myCRED_Hook {
 		function __construct($hook_prefs, $type){
-			parent::__construct( array(
+			parent::__construct(array(
 					'id'       => 'kboard_comments',
 					'defaults' => array(
 							'insert' => array('creds'=>1, 'log'=>'KBoard 댓글 작성'),
 							'delete' => array('creds'=>-1, 'log'=>'KBoard 댓글 삭제'),
 					)
-			), $hook_prefs, $type);
+			), $hook_prefs, 'kboard_comments');
 		}
 		
 		public function run(){
