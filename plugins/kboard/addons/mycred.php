@@ -29,7 +29,7 @@ function kboard_document_mycred_load_hook(){
 							'insert' => array('creds'=>2, 'log'=>'KBoard 게시글 작성'),
 							'delete' => array('creds'=>-2, 'log'=>'KBoard 게시글 삭제'),
 					)
-			), $hook_prefs, 'kboard_document');
+			), $hook_prefs, $type);
 		}
 
 		public function run(){
@@ -45,7 +45,10 @@ function kboard_document_mycred_load_hook(){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
 			if($content->member_uid){
-				$this->core->add_creds('kboard_document_insert', $content->member_uid, $this->prefs['insert']['creds'], $this->prefs['insert']['log'], 0, '', $this->mycred_type);
+				$point = intval(get_user_meta($content->member_uid, 'kboard_document_mycred_point', true));
+				update_user_meta($content->member_uid, 'kboard_document_mycred_point', $point + $this->prefs['insert']['creds']);
+				
+				$this->core->add_creds('kboard_document_insert', $content->member_uid, $this->prefs['insert']['creds'], $this->prefs['insert']['log'], $content_uid, 'kboard_document', $this->mycred_type);
 			}
 		}
 
@@ -53,7 +56,10 @@ function kboard_document_mycred_load_hook(){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
 			if($content->member_uid){
-				$this->core->add_creds('kboard_document_delete', $content->member_uid, $this->prefs['delete']['creds'], $this->prefs['delete']['log'], 0, '', $this->mycred_type);
+				$point = intval(get_user_meta($content->member_uid, 'kboard_document_mycred_point', true));
+				update_user_meta($content->member_uid, 'kboard_document_mycred_point', $point + $this->prefs['delete']['creds']);
+				
+				$this->core->add_creds('kboard_document_delete', $content->member_uid, $this->prefs['delete']['creds'], $this->prefs['delete']['log'], $content_uid, 'kboard_document', $this->mycred_type);
 			}
 		}
 
@@ -96,7 +102,7 @@ function kboard_comments_mycred_load_hook(){
 							'insert' => array('creds'=>1, 'log'=>'KBoard 댓글 작성'),
 							'delete' => array('creds'=>-1, 'log'=>'KBoard 댓글 삭제'),
 					)
-			), $hook_prefs, 'kboard_comments');
+			), $hook_prefs, $type);
 		}
 		
 		public function run(){
@@ -112,7 +118,10 @@ function kboard_comments_mycred_load_hook(){
 			$comment = new KBComment();
 			$comment->initWithUID($comment_uid);
 			if($comment->user_uid){
-				$this->core->add_creds('kboard_comments_insert', $comment->user_uid, $this->prefs['insert']['creds'], $this->prefs['insert']['log'], 0, '', $this->mycred_type);
+				$point = intval(get_user_meta($comment->user_uid, 'kboard_comments_mycred_point', true));
+				update_user_meta($comment->user_uid, 'kboard_comments_mycred_point', $point + $this->prefs['insert']['creds']);
+				
+				$this->core->add_creds('kboard_comments_insert', $comment->user_uid, $this->prefs['insert']['creds'], $this->prefs['insert']['log'], $comment_uid, 'kboard_comments', $this->mycred_type);
 			}
 		}
 		
@@ -120,7 +129,10 @@ function kboard_comments_mycred_load_hook(){
 			$comment = new KBComment();
 			$comment->initWithUID($comment_uid);
 			if($comment->user_uid){
-				$this->core->add_creds('kboard_comments_delete', $comment->user_uid, $this->prefs['delete']['creds'], $this->prefs['delete']['log'], 0, '', $this->mycred_type);
+				$point = intval(get_user_meta($comment->user_uid, 'kboard_comments_mycred_point', true));
+				update_user_meta($comment->user_uid, 'kboard_comments_mycred_point', $point + $this->prefs['delete']['creds']);
+				
+				$this->core->add_creds('kboard_comments_delete', $comment->user_uid, $this->prefs['delete']['creds'], $this->prefs['delete']['log'], $comment_uid, 'kboard_comments', $this->mycred_type);
 			}
 		}
 		
