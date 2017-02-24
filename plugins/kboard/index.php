@@ -27,7 +27,6 @@ define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
 define('KBOARD_UPGRADE_ACTION', admin_url('admin.php?page=kboard_upgrade'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
 
-include_once 'class/KBAdminController.class.php';
 include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
@@ -38,7 +37,6 @@ include_once 'class/KBoard.class.php';
 include_once 'class/KBoardList.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
-include_once 'class/KBSeo.class.php';
 include_once 'class/KBStore.class.php';
 include_once 'class/KBTemplate.class.php';
 include_once 'class/KBUrl.class.php';
@@ -100,17 +98,23 @@ add_action('get_header', 'kboard_get_header');
 function kboard_get_header(){
 	
 	// SEO 시작
+	include_once 'class/KBSeo.class.php';
 	$seo = new KBSeo();
 }
 
 /*
- * KBoard 관리자 기능 실행
+ * KBoard 관리자 페이지 기능 실행
  */
 add_action('admin_init', 'kboard_admin_init');
 function kboard_admin_init(){
-
+	
 	// 관리자 컨트롤러 시작
+	include_once 'class/KBAdminController.class.php';
 	$admin_controller = new KBAdminController();
+	
+	// 사용자 프로필 필드 추가
+	include_once 'class/KBUserProfileFields.class.php';
+	$user_profile_fields = new KBUserProfileFields();
 }
 
 /*
@@ -164,22 +168,22 @@ function kboard_settings_menu(){
 
 	// KBoard 메뉴 등록
 	$_wp_last_object_menu++;
-	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'administrator', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'administrator', 'kboard_dashboard');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록', 'kboard'), 'administrator', 'kboard_list', 'kboard_list');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'administrator', 'kboard_new', 'kboard_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 목록', 'kboard'), 'administrator', 'kboard_latestview', 'kboard_latestview');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 생성', 'kboard'), 'administrator', 'kboard_latestview_new', 'kboard_latestview_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'administrator', 'kboard_backup', 'kboard_backup');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'administrator', 'kboard_content_list', 'kboard_content_list');
+	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'activate_plugins', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'activate_plugins', 'kboard_dashboard');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록', 'kboard'), 'activate_plugins', 'kboard_list', 'kboard_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'activate_plugins', 'kboard_new', 'kboard_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 목록', 'kboard'), 'activate_plugins', 'kboard_latestview', 'kboard_latestview');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 뷰 생성', 'kboard'), 'activate_plugins', 'kboard_latestview_new', 'kboard_latestview_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'activate_plugins', 'kboard_backup', 'kboard_backup');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'activate_plugins', 'kboard_content_list', 'kboard_content_list');
 
 	// 표시되지 않는 페이지
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, __('게시판 업데이트', 'kboard'), 'administrator', 'kboard_upgrade', 'kboard_upgrade');
+	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, __('게시판 업데이트', 'kboard'), 'activate_plugins', 'kboard_upgrade', 'kboard_upgrade');
 
 	// 스토어 메뉴 등록
 	$_wp_last_object_menu++;
-	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'administrator', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'administrator', 'kboard_store');
+	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'activate_plugins', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'activate_plugins', 'kboard_store');
 
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
 	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
@@ -187,7 +191,7 @@ function kboard_settings_menu(){
 
 	$result = $wpdb->get_results("SELECT `meta`.`board_id`, `setting`.`board_name` FROM `{$wpdb->prefix}kboard_board_meta` AS `meta` LEFT JOIN `{$wpdb->prefix}kboard_board_setting` AS `setting` ON `meta`.`board_id`=`setting`.`uid` WHERE `meta`.`key`='add_menu_page'");
 	foreach($result as $row){
-		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'administrator', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
+		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'activate_plugins', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
 	}
 
 	// 메뉴 액션 실행
