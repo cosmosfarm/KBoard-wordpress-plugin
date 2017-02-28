@@ -629,14 +629,6 @@ function kboard_style(){
 	// KBoard 미디어 추가 스타일 속성 등록
 	wp_enqueue_style('kboard-editor-media', KBOARD_URL_PATH . '/template/css/editor_media.css', array(), KBOARD_VERSION);
 	
-	// font-awesome 출력
-	if(!get_option('kboard_fontawesome')){
-		global $wp_styles;
-		wp_enqueue_style('font-awesome', KBOARD_URL_PATH . '/font-awesome/css/font-awesome.min.css', array(), KBOARD_VERSION);
-		wp_enqueue_style('font-awesome-ie7', KBOARD_URL_PATH . '/font-awesome/css/font-awesome-ie7.min.css', array(), KBOARD_VERSION);
-		$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
-	}
-
 	// 활성화된 스킨의 style.css 등록
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() as $skin_name){
@@ -652,10 +644,6 @@ add_action('kboard_switch_to_blog', 'kboard_scripts');
 function kboard_scripts(){
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('kboard-script', KBOARD_URL_PATH . '/template/js/script.js', array(), KBOARD_VERSION, true);
-	
-	if(kboard_use_recaptcha()){
-		wp_enqueue_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
-	}
 	
 	// 설정 등록
 	$localize = array(
@@ -689,6 +677,9 @@ function kboard_scripts(){
 			'no' => __('No', 'kboard'),
 			'did_it_help' => __('Did it help?', 'kboard'),
 			'hashtag' => __('Hashtag', 'kboard'),
+			'tag' => __('Tag', 'kboard'),
+			'add_a_tag' => __('Add a Tag', 'kboard'),
+			'removing_tag' => __('Removing tag', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

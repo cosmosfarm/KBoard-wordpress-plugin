@@ -72,16 +72,33 @@ class KBoardBuilder {
 			$default_build_mod = $this->meta->default_build_mod;
 			if(!$default_build_mod) $default_build_mod = 'list';
 			$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $this->board_id));
-
+			
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
-
+			
 			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
-
+			
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
 			add_filter('mce_external_plugins', 'kboard_add_media_button');
+			
+			// font-awesome 출력
+			if(!get_option('kboard_fontawesome')){
+				global $wp_styles;
+				wp_enqueue_style('font-awesome', KBOARD_URL_PATH . '/assets/font-awesome/css/font-awesome.min.css', array(), KBOARD_VERSION);
+				wp_enqueue_style('font-awesome-ie7', KBOARD_URL_PATH . '/assets/font-awesome/css/font-awesome-ie7.min.css', array(), KBOARD_VERSION);
+				$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
+			}
+			
+			// Tags Input 등록
+			wp_register_style('tagsinput', KBOARD_URL_PATH . '/assets/tagsinput/jquery.tagsinput.css', array(), 'KBOARD_VERSION');
+			wp_register_script('tagsinput', KBOARD_URL_PATH . '/assets/tagsinput/jquery.tagsinput.js', array('jquery'), 'KBOARD_VERSION');
+			
+			// 구글 리캡차 등록
+			if(kboard_use_recaptcha()){
+				wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
+			}
 		}
 	}
 

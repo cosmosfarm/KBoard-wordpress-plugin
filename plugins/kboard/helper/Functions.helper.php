@@ -364,6 +364,8 @@ function kboard_recaptcha_site_key(){
 	static $recaptcha_site_key;
 	if($recaptcha_site_key === null){
 		$recaptcha_site_key = get_option('kboard_recaptcha_site_key');
+		
+		wp_enqueue_script('recaptcha');
 	}
 	return $recaptcha_site_key;
 }

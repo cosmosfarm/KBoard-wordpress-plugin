@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-02-28 14:43+0900\n"
-"PO-Revision-Date: 2017-02-28 14:43+0900\n"
+"POT-Creation-Date: 2017-02-28 15:34+0900\n"
+"PO-Revision-Date: 2017-02-28 15:35+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -41,7 +41,7 @@ msgstr "KBoard コメントポイントを管理します。"
 #: class/KBoardBuilder.class.php:382 class/KBoardBuilder.class.php:385
 #: class/KBoardBuilder.class.php:398 class/KBoardBuilder.class.php:401
 #: class/KBoardBuilder.class.php:479 class/KBoardBuilder.class.php:482
-#: index.php:314 index.php:724 index.php:746
+#: index.php:314 index.php:727 index.php:749
 msgid "You do not have permission."
 msgstr "権限がありません。"
 
@@ -363,7 +363,7 @@ msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権
 msgid "No document."
 msgstr "書き込みがありません"
 
-#: class/KBoardBuilder.class.php:170 index.php:713 index.php:735
+#: class/KBoardBuilder.class.php:170 index.php:716 index.php:738
 msgid "Please Log in to continue."
 msgstr "ログインしてください。"
 
@@ -551,6 +551,18 @@ msgstr "役に立ちましたか?"
 #: index.php:691
 msgid "Hashtag"
 msgstr "ハッシュタグ"
+
+#: index.php:692
+msgid "Tag"
+msgstr "タグ"
+
+#: index.php:693
+msgid "Add a Tag"
+msgstr "タグを追加する"
+
+#: index.php:694
+msgid "Removing tag"
+msgstr "タグを削除する"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6

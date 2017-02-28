@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-02-28 14:43+0900\n"
-"PO-Revision-Date: 2017-02-28 14:43+0900\n"
+"POT-Creation-Date: 2017-02-28 15:34+0900\n"
+"PO-Revision-Date: 2017-02-28 15:34+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -41,7 +41,7 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBoardBuilder.class.php:382 class/KBoardBuilder.class.php:385
 #: class/KBoardBuilder.class.php:398 class/KBoardBuilder.class.php:401
 #: class/KBoardBuilder.class.php:479 class/KBoardBuilder.class.php:482
-#: index.php:314 index.php:724 index.php:746
+#: index.php:314 index.php:727 index.php:749
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
@@ -359,7 +359,7 @@ msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
 msgid "No document."
 msgstr "글이 없습니다."
 
-#: class/KBoardBuilder.class.php:170 index.php:713 index.php:735
+#: class/KBoardBuilder.class.php:170 index.php:716 index.php:738
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -547,6 +547,18 @@ msgstr "도움이 되었나요?"
 #: index.php:691
 msgid "Hashtag"
 msgstr "해시태그"
+
+#: index.php:692
+msgid "Tag"
+msgstr "태그"
+
+#: index.php:693
+msgid "Add a Tag"
+msgstr "태그 추가"
+
+#: index.php:694
+msgid "Removing tag"
+msgstr "태그 삭제"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6
