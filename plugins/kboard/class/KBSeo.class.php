@@ -75,11 +75,16 @@ class KBSeo {
 			// Yoast SEO
 			add_filter('wpseo_title', '__return_false');
 			add_filter('wpseo_metadesc', '__return_false');
+			add_filter('wpseo_opengraph_title', '__return_false');
 			add_filter('wpseo_opengraph_desc', '__return_false');
 			add_filter('wpseo_opengraph_image', '__return_false');
+			add_filter('wpseo_opengraph_image_size', '__return_false');
+			add_filter('wpseo_opengraph_url', '__return_false');
+			add_filter('wpseo_twitter_title', '__return_false');
 			add_filter('wpseo_twitter_card_type', '__return_false');
 			add_filter('wpseo_twitter_description', '__return_false');
 			add_filter('wpseo_twitter_image', '__return_false');
+			add_filter('wpseo_twitter_image_size', '__return_false');
 			add_filter('wpseo_canonical', '__return_false');
 			
 			// All in One SEO Pack

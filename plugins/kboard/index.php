@@ -94,7 +94,7 @@ function kboard_init(){
 /*
  * 테마 헤더에 정보 출력
  */
-add_action('get_header', 'kboard_get_header');
+add_action('get_header', 'kboard_get_header', 999);
 function kboard_get_header(){
 	
 	// SEO 시작
@@ -688,6 +688,7 @@ function kboard_scripts(){
 			'yes' => __('Yes', 'kboard'),
 			'no' => __('No', 'kboard'),
 			'did_it_help' => __('Did it help?', 'kboard'),
+			'hashtag' => __('Hashtag', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
