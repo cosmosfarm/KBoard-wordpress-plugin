@@ -37,7 +37,7 @@ function kboard_editor_execute(form){
 		return false;
 	}
 	if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
-		// 캡챠 필드가 있을 경우 필수로 입력합니다.
+		// 캡차 필드가 있을 경우 필수로 입력합니다.
 		alert(kboard_localize_strings.please_enter_the_CAPTCHA);
 		jQuery('input[name=captcha]', form).focus();
 		return false;

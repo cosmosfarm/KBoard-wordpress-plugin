@@ -14,7 +14,6 @@
 	
 	<?php
 	// SEO 정보 출력
-	$seo = new KBSeo();
 	$seo->head();
 	
 	// 고유주소 또는 아이프레임으로 접근시 실행

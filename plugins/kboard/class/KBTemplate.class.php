@@ -29,10 +29,14 @@ class KBTemplate {
 		if($board_id){
 			$meta = new KBoardMeta($board_id);
 			if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
-					
+				
+				// SEO 정보
+				include_once KBOARD_DIR_PATH . '/class/KBSeo.class.php';
+				$seo = new KBSeo();
+				
 				// 어드민바 제거
 				add_filter('show_admin_bar', '__return_false');
-					
+				
 				// 스타일과 스크립트 등록
 				kboard_style();
 				kboard_scripts();
@@ -40,7 +44,7 @@ class KBTemplate {
 					kboard_comments_style();
 					kboard_comments_scripts();
 				}
-					
+				
 				include_once KBOARD_DIR_PATH . '/template/board.php';
 				exit;
 			}

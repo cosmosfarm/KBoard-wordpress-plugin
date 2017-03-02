@@ -47,7 +47,7 @@ function kboard_editor_execute(form){
 		}
 	}
 	if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
-		// 캡챠 필드가 있을 경우 필수로 입력합니다.
+		// 캡차 필드가 있을 경우 필수로 입력합니다.
 		alert(kboard_localize_strings.please_enter_the_CAPTCHA);
 		jQuery('input[name=captcha]', form).focus();
 		return false;
@@ -72,3 +72,12 @@ function kboard_toggle_password_field(checkbox){
 		jQuery('.secret-password-row input[name=password]', form).val('');
 	}
 }
+
+jQuery(window).bind('beforeunload',function(e){
+	e = e || window.event;
+	if(jQuery('.kboard-form').data('submitted') != 'submitted'){
+		var dialogText = kboard_localize_strings.changes_you_made_may_not_be_saved;
+		e.returnValue = dialogText;
+		return dialogText;
+	}
+});

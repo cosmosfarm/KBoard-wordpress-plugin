@@ -680,6 +680,19 @@ function kboard_scripts(){
 			'tag' => __('Tag', 'kboard'),
 			'add_a_tag' => __('Add a Tag', 'kboard'),
 			'removing_tag' => __('Removing tag', 'kboard'),
+			'changes_you_made_may_not_be_saved' => __('Changes you made may not be saved.', 'kboard'),
+			'email' => __('Email', 'kboard'),
+			'address' => __('Address', 'kboard'),
+			'postcode' => __('Postcode', 'kboard'),
+			'phone_number' => __('Phone number', 'kboard'),
+			'find' => __('Find', 'kboard'),
+			'rate' => __('Rate', 'kboard'),
+			'rate' => __('Rate', 'kboard'),
+			'ratings' => __('Ratings', 'kboard'),
+			'waiting' => __('Waiting', 'kboard'),
+			'complete' => __('Complete', 'kboard'),
+			'question' => __('Question', 'kboard'),
+			'answer' => __('Answer', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
