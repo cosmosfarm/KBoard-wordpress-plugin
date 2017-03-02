@@ -53,7 +53,7 @@ class KBLatestview {
 	public function create(){
 		global $wpdb;
 		$date = date('YmdHis', current_time('timestamp'));
-		$result = $wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview` (`name`, `skin`, `rpp`, `sort`, `created`) VALUE ('', '', '0', '', '$date')");
+		$result = $wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview` (`name`, `skin`, `rpp`, `sort`, `created`) VALUES ('', '', '0', '', '$date')");
 		$this->uid = $wpdb->insert_id;
 		return $this->uid;
 	}
@@ -94,7 +94,7 @@ class KBLatestview {
 		global $wpdb;
 		$board_id = intval($board_id);
 		if($this->uid && !$this->isLinked($board_id)){
-			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview_link` (`latestview_uid`, `board_id`) VALUE ('$this->uid', '$board_id')");
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_latestview_link` (`latestview_uid`, `board_id`) VALUES ('$this->uid', '$board_id')");
 		}
 	}
 	

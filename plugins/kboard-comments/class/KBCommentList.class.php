@@ -211,7 +211,7 @@ class KBCommentList {
 		$created = date('YmdHis', current_time('timestamp'));
 		$password = esc_sql(sanitize_text_field($password));
 		
-		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUE ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$like', '$unlike', '$vote', '$created', '$password')");
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUES ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$like', '$unlike', '$vote', '$created', '$password')");
 		$insert_id = $wpdb->insert_id;
 		
 		// 댓글 숫자를 게시물에 등록한다.

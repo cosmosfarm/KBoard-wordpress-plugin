@@ -65,7 +65,7 @@ class KBContentMedia {
 					
 				if($file_name){
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`) VALUE ('{$this->media_group}', '$date', '$file_path', '$file_name')");
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`) VALUES ('{$this->media_group}', '$date', '$file_path', '$file_name')");
 				}	
 			}
 		}
@@ -83,7 +83,7 @@ class KBContentMedia {
 		if($this->content_uid && $this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` WHERE `media_group`='{$this->media_group}'");
 			foreach($results as $row){
-				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida_relationships` (`content_uid`, `media_uid`) VALUE ('{$this->content_uid}', '{$row->uid}')");
+				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida_relationships` (`content_uid`, `media_uid`) VALUES ('{$this->content_uid}', '{$row->uid}')");
 			}
 		}
 	}

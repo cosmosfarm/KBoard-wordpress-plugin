@@ -14,7 +14,7 @@ class KBContentList {
 	var $index;
 	var $category1;
 	var $category2;
-	var $member_uid = null;
+	var $member_uid = 0;
 	var $sort = 'date';
 	var $order = 'DESC';
 	var $rpp = 10;
@@ -157,7 +157,7 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function memberUID($member_uid){
-		if($member_uid) $this->member_uid = $member_uid;
+		if($member_uid) $this->member_uid = intval($member_uid);
 		return $this;
 	}
 
@@ -212,32 +212,58 @@ class KBContentList {
 			$where[] = "`board_id`='$this->board_id'";
 		}
 
-		$search = esc_sql($search);
-		$keyword = esc_sql($keyword);
-
-		if(!$with_notice) $where[] = "`notice`=''";
-		if(!$keyword) $where[] = "`parent_uid`='0'";
-		if($keyword && $search) $where[] = "`$search` LIKE '%$keyword%'";
-		else if($keyword && !$search) $where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
+		$from = "`{$wpdb->prefix}kboard_board_content`";
+		
+		if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) !== false){
+			// 입력 필드 검색후 게시글을 불러온다.
+			$from = "`{$wpdb->prefix}kboard_board_content` LEFT JOIN `{$wpdb->prefix}kboard_board_option` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`{$wpdb->prefix}kboard_board_option`.`content_uid`";
+			
+			$search = esc_sql(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $search));
+			$keyword = esc_sql($keyword);
+			
+			$where[] = "`option_key`='{$search}' AND `option_value` LIKE '%{$keyword}%'";
+		}
+		else if($keyword){
+			// 일반적인 검색후 게시글을 불러온다.
+			$search = esc_sql($search);
+			$keyword = esc_sql($keyword);
+			
+			if($search){
+				$where[] = "`{$search}` LIKE '%{$keyword}%'";
+			}
+			else{
+				$where[] = "(`title` LIKE '%{$keyword}%' OR `content` LIKE '%{$keyword}%')";
+			}
+		}
+		else{
+			// 검색이 아니라면 답글이 아닌 일반글만 불러온다.
+			$where[] = "`parent_uid`='0'";
+		}
+		
 		if($this->category1){
 			$category1 = esc_sql($this->category1);
-			$where[] = "`category1`='$category1'";
+			$where[] = "`category1`='{$category1}'";
 		}
+		
 		if($this->category2){
 			$category2 = esc_sql($this->category2);
-			$where[] = "`category2`='$category2'";
+			$where[] = "`category2`='{$category2}'";
 		}
-		if(!empty($this->member_uid)){
+		
+		if($this->member_uid){
 			$member_uid = esc_sql($this->member_uid);
-			$where[] = "`member_uid`='$member_uid'";
+			$where[] = "`member_uid`='{$member_uid}'";
 		}
+		
+		// 공지사항이 아닌 게시글만 불러온다.
+		if(!$with_notice) $where[] = "`notice`=''";
 
 		// 휴지통에 없는 게시글만 불러온다.
 		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 
 		// kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
 		$select = apply_filters('kboard_list_select', "`{$wpdb->prefix}kboard_board_content`.`uid`", $this->board_id, $this);
-		$from = apply_filters('kboard_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
+		$from = apply_filters('kboard_list_from', $from, $this->board_id, $this);
 		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		

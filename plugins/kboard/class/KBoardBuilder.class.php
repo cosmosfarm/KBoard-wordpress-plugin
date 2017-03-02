@@ -134,7 +134,7 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
-
+		
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				$list->memberUID(get_current_user_id());
@@ -143,7 +143,7 @@ class KBoardBuilder {
 				$list->stop = true;
 			}
 		}
-
+		
 		$list->rpp($this->rpp)->page(kboard_pageid())->getList(kboard_keyword(), kboard_target());
 		return $list;
 	}

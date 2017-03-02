@@ -29,7 +29,7 @@ class KBContentOption {
 			$key = sanitize_key($key);
 			$value = esc_sql($value);
 			if($value){
-				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUE ('$this->content_uid', '$key', '$value') ON DUPLICATE KEY UPDATE `option_value`='$value'");
+				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUES ('$this->content_uid', '$key', '$value') ON DUPLICATE KEY UPDATE `option_value`='$value'");
 			}
 			else{
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");

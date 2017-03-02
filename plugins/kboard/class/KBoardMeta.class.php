@@ -30,7 +30,7 @@ class KBoardMeta {
 			$name = sanitize_key($name);
 			$value = esc_sql($value);
 			if($value){
-				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUE ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
+				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUES ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
 			}
 			else{
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id' AND `key`='$name'");

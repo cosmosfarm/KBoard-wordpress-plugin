@@ -8,9 +8,9 @@
 class KBContent {
 
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
-	var $skin_attach_prefix = 'kboard_attach_';
+	static $SKIN_ATTACT_PREFIX = 'kboard_attach_';
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
-	var $skin_option_prefix = 'kboard_option_';
+	static $SKIN_OPTION_PREFIX = 'kboard_option_';
 
 	var $board;
 	var $board_id;
@@ -264,7 +264,7 @@ class KBContent {
 				$board->meta->total = $board_total + 1;
 			}
 			
-			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUE (".implode(',', $insert_data).")");
+			$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_content` (".implode(',', $insert_key).") VALUES (".implode(',', $insert_data).")");
 			
 			$this->uid = $wpdb->insert_id;
 			
@@ -435,7 +435,7 @@ class KBContent {
 		// 업로드된 파일이 있는지 확인한다. (없으면 중단)
 		$upload_checker = false;
 		foreach($_FILES as $key=>$value){
-			if(strpos($key, $this->skin_attach_prefix) === false) continue;
+			if(strpos($key, KBContent::$SKIN_ATTACT_PREFIX) === false) continue;
 			if($_FILES[$key]['tmp_name']){
 				$upload_checker = true;
 				break;
@@ -447,10 +447,10 @@ class KBContent {
 			$file->setPath($this->attach_store_path);
 
 			foreach($_FILES as $key=>$value){
-				if(strpos($key, $this->skin_attach_prefix) === false) continue;
-				$key = sanitize_key(str_replace($this->skin_attach_prefix, '', $key));
+				if(strpos($key, KBContent::$SKIN_ATTACT_PREFIX) === false) continue;
+				$key = sanitize_key(str_replace(KBContent::$SKIN_ATTACT_PREFIX, '', $key));
 					
-				$upload = $file->upload($this->skin_attach_prefix . $key);
+				$upload = $file->upload(KBContent::$SKIN_ATTACT_PREFIX . $key);
 				$original_name = $upload['original_name'];
 				$file_path = $upload['path'] . $upload['stored_name'];
 					
@@ -485,7 +485,7 @@ class KBContent {
 				}
 				else{
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUE ('$this->uid', '$file_key', '$date', '$file_path', '$file_name')");
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUES ('$this->uid', '$file_key', '$date', '$file_path', '$file_name')");
 				}
 			}
 		}
@@ -537,8 +537,8 @@ class KBContent {
 		if($this->uid){
 			$this->option = new KBContentOption($this->uid);
 			foreach($_POST as $key=>$value){
-				if(strpos($key, $this->skin_option_prefix) !== false){
-					$key = sanitize_key(str_replace($this->skin_option_prefix, '', $key));
+				if(strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== false){
+					$key = sanitize_key(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key));
 					$value = kboard_safeiframe(kboard_xssfilter($value));
 					$this->option->{$key} = $value;
 				}
@@ -1030,8 +1030,8 @@ class KBContent {
 		
 		$option = new stdClass();
 		foreach($_POST as $key=>$value){
-			if(strpos($key, $this->skin_option_prefix) !== false){
-				$key = sanitize_key(str_replace($this->skin_option_prefix, '', $key));
+			if(strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== false){
+				$key = sanitize_key(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key));
 				$value = kboard_safeiframe(kboard_xssfilter($value));
 				$option->{$key} = $value;
 			}
