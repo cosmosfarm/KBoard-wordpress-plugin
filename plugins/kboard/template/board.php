@@ -20,7 +20,7 @@
 	do_action('kboard_iframe_head');
 	?>
 </head>
-<body>
+<body class="kboard">
 	<div id="kboard" style="float:left;width:100%;min-height:250px">
 		<?php echo kboard_builder(array('id'=>$board_id))?>
 	</div>
