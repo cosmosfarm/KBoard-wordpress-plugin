@@ -102,6 +102,10 @@ class KBoardBuilder {
 			wp_register_style('daterangepicker', KBOARD_URL_PATH . '/assets/daterangepicker/daterangepicker.css', array(), '0.0.8');
 			wp_register_script('daterangepicker', KBOARD_URL_PATH . '/assets/daterangepicker/jquery.daterangepicker.js', array('jquery', 'moment'), '0.0.8');
 			
+			// jQuery lightSlider 등록
+			wp_register_style('lightslider', KBOARD_URL_PATH . '/assets/lightslider/lightslider.css', array(), '1.1.6');
+			wp_register_script('lightslider', KBOARD_URL_PATH . '/assets/lightslider/lightslider.js', array('jquery'), '1.1.6');
+			
 			// 구글 리캡차 등록
 			if(kboard_use_recaptcha()){
 				wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
