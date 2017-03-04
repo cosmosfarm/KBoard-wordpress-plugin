@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-12-14 14:07+0900\n"
-"PO-Revision-Date: 2016-12-14 14:07+0900\n"
+"POT-Creation-Date: 2017-03-04 12:35+0900\n"
+"PO-Revision-Date: 2017-03-04 12:39+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,59 +17,56 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBCommentController.class.php:43
-#: class/KBCommentController.class.php:45
-#: class/KBCommentController.class.php:172
-#: class/KBCommentController.class.php:174
-#: class/KBCommentController.class.php:224
-#: class/KBCommentController.class.php:226
+#: class/KBCommentController.class.php:35
+#: class/KBCommentController.class.php:160
+#: class/KBCommentController.class.php:203
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBCommentController.class.php:84
-#: class/KBCommentController.class.php:87
-#: class/KBCommentController.class.php:90
-#: class/KBCommentController.class.php:156
-#: class/KBCommentController.class.php:190
-#: class/KBCommentController.class.php:249 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:77
+#: class/KBCommentController.class.php:80
+#: class/KBCommentController.class.php:83
+#: class/KBCommentController.class.php:150
+#: class/KBCommentController.class.php:177
+#: class/KBCommentController.class.php:229 class/KBCommentTemplate.class.php:68
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBCommentController.class.php:93 index.php:119
+#: class/KBCommentController.class.php:86 index.php:124
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: class/KBCommentController.class.php:96 index.php:120 template/confirm.php:36
+#: class/KBCommentController.class.php:89 index.php:125 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
-#: class/KBCommentController.class.php:99
-#: class/KBCommentController.class.php:239 index.php:122 template/edit.php:37
+#: class/KBCommentController.class.php:92
+#: class/KBCommentController.class.php:219 index.php:127 template/edit.php:37
 msgid "Please enter the content."
 msgstr "Please enter the content."
 
-#: class/KBCommentController.class.php:102
+#: class/KBCommentController.class.php:95
 msgid "content_uid is required."
 msgstr "content_uid is required."
 
-#: class/KBCommentController.class.php:113
-#: class/KBCommentController.class.php:123
+#: class/KBCommentController.class.php:106
+#: class/KBCommentController.class.php:116
 #, php-format
 msgid "\"%s\" is not available."
 msgstr "\"%s\" is not available."
 
-#: class/KBCommentController.class.php:137
+#: class/KBCommentController.class.php:130
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHA is invalid."
 
-#: class/KBCommentController.class.php:180
-#: class/KBCommentController.class.php:236 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:167
+#: class/KBCommentController.class.php:216 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:48
 msgid "uid is required."
 msgstr "uid is required."
 
-#: class/KBCommentController.class.php:183
-#: class/KBCommentController.class.php:242
+#: class/KBCommentController.class.php:170
+#: class/KBCommentController.class.php:222
 msgid "Please log in to continue."
 msgstr "Please log in to continue."
 
@@ -93,12 +90,12 @@ msgstr "Content"
 msgid "Date"
 msgstr "Date"
 
-#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:18
-#: skin/default/list-template.php:20
+#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:17
+#: skin/default/list-template.php:19
 msgid "Delete"
 msgstr "Delete"
 
-#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:22
+#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:21
 msgid "Edit"
 msgstr "Edit"
 
@@ -114,31 +111,79 @@ msgstr "Comment does not exist."
 msgid "KBoard : 댓글"
 msgstr "KBoard : Comments"
 
-#: index.php:53
+#: index.php:59
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:117 skin/default/list-template.php:23
+#: index.php:122 skin/default/list-template.php:22
 msgid "Reply"
 msgstr "Reply"
 
-#: index.php:118
+#: index.php:123
 msgid "Cancel"
 msgstr "Cancel"
 
-#: index.php:121
+#: index.php:126
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
 
-#: index.php:123
+#: index.php:128
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
-#: index.php:124
+#: index.php:129
 msgid "Please wait."
 msgstr "Please wait."
 
+#: index.php:130
+msgid "Email"
+msgstr "Email"
+
+#: index.php:131
+msgid "Address"
+msgstr "Address"
+
+#: index.php:132
+msgid "Postcode"
+msgstr "Postcode"
+
+#: index.php:133
+msgid "Phone number"
+msgstr "Phone number"
+
 #: index.php:134
+msgid "Find"
+msgstr "Find"
+
+#: index.php:135
+msgid "Rate"
+msgstr "Rate"
+
+#: index.php:136
+msgid "Ratings"
+msgstr "Ratings"
+
+#: index.php:137
+msgid "Waiting"
+msgstr "Waiting"
+
+#: index.php:138
+msgid "Complete"
+msgstr "Complete"
+
+#: index.php:139
+msgid "Question"
+msgstr "Question"
+
+#: index.php:140
+msgid "Answer"
+msgstr "Answer"
+
+#: index.php:141
+msgid "Notify me of new comments via email"
+msgstr "Notify me of new comments via email"
+
+#: index.php:151
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "You must be <a href=\"%s\">logged in</a> to post a comment."
@@ -163,11 +208,11 @@ msgstr "Blog"
 msgid "Search"
 msgstr "Search"
 
-#: skin/default/list-template.php:26
+#: skin/default/list-template.php:27
 msgid "Like"
 msgstr "Like"
 
-#: skin/default/list-template.php:27
+#: skin/default/list-template.php:28
 msgid "Unlike"
 msgstr "Unlike"
 
@@ -342,9 +387,6 @@ msgstr "Edit content"
 
 #~ msgid "New"
 #~ msgstr "글쓰기"
-
-#~ msgid "Phone number"
-#~ msgstr "연락처"
 
 #~ msgid "Title and content searchable"
 #~ msgstr "제목과 내용 검색허용"

@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2016-12-14 14:03+0900\n"
-"PO-Revision-Date: 2016-12-14 14:04+0900\n"
+"POT-Creation-Date: 2017-03-04 12:35+0900\n"
+"PO-Revision-Date: 2017-03-04 12:38+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,59 +17,56 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBCommentController.class.php:43
-#: class/KBCommentController.class.php:45
-#: class/KBCommentController.class.php:172
-#: class/KBCommentController.class.php:174
-#: class/KBCommentController.class.php:224
-#: class/KBCommentController.class.php:226
+#: class/KBCommentController.class.php:35
+#: class/KBCommentController.class.php:160
+#: class/KBCommentController.class.php:203
 msgid "This page is restricted from external access."
 msgstr "このページは、外部アクセスから制限されています。"
 
-#: class/KBCommentController.class.php:84
-#: class/KBCommentController.class.php:87
-#: class/KBCommentController.class.php:90
-#: class/KBCommentController.class.php:156
-#: class/KBCommentController.class.php:190
-#: class/KBCommentController.class.php:249 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:77
+#: class/KBCommentController.class.php:80
+#: class/KBCommentController.class.php:83
+#: class/KBCommentController.class.php:150
+#: class/KBCommentController.class.php:177
+#: class/KBCommentController.class.php:229 class/KBCommentTemplate.class.php:68
 msgid "You do not have permission."
 msgstr "あなたが権限を持っていません。"
 
-#: class/KBCommentController.class.php:93 index.php:119
+#: class/KBCommentController.class.php:86 index.php:124
 msgid "Please enter the author."
 msgstr "著者を入力してください。"
 
-#: class/KBCommentController.class.php:96 index.php:120 template/confirm.php:36
+#: class/KBCommentController.class.php:89 index.php:125 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "パスワードを入力してください。"
 
-#: class/KBCommentController.class.php:99
-#: class/KBCommentController.class.php:239 index.php:122 template/edit.php:37
+#: class/KBCommentController.class.php:92
+#: class/KBCommentController.class.php:219 index.php:127 template/edit.php:37
 msgid "Please enter the content."
 msgstr "内容を入力してください。"
 
-#: class/KBCommentController.class.php:102
+#: class/KBCommentController.class.php:95
 msgid "content_uid is required."
 msgstr "content_uidのが必要です。"
 
-#: class/KBCommentController.class.php:113
-#: class/KBCommentController.class.php:123
+#: class/KBCommentController.class.php:106
+#: class/KBCommentController.class.php:116
 #, php-format
 msgid "\"%s\" is not available."
 msgstr "\"%s\"は使用できません。"
 
-#: class/KBCommentController.class.php:137
+#: class/KBCommentController.class.php:130
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHAが正しくありません。"
 
-#: class/KBCommentController.class.php:180
-#: class/KBCommentController.class.php:236 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:167
+#: class/KBCommentController.class.php:216 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:48
 msgid "uid is required."
 msgstr "uidが必要です。"
 
-#: class/KBCommentController.class.php:183
-#: class/KBCommentController.class.php:242
+#: class/KBCommentController.class.php:170
+#: class/KBCommentController.class.php:222
 msgid "Please log in to continue."
 msgstr "継続するには、ログインしてください。"
 
@@ -93,12 +90,12 @@ msgstr "内容"
 msgid "Date"
 msgstr "作成日"
 
-#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:18
-#: skin/default/list-template.php:20
+#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:17
+#: skin/default/list-template.php:19
 msgid "Delete"
 msgstr "削除"
 
-#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:22
+#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:21
 msgid "Edit"
 msgstr "編集"
 
@@ -114,31 +111,79 @@ msgstr "コメントは存在しません。"
 msgid "KBoard : 댓글"
 msgstr "KBoard : Comments"
 
-#: index.php:53
+#: index.php:59
 msgid "전체 댓글"
 msgstr "全体コメント"
 
-#: index.php:117 skin/default/list-template.php:23
+#: index.php:122 skin/default/list-template.php:22
 msgid "Reply"
 msgstr "応答"
 
-#: index.php:118
+#: index.php:123
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: index.php:121
+#: index.php:126
 msgid "Please enter the CAPTCHA."
 msgstr "CAPTCHAを入力してください。"
 
-#: index.php:123
+#: index.php:128
 msgid "Are you sure you want to delete?"
 msgstr "あなたが削除してもよろしいですか？"
 
-#: index.php:124
+#: index.php:129
 msgid "Please wait."
 msgstr "少々お待ちください。"
 
+#: index.php:130
+msgid "Email"
+msgstr "Eメール"
+
+#: index.php:131
+msgid "Address"
+msgstr "住所"
+
+#: index.php:132
+msgid "Postcode"
+msgstr "郵便番号"
+
+#: index.php:133
+msgid "Phone number"
+msgstr "連絡先"
+
 #: index.php:134
+msgid "Find"
+msgstr "検索"
+
+#: index.php:135
+msgid "Rate"
+msgstr "評価"
+
+#: index.php:136
+msgid "Ratings"
+msgstr "評価"
+
+#: index.php:137
+msgid "Waiting"
+msgstr "待機"
+
+#: index.php:138
+msgid "Complete"
+msgstr "完了"
+
+#: index.php:139
+msgid "Question"
+msgstr "質問"
+
+#: index.php:140
+msgid "Answer"
+msgstr "回答"
+
+#: index.php:141
+msgid "Notify me of new comments via email"
+msgstr "電子メールで新しいコメントの通知を受け取る"
+
+#: index.php:151
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "書き込みを残すには、<a href=\"%s\">ログイン</a>してください。"
@@ -163,11 +208,11 @@ msgstr "ブログ"
 msgid "Search"
 msgstr "検索"
 
-#: skin/default/list-template.php:26
+#: skin/default/list-template.php:27
 msgid "Like"
 msgstr "いいよ"
 
-#: skin/default/list-template.php:27
+#: skin/default/list-template.php:28
 msgid "Unlike"
 msgstr "いやだ"
 
@@ -342,9 +387,6 @@ msgstr "内容の編集"
 
 #~ msgid "New"
 #~ msgstr "글쓰기"
-
-#~ msgid "Phone number"
-#~ msgstr "연락처"
 
 #~ msgid "Title and content searchable"
 #~ msgstr "제목과 내용 검색허용"

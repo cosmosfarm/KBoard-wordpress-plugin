@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-03-02 18:15+0900\n"
-"PO-Revision-Date: 2017-03-02 18:24+0900\n"
+"POT-Creation-Date: 2017-03-04 12:36+0900\n"
+"PO-Revision-Date: 2017-03-04 12:38+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -37,10 +37,10 @@ msgstr "KBoard コメントポイントを管理します。"
 #: class/KBAdminController.class.php:137 class/KBAdminController.class.php:170
 #: class/KBController.class.php:47 class/KBController.class.php:52
 #: class/KBController.class.php:56 class/KBController.class.php:61
-#: class/KBTemplate.class.php:101 class/KBTemplate.class.php:107
-#: class/KBoardBuilder.class.php:399 class/KBoardBuilder.class.php:402
-#: class/KBoardBuilder.class.php:415 class/KBoardBuilder.class.php:418
-#: class/KBoardBuilder.class.php:496 class/KBoardBuilder.class.php:499
+#: class/KBTemplate.class.php:105 class/KBTemplate.class.php:111
+#: class/KBoardBuilder.class.php:410 class/KBoardBuilder.class.php:413
+#: class/KBoardBuilder.class.php:426 class/KBoardBuilder.class.php:429
+#: class/KBoardBuilder.class.php:507 class/KBoardBuilder.class.php:510
 #: index.php:314 index.php:728 index.php:750
 msgid "You do not have permission."
 msgstr "権限がありません。"
@@ -264,7 +264,7 @@ msgid "\"%s\" is not available."
 msgstr "\"%s\"は使用できません。"
 
 #: class/KBController.class.php:173 class/KBController.class.php:236
-#: class/KBoardBuilder.class.php:479
+#: class/KBoardBuilder.class.php:490
 msgid "This page is restricted from external access."
 msgstr "このページは外部からのアクセスを制限しています。"
 
@@ -363,11 +363,11 @@ msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権
 msgid "No document."
 msgstr "書き込みがありません"
 
-#: class/KBoardBuilder.class.php:187 index.php:717 index.php:739
+#: class/KBoardBuilder.class.php:198 index.php:717 index.php:739
 msgid "Please Log in to continue."
 msgstr "ログインしてください。"
 
-#: class/KBoardBuilder.class.php:373
+#: class/KBoardBuilder.class.php:384
 msgid "Please enter your password."
 msgstr "パスワードを入力してください。。"
 
@@ -566,7 +566,7 @@ msgstr "タグを削除する"
 
 #: index.php:683
 msgid "Changes you made may not be saved."
-msgstr "당신이 행한 변경은 저장되지 않을지도 모릅니다."
+msgstr "変更事項が保存されないことがあります。"
 
 #: index.php:684 skin/contact-form/admin-document.php:38
 #: skin/contact-form/editor.php:53 skin/contact-form/editor.php:54
@@ -592,29 +592,33 @@ msgstr "連絡先"
 msgid "Find"
 msgstr "検索"
 
-#: index.php:689 index.php:690
+#: index.php:689
 msgid "Rate"
 msgstr "評価"
 
-#: index.php:691
+#: index.php:690
 msgid "Ratings"
 msgstr "評価"
 
-#: index.php:692
+#: index.php:691
 msgid "Waiting"
 msgstr "待機"
 
-#: index.php:693
+#: index.php:692
 msgid "Complete"
 msgstr "完了"
 
-#: index.php:694
+#: index.php:693
 msgid "Question"
 msgstr "質問"
 
-#: index.php:695
+#: index.php:694
 msgid "Answer"
 msgstr "回答"
+
+#: index.php:695
+msgid "Notify me of new comments via email"
+msgstr "電子メールで新しいコメントの通知を受け取る"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6

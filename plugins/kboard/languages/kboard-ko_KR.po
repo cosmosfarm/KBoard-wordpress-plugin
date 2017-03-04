@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-03-02 18:14+0900\n"
-"PO-Revision-Date: 2017-03-02 18:15+0900\n"
+"POT-Creation-Date: 2017-03-04 12:29+0900\n"
+"PO-Revision-Date: 2017-03-04 12:30+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -37,10 +37,10 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBAdminController.class.php:137 class/KBAdminController.class.php:170
 #: class/KBController.class.php:47 class/KBController.class.php:52
 #: class/KBController.class.php:56 class/KBController.class.php:61
-#: class/KBTemplate.class.php:101 class/KBTemplate.class.php:107
-#: class/KBoardBuilder.class.php:399 class/KBoardBuilder.class.php:402
-#: class/KBoardBuilder.class.php:415 class/KBoardBuilder.class.php:418
-#: class/KBoardBuilder.class.php:496 class/KBoardBuilder.class.php:499
+#: class/KBTemplate.class.php:105 class/KBTemplate.class.php:111
+#: class/KBoardBuilder.class.php:410 class/KBoardBuilder.class.php:413
+#: class/KBoardBuilder.class.php:426 class/KBoardBuilder.class.php:429
+#: class/KBoardBuilder.class.php:507 class/KBoardBuilder.class.php:510
 #: index.php:314 index.php:728 index.php:750
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
@@ -264,7 +264,7 @@ msgid "\"%s\" is not available."
 msgstr "\"%s\"는 사용할 수 없습니다."
 
 #: class/KBController.class.php:173 class/KBController.class.php:236
-#: class/KBoardBuilder.class.php:479
+#: class/KBoardBuilder.class.php:490
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
@@ -359,11 +359,11 @@ msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
 msgid "No document."
 msgstr "글이 없습니다."
 
-#: class/KBoardBuilder.class.php:187 index.php:717 index.php:739
+#: class/KBoardBuilder.class.php:198 index.php:717 index.php:739
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
-#: class/KBoardBuilder.class.php:373
+#: class/KBoardBuilder.class.php:384
 msgid "Please enter your password."
 msgstr "비밀번호를 입력해주세요."
 
@@ -588,29 +588,33 @@ msgstr "연락처"
 msgid "Find"
 msgstr "찾기"
 
-#: index.php:689 index.php:690
+#: index.php:689
 msgid "Rate"
 msgstr "등급"
 
-#: index.php:691
+#: index.php:690
 msgid "Ratings"
 msgstr "등급"
 
-#: index.php:692
+#: index.php:691
 msgid "Waiting"
 msgstr "대기"
 
-#: index.php:693
+#: index.php:692
 msgid "Complete"
 msgstr "완료"
 
-#: index.php:694
+#: index.php:693
 msgid "Question"
 msgstr "질문"
 
-#: index.php:695
+#: index.php:694
 msgid "Answer"
 msgstr "답변"
+
+#: index.php:695
+msgid "Notify me of new comments via email"
+msgstr "이메일로 새로운 댓글 알림 받기"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6

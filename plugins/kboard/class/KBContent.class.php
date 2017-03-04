@@ -756,14 +756,14 @@ class KBContent {
 	 * @param string $default
 	 * @return string
 	 */
-	public function getCommentsCount($prefix='(', $endfix=')', $default=''){
+	public function getCommentsCount($prefix='(', $endfix=')', $default=null){
 		if($this->uid){
 			$board = $this->getBoard();
 			if($board->meta->comments_plugin_id && $board->meta->use_comments_plugin){
 				$url = new KBUrl();
 				return '<span class="cosmosfarm-comments-plugin-count" data-url="'.$url->getCommentsPluginURLWithUID($this->uid).'" data-prefix="'.$prefix.'" data-endfix="'.$endfix.'" data-default="'.$default.'"></span>';
 			}
-			else if($this->comment || $default){
+			else if($this->comment || $default !== null){
 				$count = $this->comment?$this->comment:$default;
 				return "{$prefix}{$count}{$endfix}";
 			}

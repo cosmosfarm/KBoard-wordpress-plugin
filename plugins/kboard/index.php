@@ -687,12 +687,12 @@ function kboard_scripts(){
 			'phone_number' => __('Phone number', 'kboard'),
 			'find' => __('Find', 'kboard'),
 			'rate' => __('Rate', 'kboard'),
-			'rate' => __('Rate', 'kboard'),
 			'ratings' => __('Ratings', 'kboard'),
 			'waiting' => __('Waiting', 'kboard'),
 			'complete' => __('Complete', 'kboard'),
 			'question' => __('Question', 'kboard'),
 			'answer' => __('Answer', 'kboard'),
+			'notify_me_of_new_comments_via_email' => __('Notify me of new comments via email', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

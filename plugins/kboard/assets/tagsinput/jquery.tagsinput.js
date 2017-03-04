@@ -30,15 +30,12 @@
 	    var testerWidth = testSubject.width(),
 	        newWidth = (testerWidth + o.comfortZone) >= minWidth ? testerWidth + o.comfortZone : minWidth,
 	        currentWidth = input.width(),
-	        isValidWidthChange = (newWidth < currentWidth && newWidth >= minWidth)
-	                             || (newWidth > minWidth && newWidth < maxWidth);
+	        isValidWidthChange = (newWidth < currentWidth && newWidth >= minWidth) || (newWidth > minWidth && newWidth < maxWidth);
 
 	    // Animate width
 	    if (isValidWidthChange) {
 	        input.width(newWidth);
 	    }
-
-
   };
   $.fn.resetAutosize = function(options){
     // alert(JSON.stringify(options));

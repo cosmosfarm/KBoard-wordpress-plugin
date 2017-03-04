@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-03-02 18:15+0900\n"
-"PO-Revision-Date: 2017-03-02 18:15+0900\n"
+"POT-Creation-Date: 2017-03-04 12:30+0900\n"
+"PO-Revision-Date: 2017-03-04 12:39+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -37,10 +37,10 @@ msgstr "Manage comments KBoard point."
 #: class/KBAdminController.class.php:137 class/KBAdminController.class.php:170
 #: class/KBController.class.php:47 class/KBController.class.php:52
 #: class/KBController.class.php:56 class/KBController.class.php:61
-#: class/KBTemplate.class.php:101 class/KBTemplate.class.php:107
-#: class/KBoardBuilder.class.php:399 class/KBoardBuilder.class.php:402
-#: class/KBoardBuilder.class.php:415 class/KBoardBuilder.class.php:418
-#: class/KBoardBuilder.class.php:496 class/KBoardBuilder.class.php:499
+#: class/KBTemplate.class.php:105 class/KBTemplate.class.php:111
+#: class/KBoardBuilder.class.php:410 class/KBoardBuilder.class.php:413
+#: class/KBoardBuilder.class.php:426 class/KBoardBuilder.class.php:429
+#: class/KBoardBuilder.class.php:507 class/KBoardBuilder.class.php:510
 #: index.php:314 index.php:728 index.php:750
 msgid "You do not have permission."
 msgstr "You do not have permission."
@@ -264,7 +264,7 @@ msgid "\"%s\" is not available."
 msgstr "\"%s\" is not available."
 
 #: class/KBController.class.php:173 class/KBController.class.php:236
-#: class/KBoardBuilder.class.php:479
+#: class/KBoardBuilder.class.php:490
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
@@ -363,11 +363,11 @@ msgstr "File copy failed, directory requires write permission."
 msgid "No document."
 msgstr "No document."
 
-#: class/KBoardBuilder.class.php:187 index.php:717 index.php:739
+#: class/KBoardBuilder.class.php:198 index.php:717 index.php:739
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
-#: class/KBoardBuilder.class.php:373
+#: class/KBoardBuilder.class.php:384
 msgid "Please enter your password."
 msgstr "Please enter your password."
 
@@ -592,29 +592,33 @@ msgstr "Phone number"
 msgid "Find"
 msgstr "Find"
 
-#: index.php:689 index.php:690
+#: index.php:689
 msgid "Rate"
 msgstr "Rate"
 
-#: index.php:691
+#: index.php:690
 msgid "Ratings"
 msgstr "Ratings"
 
-#: index.php:692
+#: index.php:691
 msgid "Waiting"
 msgstr "Waiting"
 
-#: index.php:693
+#: index.php:692
 msgid "Complete"
 msgstr "Complete"
 
-#: index.php:694
+#: index.php:693
 msgid "Question"
 msgstr "Question"
 
-#: index.php:695
+#: index.php:694
 msgid "Answer"
 msgstr "Answer"
+
+#: index.php:695
+msgid "Notify me of new comments via email"
+msgstr "Notify me of new comments via email"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6
