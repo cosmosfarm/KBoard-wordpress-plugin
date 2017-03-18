@@ -693,6 +693,7 @@ function kboard_scripts(){
 			'question' => __('Question', 'kboard'),
 			'answer' => __('Answer', 'kboard'),
 			'notify_me_of_new_comments_via_email' => __('Notify me of new comments via email', 'kboard'),
+			'ask_a_question' => __('Ask a question', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

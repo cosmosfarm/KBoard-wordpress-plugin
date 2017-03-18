@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-03-04 12:29+0900\n"
-"PO-Revision-Date: 2017-03-04 12:30+0900\n"
+"POT-Creation-Date: 2017-03-18 13:59+0900\n"
+"PO-Revision-Date: 2017-03-18 13:59+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -41,7 +41,7 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBoardBuilder.class.php:410 class/KBoardBuilder.class.php:413
 #: class/KBoardBuilder.class.php:426 class/KBoardBuilder.class.php:429
 #: class/KBoardBuilder.class.php:507 class/KBoardBuilder.class.php:510
-#: index.php:314 index.php:728 index.php:750
+#: index.php:314 index.php:729 index.php:751
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
@@ -359,7 +359,7 @@ msgstr "파일 복사 실패, 디렉토리에 쓰기 권한이 필요합니다."
 msgid "No document."
 msgstr "글이 없습니다."
 
-#: class/KBoardBuilder.class.php:198 index.php:717 index.php:739
+#: class/KBoardBuilder.class.php:198 index.php:718 index.php:740
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -615,6 +615,10 @@ msgstr "답변"
 #: index.php:695
 msgid "Notify me of new comments via email"
 msgstr "이메일로 새로운 댓글 알림 받기"
+
+#: index.php:696
+msgid "Ask a question"
+msgstr "질문하기"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6

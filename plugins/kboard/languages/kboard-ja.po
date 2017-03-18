@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-03-04 12:36+0900\n"
-"PO-Revision-Date: 2017-03-04 12:38+0900\n"
+"POT-Creation-Date: 2017-03-18 13:59+0900\n"
+"PO-Revision-Date: 2017-03-18 14:01+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -41,7 +41,7 @@ msgstr "KBoard コメントポイントを管理します。"
 #: class/KBoardBuilder.class.php:410 class/KBoardBuilder.class.php:413
 #: class/KBoardBuilder.class.php:426 class/KBoardBuilder.class.php:429
 #: class/KBoardBuilder.class.php:507 class/KBoardBuilder.class.php:510
-#: index.php:314 index.php:728 index.php:750
+#: index.php:314 index.php:729 index.php:751
 msgid "You do not have permission."
 msgstr "権限がありません。"
 
@@ -363,7 +363,7 @@ msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権
 msgid "No document."
 msgstr "書き込みがありません"
 
-#: class/KBoardBuilder.class.php:198 index.php:717 index.php:739
+#: class/KBoardBuilder.class.php:198 index.php:718 index.php:740
 msgid "Please Log in to continue."
 msgstr "ログインしてください。"
 
@@ -619,6 +619,10 @@ msgstr "回答"
 #: index.php:695
 msgid "Notify me of new comments via email"
 msgstr "電子メールで新しいコメントの通知を受け取る"
+
+#: index.php:696
+msgid "Ask a question"
+msgstr "質問すること"
 
 #: pages/kboard_admin_view.php:6 pages/kboard_backup.php:6
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6
