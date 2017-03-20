@@ -110,7 +110,7 @@
 			<p>
 				Site key <input type="text" name="kboard_recaptcha_site_key" value="<?php echo get_option('kboard_recaptcha_site_key')?>" placeholder="Site key"><br>
 				Secret key <input type="text" name="kboard_recaptcha_secret_key" value="<?php echo get_option('kboard_recaptcha_secret_key')?>" placeholder="Secret key"><br>
-				<button class="button-secondary" onclick="kboard_recaptcha_update()">구글 reCAPTCHA 정보 업데이트</button>
+				<button class="button-secondary" onclick="kboard_recaptcha_update(this)">구글 reCAPTCHA 정보 업데이트</button>
 			</p>
 		</li>
 		<li>
@@ -169,6 +169,22 @@
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_content_delete_immediately', '<?php echo get_option('kboard_content_delete_immediately')?'':'1'?>')">게시글 바로 삭제 <?php echo get_option('kboard_content_delete_immediately')?'비활성화':'활성화'?></button></p>
 		</li>
+		<li>
+			<h4>아임포트</h4>
+			<p>
+			아임포트는 국내외 주요 PG사와의 연동을 지원합니다.<br>
+			KBoard에서는 아임포트 서비스와 연동해 쉽고 편리하게 결제 기능을 제공합니다.<br>
+			실제 결제 기능을 사용하기 위해서 아임포트와 PG사 가입이 필요합니다.<br>
+			PG사 가입은 아임포트에 문의해주세요. <a href="http://www.iamport.kr/" onclick="window.open(this.href);return false;">http://www.iamport.kr/</a><br>
+			아임포트에 로그인 후 <a href="https://admin.iamport.kr/settings" onclick="window.open(this.href);return false;">시스템설정</a>에 있는 정보를 입력하시면 테스트 결제 또는 실제 결제 기능을 사용할 수 있습니다.<br>
+			</p>
+			<p>
+				가맹점 식별코드 <input type="text" name="kboard_iamport_id" value="<?php echo get_option('kboard_iamport_id')?>" placeholder="가맹점 식별코드"><br>
+				REST API 키 <input type="text" name="kboard_iamport_api_key" value="<?php echo get_option('kboard_iamport_api_key')?>" placeholder="REST API 키"><br>
+				REST API secret <input type="text" name="kboard_iamport_api_secret" value="<?php echo get_option('kboard_iamport_api_secret')?>" placeholder="REST API secret"><br>
+				<button class="button-secondary" onclick="kboard_iamport_update(this)">아임포트 정보 업데이트</button>
+			</p>
+		</li>
 	</ul>
 </div>
 <script>
@@ -178,12 +194,38 @@ function kboard_system_option_update(option, value){
 	});
 	return false;
 }
-function kboard_recaptcha_update(){
+function kboard_recaptcha_update(button){
+	if(jQuery(button).data('submitted')){
+		alert('<?php echo __('Please wait.', 'kboard')?>');
+		return false;
+	}
+	
 	jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_recaptcha_site_key', 'value':jQuery('input[name=kboard_recaptcha_site_key]').val()}, function(res){
 		jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_recaptcha_secret_key', 'value':jQuery('input[name=kboard_recaptcha_secret_key]').val()}, function(res){
 			window.location.reload();
 		});
 	});
+	
+	jQuery(button).data('submitted', 'submitted');
+	jQuery(button).text('<?php echo __('Please wait.', 'kboard')?>');
+	return false;
+}
+function kboard_iamport_update(button){
+	if(jQuery(button).data('submitted')){
+		alert('<?php echo __('Please wait.', 'kboard')?>');
+		return false;
+	}
+	
+	jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_iamport_id', 'value':jQuery('input[name=kboard_iamport_id]').val()}, function(res){
+		jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_iamport_api_key', 'value':jQuery('input[name=kboard_iamport_api_key]').val()}, function(res){
+			jQuery.post(ajaxurl, {'action':'kboard_system_option_update', 'option':'kboard_iamport_api_secret', 'value':jQuery('input[name=kboard_iamport_api_secret]').val()}, function(res){
+				window.location.reload();
+			});
+		});
+	});
+	
+	jQuery(button).data('submitted', 'submitted');
+	jQuery(button).text('<?php echo __('Please wait.', 'kboard')?>');
 	return false;
 }
 </script>

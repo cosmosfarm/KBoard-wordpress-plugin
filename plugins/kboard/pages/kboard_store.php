@@ -8,6 +8,7 @@
 		<a href="http://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
 		<a href="http://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
 		<a href="http://blog.cosmosfarm.com/" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+		<a href="http://www.cosmosfarm.com/wpstore/manage/license" class="page-title-action" onclick="window.open(this.href);return false;">라이센스 도메인 등록 및 관리</a>
 	</h1>
 	
 	<div class="wp-filter">
@@ -96,11 +97,11 @@ window.onload = function(){
 	cf_get_kbstore_list(cf_list_page);
 };
 jQuery(window).scroll(function(){
-	var $ = jQuery;
-	var scroll_height = $(window).height() + $(window).scrollTop();
-	var document_height = $(document).height();
+	var scroll_height = jQuery(window).height() + jQuery(window).scrollTop();
+	var document_height = jQuery(document).height();
 	
-	if(document_height - scroll_height <= 100 && !cf_list_lock && cf_list_continue){
+	if(document_height - scroll_height <= 100 && cf_list_lock == false && cf_list_continue){
+		cf_list_lock = true;
 		cf_get_kbstore_list(cf_list_page);
 	}
 });
@@ -111,8 +112,8 @@ function cf_get_kbstore_list(page){
 			cf_add_kbstore_product(res[i].thumbnail, res[i].title, res[i].link, res[i].download, res[i].formatted_category, res[i].category, res[i].version, res[i].description, res[i].price, res[i].purchased);
 		}
 		cf_list_lock = false;
+		cf_list_page+=1;
 	});
-	cf_list_page+=1;
 }
 function cf_add_kbstore_product(thumbnail, title, link, download, formatted_category, category, version, description, price, purchased){
 	var row_id = encodeURIComponent(title);
@@ -159,12 +160,12 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 				window.location.href = download+'?app_id='+cosmosfarm.app_id+'&access_token='+cosmosfarm.access_token;
 			}
 			else{
-				if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+				if(confirm('코스모스팜에 로그인해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
 					window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 				}
 			}
 		}, function(res){
-			if(confirm('코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+			if(confirm('코스모스팜에 로그인해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
 				window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
@@ -221,7 +222,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 }
 function cf_get_a_install(action, download, version){
 	var a_install = document.createElement('a');
-	a_install.className = 'button';
+	a_install.className = 'button-primary';
 	a_install.innerHTML = '설치하기';
 	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
 	a_install.onclick = function(){
@@ -232,12 +233,12 @@ function cf_get_a_install(action, download, version){
 				}
 			}
 			else{
-				if(confirm('먼저 코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+				if(confirm('코스모스팜에 로그인해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
 					window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 				}
 			}
 		}, function(res){
-			if(confirm('먼저 코스모스팜에 로그인 해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
+			if(confirm('코스모스팜에 로그인해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
 				window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
