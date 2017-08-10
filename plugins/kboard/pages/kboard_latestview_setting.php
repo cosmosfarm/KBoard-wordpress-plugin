@@ -89,10 +89,10 @@
 								</select>
 							</div>
 							<div class="link-control-area-center">
-								<button class="button" onclick="return push_board();">&lt;-</button>
+								<button type="button" class="button" onclick="return push_board();">&lt;-</button>
 								<br>
 								<br>
-								<button class="button" onclick="return pop_board();">-&gt;</button>
+								<button type="button" class="button" onclick="return pop_board();">-&gt;</button>
 							</div>
 							<div class="link-control-area-right">
 								<p>제외된 게시판</p>
@@ -120,7 +120,7 @@
 			</tbody>
 		</table>
 		<p class="submit">
-			<input type="submit" name="submit" id="submit" class="button-primary" value="변경 사항 저장">
+			<input type="submit" class="button-primary" value="<?php echo __('변경 사항 저장', 'kboard')?>">
 		</p>
 	</form>
 </div>

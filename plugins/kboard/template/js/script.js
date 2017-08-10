@@ -2,6 +2,25 @@
  * @author http://www.cosmosfarm.com/
  */
 
+/**
+ * inViewport jQuery plugin by Roko C.B.
+ * http://stackoverflow.com/a/26831113/383904 Returns a callback function with
+ * an argument holding the current amount of px an element is visible in
+ * viewport (The min returned value is 0 (element outside of viewport)
+ */
+(function($, win){
+	$.fn.kboardViewport = function(cb){
+		return this.each(function(i, el){
+			function visPx(){
+				var elH = $(el).outerHeight(), H = $(win).height(), r = el.getBoundingClientRect(), t = r.top, b = r.bottom;
+				return cb.call(el, Math.max(0, t > 0 ? Math.min(elH, H - t) : (b < H ? b : H)));
+			}
+			visPx();
+			$(win).on("resize scroll", visPx);
+		});
+	};
+}(jQuery, window));
+
 var kboard_ajax_lock = false;
 
 function kboard_editor_open_media(){
@@ -69,17 +88,21 @@ function kboard_document_print(url){
 	return false;
 }
 
-function kboard_document_like(button){
+function kboard_document_like(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid')}, function(res){
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
-			var count = parseInt(res);
-			if(count){
-				jQuery('.kboard-document-like-count', button).text(count);
+			if(typeof callback === 'function'){
+				callback(res);
 			}
 			else{
-				alert(kboard_localize_strings.you_have_already_voted);
+				if(res.result == 'error'){
+					alert(res.message);
+				}
+				else{
+					jQuery('.kboard-document-like-count', button).text(res.data.like);
+				}
 			}
 		});
 	}
@@ -89,17 +112,21 @@ function kboard_document_like(button){
 	return false;
 }
 
-function kboard_document_unlike(button){
+function kboard_document_unlike(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid')}, function(res){
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
-			var count = parseInt(res);
-			if(count){
-				jQuery('.kboard-document-unlike-count', button).text(count);
+			if(typeof callback === 'function'){
+				callback(res);
 			}
 			else{
-				alert(kboard_localize_strings.you_have_already_voted);
+				if(res.result == 'error'){
+					alert(res.message);
+				}
+				else{
+					jQuery('.kboard-document-unlike-count', button).text(res.data.unlike);
+				}
 			}
 		});
 	}
@@ -109,17 +136,21 @@ function kboard_document_unlike(button){
 	return false;
 }
 
-function kboard_comment_like(button){
+function kboard_comment_like(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid')}, function(res){
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
-			var count = parseInt(res);
-			if(count){
-				jQuery('.kboard-comment-like-count', button).text(count);
+			if(typeof callback === 'function'){
+				callback(res);
 			}
 			else{
-				alert(kboard_localize_strings.you_have_already_voted);
+				if(res.result == 'error'){
+					alert(res.message);
+				}
+				else{
+					jQuery('.kboard-comment-like-count', button).text(res.data.like);
+				}
 			}
 		});
 	}
@@ -129,17 +160,57 @@ function kboard_comment_like(button){
 	return false;
 }
 
-function kboard_comment_unlike(button){
+function kboard_comment_unlike(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid')}, function(res){
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
-			var count = parseInt(res);
-			if(count){
-				jQuery('.kboard-comment-unlike-count', button).text(count);
+			if(typeof callback === 'function'){
+				callback(res);
 			}
 			else{
-				alert(kboard_localize_strings.you_have_already_voted);
+				if(res.result == 'error'){
+					alert(res.message);
+				}
+				else{
+					jQuery('.kboard-comment-unlike-count', button).text(res.data.unlike);
+				}
+			}
+		});
+	}
+	else{
+		alert(kboard_localize_strings.please_wait);
+	}
+	return false;
+}
+
+function kboard_content_update(content_uid, data, callback){
+	if(!kboard_ajax_lock){
+		kboard_ajax_lock = true;
+		jQuery.post(kboard_settings.alax_url, {'action':'kboard_content_update', 'content_uid':content_uid, 'data':data, 'security':kboard_settings.ajax_security}, function(res){
+			kboard_ajax_lock = false;
+			if(typeof callback === 'function'){
+				callback(res);
+			}
+		});
+	}
+	else{
+		alert(kboard_localize_strings.please_wait);
+	}
+	return false;
+}
+
+function kboard_ajax_builder(args, callback){
+	if(!kboard_ajax_lock){
+		kboard_ajax_lock = true;
+		var callback2 = (typeof callback === 'function') ? callback : args['callback'];
+		args['action'] = 'kboard_ajax_builder';
+		args['callback'] = '';
+		args['security'] = kboard_settings.ajax_security;
+		jQuery.get(kboard_settings.alax_url, args, function(res){
+			kboard_ajax_lock = false;
+			if(typeof callback2 === 'function'){
+				callback2(res);
 			}
 		});
 	}

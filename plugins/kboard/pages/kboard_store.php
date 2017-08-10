@@ -106,13 +106,17 @@ jQuery(window).scroll(function(){
 	}
 });
 function cf_get_kbstore_list(page){
+	var current_scroll_top = jQuery(window).scrollTop();
 	cosmosfarm.getWpstoreProducts('<?php echo $category?>', page, 10, function(res){
 		if(res.length <= 0) cf_list_continue = false;
 		for(var i=0; i<res.length; i++){
 			cf_add_kbstore_product(res[i].thumbnail, res[i].title, res[i].link, res[i].download, res[i].formatted_category, res[i].category, res[i].version, res[i].description, res[i].price, res[i].purchased);
 		}
-		cf_list_lock = false;
 		cf_list_page+=1;
+		setTimeout(function(){
+			jQuery(window).scrollTop(current_scroll_top);
+			cf_list_lock = false;
+		});
 	});
 }
 function cf_add_kbstore_product(thumbnail, title, link, download, formatted_category, category, version, description, price, purchased){

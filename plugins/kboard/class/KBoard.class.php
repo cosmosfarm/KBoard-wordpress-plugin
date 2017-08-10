@@ -7,24 +7,18 @@
  */
 class KBoard {
 	
-	private static $total = -1;
-	
 	var $id;
 	var $row;
 	var $content;
 	var $category;
 	var $category_row;
-	var $userdata;
+	var $current_user;
 	var $meta;
 	
 	public function __construct($id=''){
-		global $user_ID;
 		$this->row = new stdClass();
 		$this->meta = new KBoardMeta();
-		$this->userdata = $user_ID?get_userdata($user_ID):new stdClass();
-		if(!isset($this->userdata->roles)) $this->userdata->roles = array();
-		if(!isset($this->userdata->ID)) $this->userdata->ID = '';
-		if(!isset($this->userdata->user_login)) $this->userdata->user_login = '';
+		$this->current_user = wp_get_current_user();
 		$this->setID($id);
 	}
 	
@@ -53,6 +47,7 @@ class KBoard {
 		}
 		$this->id = 0;
 		$this->meta = new KBoardMeta();
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -70,6 +65,7 @@ class KBoard {
 	 * @return KBoard
 	 */
 	public function initWithRow($row){
+		global $wpdb;
 		$this->row = $row;
 		if(isset($this->row->uid) && $this->row->uid){
 			$this->id = $this->row->uid;
@@ -79,6 +75,7 @@ class KBoard {
 			$this->id = 0;
 			$this->meta = new KBoardMeta();
 		}
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -95,11 +92,13 @@ class KBoard {
 			if(isset($this->row->uid) && $this->row->uid){
 				$this->id = $this->row->uid;
 				$this->meta = new KBoardMeta($this->row->uid);
+				$wpdb->flush();
 				return $this;
 			}
 		}
 		$this->id = 0;
 		$this->meta = new KBoardMeta();
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -165,36 +164,30 @@ class KBoard {
 	
 	/**
 	 * 글 읽기 권한이 있는 사용자인지 확인한다.
-	 * @param int $writer_uid
+	 * @param int $user_id
 	 * @param string $secret
 	 * @return boolean
 	 */
-	public function isReader($writer_uid, $secret=''){
-		$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
-		
+	public function isReader($user_id, $secret=''){
 		if($this->permission_read == 'all' && !$secret){
 			return true;
 		}
-		else if($this->userdata->ID){
-			if($writer_uid == $this->userdata->ID){
-				// 본인인 경우
+		else if(is_user_logged_in()){
+			if($user_id == get_current_user_id()){
+				// 본인 허용
 				return true;
 			}
-			else if(@in_array('administrator', $this->userdata->roles)){
-				// 최고관리자 허용
-				return true;
-			}
-			else if(in_array($this->permission_read, array('all', 'author', 'editor')) && @in_array($this->userdata->user_login, $admin_user)){
-				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+			else if($this->isAdmin()){
+				// 게시판 관리자 허용
 				return true;
 			}
 			else if($this->permission_read == 'author' && !$secret){
-				// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
+				// 로그인 사용자 허용
 				return true;
 			}
 			else if($this->permission_read == 'roles' && !$secret){
-				// 직접선택 권한일때, 선택된 역할의 사용자 허용
-				if(array_intersect($this->getReadRoles(), $this->userdata->roles)){
+				// 선택된 역할의 사용자 허용
+				if(array_intersect($this->getReadRoles(), $this->current_user->roles)){
 					return true;
 				}
 			}
@@ -207,27 +200,21 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isWriter(){
-		$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
-		
 		if($this->permission_write == 'all'){
 			return true;
 		}
-		else if($this->userdata->ID){
-			if(@in_array('administrator', $this->userdata->roles)){
-				// 최고관리자 허용
-				return true;
-			}
-			else if($this->permission_write == 'editor' && @in_array($this->userdata->user_login, $admin_user)){
-				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+		else if(is_user_logged_in()){
+			if($this->isAdmin()){
+				// 게시판 관리자 허용
 				return true;
 			}
 			else if($this->permission_write == 'author'){
-				// 로그인 사용자 권한일때, role대신 ID값이 있으면, 모든 사용자 허용
+				// 로그인 사용자 허용
 				return true;
 			}
 			else if($this->permission_write == 'roles'){
-				// 직접선택 권한일때, 선택된 역할의 사용자 허용
-				if(array_intersect($this->getWriteRoles(), $this->userdata->roles)){
+				// 선택된 역할의 사용자 허용
+				if(array_intersect($this->getWriteRoles(), $this->current_user->roles)){
 					return true;
 				}
 			}
@@ -237,17 +224,112 @@ class KBoard {
 	
 	/**
 	 * 글 수정 권한이 있는 사용자인지 확인한다.
-	 * @param int $writer_uid
+	 * @param int $user_id
 	 * @return boolean
 	 */
-	public function isEditor($writer_uid){
-		if($this->userdata->ID){
-			if($writer_uid == $this->userdata->ID){
-				// 본인인 경우
+	public function isEditor($user_id){
+		if(is_user_logged_in()){
+			if($user_id == get_current_user_id()){
+				// 본인 허용
 				return true;
 			}
 			else if($this->isAdmin()){
 				// 게시판 관리자 허용
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 주문하기 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isOrder(){
+		if(!$this->meta->permission_order){
+			return true;
+		}
+		else if(is_user_logged_in()){
+			if($this->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
+			else if($this->meta->permission_order == 'roles'){
+				// 선택된 역할의 사용자 허용
+				if(array_intersect($this->getOrderRoles(), $this->current_user->roles)){
+					return true;
+				}
+			}
+			else{
+				// 로그인 사용자 허용
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 답글쓰기 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isReply(){
+		if(!$this->meta->permission_reply){
+			return true;
+		}
+		else if(is_user_logged_in()){
+			if($this->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
+			else if($this->meta->permission_reply == 'roles'){
+				// 선택된 역할의 사용자 허용
+				if(array_intersect($this->getReplyRoles(), $this->current_user->roles)){
+					return true;
+				}
+			}
+			else{
+				// 로그인 사용자 허용
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public function isBuyer($user_id){
+		if(is_user_logged_in()){
+			if($user_id == get_current_user_id()){
+				// 본인 허용
+				return true;
+			}
+			else if($this->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 추천권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isVote(){
+		if(!$this->meta->permission_vote){
+			return true;
+		}
+		else if(is_user_logged_in()){
+			if($this->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
+			else if($this->meta->permission_vote == 'roles'){
+				// 선택된 역할의 사용자 허용
+				if(array_intersect($this->getVoteRoles(), $this->current_user->roles)){
+					return true;
+				}
+			}
+			else{
+				// 로그인 사용자 허용
 				return true;
 			}
 		}
@@ -299,15 +381,19 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isAdmin(){
-		if($this->userdata->ID){
+		if(is_user_logged_in()){
 			$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
 			
-			if(@in_array('administrator', $this->userdata->roles)){
+			if(in_array('administrator', $this->current_user->roles)){
 				// 최고관리자 허용
 				return true;
 			}
-			else if(@in_array($this->userdata->user_login, $admin_user)){
-				// 선택된 관리자 권한일때, 사용자명과 선택된관리자와 비교후, 일치하면 허용
+			else if(is_array($admin_user) && in_array($this->current_user->user_login, $admin_user)){
+				// 선택된 관리자 허용
+				return true;
+			}
+			else if(array_intersect($this->getAdminRoles(), $this->current_user->roles)){
+				// 선택된 역할의 사용자 허용
 				return true;
 			}
 		}
@@ -321,6 +407,17 @@ class KBoard {
 	public function isComment(){
 		if(defined('KBOARD_COMMNETS_VERSION') && $this->use_comment) return true;
 		if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin) return true;
+		return false;
+	}
+	
+	/**
+	 * 주문시 포인트를 사용할 수 있는지 확인한다.
+	 * @return boolean
+	 */
+	public function isUsePointOrder(){
+		if(is_user_logged_in() && class_exists('myCRED_Core')){
+			return true;
+		}
 		return false;
 	}
 	
@@ -347,12 +444,56 @@ class KBoard {
 	}
 	
 	/**
+	 * 답글쓰기권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getReplyRoles(){
+		if($this->meta->permission_reply_roles){
+			return unserialize($this->meta->permission_reply_roles);
+		}
+		return array();
+	}
+	
+	/**
 	 * 댓글쓰기권한의 role을 반환한다.
 	 * @return array
 	 */
 	public function getCommentRoles(){
 		if($this->meta->permission_comment_write_roles){
 			return unserialize($this->meta->permission_comment_write_roles);
+		}
+		return array();
+	}
+	
+	/**
+	 * 주문하기권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getOrderRoles(){
+		if($this->meta->permission_order_roles){
+			return unserialize($this->meta->permission_order_roles);
+		}
+		return array();
+	}
+	
+	/**
+	 * 관리자권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getAdminRoles(){
+		if($this->meta->permission_admin_roles){
+			return unserialize($this->meta->permission_admin_roles);
+		}
+		return array();
+	}
+	
+	/**
+	 * 추천권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getVoteRoles(){
+		if($this->meta->permission_vote_roles){
+			return unserialize($this->meta->permission_vote_roles);
 		}
 		return array();
 	}
@@ -378,13 +519,42 @@ class KBoard {
 	public function remove($board_id){
 		global $wpdb;
 		$board_id = intval($board_id);
-		$list = new KBContentList($board_id);
-		$list->getAllList();
-		while($content = $list->hasNext()){
-			$content->remove();
+		if($board_id){
+			$list = new KBContentList($board_id);
+			$list->rpp(1000);
+			$list->initFirstList();
+			
+			while($list->hasNextList()){
+				while($content = $list->hasNext()){
+					$content->delete(false);
+				}
+				$list->initFirstList();
+			}
+			
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$board_id'");
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$board_id'");
+			$wpdb->flush();
 		}
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`='$board_id'");
-		$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$board_id'");
+	}
+	
+	/**
+	 * 모든 게시글을 삭제한다.
+	 */
+	public function truncate(){
+		if($this->id){
+			$list = new KBContentList($this->id);
+			$list->rpp(1000);
+			$list->initFirstList();
+			
+			while($list->hasNextList()){
+				while($content = $list->hasNext()){
+					$content->delete(false);
+				}
+				$list->initFirstList();
+			}
+			
+			$this->resetTotal();
+		}
 	}
 	
 	/**
@@ -437,6 +607,8 @@ class KBoard {
 			$this->meta->list_total = $this->getTotal();
 			
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `status`='trash'");
+			$wpdb->flush();
+			
 			foreach($results as $row){
 				$content = new KBContent();
 				$content->initWithRow($row);
@@ -448,6 +620,16 @@ class KBoard {
 	}
 	
 	/**
+	 * 게시글 숫자를 초기화한다.
+	 */
+	public function resetTotal(){
+		if($this->id){
+			$this->meta->total = 0;
+			$this->meta->list_total = 0;
+		}
+	}
+	
+	/**
 	 * 본인의 글만 보기인지 확인한다.
 	 */
 	public function isPrivate(){
@@ -455,6 +637,50 @@ class KBoard {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 입력된 숫자를 통화 형식으로 반환한다.
+	 * @param int $value
+	 * @param string $format
+	 * @return string
+	 */
+	public function currency($value, $format='%s원'){
+		return sprintf(apply_filters('kboard_currency_format', $format, $this), number_format($value));
+	}
+	
+	/**
+	 * 해당 카테고리에 등록된 게시글 숫자를 반환한다.
+	 * @param array|string $category
+	 * @return int
+	 */
+	public function getCategoryCount($category){
+		global $wpdb;
+		if($this->id && $category){
+			$where[] = "`board_id`='{$this->id}'";
+			
+			if(is_array($category)){
+				if(isset($category['category1']) && $category['category1']){
+					$category1 = esc_sql($category['category1']);
+					$where[] = "`category1`='{$category1}'";
+				}
+					
+				if(isset($category['category2']) && $category['category2']){
+					$category2 = esc_sql($category['category2']);
+					$where[] = "`category2`='{$category2}'";
+				}
+			}
+			else{
+				$category = esc_sql($category);
+				$where[] = "(`category1`='{$category}' OR `category2`='{$category}')";
+			}
+			
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
+			$wpdb->flush();
+			
+			return intval($count);
+		}
+		return 0;
 	}
 }
 ?>

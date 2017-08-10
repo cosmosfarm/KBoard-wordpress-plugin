@@ -92,12 +92,12 @@
 		<div class="kboard-control">
 			<div class="left">
 				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-default-button-small"><?php echo __('List', 'kboard')?></a>
-				<?php if($board->isWriter() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-default-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
+				<?php if($board->isReply() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-default-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
 			</div>
-			<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
+			<?php if($content->isEditor() || $board->permission_write=='all'):?>
 			<div class="right">
 				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-default-button-small"><?php echo __('Edit', 'kboard')?></a>
-				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'remove')->toString()?>" class="kboard-default-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
+				<a href="<?php echo $url->getContentRemove($content->uid)?>" class="kboard-default-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
 			</div>
 			<?php endif?>
 		</div>

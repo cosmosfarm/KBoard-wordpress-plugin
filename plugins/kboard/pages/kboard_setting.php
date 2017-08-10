@@ -13,25 +13,35 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<a href="http://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
 		<a href="http://blog.cosmosfarm.com/" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
 	</h1>
-	<form action="<?php echo admin_url('admin-post.php')?>" method="post">
+	<form id="kboard-setting-form" action="<?php echo admin_url('admin-post.php')?>" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field('kboard-setting-execute', 'kboard-setting-execute-nonce');?>
-		<input type="hidden" name="action" value="kboard_update_action">
-		<input type="hidden" name="board_id" value="<?php echo $board->uid?>">
+		<input type="hidden" name="action" value="kboard_update_execute">
+		<input type="hidden" name="board_id" value="<?php echo $board->id?>">
 		<input type="hidden" name="tab_kboard_setting" value="">
 		
 		<h2 class="nav-tab-wrapper">
 			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab nav-tab-active" onclick="kboard_setting_tab_chnage(0);"><?php echo __('기본설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(1);"><?php echo __('권한설정', 'kboard')?></a>
-			<?php if($board->uid):?>
+			<?php if($board->id):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(2);"><?php echo __('고급설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(3);"><?php echo __('소셜댓글', 'kboard')?></a>
-			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(4);"><?php echo __('확장설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(4);"><?php echo __('포인트설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(5);"><?php echo __('대량관리', 'kboard')?></a>
+			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_chnage(6);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
 		
 		<div class="tab-kboard-setting tab-kboard-setting-active">
 			<table class="form-table">
 				<tbody>
+					<?php if(!$board->id):?>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							※ 게시판 생성을 완료하면 추가 설정이 표시됩니다.
+						</td>
+					</tr>
+					<?php endif?>
 					<tr valign="top">
 						<th scope="row"><label for="board_name">게시판 이름</label></th>
 						<td>
@@ -47,25 +57,40 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="<?php echo $page->ID?>" data-permalink="<?php echo esc_url(get_permalink($page->ID))?>"<?php if($meta->auto_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
 								<?php endforeach?>
 							</select>
-							<button type="button" class="button button-small" onclick="kboard_open_page()">페이지 보기</button>
-							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다.</p>
+							<button type="button" class="button button-small" onclick="kboard_page_open()">페이지 보기</button>
+							<p class="description">선택된 페이지에 자동으로 게시판이 설치됩니다. 게시판 자동설치에 문제가 있을 경우 게시판 숏코드를 사용해서 페이지에 게시판을 추가해주세요.</p>
 						</td>
 					</tr>
-					<?php if($board->uid):?>
+					<tr valign="top">
+						<th scope="row"><label for="latest_target_page">최신글 이동 페이지</label></th>
+						<td>
+							<select name="latest_target_page" id="latest_target_page">
+								<option value="">— 선택하기 —</option>
+								<?php foreach(get_pages() as $key=>$page):?>
+								<option value="<?php echo $page->ID?>" data-permalink="<?php echo esc_url(get_permalink($page->ID))?>"<?php if($meta->latest_target_page == $page->ID):?> selected<?php endif?>><?php echo $page->post_title?></option>
+								<?php endforeach?>
+							</select>
+							<button type="button" class="button button-small" onclick="kboard_latest_target_page_open()">페이지 보기</button>
+							<p class="description">최신글을 클릭하면 선택된 페이지로 이동합니다. 최신글 숏코드를 사용하면 메인페이지 또는 사이드바에 새로 등록된 게시글을 표시할 수 있습니다.</p>
+						</td>
+					</tr>
+					<?php if($board->id):?>
 					<tr valign="top">
 						<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width:350px" id="shortcode">[kboard id=<?php echo $board->uid?>]</textarea>
+							<textarea style="width:600px;max-width:100%;" id="shortcode">[kboard id=<?php echo $board->id?>]</textarea>
 							<p class="description">게시판 자동설치에 문제가 있을 경우 이 숏코드를 페이지에 입력하세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="latest_shortcode">최신글 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width:350px" id="latest_shortcode">[kboard_latest id=<?php echo $board->uid?> url=페이지주소 rpp=5]</textarea>
-							<p class="description">최신글 리스트를 생성합니다. <span style="font-weight:bold">페이지주소</span> 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고, 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
-							<p class="description">예제: <code>[kboard_latest id=<?php echo $board->uid?> url=<?php echo home_url()?>/freeboard rpp=5 category1=유머 category2=동영상]</code></p>
-							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>">최신글 뷰</a> 기능을 사용하세요.</p>
+							<textarea style="width:600px;max-width:100%;" id="latest_shortcode">[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5"]</textarea>
+							<p class="description">최신글 리스트를 생성합니다. <span style="font-weight:bold">url</span> 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
+							<p class="description">카테고리 추가 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" category1="유머" category2="동영상"]</code></p>
+							<p class="description">정렬순서 변경 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" sort="newest|best|viewed|updated"]</code></p>
+							<p class="description">공지글 제외 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" with_notice="false"]</code></p>
+							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>">최신글 모아보기</a> 기능을 사용하세요.</p>
 						</td>
 					</tr>
 					<?php endif?>
@@ -110,13 +135,32 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="8"<?php if($board->page_rpp == 8):?> selected<?php endif?>>8개</option>
 								<option value="9"<?php if($board->page_rpp == 9):?> selected<?php endif?>>9개</option>
 								<option value="10"<?php if($board->page_rpp == 10):?> selected<?php endif?>>10개</option>
+								<option value="11"<?php if($board->page_rpp == 11):?> selected<?php endif?>>11개</option>
 								<option value="12"<?php if($board->page_rpp == 12):?> selected<?php endif?>>12개</option>
+								<option value="13"<?php if($board->page_rpp == 13):?> selected<?php endif?>>13개</option>
+								<option value="14"<?php if($board->page_rpp == 14):?> selected<?php endif?>>14개</option>
 								<option value="15"<?php if($board->page_rpp == 15):?> selected<?php endif?>>15개</option>
+								<option value="16"<?php if($board->page_rpp == 16):?> selected<?php endif?>>16개</option>
 								<option value="17"<?php if($board->page_rpp == 17):?> selected<?php endif?>>17개</option>
+								<option value="18"<?php if($board->page_rpp == 18):?> selected<?php endif?>>18개</option>
+								<option value="19"<?php if($board->page_rpp == 19):?> selected<?php endif?>>19개</option>
 								<option value="20"<?php if($board->page_rpp == 20):?> selected<?php endif?>>20개</option>
+								<option value="21"<?php if($board->page_rpp == 21):?> selected<?php endif?>>21개</option>
+								<option value="22"<?php if($board->page_rpp == 22):?> selected<?php endif?>>22개</option>
+								<option value="23"<?php if($board->page_rpp == 23):?> selected<?php endif?>>23개</option>
+								<option value="24"<?php if($board->page_rpp == 24):?> selected<?php endif?>>24개</option>
 								<option value="25"<?php if($board->page_rpp == 25):?> selected<?php endif?>>25개</option>
+								<option value="26"<?php if($board->page_rpp == 26):?> selected<?php endif?>>26개</option>
+								<option value="27"<?php if($board->page_rpp == 27):?> selected<?php endif?>>27개</option>
+								<option value="28"<?php if($board->page_rpp == 28):?> selected<?php endif?>>28개</option>
+								<option value="29"<?php if($board->page_rpp == 29):?> selected<?php endif?>>29개</option>
 								<option value="30"<?php if($board->page_rpp == 30):?> selected<?php endif?>>30개</option>
+								<option value="40"<?php if($board->page_rpp == 40):?> selected<?php endif?>>40개</option>
 								<option value="50"<?php if($board->page_rpp == 50):?> selected<?php endif?>>50개</option>
+								<option value="60"<?php if($board->page_rpp == 60):?> selected<?php endif?>>60개</option>
+								<option value="70"<?php if($board->page_rpp == 70):?> selected<?php endif?>>70개</option>
+								<option value="80"<?php if($board->page_rpp == 80):?> selected<?php endif?>>80개</option>
+								<option value="90"<?php if($board->page_rpp == 90):?> selected<?php endif?>>90개</option>
 								<option value="100"<?php if($board->page_rpp == 100):?> selected<?php endif?>>100개</option>
 							</select>
 							<p class="description">한 페이지에 보여지는 게시글 개수를 정합니다.</p>
@@ -163,6 +207,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>워드프레스 내장 에디터 사용</option>
 							</select>
 							<p class="description">에디터를 사용해 게시물을 작성할 수 있습니다. 워드프레스에 내장된 에디터를 사용합니다. 다른 에디터 플러그인을 설치하면 호환 됩니다.</p>
+							<p class="description">워드프레스 내장 에디터가 제대로 동작하지 않는다면 사용하고 있는 테마 또는 플러그인들을 점검해보세요.</p>
 						</td>
 					</tr>
 					<?php if(!$board->use_editor):?>
@@ -191,21 +236,22 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="category1_list">카테고리1</label></th>
 						<td>
 							<input type="text" style="width:350px" name="category1_list" id="category1_list" value="<?php echo $board->category1_list?>">
-							<p class="description">카테고리를 입력하세요. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+							<p class="description">카테고리를 입력하세요. 특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="category2_list">카테고리2</label></th>
 						<td>
 							<input type="text" style="width:350px" name="category2_list" id="category2_list" value="<?php echo $board->category2_list?>">
-							<p class="description">카테고리를 입력하세요. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+							<p class="description">카테고리를 입력하세요. 특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
 						<td>
 							<input type="text" style="width:350px" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>">
-							<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다. 서버 환경에 따라서 메일이 전송되지 못 할 수도 있습니다.</p>
+							<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
+							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다. 이메일 전송에 문제가 있다면 <a href="https://wordpress.org/plugins/wp-mail-smtp/" onclick="window.open(this.href);return false;">WP Mail SMTP</a> 플러그인을 사용해서 이메일 전송 환경을 세팅해보세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -246,8 +292,19 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="25"<?php if($meta->max_attached_count == 25):?> selected<?php endif?>>25개</option>
 								<option value="30"<?php if($meta->max_attached_count == 30):?> selected<?php endif?>>30개</option>
 								<option value="50"<?php if($meta->max_attached_count == 50):?> selected<?php endif?>>50개</option>
+								<option value="100"<?php if($meta->max_attached_count == 100):?> selected<?php endif?>>100개</option>
 							</select>
 							<p class="description">게시글당 최대 첨부파일 개수를 정합니다. 일부 스킨에서는 적용되지 않습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="list_sort_numbers">리스트 게시글 번호 표시</label></th>
+						<td>
+							<select name="list_sort_numbers" id="list_sort_numbers">
+								<option value="desc">내림차순 (3,2,1)</option>
+								<option value="asc"<?php if($meta->list_sort_numbers == 'asc'):?> selected<?php endif?>>오름차순 (1,2,3)</option>
+							</select>
+							<p class="description">리스트에서 게시글 번호를 내림차순 또는 오름차순으로 표시할 수 있습니다. 실제 게시글 정렬과는 무관하게 번호 표시만 바뀝니다. 번호 표시가 없는 스킨은 적용되지 않습니다.</p>
 						</td>
 					</tr>
 				</tbody>
@@ -256,6 +313,17 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
+					<tr valign="top">
+						<th scope="row"><label for="permission_admin">최고관리자그룹</label></th>
+						<td>
+							<input type="hidden" name="permission_admin_roles" value="">
+							<?php $admin_roles = $board->getAdminRoles();?>
+							<?php foreach(get_editable_roles() as $key=>$value):?>
+								<label><input type="checkbox" name="permission_admin_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $admin_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+							<?php endforeach?>
+							<p class="description">글쓴이는 실제 글쓴이를 지칭하는게 아니라 워드프레스 역할(Role) 명칭입니다.</p>
+						</td>
+					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="admin_user">선택된 관리자</label></th>
 						<td>
@@ -273,17 +341,18 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="author"<?php if($board->permission_read == 'author'):?> selected<?php endif?>>
 									<?php echo kboard_permission('author')?>
 								</option>
+								<!--
 								<option value="editor"<?php if($board->permission_read == 'editor'):?> selected<?php endif?>>
 									<?php echo kboard_permission('editor')?>
 								</option>
 								<option value="administrator"<?php if($board->permission_read == 'administrator'):?> selected<?php endif?>>
 									<?php echo kboard_permission('administrator')?>
 								</option>
+								-->
 								<option value="roles"<?php if($board->permission_read == 'roles'):?> selected<?php endif?>>
 									<?php echo kboard_permission('roles')?>
 								</option>
 							</select>
-							
 							<div class="kboard-permission-read-roles-view<?php if($board->permission_read != 'roles'):?> kboard-hide<?php endif?>">
 								<input type="hidden" name="permission_read_roles" value="">
 								<?php $read_roles = $board->getReadRoles();?>
@@ -303,17 +372,18 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="author"<?php if($board->permission_write == 'author'):?> selected<?php endif?>>
 									<?php echo kboard_permission('author')?>
 								</option>
+								<!--
 								<option value="editor"<?php if($board->permission_write == 'editor'):?> selected<?php endif?>>
 									<?php echo kboard_permission('editor')?>
 								</option>
 								<option value="administrator"<?php if($board->permission_write == 'administrator'):?> selected<?php endif?>>
 									<?php echo kboard_permission('administrator')?>
 								</option>
+								-->
 								<option value="roles"<?php if($board->permission_write == 'roles'):?> selected<?php endif?>>
 									<?php echo kboard_permission('roles')?>
 								</option>
 							</select>
-							
 							<div class="kboard-permission-write-roles-view<?php if($board->permission_write != 'roles'):?> kboard-hide<?php endif?>">
 								<input type="hidden" name="permission_write_roles" value="">
 								<?php $write_roles = $board->getWriteRoles();?>
@@ -321,6 +391,30 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<label><input type="checkbox" name="permission_write_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $write_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
 								<?php endforeach?>
 							</div>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="permission_reply">답글쓰기권한</label></th>
+						<td>
+							<select name="permission_reply" id="permission_reply" onchange="kboard_permission_roles_view('.kboard-permission-reply-roles-view', this.value)">
+								<option value=""<?php if(!$meta->permission_reply):?> selected<?php endif?>>
+									<?php echo kboard_permission('all')?>
+								</option>
+								<option value="1"<?php if($meta->permission_reply == '1'):?> selected<?php endif?>>
+									<?php echo kboard_permission('author')?>
+								</option>
+								<option value="roles"<?php if($meta->permission_reply == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
+							</select>
+							<div class="kboard-permission-reply-roles-view<?php if($meta->permission_reply != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_reply_roles" value="">
+								<?php $reply_roles = $board->getReplyRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_reply_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $reply_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
+							<p class="description">일부 스킨에서는 적용되지 않습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -337,7 +431,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<?php echo kboard_permission('roles')?>
 								</option>
 							</select>
-							
 							<div class="kboard-permission-comment-write-roles-view<?php if($meta->permission_comment_write != 'roles'):?> kboard-hide<?php endif?>">
 								<input type="hidden" name="permission_comment_write_roles" value="">
 								<?php $comment_roles = $board->getCommentRoles();?>
@@ -345,6 +438,55 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<label><input type="checkbox" name="permission_comment_write_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $comment_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
 								<?php endforeach?>
 							</div>
+						</td>
+					</tr>
+					<!--
+					<tr valign="top">
+						<th scope="row"><label for="permission_order">주문하기권한</label></th>
+						<td>
+							<select name="permission_order" id="permission_order" onchange="kboard_permission_roles_view('.kboard-permission-order-roles-view', this.value)">
+								<option value=""<?php if(!$meta->permission_order):?> selected<?php endif?>>
+									<?php echo kboard_permission('all')?>
+								</option>
+								<option value="1"<?php if($meta->permission_order == '1'):?> selected<?php endif?>>
+									<?php echo kboard_permission('author')?>
+								</option>
+								<option value="roles"<?php if($meta->permission_order == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
+							</select>
+							<div class="kboard-permission-order-roles-view<?php if($meta->permission_order != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_order_roles" value="">
+								<?php $order_roles = $board->getOrderRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_order_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $order_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
+						</td>
+					</tr>
+					-->
+					<tr valign="top">
+						<th scope="row"><label for="permission_vote">추천권한</label></th>
+						<td>
+							<select name="permission_vote" id="permission_vote" onchange="kboard_permission_roles_view('.kboard-permission-vote-roles-view', this.value)">
+								<option value=""<?php if(!$meta->permission_vote):?> selected<?php endif?>>
+									<?php echo kboard_permission('all')?>
+								</option>
+								<option value="1"<?php if($meta->permission_vote == '1'):?> selected<?php endif?>>
+									<?php echo kboard_permission('author')?>
+								</option>
+								<option value="roles"<?php if($meta->permission_vote == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
+							</select>
+							<div class="kboard-permission-vote-roles-view<?php if($meta->permission_vote != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_vote_roles" value="">
+								<?php $vote_roles = $board->getVoteRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_vote_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $vote_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
+							<p class="description">게시판에서 좋아요, 싫어요 기능을 제한할 수 있습니다. 스킨에 따라서 버튼이 숨겨지거나 그렇지 않을 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -378,7 +520,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				</tbody>
 			</table>
 		</div>
-		<?php if($board->uid):?>
+		<?php if($board->id):?>
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
@@ -422,7 +564,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="1"<?php if($meta->use_direct_url):?> selected<?php endif?>>사용하기</option>
 							</select>
 							<?php if($meta->use_direct_url):?>
-							<a href="<?php echo home_url("?kboard_id={$board->uid}")?>" onclick="window.open(this.href);return false;"><?php echo home_url("?kboard_id={$board->uid}")?></a>
+							<a href="<?php echo home_url("?kboard_id={$board->id}")?>" onclick="window.open(this.href);return false;"><?php echo home_url("?kboard_id={$board->id}")?></a>
 							<?php endif?>
 							<p class="description">고유주소는 독립적 레이아웃 편집 및 아이프레임 삽입 등 고급 사용자를 위한 편의 기능입니다. 일반 사용자는 자동설치 또는 숏코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
 						</td>
@@ -527,13 +669,145 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
+							KBoard의 포인트는 <a href="https://ko.wordpress.org/plugins/mycred/" onclick="window.open(this.href);return false;">myCRED</a> 플러그인의 기반으로 동작하기 때문에 포인트 기능을 사용하시려면 반드시 <a href="https://ko.wordpress.org/plugins/mycred/" onclick="window.open(this.href);return false;">myCRED</a> 플러그인을 설치해주세요.
+						</td>
+					</tr>
+					<!-- 글쓰기 증가 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="document_insert_up_point"><?php echo __('Writing increase points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="document_insert_up_point" id="document_insert_up_point" value="<?php echo $meta->document_insert_up_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">새로운 글을 쓰면 작성자에게 포인트를 지급합니다.</p>
+						</td>
+					</tr>
+					<!-- 글쓰기 감소 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="document_insert_down_point"><?php echo __('Writing decrease points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="document_insert_down_point" id="document_insert_down_point" value="<?php echo $meta->document_insert_down_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">새로운 글을 쓰면 작성자의 포인트를 차감합니다. 작성자는 포인트가 있어야 글을 쓸 수 있습니다.</p>
+						</td>
+					</tr>
+					<!-- 글삭제 증가 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="document_delete_up_point"><?php echo __('Deleted increment points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="document_delete_up_point" id="document_delete_up_point" value="<?php echo $meta->document_delete_up_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">게시글이 삭제되면 작성자에게 포인트를 지급합니다.</p>
+						</td>
+					</tr>
+					<!-- 글삭제 감소 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="document_delete_down_point"><?php echo __('Deleted decrease points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="document_delete_down_point" id="document_delete_down_point" value="<?php echo $meta->document_delete_down_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">게시글이 삭제되면 작성자의 포인트를 차감합니다.</p>
+						</td>
+					</tr>
+					<!-- 글읽기 감소 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="document_read_down_point"><?php echo __('Reading decrease points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="document_read_down_point" id="document_read_down_point" value="<?php echo $meta->document_read_down_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">게시판에 글을 읽으면 사용자의 포인트를 차감합니다. 사용자는 포인트가 있어야 글을 읽을 수 있습니다. 처음 읽을 때만 포인트가 차감됩니다.</p>
+						</td>
+					</tr>
+					<!-- 첨부파일 다운로드 감소 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="attachment_download_down_point"><?php echo __('Attachment download decrease points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="attachment_download_down_point" id="attachment_download_down_point" value="<?php echo $meta->attachment_download_down_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">첨부파일 다운로드시 사용자의 포인트를 차감합니다. 사용자는 포인트가 있어야 첨부파일을 다운로드할 수 있습니다.</p>
+						</td>
+					</tr>
+					<!-- 댓글쓰기 증가 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="comment_insert_up_point"><?php echo __('Writing comment increase points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="comment_insert_up_point" id="comment_insert_up_point" value="<?php echo $meta->comment_insert_up_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">새로운 댓글을 쓰면 작성자에게 포인트를 지급합니다.</p>
+						</td>
+					</tr>
+					<!-- 댓글쓰기 감소 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="comment_insert_down_point"><?php echo __('Writing comment decrease points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="comment_insert_down_point" id="comment_insert_down_point" value="<?php echo $meta->comment_insert_down_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">새로운 댓글을 쓰면 작성자의 포인트를 차감합니다. 작성자는 포인트가 있어야 댓글을 쓸 수 있습니다.</p>
+						</td>
+					</tr>
+					<!-- 댓글삭제 증가 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="comment_delete_up_point"><?php echo __('Deleted comment increment points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="comment_delete_up_point" id="comment_delete_up_point" value="<?php echo $meta->comment_delete_up_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">등록된 댓글이 삭제되면 작성자에게 포인트를 지급합니다.</p>
+						</td>
+					</tr>
+					<!-- 댓글삭제 감소 포인트 -->
+					<tr valign="top">
+						<th scope="row"><label for="comment_delete_down_point"><?php echo __('Deleted comment decrease points', 'kboard')?></label></th>
+						<td>
+							<input type="number" name="comment_delete_down_point" id="comment_delete_down_point" value="<?php echo $meta->comment_delete_down_point?>" placeholder="<?php echo __('Please enter only numbers', 'kboard')?>">
+							<p class="description">등록된 댓글이 삭제되면 작성자의 포인트를 차감합니다.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							대량으로 게시판의 게시글을 등록하거나 다운로드 할 수 있습니다.
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">CSV 파일 다운로드</th>
+						<td>
+							<input type="button" class="button-primary" value="<?php echo __('Download', 'kboard')?>" onclick="window.location.href='<?php echo wp_nonce_url(add_query_arg(array('action'=>'kboard_csv_download_execute', 'board_id'=>$board->id), admin_url('admin-post.php')), 'kboard-csv-download-execute', 'kboard-csv-download-execute-nonce')?>'">
+							<p class="description">대략 <?php echo number_format($board->getTotal())?>개의 게시글 정보를 다운로드합니다. 게시글 양이 많다면 웹호스팅의 트래픽 사용량이 높아지니 주의해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row">CSV 파일 업로드</th>
+						<td>
+							<input type="hidden" name="board_id" value="<?php echo $board->id?>">
+							<select name="kboard_csv_upload_option">
+								<option value="keep">기존 게시글을 유지하고 추가 등록</option>
+								<option value="update">같은 uid 값 기준으로 기존 게시글 정보를 업데이트</option>
+								<option value="delete">등록된 모든 게시글과 첨부파일을 삭제하고 새로 등록</option>
+							</select>
+							<br>
+							<input type="file" name="kboard_csv_upload_file" accept=".csv">
+							<br>
+							<input type="button" class="button-primary" value="<?php echo __('Upload', 'kboard')?>" onclick="kboard_csv_upload()">
+							<p class="description">너무 많은 데이터를 한 번에 업로드하게 되면 에러가 발생될 수 있으니 가급적 나눠서 여러 번 업로드해주세요.<br>댓글과 첨부파일은 등록되지 않습니다.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
 							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="http://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a> 
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			
-			<?php echo apply_filters('kboard_extends_setting', '', $meta, $board->uid)?>
+			<?php
+			// 관리자 페이지에서 게시판 확장설정 탭에 내용을 추가합니다.
+			$html = '';
+			$html = apply_filters('kboard_extends_setting', $html, $meta, $board->id);
+			$html = apply_filters("kboard_{$board->skin}_extends_setting", $html, $meta, $board->id);
+			echo $html;
+			?>
 		</div>
 		<?php endif?>
 		
@@ -563,8 +837,14 @@ function kboard_permission_roles_view(bind, value){
 	}
 	kboard_permission_list_check();
 }
-function kboard_open_page(){
+function kboard_page_open(){
 	var permalink = jQuery('option:selected', 'select[name=auto_page]').data('permalink');
+	if(permalink){
+		window.open(permalink);
+	}
+}
+function kboard_latest_target_page_open(){
+	var permalink = jQuery('option:selected', 'select[name=latest_target_page]').data('permalink');
 	if(permalink){
 		window.open(permalink);
 	}
@@ -574,15 +854,19 @@ function kboard_permission_list_check(message){
 		jQuery('.kboard-permission-list-options-view').removeClass('kboard-hide');
 		
 		if(jQuery('select[name=permission_read]').val() == 'all' || jQuery('select[name=permission_write]').val() == 'all'){
-			jQuery('select[name=permission_list]').val('');
-			jQuery('.kboard-permission-list-options-view').addClass('kboard-hide');
 			if(message){
 				alert('읽기권한과 쓰기권한을 모두 로그인 사용자 이상으로 변경해주세요.');
 			}
+			jQuery('select[name=permission_list]').val('');
+			jQuery('.kboard-permission-list-options-view').addClass('kboard-hide');
 		}
 	}
 	else{
 		jQuery('.kboard-permission-list-options-view').addClass('kboard-hide');
 	}
+}
+function kboard_csv_upload(){
+	jQuery('input[name=action]', '#kboard-setting-form').val('kboard_csv_upload_execute');
+	jQuery('#kboard-setting-form').submit();
 }
 </script>

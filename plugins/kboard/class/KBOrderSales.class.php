@@ -1,0 +1,122 @@
+<?php
+/**
+ * KBoard 판매조회 목록
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
+class KBOrderSales {
+	
+	private $multiple_condition_keys;
+	
+	var $board;
+	var $board_id;
+	var $total;
+	var $rpp = 10;
+	var $page = 1;
+	var $resource;
+	var $item;
+	
+	/**
+	 * 게시판 리스트를 초기화한다.
+	 */
+	public function init($user_id){
+		global $wpdb;
+		
+		$user_id = intval($user_id);
+		if($this->board_id && $user_id){
+			
+			$from[] = "`{$wpdb->prefix}kboard_order_item`";
+			$where[] = '1';
+			$search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$search_condition[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id);
+			
+			$search_condition = apply_filters('kboard_sales_search_condition', $search_condition, $this);
+			if($search_condition){
+				$search_query = $this->getSearchQuery($search_condition);
+				if($search_query){
+					$where[] = $search_query;
+					
+					foreach($this->multiple_condition_keys as $condition_key){
+						$condition_index = array_search($condition_key, $this->multiple_condition_keys);
+						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_index}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_index}`.`order_item_id`";
+					}
+				}
+			}
+			
+			$offset = ($this->page-1)*$this->rpp;
+			
+			$this->resource = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_order_item`.`order_item_id` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->prefix}kboard_order_item`.`order_item_id` DESC LIMIT $offset,$this->rpp");
+			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
+		}
+		return $this;
+	}
+	
+	/**
+	 * 검색 쿼리를 반환한다.
+	 * @param array $multiple
+	 * @param string $relation
+	 * @return string
+	 */
+	public function getSearchQuery($multiple, $relation='AND'){
+		if(isset($multiple['relation'])){
+			if(in_array($multiple['relation'], array('AND', 'OR'))){
+				$relation = $multiple['relation'];
+			}
+			unset($multiple['relation']);
+		}
+		
+		foreach($multiple as $condition){
+			if(isset($condition['relation'])){
+				$where[] = $this->multipleOptionQuery($condition);
+			}
+			else if(is_array($condition)){
+				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
+				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
+				$condition_compare = isset($condition['compare']) ? esc_sql(sanitize_text_field($condition['compare'])) : '';
+				
+				if($condition_key && $condition_value){
+					if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+						$condition_compare = '=';
+					}
+					
+					if(in_array($condition_compare, array('LIKE', 'NOT LIKE'))){
+						$condition_value = "%{$condition_value}%";
+					}
+					
+					$this->multiple_condition_keys[$condition_key] = $condition_key;
+					$condition_index = array_search($condition_key, $this->multiple_condition_keys);
+					
+					$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+				}
+			}
+		}
+		
+		if(isset($where) && is_array($where)){
+			if(count($where) > 1){
+				return '(' . implode(" {$relation} ", $where) . ')';
+			}
+			return implode(" {$relation} ", $where);
+		}
+		return '';
+	}
+	
+	/**
+	 * 다음 정보를 불러온다.
+	 * @return object
+	 */
+	public function hasNext(){
+		if(!$this->resource) return '';
+		$current = current($this->resource);
+		if($current){
+			next($this->resource);
+			$this->item = new KBOrderItem();
+			$this->item->board = $this->board;
+			$this->item->board_id = $this->board_id;
+			$this->item->initWithID($current->order_item_id);
+			return $this->item;
+		}
+		unset($this->resource);
+		return '';
+	}
+}
+?>

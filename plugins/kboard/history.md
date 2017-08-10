@@ -8,8 +8,24 @@
   1. 게시판 숏코드에 blog 옵션 추가
   2. kboard_cannot_read_document 액션 추가
   3. kboard_cannot_download_file 액션 추가
-  4. kboard_download_file 액션 추가
-  5. 버그 수정
+  4. kboard_file_download 액션 추가
+  5. kboard_order_execute 액션 추가
+  6. kboard_list_date_range 필터 추가
+  7. kboard_list_search_option 필터 추가
+  8. kboard_order_item_update_action 필터 추가
+  9. kboard_order_default_value 필터 추가
+  10. kboard_order_cancel_action 필터 추가
+  11. kboard_latest_alerts_subject 필터 추가
+  12. kboard_latest_alerts_message 필터 추가
+  13. kboard_currency_format 필터 추가
+  14. kboard_obfuscate_name 필터 추가
+  15. 다양한 검색 옵션 추가 (검색 기능 강화)
+  16. 게시판별 포인트 설정 기능 추가
+  17. 게시판별 게시글 대량 관리 기능 추가 (CSV 파일 업로드)
+  18. 답글쓰기권한 추가
+  19. 추천권한 추가 (좋아요, 싫어요)
+  20. 최고관리자그룹 선택 기능 추가
+  21. 버그 수정
 
 
 5.3.2
@@ -153,7 +169,7 @@
   6. 고급 사용자용 고유주소 변경
   7. 아이프레임으로 보기 기능 추가 (원페이지 테마 또는 게시판이 심하게 깨질 때 사용)
   8. 이미지 사이즈 변경하는 kboard_resize 함수 추가 및 thumbnail 스킨에 적용 완료
-  9. 댓글쓰기 권한 추가
+  9. 댓글쓰기권한 추가
   10. 버그 수정
 
 

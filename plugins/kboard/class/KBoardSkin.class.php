@@ -67,7 +67,12 @@ class KBoardSkin {
 			include "{$this->list[$skin_name]->dir}/admin-{$file}";
 		}
 		else{
-			include "{$this->list[$skin_name]->dir}/{$file}";
+			if(file_exists("{$this->list[$skin_name]->dir}/{$file}")){
+				include "{$this->list[$skin_name]->dir}/{$file}";
+			}
+			else{
+				echo sprintf(__('%s file does not exist.', 'kboard'), $file);
+			}
 		}
 		
 		return ob_get_clean();
@@ -109,14 +114,23 @@ class KBoardSkin {
 	 */
 	public function getActiveList(){
 		global $wpdb;
-		if($this->active){
-			return $this->active;
+		$blog_id = get_current_blog_id();
+		if(isset($this->active[$blog_id]) && $this->active[$blog_id]){
+			return $this->active[$blog_id];
 		}
 		$results = $wpdb->get_results("SELECT `skin` FROM `{$wpdb->prefix}kboard_board_setting` UNION SELECT `skin` FROM `{$wpdb->prefix}kboard_board_latestview`");
 		foreach($results as $row){
-			$this->active[] = $row->skin;
+			$this->active[$blog_id][] = $row->skin;
 		}
-		return $this->active ? $this->active : array();
+		return (isset($this->active[$blog_id]) && $this->active[$blog_id]) ? $this->active[$blog_id] : array();
+	}
+	
+	public function getOptionSearchFieldKey($key, $compare){
+		
+	}
+	
+	public function getOptionSearchFieldValue($key, $value){
+		
 	}
 }
 ?>

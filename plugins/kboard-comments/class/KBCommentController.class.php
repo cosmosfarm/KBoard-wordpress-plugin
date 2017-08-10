@@ -17,13 +17,13 @@ class KBCommentController {
 			case 'kboard_comment_delete': add_action('wp_loaded', array($this, 'delete')); break;
 			case 'kboard_comment_update': add_action('wp_loaded', array($this, 'update')); break;
 		}
-
+		
 		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_nopriv_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_kboard_comment_unlike', array($this, 'commentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_comment_unlike', array($this, 'commentUnlike'));
 	}
-
+	
 	/**
 	 * 댓글 입력
 	 */
@@ -71,7 +71,7 @@ class KBCommentController {
 			$temporary->member_display = $member_display;
 			$temporary->content = $content;
 			$temporary->option = $option;
-			setcookie('kboard_temporary_comments', base64_encode(serialize($temporary)), 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+			$_SESSION['kboard_temporary_comments'] = $temporary;
 			
 			if(!$board->id){
 				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
@@ -131,6 +131,27 @@ class KBCommentController {
 				}
 			}
 			
+			// 댓글쓰기 감소 포인트
+			if($board->meta->comment_insert_down_point){
+				if(function_exists('mycred_add')){
+					if(!is_user_logged_in()){
+						die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+					}
+					else{
+						$balance = mycred_get_users_balance(get_current_user_id());
+						if($board->meta->comment_insert_down_point > $balance){
+							die('<script>alert("'.__('You have not enough points.', 'kboard-comments').'");history.go(-1);</script>');
+						}
+						else{
+							$point = intval(get_user_meta(get_current_user_id(), 'kboard_comments_mycred_point', true));
+							update_user_meta(get_current_user_id(), 'kboard_comments_mycred_point', $point + ($board->meta->comment_insert_down_point*-1));
+							
+							mycred_add('comment_insert_down_point', get_current_user_id(), ($board->meta->comment_insert_down_point*-1), __('Writing comment decrease points', 'kboard-comments'));
+						}
+					}
+				}
+			}
+			
 			$commentList = new KBCommentList($content_uid);
 			$commentList->board = $board;
 			$insert_id = $commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
@@ -140,8 +161,20 @@ class KBCommentController {
 				$comment_option->{$key} = $value;
 			}
 			
+			// 댓글쓰기 증가 포인트
+			if($board->meta->comment_insert_up_point){
+				if(function_exists('mycred_add')){
+					if(is_user_logged_in()){
+						$point = intval(get_user_meta(get_current_user_id(), 'kboard_comments_mycred_point', true));
+						update_user_meta(get_current_user_id(), 'kboard_comments_mycred_point', $point + $board->meta->comment_insert_up_point);
+						
+						mycred_add('comment_insert_up_point', get_current_user_id(), $board->meta->comment_insert_up_point, __('Writing comment increase points', 'kboard-comments'));
+					}
+				}
+			}
+			
 			if($insert_id){
-				setcookie('kboard_temporary_comments', '', time()-(60*60), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+				unset($_SESSION['kboard_temporary_comments']);
 			}
 			
 			wp_redirect(wp_get_referer() . "#kboard-comments-{$content_uid}");
@@ -149,7 +182,7 @@ class KBCommentController {
 		}
 		wp_die(__('You do not have permission.', 'kboard-comments'));
 	}
-
+	
 	/**
 	 * 댓글 삭제
 	 */
@@ -159,26 +192,27 @@ class KBCommentController {
 		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		}
-
+		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
-
+		
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		else if(!is_user_logged_in() && !$password){
 			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-
+		
 		$comment = new KBComment();
 		$comment->initWithUID($uid);
-
+		$board = $comment->getBoard();
+		
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-
+		
 		$comment->delete();
-
+		
 		if($comment->password && $comment->password == $password){
 			// 팝업창으로 비밀번호 확인 후 opener 윈도우를 새로고침 한다.
 			echo '<script>';
@@ -192,7 +226,7 @@ class KBCommentController {
 		}
 		exit;
 	}
-
+	
 	/**
 	 * 댓글 수정
 	 */
@@ -247,51 +281,75 @@ class KBCommentController {
 		echo '</script>';
 		exit;
 	}
-
+	
 	/**
 	 * 댓글 좋아요
 	 */
 	public function commentLike(){
+		check_ajax_referer('kboard_ajax_security', 'security');
 		if(isset($_POST['comment_uid']) && intval($_POST['comment_uid'])){
-			if(!@in_array($_POST['comment_uid'], $_SESSION['comment_vote'])){
-				$_SESSION['comment_vote'][] = $_POST['comment_uid'];
-
-				$comment = new KBComment();
-				$comment->initWithUID($_POST['comment_uid']);
-
-				if($comment->uid){
-					$comment->like+=1;
-					$comment->vote = $comment->like - $comment->unlike;
-					$comment->update();
-					echo intval($comment->like);
-					exit;
+			$comment = new KBComment();
+			$comment->initWithUID($_POST['comment_uid']);
+			if($comment->uid){
+				$board = $comment->getBoard();
+				if($board->isVote()){
+					$args['target_uid'] = $comment->uid;
+					$args['target_type'] = KBVote::$TYPE_COMMENT;
+					$args['target_vote'] = KBVote::$VOTE_LIKE;
+					$vote = new KBVote();
+					if($vote->isExists($args) === 0){
+						if($vote->insert($args)){
+							$comment->like += 1;
+							$comment->vote = $comment->like - $comment->unlike;
+							$comment->update();
+							wp_send_json(array('result'=>'success', 'data'=>array('vote'=>intval($comment->vote), 'like'=>intval($comment->vote), 'unlike'=>intval($comment->unlike))));
+						}
+					}
+					else{
+						wp_send_json(array('result'=>'error', 'message'=>__('You have already voted.', 'kboard-comments')));
+					}
+				}
+				else if(!is_user_logged_in()){
+					wp_send_json(array('result'=>'error', 'message'=>__('Please log in to continue.', 'kboard-comments')));
 				}
 			}
 		}
-		exit;
+		wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard-comments')));
 	}
-
+	
 	/**
 	 * 댓글 싫어요
 	 */
 	public function commentUnlike(){
+		check_ajax_referer('kboard_ajax_security', 'security');
 		if(isset($_POST['comment_uid']) && intval($_POST['comment_uid'])){
-			if(!@in_array($_POST['comment_uid'], $_SESSION['comment_vote'])){
-				$_SESSION['comment_vote'][] = $_POST['comment_uid'];
-
-				$comment = new KBComment();
-				$comment->initWithUID($_POST['comment_uid']);
-
-				if($comment->uid){
-					$comment->unlike+=1;
-					$comment->vote = $comment->like - $comment->unlike;
-					$comment->update();
-					echo intval($comment->unlike);
-					exit;
+			$comment = new KBComment();
+			$comment->initWithUID($_POST['comment_uid']);
+			if($comment->uid){
+				$board = $comment->getBoard();
+				if($board->isVote()){
+					$args['target_uid'] = $comment->uid;
+					$args['target_type'] = KBVote::$TYPE_COMMENT;
+					$args['target_vote'] = KBVote::$VOTE_UNLIKE;
+					$vote = new KBVote();
+					if($vote->isExists($args) === 0){
+						if($vote->insert($args)){
+							$comment->unlike += 1;
+							$comment->vote = $comment->like - $comment->unlike;
+							$comment->update();
+							wp_send_json(array('result'=>'success', 'data'=>array('vote'=>intval($comment->vote), 'like'=>intval($comment->vote), 'unlike'=>intval($comment->unlike))));
+						}
+					}
+					else{
+						wp_send_json(array('result'=>'error', 'message'=>__('You have already voted.', 'kboard-comments')));
+					}
+				}
+				else if(!is_user_logged_in()){
+					wp_send_json(array('result'=>'error', 'message'=>__('Please log in to continue.', 'kboard-comments')));
 				}
 			}
 		}
-		exit;
+		wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard-comments')));
 	}
 }
 ?>

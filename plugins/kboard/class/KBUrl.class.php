@@ -7,11 +7,12 @@
  */
 class KBUrl {
 	
-	private $data;
 	private $path;
+	private $data;
 	
-	public function __construct(){
-		$this->path = ''; 
+	public function __construct($path=''){
+		if($path) $this->setPath($path);
+		else $this->path = '';
 		return $this->init();
 	}
 	
@@ -23,11 +24,25 @@ class KBUrl {
 		$this->data = $_GET;
 		$this->data['mod'] = '';
 		$this->data['uid'] = '';
+		$this->data['rpp'] = '';
+		$this->data['action'] = '';
+		$this->data['security'] = '';
+		$this->data['order_id'] = '';
 		$this->data['parent_uid'] = '';
 		$this->data['execute_uid'] = '';
 		$this->data['kboard_list_sort'] = '';
 		$this->data['kboard_list_sort_remember'] = '';
 		$this->data['kboard_comments_sort'] = '';
+		$this->data['kboard-content-remove-nonce'] = '';
+		return $this;
+	}
+	
+	/**
+	 * 데이터를 비운다.
+	 * @return KBUrl
+	 */
+	public function clear(){
+		$this->data = array();
 		return $this;
 	}
 	
@@ -55,7 +70,12 @@ class KBUrl {
 	 */
 	public function getCleanQueryStrings(){
 		foreach($this->data as $key=>$value){
-			if($value) $query_strings[$key] = sanitize_key($key).'='.urlencode(sanitize_text_field($value));
+			if(is_array($value)){
+				$query_strings[] = http_build_query(array(sanitize_key($key)=>$value));
+			}
+			else if($value){
+				$query_strings[] = sanitize_key($key).'='.urlencode(sanitize_text_field($value));
+			}
 		}
 		return isset($query_strings) ? implode('&', $query_strings) : '';
 	}
@@ -86,7 +106,7 @@ class KBUrl {
 			return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? "?{$query_strings}" : '');
 		}
 	}
-
+	
 	/**
 	 * 경로를 입력받아 URL 반환한다.
 	 * @return string
@@ -119,34 +139,58 @@ class KBUrl {
 	 */
 	public function toInput(){
 		foreach($this->data as $key=>$value){
-			if($value) $input[] = '<input type="hidden" name="' . sanitize_key($key) .'" value="' . sanitize_text_field($value) . '">';
+			if(is_array($value)){
+				
+			}
+			else if($value){
+				$input[] = '<input type="hidden" name="' . sanitize_key($key) .'" value="' . sanitize_text_field($value) . '">';
+			}
 		}
 		$this->init();
 		return isset($input) ? implode('', $input) : '';
 	}
 	
 	/**
-	 * 첨부파일 삭제 URL을 반환한다.
-	 * @param int $uid
+	 * 첨부파일 다운로드 URL을 반환한다.
+	 * @param int $content_uid
 	 * @param string $key
 	 * @return string
 	 */
-	public function getDeleteURLWithAttach($uid, $key='thumbnail'){
-		return home_url("?action=kboard_file_delete&uid={$uid}&file={$key}");
+	public function getDownloadURLWithAttach($content_uid, $key){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			return add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$key}"));
+		}
+		return '';
+	}
+	
+	/**
+	 * 첨부파일 삭제 URL을 반환한다.
+	 * @param int $content_uid
+	 * @param string $key
+	 * @return string
+	 */
+	public function getDeleteURLWithAttach($content_uid, $key='thumbnail'){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			return add_query_arg('kboard-file-delete-nonce', wp_create_nonce('kboard-file-delete'), site_url("?action=kboard_file_delete&uid={$content_uid}&file={$key}"));
+		}
+		return '';
 	}
 	
 	/**
 	 * 첨부파일 다운로드 URL을 반환한다.
 	 * @param int $uid
 	 * @param string $key
+	 * @param int $order_item_id
 	 * @return string
 	 */
-	public function getDownloadURLWithAttach($uid, $key){
-		return home_url("?action=kboard_file_download&uid={$uid}&file={$key}");
+	public function getDownloadURLWithAttachAndOderItemID($uid, $key, $order_item_id){
+		return site_url("?action=kboard_file_download&uid={$uid}&file={$key}&order_item_id={$order_item_id}");
 	}
 	
 	/**
-	 * 게시물 주소를 반환한다.
+	 * 글게시 주소를 반환한다.
 	 * @param int $uid
 	 * @return string
 	 */
@@ -157,19 +201,20 @@ class KBUrl {
 			$this->data['mod'] = 'document';
 			return $this->toString();
 		}
-		else{
-			return "javascript:alert('".__('No document.', 'kboard')."')";
-		}
+		return "javascript:alert('".__('No document.', 'kboard')."')";
 	}
 	
 	/**
-	 * 라우터를 이용해 게시물 본문으로 이동한다.
+	 * 라우터를 이용해 글게시 본문으로 이동한다.
 	 * @param int $content_uid
 	 * @return string
 	 */
 	public function getDocumentRedirect($content_uid){
 		$content_uid = intval($content_uid);
-		return home_url("?kboard_content_redirect={$content_uid}");
+		if($content_uid){
+			return site_url("?kboard_content_redirect={$content_uid}");
+		}
+		return '';
 	}
 	
 	/**
@@ -179,13 +224,23 @@ class KBUrl {
 	 */
 	public function getBoardRedirect($board_id){
 		$board_id = intval($board_id);
-		return home_url("?kboard_redirect={$board_id}");
+		if($board_id){
+			return site_url("?kboard_redirect={$board_id}");
+		}
+		return '';
 	}
 	
 	/**
 	 * 글 저장 페이지 URL을 반환한다.
 	 */
 	public function getContentEditorExecute(){
+		return '';
+	}
+	
+	/**
+	 * 주문 저장 페이지 URL을 반환한다.
+	 */
+	public function getOrderExecute(){
 		return '';
 	}
 	
@@ -209,7 +264,37 @@ class KBUrl {
 	 */
 	public function getDocumentPrint($content_uid){
 		$content_uid = intval($content_uid);
-		return home_url("?action=kboard_document_print&uid={$content_uid}");
+		if($content_uid){
+			return site_url("?action=kboard_document_print&uid={$content_uid}");
+		}
+		return '';
+	}
+	
+	/**
+	 * 아임포트 결제 결과 저장 주소를 반환한다.
+	 * @param string $display
+	 * @return string
+	 */
+	public function getIamportEndpoint($display=''){
+		if($display){
+			return site_url("?action=kboard_iamport_endpoint&display=$display");
+		}
+		return site_url("?action=kboard_iamport_endpoint");
+	}
+	
+	/**
+	 * 게시글 삭제 주소를 반환한다.
+	 * @param int $content_uid
+	 * @return string
+	 */
+	public function getContentRemove($content_uid){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			$this->data['uid'] = $content_uid;
+			$this->data['mod'] = 'remove';
+			return add_query_arg('kboard-content-remove-nonce', wp_create_nonce('kboard-content-remove'), $this->toString());
+		}
+		return '';
 	}
 }
 ?>

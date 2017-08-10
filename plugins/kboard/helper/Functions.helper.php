@@ -8,6 +8,22 @@ if(!defined('ABSPATH')) exit;
  */
 
 /**
+ * 배열에서 허가된 데이터만 남긴다.
+ * @param array $array
+ * @param array $whitelist
+ * @return array
+ */
+function kboard_array_filter($array, $whitelist){
+	if(function_exists('array_intersect_key')){
+		return array_intersect_key($array, array_flip($whitelist));
+	}
+	foreach($array as $key=>$value){
+		if(!in_array($key, $whitelist)) unset($array[$key]);
+	}
+	return $array;
+}
+
+/**
  * JSON 인코더
  * @param array $val
  * @return string
@@ -215,7 +231,7 @@ function kboard_resize($image_src, $width, $height){
 		return $new_image_src;
 	}
 	else{
-		return $image_src;
+		return site_url($image_src);
 	}
 }
 
@@ -255,7 +271,7 @@ function kboard_new_document_notify_time(){
  * 업로드 가능한 파일 크기를 반환한다.
  */
 function kboard_limit_file_size(){
-	return get_option('kboard_limit_file_size', kboard_upload_max_size());
+	return intval(get_option('kboard_limit_file_size', kboard_upload_max_size()));
 }
 
 /**
@@ -296,7 +312,7 @@ function kboard_parse_size($size){
  * @param boolean $to_array
  */
 function kboard_allow_file_extensions($to_array=false){
-	$file_extensions = get_option('kboard_allow_file_extensions', 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4');
+	$file_extensions = get_option('kboard_allow_file_extensions', 'jpg, jpeg, gif, png, bmp, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4, mp3');
 	$file_extensions = trim($file_extensions);
 	
 	if($to_array){
@@ -467,8 +483,8 @@ function kboard_mod($default=''){
 		$_POST['mod'] = isset($_POST['mod'])?sanitize_key($_POST['mod']):'';
 		$mod = $_GET['mod']?$_GET['mod']:$_POST['mod'];
 	}
-	if(!in_array($mod, array('list', 'document', 'editor', 'remove'))){
-		$mod = $default;
+	if(!in_array($mod, array('list', 'document', 'editor', 'remove', 'order', 'complete', 'history', 'sales'))){
+		return $default;
 	}
 	return $mod;
 }
@@ -536,5 +552,80 @@ function kboard_id(){
 		$kboard_id = $_GET['kboard_id'];
 	}
 	return $kboard_id;
+}
+
+/**
+ * compare 값을 반환한다.
+ * @return string
+ */
+function kboard_compare(){
+	static $compare;
+	if($compare === null){
+		$compare = isset($_REQUEST['compare'])?sanitize_text_field($_REQUEST['compare']):'';
+		if(!in_array($compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+			$compare = 'LIKE';
+		}
+	}
+	return $compare;
+}
+
+/**
+ * start_date 값을 반환한다.
+ * @return string
+ */
+function kboard_start_date(){
+	static $start_date;
+	if($start_date === null){
+		$start_date = isset($_REQUEST['start_date'])?sanitize_text_field($_REQUEST['start_date']):'';
+	}
+	return $start_date;
+}
+
+/**
+ * end_date 값을 반환한다.
+ * @return string
+ */
+function kboard_end_date(){
+	static $end_date;
+	if($end_date === null){
+		$end_date = isset($_REQUEST['end_date'])?sanitize_text_field($_REQUEST['end_date']):'';
+	}
+	return $end_date;
+}
+
+/**
+ * kboard_option 값을 반환한다.
+ * @return array
+ */
+function kboard_search_option(){
+	static $search_option;
+	if($search_option === null){
+		$search_option = (isset($_REQUEST['kboard_option'])&&is_array($_REQUEST['kboard_option']))?$_REQUEST['kboard_option']:array();
+	}
+	return $search_option;
+}
+
+/**
+ * order_id 값을 반환한다.
+ * @return string
+ */
+function kboard_order_id(){
+	static $order_id;
+	if($order_id === null){
+		$order_id = isset($_REQUEST['order_id'])?intval($_REQUEST['order_id']):'';
+	}
+	return $order_id;
+}
+
+/**
+ * order_item_id 값을 반환한다.
+ * @return string
+ */
+function kboard_order_item_id(){
+	static $order_item_id;
+	if($order_item_id === null){
+		$order_item_id = isset($_REQUEST['order_item_id'])?intval($_REQUEST['order_item_id']):'';
+	}
+	return $order_item_id;
 }
 ?>

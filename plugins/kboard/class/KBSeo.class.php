@@ -23,9 +23,11 @@ class KBSeo {
 					add_filter('wp_title', array($this, 'title'), 10, 1);
 				}
 				
+				$view_iframe = isset($_GET['view_iframe'])?$_GET['view_iframe']:'';
+				
 				$is_display = false;
-				$board = new KBoard($this->content->board_id);
-				if(!$board->meta->view_iframe && !is_admin()){
+				$board = $this->content->getBoard();
+				if(!$view_iframe && !is_admin()){
 					if($board->isReader($this->content->member_uid, $this->content->secret)){
 						$is_display = true;
 					}
@@ -44,7 +46,7 @@ class KBSeo {
 		add_action('wp_head', array($this, 'head'), 1);
 		add_action('kboard_head', array($this, 'rss'), 20);
 	}
-
+	
 	/**
 	 * SEO 정보를 초기화한다.
 	 * @return KBSeo;
@@ -101,7 +103,7 @@ class KBSeo {
 	 * @return string|array
 	 */
 	public function title($title){
-		if(isset($title['title']) && $title['title']){
+		if(is_array($title) && isset($title['title']) && $title['title']){
 			$title['title'] = $this->getTitle();
 			return $title;
 		}

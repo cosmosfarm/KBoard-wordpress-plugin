@@ -6,15 +6,24 @@
 * @license http://www.gnu.org/licenses/gpl.html
 */
 class KBContentList {
-
-	private static $kboard_list_sort;
-
+	
+	private $kboard_list_sort;
+	private $from;
+	private $where;
+	private $multiple_option_keys;
+	private $next_list_page = 1;
+	
+	var $board;
 	var $board_id;
 	var $total;
 	var $index;
 	var $category1;
 	var $category2;
 	var $member_uid = 0;
+	var $compare;
+	var $start_date;
+	var $end_date;
+	var $search_option = array();
 	var $sort = 'date';
 	var $order = 'DESC';
 	var $rpp = 10;
@@ -25,7 +34,9 @@ class KBContentList {
 	var $resource_notice;
 	var $resource_reply;
 	var $row;
-
+	var $is_loop_start;
+	var $is_first;
+	
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
 	}
@@ -38,6 +49,7 @@ class KBContentList {
 		global $wpdb;
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE 1");
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE 1 ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$wpdb->flush();
 		$this->index = $this->total;
 		return $this;
 	}
@@ -66,7 +78,7 @@ class KBContentList {
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
-		$results = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT $offset,$this->rpp");
+		$results = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT {$offset},{$this->rpp}");
 		foreach($results as $row){
 			$select_uid[] = intval($row->uid);
 		}
@@ -80,6 +92,7 @@ class KBContentList {
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY `date` DESC");
 		}
 		
+		$wpdb->flush();
 		$this->index = $this->total - $offset;
 		return $this;
 	}
@@ -97,6 +110,7 @@ class KBContentList {
 		$where[] = "(`status`='' OR `status` IS NULL)";
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$wpdb->flush();
 		$this->index = $this->total;
 		return $this;
 	}
@@ -107,6 +121,12 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function setBoardID($board_id){
+		if(is_array($board_id)){
+			$this->board = new KBoard(reset($board_id));
+		}
+		else if($board_id){
+			$this->board = new KBoard($board_id);
+		}
 		$this->board_id = $board_id;
 		return $this;
 	}
@@ -117,17 +137,29 @@ class KBContentList {
 	 * @return KBContentList
 	 */
 	public function page($page){
-		if($page) $this->page = intval($page);
+		$page = intval($page);
+		if($page <= 0){
+			$this->page = 1;
+		}
+		else{
+			$this->page = $page;
+		}
 		return $this;
 	}
 
 	/**
-	 * 한 페이지에 표시될 게시물 숫자를 입력한다.
+	 * 한 페이지에 표시될 게시글 개수를 입력한다.
 	 * @param int $rpp
 	 * @return KBContentList
 	 */
 	public function rpp($rpp){
-		if($rpp) $this->rpp = $rpp;
+		$rpp = intval($rpp);
+		if($rpp <= 0){
+			$this->rpp = 10;
+		}
+		else{
+			$this->rpp = $rpp;
+		}
 		return $this;
 	}
 
@@ -159,6 +191,36 @@ class KBContentList {
 	public function memberUID($member_uid){
 		if($member_uid) $this->member_uid = intval($member_uid);
 		return $this;
+	}
+	
+	/**
+	 * 검색 연산자를 입력한다.
+	 * @param string $compare
+	 */
+	public function setCompare($compare){
+		$this->compare = $compare;
+	}
+	
+	/**
+	 * 작성일 기간을 입력한다.
+	 * @param string $start_date
+	 * @param string $end_date
+	 */
+	public function setDateRange($start_date, $end_date){
+		if($start_date){
+			$this->start_date = date('Ymd', strtotime($start_date)) . '000000';
+		}
+		if($end_date){
+			$this->end_date = date('Ymd', strtotime($end_date)) . '000000';
+		}
+	}
+	
+	/**
+	 * 검색 옵션 데이터를 입력한다.
+	 * @param array $search_option
+	 */
+	public function setSearchOption($search_option){
+		$this->search_option = $search_option;
 	}
 
 	/**
@@ -198,73 +260,155 @@ class KBContentList {
 			$this->sort = 'update';
 			$this->order = 'DESC';
 		}
-
+		
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
 				$value = intval($value);
 				$board_ids[] = "'{$value}'";
 			}
 			$board_ids = implode(',', $board_ids);
-			$where[] = "`board_id` IN ($board_ids)";
+			$this->where[] = "`board_id` IN ($board_ids)";
 		}
 		else{
 			$this->board_id = intval($this->board_id);
-			$where[] = "`board_id`='$this->board_id'";
+			$this->where[] = "`board_id`='$this->board_id'";
 		}
-
-		$from = "`{$wpdb->prefix}kboard_board_content`";
 		
-		if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) !== false){
+		if(!in_array($this->compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+			$this->compare = 'LIKE';
+		}
+		
+		$this->from[] = "`{$wpdb->prefix}kboard_board_content`";
+		
+		if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) !== false && $keyword){
 			// 입력 필드 검색후 게시글을 불러온다.
-			$from = "`{$wpdb->prefix}kboard_board_content` LEFT JOIN `{$wpdb->prefix}kboard_board_option` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`{$wpdb->prefix}kboard_board_option`.`content_uid`";
+			$this->from[] = "LEFT JOIN `{$wpdb->prefix}kboard_board_option` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`{$wpdb->prefix}kboard_board_option`.`content_uid`";
 			
 			$search = esc_sql(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $search));
 			$keyword = esc_sql($keyword);
 			
-			$where[] = "`option_key`='{$search}' AND `option_value` LIKE '%{$keyword}%'";
+			$keyword_list = preg_split("/(&|\|)/", $keyword, -1, PREG_SPLIT_DELIM_CAPTURE);
+			if(is_array($keyword_list) && count($keyword_list) > 0){
+				foreach($keyword_list as $keyword){
+					if($keyword == '&'){
+						$sub_where[] = ' AND ';
+					}
+					else if($keyword == '|'){
+						$sub_where[] = ' OR ';
+					}
+					else{
+						if(in_array($this->compare, array('LIKE', 'NOT LIKE'))){
+							$keyword = "%{$keyword}%";
+						}
+						
+						$sub_where[] = "(`option_key`='{$search}' AND `option_value` {$this->compare} '{$keyword}')";
+					}
+				}
+				
+				if(count($sub_where) > 1){
+					$this->where[] = '(' . implode('', $sub_where) . ')';
+				}
+				else{
+					$this->where[] = implode('', $sub_where);
+				}
+			}
 		}
 		else if($keyword){
 			// 일반적인 검색후 게시글을 불러온다.
 			$search = esc_sql($search);
 			$keyword = esc_sql($keyword);
 			
-			if($search){
-				$where[] = "`{$search}` LIKE '%{$keyword}%'";
-			}
-			else{
-				$where[] = "(`title` LIKE '%{$keyword}%' OR `content` LIKE '%{$keyword}%')";
+			$keyword_list = preg_split("/(&|\|)/", $keyword, -1, PREG_SPLIT_DELIM_CAPTURE);
+			if(is_array($keyword_list) && count($keyword_list) > 0){
+				foreach($keyword_list as $keyword){
+					if($keyword == '&'){
+						$sub_where[] = ' AND ';
+					}
+					else if($keyword == '|'){
+						$sub_where[] = ' OR ';
+					}
+					else{
+						if(in_array($this->compare, array('LIKE', 'NOT LIKE'))){
+							$keyword = "%{$keyword}%";
+						}
+							
+						if($search){
+							$sub_where[] = "`{$search}` {$this->compare} '{$keyword}'";
+						}
+						else{
+							$sub_where[] = "(`title` {$this->compare} '{$keyword}' OR `content` {$this->compare} '{$keyword}')";
+						}
+					}
+				}
+				
+				if(count($sub_where) > 1){
+					$this->where[] = '(' . implode('', $sub_where) . ')';
+				}
+				else{
+					$this->where[] = implode('', $sub_where);
+				}
 			}
 		}
 		else{
 			// 검색이 아니라면 답글이 아닌 일반글만 불러온다.
-			$where[] = "`parent_uid`='0'";
+			$this->where[] = "`parent_uid`='0'";
+		}
+		
+		// 해당 기간에 작성된 게시글만 불러온다.
+		$date_range = apply_filters('kboard_list_date_range', array('start_date'=>$this->start_date, 'end_date'=>$this->end_date), $this->board_id, $this);
+		if($date_range['start_date'] && $date_range['end_date']){
+			$start_date = esc_sql($date_range['start_date']);
+			$end_date = esc_sql($date_range['end_date']);
+			$this->where[] = "(`date`>='{$start_date}' AND `date`<='{$end_date}')";
+		}
+		else if($date_range['start_date']){
+			$start_date = esc_sql($date_range['start_date']);
+			$this->where[] = "`date`>='{$start_date}'";
+		}
+		else if($date_range['end_date']){
+			$end_date = esc_sql($date_range['end_date']);
+			$this->where[] = "`date`<='{$end_date}'";
+		}
+		
+		// 입력 필드 검색 옵션 쿼리를 생성한다.
+		$search_option = apply_filters('kboard_list_search_option', $this->search_option, $this->board_id, $this);
+		if($search_option){
+			$multiple_option_query = $this->multipleOptionQuery($search_option);
+			if($multiple_option_query){
+				$this->where[] = $multiple_option_query;
+				
+				foreach($this->multiple_option_keys as $option_key){
+					$option_index = array_search($option_key, $this->multiple_option_keys);
+					$this->from[] = "INNER JOIN `{$wpdb->prefix}kboard_board_option` AS `option_{$option_index}` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`option_{$option_index}`.`content_uid`";
+				}
+			}
 		}
 		
 		if($this->category1){
 			$category1 = esc_sql($this->category1);
-			$where[] = "`category1`='{$category1}'";
+			$this->where[] = "`category1`='{$category1}'";
 		}
 		
 		if($this->category2){
 			$category2 = esc_sql($this->category2);
-			$where[] = "`category2`='{$category2}'";
+			$this->where[] = "`category2`='{$category2}'";
 		}
 		
 		if($this->member_uid){
 			$member_uid = esc_sql($this->member_uid);
-			$where[] = "`member_uid`='{$member_uid}'";
+			$this->where[] = "`member_uid`='{$member_uid}'";
 		}
 		
 		// 공지사항이 아닌 게시글만 불러온다.
-		if(!$with_notice) $where[] = "`notice`=''";
+		if(!$with_notice) $this->where[] = "`notice`=''";
 
 		// 휴지통에 없는 게시글만 불러온다.
-		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+		$this->where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 
 		// kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
 		$select = apply_filters('kboard_list_select', "`{$wpdb->prefix}kboard_board_content`.`uid`", $this->board_id, $this);
-		$from = apply_filters('kboard_list_from', $from, $this->board_id, $this);
-		$where = apply_filters('kboard_list_where', implode(' AND ', $where), $this->board_id, $this);
+		$from = apply_filters('kboard_list_from', implode(' ', $this->from), $this->board_id, $this);
+		$where = apply_filters('kboard_list_where', implode(' AND ', $this->where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		
 		$offset = ($this->page-1)*$this->rpp;
@@ -285,13 +429,72 @@ class KBContentList {
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY {$orderby}");
 		}
 		
-		$this->index = $this->total - $offset;
+		$wpdb->flush();
+		
+		$this->is_loop_start = true;
+		
+		if($this->board->meta->list_sort_numbers == 'asc'){
+			$this->index = $offset + 1;
+		}
+		else{
+			$this->index = $this->total - $offset;
+		}
+		
 		return $this->resource;
+	}
+	
+	/**
+	 * 검색 옵션 쿼리를 반환한다.
+	 * @param array $multiple
+	 * @param string $relation
+	 * @return string
+	 */
+	public function multipleOptionQuery($multiple, $relation='AND'){
+		if(isset($multiple['relation'])){
+			if(in_array($multiple['relation'], array('AND', 'OR'))){
+				$relation = $multiple['relation'];
+			}
+			unset($multiple['relation']);
+		}
+		
+		foreach($multiple as $option){
+			if(isset($option['relation'])){
+				$where[] = $this->multipleOptionQuery($option);
+			}
+			else if(is_array($option)){
+				$option_key = isset($option['key']) ? esc_sql(sanitize_key($option['key'])) : '';
+				$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
+				$option_compare = isset($option['compare']) ? esc_sql(sanitize_text_field($option['compare'])) : '';
+				
+				if($option_key && $option_value){
+					if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+						$option_compare = '=';
+					}
+					
+					if(in_array($option_compare, array('LIKE', 'NOT LIKE'))){
+						$option_value = "%{$option_value}%";
+					}
+					
+					$this->multiple_option_keys[$option_key] = $option_key;
+					$option_index = array_search($option_key, $this->multiple_option_keys);
+					
+					$where[] = "(`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} '{$option_value}')";
+				}
+			}
+		}
+		
+		if(isset($where) && is_array($where)){
+			if(count($where) > 1){
+				return '(' . implode(" {$relation} ", $where) . ')';
+			}
+			return implode(" {$relation} ", $where);
+		}
+		return '';
 	}
 
 	/**
-	 * 게시판의 모든 리스트를 반환한다.
-	 * @return resource
+	 * 모든 게시글 리스트를 반환한다.
+	 * @return array
 	 */
 	public function getAllList(){
 		global $wpdb;
@@ -311,20 +514,108 @@ class KBContentList {
 		$where = implode(' AND ', $where);
 
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC");
-		$this->index = $this->total;
+		
+		$page = 1;
+		$limit = 1000;
+		$offset = ($page-1)*$limit;
+		
+		while($results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `{$this->sort}` {$this->order} LIMIT {$offset},{$limit}")){
+			$wpdb->flush();
+			foreach($results as $row){
+				$this->resource[] = $row;
+			}
+			$page++;
+			$offset = ($page-1)*$limit;
+		}
+		
+		$this->is_loop_start = true;
+		
+		if($this->board->meta->list_sort_numbers == 'asc'){
+			$this->index = 1;
+		}
+		else{
+			$this->total;$this->total - $offset;
+		}
+		
 		return $this->resource;
 	}
-
+	
 	/**
-	 * 리스트에서 다음 게시물을 반환한다.
+	 * 리스트를 초기화한다.
+	 */
+	public function initFirstList(){
+		$this->next_list_page = 1;
+	}
+	
+	/**
+	 * 다음 리스트를 반환한다.
+	 * @return array
+	 */
+	public function hasNextList(){
+		global $wpdb;
+		
+		if(is_array($this->board_id)){
+			foreach($this->board_id as $key=>$value){
+				$value = intval($value);
+				$board_ids[] = "'{$value}'";
+			}
+			$board_ids = implode(',', $board_ids);
+			$where[] = "`board_id` IN ($board_ids)";
+		}
+		else{
+			$this->board_id = intval($this->board_id);
+			$where[] = "`board_id`='$this->board_id'";
+		}
+		$where = implode(' AND ', $where);
+		
+		$offset = ($this->next_list_page-1)*$this->rpp;
+		
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `{$this->sort}` {$this->order} LIMIT {$offset},{$this->rpp}");
+		$wpdb->flush();
+		
+		if($this->resource){
+			$this->next_list_page++;
+		}
+		else{
+			$this->next_list_page = 1;
+		}
+		
+		$this->is_loop_start = true;
+		
+		if($this->board->meta->list_sort_numbers == 'asc'){
+			$this->index = $offset + 1;
+		}
+		else{
+			$this->index = $this->total - $offset;
+		}
+		
+		return $this->resource;
+	}
+	
+	/**
+	 * 리스트에서 다음 게시글을 반환한다.
 	 * @return KBContent
 	 */
 	public function hasNext(){
 		if(!$this->resource) return '';
 		$this->row = current($this->resource);
-
+		
 		if($this->row){
+			if(!$this->is_loop_start){
+				if($this->board->meta->list_sort_numbers == 'asc'){
+					$this->index++;
+				}
+				else{
+					$this->index--;
+				}
+				$this->is_first = false;
+			}
+			else{
+				$this->is_loop_start = false;
+				$this->is_first = true;
+			}
+			
 			next($this->resource);
 			$content = new KBContent();
 			$content->initWithRow($this->row);
@@ -335,15 +626,15 @@ class KBContentList {
 			return '';
 		}
 	}
-
+	
 	/**
 	 * 리스트의 현재 인덱스를 반환한다.
 	 * @return int
 	 */
 	public function index(){
-		return $this->index--;
+		return $this->index;
 	}
-
+	
 	/**
 	 * 공지사항 리스트를 반환한다.
 	 * @return resource
@@ -364,12 +655,24 @@ class KBContentList {
 			$where[] = "`board_id`='$this->board_id'";
 		}
 		
+		if($this->category1){
+			$category1 = esc_sql($this->category1);
+			$where[] = "`category1`='{$category1}'";
+		}
+		
+		if($this->category2){
+			$category2 = esc_sql($this->category2);
+			$where[] = "`category2`='{$category2}'";
+		}
+		
 		$where[] = "`notice`!=''";
 		
 		// 휴지통에 없는 게시글만 불러온다.
 		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 		
 		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
+		$wpdb->flush();
+		
 		return $this->resource_notice;
 	}
 
@@ -416,6 +719,8 @@ class KBContentList {
 		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 		
 		$this->resource_reply = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` ASC");
+		$wpdb->flush();
+		
 		return $this->resource_reply;
 	}
 
@@ -444,21 +749,21 @@ class KBContentList {
 	 * @return string
 	 */
 	public function getSorting(){
-		if(self::$kboard_list_sort){
-			return self::$kboard_list_sort;
+		if($this->kboard_list_sort){
+			return $this->kboard_list_sort;
 		}
 
-		self::$kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"])?$_COOKIE["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
-		self::$kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:self::$kboard_list_sort;
-		self::$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:self::$kboard_list_sort;
+		$this->kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"])?$_COOKIE["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
+		$this->kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:$this->kboard_list_sort;
+		$this->kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:$this->kboard_list_sort;
 
-		if(!in_array(self::$kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
-			self::$kboard_list_sort = $this->getDefaultSorting();
+		if(!in_array($this->kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
+			$this->kboard_list_sort = $this->getDefaultSorting();
 		}
 
-		$_SESSION["kboard_list_sort_{$this->board_id}"] = self::$kboard_list_sort;
+		$_SESSION["kboard_list_sort_{$this->board_id}"] = $this->kboard_list_sort;
 
-		return self::$kboard_list_sort;
+		return $this->kboard_list_sort;
 	}
 
 	/**
@@ -468,19 +773,19 @@ class KBContentList {
 	public function setSorting($sort){
 		if($sort == 'newest'){
 			// 최신순서
-			self::$kboard_list_sort = $sort;
+			$this->kboard_list_sort = $sort;
 		}
 		else if($sort == 'best'){
 			// 추천순서
-			self::$kboard_list_sort = $sort;
+			$this->kboard_list_sort = $sort;
 		}
 		else if($sort == 'viewed'){
 			// 조회순서
-			self::$kboard_list_sort = $sort;
+			$this->kboard_list_sort = $sort;
 		}
 		else if($sort == 'updated'){
 			// 업데이트순서
-			self::$kboard_list_sort = $sort;
+			$this->kboard_list_sort = $sort;
 		}
 	}
 
@@ -490,6 +795,28 @@ class KBContentList {
 	 */
 	public function getDefaultSorting(){
 		return apply_filters('kboard_list_default_sorting', 'newest', $this->board_id, $this);
+	}
+	
+	/**
+	 * 정렬 순서를 내림차순(DESC)로 변경한다.
+	 * @param string $sort
+	 * @return KBContentList
+	 */
+	public function orderDESC($sort=''){
+		if($sort) $this->sort = $sort;
+		$this->order = 'DESC';
+		return $this;
+	}
+	
+	/**
+	 * 정렬 순서를 오름차순(ASC)로 변경한다.
+	 * @param string $sort
+	 * @return KBContentList
+	 */
+	public function orderASC($sort=''){
+		if($sort) $this->sort = $sort;
+		$this->order = 'ASC';
+		return $this;
 	}
 }
 ?>

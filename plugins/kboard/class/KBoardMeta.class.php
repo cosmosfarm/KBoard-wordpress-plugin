@@ -50,6 +50,7 @@ class KBoardMeta {
 		if(is_array($board_id)){
 			$board_id = implode(',', $board_id);
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id` IN ($board_id) AND (`key`='comments_plugin_id' OR `key`='use_comments_plugin')");
+			$wpdb->flush();
 			foreach($results as $row){
 				$this->meta->{$row->key} = $row->value;
 			}
@@ -57,6 +58,7 @@ class KBoardMeta {
 		else{
 			$this->board_id = intval($board_id);
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_meta` WHERE `board_id`='$this->board_id'");
+			$wpdb->flush();
 			foreach($results as $row){
 				$this->meta->{$row->key} = $row->value;
 			}

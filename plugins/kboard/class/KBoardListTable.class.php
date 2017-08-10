@@ -60,6 +60,8 @@ class KBoardListTable extends WP_List_Table {
 	
 	function get_bulk_actions(){
 		return array(
+				'reset_total' => '게시글 숫자 초기화',
+				'truncate' => '모든 게시글 비우기',
 				'delete' => __('Delete Permanently', 'kboard'),
 		);
 	}

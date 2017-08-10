@@ -15,7 +15,7 @@
 		<a href="#" class="nav-tab nav-tab-active" onclick="return false;"><?php echo __('시스템 설정', 'kboard')?></a>
 	</h2>
 	<ul id="kboard-dashboard-options">
-		<li>
+		<li id="kboard_xssfilter">
 			<h4><?php echo get_option('kboard_xssfilter')?'해킹 차단 옵션이 비활성화 되어 있습니다.':'해킹으로 부터 보호되고 있습니다.'?></h4>
 			<p>
 			서버에 ModSecurity등의 방화벽이 설치되어 있으면 이 옵션을 비활성화 가능합니다.<br>
@@ -24,7 +24,7 @@
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_xssfilter', '<?php echo get_option('kboard_xssfilter')?'':'1'?>')">XSS공격 차단 <?php echo get_option('kboard_xssfilter')?'활성화':'비활성화'?></button></p>
 		</li>
-		<li>
+		<li id="kboard_fontawesome">
 			<h4><?php echo get_option('kboard_fontawesome')?'Font Awesome 사용 중지되었습니다.':'Font Awesome 사용 가능합니다.'?></h4>
 			<p>
 			Font Awesome은 오픈소스 아이콘 폰트 입니다.<br>
@@ -33,7 +33,7 @@
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_fontawesome', '<?php echo get_option('kboard_fontawesome')?'':'1'?>')">Font Awesome <?php echo get_option('kboard_fontawesome')?'활성화':'비활성화'?></button></p>
 		</li>
-		<li>
+		<li id="kboard_attached_copy_download">
 			<h4><?php echo get_option('kboard_attached_copy_download')?'첨부파일 다운로드 깨짐 방지가 활성화 되어 있습니다.':'기본적인 방법으로 첨부파일이 다운로드 되고 있습니다.'?></h4>
 			<p>
 			다운로드 받은 첨부파일이 깨져 사용자가 읽을 수 없다면 이 옵션을 활성화 하세요.<br>
@@ -42,7 +42,7 @@
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_attached_copy_download', '<?php echo get_option('kboard_attached_copy_download')?'':'1'?>')">첨부파일 다운로드 깨짐 방지 <?php echo get_option('kboard_attached_copy_download')?'비활성화':'활성화'?></button></p>
 		</li>
-		<li>
+		<li id="kboard_limit_file_size">
 			<h4>첨부파일의 최대 크기를 제한합니다.</h4>
 			<p>
 			서버에서 설정한 최대 크기를 넘을 수 없습니다.<br>
@@ -50,11 +50,11 @@
 			첨부파일 업로드에 문제가 있다면 먼저 호스팅 관리자에게 문의 해보세요.
 			</p>
 			<p>
-				<input type="text" name="kboard_limit_file_size" value="<?php echo kboard_limit_file_size()?>"> 바이트(B)
+				<input type="number" name="kboard_limit_file_size" value="<?php echo kboard_limit_file_size()?>"> 바이트(B)
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_limit_file_size', jQuery('input[name=kboard_limit_file_size]').val())">변경</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_allow_file_extensions">
 			<h4>첨부파일의 종류를 제한합니다.</h4>
 			<p>
 			보안의 이유로 첨부파일의 종류를 제한합니다.<br>
@@ -66,7 +66,7 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_allow_file_extensions', jQuery('input[name=kboard_allow_file_extensions]').val())">확장자 업데이트</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_new_document_notify_time">
 			<h4>새글 알림 아이콘을 리스트에서 보여줍니다.</h4>
 			<p>
 			리스트에서 정해진 시간 이내로 등록된 글에 NEW 표시가 나타나도록 설정합니다.<br>
@@ -90,7 +90,7 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_new_document_notify_time', jQuery('select[name=kboard_new_document_notify_time]').val())">변경</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_captcha_stop">
 			<h4>모든 게시판에서 <?php echo get_option('kboard_captcha_stop')?'비로그인 사용자 CAPTCHA 기능이 중지되었습니다.':'비로그인 사용자 CAPTCHA 기능을 사용중입니다.'?></h4>		
 			<p>
 			CAPTCHA(캡챠)란 기계는 인식 할 수없는 임의의 문자를 생성하여 입력 받아, 스팸을 차단하는 기능입니다.<br>
@@ -99,7 +99,7 @@
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_captcha_stop', '<?php echo get_option('kboard_captcha_stop')?'':'1'?>')">모든 게시판에서 비로그인 사용자 CAPTCHA 기능 <?php echo get_option('kboard_captcha_stop')?'사용하기':'중지하기'?></button></p>
 		</li>
-		<li>
+		<li id="kboard_recaptcha">
 			<h4>구글 reCAPTCHA</h4>
 			<p>
 			구글 reCAPTCHA는 게시판에서 스팸을 막기 위한 효과적인 솔루션입니다.<br>
@@ -113,7 +113,7 @@
 				<button class="button-secondary" onclick="kboard_recaptcha_update(this)">구글 reCAPTCHA 정보 업데이트</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_custom_css">
 			<h4>커스텀 CSS</h4>
 			<p>
 			스킨파일 수정없이 새로운 디자인 속성을 추가할 수 있습니다.<br>
@@ -125,7 +125,7 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_custom_css', jQuery('textarea[name=kboard_custom_css]').val())">커스텀 CSS 업데이트</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_iframe_whitelist">
 			<h4>아이프레임 화이트리스트, 아래 등록된 iframe 주소를 허가합니다.</h4>
 			<p>
 			게시글 작성시 등록되지 않은 iframe 주소는 보안을 위해 차단됩니다.<br>
@@ -136,7 +136,7 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_iframe_whitelist', jQuery('textarea[name=kboard_iframe_whitelist]').val())">아이프레임 화이트리스트 업데이트</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_name_filter">
 			<h4>작성자 금지단어</h4>
 			<p>
 			작성자 이름으로 사용할 수 없는 단어를 입력해주세요.<br>
@@ -148,7 +148,7 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_name_filter', jQuery('input[name=kboard_name_filter]').val())">금지단어 업데이트</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_content_filter">
 			<h4>본문/제목/댓글 금지단어</h4>
 			<p>
 			게시글 본문과 제목 그리고 댓글에 사용할 수 없는 단어를 입력해주세요.<br>
@@ -160,7 +160,7 @@
 				<button class="button-secondary" onclick="kboard_system_option_update('kboard_content_filter', jQuery('input[name=kboard_content_filter]').val())">금지단어 업데이트</button>
 			</p>
 		</li>
-		<li>
+		<li id="kboard_content_delete_immediately">
 			<h4>게시글 바로 삭제</h4>
 			<p>
 			기본적으로 게시글을 지우면 해당 게시글은 휴지통으로 이동합니다.<br>
@@ -169,7 +169,8 @@
 			</p>
 			<p><button class="button-secondary" onclick="kboard_system_option_update('kboard_content_delete_immediately', '<?php echo get_option('kboard_content_delete_immediately')?'':'1'?>')">게시글 바로 삭제 <?php echo get_option('kboard_content_delete_immediately')?'비활성화':'활성화'?></button></p>
 		</li>
-		<li>
+		<!--
+		<li id="kboard_iamport">
 			<h4>아임포트</h4>
 			<p>
 			아임포트는 국내외 주요 PG사와의 연동을 지원합니다.<br>
@@ -185,6 +186,7 @@
 				<button class="button-secondary" onclick="kboard_iamport_update(this)">아임포트 정보 업데이트</button>
 			</p>
 		</li>
+		-->
 	</ul>
 </div>
 <script>

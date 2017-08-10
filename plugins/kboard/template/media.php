@@ -166,6 +166,10 @@ function kboard_media_delete(media_uid){
 }
 function kboard_media_form_execute(form){
 	jQuery('.kboard-loading').removeClass('kboard-hide');
+	setTimeout(function(){
+		alert('<?php echo __('Network connection with the server is unstable. Please proceed to upload again.', 'kboard')?>');
+		jQuery('.kboard-loading').addClass('kboard-hide');
+	}, (1000 * 30));
 	return true;
 }
 function kboard_media_close(){

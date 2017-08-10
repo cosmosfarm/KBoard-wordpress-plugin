@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBController {
-
+	
 	public function __construct(){
 		$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
 		switch($action){
@@ -15,14 +15,21 @@ class KBController {
 			case 'kboard_media_delete': add_action('wp_loaded', array($this, 'mediaDelete'), 0); break;
 			case 'kboard_file_delete': add_action('wp_loaded', array($this, 'fileDelete'), 0); break;
 			case 'kboard_file_download': add_action('wp_loaded', array($this, 'fileDownload'), 0); break;
+			case 'kboard_iamport_endpoint': add_action('wp_loaded', array($this, 'iamportEndpoint'), 0); break;
+			case 'kboard_order_execute': add_action('wp_loaded', array($this, 'orderExecute'), 0); break;
 		}
 		
 		add_action('wp_ajax_kboard_document_like', array($this, 'documentLike'));
 		add_action('wp_ajax_nopriv_kboard_document_like', array($this, 'documentLike'));
 		add_action('wp_ajax_kboard_document_unlike', array($this, 'documentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_document_unlike', array($this, 'documentUnlike'));
+		add_action('wp_ajax_kboard_order_cancel', array($this, 'orderCancel'));
+		add_action('wp_ajax_kboard_order_update', array($this, 'orderUpdate'));
+		add_action('wp_ajax_kboard_order_item_update', array($this, 'orderItemUpdate'));
+		add_action('wp_ajax_nopriv_kboard_content_update', array($this, 'contentUpdate'));
+		add_action('wp_ajax_kboard_content_update', array($this, 'contentUpdate'));
 	}
-
+	
 	/**
 	 * 게시글 등록 및 수정
 	 */
@@ -69,9 +76,11 @@ class KBController {
 			else if(!is_user_logged_in() && !$content->password){
 				die("<script>alert('".__('Please enter the password.', 'kboard')."');history.go(-1);</script>");
 			}
+			/*
 			else if(!$content->content){
 				die("<script>alert('".__('Please enter the content.', 'kboard')."');history.go(-1);</script>");
 			}
+			*/
 			
 			// 금지단어 체크
 			if(!$board->isAdmin()){
@@ -97,8 +106,41 @@ class KBController {
 				}
 			}
 			
+			// 글쓰기 감소 포인트
+			if($content->execute_action == 'insert' && $board->meta->document_insert_down_point){
+				if(function_exists('mycred_add')){
+					if(!is_user_logged_in()){
+						die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+					}
+					else{
+						$balance = mycred_get_users_balance(get_current_user_id());
+						if($board->meta->document_insert_down_point > $balance){
+							die('<script>alert("'.__('You have not enough points.', 'kboard').'");history.go(-1);</script>');
+						}
+						else{
+							$point = intval(get_user_meta($content->member_uid, 'kboard_document_mycred_point', true));
+							update_user_meta($content->member_uid, 'kboard_document_mycred_point', $point + ($board->meta->document_insert_down_point*-1));
+							
+							mycred_add('document_insert_down_point', get_current_user_id(), ($board->meta->document_insert_down_point*-1), __('Writing decrease points', 'kboard'));
+						}
+					}
+				}
+			}
+			
 			// 실행
 			$execute_uid = $content->execute();
+			
+			// 글쓰기 증가 포인트
+			if($content->execute_action == 'insert' && $board->meta->document_insert_up_point){
+				if(function_exists('mycred_add')){
+					if(is_user_logged_in()){
+						$point = intval(get_user_meta($content->member_uid, 'kboard_document_mycred_point', true));
+						update_user_meta($content->member_uid, 'kboard_document_mycred_point', $point + $board->meta->document_insert_up_point);
+						
+						mycred_add('document_insert_up_point', get_current_user_id(), $board->meta->document_insert_up_point, __('Writing increase points', 'kboard'));
+					}
+				}
+			}
 			
 			// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 			if($content->password) $board->isConfirm($content->password, $execute_uid);
@@ -168,30 +210,31 @@ class KBController {
 	 */
 	public function fileDelete(){
 		header('Content-Type: text/html; charset=UTF-8');
-
-		if(!wp_get_referer()){
-			wp_die(__('This page is restricted from external access.', 'kboard'));
+		
+		if(!isset($_GET['kboard-file-delete-nonce']) || !wp_verify_nonce($_GET['kboard-file-delete-nonce'], 'kboard-file-delete')){
+			if(!wp_get_referer()){
+				wp_die(__('This page is restricted from external access.', 'kboard'));
+			}
 		}
-
-		$uid = intval($_GET['uid']);
+		
+		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		if(isset($_GET['file'])){
 			$file = trim($_GET['file']);
-			$file = kboard_htmlclear($file);
-			$file = kboard_xssfilter($file);
+			$file = sanitize_key($file);
 			$file = esc_sql($file);
 		}
 		else{
 			$file = '';
 		}
-
+		
 		if(!$uid || !$file){
-			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), new KBContent(), new KBoard());
 			exit;
 		}
-
+		
 		$content = new KBContent();
 		$content->initWithUID($uid);
-
+		
 		if($content->parent_uid){
 			$parent = new KBContent();
 			$parent->initWithUID($content->getTopContentUID());
@@ -228,33 +271,34 @@ class KBController {
 	 */
 	public function fileDownload(){
 		global $wpdb;
-
-		header('X-Robots-Tag: noindex', true); // 검색엔진 수집 금지
+		
+		header('X-Robots-Tag: noindex, nofollow'); // 검색엔진 수집 금지
 		header('Content-Type: text/html; charset=UTF-8');
-
-		if(!wp_get_referer()){
-			wp_die(__('This page is restricted from external access.', 'kboard'));
+		
+		if(!isset($_GET['kboard-file-download-nonce']) || !wp_verify_nonce($_GET['kboard-file-download-nonce'], 'kboard-file-download')){
+			if(!wp_get_referer()){
+				wp_die(__('This page is restricted from external access.', 'kboard'));
+			}
 		}
-
+		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		if(isset($_GET['file'])){
 			$file = trim($_GET['file']);
-			$file = kboard_htmlclear($file);
-			$file = kboard_xssfilter($file);
+			$file = sanitize_key($file);
 			$file = esc_sql($file);
 		}
 		else{
 			$file = '';
 		}
-
+		
 		if(!$uid || !$file){
-			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), new KBContent(), new KBoard());
 			exit;
 		}
-
+		
 		$content = new KBContent();
 		$content->initWithUID($uid);
-
+		
 		if($content->parent_uid){
 			$parent = new KBContent();
 			$parent->initWithUID($content->getTopContentUID());
@@ -263,7 +307,7 @@ class KBController {
 		else{
 			$board = new KBoard($content->board_id);
 		}
-
+		
 		if(!$board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $board->permission_read == 'author'){
 				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
@@ -276,7 +320,7 @@ class KBController {
 						$parent->initWithUID($content->getTopContentUID());
 						if(!$board->isReader($parent->member_uid, $content->secret)){
 							if(!$board->isConfirm($parent->password, $parent->uid)){
-								do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $boardhis);
+								do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
 								exit;
 							}
 						}
@@ -292,45 +336,87 @@ class KBController {
 				exit;
 			}
 		}
-
+		
+		$ds = DIRECTORY_SEPARATOR;
+		
 		$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
-
-		list($path) = explode(DIRECTORY_SEPARATOR . 'wp-content', dirname(__FILE__));
-		$file_info->full_path = $path . str_replace('/', DIRECTORY_SEPARATOR, $file_info->file_path);
-		$file_info->file_name = str_replace(' ' ,'-', $file_info->file_name);
-
-		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id);
-
+		
+		list($path) = explode("{$ds}wp-content", dirname(__FILE__));
+		$file_info->full_path = $path . str_replace('/', $ds, $file_info->file_path);
+		
 		if(!$file_info->file_path || !file_exists($file_info->full_path)){
 			echo '<script>alert("'.__('File does not exist.', 'kboard').'");</script>';
 			echo '<script>window.location.href="' . wp_get_referer() . '";</script>';
 			exit;
 		}
 		
-		do_action('kboard_download_file', $file_info, $content, $board);
+		$file_info->file_name = str_replace(' ' ,'-', $file_info->file_name);
+		$file_info->mime_type = kboard_mime_type($file_info->full_path);
+		$file_info->size = sprintf('%d', filesize($file_info->full_path));
+		
+		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id);
+		
+		if(!$file_info->file_path || !file_exists($file_info->full_path)){
+			echo '<script>alert("'.__('File does not exist.', 'kboard').'");</script>';
+			echo '<script>window.location.href="' . wp_get_referer() . '";</script>';
+			exit;
+		}
+		
+		do_action('kboard_file_download', $file_info, $content, $board);
+		do_action("kboard_{$board->skin}_file_download", $file_info, $content, $board);
+		
+		// 첨부파일 다운로드 감소 포인트
+		if($board->meta->attachment_download_down_point){
+			if(function_exists('mycred_add')){
+				if(!is_user_logged_in()){
+					do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+					exit;
+				}
+				else if($content->member_uid != get_current_user_id()){
+					$log_args['user_id'] = get_current_user_id();
+					$log_args['ref'] = 'attachment_download_down_point';
+					$log_args['ref_id'] = $content->uid;
+					$log = new myCRED_Query_Log($log_args);
+					
+					if(!$log->have_entries()){
+						$balance = mycred_get_users_balance(get_current_user_id());
+						if($board->meta->attachment_download_down_point > $balance){
+							do_action('kboard_cannot_download_file', 'not_enough_points', wp_get_referer(), $content, $board);
+							exit;
+						}
+						else{
+							$point = intval(get_user_meta(get_current_user_id(), 'kboard_document_mycred_point', true));
+							update_user_meta(get_current_user_id(), 'kboard_document_mycred_point', $point + ($board->meta->attachment_download_down_point*-1));
+							
+							mycred_add('attachment_download_down_point', get_current_user_id(), ($board->meta->attachment_download_down_point*-1), __('Attachment download decrease points', 'kboard'), $content->uid);
+						}
+					}
+				}
+			}
+		}
 		
 		if(get_option('kboard_attached_copy_download')){
 			$unique_dir = uniqid();
 			$upload_dir = wp_upload_dir();
-			$temp_path = $upload_dir['basedir'] . '/kboard_temp';
-
-			$kboard_file_handler = new KBFileHandler();
-			$kboard_file_handler->deleteWithOvertime($temp_path, 60);
-			$kboard_file_handler->mkPath("{$temp_path}/{$unique_dir}");
-
-			copy($file_info->full_path, "{$temp_path}/{$unique_dir}/{$file_info->file_name}");
-			header('Location: ' . $upload_dir['baseurl'] . "/kboard_temp/{$unique_dir}/{$file_info->file_name}");
+			$temp_path = $upload_dir['basedir'] . "{$ds}kboard_temp";
+			
+			$file_handler = new KBFileHandler();
+			$file_handler->deleteWithOvertime($temp_path, 60);
+			$file_handler->mkPath("{$temp_path}{$ds}{$unique_dir}");
+			
+			copy($file_info->full_path, "{$temp_path}{$ds}{$unique_dir}{$ds}{$file_info->file_name}");
+			header('Location: ' . $upload_dir['baseurl'] . "{$ds}kboard_temp{$ds}{$unique_dir}{$ds}{$file_info->file_name}");
 		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
 			if($ie) $file_info->file_name = iconv('UTF-8', 'EUC-KR//IGNORE', $file_info->file_name);
-
-			header('Content-type: '.kboard_mime_type($file_info->full_path));
-			header('Content-Disposition: attachment; filename="'.$file_info->file_name.'"');
+			
+			header('Content-type: ' . $file_info->mime_type);
+			header('Content-Disposition: attachment; filename="' . $file_info->file_name . '"');
 			header('Content-Transfer-Encoding: binary');
-			header('Content-length: '.sprintf('%d', filesize($file_info->full_path)));
+			header('Content-length: ' . $file_info->size);
 			header('Expires: 0');
-
+			
 			if($ie){
 				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 				header('Pragma: public');
@@ -338,56 +424,348 @@ class KBController {
 			else{
 				header('Pragma: no-cache');
 			}
-
+			
 			$fp = fopen($file_info->full_path, 'rb');
 			fpassthru($fp);
 			fclose($fp);
 		}
 		exit;
 	}
-
-	/**
-	 * 게시글 좋아요
-	 */
-	public function documentLike(){
-		if(isset($_POST['document_uid']) && intval($_POST['document_uid'])){
-			if(!@in_array($_POST['document_uid'], $_SESSION['document_vote'])){
-				$_SESSION['document_vote'][] = $_POST['document_uid'];
-
-				$content = new KBContent();
-				$content->initWithUID($_POST['document_uid']);
-
-				if($content->uid){
-					$content->like+=1;
-					$content->vote = $content->like - $content->unlike;
-					$content->updateContent();
-					echo intval($content->like);
+	
+	public function iamportEndpoint(){
+		kboard_switch_to_blog();
+		
+		$display = isset($_REQUEST['display'])?$_REQUEST['display']:'pc';
+		$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
+		
+		if($imp_uid){
+			header('Content-Type: text/html; charset=UTF-8');
+			
+			if(!class_exists('KBIamport')){
+				include_once KBOARD_DIR_PATH . '/class/KBIamport.class.php';
+			}
+			$iamport = new KBIamport();
+			$iamport->imp_key = get_option('kboard_iamport_api_key');
+			$iamport->imp_secret = get_option('kboard_iamport_api_secret');
+			
+			if(!$iamport->imp_key || !$iamport->imp_secret){
+				if($display == 'mobile'){
+					die('<script>alert("iamport error");window.location.href="'.home_url().'";</script>');
 				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>'iamport error'));
+				}
+			}
+			
+			$payment = $iamport->payments($imp_uid);
+			parse_str($payment->data->custom_data, $_POST);
+			
+			$_POST['kboard_order']['imp_uid'] = $payment->data->imp_uid;
+			$_POST['kboard_order']['merchant_uid'] = $payment->data->merchant_uid;
+			$_POST['kboard_order']['receipt_url'] = $payment->data->receipt_url;
+			
+			/*
+			echo '<pre>';
+			print_r($payment);
+			print_r($payment->data);
+			print_r($_POST);
+			echo '</pre>';
+			exit;
+			*/
+			
+			if(!$payment->success){
+				if($display == 'mobile'){
+					die('<script>alert("'.$payment->message.'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>$payment->message));
+				}
+			}
+			if($payment->data->status != 'paid'){
+				if($display == 'mobile'){
+					die('<script>alert("'.$payment->data->fail_reason.'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>$payment->data->fail_reason));
+				}
+			}
+			
+			$orders = get_posts(array(
+					'post_type' => 'kboard_order',
+					'meta_query' => array(array('key'=>'imp_uid', 'value'=>$payment->data->imp_uid))
+			));
+			if($orders){
+				if($display == 'mobile'){
+					die('<script>alert("iamport error");window.location.href="'.$_POST['next_page_url'].'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>'iamport error'));
+				}
+			}
+			
+			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+			$board = new KBoard($board_id);
+			if(!$board->id){
+				if($display == 'mobile'){
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+				}
+			}
+			
+			/* 결제 데이터 저장 시작 */
+			$order = new KBOrder();
+			$order->board = $board;
+			$order->board_id = $board->id;
+			$order->initOrder();
+			$order->initOrderItems();
+			
+			if($order->getAmount() != $payment->data->amount){
+				if($display == 'mobile'){
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+				}
+			}
+			
+			$order->create();
+			$order->createItems();
+			
+			do_action('kboard_order_execute', $order, $board);
+			do_action("kboard_{$board->skin}_order_execute", $order, $board);
+			/* 결제 데이터 저장 끝 */
+			
+			$url = new KBUrl();
+			$next_page_url = $url->clear()->set('order_id', $order->order_id)->toStringWithPath($_POST['next_page_url']);
+			$next_page_url = apply_filters('kboard_after_order_url', $next_page_url, $order->order_id, $board_id);
+			
+			if($display == 'mobile'){
+				wp_redirect($next_page_url);
+			}
+			else{
+				wp_send_json(array('result'=>'success', 'next_page_url'=>$next_page_url));
 			}
 		}
 		exit;
 	}
-
+	
+	public function orderExecute(){
+		if(isset($_POST['kboard-order-execute-nonce']) && wp_verify_nonce($_POST['kboard-order-execute-nonce'], 'kboard-order-execute')){
+			kboard_switch_to_blog();
+			
+			header('Content-Type: text/html; charset=UTF-8');
+			
+			$_POST = stripslashes_deep($_POST);
+			
+			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+			$board = new KBoard($board_id);
+			if(!$board->id){
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			}
+			
+			/* 결제 데이터 저장 시작 */
+			$order = new KBOrder();
+			$order->board = $board;
+			$order->board_id = $board->id;
+			$order->initOrder();
+			$order->initOrderItems();
+			
+			$order->create();
+			$order->createItems();
+			
+			do_action('kboard_order_execute', $order, $board);
+			do_action("kboard_{$board->skin}_order_execute", $order, $board);
+			/* 결제 데이터 저장 끝 */
+			
+			$url = new KBUrl();
+			$next_page_url = $url->set('order_id', $order->order_id)->set('mod', 'history')->toString();
+			$next_page_url = apply_filters('kboard_after_order_url', $next_page_url, $order->order_id, $board_id);
+			
+			wp_redirect($next_page_url);
+		}
+		else{
+			wp_redirect(home_url());
+		}
+		exit;
+	}
+	
+	public function orderCancel(){
+		check_ajax_referer('kboard_ajax_security', 'security');
+		
+		$result = array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard'));
+		
+		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+		$board = new KBoard($board_id);
+		
+		if($board->id){
+			header('Content-Type: text/html; charset=UTF-8');
+			
+			$order_id = isset($_POST['order_id'])?intval($_POST['order_id']):'';
+			$order = new KBOrder();
+			$order->board = $board;
+			$order->board_id = $board->id;
+			$order->initWithID($order_id);
+			$order->initOrderItems();
+			
+			if($order->user_id && is_user_logged_in()){
+				if($order->user_id == get_current_user_id()){
+					if($order->imp_uid){
+						
+						if(!class_exists('KBIamport')){
+							include_once KBOARD_DIR_PATH . '/class/KBIamport.class.php';
+						}
+						$iamport = new KBIamport();
+						$iamport->imp_key = get_option('kboard_iamport_api_key');
+						$iamport->imp_secret = get_option('kboard_iamport_api_secret');
+						
+						if(!$iamport->imp_key || !$iamport->imp_secret){
+							wp_send_json(array('result'=>'error', 'message'=>'iamport error'));
+						}
+						
+						$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
+						$result = apply_filters('kboard_order_cancel_action', $result, $order, $board);
+						$result = apply_filters("kboard_{$board->skin}_order_cancel_action", $result, $order, $board);
+						
+						/*
+						$payment = $iamport->cancel($order->imp_uid);
+						if(!$payment->success){
+							$result = array('result'=>'error', 'message'=>$payment->message);
+						}
+						if($payment->data->status == 'cancelled'){
+							$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
+							$result = apply_filters('kboard_order_cancel_action', $result, $order, $board);
+							$result = apply_filters("kboard_{$board->skin}_order_cancel_action", $result, $order, $board);
+						}
+						*/
+					}
+					else{
+						$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
+						$result = apply_filters('kboard_order_cancel_action', $result, $order, $board);
+						$result = apply_filters("kboard_{$board->skin}_order_cancel_action", $result, $order, $board);
+					}
+				}
+			}
+		}
+		
+		wp_send_json($result);
+	}
+	
+	public function orderUpdate(){
+		check_ajax_referer('kboard_ajax_security', 'security');
+		print_r($_POST);
+		exit;
+	}
+	
+	public function orderItemUpdate(){
+		check_ajax_referer('kboard_ajax_security', 'security');
+		
+		$result = array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard'));
+		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+		$board = new KBoard($board_id);
+		
+		if($board->id){
+			$order_item_id = isset($_POST['order_item_id'])?intval($_POST['order_item_id']):'';
+			$item = new KBOrderItem();
+			$item->board = $board;
+			$item->board_id = $board->id;
+			$item->initWithID($order_item_id);
+			if($item->order_item_id && $item->content->isEditor()){
+				$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
+				$result = apply_filters('kboard_order_item_update_action', $result, $item, $board);
+				$result = apply_filters("kboard_{$board->skin}_order_item_update_action", $result, $item, $board);
+			}
+		}
+		
+		wp_send_json($result);
+	}
+	
+	/**
+	 * 게시글 좋아요
+	 */
+	public function documentLike(){
+		check_ajax_referer('kboard_ajax_security', 'security');
+		if(isset($_POST['document_uid']) && intval($_POST['document_uid'])){
+			$content = new KBContent();
+			$content->initWithUID($_POST['document_uid']);
+			if($content->uid){
+				$board = $content->getBoard();
+				if($board->isVote()){
+					$args['target_uid'] = $content->uid;
+					$args['target_type'] = KBVote::$TYPE_DOCUMENT;
+					$args['target_vote'] = KBVote::$VOTE_LIKE;
+					$vote = new KBVote();
+					if($vote->isExists($args) === 0){
+						if($vote->insert($args)){
+							$content->like += 1;
+							$content->vote = $content->like - $content->unlike;
+							$content->updateContent();
+							wp_send_json(array('result'=>'success', 'data'=>array('vote'=>intval($content->vote), 'like'=>intval($content->vote), 'unlike'=>intval($content->unlike))));
+						}
+					}
+					else{
+						wp_send_json(array('result'=>'error', 'message'=>__('You have already voted.', 'kboard')));
+					}
+				}
+				else if(!is_user_logged_in()){
+					wp_send_json(array('result'=>'error', 'message'=>__('Please Log in to continue.', 'kboard')));
+				}
+			}
+		}
+		wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+	}
+	
 	/**
 	 * 게시글 싫어요
 	 */
 	function documentUnlike(){
+		check_ajax_referer('kboard_ajax_security', 'security');
 		if(isset($_POST['document_uid']) && intval($_POST['document_uid'])){
-			if(!@in_array($_POST['document_uid'], $_SESSION['document_vote'])){
-				$_SESSION['document_vote'][] = $_POST['document_uid'];
-
-				$content = new KBContent();
-				$content->initWithUID($_POST['document_uid']);
-
-				if($content->uid){
-					$content->unlike+=1;
-					$content->vote = $content->like - $content->unlike;
-					$content->updateContent();
-					echo intval($content->unlike);
+			$content = new KBContent();
+			$content->initWithUID($_POST['document_uid']);
+			if($content->uid){
+				$board = $content->getBoard();
+				if($board->isVote()){
+					$args['target_uid'] = $content->uid;
+					$args['target_type'] = KBVote::$TYPE_DOCUMENT;
+					$args['target_vote'] = KBVote::$VOTE_UNLIKE;
+					$vote = new KBVote();
+					if($vote->isExists($args) === 0){
+						if($vote->insert($args)){
+							$content->unlike += 1;
+							$content->vote = $content->like - $content->unlike;
+							$content->updateContent();
+							wp_send_json(array('result'=>'success', 'data'=>array('vote'=>intval($content->vote), 'like'=>intval($content->vote), 'unlike'=>intval($content->unlike))));
+						}
+					}
+					else{
+						wp_send_json(array('result'=>'error', 'message'=>__('You have already voted.', 'kboard')));
+					}
+				}
+				else if(!is_user_logged_in()){
+					wp_send_json(array('result'=>'error', 'message'=>__('Please Log in to continue.', 'kboard')));
 				}
 			}
 		}
-		exit;
+		wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+	}
+	
+	/**
+	 * 게시글 정보 업데이트
+	 */
+	public function contentUpdate(){
+		check_ajax_referer('kboard_ajax_security', 'security');
+		if(isset($_POST['content_uid']) && intval($_POST['content_uid'])){
+			$content = new KBContent();
+			$content->initWithUID($_POST['content_uid']);
+			if($content->uid && $content->isEditor()){
+				$content->updateContent($_POST['data']);
+				$content->updateOptions($_POST['data']);
+				wp_send_json(array('result'=>'success', 'data'=>$_POST['data']));
+			}
+		}
+		wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
 	}
 }
 ?>

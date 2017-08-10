@@ -548,15 +548,15 @@ class KBFileHandler {
 		if(kboard_mime_type($image) == 'image/jpeg'){
 			$image_editor = wp_get_image_editor($image);
 			if(!is_wp_error($image_editor) && function_exists('exif_read_data')){
-				$exif = exif_read_data($image);
+				$exif = @exif_read_data($image);
 				if(isset($exif['Orientation']) && $exif['Orientation']){
 					switch($exif['Orientation']){
-						case 8: $image_editor->rotate(90); break;
 						case 3: $image_editor->rotate(180); break;
 						case 6: $image_editor->rotate(-90); break;
+						case 8: $image_editor->rotate(90); break;
 					}
+					$image_editor->save($image);
 				}
-				$image_editor->save($image);
 			}
 		}
 	}

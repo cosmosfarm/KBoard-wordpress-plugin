@@ -45,6 +45,7 @@ class KBComment {
 		$uid = intval($uid);
 		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}'");
 		$this->option = new KBCommentOption($this->uid);
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -54,8 +55,10 @@ class KBComment {
 	 * @return KBComment
 	 */
 	public function initWithRow($comment){
+		global $wpdb;
 		$this->row = $comment;
 		$this->option = new KBCommentOption($this->uid);
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -114,21 +117,56 @@ class KBComment {
 	
 	/**
 	 * 댓글을 삭제한다.
+	 * @param boolean $delete_action
 	 */
-	public function delete(){
+	public function delete($delete_action=true){
 		global $wpdb;
 		if($this->uid){
-			// 댓글 삭제 액션 훅 실행
-			do_action('kboard_comments_delete', $this->uid, $this->content_uid, $this->getBoard());
+			$board = $this->getBoard();
 			
+			if($delete_action){
+				// 댓글 삭제 액션 훅 실행
+				do_action('kboard_comments_delete', $this->uid, $this->content_uid, $board);
+					
+				// 댓글삭제 증가 포인트
+				if($board->meta->comment_delete_up_point){
+					if($this->user_uid){
+						if(function_exists('mycred_add')){
+							$point = intval(get_user_meta($this->user_uid, 'kboard_comments_mycred_point', true));
+							update_user_meta($this->user_uid, 'kboard_comments_mycred_point', $point + $board->meta->comment_delete_up_point);
+				
+							mycred_add('comment_delete_up_point', $this->user_uid, $board->meta->comment_delete_up_point, __('Deleted comment increment points', 'kboard-comments'));
+						}
+					}
+				}
+					
+				// 댓글삭제 감소 포인트
+				if($board->meta->comment_delete_down_point){
+					if($this->user_uid){
+						if(function_exists('mycred_add')){
+							$point = intval(get_user_meta($this->user_uid, 'kboard_comments_mycred_point', true));
+							update_user_meta($this->user_uid, 'kboard_comments_mycred_point', $point + ($board->meta->comment_delete_down_point*-1));
+				
+							mycred_add('comment_delete_down_point', $this->user_uid, ($board->meta->comment_delete_down_point*-1), __('Deleted comment decrease points', 'kboard-comments'));
+						}
+					}
+				}
+			}
+			
+			// 댓글 정보 삭제
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$this->uid}'");
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$this->uid}'");
 			
-			// 게시물의 댓글 숫자를 변경한다.
+			// 추천 정보 삭제
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_vote` WHERE `target_uid`='{$this->uid}' AND `target_type`='commemt'");
+			
+			// 게시글의 댓글 숫자를 변경한다.
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
 			
 			// 자식 댓글을 삭제한다.
 			$this->deleteChildren();
+			
+			$wpdb->flush();
 		}
 	}
 	
@@ -150,14 +188,58 @@ class KBComment {
 			foreach($results as $key=>$child){
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$child->uid}'");
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$this->uid}'");
-					
-				// 게시물의 댓글 숫자를 변경한다.
+				
+				// 게시글의 댓글 숫자를 변경한다.
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
-					
+				
 				// 자식 댓글을 삭제한다.
 				$this->deleteChildren($child->uid);
 			}
 		}
+	}
+	
+	/**
+	 * 작성자 ID를 반환한다.
+	 * @return int
+	 */
+	public function getUserID(){
+		if($this->uid && $this->user_uid){
+			return intval($this->user_uid);
+		}
+		return 0;
+	}
+	
+	/**
+	 * 작성자 이름을 반환한다.
+	 * @return string
+	 */
+	public function getUserName(){
+		if($this->uid && $this->user_display){
+			return $this->user_display;
+		}
+		return '';
+	}
+	
+	/**
+	 * 작성자 이름을 읽을 수 없도록 만든다.
+	 * @param string $replace
+	 * @return string
+	 */
+	public function getObfuscateName($replace='*'){
+		if($this->uid && $this->user_display){
+			$strlen = mb_strlen($this->user_display, 'utf-8');
+			
+			if($strlen > 3){
+				$showlen = 2;
+			}
+			else{
+				$showlen = 1;
+			}
+			
+			$obfuscate_name = mb_substr($this->user_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen-$showlen);
+			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->user_display, $this->getBoard());
+		}
+		return apply_filters('kboard_obfuscate_name', '', '', $this->getBoard());
 	}
 }
 ?>

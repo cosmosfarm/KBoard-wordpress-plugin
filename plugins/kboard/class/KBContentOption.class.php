@@ -43,9 +43,17 @@ class KBContentOption {
 		$this->row = new stdClass();
 		$this->content_uid = intval($content_uid);
 		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid'");
+		$wpdb->flush();
 		foreach($results as $row){
 			$this->row->{$row->option_key} = $row->option_value;
 		}
+	}
+	
+	public function toArray(){
+		if($this->content_uid){
+			return get_object_vars($this->row);
+		}
+		return array();
 	}
 }
 ?>

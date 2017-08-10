@@ -28,6 +28,7 @@
 						<?php wp_nonce_field('kboard-restore-execute', 'kboard-restore-execute-nonce');?>
 						<input type="hidden" name="action" value="kboard_restore_execute">
 						<input type="file" name="kboard_backup_xml_file" accept=".xml">
+						<br>
 						<input type="submit" class="button-primary" value="<?php echo __('복구하기', 'kboard')?>">
 						<p class="description"><?php echo __('xml 파일을 선택하고 복구하기 버튼을 누르세요. 지금까지의 데이터는 삭제되고 복원파일 데이터를 입력합니다.', 'kboard')?></p>
 					</form>

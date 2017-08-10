@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2017-03-04 12:35+0900\n"
-"PO-Revision-Date: 2017-03-04 12:38+0900\n"
+"POT-Creation-Date: 2017-08-08 16:52+0900\n"
+"PO-Revision-Date: 2017-08-08 16:52+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,18 +17,29 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
+#: class/KBComment.class.php:133
+msgid "Deleted comment increment points"
+msgstr "書き込み削除の増加ポイント"
+
+#: class/KBComment.class.php:145
+msgid "Deleted comment decrease points"
+msgstr "書き込み削除の減少ポイント"
+
 #: class/KBCommentController.class.php:35
-#: class/KBCommentController.class.php:160
-#: class/KBCommentController.class.php:203
+#: class/KBCommentController.class.php:193
+#: class/KBCommentController.class.php:237
 msgid "This page is restricted from external access."
 msgstr "このページは、外部アクセスから制限されています。"
 
 #: class/KBCommentController.class.php:77
 #: class/KBCommentController.class.php:80
 #: class/KBCommentController.class.php:83
-#: class/KBCommentController.class.php:150
-#: class/KBCommentController.class.php:177
-#: class/KBCommentController.class.php:229 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:138
+#: class/KBCommentController.class.php:183
+#: class/KBCommentController.class.php:211
+#: class/KBCommentController.class.php:263
+#: class/KBCommentController.class.php:317
+#: class/KBCommentController.class.php:352 class/KBCommentTemplate.class.php:68
 msgid "You do not have permission."
 msgstr "あなたが権限を持っていません。"
 
@@ -41,7 +52,7 @@ msgid "Please enter the password."
 msgstr "パスワードを入力してください。"
 
 #: class/KBCommentController.class.php:92
-#: class/KBCommentController.class.php:219 index.php:127 template/edit.php:37
+#: class/KBCommentController.class.php:253 index.php:127 template/edit.php:37
 msgid "Please enter the content."
 msgstr "内容を入力してください。"
 
@@ -59,16 +70,35 @@ msgstr "\"%s\"は使用できません。"
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHAが正しくありません。"
 
-#: class/KBCommentController.class.php:167
-#: class/KBCommentController.class.php:216 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:143
+msgid "You have not enough points."
+msgstr "ポイントが足りません。"
+
+#: class/KBCommentController.class.php:149
+msgid "Writing comment decrease points"
+msgstr "コメントを書くことの減少ポイント"
+
+#: class/KBCommentController.class.php:171
+msgid "Writing comment increase points"
+msgstr "コメントを書くことの増加ポイント"
+
+#: class/KBCommentController.class.php:200
+#: class/KBCommentController.class.php:250 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:48
 msgid "uid is required."
 msgstr "uidが必要です。"
 
-#: class/KBCommentController.class.php:170
-#: class/KBCommentController.class.php:222
+#: class/KBCommentController.class.php:203
+#: class/KBCommentController.class.php:256
+#: class/KBCommentController.class.php:313
+#: class/KBCommentController.class.php:348
 msgid "Please log in to continue."
-msgstr "継続するには、ログインしてください。"
+msgstr "続行するにはログインしてください。"
+
+#: class/KBCommentController.class.php:309
+#: class/KBCommentController.class.php:344
+msgid "You have already voted."
+msgstr "すでに投票しました。"
 
 #: class/KBCommentListTable.class.php:44
 msgid "No comment found."
@@ -210,7 +240,7 @@ msgstr "検索"
 
 #: skin/default/list-template.php:27
 msgid "Like"
-msgstr "いいよ"
+msgstr "いいね"
 
 #: skin/default/list-template.php:28
 msgid "Unlike"
@@ -255,6 +285,9 @@ msgstr "パスワードの確認"
 #: template/edit.php:23
 msgid "Edit content"
 msgstr "内容の編集"
+
+#~ msgid "Please Log in to continue."
+#~ msgstr "ログインしてください。"
 
 #~ msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
 #~ msgstr "CAPTCHAは無効です。CAPTCHAを入力してください。"

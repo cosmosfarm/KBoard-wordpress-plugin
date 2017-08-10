@@ -52,21 +52,34 @@ class KBRouter {
 	 */
 	public function getContentURL($content_uid){
 		global $wpdb;
+		
 		$content_uid = intval($content_uid);
 		$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$content_uid}'");
 		
-		if($content->board_id){
+		if(!$content){
+			return '';
+		}
+		
+		if(!empty($content->board_id)){
 			$board_id = $content->board_id;
 		}
-		else{
+		else if(!empty($content->parent_uid)){
 			$parent_content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$content->parent_uid}'");
 			$board_id = $parent_content->board_id;
+		}
+		else{
+			$board_id = 0;
 		}
 		
 		if($board_id && $content->uid){
 			$meta = new KBoardMeta($board_id);
 			
-			if($meta->auto_page) $page_id = $meta->auto_page;
+			if($meta->latest_target_page){
+				$page_id = $meta->latest_target_page;
+			}
+			else if($meta->auto_page){
+				$page_id = $meta->auto_page;
+			}
 			else {
 				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
 			}
@@ -104,11 +117,16 @@ class KBRouter {
 	 */
 	public function getBoardURL($board_id){
 		global $wpdb;
+		
 		$board_id = intval($board_id);
 		$board = new KBoard($board_id);
+		
 		if($board->uid){
 			if($board->meta->auto_page){
 				$page_id = $board->meta->auto_page;
+			}
+			else if($board->meta->latest_target_page){
+				$page_id = $board->meta->latest_target_page;
 			}
 			else{
 				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
@@ -130,7 +148,7 @@ class KBRouter {
 	 * 오류 화면을 출력한다.
 	 */
 	private function error(){
-		if(strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) $next = '<a href="'.home_url().'">'.__('Go home', 'kboard').'</a>';
+		if(!wp_get_referer()) $next = '<a href="'.home_url().'">'.__('Go home', 'kboard').'</a>';
 		else $next = '<a href="javascript:history.go(-1);">'.__('Go back', 'kboard').'</a>';
 		wp_die(__('It is an invalid access.', 'kboard').'<br>'.$next);
 	}

@@ -13,6 +13,7 @@ class KBMail {
 	var $title;
 	var $content;
 	var $url;
+	var $url_name;
 	
 	public function __construct(){
 		global $wpms_options;
@@ -24,21 +25,54 @@ class KBMail {
 	
 	public function send(){
 		add_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
+		add_filter('wp_mail', array($this, 'message_template'));
 		
 		if($this->from_name && $this->from) $headers[] = "From: {$this->from_name} <{$this->from}>";
 		else if($this->from) $headers[] = "From: {$this->from}";
 		else $headers = '';
 		
-		$message = preg_replace("/(<(|\/)(table|th|tr|td).*>)(<br \/>)/","\$1", nl2br($this->content)) . '<p><a href="' . $this->url . '" target="_blank">' . $this->url . '</a></p>';
+		$message = $this->content;
+		
+		if($this->url){
+			$message .= '<table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+			<tbody>
+			<tr>
+			<td align="center">
+			<table border="0" cellpadding="0" cellspacing="0">
+			<tbody>
+			<tr>
+			<td><a href="' . $this->url . '" target="_blank">' . ($this->url_name ? $this->url_name : $this->url) . '</a></td>
+			</tr>
+			</tbody>
+			</table>
+			</td>
+			</tr>
+			</tbody>
+			</table>';
+		}
 		
 		$result = wp_mail($this->to, $this->title, $message, $headers);
 		
+		remove_filter('wp_mail', array($this, 'message_template'));
 		remove_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
+		
 		return $result;
 	}
 	
 	public function getHtmlContentType(){
 		return 'text/html';
+	}
+
+	public function message_template($args){
+		
+		$subject = $args['subject'];
+		$message = wpautop($args['message']);
+		
+		ob_start();
+		include_once KBOARD_DIR_PATH . '/assets/email/template.php';
+		$args['message'] = ob_get_clean();
+		
+		return $args;
 	}
 }
 ?>

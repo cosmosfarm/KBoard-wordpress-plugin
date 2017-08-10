@@ -8,10 +8,12 @@
 class KBAdminController {
 	
 	public function __construct(){
-		add_action('admin_post_kboard_update_action', array($this, 'update'));
+		add_action('admin_post_kboard_update_execute', array($this, 'update'));
 		add_action('admin_post_kboard_backup_download', array($this, 'backup'));
 		add_action('admin_post_kboard_restore_execute', array($this, 'restore'));
 		add_action('admin_post_kboard_latestview_action', array($this, 'latestview_update'));
+		add_action('admin_post_kboard_csv_download_execute', array($this, 'csv_download'));
+		add_action('admin_post_kboard_csv_upload_execute', array($this, 'csv_upload'));
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('wp_ajax_kboard_system_option_update', array($this, 'system_option_update'));
 	}
@@ -37,16 +39,16 @@ class KBAdminController {
 			$permission_write = isset($_POST['permission_write'])?$_POST['permission_write']:'';
 			$admin_user = isset($_POST['admin_user'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['admin_user'])))):'';
 			$use_category = isset($_POST['use_category'])?$_POST['use_category']:'';
-			$category1_list = isset($_POST['category1_list'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['category1_list'])))):'';
-			$category2_list = isset($_POST['category2_list'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['category2_list'])))):'';
+			$category1_list = isset($_POST['category1_list'])?implode(',', array_map('sanitize_text_field', array_map('trim', explode(',', $_POST['category1_list'])))):'';
+			$category2_list = isset($_POST['category2_list'])?implode(',', array_map('sanitize_text_field', array_map('trim', explode(',', $_POST['category2_list'])))):'';
 			$create = date('YmdHis', current_time('timestamp'));
 			
 			$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
 			if($auto_page){
 				$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
 				if($auto_page_board_id && $auto_page_board_id != $board_id){
-					$meta->auto_page = '';
-					echo '<script>alert("게시판 자동 설치 페이지에 이미 연결된 게시판이 존재합니다. 페이지당 하나의 게시판만 설치 가능합니다.");history.go(-1);</script>';
+					$auto_page = '';
+					echo '<script>alert("게시판 자동 설치 페이지에 이미 연결된 게시판이 존재합니다. 페이지당 하나의 게시판만 설치 가능합니다.");window.history.go(-1);</script>';
 					exit;
 				}
 			}
@@ -59,50 +61,82 @@ class KBAdminController {
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
 			}
 			
-			$meta = new KBoardMeta($board_id);
-			$meta->auto_page = $auto_page;
-			$meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
-			$meta->latest_alerts = isset($_POST['latest_alerts'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['latest_alerts'])))):'';
-			$meta->comment_skin = ($use_comment && isset($_POST['comment_skin']))?$_POST['comment_skin']:'';
-			$meta->default_content = isset($_POST['default_content'])?$_POST['default_content']:'';
-			$meta->pass_autop = isset($_POST['pass_autop'])?$_POST['pass_autop']:'';
-			$meta->shortcode_execute = isset($_POST['shortcode_execute'])?$_POST['shortcode_execute']:'';
-			$meta->autolink = isset($_POST['autolink'])?$_POST['autolink']:'';
-			$meta->reply_copy_content = isset($_POST['reply_copy_content'])?$_POST['reply_copy_content']:'';
-			$meta->view_iframe = isset($_POST['view_iframe'])?$_POST['view_iframe']:'';
-			$meta->permission_comment_write = isset($_POST['permission_comment_write'])?$_POST['permission_comment_write']:'';
-			$meta->comments_plugin_id = isset($_POST['comments_plugin_id'])?$_POST['comments_plugin_id']:'';
-			$meta->use_comments_plugin = isset($_POST['use_comments_plugin'])?$_POST['use_comments_plugin']:'';
-			$meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
-			$meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
-			$meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
-			$meta->max_attached_count = isset($_POST['max_attached_count'])?$_POST['max_attached_count']:'';
-			$meta->permit = isset($_POST['permit'])?$_POST['permit']:'';
-			$meta->default_build_mod = isset($_POST['default_build_mod'])?$_POST['default_build_mod']:'';
-			$meta->after_executing_mod = isset($_POST['after_executing_mod'])?$_POST['after_executing_mod']:'';
-			$meta->add_menu_page = isset($_POST['add_menu_page'])?$_POST['add_menu_page']:'';
-			$meta->permission_list = isset($_POST['permission_list'])?$_POST['permission_list']:'';
-			$meta->permission_access = isset($_POST['permission_access'])?$_POST['permission_access']:'';
+			$board = new KBoard($board_id);
 			
-			if(isset($_POST['permission_read_roles'])){
-				$meta->permission_read_roles = serialize($_POST['permission_read_roles']);
+			if($board->id){
+				
+				$board->meta->auto_page = $auto_page;
+				$board->meta->latest_target_page = isset($_POST['latest_target_page'])?$_POST['latest_target_page']:'';
+				$board->meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
+				$board->meta->latest_alerts = isset($_POST['latest_alerts'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['latest_alerts'])))):'';
+				$board->meta->comment_skin = ($use_comment && isset($_POST['comment_skin']))?$_POST['comment_skin']:'';
+				$board->meta->default_content = isset($_POST['default_content'])?$_POST['default_content']:'';
+				$board->meta->pass_autop = isset($_POST['pass_autop'])?$_POST['pass_autop']:'';
+				$board->meta->shortcode_execute = isset($_POST['shortcode_execute'])?$_POST['shortcode_execute']:'';
+				$board->meta->autolink = isset($_POST['autolink'])?$_POST['autolink']:'';
+				$board->meta->reply_copy_content = isset($_POST['reply_copy_content'])?$_POST['reply_copy_content']:'';
+				$board->meta->view_iframe = isset($_POST['view_iframe'])?$_POST['view_iframe']:'';
+				$board->meta->permission_comment_write = isset($_POST['permission_comment_write'])?$_POST['permission_comment_write']:'';
+				$board->meta->comments_plugin_id = isset($_POST['comments_plugin_id'])?$_POST['comments_plugin_id']:'';
+				$board->meta->use_comments_plugin = isset($_POST['use_comments_plugin'])?$_POST['use_comments_plugin']:'';
+				$board->meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
+				$board->meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
+				$board->meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
+				$board->meta->max_attached_count = isset($_POST['max_attached_count'])?$_POST['max_attached_count']:'';
+				$board->meta->list_sort_numbers = isset($_POST['list_sort_numbers'])?$_POST['list_sort_numbers']:'';
+				$board->meta->permit = isset($_POST['permit'])?$_POST['permit']:'';
+				$board->meta->default_build_mod = isset($_POST['default_build_mod'])?$_POST['default_build_mod']:'';
+				$board->meta->after_executing_mod = isset($_POST['after_executing_mod'])?$_POST['after_executing_mod']:'';
+				$board->meta->add_menu_page = isset($_POST['add_menu_page'])?$_POST['add_menu_page']:'';
+				$board->meta->permission_list = isset($_POST['permission_list'])?$_POST['permission_list']:'';
+				$board->meta->permission_access = isset($_POST['permission_access'])?$_POST['permission_access']:'';
+				$board->meta->permission_order = isset($_POST['permission_order'])?$_POST['permission_order']:'';
+				$board->meta->permission_reply = isset($_POST['permission_reply'])?$_POST['permission_reply']:'';
+				$board->meta->permission_vote = isset($_POST['permission_vote'])?$_POST['permission_vote']:'';
+				
+				if(isset($_POST['permission_read_roles'])){
+					$board->meta->permission_read_roles = serialize($_POST['permission_read_roles']);
+				}
+				if(isset($_POST['permission_write_roles'])){
+					$board->meta->permission_write_roles = serialize($_POST['permission_write_roles']);
+				}
+				if(isset($_POST['permission_reply_roles'])){
+					$board->meta->permission_reply_roles = serialize($_POST['permission_reply_roles']);
+				}
+				if(isset($_POST['permission_comment_write_roles'])){
+					$board->meta->permission_comment_write_roles = serialize($_POST['permission_comment_write_roles']);
+				}
+				if(isset($_POST['permission_order_roles'])){
+					$board->meta->permission_order_roles = serialize($_POST['permission_order_roles']);
+				}
+				if(isset($_POST['permission_admin_roles'])){
+					$board->meta->permission_admin_roles = serialize($_POST['permission_admin_roles']);
+				}
+				if(isset($_POST['permission_vote_roles'])){
+					$board->meta->permission_vote_roles = serialize($_POST['permission_vote_roles']);
+				}
+				
+				$board->meta->document_insert_up_point = isset($_POST['document_insert_up_point'])?abs($_POST['document_insert_up_point']):'';
+				$board->meta->document_insert_down_point = isset($_POST['document_insert_down_point'])?abs($_POST['document_insert_down_point']):'';
+				$board->meta->document_delete_up_point = isset($_POST['document_delete_up_point'])?abs($_POST['document_delete_up_point']):'';
+				$board->meta->document_delete_down_point = isset($_POST['document_delete_down_point'])?abs($_POST['document_delete_down_point']):'';
+				$board->meta->document_read_down_point = isset($_POST['document_read_down_point'])?abs($_POST['document_read_down_point']):'';
+				$board->meta->attachment_download_down_point = isset($_POST['attachment_download_down_point'])?abs($_POST['attachment_download_down_point']):'';
+				$board->meta->comment_insert_up_point = isset($_POST['comment_insert_up_point'])?abs($_POST['comment_insert_up_point']):'';
+				$board->meta->comment_insert_down_point = isset($_POST['comment_insert_down_point'])?abs($_POST['comment_insert_down_point']):'';
+				$board->meta->comment_delete_up_point = isset($_POST['comment_delete_up_point'])?abs($_POST['comment_delete_up_point']):'';
+				$board->meta->comment_delete_down_point = isset($_POST['comment_delete_down_point'])?abs($_POST['comment_delete_down_point']):'';
+				
+				// kboard_extends_setting_update 액션 실행
+				do_action('kboard_extends_setting_update', $board->meta, $board_id);
+				do_action("kboard_{$board->skin}_extends_setting_update", $board->meta, $board_id);
+				
+				$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
+				wp_redirect(admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting));
+				exit;
 			}
-			if(isset($_POST['permission_write_roles'])){
-				$meta->permission_write_roles = serialize($_POST['permission_write_roles']);
-			}
-			if(isset($_POST['permission_comment_write_roles'])){
-				$meta->permission_comment_write_roles = serialize($_POST['permission_comment_write_roles']);
-			}
-			
-			// kboard_extends_setting_update 액션 실행
-			do_action('kboard_extends_setting_update', $meta, $board_id);
-	
-			$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
-			wp_redirect(admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting));
 		}
-		else{
-			wp_redirect(admin_url('admin.php?page=kboard_dashboard'));
-		}
+		wp_redirect(admin_url('admin.php?page=kboard_dashboard'));
 		exit;
 	}
 	
@@ -112,8 +146,11 @@ class KBAdminController {
 	public function backup(){
 		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-backup-download-nonce']) && wp_verify_nonce($_POST['kboard-backup-download-nonce'], 'kboard-backup-download')){
+			set_time_limit(0);
+			ini_set('memory_limit', '-1');
+			
 			header('Content-Type: text/html; charset=UTF-8');
-				
+			
 			include_once KBOARD_DIR_PATH . '/class/KBBackup.class.php';
 			$backup = new KBBackup();
 			$tables = $backup->getTables();
@@ -136,11 +173,14 @@ class KBAdminController {
 	public function restore(){
 		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-restore-execute-nonce']) && wp_verify_nonce($_POST['kboard-restore-execute-nonce'], 'kboard-restore-execute')){
+			set_time_limit(0);
+			ini_set('memory_limit', '-1');
+			
 			header('Content-Type: text/html; charset=UTF-8');
-				
+			
 			$xmlfile = $_FILES['kboard_backup_xml_file']['tmp_name'];
 			$xmlfile_name = basename($_FILES['kboard_backup_xml_file']['name']);
-				
+			
 			if(is_uploaded_file($xmlfile)){
 				$file_extension = explode('.', $xmlfile_name);
 				if(end($file_extension) == 'xml'){
@@ -152,11 +192,12 @@ class KBAdminController {
 				else{
 					echo '<script>alert("'.__('올바른 복원파일이 아닙니다.', 'kboard').'");</script>';
 				}
-				unlink($xmlfile);
 			}
 			else{
 				echo '<script>alert("'.__('파일 업로드에 실패 했습니다.', 'kboard').'");</script>';
 			}
+			
+			if($xmlfile) unlink($xmlfile);
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_backup');
 		echo "<script>window.location.href='{$redirect_url}';</script>";
@@ -168,7 +209,7 @@ class KBAdminController {
 	 */
 	function latestview_update(){
 		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-	
+		
 		$latestview_uid = $_POST['latestview_uid'];
 		$latestview_link = $_POST['latestview_link'];
 		$latestview_unlink = $_POST['latestview_unlink'];
@@ -176,17 +217,17 @@ class KBAdminController {
 		$skin = $_POST['skin'];
 		$rpp = $_POST['rpp'];
 		$sort = $_POST['sort'];
-	
+		
 		$latestview = new KBLatestview();
 		if($latestview_uid) $latestview->initWithUID($latestview_uid);
 		else $latestview->create();
-	
+		
 		$latestview->name = $name;
 		$latestview->skin = $skin;
 		$latestview->rpp = $rpp;
 		$latestview->sort = $sort;
 		$latestview->update();
-	
+		
 		$latestview_link = explode(',', $latestview_link);
 		if(is_array($latestview_link)){
 			foreach($latestview_link as $key=>$value){
@@ -194,7 +235,7 @@ class KBAdminController {
 				if($value) $latestview->pushBoard($value);
 			}
 		}
-	
+		
 		$latestview_unlink = explode(',', $latestview_unlink);
 		if(is_array($latestview_unlink)){
 			foreach($latestview_unlink as $key=>$value){
@@ -202,8 +243,217 @@ class KBAdminController {
 				if($value) $latestview->popBoard($value);
 			}
 		}
-	
+		
 		echo '<script>window.location.href="'.admin_url("admin.php?page=kboard_latestview&latestview_uid={$latestview->uid}").'"</script>';
+		exit;
+	}
+	
+	public function csv_download(){
+		global $wpdb;
+		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(isset($_GET['kboard-csv-download-execute-nonce']) && wp_verify_nonce($_GET['kboard-csv-download-execute-nonce'], 'kboard-csv-download-execute')){
+			set_time_limit(0);
+			ini_set('memory_limit', '-1');
+			
+			header('Content-Type: text/html; charset=UTF-8');
+			
+			$board_id = isset($_GET['board_id'])?$_GET['board_id']:'';
+			$board = new KBoard($board_id);
+			
+			if($board->id){
+				$date = date('YmdHis', current_time('timestamp'));
+				$filename = "KBoard-{$board->id}-{$date}.csv";
+				
+				$columns = $wpdb->get_col("DESCRIBE `{$wpdb->prefix}kboard_board_content`");
+				$option = $wpdb->get_col("SELECT DISTINCT(`option_key`) FROM `{$wpdb->prefix}kboard_board_option` AS `option` LEFT JOIN `{$wpdb->prefix}kboard_board_content` AS `content` ON `option`.`content_uid`=`content`.`uid` WHERE `content`.`board_id`='{$board->id}'");
+				
+				foreach($option as $option_key){
+					$columns[] = KBContent::$SKIN_OPTION_PREFIX . $option_key;
+				}
+				
+				header('Content-type: application/csv');
+				header('Content-Disposition: attachment; filename="'.$filename.'"');
+				header('Pragma: no-cache');
+				header('Expires: 0');
+				
+				$csv = fopen('php://output', 'w');
+				
+				fprintf($csv, chr(0xEF).chr(0xBB).chr(0xBF));
+				fputcsv($csv, $columns);
+				
+				$list = new KBContentList($board_id);
+				$list->rpp(1000);
+				$list->orderASC('uid');
+				$list->initFirstList();
+				
+				while($list->hasNextList()){
+					while($content = $list->hasNext()){
+						$row_data = $content->toArray();
+						
+						$row_data['date'] = date('Y-m-d H:i:s', strtotime($row_data['date']));
+						$row_data['update'] = date('Y-m-d H:i:s', strtotime($row_data['update']));
+						
+						foreach($option as $option_key){
+							$row_data[] = $content->option->{$option_key};
+						}
+						
+						fputcsv($csv, $row_data);
+					}
+					@ob_flush();
+					@flush();
+				}
+				
+				fclose($csv);
+				exit;
+			}
+		}
+		wp_redirect(admin_url('admin.php?page=kboard_dashboard'));
+		exit;
+	}
+	
+	public function csv_upload(){
+		global $wpdb;
+		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
+			set_time_limit(0);
+			ini_set('memory_limit', '-1');
+			
+			header('Content-Type: text/html; charset=UTF-8');
+			
+			$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
+			$board = new KBoard($board_id);
+			
+			$option = isset($_POST['kboard_csv_upload_option'])?$_POST['kboard_csv_upload_option']:'';
+			if(!in_array($option, array('keep', 'update', 'delete'))) $option = 'keep';
+			
+			$file = $_FILES['kboard_csv_upload_file']['tmp_name'];
+			$file_name = basename($_FILES['kboard_csv_upload_file']['name']);
+			
+			if(is_uploaded_file($file) && $board->id){
+				$file_extension = explode('.', $file_name);
+				
+				if(end($file_extension) == 'csv' || end($file_extension) == 'CSV'){
+					if(($handle = fopen($file, "r")) !== false){
+						$length = 0;
+						
+						while(($data = fgetcsv($handle, 1000, ",")) !== false){
+							$total = count($data);
+							
+							for($index=0; $index<$total; $index++){
+								$value = $data[$index];
+								
+								// 인코딩 변환
+								if(function_exists('mb_detect_encoding')){
+									$encoding = mb_detect_encoding($value, array('EUC-KR', 'UTF-8', 'SJIS'));
+									if($encoding != 'UTF-8'){
+										$value = @iconv($encoding, 'UTF-8//TRANSLIT', $value);
+									}
+								}
+								
+								if($length){
+									// 데이터
+									if($columns[$index] == 'date' || $columns[$index] == 'update'){
+										$value = date('YmdHis', strtotime($value));
+									}
+									$row_data[$columns[$index]] = $value;
+								}
+								else{
+									// 컬럼
+									$columns[] = $value;
+									
+								}
+							}
+							
+							if(isset($row_data)) $rows[] = $row_data;
+							$length++;
+						}
+						
+						if($length >= 2){
+							$content = new KBContent();
+							$content->setBoardID($board->id);
+							
+							if($option == 'keep'){ // insert
+								foreach($rows as $key=>$row){
+									if(!isset($row['parent_uid']) || !intval($row['parent_uid'])){
+										$row['board_id'] = $board->id;
+										$insert_id = $content->insertContent($row);
+										if(isset($row['﻿uid']) ) $new_uids[] = $insert_id;
+										$content->updateOptions($row);
+										unset($rows[$key]);
+										@ob_flush();
+										@flush();
+									}
+								}
+								foreach($rows as $key=>$row){
+									$row['board_id'] = $board->id;
+									$row['parent_uid'] = $new_uids[$row['parent_uid']];
+									$content->insertContent($row);
+									$content->updateOptions($row);
+									unset($rows[$key]);
+									@ob_flush();
+									@flush();
+								}
+							}
+							else if($option == 'update'){ // update
+								foreach($rows as $key=>$row){
+									if(isset($row['﻿uid'])){
+										$row['board_id'] = $board->id;
+										$content->initWithUID($row['﻿uid']);
+										$content->updateContent($row);
+										$content->updateOptions($row);
+										unset($rows[$key]);
+										@ob_flush();
+										@flush();
+									}
+								}
+							}
+							else if($option == 'delete'){ // delete
+								$board->truncate();
+								foreach($rows as $key=>$row){
+									if(!isset($row['parent_uid']) || !intval($row['parent_uid'])){
+										$row['board_id'] = $board->id;
+										$insert_id = $content->insertContent($row);
+										if(isset($row['﻿uid']) ) $new_uids[] = $insert_id;
+										$content->updateOptions($row);
+										unset($rows[$key]);
+										@ob_flush();
+										@flush();
+									}
+								}
+								foreach($rows as $key=>$row){
+									$row['board_id'] = $board->id;
+									$row['parent_uid'] = $new_uids[$row['parent_uid']];
+									$content->insertContent($row);
+									$content->updateOptions($row);
+									unset($rows[$key]);
+									@ob_flush();
+									@flush();
+								}
+							}
+							
+							$board->resetTotal();
+						}
+						
+						fclose($handle);
+					}
+					echo '<script>alert("CSV 파일을 업로드했습니다.");</script>';
+				}
+				else{
+					echo '<script>alert("CSV 파일만 업로드 가능합니다.");</script>';
+				}
+			}
+			else{
+				echo '<script>alert("파일 업로드에 실패했습니다");</script>';
+			}
+			
+			if($file) unlink($file);
+			
+			$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
+			$redirect_url = admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting);
+			echo "<script>window.location.href='{$redirect_url}'</script>";
+			exit;
+		}
+		wp_redirect(admin_url('admin.php?page=kboard_dashboard'));
 		exit;
 	}
 	
@@ -229,6 +479,9 @@ class KBAdminController {
 	 */
 	public function system_option_update(){
 		if(current_user_can('activate_plugins')){
+			
+			$_POST = stripslashes_deep($_POST);
+			
 			$option_name = isset($_POST['option'])?$_POST['option']:'';
 			$new_value = isset($_POST['value'])?$_POST['value']:'';
 			if(!$new_value){

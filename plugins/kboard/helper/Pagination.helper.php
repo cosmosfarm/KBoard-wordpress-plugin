@@ -8,8 +8,14 @@ if(!defined('ABSPATH')) exit;
  */
 function kboard_pagination($current_page, $total, $limit){
 	foreach($_GET as $key=>$value){
-		if($key == 'mod'){
-			$query_strings[] = 'mod=list';
+		if(is_array($value)){
+			$query_strings[] = http_build_query(array(sanitize_key($key)=>$value));
+		}
+		else if($key == 'mod'){
+			if(!in_array($value, array('list', 'history', 'sales'))){
+				$value = 'list';
+			}
+			$query_strings[] = "mod={$value}";
 		}
 		else if($key != 'pageid' && $value){
 			$query_strings[] = sanitize_key($key).'='.urlencode(kboard_htmlclear($value));

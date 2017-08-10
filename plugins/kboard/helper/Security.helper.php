@@ -35,10 +35,11 @@ function kboard_xssfilter($data){
 			$HTMLPurifier_Config->set('HTML.SafeEmbed', true);
 			$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
 			$HTMLPurifier_Config->set('HTML.FlashAllowFullScreen', true);
-			$HTMLPurifier_Config->set('HTML.AllowedElements','img,div,a,strong,font,span,em,del,ins,br,p,u,i,b,sup,sub,small,table,thead,tbody,tfoot,tr,td,th,caption,pre,code,ul,ol,li,big,code,blockquote,center,hr,h1,h2,h3,h4,h5,h6,iframe');
+			$HTMLPurifier_Config->set('HTML.AllowedElements','img,div,a,strong,font,span,em,del,ins,br,p,u,i,b,sup,sub,small,table,thead,tbody,tfoot,tr,td,th,caption,pre,code,ul,ol,li,big,code,blockquote,center,hr,h1,h2,h3,h4,h5,h6,iframe,dl,dt,dd');
 			$HTMLPurifier_Config->set('HTML.AllowedAttributes', 'a.href,a.target,img.src,iframe.src,iframe.frameborder,*.id,*.alt,*.style,*.class,*.title,*.width,*.height,*.border,*.colspan,*.rowspan');
 			$HTMLPurifier_Config->set('HTML.TargetNoreferrer', false);
 			$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
+			$HTMLPurifier_Config->set('Attr.EnableID', true);
 			$HTMLPurifier_Config->set('Output.FlashCompat', true);
 			$HTMLPurifier_Config->set('Core.RemoveInvalidImg', true);
 			$HTMLPurifier_Config->set('Core.LexerImpl', 'DirectLex');
@@ -109,9 +110,11 @@ function kboard_iframe_whitelist($to_array=false){
 	$whitelist .= 'www.youtube.com' . PHP_EOL;
 	$whitelist .= 'maps.google.com' . PHP_EOL;
 	$whitelist .= 'maps.google.co.kr' . PHP_EOL;
+	$whitelist .= 'docs.google.com' . PHP_EOL;
 	$whitelist .= 'serviceapi.nmv.naver.com' . PHP_EOL;
 	$whitelist .= 'serviceapi.rmcnmv.naver.com' . PHP_EOL;
 	$whitelist .= 'videofarm.daum.net' . PHP_EOL;
+	$whitelist .= 'tv.kakao.com' . PHP_EOL;
 	$whitelist .= 'player.vimeo.com' . PHP_EOL;
 	$whitelist .= 'w.soundcloud.com' . PHP_EOL;
 	$whitelist .= 'slideshare.net' . PHP_EOL;
@@ -138,5 +141,58 @@ function kboard_iframe_whitelist($to_array=false){
 		return array_map('trim', $iframe_whitelist_data);
 	}
 	return $iframe_whitelist_data;
+}
+
+if(!function_exists('hash_pbkdf2')){
+	/**
+	 * hash_pbkdf2
+	 * @link http://php.net/manual/en/function.hash-pbkdf2.php#118301
+	 * @param string $algo
+	 * @param string $password
+	 * @param string $salt
+	 * @param int $count
+	 * @param int $length
+	 * @param string $raw_output
+	 * @return string
+	 */
+	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $raw_output = false){
+		if(!in_array(strtolower($algo), hash_algos())) trigger_error(__FUNCTION__ . '(): Unknown hashing algorithm: ' . $algo, E_USER_WARNING);
+		if(!is_numeric($count)) trigger_error(__FUNCTION__ . '(): expects parameter 4 to be long, ' . gettype($count) . ' given', E_USER_WARNING);
+		if(!is_numeric($length)) trigger_error(__FUNCTION__ . '(): expects parameter 5 to be long, ' . gettype($length) . ' given', E_USER_WARNING);
+		if($count <= 0) trigger_error(__FUNCTION__ . '(): Iterations must be a positive integer: ' . $count, E_USER_WARNING);
+		if($length < 0) trigger_error(__FUNCTION__ . '(): Length must be greater than or equal to 0: ' . $length, E_USER_WARNING);
+		$output = '';
+		$block_count = $length ? ceil($length / strlen(hash($algo, '', $raw_output))) : 1;
+		for($i=1; $i<=$block_count; $i++){
+			$last = $xorsum = hash_hmac($algo, $salt . pack('N', $i), $password, true);
+			for($j=1; $j<$count; $j++){
+				$xorsum ^= ($last = hash_hmac($algo, $last, $password, true));
+			}
+			$output .= $xorsum;
+		}
+		if(!$raw_output) $output = bin2hex($output);
+		return $length ? substr($output, 0, $length) : $output;
+	}
+}
+
+/**
+ * 텍스트의 해시값을 반환한다.
+ * @param string $text
+ * @param string $salt
+ * @param number $length
+ * @return string
+ */
+function kboard_hash($text, $salt, $length=0){
+	switch(strlen($text)%8){
+		case 0 : $salt = AUTH_KEY . md5($salt); break;
+		case 1 : $salt = SECURE_AUTH_KEY . md5($salt); break;
+		case 2 : $salt = LOGGED_IN_KEY . md5($salt); break;
+		case 3 : $salt = NONCE_KEY . md5($salt); break;
+		case 4 : $salt = AUTH_SALT . md5($salt); break;
+		case 5 : $salt = SECURE_AUTH_SALT . md5($salt); break;
+		case 6 : $salt = LOGGED_IN_SALT . md5($salt); break;
+		case 7 : $salt = NONCE_SALT . md5($salt); break;
+	}
+	return '$kboard$v1$' . hash_pbkdf2('sha256', $text, $salt, 100000, $length);
 }
 ?>

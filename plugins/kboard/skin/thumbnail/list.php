@@ -113,13 +113,13 @@
 							</div>
 						</a>
 						<div class="kboard-mobile-contents">
-							<span class="contents-item"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></span>
-							<span class="contents-separator">|</span>
-							<span class="contents-item"><?php echo $content->getDate()?></span>
-							<span class="contents-separator">|</span>
-							<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
-							<span class="contents-separator">|</span>
-							<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
+							<span class="contents-item kboard-user"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></span>
+							<span class="contents-separator kboard-date">|</span>
+							<span class="contents-item kboard-date"><?php echo $content->getDate()?></span>
+							<span class="contents-separator kboard-vote">|</span>
+							<span class="contents-item kboard-vote"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
+							<span class="contents-separator kboard-view">|</span>
+							<span class="contents-item kboard-view"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
 						</div>
 					</td>
 					<td class="kboard-list-user"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></td>
@@ -151,13 +151,13 @@
 							</div>
 						</a>
 						<div class="kboard-mobile-contents">
-							<span class="contents-item"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></span>
-							<span class="contents-separator">|</span>
-							<span class="contents-item"><?php echo $content->getDate()?></span>
-							<span class="contents-separator">|</span>
-							<span class="contents-item"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
-							<span class="contents-separator">|</span>
-							<span class="contents-item"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
+							<span class="contents-item kboard-user"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></span>
+							<span class="contents-separator kboard-date">|</span>
+							<span class="contents-item kboard-date"><?php echo $content->getDate()?></span>
+							<span class="contents-separator kboard-vote">|</span>
+							<span class="contents-item kboard-vote"><?php echo __('Votes', 'kboard')?> <?php echo $content->vote?></span>
+							<span class="contents-separator kboard-view">|</span>
+							<span class="contents-item kboard-view"><?php echo __('Views', 'kboard')?> <?php echo $content->view?></span>
 						</div>
 					</td>
 					<td class="kboard-list-user"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></td>

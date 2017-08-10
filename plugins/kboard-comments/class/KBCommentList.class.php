@@ -7,6 +7,8 @@
  */
 class KBCommentList {
 	
+	private $next_list_page = 1;
+	
 	var $board;
 	var $total;
 	var $content_uid;
@@ -55,6 +57,7 @@ class KBCommentList {
 			$this->order = 'DESC';
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE 1 ORDER BY `{$this->sort}` {$this->order} LIMIT ".($this->page-1)*$this->rpp.",{$this->rpp}");
 		}
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -79,6 +82,23 @@ class KBCommentList {
 		$this->parent_uid = $parent_uid;
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY `{$this->sort}` {$this->order}");
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'");
+		$wpdb->flush();
+		return $this;
+	}
+	
+	/**
+	 * 한 페이지에 표시될 댓글 개수를 입력한다.
+	 * @param int $rpp
+	 * @return KBCommentList
+	 */
+	public function rpp($rpp){
+		$rpp = intval($rpp);
+		if($rpp <= 0){
+			$this->rpp = 10;
+		}
+		else{
+			$this->rpp = $rpp;
+		}
 		return $this;
 	}
 	
@@ -114,6 +134,7 @@ class KBCommentList {
 			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY `uid` DESC");
 		}
 		
+		$wpdb->flush();
 		return $this;
 	}
 	
@@ -156,6 +177,35 @@ class KBCommentList {
 			}
 		}
 		return intval($this->total);
+	}
+	
+	/**
+	 * 리스트를 초기화한다.
+	 */
+	public function initFirstList(){
+		$this->next_list_page = 1;
+	}
+	
+	/**
+	 * 다음 리스트를 반환한다.
+	 * @return array
+	 */
+	public function hasNextList(){
+		global $wpdb;
+		
+		$offset = ($this->next_list_page-1)*$this->rpp;
+		
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' ORDER BY `{$this->sort}` {$this->order} LIMIT {$offset},{$this->rpp}");
+		$wpdb->flush();
+		
+		if($this->resource){
+			$this->next_list_page++;
+		}
+		else{
+			$this->next_list_page = 1;
+		}
+		
+		return $this->resource;
 	}
 	
 	/**

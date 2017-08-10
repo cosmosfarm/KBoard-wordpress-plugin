@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2017-03-04 12:35+0900\n"
-"PO-Revision-Date: 2017-03-04 12:39+0900\n"
+"POT-Creation-Date: 2017-08-08 16:52+0900\n"
+"PO-Revision-Date: 2017-08-08 16:52+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,18 +17,29 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
+#: class/KBComment.class.php:133
+msgid "Deleted comment increment points"
+msgstr "Deleted comment increment points"
+
+#: class/KBComment.class.php:145
+msgid "Deleted comment decrease points"
+msgstr "Deleted comment decrease points"
+
 #: class/KBCommentController.class.php:35
-#: class/KBCommentController.class.php:160
-#: class/KBCommentController.class.php:203
+#: class/KBCommentController.class.php:193
+#: class/KBCommentController.class.php:237
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
 #: class/KBCommentController.class.php:77
 #: class/KBCommentController.class.php:80
 #: class/KBCommentController.class.php:83
-#: class/KBCommentController.class.php:150
-#: class/KBCommentController.class.php:177
-#: class/KBCommentController.class.php:229 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:138
+#: class/KBCommentController.class.php:183
+#: class/KBCommentController.class.php:211
+#: class/KBCommentController.class.php:263
+#: class/KBCommentController.class.php:317
+#: class/KBCommentController.class.php:352 class/KBCommentTemplate.class.php:68
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
@@ -41,7 +52,7 @@ msgid "Please enter the password."
 msgstr "Please enter the password."
 
 #: class/KBCommentController.class.php:92
-#: class/KBCommentController.class.php:219 index.php:127 template/edit.php:37
+#: class/KBCommentController.class.php:253 index.php:127 template/edit.php:37
 msgid "Please enter the content."
 msgstr "Please enter the content."
 
@@ -59,16 +70,35 @@ msgstr "\"%s\" is not available."
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHA is invalid."
 
-#: class/KBCommentController.class.php:167
-#: class/KBCommentController.class.php:216 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:143
+msgid "You have not enough points."
+msgstr "You have not enough points."
+
+#: class/KBCommentController.class.php:149
+msgid "Writing comment decrease points"
+msgstr "Writing comment decrease points"
+
+#: class/KBCommentController.class.php:171
+msgid "Writing comment increase points"
+msgstr "Writing comment increase points"
+
+#: class/KBCommentController.class.php:200
+#: class/KBCommentController.class.php:250 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:48
 msgid "uid is required."
 msgstr "uid is required."
 
-#: class/KBCommentController.class.php:170
-#: class/KBCommentController.class.php:222
+#: class/KBCommentController.class.php:203
+#: class/KBCommentController.class.php:256
+#: class/KBCommentController.class.php:313
+#: class/KBCommentController.class.php:348
 msgid "Please log in to continue."
 msgstr "Please log in to continue."
+
+#: class/KBCommentController.class.php:309
+#: class/KBCommentController.class.php:344
+msgid "You have already voted."
+msgstr "You have already voted."
 
 #: class/KBCommentListTable.class.php:44
 msgid "No comment found."
@@ -255,6 +285,9 @@ msgstr "Password confirmation"
 #: template/edit.php:23
 msgid "Edit content"
 msgstr "Edit content"
+
+#~ msgid "Please Log in to continue."
+#~ msgstr "Please Log in to continue."
 
 #~ msgid "The CAPTCHA is invalid. Please enter the CAPTCHA."
 #~ msgstr "The CAPTCHA is invalid. Please enter the CAPTCHA."

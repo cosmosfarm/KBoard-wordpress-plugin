@@ -101,10 +101,10 @@
 			<div class="left">
 				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-contact-form-button-small"><?php echo __('List', 'kboard')?></a>
 			</div>
-			<?php if($board->isEditor($content->member_uid) || $board->permission_write=='all'):?>
+			<?php if($content->isEditor() || $board->permission_write=='all'):?>
 			<div class="right">
 				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-contact-form-button-small"><?php echo __('Edit', 'kboard')?></a>
-				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'remove')->toString()?>" class="kboard-contact-form-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
+				<a href="<?php echo $url->getContentRemove($content->uid)?>" class="kboard-contact-form-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
 			</div>
 			<?php endif?>
 		</div>

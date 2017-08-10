@@ -7,10 +7,6 @@
  */
 class KBBackup {
 	
-	public function __construct(){
-		set_time_limit(0);
-	}
-	
 	/**
 	 * KBoard 테이블 목록을 반환한다.
 	 * @return array
