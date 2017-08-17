@@ -105,7 +105,7 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 #kboard-customer-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
 #kboard-customer-editor .kboard-confirm-row { padding: 100px 0; }
 #kboard-customer-editor .kboard-content { float: left; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
-#kboard-customer-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; font-size: 13px; box-sizing: border-box; }
+#kboard-customer-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; font-size: 13px; box-sizing: border-box; }
 #kboard-customer-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-customer-editor .kboard-control .left { position: static; float: left; }
 #kboard-customer-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
