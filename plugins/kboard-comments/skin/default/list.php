@@ -92,4 +92,4 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="<?php echo $skin_path?>/script.js?<?php echo KBOARD_COMMNETS_VERSION?>"></script>
+<?php wp_enqueue_script('kboard-comments-default-script', "{$skin_path}/script.js", array(), KBOARD_COMMNETS_VERSION, true)?>

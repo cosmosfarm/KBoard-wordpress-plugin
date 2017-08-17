@@ -30,6 +30,9 @@ class KBCommentTemplate {
 		if(!$comment->uid){
 			die("<script>alert('".__('Comment does not exist.', 'kboard-comments')."');window.close();</script>");
 		}
+		if(!$comment->password && !is_user_logged_in()){
+			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');window.close();</script>");
+		}
 		
 		$commentURL = new KBCommentUrl();
 		$commentURL->setCommentUID($comment->uid);
@@ -53,6 +56,9 @@ class KBCommentTemplate {
 		
 		if(!$comment->uid){
 			die("<script>alert('".__('Comment does not exist.', 'kboard-comments')."');window.close();</script>");
+		}
+		if(!$comment->password && !is_user_logged_in()){
+			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');window.close();</script>");
 		}
 		
 		$password = isset($_POST['password'])?$_POST['password']:'';

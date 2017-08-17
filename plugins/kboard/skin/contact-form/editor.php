@@ -129,4 +129,4 @@
 <script>alert('<?php echo __('Your message was sent successfully. Thanks.', 'kboard')?>');</script>
 <?php endif?>
 
-<script type="text/javascript" src="<?php echo $skin_path?>/script.js?<?php echo KBOARD_VERSION?>"></script>
+<?php wp_enqueue_script('kboard-contact-form-script', "{$skin_path}/script.js", array(), KBOARD_VERSION, true)?>
