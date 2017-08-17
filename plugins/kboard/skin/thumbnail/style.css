@@ -26,11 +26,11 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-list .kboard-list-header { float: left; display: table; padding-bottom: 15px; width: 100%; }
 #kboard-thumbnail-list .kboard-list-header .kboard-total-count { *float: left; display: table-cell; font-size: 13px; }
 #kboard-thumbnail-list .kboard-list-header .kboard-sort { *float: right; display: table-cell; text-align: right; }
-#kboard-thumbnail-list .kboard-list-header .kboard-sort select { display: inline; margin: 0; padding: 0; width: auto; min-width: 0; max-width: none; height: 26px; line-height: 26px; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: content-box; text-indent: 0; }
+#kboard-thumbnail-list .kboard-list-header .kboard-sort select { display: inline; margin: 0; padding: 0; width: auto; min-width: 0; max-width: none; height: 26px; line-height: 26px; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: content-box; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-thumbnail-list .kboard-category { float: left; padding-bottom: 15px; width: 100%; }
 #kboard-thumbnail-list .kboard-category.category-mobile { display: none; }
 #kboard-thumbnail-list .kboard-category.category-pc { display: block; }
-#kboard-thumbnail-list .kboard-category select { display: inline; margin: 0 0 5px 0; padding: 0; width: 100%; min-width: 100%; height: 28px; line-height: 28px; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: border-box; text-indent: 0; }
+#kboard-thumbnail-list .kboard-category select { display: inline; margin: 0 0 5px 0; padding: 0; width: 100%; min-width: 100%; height: 28px; line-height: 28px; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: border-box; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-thumbnail-list .kboard-category .kboard-category-list { margin: 0 0 5px 0; padding: 0; list-style: none; border: 0; background-color: #f4f4f4; overflow: hidden; }
 #kboard-thumbnail-list .kboard-category .kboard-category-list li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 5px; border: 0; list-style: none; }
 #kboard-thumbnail-list .kboard-category .kboard-category-list li::before,
@@ -75,12 +75,12 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-thumbnail-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
-#kboard-thumbnail-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
+#kboard-thumbnail-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-thumbnail-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 200px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
 #kboard-thumbnail-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-thumbnail-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; }
+#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-thumbnail-editor input[type=text],
 #kboard-thumbnail-editor input[type=email],
 #kboard-thumbnail-editor input[type=number],
