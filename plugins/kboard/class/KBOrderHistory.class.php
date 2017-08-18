@@ -12,6 +12,7 @@ class KBOrderHistory {
 	var $board;
 	var $board_id;
 	var $total;
+	var $search_condition = array();
 	var $rpp = 10;
 	var $page = 1;
 	var $resource;
@@ -21,40 +22,47 @@ class KBOrderHistory {
 	/**
 	 * 게시판 리스트를 초기화한다.
 	 */
-	public function initOrder($user_id){
+	public function initOrder($user_id=''){
 		global $wpdb;
 		
 		$this->init_mode = 'order';
 		
 		$user_id = intval($user_id);
+		if(!$user_id) $user_id = get_current_user_id();
+		
 		if($this->board_id && $user_id){
 			
 			$from[] = "`{$wpdb->posts}`";
 			$where[] = "`{$wpdb->posts}`.`post_type`='kboard_order'";
-			$search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$search_condition[] = array('key'=>'user_id', 'compare'=>'=', 'value'=>$user_id);
+			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$this->search_condition[] = array('key'=>'user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_history_search_condition', $search_condition, $this);
+			$search_condition = apply_filters('kboard_history_search_condition', $this->search_condition, $this);
 			if($search_condition){
 				$search_query = $this->getSearchQuery($search_condition);
 				if($search_query){
 					$where[] = $search_query;
 					
-					foreach($this->multiple_condition_keys as $condition_key){
-						$condition_index = array_search($condition_key, $this->multiple_condition_keys);
-						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_index}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_index}`.`post_id`";
+					foreach($this->multiple_condition_keys as $condition_name){
+						$condition_key= array_search($condition_name, $this->multiple_condition_keys);
+						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
 					}
 				}
 			}
 			
 			$offset = ($this->page-1)*$this->rpp;
 			
-			$this->resource = $wpdb->get_results("SELECT `{$wpdb->posts}`.`ID` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->posts}`.`ID` DESC LIMIT $offset,$this->rpp");
+			$this->resource = $wpdb->get_results("SELECT `{$wpdb->posts}`.`ID` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->posts}`.`ID` DESC LIMIT {$offset},{$this->rpp}");
 			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
+			
+			$wpdb->flush();
 		}
 		return $this;
 	}
 	
+	/**
+	 * 게시판 리스트를 초기화한다.
+	 */
 	public function initOrderWithKey($nonmember_key){
 		global $wpdb;
 		
@@ -74,16 +82,16 @@ class KBOrderHistory {
 				if($search_query){
 					$where[] = $search_query;
 					
-					foreach($this->multiple_condition_keys as $condition_key){
-						$condition_index = array_search($condition_key, $this->multiple_condition_keys);
-						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_index}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_index}`.`post_id`";
+					foreach($this->multiple_condition_keys as $condition_name){
+						$condition_key= array_search($condition_name, $this->multiple_condition_keys);
+						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
 					}
 				}
 			}
 			
 			$offset = ($this->page-1)*$this->rpp;
 			
-			$this->resource = $wpdb->get_results("SELECT `{$wpdb->posts}`.`ID` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->posts}`.`ID` DESC LIMIT $offset,$this->rpp");
+			$this->resource = $wpdb->get_results("SELECT `{$wpdb->posts}`.`ID` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->posts}`.`ID` DESC LIMIT {$offset},{$this->rpp}");
 			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
 		}
 		return $this;
@@ -92,12 +100,14 @@ class KBOrderHistory {
 	/**
 	 * 게시판 리스트를 초기화한다.
 	 */
-	public function initOrderItem($user_id){
+	public function initOrderItem($user_id=''){
 		global $wpdb;
 		
 		$this->init_mode = 'order_item';
 		
 		$user_id = intval($user_id);
+		if(!$user_id) $user_id = get_current_user_id();
+		
 		if($this->board_id && $user_id){
 			
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
@@ -111,16 +121,16 @@ class KBOrderHistory {
 				if($search_query){
 					$where[] = $search_query;
 					
-					foreach($this->multiple_condition_keys as $condition_key){
-						$condition_index = array_search($condition_key, $this->multiple_condition_keys);
-						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_index}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_index}`.`order_item_id`";
+					foreach($this->multiple_condition_keys as $condition_name){
+						$condition_key= array_search($condition_name, $this->multiple_condition_keys);
+						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
 					}
 				}
 			}
 			
 			$offset = ($this->page-1)*$this->rpp;
 			
-			$this->resource = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_order_item`.`order_item_id` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->prefix}kboard_order_item`.`order_item_id` DESC LIMIT $offset,$this->rpp");
+			$this->resource = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_order_item`.`order_item_id` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->prefix}kboard_order_item`.`order_item_id` DESC LIMIT {$offset},{$this->rpp}");
 			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
 		}
 		return $this;
@@ -142,25 +152,21 @@ class KBOrderHistory {
 		
 		foreach($multiple as $condition){
 			if(isset($condition['relation'])){
-				$where[] = $this->multipleOptionQuery($condition);
+				$where[] = $this->getSearchQuery($condition);
 			}
 			else if(is_array($condition)){
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
 				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
 				$condition_compare = isset($condition['compare']) ? esc_sql(sanitize_text_field($condition['compare'])) : '';
-		
+				
 				if($condition_key && $condition_value){
 					if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
 						$condition_compare = '=';
 					}
-						
-					if(in_array($condition_compare, array('LIKE', 'NOT LIKE'))){
-						$condition_value = "%{$condition_value}%";
-					}
-						
+					
 					$this->multiple_condition_keys[$condition_key] = $condition_key;
 					$condition_index = array_search($condition_key, $this->multiple_condition_keys);
-						
+					
 					$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
 				}
 			}

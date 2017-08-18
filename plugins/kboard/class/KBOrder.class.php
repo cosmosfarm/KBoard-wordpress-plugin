@@ -197,36 +197,41 @@ class KBOrder {
 	 * 주문을 저장한다.
 	 */
 	public function create(){
-		$post_password = isset($_POST['kboard_order_password'])?$_POST['kboard_order_password']:'';
-		
-		if(is_user_logged_in()){
-			$order_user = wp_get_current_user();
-			$this->user_id = $order_user->ID;
-			$this->user_name = $order_user->display_name;
+		if($this->items_count > 0){
+			$post_password = isset($_POST['kboard_order_password'])?$_POST['kboard_order_password']:'';
+			
+			if(is_user_logged_in()){
+				$order_user = wp_get_current_user();
+				$this->user_id = $order_user->ID;
+				$this->user_name = $order_user->display_name;
+			}
+			else{
+				$this->nonmember_key = kboard_hash($this->email, $this->name . $post_password);
+			}
+			
+			$order_id = wp_insert_post(array(
+					'post_author'   => $this->user_id,
+					'post_title'    => $this->title,
+					'post_content'  => '',
+					'post_status'   => 'publish',
+					'comment_status'=> 'closed',
+					'ping_status'   => 'closed',
+					'post_password' => wp_hash_password($post_password),
+					'post_name'     => sanitize_title($this->title),
+					'post_parent'   => $this->board_id,
+					'post_type'     => 'kboard_order',
+					'meta_input'    => get_object_vars($this->row)
+			));
+			
+			if(is_wp_error($order_id)){
+				$this->order_id = '';
+			}
+			else{
+				$this->order_id = $order_id;
+			}
 		}
 		else{
-			$this->nonmember_key = kboard_hash($this->email, $this->name . $post_password);
-		}
-		
-		$order_id = wp_insert_post(array(
-				'post_author'   => $this->user_id,
-				'post_title'    => $this->title,
-				'post_content'  => '',
-				'post_status'   => 'publish',
-				'comment_status'=> 'closed',
-				'ping_status'   => 'closed',
-				'post_password' => wp_hash_password($post_password),
-				'post_name'     => sanitize_title($this->title),
-				'post_parent'   => $this->board_id,
-				'post_type'     => 'kboard_order',
-				'meta_input'    => get_object_vars($this->row)
-		));
-		
-		if(is_wp_error($order_id)){
 			$this->order_id = '';
-		}
-		else{
-			$this->order_id = $order_id;
 		}
 	}
 	

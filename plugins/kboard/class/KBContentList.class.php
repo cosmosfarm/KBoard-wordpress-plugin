@@ -211,7 +211,7 @@ class KBContentList {
 			$this->start_date = date('Ymd', strtotime($start_date)) . '000000';
 		}
 		if($end_date){
-			$this->end_date = date('Ymd', strtotime($end_date)) . '000000';
+			$this->end_date = date('Ymd', strtotime($end_date)) . '235959';
 		}
 	}
 	
@@ -377,9 +377,9 @@ class KBContentList {
 			if($multiple_option_query){
 				$this->where[] = $multiple_option_query;
 				
-				foreach($this->multiple_option_keys as $option_key){
-					$option_index = array_search($option_key, $this->multiple_option_keys);
-					$this->from[] = "INNER JOIN `{$wpdb->prefix}kboard_board_option` AS `option_{$option_index}` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`option_{$option_index}`.`content_uid`";
+				foreach($this->multiple_option_keys as $option_name){
+					$option_key = array_search($option_name, $this->multiple_option_keys);
+					$this->from[] = "INNER JOIN `{$wpdb->prefix}kboard_board_option` AS `option_{$option_key}` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`option_{$option_key}`.`content_uid`";
 				}
 			}
 		}
@@ -469,10 +469,6 @@ class KBContentList {
 				if($option_key && $option_value){
 					if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
 						$option_compare = '=';
-					}
-					
-					if(in_array($option_compare, array('LIKE', 'NOT LIKE'))){
-						$option_value = "%{$option_value}%";
 					}
 					
 					$this->multiple_option_keys[$option_key] = $option_key;
