@@ -291,7 +291,7 @@ class KBoardBuilder {
 		$order = new KBOrder();
 		$order->board = $this->board;
 		$order->board_id = $this->board_id;
-
+		
 		$vars = array(
 				'content' => $content,
 				'order' => $order,
@@ -302,7 +302,7 @@ class KBoardBuilder {
 				'board' => $board,
 				'boardBuilder' => $this,
 		);
-
+		
 		$allow_document = false;
 		if(!$this->board->isReader($content->member_uid, $content->secret)){
 			if(!is_user_logged_in() && $this->board->permission_read!='all'){

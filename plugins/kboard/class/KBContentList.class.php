@@ -464,7 +464,7 @@ class KBContentList {
 			else if(is_array($option)){
 				$option_key = isset($option['key']) ? esc_sql(sanitize_key($option['key'])) : '';
 				$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
-				$option_compare = isset($option['compare']) ? esc_sql(sanitize_text_field($option['compare'])) : '';
+				$option_compare = isset($option['compare']) ? esc_sql($option['compare']) : '';
 				
 				if($option_key && $option_value){
 					if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){

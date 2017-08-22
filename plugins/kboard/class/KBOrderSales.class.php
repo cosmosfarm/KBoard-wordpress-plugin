@@ -140,7 +140,7 @@ class KBOrderSales {
 			else if(is_array($condition)){
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
 				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
-				$condition_compare = isset($condition['compare']) ? esc_sql(sanitize_text_field($condition['compare'])) : '';
+				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
 				
 				if($condition_key && $condition_value){
 					if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
