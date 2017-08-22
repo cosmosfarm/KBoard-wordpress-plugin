@@ -415,7 +415,7 @@ function kboard_user_ip(){
 			$ip = $_SERVER['REMOTE_ADDR'];
 		}
 	}
-	return $ip;
+	return apply_filters('kboard_user_ip', $ip);
 }
 
 /**
@@ -428,7 +428,7 @@ function kboard_category1(){
 		$_GET['category1'] = isset($_GET['category1'])?sanitize_text_field($_GET['category1']):'';
 		$category1 = $_GET['category1'];
 	}
-	return $category1;
+	return apply_filters('kboard_category1', $category1);
 }
 
 /**
@@ -441,7 +441,7 @@ function kboard_category2(){
 		$_GET['category2'] = isset($_GET['category2'])?sanitize_text_field($_GET['category2']):'';
 		$category2 = $_GET['category2'];
 	}
-	return $category2;
+	return apply_filters('kboard_category2', $category2);
 }
 
 /**
@@ -455,7 +455,7 @@ function kboard_uid(){
 		$_POST['uid'] = isset($_POST['uid'])?intval($_POST['uid']):'';
 		$uid = $_GET['uid']?$_GET['uid']:$_POST['uid'];
 	}
-	return $uid;
+	return apply_filters('kboard_uid', $uid);
 }
 
 /**
@@ -468,7 +468,7 @@ function kboard_execute_uid(){
 		$_GET['execute_uid'] = isset($_GET['execute_uid'])?intval($_GET['execute_uid']):'';
 		$execute_uid = $_GET['execute_uid'];
 	}
-	return $execute_uid;
+	return apply_filters('kboard_execute_uid', $execute_uid);
 }
 
 /**
@@ -486,7 +486,7 @@ function kboard_mod($default=''){
 	if(!in_array($mod, array('list', 'document', 'editor', 'remove', 'order', 'complete', 'history', 'sales'))){
 		return $default;
 	}
-	return $mod;
+	return apply_filters('kboard_mod', $mod);
 }
 
 /**
@@ -499,7 +499,7 @@ function kboard_keyword(){
 		$_GET['keyword'] = isset($_GET['keyword'])?sanitize_text_field($_GET['keyword']):'';
 		$keyword = $_GET['keyword'];
 	}
-	return $keyword;
+	return apply_filters('kboard_keyword', $keyword);
 }
 
 /**
@@ -512,7 +512,7 @@ function kboard_target(){
 		$_GET['target'] = isset($_GET['target'])?sanitize_key($_GET['target']):'';
 		$target = $_GET['target'];
 	}
-	return $target;
+	return apply_filters('kboard_target', $target);
 }
 
 /**
@@ -525,7 +525,7 @@ function kboard_pageid(){
 		$_GET['pageid'] = isset($_GET['pageid'])?intval($_GET['pageid']):1;
 		$pageid = $_GET['pageid'];
 	}
-	return $pageid;
+	return apply_filters('kboard_pageid', $pageid);
 }
 
 /**
@@ -538,7 +538,7 @@ function kboard_parent_uid(){
 		$_GET['parent_uid'] = isset($_GET['parent_uid'])?intval($_GET['parent_uid']):'';
 		$parent_uid = $_GET['parent_uid'];
 	}
-	return $parent_uid;
+	return apply_filters('kboard_parent_uid', $parent_uid);
 }
 
 /**
@@ -551,7 +551,7 @@ function kboard_id(){
 		$_GET['kboard_id'] = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
 		$kboard_id = $_GET['kboard_id'];
 	}
-	return $kboard_id;
+	return apply_filters('kboard_id', $kboard_id);
 }
 
 /**
@@ -566,7 +566,7 @@ function kboard_compare(){
 			$compare = 'LIKE';
 		}
 	}
-	return $compare;
+	return apply_filters('kboard_compare', $compare);
 }
 
 /**
@@ -578,7 +578,7 @@ function kboard_start_date(){
 	if($start_date === null){
 		$start_date = isset($_REQUEST['start_date'])?sanitize_text_field($_REQUEST['start_date']):'';
 	}
-	return $start_date;
+	return apply_filters('kboard_start_date', $start_date);
 }
 
 /**
@@ -590,7 +590,7 @@ function kboard_end_date(){
 	if($end_date === null){
 		$end_date = isset($_REQUEST['end_date'])?sanitize_text_field($_REQUEST['end_date']):'';
 	}
-	return $end_date;
+	return apply_filters('kboard_end_date', $end_date);
 }
 
 /**
@@ -602,7 +602,7 @@ function kboard_search_option(){
 	if($search_option === null){
 		$search_option = (isset($_REQUEST['kboard_option'])&&is_array($_REQUEST['kboard_option']))?$_REQUEST['kboard_option']:array();
 	}
-	return $search_option;
+	return apply_filters('kboard_search_option', $search_option);
 }
 
 /**
@@ -614,7 +614,7 @@ function kboard_order_id(){
 	if($order_id === null){
 		$order_id = isset($_REQUEST['order_id'])?intval($_REQUEST['order_id']):'';
 	}
-	return $order_id;
+	return apply_filters('kboard_order_id', $order_id);
 }
 
 /**
@@ -626,6 +626,6 @@ function kboard_order_item_id(){
 	if($order_item_id === null){
 		$order_item_id = isset($_REQUEST['order_item_id'])?intval($_REQUEST['order_item_id']):'';
 	}
-	return $order_item_id;
+	return apply_filters('kboard_order_item_id', $order_item_id);
 }
 ?>
