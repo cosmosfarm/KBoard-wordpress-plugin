@@ -216,11 +216,21 @@ class KBContentList {
 	}
 	
 	/**
-	 * 검색 옵션 데이터를 입력한다.
+	 * 검색 옵션을 입력한다.
 	 * @param array $search_option
 	 */
 	public function setSearchOption($search_option){
 		$this->search_option = $search_option;
+	}
+	
+	/**
+	 * 검색 조건을 추가한다.
+	 * @param string $key
+	 * @param string $value
+	 * @param string $compare
+	 */
+	public function addSearchOption($key, $value, $compare='='){
+		$this->search_option[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
 	}
 
 	/**

@@ -35,7 +35,7 @@ class KBOrderSales {
 			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
 			$this->search_condition[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_sales_search_condition', $this->search_condition, $this);
+			$search_condition = apply_filters('kboard_sales_search_option', $this->search_condition, $this);
 			if($search_condition){
 				$search_query = $this->getSearchQuery($search_condition);
 				if($search_query){
@@ -86,7 +86,7 @@ class KBOrderSales {
 			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
 			$this->search_condition[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_sales_search_condition', $this->search_condition, $this);
+			$search_condition = apply_filters('kboard_sales_search_option', $this->search_condition, $this);
 			if($search_condition){
 				$search_query = $this->getSearchQuery($search_condition);
 				if($search_query){
@@ -162,6 +162,24 @@ class KBOrderSales {
 			return implode(" {$relation} ", $where);
 		}
 		return '';
+	}
+	
+	/**
+	 * 검색 옵션을 입력한다.
+	 * @param array $search_option
+	 */
+	public function setSearchOption($search_option){
+		$this->search_condition = $search_option;
+	}
+	
+	/**
+	 * 검색 조건을 추가한다.
+	 * @param string $key
+	 * @param string $value
+	 * @param string $compare
+	 */
+	public function addSearchOption($key, $value, $compare='='){
+		$this->search_condition[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
 	}
 	
 	/**

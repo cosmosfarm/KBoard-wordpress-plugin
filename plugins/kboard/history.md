@@ -5,8 +5,10 @@
 5.3.4
 ----------------------------------
 
-  버그 수정
   다수의 helper 함수에 필터 추가
+  kboard_history_search_option 필터 추가
+  kboard_sales_search_option 필터 추가
+  버그 수정
 
 
 5.3.3

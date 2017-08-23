@@ -37,7 +37,7 @@ class KBOrderHistory {
 			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
 			$this->search_condition[] = array('key'=>'user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_history_search_condition', $this->search_condition, $this);
+			$search_condition = apply_filters('kboard_history_search_option', $this->search_condition, $this);
 			if($search_condition){
 				$search_query = $this->getSearchQuery($search_condition);
 				if($search_query){
@@ -76,7 +76,7 @@ class KBOrderHistory {
 			$search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
 			$search_condition[] = array('key'=>'nonmember_key', 'compare'=>'=', 'value'=>$nonmember_key);
 			
-			$search_condition = apply_filters('kboard_history_search_condition', $search_condition, $this);
+			$search_condition = apply_filters('kboard_history_search_option', $search_condition, $this);
 			if($search_condition){
 				$search_query = $this->getSearchQuery($search_condition);
 				if($search_query){
@@ -115,7 +115,7 @@ class KBOrderHistory {
 			$search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
 			$search_condition[] = array('key'=>'order_user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_history_search_condition', $search_condition, $this);
+			$search_condition = apply_filters('kboard_history_search_option', $search_condition, $this);
 			if($search_condition){
 				$search_query = $this->getSearchQuery($search_condition);
 				if($search_query){
@@ -179,6 +179,24 @@ class KBOrderHistory {
 			return implode(" {$relation} ", $where);
 		}
 		return '';
+	}
+	
+	/**
+	 * 검색 옵션을 입력한다.
+	 * @param array $search_option
+	 */
+	public function setSearchOption($search_option){
+		$this->search_condition = $search_option;
+	}
+	
+	/**
+	 * 검색 조건을 추가한다.
+	 * @param string $key
+	 * @param string $value
+	 * @param string $compare
+	 */
+	public function addSearchOption($key, $value, $compare='='){
+		$this->search_condition[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
 	}
 	
 	/**

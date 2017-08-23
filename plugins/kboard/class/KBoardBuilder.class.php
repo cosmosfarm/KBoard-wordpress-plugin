@@ -789,6 +789,7 @@ class KBoardBuilder {
 		$list->board_id = $this->board_id;
 		$list->rpp = $this->rpp;
 		$list->page = kboard_pageid();
+		$list->setSearchOption(kboard_search_option());
 		
 		if(is_user_logged_in()){
 			$list->initOrder(get_current_user_id());
@@ -837,6 +838,7 @@ class KBoardBuilder {
 		$list->rpp = $this->rpp;
 		$list->page = kboard_pageid();
 		$list->setDateRange(kboard_start_date(), kboard_end_date());
+		$list->setSearchOption(kboard_search_option());
 		$list->init(get_current_user_id());
 		
 		$order = new KBOrder();
