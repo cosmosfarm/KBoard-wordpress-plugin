@@ -75,8 +75,8 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-thumbnail-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
-#kboard-thumbnail-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-thumbnail-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 200px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
+#kboard-thumbnail-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 0; max-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-thumbnail-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
 #kboard-thumbnail-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-thumbnail-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
