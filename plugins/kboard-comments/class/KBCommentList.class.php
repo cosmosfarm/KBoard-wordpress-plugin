@@ -115,7 +115,7 @@ class KBCommentList {
 			$where = "`content` LIKE '%$keyword%'";
 		}
 		else{
-			$where = '1';
+			$where = '1=1';
 		}
 		
 		$offset = ($this->page-1)*$this->rpp;
@@ -250,6 +250,7 @@ class KBCommentList {
 	 */
 	public function add($parent_uid, $user_uid, $user_display, $content, $password=''){
 		global $wpdb;
+		
 		$content_uid = $this->content_uid;
 		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);

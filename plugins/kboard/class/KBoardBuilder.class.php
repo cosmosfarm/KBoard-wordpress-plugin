@@ -192,7 +192,7 @@ class KBoardBuilder {
 				$url = new KBUrl();
 				return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
-				
+			
 			if($this->meta->pass_autop == 'enable'){
 				do_action('kboard_skin_header', $this);
 				call_user_func(array($this, 'builder'.ucfirst($this->mod)));
@@ -409,7 +409,8 @@ class KBoardBuilder {
 			
 			echo $this->skin->load($this->skin_name, 'document.php', $vars);
 			
-			if($board->meta->always_view_list){
+			if(apply_filters('kboard_always_view_list', $board->meta->always_view_list, $this)){
+				do_action('kboard_skin_always_view_list', $this);
 				$this->builderList();
 			}
 		}
@@ -832,31 +833,51 @@ class KBoardBuilder {
 	 * 판매 내역 페이지를 생성한다.
 	 */
 	public function builderSales(){
-		$list = new KBOrderSales();
-		$list->board = $this->board;
-		$list->board_id = $this->board_id;
-		$list->rpp = $this->rpp;
-		$list->page = kboard_pageid();
-		$list->setDateRange(kboard_start_date(), kboard_end_date());
-		$list->setSearchOption(kboard_search_option());
-		$list->init(get_current_user_id());
+		$url = new KBUrl();
 		
-		$order = new KBOrder();
-		$order->board = $this->board;
-		$order->board_id = $this->board_id;
-		
-		$vars = array(
-				'list' => $list,
-				'order' => $order,
-				'url' => new KBUrl(),
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'boardBuilder' => $this,
-		);
-		
-		echo $this->skin->load($this->skin_name, 'sales.php', $vars);
+		if($this->board->isWriter()){
+			$list = new KBOrderSales();
+			$list->board = $this->board;
+			$list->board_id = $this->board_id;
+			$list->rpp = $this->rpp;
+			$list->page = kboard_pageid();
+			if(kboard_start_date() && kboard_end_date()){
+				$list->setDateRange(kboard_start_date(), kboard_end_date());
+			}
+			else{
+				$today = date('Ymd', current_time('timestamp'));
+				$last_month = date('Ymd', strtotime("{$today} -1 month"));
+				$list->setDateRange($last_month, $today);
+			}
+			$list->setSearchOption(kboard_search_option());
+			$list->init(get_current_user_id());
+			
+			$order = new KBOrder();
+			$order->board = $this->board;
+			$order->board_id = $this->board_id;
+			
+			$vars = array(
+					'list' => $list,
+					'order' => $order,
+					'url' => $url,
+					'skin' => $this->skin,
+					'skin_path' => $this->skin->url($this->skin_name),
+					'skin_dir' => $this->skin->dir($this->skin_name),
+					'board' => $this->board,
+					'boardBuilder' => $this,
+			);
+			
+			echo $this->skin->load($this->skin_name, 'sales.php', $vars);
+		}
+		else if(is_user_logged_in()){
+			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+		}
+		else{
+			$login_url = wp_login_url($_SERVER['REQUEST_URI']);
+			echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
+			echo "<script>top.window.location.href='{$login_url}';</script>";
+		}
 	}
 	
 	/**

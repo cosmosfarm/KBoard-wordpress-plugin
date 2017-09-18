@@ -36,6 +36,7 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 .kboard-contact-form-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 #kboard-contact-form-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
+#kboard-contact-form-list form { margin: 0; padding: 0; }
 #kboard-contact-form-list .kboard-list-header { float: left; display: table; padding-bottom: 15px; width: 100%; }
 #kboard-contact-form-list .kboard-list-header .kboard-total-count { *float: left; display: table-cell; font-size: 13px; }
 #kboard-contact-form-list .kboard-list-header .kboard-sort { *float: right; display: table-cell; text-align: right; }
@@ -89,6 +90,7 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-contact-form-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
+#kboard-contact-form-editor form { margin: 0; padding: 0; }
 #kboard-contact-form-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 16px; width: 30%; height: 32px; line-height: 32px; color: #666666; border-radius: 0; border: 1px solid #dcdcdc; box-shadow: none; background-color: white; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-contact-form-editor textarea { display: inline; margin: 0; padding: 5px; font-size: 16px; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; color: #666666; border-radius: 0; border: 1px solid #dcdcdc; box-shadow: none; background-color: white; box-sizing: border-box; vertical-align: top; text-indent: 0; }
 #kboard-contact-form-editor input[type=text],
@@ -175,7 +177,7 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-latest table { display: table; table-layout: fixed; width: 100%; border: 0; border-bottom: 1px solid #f1f1f1; }
 #kboard-contact-form-latest table tr { padding: 0; border: 0; }
 #kboard-contact-form-latest table th { padding: 5px 0; height: auto; border: 0; text-align: center; }
-#kboard-contact-form-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; }
+#kboard-contact-form-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; vertical-align: middle; }
 #kboard-contact-form-latest table td.kboard-latest-title { text-align: left; }
 #kboard-contact-form-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
 #kboard-contact-form-latest table .kboard-latest-title a { text-decoration: none; box-shadow: none; }

@@ -73,7 +73,7 @@ class KBContentList {
 				$where[] = "`status`='$this->status'";
 			}
 		}
-		if(!isset($where) || !$where) $where[] = '1';
+		if(!isset($where) || !$where) $where[] = '1=1';
 		$where = implode(' AND ', $where);
 		
 		$offset = ($this->page-1)*$this->rpp;
@@ -213,6 +213,26 @@ class KBContentList {
 		if($end_date){
 			$this->end_date = date('Ymd', strtotime($end_date)) . '235959';
 		}
+	}
+	
+	/**
+	 * 검색 옵션의 데이터를 반환한다.
+	 * @param array $associative
+	 * @param array $search_option
+	 * @return string
+	 */
+	public function getSearchOptionValue($associative, $search_option=array()){
+		if(!$search_option) $search_option = $this->search_option;
+		$key = array_shift($associative);
+		if(isset($search_option[$key])){
+			if(is_array($search_option[$key])){
+				return $this->getSearchOptionValue($associative, $search_option[$key]);
+			}
+			else{
+				return $search_option[$key];
+			}
+		}
+		return '';
 	}
 	
 	/**
@@ -369,7 +389,7 @@ class KBContentList {
 		if($date_range['start_date'] && $date_range['end_date']){
 			$start_date = esc_sql($date_range['start_date']);
 			$end_date = esc_sql($date_range['end_date']);
-			$this->where[] = "(`date`>='{$start_date}' AND `date`<='{$end_date}')";
+			$where[] = "(`date` BETWEEN '{$start_date}' AND '{$end_date}')";
 		}
 		else if($date_range['start_date']){
 			$start_date = esc_sql($date_range['start_date']);
@@ -475,10 +495,17 @@ class KBContentList {
 				$option_key = isset($option['key']) ? esc_sql(sanitize_key($option['key'])) : '';
 				$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
 				$option_compare = isset($option['compare']) ? esc_sql($option['compare']) : '';
+				$option_wildcard= isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
 				
 				if($option_key && $option_value){
 					if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
 						$option_compare = '=';
+					}
+					
+					switch($option_wildcard){
+						case 'left': $option_value= "%{$option_value}"; break;
+						case 'right': $option_value= "{$option_value}%"; break;
+						case 'both': $option_value= "%{$option_value}%"; break;
 					}
 					
 					$this->multiple_option_keys[$option_key] = $option_key;

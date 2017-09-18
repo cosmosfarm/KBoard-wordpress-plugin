@@ -37,7 +37,7 @@ final class KBIamport {
 				$payment->success = true;
 				$payment->message = $data->message;
 				$payment->data = $data->response;
-				if(isset($payment->data->custom_data))$payment->data->custom_data = json_decode($payment->data->custom_data);
+				if(isset($payment->data->custom_data)) $payment->data->custom_data = json_decode($payment->data->custom_data);
 			}
 		}
 		

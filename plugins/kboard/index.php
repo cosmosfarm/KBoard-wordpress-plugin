@@ -528,7 +528,7 @@ function kboard_builder($args){
 add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post, $wpdb;
-	if(isset($post->ID) && is_page($post->ID)){
+	if(isset($post->ID) && is_page($post->ID) && !post_password_required()){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$post->ID'");
 		if($board_id) return $content . kboard_builder(array('id'=>$board_id));
 	}
@@ -840,7 +840,15 @@ function kboard_scripts(){
 			'applying_cash_receipts' => __('Applying cash receipts', 'kboard'),
 			'privacy_policy' => __('Privacy policy', 'kboard'),
 			'i_agree_to_the_privacy_policy' => __('I agree to the privacy policy.', 'kboard'),
-			'i_confirm_the_terms_of_the_transaction_and_agree_to_the_payment_process.' => __('I confirm the terms of the transaction and agree to the payment process.', 'kboard'),
+			'i_confirm_the_terms_of_the_transaction_and_agree_to_the_payment_process' => __('I confirm the terms of the transaction and agree to the payment process.', 'kboard'),
+			'today' => __('Today', 'kboard'),
+			'yesterday' => __('Yesterday', 'kboard'),
+			'this_month' => __('This month', 'kboard'),
+			'last_month' => __('Last month', 'kboard'),
+			'last_30_days' => __('Last 30 days', 'kboard'),
+			'agree' => __('Agree', 'kboard'),
+			'disagree' => __('Disagree', 'kboard'),
+			'opinion' => __('Opinion', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

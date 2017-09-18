@@ -1,6 +1,6 @@
 <?php
 /**
- * 파일 조작 클래스
+ * 파일 관리 클래스
  * @link www.cosmosfarm.com
  * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html

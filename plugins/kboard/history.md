@@ -5,10 +5,13 @@
 5.3.4
 ----------------------------------
 
-  다수의 helper 함수에 필터 추가
-  kboard_history_search_option 필터 추가
-  kboard_sales_search_option 필터 추가
-  버그 수정
+  1. 다수의 helper 함수에 필터 추가
+  2. kboard_history_search_option 필터 추가
+  3. kboard_sales_search_option 필터 추가
+  4. kboard_sales_analytics_option 필터 추가
+  5. kboard_always_view_list 필터 추가
+  6. kboard_skin_always_view_list 액션 추가
+  7. 버그 수정
 
 
 5.3.3

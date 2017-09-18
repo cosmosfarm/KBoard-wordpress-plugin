@@ -6,12 +6,13 @@
  */
 class KBOrderSales {
 	
-	private $multiple_condition_keys;
+	private $multiple_option_keys;
+	private $multiple_postmeta_keys;
 	
 	var $board;
 	var $board_id;
 	var $total;
-	var $search_condition = array();
+	var $search_option = array();
 	var $start_date;
 	var $end_date;
 	var $rpp = 10;
@@ -31,13 +32,13 @@ class KBOrderSales {
 		if($this->board_id && $user_id){
 			
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
-			$where[] = '1';
-			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$this->search_condition[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id);
+			$where[] = '1=1';
+			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
+			$this->search_option[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
 			
-			$search_condition = apply_filters('kboard_sales_search_option', $this->search_condition, $this);
-			if($search_condition){
-				$search_query = $this->getSearchQuery($search_condition);
+			$search_option = apply_filters('kboard_sales_search_option', $this->search_option, $this);
+			if($search_option){
+				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
 					$where[] = $search_query;
 					
@@ -46,14 +47,23 @@ class KBOrderSales {
 						$start_date = esc_sql($this->start_date);
 						$end_date= esc_sql($this->end_date);
 						
-						$this->multiple_condition_keys['datetime'] = 'datetime';
+						$this->multiple_option_keys['datetime'] = 'datetime';
 						
 						$where[] = "(`meta_datetime`.`meta_key`='datetime' AND `meta_datetime`.`meta_value` BETWEEN '{$start_date}' AND '{$end_date}')";
 					}
 					
-					foreach($this->multiple_condition_keys as $condition_name){
-						$condition_key = array_search($condition_name, $this->multiple_condition_keys);
-						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
+					if(is_array($this->multiple_option_keys) && $this->multiple_option_keys){
+						foreach($this->multiple_option_keys as $condition_name){
+							$condition_key = array_search($condition_name, $this->multiple_option_keys);
+							$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
+						}
+					}
+					
+					if(is_array($this->multiple_postmeta_keys) && $this->multiple_postmeta_keys){
+						foreach($this->multiple_postmeta_keys as $condition_name){
+							$condition_key = array_search($condition_name, $this->multiple_postmeta_keys);
+							$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `postmeta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_id`=`postmeta_{$condition_key}`.`post_id`";
+						}
 					}
 				}
 			}
@@ -69,26 +79,37 @@ class KBOrderSales {
 	}
 	
 	/**
-	 * 게시판 리스트를 초기화한다.
+	 * 게시판 통계 자료를 초기화한다.
 	 */
-	public function getAnalytics($user_id=''){
+	public function getAnalytics($args){
 		global $wpdb;
 		
 		$results = array();
 		
-		$user_id = intval($user_id);
-		if(!$user_id) $user_id = get_current_user_id();
+		if(isset($args['user_id'])){
+			$user_id = intval($args['user_id']);
+		}
+		else{
+			$user_id = get_current_user_id();
+		}
+		
+		if(isset($args['collection'])){
+			$collection = $args['collection'];
+		}
+		if($collection != 'daily' && $collection != 'monthly' && $collection != 'yearly' && $collection != 'total_sum'){
+			$collection = 'daily';
+		}
 		
 		if($this->board_id && $user_id){
 			
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
-			$where[] = '1';
-			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$this->search_condition[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id);
+			$where[] = '1=1';
+			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
+			$this->search_option[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
 			
-			$search_condition = apply_filters('kboard_sales_search_option', $this->search_condition, $this);
-			if($search_condition){
-				$search_query = $this->getSearchQuery($search_condition);
+			$search_option = apply_filters('kboard_sales_analytics_option', $this->search_option, $this);
+			if($search_option){
+				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
 					$where[] = $search_query;
 					
@@ -97,22 +118,42 @@ class KBOrderSales {
 						$start_date = esc_sql($this->start_date);
 						$end_date= esc_sql($this->end_date);
 						
-						$this->multiple_condition_keys['datetime'] = 'datetime';
-						$this->multiple_condition_keys['total'] = 'total';
+						$this->multiple_option_keys['datetime'] = 'datetime';
+						$this->multiple_option_keys['total'] = 'total';
 						
 						$where[] = "(`meta_datetime`.`meta_key`='datetime' AND `meta_datetime`.`meta_value` BETWEEN '{$start_date}' AND '{$end_date}')";
 						$where[] = "(`meta_total`.`meta_key`='total')";
 					}
 					
-					foreach($this->multiple_condition_keys as $condition_name){
-						$condition_key = array_search($condition_name, $this->multiple_condition_keys);
-						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
+					if(is_array($this->multiple_option_keys) && $this->multiple_option_keys){
+						foreach($this->multiple_option_keys as $condition_name){
+							$condition_key = array_search($condition_name, $this->multiple_option_keys);
+							$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
+						}
+					}
+					
+					if(is_array($this->multiple_postmeta_keys) && $this->multiple_postmeta_keys){
+						foreach($this->multiple_postmeta_keys as $condition_name){
+							$condition_key = array_search($condition_name, $this->multiple_postmeta_keys);
+							$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `postmeta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_id`=`postmeta_{$condition_key}`.`post_id`";
+						}
 					}
 				}
 			}
 			
-			if(isset($this->multiple_condition_keys['datetime'])){
-				$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 8) AS `ymd`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `ymd` ORDER BY `ymd` ASC");
+			if(isset($this->multiple_option_keys['datetime'])){
+				if($collection == 'daily'){
+					$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 8) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC");
+				}
+				else if($collection == 'monthly'){
+					$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 6) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC");
+				}
+				else if($collection == 'yearly'){
+					$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 4) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC");
+				}
+				else if($collection == 'total_sum'){
+					$results = $wpdb->get_row("SELECT SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
+				}
 				$wpdb->flush();
 			}
 		}
@@ -126,6 +167,8 @@ class KBOrderSales {
 	 * @return string
 	 */
 	public function getSearchQuery($multiple, $relation='AND'){
+		global $wpdb;
+		
 		if(isset($multiple['relation'])){
 			if(in_array($multiple['relation'], array('AND', 'OR'))){
 				$relation = $multiple['relation'];
@@ -141,16 +184,29 @@ class KBOrderSales {
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
 				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
 				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
+				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
 				if($condition_key && $condition_value){
 					if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
 						$condition_compare = '=';
 					}
 					
-					$this->multiple_condition_keys[$condition_key] = $condition_key;
-					$condition_index = array_search($condition_key, $this->multiple_condition_keys);
+					switch($condition_wildcard){
+						case 'left': $condition_value = "%{$condition_value}"; break;
+						case 'right': $condition_value = "{$condition_value}%"; break;
+						case 'both': $condition_value = "%{$condition_value}%"; break;
+					}
 					
-					$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+					if(!isset($condition['table']) || !$condition['table'] || $condition['table'] == "{$wpdb->prefix}kboard_order_item_meta"){
+						$this->multiple_option_keys[$condition_key] = $condition_key;
+						$condition_index = array_search($condition_key, $this->multiple_option_keys);
+						$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+					}
+					else{
+						$this->multiple_postmeta_keys[$condition_key] = $condition_key;
+						$condition_index = array_search($condition_key, $this->multiple_postmeta_keys);
+						$where[] = "(`postmeta_{$condition_index}`.`meta_key`='{$condition_key}' AND `postmeta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+					}
 				}
 			}
 		}
@@ -165,11 +221,31 @@ class KBOrderSales {
 	}
 	
 	/**
+	 * 검색 옵션의 데이터를 반환한다.
+	 * @param array $associative
+	 * @param array $search_option
+	 * @return string
+	 */
+	public function getSearchOptionValue($associative, $search_option=array()){
+		if(!$search_option) $search_option = $this->search_option;
+		$key = array_shift($associative);
+		if(isset($search_option[$key])){
+			if(is_array($search_option[$key])){
+				return $this->getSearchOptionValue($associative, $search_option[$key]);
+			}
+			else{
+				return $search_option[$key];
+			}
+		}
+		return '';
+	}
+	
+	/**
 	 * 검색 옵션을 입력한다.
 	 * @param array $search_option
 	 */
 	public function setSearchOption($search_option){
-		$this->search_condition = $search_option;
+		$this->search_option = $search_option;
 	}
 	
 	/**
@@ -177,9 +253,11 @@ class KBOrderSales {
 	 * @param string $key
 	 * @param string $value
 	 * @param string $compare
+	 * @param string $table
 	 */
-	public function addSearchOption($key, $value, $compare='='){
-		$this->search_condition[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
+	public function addSearchOption($key, $value, $compare='=', $table=''){
+		global $wpdb;
+		$this->search_option[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value, 'table'=>($table ? $table : "{$wpdb->prefix}kboard_order_item_meta"));
 	}
 	
 	/**

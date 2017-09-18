@@ -23,6 +23,7 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 .kboard-default-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
 #kboard-default-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
+#kboard-default-list form { margin: 0; padding: 0; }
 #kboard-default-list .kboard-list-header { float: left; display: table; padding-bottom: 15px; width: 100%; }
 #kboard-default-list .kboard-list-header .kboard-total-count { *float: left; display: table-cell; font-size: 13px; }
 #kboard-default-list .kboard-list-header .kboard-sort { *float: right; display: table-cell; text-align: right; }
@@ -76,6 +77,7 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-default-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
+#kboard-default-editor form { margin: 0; padding: 0; }
 #kboard-default-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-default-editor input[type=text],
 #kboard-default-editor input[type=email],
@@ -160,7 +162,7 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-latest table { display: table; table-layout: fixed; width: 100%; border: 0; border-bottom: 1px solid #f1f1f1; }
 #kboard-default-latest table tr { padding: 0; border: 0; }
 #kboard-default-latest table th { padding: 5px 0; height: auto; border: 0; text-align: center; }
-#kboard-default-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; }
+#kboard-default-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; vertical-align: middle; }
 #kboard-default-latest table td.kboard-latest-title { text-align: left; }
 #kboard-default-latest table .kboard-latest-title { padding-left: 5px; font-size: 13px; }
 #kboard-default-latest table .kboard-latest-title a { text-decoration: none; box-shadow: none; }

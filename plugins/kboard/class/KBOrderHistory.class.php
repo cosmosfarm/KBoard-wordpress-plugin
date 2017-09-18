@@ -6,13 +6,13 @@
  */
 class KBOrderHistory {
 	
-	private $multiple_condition_keys;
+	private $multiple_option_keys;
 	
 	var $init_mode;
 	var $board;
 	var $board_id;
 	var $total;
-	var $search_condition = array();
+	var $search_option = array();
 	var $rpp = 10;
 	var $page = 1;
 	var $resource;
@@ -34,17 +34,17 @@ class KBOrderHistory {
 			
 			$from[] = "`{$wpdb->posts}`";
 			$where[] = "`{$wpdb->posts}`.`post_type`='kboard_order'";
-			$this->search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$this->search_condition[] = array('key'=>'user_id', 'compare'=>'=', 'value'=>$user_id);
+			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$this->search_option[] = array('key'=>'user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_history_search_option', $this->search_condition, $this);
-			if($search_condition){
-				$search_query = $this->getSearchQuery($search_condition);
+			$search_option = apply_filters('kboard_history_search_option', $this->search_option, $this);
+			if($search_option){
+				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
 					$where[] = $search_query;
 					
-					foreach($this->multiple_condition_keys as $condition_name){
-						$condition_key= array_search($condition_name, $this->multiple_condition_keys);
+					foreach($this->multiple_option_keys as $condition_name){
+						$condition_key= array_search($condition_name, $this->multiple_option_keys);
 						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
 					}
 				}
@@ -73,17 +73,17 @@ class KBOrderHistory {
 			$from[] = "`{$wpdb->posts}`";
 			$where[] = "`{$wpdb->posts}`.`post_type`='kboard_order'";
 			$where[] = "`{$wpdb->posts}`.`post_author`='0'";
-			$search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$search_condition[] = array('key'=>'nonmember_key', 'compare'=>'=', 'value'=>$nonmember_key);
+			$search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$search_option[] = array('key'=>'nonmember_key', 'compare'=>'=', 'value'=>$nonmember_key);
 			
-			$search_condition = apply_filters('kboard_history_search_option', $search_condition, $this);
-			if($search_condition){
-				$search_query = $this->getSearchQuery($search_condition);
+			$search_option = apply_filters('kboard_history_search_option', $search_option, $this);
+			if($search_option){
+				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
 					$where[] = $search_query;
 					
-					foreach($this->multiple_condition_keys as $condition_name){
-						$condition_key= array_search($condition_name, $this->multiple_condition_keys);
+					foreach($this->multiple_option_keys as $condition_name){
+						$condition_key= array_search($condition_name, $this->multiple_option_keys);
 						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
 					}
 				}
@@ -111,18 +111,18 @@ class KBOrderHistory {
 		if($this->board_id && $user_id){
 			
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
-			$where[] = '1';
-			$search_condition[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$search_condition[] = array('key'=>'order_user_id', 'compare'=>'=', 'value'=>$user_id);
+			$where[] = '1=1';
+			$search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$search_option[] = array('key'=>'order_user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_condition = apply_filters('kboard_history_search_option', $search_condition, $this);
-			if($search_condition){
-				$search_query = $this->getSearchQuery($search_condition);
+			$search_option = apply_filters('kboard_history_search_option', $search_option, $this);
+			if($search_option){
+				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
 					$where[] = $search_query;
 					
-					foreach($this->multiple_condition_keys as $condition_name){
-						$condition_key= array_search($condition_name, $this->multiple_condition_keys);
+					foreach($this->multiple_option_keys as $condition_name){
+						$condition_key= array_search($condition_name, $this->multiple_option_keys);
 						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
 					}
 				}
@@ -158,14 +158,21 @@ class KBOrderHistory {
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
 				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
 				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
+				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
 				if($condition_key && $condition_value){
 					if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
 						$condition_compare = '=';
 					}
 					
-					$this->multiple_condition_keys[$condition_key] = $condition_key;
-					$condition_index = array_search($condition_key, $this->multiple_condition_keys);
+					switch($condition_wildcard){
+						case 'left': $condition_value = "%{$condition_value}"; break;
+						case 'right': $condition_value = "{$condition_value}%"; break;
+						case 'both': $condition_value = "%{$condition_value}%"; break;
+					}
+					
+					$this->multiple_option_keys[$condition_key] = $condition_key;
+					$condition_index = array_search($condition_key, $this->multiple_option_keys);
 					
 					$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
 				}
@@ -186,7 +193,7 @@ class KBOrderHistory {
 	 * @param array $search_option
 	 */
 	public function setSearchOption($search_option){
-		$this->search_condition = $search_option;
+		$this->search_option = $search_option;
 	}
 	
 	/**
@@ -196,7 +203,7 @@ class KBOrderHistory {
 	 * @param string $compare
 	 */
 	public function addSearchOption($key, $value, $compare='='){
-		$this->search_condition[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
+		$this->search_option[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
 	}
 	
 	/**

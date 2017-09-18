@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2017-08-08 17:11+0900\n"
-"PO-Revision-Date: 2017-08-08 17:12+0900\n"
+"POT-Creation-Date: 2017-09-04 11:46+0900\n"
+"PO-Revision-Date: 2017-09-04 11:46+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -34,76 +34,77 @@ msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "KBoard コメントポイントを管理します。"
 
 #: class/KBAdminController.class.php:27 class/KBAdminController.class.php:147
-#: class/KBAdminController.class.php:171 class/KBAdminController.class.php:205
-#: class/KBAdminController.class.php:247 class/KBAdminController.class.php:305
+#: class/KBAdminController.class.php:174 class/KBAdminController.class.php:211
+#: class/KBAdminController.class.php:253 class/KBAdminController.class.php:316
 #: class/KBController.class.php:54 class/KBController.class.php:59
 #: class/KBController.class.php:63 class/KBController.class.php:68
-#: class/KBController.class.php:113 class/KBController.class.php:500
-#: class/KBController.class.php:503 class/KBController.class.php:516
-#: class/KBController.class.php:519 class/KBController.class.php:555
-#: class/KBController.class.php:587 class/KBController.class.php:654
-#: class/KBController.class.php:706 class/KBController.class.php:741
-#: class/KBController.class.php:758 class/KBTemplate.class.php:105
-#: class/KBTemplate.class.php:111 class/KBoardBuilder.class.php:454
-#: class/KBoardBuilder.class.php:459 class/KBoardBuilder.class.php:472
-#: class/KBoardBuilder.class.php:477 class/KBoardBuilder.class.php:493
-#: class/KBoardBuilder.class.php:575 class/KBoardBuilder.class.php:578
-#: index.php:315 index.php:810 index.php:843
+#: class/KBController.class.php:113 class/KBController.class.php:510
+#: class/KBController.class.php:513 class/KBController.class.php:526
+#: class/KBController.class.php:529 class/KBController.class.php:565
+#: class/KBController.class.php:597 class/KBController.class.php:664
+#: class/KBController.class.php:716 class/KBController.class.php:751
+#: class/KBController.class.php:768 class/KBTemplate.class.php:105
+#: class/KBTemplate.class.php:111 class/KBoardBuilder.class.php:459
+#: class/KBoardBuilder.class.php:464 class/KBoardBuilder.class.php:477
+#: class/KBoardBuilder.class.php:482 class/KBoardBuilder.class.php:498
+#: class/KBoardBuilder.class.php:582 class/KBoardBuilder.class.php:585
+#: class/KBoardBuilder.class.php:873 class/KBoardBuilder.class.php:878
+#: index.php:347 index.php:680 index.php:884 index.php:917
 msgid "You do not have permission."
 msgstr "権限がありません。"
 
-#: class/KBAdminController.class.php:184
+#: class/KBAdminController.class.php:190
 msgid "복원파일의 데이터로 복구 되었습니다."
 msgstr "復元ファイルのデータに復元なりました。"
 
-#: class/KBAdminController.class.php:187
+#: class/KBAdminController.class.php:193
 msgid "올바른 복원파일이 아닙니다."
 msgstr "正しい復元ファイルがありません。"
 
-#: class/KBAdminController.class.php:191
+#: class/KBAdminController.class.php:197
 msgid "파일 업로드에 실패 했습니다."
 msgstr "ファイルアップロードに失敗しました。"
 
-#: class/KBContent.class.php:40
+#: class/KBContent.class.php:41
 #, php-format
 msgid "&#91;Pending&#93; %s"
 msgstr "&#91;承認待ち&#93; %s"
 
-#: class/KBContent.class.php:41
+#: class/KBContent.class.php:42
 #, php-format
 msgid "<p>&#91;Waiting for administrator Approval.&#93;</p>%s"
 msgstr "<p>&#91;管理者の承認を待っています。&#93;</p>%s"
 
-#: class/KBContent.class.php:46
+#: class/KBContent.class.php:47
 msgid "&#91;Pending&#93; Waiting for administrator Approval."
 msgstr "&#91;承認待ち&#93; 管理者の承認を待っています。"
 
-#: class/KBContent.class.php:47
+#: class/KBContent.class.php:48
 msgid "&#91;Waiting for administrator Approval.&#93;"
 msgstr "&#91;管理者の承認を待っています。&#93;"
 
-#: class/KBContent.class.php:177
+#: class/KBContent.class.php:184
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHAが正しくありません。"
 
-#: class/KBContent.class.php:208
+#: class/KBContent.class.php:215
 msgid "KBoard new document"
 msgstr "KBoard 新規登録"
 
-#: class/KBContent.class.php:211
+#: class/KBContent.class.php:218
 msgid "Go to Homepage"
 msgstr "ホームページに移動"
 
-#: class/KBContent.class.php:501 class/KBContent.class.php:541
-#: class/KBContent.class.php:634
+#: class/KBContent.class.php:517 class/KBContent.class.php:557
+#: class/KBContent.class.php:650
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "アップロード経路がありません。IDを入力した後、初期化してください。"
 
-#: class/KBContent.class.php:737 pages/kboard_setting.php:683
+#: class/KBContent.class.php:751 pages/kboard_setting.php:693
 msgid "Deleted increment points"
 msgstr "記事の削除の増加ポイント"
 
-#: class/KBContent.class.php:749 pages/kboard_setting.php:691
+#: class/KBContent.class.php:763 pages/kboard_setting.php:701
 msgid "Deleted decrease points"
 msgstr "記事の削除の減少ポイント"
 
@@ -175,16 +176,16 @@ msgstr "投稿者"
 
 #: class/KBContentListTable.class.php:86 skin/avatar/document.php:28
 #: skin/avatar/list.php:88 skin/avatar/list.php:113 skin/avatar/list.php:145
-#: skin/avatar/reply-template.php:22 skin/contact-form/admin-document.php:28
+#: skin/avatar/reply-template.php:23 skin/contact-form/admin-document.php:28
 #: skin/contact-form/admin-list.php:88 skin/contact-form/admin-list.php:111
 #: skin/contact-form/admin-list.php:139 skin/customer/document.php:28
 #: skin/customer/list.php:88 skin/customer/list.php:111
-#: skin/customer/list.php:139 skin/customer/reply-template.php:20
+#: skin/customer/list.php:139 skin/customer/reply-template.php:21
 #: skin/default/document.php:28 skin/default/list.php:88
 #: skin/default/list.php:111 skin/default/list.php:139
-#: skin/default/reply-template.php:20 skin/thumbnail/document.php:28
+#: skin/default/reply-template.php:21 skin/thumbnail/document.php:28
 #: skin/thumbnail/list.php:89 skin/thumbnail/list.php:122
-#: skin/thumbnail/list.php:160 skin/thumbnail/reply-template.php:28
+#: skin/thumbnail/list.php:160 skin/thumbnail/reply-template.php:29
 msgid "Views"
 msgstr "閲覧数"
 
@@ -231,7 +232,7 @@ msgid "Restore"
 msgstr "復元"
 
 #: class/KBContentListTable.class.php:98
-#: class/KBLatestviewListTable.class.php:60 class/KBoardListTable.class.php:63
+#: class/KBLatestviewListTable.class.php:60 class/KBoardListTable.class.php:65
 msgid "Delete Permanently"
 msgstr "完全に削除する"
 
@@ -248,12 +249,12 @@ msgid "The reply."
 msgstr "コメントの作成"
 
 #: class/KBContentListTable.class.php:182
-#: class/KBContentListTable.class.php:185 index.php:713
+#: class/KBContentListTable.class.php:185 index.php:779
 msgid "Yes"
 msgstr "はい"
 
 #: class/KBContentListTable.class.php:182
-#: class/KBContentListTable.class.php:185 index.php:714
+#: class/KBContentListTable.class.php:185 index.php:780
 msgid "No"
 msgstr "いいえ"
 
@@ -261,15 +262,15 @@ msgstr "いいえ"
 msgid "Update"
 msgstr "アップデート"
 
-#: class/KBController.class.php:71 index.php:701
+#: class/KBController.class.php:71 index.php:767
 msgid "Please enter the title."
 msgstr "タイトルを入力してください。"
 
-#: class/KBController.class.php:74 index.php:702
+#: class/KBController.class.php:74 index.php:768
 msgid "Please enter the author."
 msgstr "投稿者を入力してください。"
 
-#: class/KBController.class.php:77 index.php:703
+#: class/KBController.class.php:77 index.php:769
 msgid "Please enter the password."
 msgstr "パスワードを入力してください。。"
 
@@ -278,44 +279,44 @@ msgstr "パスワードを入力してください。。"
 msgid "\"%s\" is not available."
 msgstr "\"%s\"は使用できません。"
 
-#: class/KBController.class.php:118 class/KBoardBuilder.class.php:500
-#: index.php:821 index.php:854
+#: class/KBController.class.php:118 class/KBoardBuilder.class.php:505
+#: index.php:895 index.php:928
 msgid "You have not enough points."
 msgstr "ポイントが足りません。"
 
-#: class/KBController.class.php:124 pages/kboard_setting.php:675
+#: class/KBController.class.php:124 pages/kboard_setting.php:685
 msgid "Writing decrease points"
 msgstr "作文の減少ポイント"
 
-#: class/KBController.class.php:140 pages/kboard_setting.php:667
+#: class/KBController.class.php:140 pages/kboard_setting.php:677
 msgid "Writing increase points"
 msgstr "作文の増加ポイント"
 
-#: class/KBController.class.php:215 class/KBController.class.php:278
-#: class/KBoardBuilder.class.php:558
+#: class/KBController.class.php:216 class/KBController.class.php:280
+#: class/KBoardBuilder.class.php:564
 msgid "This page is restricted from external access."
 msgstr "このページは外部からのアクセスを制限しています。"
 
-#: class/KBController.class.php:350
+#: class/KBController.class.php:348 class/KBController.class.php:360
 msgid "File does not exist."
 msgstr "ファイルがありません。"
 
-#: class/KBController.class.php:378 pages/kboard_setting.php:707
+#: class/KBController.class.php:391 pages/kboard_setting.php:717
 msgid "Attachment download decrease points"
 msgstr "添付ファイルのダウンロードの減少ポイント"
 
-#: class/KBController.class.php:617 class/KBController.class.php:634
-#: class/KBController.class.php:665
+#: class/KBController.class.php:627 class/KBController.class.php:644
+#: class/KBController.class.php:675
 msgid "Success!"
 msgstr "成功!"
 
-#: class/KBController.class.php:698 class/KBController.class.php:733
-#: index.php:707
+#: class/KBController.class.php:708 class/KBController.class.php:743
+#: index.php:773
 msgid "You have already voted."
 msgstr "すでに投票しました。"
 
-#: class/KBController.class.php:702 class/KBController.class.php:737
-#: class/KBoardBuilder.class.php:183 index.php:799 index.php:832
+#: class/KBController.class.php:712 class/KBController.class.php:747
+#: class/KBoardBuilder.class.php:187 index.php:873 index.php:906
 msgid "Please Log in to continue."
 msgstr "続行するにはログインしてください。"
 
@@ -390,7 +391,7 @@ msgstr "前へ"
 msgid "It is an invalid access."
 msgstr "許可がありません。"
 
-#: class/KBSeo.class.php:192
+#: class/KBSeo.class.php:194
 msgid "Integration feed"
 msgstr "全体フィード"
 
@@ -414,15 +415,15 @@ msgstr ""
 msgid "File copy failed, directory requires write permission."
 msgstr "ファイルのコピー失敗、ディレクトリに書き込みの権限が必要です。。"
 
-#: class/KBUrl.class.php:192
+#: class/KBUrl.class.php:204
 msgid "No document."
 msgstr "書き込みがありません"
 
-#: class/KBoardBuilder.class.php:373 pages/kboard_setting.php:699
+#: class/KBoardBuilder.class.php:377 pages/kboard_setting.php:709
 msgid "Reading decrease points"
 msgstr "文読むことの減少ポイント"
 
-#: class/KBoardBuilder.class.php:422
+#: class/KBoardBuilder.class.php:427
 msgid "Please enter your password."
 msgstr "パスワードを入力してください。。"
 
@@ -454,15 +455,15 @@ msgstr "書き権限"
 msgid "댓글쓰기권한"
 msgstr "コメントを書く権限"
 
-#: class/KBoardListTable.class.php:83 class/KBoardListTable.class.php:87
+#: class/KBoardListTable.class.php:85 class/KBoardListTable.class.php:89
 msgid "편집"
 msgstr "編集"
 
-#: class/KBoardListTable.class.php:94
+#: class/KBoardListTable.class.php:96
 msgid "페이지 보기"
 msgstr "ページビュー"
 
-#: class/KBoardListTable.class.php:99
+#: class/KBoardListTable.class.php:101
 msgid "페이지 연결 없음"
 msgstr "ページ接続なし"
 
@@ -503,364 +504,396 @@ msgstr "最後"
 msgid "KBoard : 게시판"
 msgstr "KBoard : Forum"
 
-#: index.php:125 index.php:698 skin/avatar/editor.php:104
+#: index.php:155 index.php:764 skin/avatar/editor.php:104
 #: skin/customer/editor.php:114 skin/default/editor.php:104
 #: skin/thumbnail/editor.php:104
 msgid "KBoard Add Media"
 msgstr "KBoardメディアを追加"
 
-#: index.php:150
+#: index.php:180
 msgid "New Forum"
 msgstr "新しいフォーラム"
 
-#: index.php:173
+#: index.php:203
 msgid "대시보드"
 msgstr "ダッシュボード"
 
-#: index.php:174
+#: index.php:204
 msgid "게시판 목록 및 관리"
 msgstr "Forumのリストや管理"
 
-#: index.php:175
+#: index.php:205
 msgid "게시판 생성"
 msgstr "Forum生成"
 
-#: index.php:176
+#: index.php:206
 msgid "최신글 모아보기"
 msgstr "Latestviewリスト"
 
-#: index.php:177
+#: index.php:207
 msgid "최신글 모아보기 생성"
 msgstr "Latestview生成"
 
-#: index.php:178
+#: index.php:208
 msgid "백업 및 복구"
 msgstr "バックアップおよび復元"
 
-#: index.php:179
+#: index.php:209
 msgid "전체 게시글"
 msgstr "全体掲示文"
 
-#: index.php:182
+#: index.php:212
 msgid "게시판 업데이트"
 msgstr "アップデート"
 
-#: index.php:186 index.php:187 pages/welcome.php:31
+#: index.php:216 index.php:217 pages/welcome.php:31
 msgid "스토어"
 msgstr "ストア"
 
-#: index.php:190
+#: index.php:220
 msgid "전체 댓글"
 msgstr "全体コメント"
 
-#: index.php:699
+#: index.php:765
 msgid "Next"
 msgstr "次へ"
 
-#: index.php:700
+#: index.php:766
 msgid "Prev"
 msgstr "前へ"
 
-#: index.php:704
+#: index.php:770
 msgid "Please enter the CAPTCHA."
 msgstr "セキュリティーナンバーを入力してください。"
 
-#: index.php:705
+#: index.php:771
 msgid "Please enter the name."
 msgstr "名前を入力してください。"
 
-#: index.php:706
+#: index.php:772
 msgid "Please enter the email."
 msgstr "メールを入力してください。"
 
-#: index.php:708 pages/kboard_dashboard.php:201 pages/kboard_dashboard.php:212
+#: index.php:774 pages/kboard_dashboard.php:201 pages/kboard_dashboard.php:212
 #: pages/kboard_dashboard.php:217 pages/kboard_dashboard.php:230
 msgid "Please wait."
 msgstr "少々お待ちください。"
 
-#: index.php:709 pages/kboard_latestview_setting.php:69 skin/avatar/list.php:16
+#: index.php:775 pages/kboard_latestview_setting.php:69 skin/avatar/list.php:16
 #: skin/contact-form/admin-list.php:16 skin/customer/list.php:16
 #: skin/default/list.php:16 skin/thumbnail/list.php:16
 msgid "Newest"
 msgstr "最新順"
 
-#: index.php:710 pages/kboard_latestview_setting.php:70 skin/avatar/list.php:17
+#: index.php:776 pages/kboard_latestview_setting.php:70 skin/avatar/list.php:17
 #: skin/contact-form/admin-list.php:17 skin/customer/list.php:17
 #: skin/default/list.php:17 skin/thumbnail/list.php:17
 msgid "Best"
 msgstr "推薦順"
 
-#: index.php:711 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:19
+#: index.php:777 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:19
 #: skin/contact-form/admin-list.php:19 skin/customer/list.php:19
 #: skin/default/list.php:19 skin/thumbnail/list.php:19
 msgid "Updated"
 msgstr "更新順"
 
-#: index.php:712 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:18
+#: index.php:778 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:18
 #: skin/contact-form/admin-list.php:18 skin/customer/list.php:18
 #: skin/default/list.php:18 skin/thumbnail/list.php:18
 msgid "Viewed"
 msgstr "照会順"
 
-#: index.php:715
+#: index.php:781
 msgid "Did it help?"
 msgstr "役に立ちましたか?"
 
-#: index.php:716
+#: index.php:782
 msgid "Hashtag"
 msgstr "ハッシュタグ"
 
-#: index.php:717
+#: index.php:783
 msgid "Tag"
 msgstr "タグ"
 
-#: index.php:718
+#: index.php:784
 msgid "Add a Tag"
 msgstr "タグを追加する"
 
-#: index.php:719
+#: index.php:785
 msgid "Removing tag"
 msgstr "タグを削除する"
 
-#: index.php:720
+#: index.php:786
 msgid "Changes you made may not be saved."
 msgstr "変更事項が保存されないことがあります。"
 
-#: index.php:721 skin/contact-form/admin-document.php:38
+#: index.php:787 skin/contact-form/admin-document.php:38
 #: skin/contact-form/editor.php:53 skin/contact-form/editor.php:54
 msgid "Email"
 msgstr "Eメール"
 
-#: index.php:722
+#: index.php:788
 msgid "Address"
 msgstr "住所"
 
-#: index.php:723
+#: index.php:789
 msgid "Postcode"
 msgstr "郵便番号"
 
-#: index.php:724 skin/contact-form/admin-document.php:39
+#: index.php:790 skin/contact-form/admin-document.php:39
 #: skin/contact-form/editor.php:58 skin/contact-form/editor.php:59
 #: skin/customer/document.php:38 skin/customer/editor.php:99
 #: skin/customer/editor.php:100
 msgid "Phone number"
 msgstr "携帯番号"
 
-#: index.php:725
+#: index.php:791
 msgid "Mobile phone"
 msgstr "携帯番号"
 
-#: index.php:726
+#: index.php:792
 msgid "Phone"
 msgstr "携帯番号"
 
-#: index.php:727
+#: index.php:793
 msgid "Company name"
 msgstr "会社名"
 
-#: index.php:728
+#: index.php:794
 msgid "VAT number"
 msgstr "事業者登録番号"
 
-#: index.php:729
+#: index.php:795
 msgid "Bank account"
 msgstr "銀行口座番号"
 
-#: index.php:730
+#: index.php:796
 msgid "Name of deposit"
 msgstr "入金者名"
 
-#: index.php:731
+#: index.php:797
 msgid "Find"
 msgstr "検索"
 
-#: index.php:732
+#: index.php:798
 msgid "Rate"
 msgstr "評価"
 
-#: index.php:733
+#: index.php:799
 msgid "Ratings"
 msgstr "評価"
 
-#: index.php:734
+#: index.php:800
 msgid "Waiting"
 msgstr "待機"
 
-#: index.php:735
+#: index.php:801
 msgid "Complete"
 msgstr "完了"
 
-#: index.php:736
+#: index.php:802
 msgid "Question"
 msgstr "質問"
 
-#: index.php:737
+#: index.php:803
 msgid "Answer"
 msgstr "回答"
 
-#: index.php:738
+#: index.php:804
 msgid "Notify me of new comments via email"
 msgstr "電子メールで新しいコメントの通知を受け取る"
 
-#: index.php:739
+#: index.php:805
 msgid "Ask Question"
 msgstr "質問すること"
 
-#: index.php:740
+#: index.php:806
 msgid "Categories"
 msgstr "カテゴリ"
 
-#: index.php:741
+#: index.php:807
 msgid "Pages"
 msgstr "ページ"
 
-#: index.php:742
+#: index.php:808
 msgid "All Products"
 msgstr "全体商品"
 
-#: index.php:743
+#: index.php:809
 msgid "Your Orders"
 msgstr "注文照会"
 
-#: index.php:744
+#: index.php:810
 msgid "Your Sales"
 msgstr "販売照会"
 
-#: index.php:745
+#: index.php:811
 msgid "My Orders"
 msgstr "注文照会"
 
-#: index.php:746
+#: index.php:812
 msgid "My Sales"
 msgstr "販売照会"
 
-#: index.php:747
+#: index.php:813
 msgid "New Product"
 msgstr "商品登録"
 
-#: index.php:748
+#: index.php:814
 msgid "Edit Product"
 msgstr "商品修正"
 
-#: index.php:749
+#: index.php:815
 msgid "Delete Product"
 msgstr "商品削除"
 
-#: index.php:750
+#: index.php:816
 msgid "Seller"
 msgstr "販売者"
 
-#: index.php:751
+#: index.php:817
 msgid "Period"
 msgstr "期間"
 
-#: index.php:752
+#: index.php:818
 msgid "Period of use"
 msgstr "使用期間"
 
-#: index.php:753
+#: index.php:819
 msgid "Last updated"
 msgstr "アップデートの日付"
 
-#: index.php:754
+#: index.php:820
 msgid "List price"
 msgstr "正常価格"
 
-#: index.php:755
+#: index.php:821
 msgid "Price"
 msgstr "販売価格"
 
-#: index.php:756
+#: index.php:822
 msgid "Total price"
 msgstr "総価額"
 
-#: index.php:757
+#: index.php:823
 msgid "Amount"
 msgstr "決済金額"
 
-#: index.php:758
+#: index.php:824
 msgid "Quantity"
 msgstr "数量"
 
-#: index.php:759
+#: index.php:825
 msgid "Use points"
 msgstr "ポイントの使用"
 
-#: index.php:760
+#: index.php:826
 msgid "My points"
 msgstr "私のポイント"
 
-#: index.php:761
+#: index.php:827
 msgid "Available points"
 msgstr "使用可能ポイント"
 
-#: index.php:762
+#: index.php:828
 msgid "Apply points"
 msgstr "適用ポイント"
 
-#: index.php:763
+#: index.php:829
 msgid "Buy It Now"
 msgstr "即購入"
 
-#: index.php:764
+#: index.php:830
 msgid "Sold Out"
 msgstr "品切れ"
 
-#: index.php:765
+#: index.php:831
 msgid "For free"
 msgstr "無料"
 
-#: index.php:766
+#: index.php:832
 #, php-format
 msgid "Pay %s"
 msgstr "%sの決済"
 
-#: index.php:767
+#: index.php:833
 msgid "Payment method"
 msgstr "決済手段"
 
-#: index.php:768
+#: index.php:834
 msgid "Credit card"
 msgstr "クレジットカード"
 
-#: index.php:769
+#: index.php:835
 msgid "Make a deposit"
 msgstr "預金します"
 
-#: index.php:770
+#: index.php:836
 msgid "Reward point"
 msgstr "報酬ポイント"
 
-#: index.php:771
+#: index.php:837
 msgid "Download expiry"
 msgstr "ダウンロード満了"
 
-#: index.php:772
+#: index.php:838
 msgid "Checkout"
 msgstr "チェックアウト"
 
-#: index.php:773
+#: index.php:839
 msgid "Buyer information"
 msgstr "注文者情報"
 
-#: index.php:774
+#: index.php:840
 msgid "Applying cash receipts"
 msgstr "現金領収証の申請"
 
-#: index.php:775
+#: index.php:841
 msgid "Privacy policy"
 msgstr "個人情報政策"
 
-#: index.php:776
+#: index.php:842
 msgid "I agree to the privacy policy."
 msgstr "個人情報ポリシーに同意します。"
 
-#: index.php:777
+#: index.php:843
 msgid ""
 "I confirm the terms of the transaction and agree to the payment process."
 msgstr "取引条件を確認しており、決済推進に同意します。"
 
-#: index.php:870
+#: index.php:844
+msgid "Today"
+msgstr "今日"
+
+#: index.php:845
+msgid "Yesterday"
+msgstr "昨日"
+
+#: index.php:846
+msgid "This month"
+msgstr "今月"
+
+#: index.php:847
+msgid "Last month"
+msgstr "先月"
+
+#: index.php:848
+msgid "Last 30 days"
+msgstr "最近30日"
+
+#: index.php:849
+msgid "Agree"
+msgstr "賛成"
+
+#: index.php:850
+msgid "Disagree"
+msgstr "反対"
+
+#: index.php:851
+msgid "Opinion"
+msgstr "意見"
+
+#: index.php:944
 msgid "KBoard Forum Settings"
 msgstr "KBoard Forumの設定"
 
@@ -968,7 +1001,7 @@ msgstr "KBoard : Latestview"
 msgid "KBoard : 최신글 뷰 관리"
 msgstr "KBoard : Latestview管理"
 
-#: pages/kboard_latestview_setting.php:123 pages/kboard_setting.php:805
+#: pages/kboard_latestview_setting.php:123 pages/kboard_setting.php:815
 msgid "변경 사항 저장"
 msgstr "変更事項保存"
 
@@ -1008,35 +1041,35 @@ msgstr "大量管理"
 msgid "확장설정"
 msgstr "拡張設定"
 
-#: pages/kboard_setting.php:669 pages/kboard_setting.php:677
-#: pages/kboard_setting.php:685 pages/kboard_setting.php:693
-#: pages/kboard_setting.php:701 pages/kboard_setting.php:709
-#: pages/kboard_setting.php:717 pages/kboard_setting.php:725
-#: pages/kboard_setting.php:733 pages/kboard_setting.php:741
+#: pages/kboard_setting.php:679 pages/kboard_setting.php:687
+#: pages/kboard_setting.php:695 pages/kboard_setting.php:703
+#: pages/kboard_setting.php:711 pages/kboard_setting.php:719
+#: pages/kboard_setting.php:727 pages/kboard_setting.php:735
+#: pages/kboard_setting.php:743 pages/kboard_setting.php:751
 msgid "Please enter only numbers"
 msgstr "数字だけ入力してください"
 
-#: pages/kboard_setting.php:715
+#: pages/kboard_setting.php:725
 msgid "Writing comment increase points"
 msgstr "コメントを書くことの増加ポイント"
 
-#: pages/kboard_setting.php:723
+#: pages/kboard_setting.php:733
 msgid "Writing comment decrease points"
 msgstr "コメントを書くことの減少ポイント"
 
-#: pages/kboard_setting.php:731
+#: pages/kboard_setting.php:741
 msgid "Deleted comment increment points"
 msgstr "書き込み削除の増加ポイント"
 
-#: pages/kboard_setting.php:739
+#: pages/kboard_setting.php:749
 msgid "Deleted comment decrease points"
 msgstr "書き込み削除の減少ポイント"
 
-#: pages/kboard_setting.php:760
+#: pages/kboard_setting.php:770
 msgid "Download"
 msgstr "ダウンロード"
 
-#: pages/kboard_setting.php:776
+#: pages/kboard_setting.php:786
 msgid "Upload"
 msgstr "アップロード"
 
@@ -1286,14 +1319,14 @@ msgid "Number"
 msgstr "手順"
 
 #: skin/avatar/list.php:87 skin/avatar/list.php:111 skin/avatar/list.php:143
-#: skin/avatar/reply-template.php:20 skin/contact-form/admin-list.php:87
+#: skin/avatar/reply-template.php:21 skin/contact-form/admin-list.php:87
 #: skin/contact-form/admin-list.php:109 skin/contact-form/admin-list.php:137
 #: skin/customer/list.php:87 skin/customer/list.php:109
-#: skin/customer/list.php:137 skin/customer/reply-template.php:18
+#: skin/customer/list.php:137 skin/customer/reply-template.php:19
 #: skin/default/list.php:87 skin/default/list.php:109 skin/default/list.php:137
-#: skin/default/reply-template.php:18 skin/thumbnail/list.php:88
+#: skin/default/reply-template.php:19 skin/thumbnail/list.php:88
 #: skin/thumbnail/list.php:120 skin/thumbnail/list.php:158
-#: skin/thumbnail/reply-template.php:26
+#: skin/thumbnail/reply-template.php:27
 msgid "Votes"
 msgstr "推薦"
 
@@ -1398,6 +1431,9 @@ msgstr ""
 #: template/media.php:191 template/media.php:206
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "イメージファイルのみアップロード可能です。"
+
+#~ msgid "Order date"
+#~ msgstr "注文日"
 
 #~ msgid "Please enter the content."
 #~ msgstr "内容を入力してください。"
