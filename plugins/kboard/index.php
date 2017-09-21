@@ -66,18 +66,21 @@ foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
  */
 add_action('init', 'kboard_init', 0);
 function kboard_init(){
-
+	
+	// 언어 파일 추가
+	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
 	
 	// 컨트롤러 시작
 	$controller = new KBController();
-
+	
 	// 템플릿 시작
 	$template = new KBTemplate();
 	$template->route();
-
+	
 	$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:'';
 	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember'])?intval($_GET['kboard_list_sort_remember']):'';
 	if($kboard_list_sort && $kboard_list_sort_remember){
@@ -630,14 +633,6 @@ function kboard_latestview_shortcode($args){
 	else{
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 최신글 뷰 입니다.';
 	}
-}
-
-/*
- * 언어 파일 추가
- */
-add_action('init', 'kboard_languages');
-function kboard_languages(){
-	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
 /*

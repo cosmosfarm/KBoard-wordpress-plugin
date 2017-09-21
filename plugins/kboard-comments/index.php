@@ -33,6 +33,9 @@ include_once 'class/KBCommentUrl.class.php';
 add_action('init', 'kboard_comments_init', 0);
 function kboard_comments_init(){
 	
+	// 언어 파일 추가
+	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	
 	// 컨트롤러 시작
 	$comment_controller = new KBCommentController();
 	
@@ -157,14 +160,6 @@ function kboard_comments_login_content($board, $content_uid, $comment_builder){
 add_action('kboard_comments_field', 'kboard_comments_field', 10, 4);
 function kboard_comments_field($field_html, $board, $content_uid, $comment_builder){
 	echo $field_html;
-}
-
-/*
- * 언어 파일 추가
- */
-add_action('init', 'kboard_comments_languages');
-function kboard_comments_languages(){
-	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
 /*
