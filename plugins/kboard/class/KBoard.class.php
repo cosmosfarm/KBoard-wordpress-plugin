@@ -338,30 +338,33 @@ class KBoard {
 	
 	/**
 	 * 게시글 비밀번호와 일치하는지 확인한다.
-	 * @param string $password
+	 * @param string $content_password
 	 * @param int $content_uid
 	 * @param boolean $reauth
 	 * @return boolean
 	 */
-	public function isConfirm($password, $content_uid, $reauth=false){
-		if(!$password || !$content_uid) return false;
+	public function isConfirm($content_password, $content_uid, $reauth=false){
+		$confirm = false;
 		
-		$submitted_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
-		
-		if($reauth){
-			if($submitted_password == $password){
-				$_SESSION['kboard_confirm'][$content_uid] = $password;
-				return true;
+		if($content_password && $content_uid){
+			$input_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
+			
+			if($reauth){
+				if($input_password == $content_password){
+					$_SESSION['kboard_confirm'][$content_uid] = $content_password;
+					$confirm = true;
+				}
+			}
+			else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$content_uid]) && $_SESSION['kboard_confirm'][$content_uid] == $content_password){
+				$confirm = true;
+			}
+			else if($input_password == $content_password){
+				$_SESSION['kboard_confirm'][$content_uid] = $content_password;
+				$confirm = true;
 			}
 		}
-		else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$content_uid]) && $_SESSION['kboard_confirm'][$content_uid] == $password){
-			return true;
-		}
-		else if($submitted_password == $password){
-			$_SESSION['kboard_confirm'][$content_uid] = $password;
-			return true;
-		}
-		return false;
+		
+		return apply_filters('kboard_password_confirm', $confirm, $input_password, $content_password, $content_uid, $reauth, $this);
 	}
 	
 	/**

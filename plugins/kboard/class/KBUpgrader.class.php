@@ -103,58 +103,18 @@ final class KBUpgrader {
 	 * @param string $delete_package
 	 * @return string
 	 */
-	public function install($package, $content_type, $delete_package = true){
-		// See #15789 - PclZip uses string functions on binary data, If it's overloaded with Multibyte safe functions the results are incorrect.
-		if(ini_get('mbstring.func_overload') && function_exists('mb_internal_encoding')){
-			$previous_encoding = mb_internal_encoding();
-			mb_internal_encoding('ISO-8859-1');
-		}
-		require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+	public function install($package, $content_type, $delete_package=true){
+		WP_Filesystem();
 		
-		$archive = new PclZip($package);
-		$archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING);
+		$destination_path= trailingslashit(WP_CONTENT_DIR . $content_type);
+		$unzipfile = unzip_file($package, $destination_path);
 		
 		if($delete_package) unlink($package);
 		
-		if(!$archive_files){
-			die('<script>alert("'.__('Download file is decompression failed, please check directory and file permissions.', 'kboard').'");history.go(-1);</script>');
+		if(!$unzipfile){
+			die('<script>alert("'.__('There was an error unzipping the file.', 'kboard').'");history.go(-1);</script>');
 		}
-		else{
-			$install_result = true;
-			
-			if(is_writable(WP_CONTENT_DIR . $content_type)){
-				$file_handler = new KBFileHandler();
-				$target_dir = trailingslashit(WP_CONTENT_DIR . $content_type);
-				foreach($archive_files AS $file){
-					if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
-					if($file['folder']){
-						$install_result = $file_handler->mkPath($target_dir . $file['filename']);
-					}
-					else{
-						$install_result = $file_handler->putContents($target_dir . $file['filename'], $file['content']);
-					}
-					if(!$install_result) break;
-				}
-			}
-			else{
-				global $wp_filesystem;
-				$target_dir = trailingslashit($wp_filesystem->find_folder(WP_CONTENT_DIR . $content_type));
-				foreach($archive_files as $file){
-					if('__MACOSX/' === substr($file['filename'], 0, 9)) continue;
-					if($file['folder']){
-						if($wp_filesystem->is_dir($target_dir . $file['filename'])) continue;
-						else $install_result = $wp_filesystem->mkdir($target_dir . $file['filename'], FS_CHMOD_DIR);
-					}
-					else{
-						$install_result = $wp_filesystem->put_contents($target_dir . $file['filename'], $file['content'], FS_CHMOD_FILE);
-					}
-					if(!$install_result) break;
-				}
-			}
-			if(!$install_result){
-				die('<script>alert("'.__('File copy failed, directory requires write permission.', 'kboard').' (/wp-content'.$content_type.')");history.go(-1);</script>');
-			}
-		}
+		
 		return '';
 	}
 	

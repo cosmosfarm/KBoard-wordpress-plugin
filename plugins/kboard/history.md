@@ -2,6 +2,13 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
+5.3.5
+----------------------------------
+
+  1. kboard_password_confirm 필터 추가
+  2. 버그 수정
+
+
 5.3.4
 ----------------------------------
 
