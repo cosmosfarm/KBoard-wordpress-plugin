@@ -2,6 +2,14 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
+4.4.3
+----------------------------------
+
+  1. kboard_comment_like 액션 추가
+  2. kboard_comment_unlike 액션 추가
+  3. 버그 수정
+
+
 4.4.2
 ----------------------------------
 

@@ -6,7 +6,9 @@
 ----------------------------------
 
   1. kboard_password_confirm 필터 추가
-  2. 버그 수정
+  2. kboard_content_like 액션 추가
+  3. kboard_content_unlike 액션 추가
+  4. 버그 수정
 
 
 5.3.4

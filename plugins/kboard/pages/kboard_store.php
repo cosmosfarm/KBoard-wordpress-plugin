@@ -73,7 +73,7 @@ var cf_login_status;
 var cf_list_page = 1;
 var cf_list_continue = true;
 var cf_list_lock = false;
-window.onload = function(){
+jQuery(document).ready(function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo KBStore::getAccessToken()?>');
 	cosmosfarm.oauthStatus(function(res){
 		if(res.status == 'valid'){
@@ -95,7 +95,7 @@ window.onload = function(){
 	});
 	jQuery('.kbstore-login-button').attr('href', cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>'));
 	cf_get_kbstore_list(cf_list_page);
-};
+});
 jQuery(window).scroll(function(){
 	var scroll_height = jQuery(window).height() + jQuery(window).scrollTop();
 	var document_height = jQuery(document).height();

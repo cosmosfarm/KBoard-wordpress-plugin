@@ -40,7 +40,7 @@
 </div>
 
 <script>
-window.onload = function(){
+jQuery(document).ready(function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo KBStore::getAccessToken()?>');
 	cosmosfarm.getWpstoreProducts('', 1, 7, function(res){
 		if(res.length > 0){
@@ -51,7 +51,7 @@ window.onload = function(){
 			cf_addWpstoreProduct(res[i].title, res[i].created, res[i].link);
 		}
 	});
-};
+});
 function cf_upgrade(upgrade_url){
 	if(confirm('업데이트전에 플러그인을 백업하세요. 모두 최신 파일로 교체됩니다. 계속 할까요?')){
 		window.location.href = upgrade_url;

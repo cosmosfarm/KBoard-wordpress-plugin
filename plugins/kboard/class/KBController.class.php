@@ -701,6 +701,9 @@ class KBController {
 							$content->like += 1;
 							$content->vote = $content->like - $content->unlike;
 							$content->updateContent();
+							
+							do_action('kboard_content_like', $content, $board);
+							
 							wp_send_json(array('result'=>'success', 'data'=>array('vote'=>intval($content->vote), 'like'=>intval($content->vote), 'unlike'=>intval($content->unlike))));
 						}
 					}
@@ -736,6 +739,9 @@ class KBController {
 							$content->unlike += 1;
 							$content->vote = $content->like - $content->unlike;
 							$content->updateContent();
+							
+							do_action('kboard_content_unlike', $content, $board);
+							
 							wp_send_json(array('result'=>'success', 'data'=>array('vote'=>intval($content->vote), 'like'=>intval($content->vote), 'unlike'=>intval($content->unlike))));
 						}
 					}
