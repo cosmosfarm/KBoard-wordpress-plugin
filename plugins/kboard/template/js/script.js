@@ -91,7 +91,7 @@ function kboard_document_print(url){
 function kboard_document_like(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
+		jQuery.post(kboard_settings.ajax_url, {'action':'kboard_document_like', 'document_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
 			if(typeof callback === 'function'){
 				callback(res);
@@ -115,7 +115,7 @@ function kboard_document_like(button, callback){
 function kboard_document_unlike(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
+		jQuery.post(kboard_settings.ajax_url, {'action':'kboard_document_unlike', 'document_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
 			if(typeof callback === 'function'){
 				callback(res);
@@ -139,7 +139,7 @@ function kboard_document_unlike(button, callback){
 function kboard_comment_like(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
+		jQuery.post(kboard_settings.ajax_url, {'action':'kboard_comment_like', 'comment_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
 			if(typeof callback === 'function'){
 				callback(res);
@@ -163,7 +163,7 @@ function kboard_comment_like(button, callback){
 function kboard_comment_unlike(button, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
+		jQuery.post(kboard_settings.ajax_url, {'action':'kboard_comment_unlike', 'comment_uid':jQuery(button).data('uid'), 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
 			if(typeof callback === 'function'){
 				callback(res);
@@ -187,7 +187,7 @@ function kboard_comment_unlike(button, callback){
 function kboard_content_update(content_uid, data, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;
-		jQuery.post(kboard_settings.alax_url, {'action':'kboard_content_update', 'content_uid':content_uid, 'data':data, 'security':kboard_settings.ajax_security}, function(res){
+		jQuery.post(kboard_settings.ajax_url, {'action':'kboard_content_update', 'content_uid':content_uid, 'data':data, 'security':kboard_settings.ajax_security}, function(res){
 			kboard_ajax_lock = false;
 			if(typeof callback === 'function'){
 				callback(res);
@@ -207,7 +207,7 @@ function kboard_ajax_builder(args, callback){
 		args['action'] = 'kboard_ajax_builder';
 		args['callback'] = '';
 		args['security'] = kboard_settings.ajax_security;
-		jQuery.get(kboard_settings.alax_url, args, function(res){
+		jQuery.get(kboard_settings.ajax_url, args, function(res){
 			kboard_ajax_lock = false;
 			if(typeof callback2 === 'function'){
 				callback2(res);

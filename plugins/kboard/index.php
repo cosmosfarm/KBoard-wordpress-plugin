@@ -743,6 +743,7 @@ function kboard_scripts(){
 			'home_url' => home_url('/', 'relative'),
 			'site_url' => site_url('/', 'relative'),
 			'post_url' => admin_url('admin-post.php'),
+			'ajax_url' => admin_url('admin-ajax.php'),
 			'alax_url' => admin_url('admin-ajax.php'),
 			'plugin_url' => KBOARD_URL_PATH,
 			'media_group' => uniqid(),
