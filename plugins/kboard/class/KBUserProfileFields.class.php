@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBUserProfileFields {
-
+	
 	public function __construct(){
 		if(class_exists('myCRED_Core')){
 			if(current_user_can('activate_plugins')){

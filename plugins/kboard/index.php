@@ -494,12 +494,12 @@ function kboard_builder($args){
 	$board = new KBoard();
 	$board->setID($args['id']);
 	
-	if($board->uid){
-		$board_builder = new KBoardBuilder($board->uid);
+	if($board->id){
+		$board_builder = new KBoardBuilder($board->id);
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);
 		$board_builder->board = $board;
-
+		
 		if(isset($args['category1']) && $args['category1']){
 			$board_builder->category1 = $args['category1'];
 		}

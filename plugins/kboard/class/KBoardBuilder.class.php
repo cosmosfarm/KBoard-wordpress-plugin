@@ -30,7 +30,7 @@ class KBoardBuilder {
 		
 		if($board_id) $this->setBoardID($board_id, $is_latest);
 	}
-
+	
 	/**
 	 * 게시판 뷰(View)를 설정한다. (List/Document/Editor/Remove/Order/Complete/History/Sales)
 	 * @param string $mod
@@ -38,7 +38,7 @@ class KBoardBuilder {
 	public function setMOD($mod){
 		$this->mod = $mod;
 	}
-
+	
 	/**
 	 * 게시판 스킨을 설정한다.
 	 * @param string $skin
@@ -47,17 +47,17 @@ class KBoardBuilder {
 		$this->skin = KBoardSkin::getInstance();
 		$this->skin_name = $skin;
 	}
-
+	
 	/**
 	 * 게시판 ID를 설정한다.
 	 * @param int $board_id
 	 */
 	public function setBoardID($board_id, $is_latest=false){
 		static $check_kboard_comments_plugin_once;
-
+		
 		$this->board_id = $board_id;
 		$this->meta = new KBoardMeta($this->board_id);
-
+		
 		// 코스모스팜 소셜댓글 스크립트 추가
 		if(!$check_kboard_comments_plugin_once){
 			if($this->meta->comments_plugin_id && $this->meta->use_comments_plugin){
@@ -67,7 +67,7 @@ class KBoardBuilder {
 				$check_kboard_comments_plugin_once = true;
 			}
 		}
-
+		
 		if(!$is_latest){
 			$default_build_mod = $this->meta->default_build_mod;
 			if(!$default_build_mod) $default_build_mod = 'list';

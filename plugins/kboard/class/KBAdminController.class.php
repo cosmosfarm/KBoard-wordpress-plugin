@@ -344,7 +344,7 @@ class KBAdminController {
 								
 								// 인코딩 변환
 								if(function_exists('mb_detect_encoding')){
-									$encoding = mb_detect_encoding($value, array('EUC-KR', 'UTF-8', 'SJIS'));
+									$encoding = mb_detect_encoding($value, array('CP949', 'EUC-KR', 'UTF-8-BOM', 'UTF-8', 'SJIS'));
 									if($encoding != 'UTF-8'){
 										$value = @iconv($encoding, 'UTF-8//TRANSLIT', $value);
 									}

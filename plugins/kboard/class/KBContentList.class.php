@@ -1,10 +1,10 @@
 <?php
 /**
  * KBoard 게시글 리스트
-* @link www.cosmosfarm.com
-* @copyright Copyright 2013 Cosmosfarm. All rights reserved.
-* @license http://www.gnu.org/licenses/gpl.html
-*/
+ * @link www.cosmosfarm.com
+ * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @license http://www.gnu.org/licenses/gpl.html
+ */
 class KBContentList {
 	
 	private $kboard_list_sort;
@@ -40,7 +40,7 @@ class KBContentList {
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
 	}
-
+	
 	/**
 	 * 모든 게시판의 내용을 반환한다.
 	 * @return KBContentList
@@ -53,7 +53,7 @@ class KBContentList {
 		$this->index = $this->total;
 		return $this;
 	}
-
+	
 	/**
 	 * 모든 게시판의 내용을 반환한다.
 	 * @return KBContentList
@@ -96,7 +96,7 @@ class KBContentList {
 		$this->index = $this->total - $offset;
 		return $this;
 	}
-
+	
 	/**
 	 * RSS 피드 출력을 위한 리스트를 반환한다.
 	 * @return KBContentList
@@ -114,7 +114,7 @@ class KBContentList {
 		$this->index = $this->total;
 		return $this;
 	}
-
+	
 	/**
 	 * 게시판 아이디를 입력한다.
 	 * @param int|array $board_id
@@ -130,7 +130,7 @@ class KBContentList {
 		$this->board_id = $board_id;
 		return $this;
 	}
-
+	
 	/**
 	 * 페이지 번호를 입력한다.
 	 * @param int $page
@@ -146,7 +146,7 @@ class KBContentList {
 		}
 		return $this;
 	}
-
+	
 	/**
 	 * 한 페이지에 표시될 게시글 개수를 입력한다.
 	 * @param int $rpp
@@ -162,7 +162,7 @@ class KBContentList {
 		}
 		return $this;
 	}
-
+	
 	/**
 	 * 카테고리1을 입력한다.
 	 * @param string $category
@@ -172,7 +172,7 @@ class KBContentList {
 		if($category) $this->category1 = $category;
 		return $this;
 	}
-
+	
 	/**
 	 * 카테고리2를 입력한다.
 	 * @param string $category
@@ -545,7 +545,7 @@ class KBContentList {
 			$where[] = "`board_id`='$this->board_id'";
 		}
 		$where = implode(' AND ', $where);
-
+		
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
 		
 		$page = 1;
@@ -708,7 +708,7 @@ class KBContentList {
 		
 		return $this->resource_notice;
 	}
-
+	
 	/**
 	 * 공지사항 리스트에서 다음 게시물을 반환한다.
 	 * @deprecated
@@ -718,7 +718,7 @@ class KBContentList {
 	public function hasNoticeNext(){
 		return $this->hasNextNotice();
 	}
-
+	
 	/**
 	 * 공지사항 리스트에서 다음 게시물을 반환한다.
 	 * @return Content
@@ -738,7 +738,7 @@ class KBContentList {
 			return '';
 		}
 	}
-
+	
 	/**
 	 * 답글 리스트를 반환한다.
 	 * @return resource
@@ -756,7 +756,7 @@ class KBContentList {
 		
 		return $this->resource_reply;
 	}
-
+	
 	/**
 	 * 답글 리스트에서 다음 게시물을 반환한다.
 	 * @return KBContent
@@ -776,7 +776,7 @@ class KBContentList {
 			return '';
 		}
 	}
-
+	
 	/**
 	 * 정렬 순서를 반환한다.
 	 * @return string
@@ -798,7 +798,7 @@ class KBContentList {
 
 		return $this->kboard_list_sort;
 	}
-
+	
 	/**
 	 * 정렬 순서를 설정한다.
 	 * @param string $sort
@@ -821,7 +821,7 @@ class KBContentList {
 			$this->kboard_list_sort = $sort;
 		}
 	}
-
+	
 	/**
 	 * 기본 정렬 순서를 반환한다.
 	 * @return string

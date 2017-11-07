@@ -7,7 +7,7 @@ img { border: 0; }
 
 a.kboard-contact-form-button-small,
 input.kboard-contact-form-button-small,
-button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; width: auto; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
 a.kboard-contact-form-button-small:hover,
 a.kboard-contact-form-button-small:focus,
 a.kboard-contact-form-button-small:active,
@@ -20,7 +20,7 @@ button.kboard-contact-form-button-small:active { opacity: 0.7; }
 
 a.kboard-contact-form-button-large,
 input.kboard-contact-form-button-large,
-button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 30px; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 30px; width: auto; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
 a.kboard-contact-form-button-large:hover,
 a.kboard-contact-form-button-large:focus,
 a.kboard-contact-form-button-large:active,

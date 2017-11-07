@@ -27,10 +27,7 @@ class KBMail {
 		add_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
 		add_filter('wp_mail', array($this, 'message_template'));
 		
-		if($this->from_name && $this->from) $headers[] = "From: {$this->from_name} <{$this->from}>";
-		else if($this->from) $headers[] = "From: {$this->from}";
-		else $headers = '';
-		
+		$headers = '';
 		$message = $this->content;
 		
 		if($this->url){
