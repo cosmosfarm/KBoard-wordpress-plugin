@@ -784,7 +784,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<input type="file" name="kboard_csv_upload_file" accept=".csv">
 							<br>
 							<input type="button" class="button-primary" value="<?php echo __('Upload', 'kboard')?>" onclick="kboard_csv_upload()">
-							<p class="description">너무 많은 데이터를 한 번에 업로드하게 되면 에러가 발생될 수 있으니 가급적 나눠서 여러 번 업로드해주세요.<br>댓글과 첨부파일은 등록되지 않습니다.</p>
+							<p class="description">CSV 파일의 인코딩을 UTF-8로 변경해서 시도해보세요.<br>너무 많은 데이터를 한 번에 업로드하게 되면 에러가 발생될 수 있으니 가급적 나눠서 여러 번 업로드해주세요.<br>댓글과 첨부파일은 등록되지 않습니다.</p>
 						</td>
 					</tr>
 				</tbody>

@@ -35,13 +35,13 @@ function kboard_json_encode($val){
 	if(function_exists('json_encode')){
 		return json_encode($val);
 	}
-
+	
 	if(is_string($val)) return '"'.addslashes($val).'"';
 	if(is_numeric($val)) return $val;
 	if($val === null) return 'null';
 	if($val === true) return 'true';
 	if($val === false) return 'false';
-
+	
 	$assoc = false;
 	$i = 0;
 	foreach($val as $k=>$v){
@@ -60,7 +60,7 @@ function kboard_json_encode($val){
 		$res[] = $v;
 	}
 	$res = implode(',', $res);
-
+	
 	return ($assoc)? '{'.$res.'}' : '['.$res.']';
 }
 
