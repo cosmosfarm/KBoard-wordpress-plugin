@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
 "POT-Creation-Date: 2017-09-04 11:46+0900\n"
-"PO-Revision-Date: 2017-09-04 11:46+0900\n"
+"PO-Revision-Date: 2017-11-20 15:47+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -577,7 +577,7 @@ msgstr "メールを入力してください。"
 #: index.php:774 pages/kboard_dashboard.php:201 pages/kboard_dashboard.php:212
 #: pages/kboard_dashboard.php:217 pages/kboard_dashboard.php:230
 msgid "Please wait."
-msgstr "少々お待ちください。"
+msgstr "待ってください。"
 
 #: index.php:775 pages/kboard_latestview_setting.php:69 skin/avatar/list.php:16
 #: skin/contact-form/admin-list.php:16 skin/customer/list.php:16
