@@ -387,12 +387,10 @@ class KBoardBuilder {
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){
 				include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
-				$content->content = nl2br(kboard_autolink($content->getContent()));
-				$content->content = preg_replace("/(<(|\/)(table|thead|tfoot|tbody|th|tr|td).*>)(<br \/>)/", "\$1", $content->getContent());
+				$content->content = apply_filters('kboard_content_paragraph_breaks', kboard_autolink($content->getContent()), $this);
 			}
 			else{
-				$content->content = nl2br($content->getContent());
-				$content->content = preg_replace("/(<(|\/)(table|thead|tbody|tfoot|th|tr|td).*>)(<br \/>)/", "\$1", $content->getContent());
+				$content->content = apply_filters('kboard_content_paragraph_breaks', $content->getContent(), $this);
 			}
 			
 			// kboard_content 필터 실행

@@ -962,6 +962,16 @@ function kboard_head(){
 }
 
 /*
+ * 게시글 내용의 문단을 나눈다.
+ */
+add_filter('kboard_content_paragraph_breaks', 'kboard_content_paragraph_breaks', 10, 2);
+function kboard_content_paragraph_breaks($content, $board_builder){
+	$content = nl2br($content);
+	$content = preg_replace("/(<(|\/)(table|thead|tfoot|tbody|th|tr|td).*>)(<br \/>)/", "\$1", $content);
+	return $content;
+}
+
+/*
  * 시스템 업데이트
  */
 add_action('plugins_loaded', 'kboard_update_check');
@@ -1096,7 +1106,7 @@ function kboard_activation_execute(){
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`content_uid` bigint(20) unsigned NOT NULL,
 	`option_key` varchar(127) NOT NULL,
-	`option_value` text NOT NULL,
+	`option_value` longtext NOT NULL,
 	PRIMARY KEY (`uid`),
 	KEY `content_uid` (`content_uid`),
 	KEY `option_key` (`option_key`)
@@ -1105,7 +1115,7 @@ function kboard_activation_execute(){
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
 	`board_id` bigint(20) unsigned NOT NULL,
 	`key` varchar(127) NOT NULL,
-	`value` text NOT NULL,
+	`value` longtext NOT NULL,
 	UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) {$charset_collate};");
 

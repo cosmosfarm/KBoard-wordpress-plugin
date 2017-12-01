@@ -31,7 +31,7 @@ function kboard_document_mycred_load_hook(){
 					)
 			), $hook_prefs, $type);
 		}
-
+		
 		public function run(){
 			if($this->prefs['insert']['creds'] != 0){
 				add_action('kboard_document_insert', array($this, 'kboard_document_insert'), 10, 4);
@@ -40,7 +40,7 @@ function kboard_document_mycred_load_hook(){
 				add_action('kboard_document_delete', array($this, 'kboard_document_delete'), 10, 4);
 			}
 		}
-
+		
 		public function kboard_document_insert($content_uid, $board_id, $content, $board){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
@@ -51,7 +51,7 @@ function kboard_document_mycred_load_hook(){
 				$this->core->add_creds('kboard_document_insert', $content->member_uid, $this->prefs['insert']['creds'], $this->prefs['insert']['log'], $content_uid, 'kboard_document', $this->mycred_type);
 			}
 		}
-
+		
 		public function kboard_document_delete($content_uid, $board_id, $content, $board){
 			$content = new KBContent();
 			$content->initWithUID($content_uid);
@@ -62,7 +62,7 @@ function kboard_document_mycred_load_hook(){
 				$this->core->add_creds('kboard_document_delete', $content->member_uid, $this->prefs['delete']['creds'], $this->prefs['delete']['log'], $content_uid, 'kboard_document', $this->mycred_type);
 			}
 		}
-
+		
 		public function preferences(){
 			$prefs = $this->prefs;
 			?>
