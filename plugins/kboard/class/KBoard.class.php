@@ -346,8 +346,10 @@ class KBoard {
 	public function isConfirm($content_password, $content_uid, $reauth=false){
 		$confirm = false;
 		
+		$reauth = apply_filters('kboard_password_confirm_reauth', $reauth, $this);
+		
 		if($content_password && $content_uid){
-			$input_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
+			$input_password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 			
 			if($reauth){
 				if($input_password == $content_password){
