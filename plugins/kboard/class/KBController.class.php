@@ -149,7 +149,7 @@ class KBController {
 			
 			if($content->execute_action == 'insert'){
 				if(!$board->meta->after_executing_mod){
-					$next_page_url = $url->set('uid', $execute_uid)->set('mod', 'document')->toString();
+					$next_page_url = $url->set('execute_uid', $execute_uid)->set('uid', $execute_uid)->set('mod', 'document')->toString();
 				}
 				else{
 					$next_page_url = $url->set('execute_uid', $execute_uid)->set('mod', $board->meta->after_executing_mod)->toString();

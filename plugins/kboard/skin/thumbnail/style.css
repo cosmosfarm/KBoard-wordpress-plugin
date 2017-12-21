@@ -76,18 +76,18 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-thumbnail-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-thumbnail-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
-#kboard-thumbnail-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 0; max-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-thumbnail-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
+#kboard-thumbnail-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 0; max-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-thumbnail-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
 #kboard-thumbnail-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-thumbnail-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-thumbnail-editor form { margin: 0; padding: 0; }
-#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-thumbnail-editor input[type=text],
 #kboard-thumbnail-editor input[type=email],
 #kboard-thumbnail-editor input[type=number],
 #kboard-thumbnail-editor input[type=date],
-#kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
+#kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
 #kboard-thumbnail-editor select:hover,
 #kboard-thumbnail-editor input[type=text]:hover,
 #kboard-thumbnail-editor input[type=email]:hover,
@@ -105,13 +105,13 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 32px; color: #545861; font-size: 13px; font-weight: bold; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
-#kboard-thumbnail-editor .kboard-attr-row .attr-value { margin-left: 150px; line-height: 32px; font-size: 13px; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-value { margin: 0 0 0 150px; padding: 0; line-height: 32px; font-size: 13px; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
 #kboard-thumbnail-editor .kboard-confirm-row { padding: 100px 0; }
-#kboard-thumbnail-editor .kboard-content { float: left; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
-#kboard-thumbnail-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; font-size: 13px; box-sizing: border-box; }
+#kboard-thumbnail-editor .kboard-content { float: left; margin: 0; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
+#kboard-thumbnail-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; font-size: 13px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: border-box; }
 #kboard-thumbnail-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-thumbnail-editor .kboard-control .left { position: static; float: left; }
 #kboard-thumbnail-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }

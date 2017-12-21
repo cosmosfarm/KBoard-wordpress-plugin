@@ -103,7 +103,7 @@ class KBSeo {
 	 * @return string|array
 	 */
 	public function title($title){
-		if(is_array($title) && isset($title['title']) && $title['title']){
+		if(is_array($title)){
 			$title['title'] = $this->getTitle();
 			return $title;
 		}

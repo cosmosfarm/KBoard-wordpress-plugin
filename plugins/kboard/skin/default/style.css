@@ -72,18 +72,18 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-default-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-default-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
-#kboard-default-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 0; max-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-default-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
+#kboard-default-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 0; max-width: 100px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-default-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
 #kboard-default-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
 #kboard-default-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-default-editor form { margin: 0; padding: 0; }
-#kboard-default-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-default-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 13px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-default-editor input[type=text],
 #kboard-default-editor input[type=email],
 #kboard-default-editor input[type=number],
 #kboard-default-editor input[type=date],
-#kboard-default-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
+#kboard-default-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
 #kboard-default-editor select:hover,
 #kboard-default-editor input[type=text]:hover,
 #kboard-default-editor input[type=email]:hover,
@@ -101,13 +101,13 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 #kboard-default-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
 #kboard-default-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
-#kboard-default-editor .kboard-attr-row .attr-value { margin-left: 150px; line-height: 30px; font-size: 13px; }
+#kboard-default-editor .kboard-attr-row .attr-value { margin: 0 0 0 150px; padding: 0; line-height: 30px; font-size: 13px; }
 #kboard-default-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-default-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
 #kboard-default-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
 #kboard-default-editor .kboard-confirm-row { padding: 100px 0; }
-#kboard-default-editor .kboard-content { float: left; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
-#kboard-default-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; font-size: 13px; box-sizing: border-box; }
+#kboard-default-editor .kboard-content { float: left; margin: 0; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
+#kboard-default-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; font-size: 13px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: border-box; }
 #kboard-default-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-default-editor .kboard-control .left { position: static; float: left; }
 #kboard-default-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
