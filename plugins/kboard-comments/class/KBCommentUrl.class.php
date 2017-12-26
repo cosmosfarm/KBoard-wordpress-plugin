@@ -28,7 +28,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getInsertURL(){
-		return site_url("?action=kboard_comment_insert");
+		return apply_filters('kboard_comments_url_insert', site_url("?action=kboard_comment_insert"));
 	}
 	
 	/**
@@ -36,7 +36,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getDeleteURL(){
-		return site_url("?action=kboard_comment_delete&uid={$this->comment_uid}");
+		return apply_filters('kboard_comments_url_delete', site_url("?action=kboard_comment_delete&uid={$this->comment_uid}"), $this->comment_uid);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getConfirmURL(){
-		return site_url("?action=kboard_comment_confirm&uid={$this->comment_uid}");
+		return apply_filters('kboard_comments_url_confirm', site_url("?action=kboard_comment_confirm&uid={$this->comment_uid}"), $this->comment_uid);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getEditURL(){
-		return site_url("?action=kboard_comment_edit&uid={$this->comment_uid}");
+		return apply_filters('kboard_comments_url_edit', site_url("?action=kboard_comment_edit&uid={$this->comment_uid}"), $this->comment_uid);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getUpdateURL(){
-		return site_url("?action=kboard_comment_update&uid={$this->comment_uid}");
+		return apply_filters('kboard_comments_url_update', site_url("?action=kboard_comment_update&uid={$this->comment_uid}"), $this->comment_uid);
 	}
 }
 ?>

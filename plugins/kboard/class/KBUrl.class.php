@@ -153,55 +153,71 @@ class KBUrl {
 	/**
 	 * 첨부파일 다운로드 URL을 반환한다.
 	 * @param int $content_uid
-	 * @param string $key
+	 * @param string $file_key
 	 * @return string
 	 */
-	public function getDownloadURLWithAttach($content_uid, $key){
+	public function getDownloadURLWithAttach($content_uid, $file_key){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			return add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$key}"));
+			return add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}"));
 		}
-		return '';
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_file_download', $url, $content_uid, $file_key);
 	}
 	
 	/**
 	 * 첨부파일 삭제 URL을 반환한다.
 	 * @param int $content_uid
-	 * @param string $key
+	 * @param string $file_key
 	 * @return string
 	 */
-	public function getDeleteURLWithAttach($content_uid, $key='thumbnail'){
+	public function getDeleteURLWithAttach($content_uid, $file_key='thumbnail'){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			return add_query_arg('kboard-file-delete-nonce', wp_create_nonce('kboard-file-delete'), site_url("?action=kboard_file_delete&uid={$content_uid}&file={$key}"));
+			$url = add_query_arg('kboard-file-delete-nonce', wp_create_nonce('kboard-file-delete'), site_url("?action=kboard_file_delete&uid={$content_uid}&file={$file_key}"));
 		}
-		return '';
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_file_delete', $url, $content_uid, $file_key);
 	}
 	
 	/**
 	 * 첨부파일 다운로드 URL을 반환한다.
-	 * @param int $uid
-	 * @param string $key
+	 * @param int $content_uid
+	 * @param string $file_key
 	 * @param int $order_item_id
 	 * @return string
 	 */
-	public function getDownloadURLWithAttachAndOderItemID($uid, $key, $order_item_id){
-		return site_url("?action=kboard_file_download&uid={$uid}&file={$key}&order_item_id={$order_item_id}");
+	public function getDownloadURLWithAttachAndOderItemID($content_uid, $file_key, $order_item_id){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			$url = site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}&order_item_id={$order_item_id}");
+		}
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_file_download_order', $url, $content_uid, $file_key, $order_item_id);
 	}
 	
 	/**
 	 * 글게시 주소를 반환한다.
-	 * @param int $uid
+	 * @param int $content_uid
 	 * @return string
 	 */
-	public function getDocumentURLWithUID($uid){
-		$uid = intval($uid);
-		if($uid){
-			$this->data['uid'] = $uid;
+	public function getDocumentURLWithUID($content_uid){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			$this->data['uid'] = $content_uid;
 			$this->data['mod'] = 'document';
-			return $this->toString();
+			$url = $this->toString();
 		}
-		return "javascript:alert('".__('No document.', 'kboard')."')";
+		else{
+			$url = "javascript:alert('".__('No document.', 'kboard')."')";
+		}
+		return apply_filters('kboard_url_document_uid', $url, $content_uid);
 	}
 	
 	/**
@@ -212,9 +228,12 @@ class KBUrl {
 	public function getDocumentRedirect($content_uid){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			return site_url("?kboard_content_redirect={$content_uid}");
+			$url = site_url("?kboard_content_redirect={$content_uid}");
 		}
-		return '';
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_document_redirect', $url, $content_uid);
 	}
 	
 	/**
@@ -225,9 +244,12 @@ class KBUrl {
 	public function getBoardRedirect($board_id){
 		$board_id = intval($board_id);
 		if($board_id){
-			return site_url("?kboard_redirect={$board_id}");
+			$url = site_url("?kboard_redirect={$board_id}");
 		}
-		return '';
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_board_redirect', $url, $board_id);
 	}
 	
 	/**
@@ -246,13 +268,13 @@ class KBUrl {
 	
 	/**
 	 * 소셜댓글 플러그인에서 사용할 게시글 주소를 반환한다.
-	 * @param int $uid
+	 * @param int $content_uid
 	 * @return string
 	 */
-	public function getCommentsPluginURLWithUID($uid){
-		$uid = intval($uid);
-		if($uid){
-			return $this->getDocumentRedirect($uid);
+	public function getCommentsPluginURLWithUID($content_uid){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			return $this->getDocumentRedirect($content_uid);
 		}
 		return '';
 	}
@@ -265,9 +287,12 @@ class KBUrl {
 	public function getDocumentPrint($content_uid){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			return site_url("?action=kboard_document_print&uid={$content_uid}");
+			$url = site_url("?action=kboard_document_print&uid={$content_uid}");
 		}
-		return '';
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_document_print', $url, $content_uid);
 	}
 	
 	/**
@@ -277,9 +302,12 @@ class KBUrl {
 	 */
 	public function getIamportEndpoint($display=''){
 		if($display){
-			return site_url("?action=kboard_iamport_endpoint&display=$display");
+			$url = site_url("?action=kboard_iamport_endpoint&display=$display");
 		}
-		return site_url("?action=kboard_iamport_endpoint");
+		else{
+			$url = site_url("?action=kboard_iamport_endpoint");
+		}
+		return apply_filters('kboard_url_iamport_endpoint', $url, $display);
 	}
 	
 	/**
@@ -292,9 +320,32 @@ class KBUrl {
 		if($content_uid){
 			$this->data['uid'] = $content_uid;
 			$this->data['mod'] = 'remove';
-			return add_query_arg('kboard-content-remove-nonce', wp_create_nonce('kboard-content-remove'), $this->toString());
+			$url = add_query_arg('kboard-content-remove-nonce', wp_create_nonce('kboard-content-remove'), $this->toString());
+			
 		}
-		return '';
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_content_remove', $url, $content_uid);
+	}
+	
+	/**
+	 * 게시글 작성 주소를 반환한다.
+	 * @param int $content_uid
+	 * @return string
+	 */
+	public function getContentEditor($content_uid=''){
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			$this->data['uid'] = $content_uid;
+			$this->data['mod'] = 'editor';
+			$url = $this->toString();
+		}
+		else{
+			$this->data['mod'] = 'editor';
+			$url = $this->toString();
+		}
+		return apply_filters('kboard_url_content_editor', $url, $content_uid);
 	}
 }
 ?>

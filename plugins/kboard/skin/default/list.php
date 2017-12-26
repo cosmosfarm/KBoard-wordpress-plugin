@@ -179,7 +179,7 @@
 	<?php if($board->isWriter()):?>
 	<!-- 버튼 시작 -->
 	<div class="kboard-control">
-		<a href="<?php echo $url->set('mod', 'editor')->toString()?>" class="kboard-default-button-small"><?php echo __('New', 'kboard')?></a>
+		<a href="<?php echo $url->getContentEditor()?>" class="kboard-default-button-small"><?php echo __('New', 'kboard')?></a>
 	</div>
 	<!-- 버튼 끝 -->
 	<?php endif?>
