@@ -309,11 +309,11 @@ class KBController {
 		}
 		
 		if(!$board->isReader($content->member_uid, $content->secret)){
-			if(!is_user_logged_in() && $board->permission_read == 'author'){
+			if($board->permission_read != 'all' && !is_user_logged_in()){
 				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
 				exit;
 			}
-			else if($content->secret && in_array($board->permission_write, array('all', 'author')) && in_array($board->permission_read, array('all', 'author'))){
+			else if($content->secret){
 				if(!$board->isConfirm($content->password, $content->uid)){
 					if($content->parent_uid){
 						$parent = new KBContent();
