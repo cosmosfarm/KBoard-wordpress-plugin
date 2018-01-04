@@ -887,6 +887,7 @@ class KBoardBuilder {
 		ob_start();
 		
 		$list = new KBContentList($this->board_id);
+		$list->is_latest = true;
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		$list->setSorting($this->sort);

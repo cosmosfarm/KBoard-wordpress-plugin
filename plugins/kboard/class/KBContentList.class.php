@@ -36,6 +36,7 @@ class KBContentList {
 	var $row;
 	var $is_loop_start;
 	var $is_first;
+	var $is_latest = false;
 	
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
