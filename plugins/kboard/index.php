@@ -579,11 +579,14 @@ function kboard_latest_shortcode($args){
 			$board_builder->category2 = '';
 		}
 		
+		$with_notice = true;
 		if(isset($args['with_notice']) && $args['with_notice'] == 'false'){
 			$with_notice = false;
 		}
-		else{
-			$with_notice = true;
+		
+		$within_days = 0;
+		if(isset($args['within_days']) && $args['within_days']){
+			$within_days = intval($args['within_days']);
 		}
 		
 		$latest = $board_builder->createLatest($with_notice);
@@ -620,11 +623,9 @@ function kboard_latestview_shortcode($args){
 		$board_builder->category1 = '';
 		$board_builder->category2 = '';
 		
+		$with_notice = true;
 		if(isset($args['with_notice']) && $args['with_notice'] == 'false'){
 			$with_notice = false;
-		}
-		else{
-			$with_notice = true;
 		}
 		
 		$latest = $board_builder->createLatest($with_notice);
