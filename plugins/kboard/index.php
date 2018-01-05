@@ -584,10 +584,12 @@ function kboard_latest_shortcode($args){
 			$with_notice = false;
 		}
 		
+		/*
 		$within_days = 0;
 		if(isset($args['within_days']) && $args['within_days']){
 			$within_days = intval($args['within_days']);
 		}
+		*/
 		
 		$latest = $board_builder->createLatest($with_notice);
 		
