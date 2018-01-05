@@ -10,7 +10,8 @@
   3. kboard_content_unlike 액션 추가
   4. kboard_content_paragraph_breaks 필터 추가
   5. kboard_password_confirm_reauth 필터 추가
-  6. 버그 수정
+  6. 최신글 숏코드 기간 설정 기능 추가
+  7. 버그 수정
 
 
 5.3.4

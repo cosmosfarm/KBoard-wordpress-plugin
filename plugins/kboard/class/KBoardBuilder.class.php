@@ -19,6 +19,7 @@ class KBoardBuilder {
 	var $rpp;
 	var $sort;
 	var $url;
+	var $within_days;
 	
 	public function __construct($board_id='', $is_latest=false){
 		$this->category1 = kboard_category1();
@@ -115,6 +116,14 @@ class KBoardBuilder {
 	 */
 	public function setURL($url){
 		$this->url = $url;
+	}
+	
+	/**
+	 * 최신글 숏코드 기간을 설정한다.
+	 * @param int $within_days
+	 */
+	public function setWithinDays($within_days){
+		$this->within_days = intval($within_days);
 	}
 	
 	/**
@@ -892,6 +901,7 @@ class KBoardBuilder {
 		$list->category2($this->category2);
 		$list->setSorting($this->sort);
 		$list->rpp($this->rpp);
+		$list->setWithinDays($this->within_days);
 		$list->getList('', '', $with_notice);
 		
 		$vars = array(

@@ -37,6 +37,7 @@ class KBContentList {
 	var $is_loop_start;
 	var $is_first;
 	var $is_latest = false;
+	var $within_days = 0;
 	
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
@@ -214,6 +215,14 @@ class KBContentList {
 		if($end_date){
 			$this->end_date = date('Ymd', strtotime($end_date)) . '235959';
 		}
+	}
+	
+	/**
+	 * 표시할 게시글 기간을 설정한다.
+	 * @return int $within_days
+	 */
+	public function setWithinDays($within_days){
+		$this->within_days = intval($within_days);
 	}
 	
 	/**
@@ -428,6 +437,11 @@ class KBContentList {
 		if($this->member_uid){
 			$member_uid = esc_sql($this->member_uid);
 			$this->where[] = "`member_uid`='{$member_uid}'";
+		}
+		
+		if($this->within_days){
+			$days = date('Ymd', strtotime("-{$this->within_days} day", current_time('timestamp')));
+			$this->where[] = "`date`>='{$days}000000'";
 		}
 		
 		// 공지사항이 아닌 게시글만 불러온다.
