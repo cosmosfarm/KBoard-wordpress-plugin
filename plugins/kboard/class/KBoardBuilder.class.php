@@ -226,10 +226,13 @@ class KBoardBuilder {
 		$order->board = $this->board;
 		$order->board_id = $this->board_id;
 		
+		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$vars = array(
 				'list' => $this->getList(),
 				'order' => $order,
-				'url' => new KBUrl(),
+				'url' => $url,
 				'skin' => $this->skin,
 				'skin_path' => $this->skin->url($this->skin_name),
 				'skin_dir' => $this->skin->dir($this->skin_name),
@@ -252,11 +255,14 @@ class KBoardBuilder {
 		$order->board = $this->board;
 		$order->board_id = $this->board_id;
 		
+		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$vars = array(
 				'list' => $list,
 				'depth' => $depth,
 				'order' => $order,
-				'url' => new KBUrl(),
+				'url' => $url,
 				'skin' => $this->skin,
 				'skin_path' => $this->skin->url($this->skin_name),
 				'skin_dir' => $this->skin->dir($this->skin_name),
@@ -272,6 +278,8 @@ class KBoardBuilder {
 	 */
 	public function builderDocument(){
 		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
@@ -428,6 +436,8 @@ class KBoardBuilder {
 	 */
 	public function builderEditor(){
 		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && isset($_POST['title']) && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
 			if(!is_user_logged_in() && (!isset($_POST['password']) || !$_POST['password'])){
@@ -565,6 +575,7 @@ class KBoardBuilder {
 	 */
 	public function builderRemove(){
 		$url = new KBUrl();
+		$url->setBoard($this->board);
 		
 		if(!isset($_GET['kboard-content-remove-nonce']) || !wp_verify_nonce($_GET['kboard-content-remove-nonce'], 'kboard-content-remove')){
 			if(!wp_get_referer()){
@@ -635,6 +646,8 @@ class KBoardBuilder {
 	 */
 	public function builderOrder(){
 		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
@@ -745,6 +758,8 @@ class KBoardBuilder {
 	 */
 	public function builderComplete(){
 		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
@@ -823,9 +838,12 @@ class KBoardBuilder {
 			}
 		}
 		
+		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$vars = array(
 				'list' => $list,
-				'url' => new KBUrl(),
+				'url' => $url,
 				'skin' => $this->skin,
 				'skin_path' => $this->skin->url($this->skin_name),
 				'skin_dir' => $this->skin->dir($this->skin_name),
@@ -841,6 +859,7 @@ class KBoardBuilder {
 	 */
 	public function builderSales(){
 		$url = new KBUrl();
+		$url->setBoard($this->board);
 		
 		if($this->board->isWriter()){
 			$list = new KBOrderSales();
@@ -904,10 +923,13 @@ class KBoardBuilder {
 		$list->setWithinDays($this->within_days);
 		$list->getList('', '', $with_notice);
 		
+		$url = new KBUrl();
+		$url->setBoard($this->board);
+		
 		$vars = array(
 				'board_url' => $this->url,
 				'list' => $list,
-				'url' => new KBUrl(),
+				'url' => $url,
 				'skin' => $this->skin,
 				'skin_path' => $this->skin->url($this->skin_name),
 				'skin_dir' => $this->skin->dir($this->skin_name),

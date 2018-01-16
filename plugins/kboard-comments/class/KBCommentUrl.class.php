@@ -8,6 +8,7 @@
 class KBCommentUrl {
 	
 	var $comment_uid;
+	var $board;
 	
 	public function __construct($comment_uid=''){
 		if($comment_uid) $this->setCommentUID($comment_uid);
@@ -24,11 +25,24 @@ class KBCommentUrl {
 	}
 	
 	/**
+	 * 게시판을 입력 받는다.
+	 * @param int|KBoard $board
+	 */
+	public function setBoard($board){
+		if(is_numeric($board)){
+			$this->board = new KBoard($board);
+		}
+		else{
+			$this->board = $board;
+		}
+	}
+	
+	/**
 	 * 댓글 입력 실행 URL
 	 * @return string
 	 */
 	public function getInsertURL(){
-		return apply_filters('kboard_comments_url_insert', site_url("?action=kboard_comment_insert"));
+		return apply_filters('kboard_comments_url_insert', site_url("?action=kboard_comment_insert"), $this->board);
 	}
 	
 	/**
@@ -36,7 +50,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getDeleteURL(){
-		return apply_filters('kboard_comments_url_delete', site_url("?action=kboard_comment_delete&uid={$this->comment_uid}"), $this->comment_uid);
+		return apply_filters('kboard_comments_url_delete', site_url("?action=kboard_comment_delete&uid={$this->comment_uid}"), $this->comment_uid, $this->board);
 	}
 	
 	/**
@@ -44,7 +58,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getConfirmURL(){
-		return apply_filters('kboard_comments_url_confirm', site_url("?action=kboard_comment_confirm&uid={$this->comment_uid}"), $this->comment_uid);
+		return apply_filters('kboard_comments_url_confirm', site_url("?action=kboard_comment_confirm&uid={$this->comment_uid}"), $this->comment_uid, $this->board);
 	}
 	
 	/**
@@ -52,7 +66,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getEditURL(){
-		return apply_filters('kboard_comments_url_edit', site_url("?action=kboard_comment_edit&uid={$this->comment_uid}"), $this->comment_uid);
+		return apply_filters('kboard_comments_url_edit', site_url("?action=kboard_comment_edit&uid={$this->comment_uid}"), $this->comment_uid, $this->board);
 	}
 	
 	/**
@@ -60,7 +74,7 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getUpdateURL(){
-		return apply_filters('kboard_comments_url_update', site_url("?action=kboard_comment_update&uid={$this->comment_uid}"), $this->comment_uid);
+		return apply_filters('kboard_comments_url_update', site_url("?action=kboard_comment_update&uid={$this->comment_uid}"), $this->comment_uid, $this->board);
 	}
 }
 ?>

@@ -10,9 +10,18 @@ class KBUrl {
 	private $path;
 	private $data;
 	
+	var $board;
+	
 	public function __construct($path=''){
-		if($path) $this->setPath($path);
-		else $this->path = '';
+		$this->board = new KBoard();
+		
+		if($path){
+			$this->setPath($path);
+		}
+		else{
+			$this->path = '';
+		}
+		
 		return $this->init();
 	}
 	
@@ -44,6 +53,19 @@ class KBUrl {
 	public function clear(){
 		$this->data = array();
 		return $this;
+	}
+	
+	/**
+	 * 게시판을 입력 받는다.
+	 * @param int|KBoard $board
+	 */
+	public function setBoard($board){
+		if(is_numeric($board)){
+			$this->board = new KBoard($board);
+		}
+		else{
+			$this->board = $board;
+		}
 	}
 	
 	/**
@@ -164,7 +186,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_file_download', $url, $content_uid, $file_key);
+		return apply_filters('kboard_url_file_download', $url, $content_uid, $file_key, $this->board);
 	}
 	
 	/**
@@ -181,7 +203,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_file_delete', $url, $content_uid, $file_key);
+		return apply_filters('kboard_url_file_delete', $url, $content_uid, $file_key, $this->board);
 	}
 	
 	/**
@@ -199,7 +221,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_file_download_order', $url, $content_uid, $file_key, $order_item_id);
+		return apply_filters('kboard_url_file_download_order', $url, $content_uid, $file_key, $order_item_id, $this->board);
 	}
 	
 	/**
@@ -217,7 +239,7 @@ class KBUrl {
 		else{
 			$url = "javascript:alert('".__('No document.', 'kboard')."')";
 		}
-		return apply_filters('kboard_url_document_uid', $url, $content_uid);
+		return apply_filters('kboard_url_document_uid', $url, $content_uid, $this->board);
 	}
 	
 	/**
@@ -233,7 +255,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_document_redirect', $url, $content_uid);
+		return apply_filters('kboard_url_document_redirect', $url, $content_uid, $this->board);
 	}
 	
 	/**
@@ -249,7 +271,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_board_redirect', $url, $board_id);
+		return apply_filters('kboard_url_board_redirect', $url, $board_id, $this->board);
 	}
 	
 	/**
@@ -292,7 +314,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_document_print', $url, $content_uid);
+		return apply_filters('kboard_url_document_print', $url, $content_uid, $this->board);
 	}
 	
 	/**
@@ -307,7 +329,7 @@ class KBUrl {
 		else{
 			$url = site_url("?action=kboard_iamport_endpoint");
 		}
-		return apply_filters('kboard_url_iamport_endpoint', $url, $display);
+		return apply_filters('kboard_url_iamport_endpoint', $url, $display, $this->board);
 	}
 	
 	/**
@@ -326,7 +348,7 @@ class KBUrl {
 		else{
 			$url = '';
 		}
-		return apply_filters('kboard_url_content_remove', $url, $content_uid);
+		return apply_filters('kboard_url_content_remove', $url, $content_uid, $this->board);
 	}
 	
 	/**
@@ -345,7 +367,7 @@ class KBUrl {
 			$this->data['mod'] = 'editor';
 			$url = $this->toString();
 		}
-		return apply_filters('kboard_url_content_editor', $url, $content_uid);
+		return apply_filters('kboard_url_content_editor', $url, $content_uid, $this->board);
 	}
 }
 ?>

@@ -40,12 +40,17 @@ class KBCommentsBuilder {
 		$commentList = new KBCommentList($this->content_uid);
 		$commentList->board = $this->board;
 		
+		$url = new KBUrl();
+		$url->setBoard($this->board);
+		$comment_url = new KBCommentUrl();
+		$comment_url->setBoard($this->board);
+		
 		$vars = array(
 				'content_uid' => $this->content_uid,
 				'commentList' => $commentList,
 				'temporary' => kboard_comments_get_temporary(),
-				'url' => new KBUrl(),
-				'commentURL' => new KBCommentUrl(),
+				'url' => $url,
+				'commentURL' => $comment_url,
 				'member_uid' => $current_user->ID,
 				'member_display' => $current_user->display_name,
 				'skin_path' => $this->skin->url($this->skin_name),
@@ -72,12 +77,17 @@ class KBCommentsBuilder {
 		if($parent_uid) $commentList->initWithParentUID($parent_uid);
 		else $commentList->initWithUID($this->content_uid);
 		
+		$url = new KBUrl();
+		$url->setBoard($this->board);
+		$comment_url = new KBCommentUrl();
+		$comment_url->setBoard($this->board);
+		
 		$vars = array(
 				'content_uid' => $this->content_uid,
 				'commentList' => $commentList,
 				'depth' => $depth,
-				'url' => new KBUrl(),
-				'commentURL' => new KBCommentUrl(),
+				'url' => $url,
+				'commentURL' => $comment_url,
 				'member_uid' => $current_user->ID,
 				'member_display' => $current_user->display_name,
 				'skin_path' => $this->skin->url($this->skin_name),
