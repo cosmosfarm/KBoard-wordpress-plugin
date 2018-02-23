@@ -16,6 +16,67 @@ class KBAdminController {
 		add_action('admin_post_kboard_csv_upload_execute', array($this, 'csv_upload'));
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('wp_ajax_kboard_system_option_update', array($this, 'system_option_update'));
+		
+		add_action('wp_ajax_kboard_tree_category_update', array($this, 'kboard_tree_category_update'));
+		add_action('wp_ajax_kboard_tree_category_sortable', array($this, 'kboard_tree_category_sortable'));
+	}
+	
+	public function kboard_tree_category_sortable(){
+		$tree_category_serialize = isset($_POST['tree_category_serialize'])?$_POST['tree_category_serialize']:'';
+		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
+		
+		$board = new KBoard($board_id);
+		$category = new KBoardTreeCategory();
+		$category->setBoardID($board_id);
+		
+		$sortable_category = array();
+		
+		foreach($tree_category_serialize as $item){
+			if(isset($item['id']) && $item['id']){
+				foreach($category->tree_category as $key=>$value){
+					if($item['id'] == $value['id']){
+						$value['parent_id'] = $item['parent_id'];
+						$sortable_category[] = $value;
+					}
+				}
+			}
+		}
+		
+		$board->meta->tree_category = serialize($sortable_category);
+		$category->setTreeCategory($sortable_category);
+		$build_tree_category = $category->buildAdminTreeCategory();
+		
+		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
+		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
+		
+		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
+	}
+	
+	/**
+	 * 계층형 카테고리 수정
+	 */
+	public function kboard_tree_category_update(){
+		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		$_POST = stripslashes_deep($_POST);
+		
+		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
+		
+		$tree_category = array();
+		if(isset($_POST['tree_category'])){
+			parse_str($_POST['tree_category'], $tree_category);
+		}
+		
+		$board = new KBoard($board_id);
+		$category = new KBoardTreeCategory();
+		$category->setBoardID($board_id);
+		$board->meta->tree_category = serialize($tree_category['tree_category']);
+		$category->setTreeCategory($tree_category['tree_category']);
+		$build_tree_category = $category->buildAdminTreeCategory();
+		
+		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
+		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
+		
+		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
 	}
 	
 	/**
@@ -41,6 +102,7 @@ class KBAdminController {
 			$use_category = isset($_POST['use_category'])?$_POST['use_category']:'';
 			$category1_list = isset($_POST['category1_list'])?implode(',', array_map('sanitize_text_field', array_map('trim', explode(',', $_POST['category1_list'])))):'';
 			$category2_list = isset($_POST['category2_list'])?implode(',', array_map('sanitize_text_field', array_map('trim', explode(',', $_POST['category2_list'])))):'';
+			
 			$create = date('YmdHis', current_time('timestamp'));
 			
 			$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
@@ -70,6 +132,8 @@ class KBAdminController {
 				$board->meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
 				$board->meta->latest_alerts = isset($_POST['latest_alerts'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['latest_alerts'])))):'';
 				$board->meta->comment_skin = ($use_comment && isset($_POST['comment_skin']))?$_POST['comment_skin']:'';
+				$board->meta->use_tree_category = isset($_POST['use_tree_category'])?$_POST['use_tree_category']:'';
+				$board->meta->tree_category = isset($_POST['tree_category'])?serialize($_POST['tree_category']):'';
 				$board->meta->default_content = isset($_POST['default_content'])?$_POST['default_content']:'';
 				$board->meta->pass_autop = isset($_POST['pass_autop'])?$_POST['pass_autop']:'';
 				$board->meta->shortcode_execute = isset($_POST['shortcode_execute'])?$_POST['shortcode_execute']:'';
@@ -158,7 +222,7 @@ class KBAdminController {
 			foreach($tables as $key=>$value){
 				$data .= $backup->getXml($value);
 			}
-				
+			
 			$backup->download($data, 'xml');
 			exit;
 		}

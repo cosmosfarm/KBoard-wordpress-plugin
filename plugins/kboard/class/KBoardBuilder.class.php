@@ -77,7 +77,8 @@ class KBoardBuilder {
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
 			
-			wp_localize_script('kboard-script', 'kbaord_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid));
+			$tree_category = unserialize($this->meta->tree_category);
+			wp_localize_script('kboard-script', 'kboard_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid, 'use_tree_category'=>$this->meta->use_tree_category, 'tree_category'=>$tree_category));
 			
 			// KBoard 미디어 추가
 			add_action('media_buttons_context',  'kboard_editor_button');
@@ -230,14 +231,14 @@ class KBoardBuilder {
 		$url->setBoard($this->board);
 		
 		$vars = array(
-				'list' => $this->getList(),
-				'order' => $order,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'boardBuilder' => $this,
+			'list' => $this->getList(),
+			'order' => $order,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $this->board,
+			'boardBuilder' => $this,
 		);
 		
 		echo $this->skin->load($this->skin_name, 'list.php', $vars);
@@ -259,15 +260,15 @@ class KBoardBuilder {
 		$url->setBoard($this->board);
 		
 		$vars = array(
-				'list' => $list,
-				'depth' => $depth,
-				'order' => $order,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'boardBuilder' => $this,
+			'list' => $list,
+			'depth' => $depth,
+			'order' => $order,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $this->board,
+			'boardBuilder' => $this,
 		);
 		
 		echo $this->skin->load($this->skin_name, 'reply-template.php', $vars);
@@ -310,14 +311,14 @@ class KBoardBuilder {
 		$order->board_id = $this->board_id;
 		
 		$vars = array(
-				'content' => $content,
-				'order' => $order,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $board,
-				'boardBuilder' => $this,
+			'content' => $content,
+			'order' => $order,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $board,
+			'boardBuilder' => $this,
 		);
 		
 		$allow_document = false;
@@ -460,14 +461,14 @@ class KBoardBuilder {
 		$order->board_id = $this->board_id;
 		
 		$vars = array(
-				'content' => $content,
-				'order' => $order,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $board,
-				'boardBuilder' => $this,
+			'content' => $content,
+			'order' => $order,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $board,
+			'boardBuilder' => $this,
 		);
 		
 		$confirm_view = false;
@@ -569,7 +570,7 @@ class KBoardBuilder {
 			echo $this->skin->load($this->skin_name, 'editor.php', $vars);
 		}
 	}
-
+	
 	/**
 	 * 게시글 삭제 페이지를 생성한다. (완료 후 바로 리다이렉션)
 	 */
@@ -613,13 +614,13 @@ class KBoardBuilder {
 			$board->content = $content;
 			
 			$vars = array(
-					'content' => $content,
-					'url' => $url,
-					'skin' => $this->skin,
-					'skin_path' => $this->skin->url($this->skin_name),
-					'skin_dir' => $this->skin->dir($this->skin_name),
-					'board' => $board,
-					'boardBuilder' => $this,
+				'content' => $content,
+				'url' => $url,
+				'skin' => $this->skin,
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $board,
+				'boardBuilder' => $this,
 			);
 			
 			echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
@@ -680,14 +681,14 @@ class KBoardBuilder {
 		$order->initOrderItems();
 		
 		$vars = array(
-				'content' => $content,
-				'order' => $order,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $board,
-				'boardBuilder' => $this,
+			'content' => $content,
+			'order' => $order,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $board,
+			'boardBuilder' => $this,
 		);
 		
 		$allow_document = false;
@@ -790,14 +791,14 @@ class KBoardBuilder {
 		$order->board_id = $this->board_id;
 		
 		$vars = array(
-				'content' => $content,
-				'order' => $order,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $board,
-				'boardBuilder' => $this,
+			'content' => $content,
+			'order' => $order,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $board,
+			'boardBuilder' => $this,
 		);
 		
 		echo $this->skin->load($this->skin_name, 'complete.php', $vars);
@@ -842,13 +843,13 @@ class KBoardBuilder {
 		$url->setBoard($this->board);
 		
 		$vars = array(
-				'list' => $list,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'boardBuilder' => $this,
+			'list' => $list,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $this->board,
+			'boardBuilder' => $this,
 		);
 		
 		echo $this->skin->load($this->skin_name, 'history.php', $vars);
@@ -883,14 +884,14 @@ class KBoardBuilder {
 			$order->board_id = $this->board_id;
 			
 			$vars = array(
-					'list' => $list,
-					'order' => $order,
-					'url' => $url,
-					'skin' => $this->skin,
-					'skin_path' => $this->skin->url($this->skin_name),
-					'skin_dir' => $this->skin->dir($this->skin_name),
-					'board' => $this->board,
-					'boardBuilder' => $this,
+				'list' => $list,
+				'order' => $order,
+				'url' => $url,
+				'skin' => $this->skin,
+				'skin_path' => $this->skin->url($this->skin_name),
+				'skin_dir' => $this->skin->dir($this->skin_name),
+				'board' => $this->board,
+				'boardBuilder' => $this,
 			);
 			
 			echo $this->skin->load($this->skin_name, 'sales.php', $vars);
@@ -927,14 +928,14 @@ class KBoardBuilder {
 		$url->setBoard($this->board);
 		
 		$vars = array(
-				'board_url' => $this->url,
-				'list' => $list,
-				'url' => $url,
-				'skin' => $this->skin,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'boardBuilder' => $this,
+			'board_url' => $this->url,
+			'list' => $list,
+			'url' => $url,
+			'skin' => $this->skin,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $this->board,
+			'boardBuilder' => $this,
 		);
 		
 		echo $this->skin->load($this->skin_name, 'latest.php', $vars);

@@ -16,6 +16,13 @@
 					<div class="detail-name"><?php echo $content->category2?></div>
 				</div>
 				<?php endif?>
+				<?php if($content->option->tree_category_1):?>
+				<?php for($i=1; $i<=$board->tree_category->getCount(); $i++): if(!$content->option->{'tree_category_'.$i}) break?>
+				<div class="detail-attr detail-tree-category-<?php echo $i?>">
+					<div class="detail-name"><?php echo $content->option->{'tree_category_'.$i}?></div>
+				</div>
+				<?php endfor?>
+				<?php endif?>
 				<div class="detail-attr detail-writer">
 					<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
 					<div class="detail-value"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></div>

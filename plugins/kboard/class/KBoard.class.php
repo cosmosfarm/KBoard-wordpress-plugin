@@ -12,12 +12,14 @@ class KBoard {
 	var $content;
 	var $category;
 	var $category_row;
+	var $tree_category;
 	var $current_user;
 	var $meta;
 	
 	public function __construct($id=''){
 		$this->row = new stdClass();
 		$this->meta = new KBoardMeta();
+		$this->tree_category = new KBoardTreeCategory();
 		$this->current_user = wp_get_current_user();
 		$this->setID($id);
 	}
@@ -42,11 +44,13 @@ class KBoard {
 			if(isset($this->row->uid) && $this->row->uid){
 				$this->id = $this->row->uid;
 				$this->meta = new KBoardMeta($this->row->uid);
+				$this->tree_category = new KBoardTreeCategory($this->meta->tree_category);
 				return $this;
 			}
 		}
 		$this->id = 0;
 		$this->meta = new KBoardMeta();
+		$this->tree_category = new KBoardTreeCategory();
 		$wpdb->flush();
 		return $this;
 	}
@@ -70,10 +74,12 @@ class KBoard {
 		if(isset($this->row->uid) && $this->row->uid){
 			$this->id = $this->row->uid;
 			$this->meta = new KBoardMeta($this->row->uid);
+			$this->tree_category = new KBoardTreeCategory($this->meta->tree_category);
 		}
 		else{
 			$this->id = 0;
 			$this->meta = new KBoardMeta();
+			$this->tree_category = new KBoardTreeCategory();
 		}
 		$wpdb->flush();
 		return $this;
@@ -92,12 +98,14 @@ class KBoard {
 			if(isset($this->row->uid) && $this->row->uid){
 				$this->id = $this->row->uid;
 				$this->meta = new KBoardMeta($this->row->uid);
+				$this->tree_category = new KBoardTreeCategory($this->meta->tree_category);
 				$wpdb->flush();
 				return $this;
 			}
 		}
 		$this->id = 0;
 		$this->meta = new KBoardMeta();
+		$this->tree_category = new KBoardTreeCategory();
 		$wpdb->flush();
 		return $this;
 	}
@@ -406,7 +414,7 @@ class KBoard {
 	}
 	
 	/**
-	 * 댓글 플러그인이 있고, 해당 게시판에서 댓글을 사용하는지 확인한다. 
+	 * 댓글 플러그인이 있고, 해당 게시판에서 댓글을 사용하는지 확인한다.
 	 * @return boolean
 	 */
 	public function isComment(){
@@ -421,6 +429,13 @@ class KBoard {
 	 */
 	public function isUsePointOrder(){
 		if(is_user_logged_in() && class_exists('myCRED_Core')){
+			return true;
+		}
+		return false;
+	}
+	
+	public function isTreeCategoryActive(){
+		if($this->use_category && $this->meta->use_tree_category){
 			return true;
 		}
 		return false;
@@ -591,7 +606,7 @@ class KBoard {
 	public function getTotal(){
 		global $wpdb;
 		if(!$this->id){
-			return 0;	
+			return 0;
 		}
 		if(!$this->meta->total || $this->meta->total<=0){
 			$this->meta->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id'");
@@ -669,7 +684,7 @@ class KBoard {
 					$category1 = esc_sql($category['category1']);
 					$where[] = "`category1`='{$category1}'";
 				}
-					
+				
 				if(isset($category['category2']) && $category['category2']){
 					$category2 = esc_sql($category['category2']);
 					$where[] = "`category2`='{$category2}'";

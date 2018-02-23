@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: KBoard : 게시판
-Plugin URI: http://www.cosmosfarm.com/products/kboard
-Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.3.5
-Author: 코스모스팜 - Cosmosfarm
-Author URI: http://www.cosmosfarm.com/
-*/
+ Plugin Name: KBoard : 게시판
+ Plugin URI: http://www.cosmosfarm.com/products/kboard
+ Description: 워드프레스 KBoard 게시판 플러그인 입니다.
+ Version: 5.3.5
+ Author: 코스모스팜 - Cosmosfarm
+ Author URI: http://www.cosmosfarm.com/
+ */
 
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
@@ -34,6 +34,7 @@ include_once 'class/KBContentMedia.class.php';
 include_once 'class/KBContentOption.class.php';
 include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
+include_once 'class/KBoardTreeCategory.class.php';
 include_once 'class/KBoardList.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
@@ -258,12 +259,12 @@ function kboard_list(){
 		include_once 'class/KBoardListTable.class.php';
 		$table = new KBoardListTable();
 		/*
-		if(isset($_POST['board_id']) && $table->current_action() == 'delete'){
-			foreach($_POST['board_id'] as $key=>$value){
-				$table->board->delete($value);
-			}
-		}
-		*/
+		 if(isset($_POST['board_id']) && $table->current_action() == 'delete'){
+		 foreach($_POST['board_id'] as $key=>$value){
+		 $table->board->delete($value);
+		 }
+		 }
+		 */
 		$table->prepare_items();
 		include_once 'pages/kboard_list.php';
 	}
@@ -295,6 +296,11 @@ function kboard_setting(){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 		$comment_skin = KBCommentSkin::getInstance();
 	}
+	
+	wp_register_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array(), '1.1');
+	
+	$category = new KBoardTreeCategory();
+	$category->setBoardID($board_id);
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -348,13 +354,13 @@ function kboard_backup(){
  */
 function kboard_upgrade(){
 	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-
+	
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
 	$download_version = isset($_GET['download_version'])?kboard_htmlclear($_GET['download_version']):'';
 	$form_url = wp_nonce_url(admin_url("admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
 	$upgrader = KBUpgrader::getInstance();
-
+	
 	if($action == 'kboard'){
 		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '>=')){
 			die('<script>alert("최신버전 입니다.");location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
@@ -740,15 +746,15 @@ function kboard_scripts(){
 	
 	// 설정 등록
 	$localize = array(
-			'version' => KBOARD_VERSION,
-			'home_url' => home_url('/', 'relative'),
-			'site_url' => site_url('/', 'relative'),
-			'post_url' => admin_url('admin-post.php'),
-			'ajax_url' => admin_url('admin-ajax.php'),
-			'alax_url' => admin_url('admin-ajax.php'),
-			'plugin_url' => KBOARD_URL_PATH,
-			'media_group' => uniqid(),
-			'ajax_security' => wp_create_nonce('kboard_ajax_security'),
+		'version' => KBOARD_VERSION,
+		'home_url' => home_url('/', 'relative'),
+		'site_url' => site_url('/', 'relative'),
+		'post_url' => admin_url('admin-post.php'),
+		'ajax_url' => admin_url('admin-ajax.php'),
+		'alax_url' => admin_url('admin-ajax.php'),
+		'plugin_url' => KBOARD_URL_PATH,
+		'media_group' => uniqid(),
+		'ajax_security' => wp_create_nonce('kboard_ajax_security'),
 	);
 	$kboard_iamport_id = get_option('kboard_iamport_id');
 	if($kboard_iamport_id){
@@ -758,94 +764,94 @@ function kboard_scripts(){
 	
 	// 번역 등록
 	$localize = array(
-			'kboard_add_media' => __('KBoard Add Media', 'kboard'),
-			'next' => __('Next', 'kboard'),
-			'prev' => __('Prev', 'kboard'),
-			'please_enter_the_title' => __('Please enter the title.', 'kboard'),
-			'please_enter_the_author' => __('Please enter the author.', 'kboard'),
-			'please_enter_the_password' => __('Please enter the password.', 'kboard'),
-			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard'),
-			'please_enter_the_name' => __('Please enter the name.', 'kboard'),
-			'please_enter_the_email' => __('Please enter the email.', 'kboard'),
-			'you_have_already_voted' => __('You have already voted.', 'kboard'),
-			'please_wait' => __('Please wait.', 'kboard'),
-			'newest' => __('Newest', 'kboard'),
-			'best' => __('Best', 'kboard'),
-			'updated' => __('Updated', 'kboard'),
-			'viewed' => __('Viewed', 'kboard'),
-			'yes' => __('Yes', 'kboard'),
-			'no' => __('No', 'kboard'),
-			'did_it_help' => __('Did it help?', 'kboard'),
-			'hashtag' => __('Hashtag', 'kboard'),
-			'tag' => __('Tag', 'kboard'),
-			'add_a_tag' => __('Add a Tag', 'kboard'),
-			'removing_tag' => __('Removing tag', 'kboard'),
-			'changes_you_made_may_not_be_saved' => __('Changes you made may not be saved.', 'kboard'),
-			'email' => __('Email', 'kboard'),
-			'address' => __('Address', 'kboard'),
-			'postcode' => __('Postcode', 'kboard'),
-			'phone_number' => __('Phone number', 'kboard'),
-			'mobile_phone' => __('Mobile phone', 'kboard'),
-			'phone' => __('Phone', 'kboard'),
-			'company_name' => __('Company name', 'kboard'),
-			'vat_number' => __('VAT number', 'kboard'),
-			'bank_account' => __('Bank account', 'kboard'),
-			'name_of_deposit' => __('Name of deposit', 'kboard'),
-			'find' => __('Find', 'kboard'),
-			'rate' => __('Rate', 'kboard'),
-			'ratings' => __('Ratings', 'kboard'),
-			'waiting' => __('Waiting', 'kboard'),
-			'complete' => __('Complete', 'kboard'),
-			'question' => __('Question', 'kboard'),
-			'answer' => __('Answer', 'kboard'),
-			'notify_me_of_new_comments_via_email' => __('Notify me of new comments via email', 'kboard'),
-			'ask_question' => __('Ask Question', 'kboard'),
-			'categories' => __('Categories', 'kboard'),
-			'pages' => __('Pages', 'kboard'),
-			'all_products' => __('All Products', 'kboard'),
-			'your_orders' => __('Your Orders', 'kboard'),
-			'your_sales' => __('Your Sales', 'kboard'),
-			'my_orders' => __('My Orders', 'kboard'),
-			'my_sales' => __('My Sales', 'kboard'),
-			'new_product' => __('New Product', 'kboard'),
-			'edit_product' => __('Edit Product', 'kboard'),
-			'delete_product' => __('Delete Product', 'kboard'),
-			'seller' => __('Seller', 'kboard'),
-			'period' => __('Period', 'kboard'),
-			'period_of_use' => __('Period of use', 'kboard'),
-			'last_updated' => __('Last updated', 'kboard'),
-			'list_price' => __('List price', 'kboard'),
-			'price' => __('Price', 'kboard'),
-			'total_price' => __('Total price', 'kboard'),
-			'amount' => __('Amount', 'kboard'),
-			'quantity' => __('Quantity', 'kboard'),
-			'use_points' => __('Use points', 'kboard'),
-			'my_points' => __('My points', 'kboard'),
-			'available_points' => __('Available points', 'kboard'),
-			'apply_points' => __('Apply points', 'kboard'),
-			'buy_it_now' => __('Buy It Now', 'kboard'),
-			'sold_out' => __('Sold Out', 'kboard'),
-			'for_free' => __('For free', 'kboard'),
-			'pay_s' => __('Pay %s', 'kboard'),
-			'payment_method' => __('Payment method', 'kboard'),
-			'credit_card' => __('Credit card', 'kboard'),
-			'make_a_deposit' => __('Make a deposit', 'kboard'),
-			'reward_point' => __('Reward point', 'kboard'),
-			'download_expiry' => __('Download expiry', 'kboard'),
-			'checkout' => __('Checkout', 'kboard'),
-			'buyer_information' => __('Buyer information', 'kboard'),
-			'applying_cash_receipts' => __('Applying cash receipts', 'kboard'),
-			'privacy_policy' => __('Privacy policy', 'kboard'),
-			'i_agree_to_the_privacy_policy' => __('I agree to the privacy policy.', 'kboard'),
-			'i_confirm_the_terms_of_the_transaction_and_agree_to_the_payment_process' => __('I confirm the terms of the transaction and agree to the payment process.', 'kboard'),
-			'today' => __('Today', 'kboard'),
-			'yesterday' => __('Yesterday', 'kboard'),
-			'this_month' => __('This month', 'kboard'),
-			'last_month' => __('Last month', 'kboard'),
-			'last_30_days' => __('Last 30 days', 'kboard'),
-			'agree' => __('Agree', 'kboard'),
-			'disagree' => __('Disagree', 'kboard'),
-			'opinion' => __('Opinion', 'kboard'),
+		'kboard_add_media' => __('KBoard Add Media', 'kboard'),
+		'next' => __('Next', 'kboard'),
+		'prev' => __('Prev', 'kboard'),
+		'please_enter_the_title' => __('Please enter the title.', 'kboard'),
+		'please_enter_the_author' => __('Please enter the author.', 'kboard'),
+		'please_enter_the_password' => __('Please enter the password.', 'kboard'),
+		'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard'),
+		'please_enter_the_name' => __('Please enter the name.', 'kboard'),
+		'please_enter_the_email' => __('Please enter the email.', 'kboard'),
+		'you_have_already_voted' => __('You have already voted.', 'kboard'),
+		'please_wait' => __('Please wait.', 'kboard'),
+		'newest' => __('Newest', 'kboard'),
+		'best' => __('Best', 'kboard'),
+		'updated' => __('Updated', 'kboard'),
+		'viewed' => __('Viewed', 'kboard'),
+		'yes' => __('Yes', 'kboard'),
+		'no' => __('No', 'kboard'),
+		'did_it_help' => __('Did it help?', 'kboard'),
+		'hashtag' => __('Hashtag', 'kboard'),
+		'tag' => __('Tag', 'kboard'),
+		'add_a_tag' => __('Add a Tag', 'kboard'),
+		'removing_tag' => __('Removing tag', 'kboard'),
+		'changes_you_made_may_not_be_saved' => __('Changes you made may not be saved.', 'kboard'),
+		'email' => __('Email', 'kboard'),
+		'address' => __('Address', 'kboard'),
+		'postcode' => __('Postcode', 'kboard'),
+		'phone_number' => __('Phone number', 'kboard'),
+		'mobile_phone' => __('Mobile phone', 'kboard'),
+		'phone' => __('Phone', 'kboard'),
+		'company_name' => __('Company name', 'kboard'),
+		'vat_number' => __('VAT number', 'kboard'),
+		'bank_account' => __('Bank account', 'kboard'),
+		'name_of_deposit' => __('Name of deposit', 'kboard'),
+		'find' => __('Find', 'kboard'),
+		'rate' => __('Rate', 'kboard'),
+		'ratings' => __('Ratings', 'kboard'),
+		'waiting' => __('Waiting', 'kboard'),
+		'complete' => __('Complete', 'kboard'),
+		'question' => __('Question', 'kboard'),
+		'answer' => __('Answer', 'kboard'),
+		'notify_me_of_new_comments_via_email' => __('Notify me of new comments via email', 'kboard'),
+		'ask_question' => __('Ask Question', 'kboard'),
+		'categories' => __('Categories', 'kboard'),
+		'pages' => __('Pages', 'kboard'),
+		'all_products' => __('All Products', 'kboard'),
+		'your_orders' => __('Your Orders', 'kboard'),
+		'your_sales' => __('Your Sales', 'kboard'),
+		'my_orders' => __('My Orders', 'kboard'),
+		'my_sales' => __('My Sales', 'kboard'),
+		'new_product' => __('New Product', 'kboard'),
+		'edit_product' => __('Edit Product', 'kboard'),
+		'delete_product' => __('Delete Product', 'kboard'),
+		'seller' => __('Seller', 'kboard'),
+		'period' => __('Period', 'kboard'),
+		'period_of_use' => __('Period of use', 'kboard'),
+		'last_updated' => __('Last updated', 'kboard'),
+		'list_price' => __('List price', 'kboard'),
+		'price' => __('Price', 'kboard'),
+		'total_price' => __('Total price', 'kboard'),
+		'amount' => __('Amount', 'kboard'),
+		'quantity' => __('Quantity', 'kboard'),
+		'use_points' => __('Use points', 'kboard'),
+		'my_points' => __('My points', 'kboard'),
+		'available_points' => __('Available points', 'kboard'),
+		'apply_points' => __('Apply points', 'kboard'),
+		'buy_it_now' => __('Buy It Now', 'kboard'),
+		'sold_out' => __('Sold Out', 'kboard'),
+		'for_free' => __('For free', 'kboard'),
+		'pay_s' => __('Pay %s', 'kboard'),
+		'payment_method' => __('Payment method', 'kboard'),
+		'credit_card' => __('Credit card', 'kboard'),
+		'make_a_deposit' => __('Make a deposit', 'kboard'),
+		'reward_point' => __('Reward point', 'kboard'),
+		'download_expiry' => __('Download expiry', 'kboard'),
+		'checkout' => __('Checkout', 'kboard'),
+		'buyer_information' => __('Buyer information', 'kboard'),
+		'applying_cash_receipts' => __('Applying cash receipts', 'kboard'),
+		'privacy_policy' => __('Privacy policy', 'kboard'),
+		'i_agree_to_the_privacy_policy' => __('I agree to the privacy policy.', 'kboard'),
+		'i_confirm_the_terms_of_the_transaction_and_agree_to_the_payment_process' => __('I confirm the terms of the transaction and agree to the payment process.', 'kboard'),
+		'today' => __('Today', 'kboard'),
+		'yesterday' => __('Yesterday', 'kboard'),
+		'this_month' => __('This month', 'kboard'),
+		'last_month' => __('Last month', 'kboard'),
+		'last_30_days' => __('Last 30 days', 'kboard'),
+		'agree' => __('Agree', 'kboard'),
+		'disagree' => __('Disagree', 'kboard'),
+		'opinion' => __('Opinion', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
@@ -937,10 +943,10 @@ function kboard_add_toolbar_link($wp_admin_bar){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='{$post->ID}'");
 		if($board_id){
 			$args = array(
-					'id'    => 'kboard-setting-page',
-					'title' => __('KBoard Forum Settings', 'kboard'),
-					'href'  => admin_url("admin.php?page=kboard_list&board_id={$board_id}"),
-					'meta'  => array('class' => 'kboard-setting-page')
+				'id'    => 'kboard-setting-page',
+				'title' => __('KBoard Forum Settings', 'kboard'),
+				'href'  => admin_url("admin.php?page=kboard_list&board_id={$board_id}"),
+				'meta'  => array('class' => 'kboard-setting-page')
 			);
 			$wp_admin_bar->add_node($args);
 		}
@@ -984,7 +990,7 @@ function kboard_update_check(){
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
 	if(get_option('kboard_version') !== false){
 		update_option('kboard_version', KBOARD_VERSION);
-
+		
 		// 관리자 알림
 		add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업데이트 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
 	}
@@ -1053,7 +1059,7 @@ function kboard_activation_execute(){
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_attached` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`content_uid` bigint(20) unsigned NOT NULL,
@@ -1064,7 +1070,7 @@ function kboard_activation_execute(){
 	PRIMARY KEY (`uid`),
 	KEY `content_uid` (`content_uid`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`board_id` bigint(20) unsigned NOT NULL,
@@ -1102,7 +1108,7 @@ function kboard_activation_execute(){
 	KEY `notice` (`notice`),
 	KEY `status` (`status`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`content_uid` bigint(20) unsigned NOT NULL,
@@ -1112,14 +1118,14 @@ function kboard_activation_execute(){
 	KEY `content_uid` (`content_uid`),
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
 	`board_id` bigint(20) unsigned NOT NULL,
 	`key` varchar(127) NOT NULL,
 	`value` longtext NOT NULL,
 	UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(127) NOT NULL,
@@ -1129,13 +1135,13 @@ function kboard_activation_execute(){
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
 	`latestview_uid` bigint(20) unsigned NOT NULL,
 	`board_id` bigint(20) unsigned NOT NULL,
 	UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`media_group` varchar(127) DEFAULT NULL,
@@ -1145,7 +1151,7 @@ function kboard_activation_execute(){
 	PRIMARY KEY (`uid`),
 	KEY `media_group` (`media_group`)
 	) {$charset_collate};");
-
+	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida_relationships` (
 	`content_uid` bigint(20) unsigned NOT NULL,
 	`media_uid` bigint(20) unsigned NOT NULL,
@@ -1192,7 +1198,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_meta` CHANGE `value` `value` TEXT NOT NULL");
 	}
 	unset($name, $type);
-
+	
 	/*
 	 * KBoard 3.5
 	 * kboard_board_content 테이블에 search 컬럼 생성 확인
@@ -1202,7 +1208,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `search` char(1) DEFAULT NULL AFTER `notice`");
 	}
 	unset($name);
-
+	
 	/*
 	 * KBoard 4.1
 	 * kboard_board_content 테이블에 comment 컬럼 생성 확인
@@ -1220,7 +1226,7 @@ function kboard_activation_execute(){
 		}
 	}
 	unset($name, $count);
-
+	
 	/*
 	 * KBoard 4.2
 	 * kboard_board_content 테이블에 parent_uid 컬럼 생성 확인
@@ -1230,7 +1236,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `parent_uid` BIGINT UNSIGNED NOT NULL AFTER `board_id`");
 	}
 	unset($name);
-
+	
 	/*
 	 * KBoard 4.5
 	 * kboard_board_meta 테이블의 content 컬럼 데이터형 longtext로 변경
@@ -1240,7 +1246,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` CHANGE `content` `content` LONGTEXT NOT NULL");
 	}
 	unset($name, $type);
-
+	
 	/*
 	 * KBoard 4.5
 	 * kboard_board_content 테이블에 like 컬럼 추가
@@ -1250,7 +1256,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `like` int(10) unsigned DEFAULT NULL AFTER `comment`");
 	}
 	unset($name);
-
+	
 	/*
 	 * KBoard 5.1
 	 * kboard_board_option 테이블에 content_uid 인덱스 추가
@@ -1260,7 +1266,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_option` ADD UNIQUE (`content_uid`, `option_key`)");
 	}
 	unset($index);
-
+	
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 unlike 컬럼 추가
@@ -1270,7 +1276,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `unlike` int(10) UNSIGNED NULL AFTER `like`");
 	}
 	unset($name);
-
+	
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 vote 컬럼 추가
@@ -1280,7 +1286,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `vote` int(11) NULL AFTER `unlike`");
 	}
 	unset($name);
-
+	
 	/*
 	 * KBoard 5.1
 	 * kboard_board_content 테이블에 parent_uid 인덱스 추가
@@ -1290,7 +1296,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`parent_uid`)");
 	}
 	unset($index);
-
+	
 	/*
 	 * KBoard 5.1
 	 * kboard_board_attached 테이블에 content_uid 인덱스 추가
@@ -1300,7 +1306,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_attached` ADD INDEX (`content_uid`)");
 	}
 	unset($index);
-
+	
 	/*
 	 * KBoard 5.2
 	 * kboard_board_content 테이블에 update 컬럼 추가
@@ -1311,7 +1317,7 @@ function kboard_activation_execute(){
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `update`=`date` WHERE 1");
 	}
 	unset($name);
-
+	
 	/*
 	 * KBoard 5.3
 	 * kboard_board_content 테이블에 status 컬럼 추가
@@ -1391,7 +1397,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`category2`)");
 	}
 	unset($index);
-
+	
 	/*
 	 * KBoard 5.3
 	 * kboard_board_content 테이블에 notice 인덱스 추가
@@ -1401,7 +1407,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`notice`)");
 	}
 	unset($index);
-
+	
 	/*
 	 * KBoard 5.3
 	 * kboard_board_content 테이블에 status 인덱스 추가
@@ -1411,7 +1417,7 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`status`)");
 	}
 	unset($index);
-
+	
 	/*
 	 * KBoard 5.3
 	 * kboard_board_latestview 테이블에 sort 컬럼 추가

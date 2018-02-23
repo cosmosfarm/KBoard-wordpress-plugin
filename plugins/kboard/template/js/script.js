@@ -19,9 +19,114 @@
 			$(win).on("resize scroll", visPx);
 		});
 	};
+	kboard_tree_category_parents();
 }(jQuery, window));
 
 var kboard_ajax_lock = false;
+
+function kboard_tree_category_parents(){
+	if(kboard_current.use_tree_category){
+		var tree_category = kboard_current.tree_category;
+		var mod = jQuery('input[name=mod]').val();
+		var tree_category_name;
+		var tree_category_index = 1;
+		
+		if(mod == 'list'){
+			tree_category_name = 'category_';
+		}
+		else if(mod == 'editor'){
+			tree_category_name = 'kboard_option_tree_category_';
+		}
+		
+		jQuery('.kboard-tree-category-wrap').prepend('<select id="kboard-tree-category-'+tree_category_index+'" class="kboard-tree-category kboard-tree-category-'+tree_category_index+'"></select>');
+		jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="">카테고리 선택</option>');
+		jQuery('#kboard-tree-category-'+tree_category_index).after('<input type="hidden" id="'+tree_category_name+tree_category_index+'" name="'+tree_category_name+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
+		
+		if(jQuery('#kboard-tree-category-search-form').length){
+			jQuery('#kboard-tree-category-search-form').append('<input type="hidden" name="kboard_search_option[tree_category_'+tree_category_index+'][key]" value="tree_category_'+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
+			jQuery('#kboard-tree-category-search-form').append('<input type="hidden" id="kboard-search-option-'+tree_category_index+'" name="kboard_search_option[tree_category_'+tree_category_index+'][value]" value="'+jQuery('#kboard-tree-category-'+tree_category_index).val()+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
+		}
+		
+		jQuery('#kboard-tree-category-'+tree_category_index).change(function(){
+			kboard_tree_category_children(this.value, tree_category_index, tree_category_name);
+		});
+		
+		jQuery.each(tree_category, function(index, element){
+			if(!element.parent_id){
+				jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="'+element.id+'">'+element.category_name+'</option>');
+			}
+		});
+
+		kboard_tree_category_selected(tree_category_index, tree_category_name);
+	}
+}
+
+function kboard_tree_category_children(category_id, tree_category_index, tree_category_name){
+	var tree_category = kboard_current.tree_category;
+	var length = jQuery('.kboard-tree-category').length;
+	var check = 0;
+	
+	for(var i=tree_category_index+1; i<=length; i++){ // 부모 카테고리 변경 시 자식 카테고리 지운다.
+		jQuery('.kboard-tree-category-'+i).remove();
+		jQuery('.kboard-tree-category-hidden-'+i).remove();
+	}
+	
+	jQuery.each(tree_category, function(index, element){ // 선택된 select box의 id값에 매칭되는 name을 찾아 hidden 태그에 넣음
+		if(jQuery('#kboard-tree-category-'+tree_category_index).val() == element.id){
+			jQuery('#'+tree_category_name+tree_category_index).val(element.category_name);
+		}
+	});
+	
+	if(jQuery('#kboard-tree-category-'+tree_category_index).val()){
+		jQuery.each(tree_category, function(index, element){
+			if(category_id === element.parent_id){
+				if(check==0){
+					jQuery('#kboard-tree-category-'+tree_category_index).after('<select id="kboard-tree-category-'+(tree_category_index+1)+'" class="kboard-tree-category kboard-tree-category-'+(tree_category_index+1)+'"></select>');
+					jQuery('#kboard-tree-category-'+(tree_category_index+1)).append('<option value="">카테고리 선택</option>');
+					
+					jQuery('#kboard-tree-category-'+(tree_category_index+1)).after('<input type="hidden" id="'+tree_category_name+(tree_category_index+1)+'" name="'+tree_category_name+(tree_category_index+1)+'" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'">');
+					
+					if(jQuery('#kboard-tree-category-search-form').length){					
+						jQuery('#kboard-tree-category-search-form').append('<input type="hidden" name="kboard_search_option[tree_category_'+(tree_category_index+1)+'][key]" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'" value="tree_category_'+(tree_category_index+1)+'">');
+						jQuery('#kboard-tree-category-search-form').append('<input type="hidden" id="kboard-search-option-'+(tree_category_index+1)+'" name="kboard_search_option[tree_category_'+(tree_category_index+1)+'][value]" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'" value="">');
+					}
+					
+					jQuery('#kboard-tree-category-'+(tree_category_index+1)).change(function(){
+						kboard_tree_category_children(this.value, (tree_category_index+1), tree_category_name);
+					});
+				}
+				check++;
+				jQuery('#kboard-tree-category-'+(tree_category_index+1)).append('<option value="'+element.id+'">'+element.category_name+'</option>');
+			}
+		});
+		kboard_tree_category_selected(tree_category_index+1, tree_category_name);
+	}
+	else{
+		for(var i=tree_category_index; i<=length; i++){ // 부모 카테고리 변경 시 자식 카테고리 지운다.
+			jQuery('.kboard-tree-category-hidden-'+i).val('');
+			jQuery('.kboard-tree-category-hidden-'+(i+1)).remove();
+		}
+	}
+	
+	if(jQuery('.kboard-tree-category-search').length){
+		jQuery('input[name="kboard_search_option[tree_category_'+tree_category_index+'][value]"').val(jQuery('#'+tree_category_name+tree_category_index).val());
+		jQuery('input[name="kboard_search_option[tree_category_'+tree_category_index+'][key]"').val('tree_category_'+tree_category_index);
+	}
+}
+
+function kboard_tree_category_selected(tree_category_index, tree_category_name){
+	var check = jQuery('input[name='+tree_category_name+tree_category_index+']').val();
+	
+	if(check){
+		jQuery('#kboard-tree-category-'+tree_category_index+' option').each(function(index, element){
+			if(jQuery(element).text() == jQuery('input[name='+tree_category_name+tree_category_index+']').val()){
+				jQuery(element).attr('selected', 'selected');
+				kboard_tree_category_children(this.value, tree_category_index, tree_category_name);
+			}
+		});
+	}
+	return false;
+}
 
 function kboard_editor_open_media(){
 	var w = 900;

@@ -56,6 +56,18 @@
 			<?php endif?>
 		<?php endif?>
 		
+		<?php if($board->isTreeCategoryActive()):?>
+		<div class="kboard-attr-row">
+			<label class="attr-name" for="kboard-tree-category"><?php echo __('Category', 'kboard')?></label>
+			<div class="attr-value">
+				<?php for($i=1; $i<=$board->tree_category->getCount(); $i++): if(!$content->option->{'tree_category_'.$i}) break?>
+				<input type="hidden" name="kboard_option_tree_category_<?php echo $i?>" value="<?php echo $content->option->{'tree_category_'.$i}?>">
+				<?php endfor?>
+				<div class="kboard-tree-category-wrap"></div>
+			</div>
+		</div>
+		<?php endif?>
+		
 		<?php if($board->viewUsernameField()):?>
 		<div class="kboard-attr-row">
 			<label class="attr-name" for="kboard-input-member-display"><?php echo __('Author', 'kboard')?></label>

@@ -75,6 +75,18 @@
 	<!-- 카테고리 끝 -->
 	<?php endif?>
 	
+	<!-- 계층형 카테고리 시작 -->
+	<?php if($board->isTreeCategoryActive()):?>
+	<div class="kboard-tree-category-search">
+		<form id="kboard-tree-category-search-form" action="<?php echo get_permalink()?>">
+			<div class="kboard-tree-category-wrap">
+				<button type="submit" class="kboard-default-button-small">검색</button>
+			</div>
+		</form>
+	</div>
+	<?php endif?>
+	<!-- 계층형 카테고리 끝 -->
+	
 	<!-- 리스트 시작 -->
 	<div class="kboard-list">
 		<table>
