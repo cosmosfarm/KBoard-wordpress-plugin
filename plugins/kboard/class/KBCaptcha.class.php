@@ -88,7 +88,7 @@ class KBCaptcha {
 		
 		$response = wp_remote_get($siteverify_url);
 		
-		if(is_wp_error($response) || empty($response['body']) || ! ($json = json_decode($response['body'])) || !$json->success){
+		if(is_wp_error($response) || empty($response['body']) || !($json = json_decode($response['body'])) || !$json->success){
 			return false;
 		}
 		return true;

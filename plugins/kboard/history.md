@@ -11,7 +11,8 @@
   4. kboard_content_paragraph_breaks 필터 추가
   5. kboard_password_confirm_reauth 필터 추가
   6. 최신글 숏코드 기간 설정 기능 추가
-  7. 버그 수정
+  7. 계층형 카테고리 기능 추가
+  8. 버그 수정
 
 
 5.3.4

@@ -72,7 +72,7 @@ class KBContent {
 		$this->attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
 		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
 	}
-
+	
 	/**
 	 * 게시글 고유번호를 입력받아 정보를 초기화한다.
 	 * @param int $uid
@@ -508,7 +508,7 @@ class KBContent {
 		}
 		return $this->attach;
 	}
-
+	
 	/**
 	 * 첨부파일을 초기화한다.
 	 */
@@ -548,7 +548,7 @@ class KBContent {
 			}
 		}
 	}
-
+	
 	/**
 	 * 게시글의 첨부파일을 업데이트한다. (입력/수정)
 	 */
@@ -561,7 +561,7 @@ class KBContent {
 				$file_key = esc_sql($attach_file->key);
 				$file_path = esc_sql($attach_file->path);
 				$file_name = esc_sql($attach_file->name);
-
+				
 				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				if($present_file){
 					@unlink(KBOARD_WORDPRESS_ROOT . $present_file);

@@ -7,6 +7,7 @@
  */
 class KBMail {
 	
+	var $headers;
 	var $from_name;
 	var $from;
 	var $to;
@@ -27,7 +28,6 @@ class KBMail {
 		add_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
 		add_filter('wp_mail', array($this, 'message_template'));
 		
-		$headers = '';
 		$message = $this->content;
 		
 		if($this->url){
@@ -38,7 +38,7 @@ class KBMail {
 			<table border="0" cellpadding="0" cellspacing="0">
 			<tbody>
 			<tr>
-			<td><a href="' . $this->url . '" target="_blank">' . ($this->url_name ? $this->url_name : $this->url) . '</a></td>
+			<td><a href="' . esc_url($this->url) . '" target="_blank">' . ($this->url_name ? $this->url_name : $this->url) . '</a></td>
 			</tr>
 			</tbody>
 			</table>
@@ -48,7 +48,7 @@ class KBMail {
 			</table>';
 		}
 		
-		$result = wp_mail($this->to, $this->title, $message, $headers);
+		$result = wp_mail($this->to, $this->title, $message, $this->headers);
 		
 		remove_filter('wp_mail', array($this, 'message_template'));
 		remove_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));

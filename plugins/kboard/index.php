@@ -1,12 +1,12 @@
 <?php
 /*
- Plugin Name: KBoard : 게시판
- Plugin URI: http://www.cosmosfarm.com/products/kboard
- Description: 워드프레스 KBoard 게시판 플러그인 입니다.
- Version: 5.3.5
- Author: 코스모스팜 - Cosmosfarm
- Author URI: http://www.cosmosfarm.com/
- */
+Plugin Name: KBoard : 게시판
+Plugin URI: http://www.cosmosfarm.com/products/kboard
+Description: 워드프레스 KBoard 게시판 플러그인 입니다.
+Version: 5.3.5
+Author: 코스모스팜 - Cosmosfarm
+Author URI: http://www.cosmosfarm.com/
+*/
 
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
@@ -275,7 +275,7 @@ function kboard_list(){
  */
 function kboard_new(){
 	$board = new KBoard();
-	$meta = new KBoardMeta();
+	$meta = $board->meta;
 	$skin = KBoardSkin::getInstance();
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
@@ -290,17 +290,13 @@ function kboard_new(){
 function kboard_setting(){
 	$board_id = isset($_GET['board_id'])?$_GET['board_id']:'';
 	$board = new KBoard($board_id);
-	$meta = new KBoardMeta($board->uid);
+	$meta = $board->meta;
 	$skin = KBoardSkin::getInstance();
 	if(defined('KBOARD_COMMNETS_VERSION')){
 		include_once WP_CONTENT_DIR.'/plugins/kboard-comments/class/KBCommentSkin.class.php';
 		$comment_skin = KBCommentSkin::getInstance();
 	}
-	
-	wp_register_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array(), '1.1');
-	
-	$category = new KBoardTreeCategory();
-	$category->setBoardID($board_id);
+	wp_enqueue_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery'), '1.1');
 	include_once 'pages/kboard_setting.php';
 }
 

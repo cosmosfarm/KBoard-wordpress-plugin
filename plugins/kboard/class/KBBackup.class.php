@@ -143,7 +143,7 @@ class KBBackup {
 					}
 					$value = implode(',', $value);
 					
-					$wpdb->query("INSERT INTO `$table` ($columns) VALUE ($value)");
+					$wpdb->query("INSERT INTO `$table` ($columns) VALUES ($value)");
 					
 					/*
 					 * search 값이 있을경우 post 테이블에 내용을 입력한다.

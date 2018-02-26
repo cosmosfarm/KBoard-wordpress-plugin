@@ -8,8 +8,8 @@
 class KBoardTreeCategory {
 	
 	var $tree_category = array();
-	var $row;
-	var $dropdown;
+	var $row = '';
+	var $dropdown = '';
 	
 	public function __construct($value=''){
 		if($value){
@@ -137,7 +137,7 @@ class KBoardTreeCategory {
 	/**
 	 * 계층형 카테고리 이름을 반환한다.
 	 * @param string $tree_category_id
-	 * @return array|string
+	 * @return string
 	 */
 	public function getTreeCategoryName($tree_category_id){
 		foreach($this->tree_category as $value){
@@ -145,6 +145,7 @@ class KBoardTreeCategory {
 				return $value['category_name'];
 			}
 		}
+		return '';
 	}
 	
 	/**

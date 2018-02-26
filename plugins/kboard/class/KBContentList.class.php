@@ -262,7 +262,7 @@ class KBContentList {
 	public function addSearchOption($key, $value, $compare='='){
 		$this->search_option[] = array('key'=>$key, 'compare'=>$compare, 'value'=>$value);
 	}
-
+	
 	/**
 	 * 게시판의 리스트를 반환한다.
 	 * @param string $keyword

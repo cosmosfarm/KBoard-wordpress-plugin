@@ -118,7 +118,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</select>
 							<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">스킨 더보기</a>
 							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p>
-							<p class="description"><a href="http://blog.naver.com/chan2rrj/220885880601" onclick="window.open(this.href);return false;">contact-form 스킨 설정 방법 알아보기</a></p>
+							<p class="description"><a href="http://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220885880601" onclick="window.open(this.href);return false;">contact-form 스킨 설정 방법 알아보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -234,13 +234,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="use_tree_category">계층형 카테고리 사용</label></th>
+						<th scope="row"><label for="use_tree_category">카테고리 선택</label></th>
 						<td>
 							<select name="use_tree_category" id="use_tree_category">
-								<option value="">비활성화</option>
-								<option value="yes"<?php if($board->meta->use_tree_category == 'yes'):?> selected<?php endif?>>활성화</option>
+								<option value="">기본 카테고리 사용</option>
+								<option value="yes"<?php if($board->meta->use_tree_category == 'yes'):?> selected<?php endif?>>계층형 카테고리 사용</option>
 							</select>
-							<p class="description">계층형 카테고리를 사용해서 게시물을 분리할 수 있습니다.</p>
+							<p class="description">기본 카테고리를 사용하시려면 아래의 <label for="category1_list" style="font-weight:bold">카테고리1</label>과 <label for="category2_list" style="font-weight:bold">카테고리2</label> 설정을 세팅해주세요.</p>
+							<p class="description">계층형 카테고리를 선택하면 기본 카테고리는 사용이 중지됩니다.</p>
+							<p class="description">계층형 카테고리가 적용되지 않는 일부 스킨에는 기본 카테고리를 사용해주세요.</p>
+							<p class="description"><a href="#tab-kboard-setting-2" onclick="kboard_setting_tab_chnage(2);">계층형 카테고리 관리</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -534,52 +537,54 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<?php if($board->id):?>
 		<div class="tab-kboard-setting">
 			<div class="kboard-tree-category-wrap">
-				<div class="col-left kboard-category-setting-left"><div class="col-wrap"><div class="form-wrap">
-				
-				<div class="kbaord-new-tree-category">
-					<h2>새 카테고리 추가</h2>
-					<div class="form-field form-required term-name-wrap">
-					<label for="new-category-name">이름</label>
-					<input id="new-category-name" name="new_category" type="text">
-					<input id="new-parent-id" type="hidden">
+				<div class="col-left kboard-category-setting-left">
+					<div class="col-wrap">
+						<div class="form-wrap">
+							<div class="kbaord-new-tree-category">
+								<h2>새 카테고리 추가</h2>
+								<div class="form-field form-required term-name-wrap">
+									<label for="new-category-name">이름</label>
+									<input type="text" id="new-category-name" name="new_category">
+									<input type="hidden" id="new-parent-id">
+								</div>
+								
+								<div class="form-field term-parent-wrap">
+									<label for="parent">상위 카테고리</label>
+									<select id="parent" class="postform" name="parent_id">
+									<option value="">없음</option>
+									<?php echo $board->tree_category->buildAdminTreeCategoryDropdown($board->tree_category->buildAdminTreeCategory())?>
+									</select>
+								</div>
+							</div>
+							
+							<div class="kbaord-update-tree-category" style="display: none;">
+								<h2>카테고리 수정</h2>
+								<div class="form-field form-required term-name-wrap">
+									<label for="update-category-name">수정할 카테고리</label>
+									<input type="text" id="update-category-name" class="update_category_name" name="update_category_name">
+									<input type="hidden" id="current-category-name" class="update_category_name" name="current_category_name">
+									<input type="hidden" id="category-id" name="category_id" value="">
+									<input type="hidden" id="parent-id" name="parent_id" value="">
+								</div>
+							</div>
+			
+							<div class="kbaord-update-tree-category" style="display: none;">
+								<button type="button" class="button" onclick="kboard_tree_category_update('kboard_tree_category_update')">이름 변경</button>
+								<button type="button" class="button" onclick="kboard_tree_category_update('kboard_tree_category_remove')">삭제</button>
+							</div>
+							
+							<div class="kbaord-new-tree-category-btn">
+								<button type="button" class="button-primary" onclick="kboard_tree_category_update('kboard_tree_category_create')">새 카테고리 추가</button>
+							</div>
+						</div>
 					</div>
-					
-					<div class="form-field term-parent-wrap">
-						<label for="parent">상위 카테고리</label>
-						<select id="parent" class="postform" name="parent_id">
-						<option value="">없음</option>
-						<?php echo $category->buildAdminTreeCategoryDropdown($category->buildAdminTreeCategory())?>
-						</select>
-					</div>
 				</div>
-				
-				<div class="kbaord-update-tree-category" style="display: none;">
-					<h2>카테고리 수정</h2>
-					<div class="form-field form-required term-name-wrap">
-					<label for="update-category-name">수정할 카테고리</label>
-					<input id="update-category-name" class="update_category_name" name="update_category_name" type="text">
-					<input id="current-category-name" class="update_category_name" name="current_category_name" type="hidden">
-					<input id="category-id" name="category_id" type="hidden" value="">
-					<input id="parent-id" name="parent_id" type="hidden" value="">
-					</div>
-				</div>
-
-				<div class="kbaord-update-tree-category" style="display: none;">
-					<button type="button" class="button-primary" onclick="kboard_tree_category_update('kboard_tree_category_update')">카테고리 이름 변경</button>
-					<button type="button" class="button-primary" onclick="kboard_tree_category_update('kboard_tree_category_remove')">삭제</button>
-				</div>
-				
-				<div class="kbaord-new-tree-category-btn">
-					<button type="button" class="button-primary" onclick="kboard_tree_category_update('kboard_tree_category_create')">새 카테고리 추가</button>
-				</div>
-				
-				</div></div></div>
 				
 				<div class="kboard-category-setting-right">
 					<div class="kboard-category-setting-sortable">
 					<h2>카테고리 구조</h2>
 					<ul class="sortable">
-						<?php echo $category->buildAdminTreeCategorySortableRow($category->buildAdminTreeCategory())?>
+						<?php echo $board->tree_category->buildAdminTreeCategorySortableRow($board->tree_category->buildAdminTreeCategory())?>
 					</ul>
 					</div>
 				</div>
@@ -902,7 +907,6 @@ jQuery(document).ready(function(){
 		startCollapsed: false
 	});
 });
-
 function kboard_setting_tab_init(){
 	var index = location.hash.slice(1).replace('tab-kboard-setting-', '');
 	kboard_setting_tab_chnage(index);
@@ -912,6 +916,13 @@ function kboard_setting_tab_chnage(index){
 	jQuery('.tab-kboard').removeClass('nav-tab-active').eq(index).addClass('nav-tab-active');
 	jQuery('.tab-kboard-setting').removeClass('tab-kboard-setting-active').eq(index).addClass('tab-kboard-setting-active');
 	jQuery('input[name=tab_kboard_setting]').val(index);
+
+	if(index == 2){
+		jQuery('#kboard-setting-form .submit').hide();
+	}
+	else{
+		jQuery('#kboard-setting-form .submit').show();
+	}
 }
 function kboard_permission_roles_view(bind, value){
 	if(value == 'roles'){
@@ -1022,7 +1033,7 @@ function kboard_tree_category_edit_toggle(category_id, category_name, parent_id)
 	if(!parent_id || parent_id == 'parent'){
 		jQuery('#parent').val('');
 	}
-
+	
 	jQuery('#parent-id').val(parent_id);
 	
 	jQuery('li .parent-id'+category_id).val(parent_id);
@@ -1047,55 +1058,15 @@ function kboard_tree_category_edit_toggle(category_id, category_name, parent_id)
 		}
 	});
 }
-function uniqid (prefix, more_entropy) {
-  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // +    revised by: Kankrelune (http://www.webfaktory.info/)
-  // %        note 1: Uses an internal counter (in php_js global) to avoid collision
-  // *     example 1: uniqid();
-  // *     returns 1: 'a30285b160c14'
-  // *     example 2: uniqid('foo');
-  // *     returns 2: 'fooa30285b1cd361'
-  // *     example 3: uniqid('bar', true);
-  // *     returns 3: 'bara20285b23dfd1.31879087'
-  if (typeof prefix === 'undefined') {
-    prefix = "";
-  }
-
-  var retId;
-  var formatSeed = function (seed, reqWidth) {
-    seed = parseInt(seed, 10).toString(16); // to hex str
-    if (reqWidth < seed.length) { // so long we split
-      return seed.slice(seed.length - reqWidth);
-    }
-    if (reqWidth > seed.length) { // so short we pad
-      return Array(1 + (reqWidth - seed.length)).join('0') + seed;
-    }
-    return seed;
-  };
-
-  // BEGIN REDUNDANT
-  if (!this.php_js) {
-    this.php_js = {};
-  }
-  // END REDUNDANT
-  if (!this.php_js.uniqidSeed) { // init seed with big random int
-    this.php_js.uniqidSeed = Math.floor(Math.random() * 0x75bcd15);
-  }
-  this.php_js.uniqidSeed++;
-
-  retId = prefix; // start with prefix, add current milliseconds hex string
-  retId += formatSeed(parseInt(new Date().getTime() / 1000, 10), 8);
-  retId += formatSeed(this.php_js.uniqidSeed, 5); // add seed hex string
-  if (more_entropy) {
-    // for more entropy we add a float lower to 10
-    retId += (Math.random() * 10).toFixed(8).toString();
-  }
-
-  return retId;
-}
 function kboard_csv_upload(){
 	jQuery('input[name=action]', '#kboard-setting-form').val('kboard_csv_upload_execute');
 	jQuery('#kboard-setting-form').submit();
 }
+/**
+ * JavaScript alternative of PHP uniqid()
+ * original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+ * revised by: Kankrelune (http://www.webfaktory.info/)
+ * more: https://gist.github.com/ain/5638966 
+ */
+function uniqid(prefix,more_entropy){if(typeof prefix==='undefined'){prefix=""}var retId;var formatSeed=function(seed,reqWidth){seed=parseInt(seed,10).toString(16);if(reqWidth<seed.length){return seed.slice(seed.length-reqWidth)}if(reqWidth>seed.length){return Array(1+(reqWidth-seed.length)).join('0')+seed}return seed};if(!this.php_js){this.php_js={}}if(!this.php_js.uniqidSeed){this.php_js.uniqidSeed=Math.floor(Math.random()*0x75bcd15)}this.php_js.uniqidSeed++;retId=prefix;retId+=formatSeed(parseInt(new Date().getTime()/1000,10),8);retId+=formatSeed(this.php_js.uniqidSeed,5);if(more_entropy){retId+=(Math.random()*10).toFixed(8).toString()}return retId}
 </script>
-<?php echo wp_enqueue_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array(), '1.1');?>

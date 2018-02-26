@@ -16,67 +16,8 @@ class KBAdminController {
 		add_action('admin_post_kboard_csv_upload_execute', array($this, 'csv_upload'));
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('wp_ajax_kboard_system_option_update', array($this, 'system_option_update'));
-		
-		add_action('wp_ajax_kboard_tree_category_update', array($this, 'kboard_tree_category_update'));
-		add_action('wp_ajax_kboard_tree_category_sortable', array($this, 'kboard_tree_category_sortable'));
-	}
-	
-	public function kboard_tree_category_sortable(){
-		$tree_category_serialize = isset($_POST['tree_category_serialize'])?$_POST['tree_category_serialize']:'';
-		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
-		
-		$board = new KBoard($board_id);
-		$category = new KBoardTreeCategory();
-		$category->setBoardID($board_id);
-		
-		$sortable_category = array();
-		
-		foreach($tree_category_serialize as $item){
-			if(isset($item['id']) && $item['id']){
-				foreach($category->tree_category as $key=>$value){
-					if($item['id'] == $value['id']){
-						$value['parent_id'] = $item['parent_id'];
-						$sortable_category[] = $value;
-					}
-				}
-			}
-		}
-		
-		$board->meta->tree_category = serialize($sortable_category);
-		$category->setTreeCategory($sortable_category);
-		$build_tree_category = $category->buildAdminTreeCategory();
-		
-		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
-		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
-		
-		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
-	}
-	
-	/**
-	 * 계층형 카테고리 수정
-	 */
-	public function kboard_tree_category_update(){
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-		$_POST = stripslashes_deep($_POST);
-		
-		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
-		
-		$tree_category = array();
-		if(isset($_POST['tree_category'])){
-			parse_str($_POST['tree_category'], $tree_category);
-		}
-		
-		$board = new KBoard($board_id);
-		$category = new KBoardTreeCategory();
-		$category->setBoardID($board_id);
-		$board->meta->tree_category = serialize($tree_category['tree_category']);
-		$category->setTreeCategory($tree_category['tree_category']);
-		$build_tree_category = $category->buildAdminTreeCategory();
-		
-		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
-		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
-		
-		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
+		add_action('wp_ajax_kboard_tree_category_update', array($this, 'tree_category_update'));
+		add_action('wp_ajax_kboard_tree_category_sortable', array($this, 'tree_category_sortable'));
 	}
 	
 	/**
@@ -90,22 +31,20 @@ class KBAdminController {
 			
 			$_POST = stripslashes_deep($_POST);
 			
-			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
-			$board_name = isset($_POST['board_name'])?esc_sql($_POST['board_name']):'';
-			$skin = isset($_POST['skin'])?$_POST['skin']:'';
-			$page_rpp = isset($_POST['page_rpp'])?$_POST['page_rpp']:'';
-			$use_comment = isset($_POST['use_comment'])?$_POST['use_comment']:'';
-			$use_editor = isset($_POST['use_editor'])?$_POST['use_editor']:'';
-			$permission_read = isset($_POST['permission_read'])?$_POST['permission_read']:'';
-			$permission_write = isset($_POST['permission_write'])?$_POST['permission_write']:'';
-			$admin_user = isset($_POST['admin_user'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['admin_user'])))):'';
-			$use_category = isset($_POST['use_category'])?$_POST['use_category']:'';
-			$category1_list = isset($_POST['category1_list'])?implode(',', array_map('sanitize_text_field', array_map('trim', explode(',', $_POST['category1_list'])))):'';
-			$category2_list = isset($_POST['category2_list'])?implode(',', array_map('sanitize_text_field', array_map('trim', explode(',', $_POST['category2_list'])))):'';
+			$board_id         = isset($_POST['board_id'])         ? intval($_POST['board_id'])                               : '';
+			$board_name       = isset($_POST['board_name'])       ? esc_sql(sanitize_text_field($_POST['board_name']))       : '';
+			$skin             = isset($_POST['skin'])             ? esc_sql(sanitize_text_field($_POST['skin']))             : '';
+			$page_rpp         = isset($_POST['page_rpp'])         ? esc_sql(sanitize_text_field($_POST['page_rpp']))         : '';
+			$use_comment      = isset($_POST['use_comment'])      ? esc_sql(sanitize_text_field($_POST['use_comment']))      : '';
+			$use_editor       = isset($_POST['use_editor'])       ? esc_sql(sanitize_text_field($_POST['use_editor']))       : '';
+			$permission_read  = isset($_POST['permission_read'])  ? esc_sql(sanitize_text_field($_POST['permission_read']))  : '';
+			$permission_write = isset($_POST['permission_write']) ? esc_sql(sanitize_text_field($_POST['permission_write'])) : '';
+			$admin_user       = isset($_POST['admin_user'])       ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['admin_user']))))     : '';
+			$use_category     = isset($_POST['use_category'])     ? esc_sql(sanitize_text_field($_POST['use_category']))     : '';
+			$category1_list   = isset($_POST['category1_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category1_list'])))) : '';
+			$category2_list   = isset($_POST['category2_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category2_list'])))) : '';
 			
-			$create = date('YmdHis', current_time('timestamp'));
-			
-			$auto_page = isset($_POST['auto_page'])?$_POST['auto_page']:'';
+			$auto_page = isset($_POST['auto_page']) ? intval($_POST['auto_page']) : '';
 			if($auto_page){
 				$auto_page_board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='$auto_page'");
 				if($auto_page_board_id && $auto_page_board_id != $board_id){
@@ -116,47 +55,106 @@ class KBAdminController {
 			}
 			
 			if(!$board_id){
-				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_setting` (`board_name`, `skin`, `page_rpp`, `use_comment`, `use_editor`, `permission_read`, `permission_write`, `admin_user`, `use_category`, `category1_list`, `category2_list`, `created`) VALUE ('$board_name', '$skin', '$page_rpp', '$use_comment', '$use_editor', '$permission_read', '$permission_write', '$admin_user', '$use_category', '$category1_list', '$category2_list', '$create')");
+				$wpdb->insert(
+					"{$wpdb->prefix}kboard_board_setting",
+					array(
+						'board_name'       => $board_name,
+						'skin'             => $skin,
+						'page_rpp'         => $page_rpp,
+						'use_comment'      => $use_comment,
+						'use_editor'       => $use_editor,
+						'permission_read'  => $permission_read,
+						'permission_write' => $permission_write,
+						'admin_user'       => $admin_user,
+						'use_category'     => $use_category,
+						'category1_list'   => $category1_list,
+						'category2_list'   => $category2_list,
+						'created'          => date('YmdHis', current_time('timestamp'))
+					),
+					array(
+						'%s',
+						'%s',
+						'%d',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s'
+					)
+				);
 				$board_id = $wpdb->insert_id;
 			}
 			else{
-				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_setting` SET `board_name`='$board_name', `skin`='$skin', `page_rpp`='$page_rpp', `use_comment`='$use_comment', `use_editor`='$use_editor', `permission_read`='$permission_read', `permission_write`='$permission_write', `use_category`='$use_category', `category1_list`='$category1_list', `category2_list`='$category2_list', `admin_user`='$admin_user' WHERE `uid`='$board_id'");
+				$wpdb->update(
+					"{$wpdb->prefix}kboard_board_setting",
+					array(
+						'board_name'       => $board_name,
+						'skin'             => $skin,
+						'page_rpp'         => $page_rpp,
+						'use_comment'      => $use_comment,
+						'use_editor'       => $use_editor,
+						'permission_read'  => $permission_read,
+						'permission_write' => $permission_write,
+						'use_category'     => $use_category,
+						'category1_list'   => $category1_list,
+						'category2_list'   => $category2_list,
+						'admin_user'       => $admin_user
+					),
+					array('uid' => $board_id),
+					array(
+						'%s',
+						'%s',
+						'%d',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s'
+					),
+					array('%d')
+				);
 			}
 			
 			$board = new KBoard($board_id);
 			
 			if($board->id){
-				
 				$board->meta->auto_page = $auto_page;
-				$board->meta->latest_target_page = isset($_POST['latest_target_page'])?$_POST['latest_target_page']:'';
-				$board->meta->use_direct_url = isset($_POST['use_direct_url'])?$_POST['use_direct_url']:'';
-				$board->meta->latest_alerts = isset($_POST['latest_alerts'])?implode(',', array_map('esc_sql', array_map('trim', explode(',', $_POST['latest_alerts'])))):'';
-				$board->meta->comment_skin = ($use_comment && isset($_POST['comment_skin']))?$_POST['comment_skin']:'';
-				$board->meta->use_tree_category = isset($_POST['use_tree_category'])?$_POST['use_tree_category']:'';
-				$board->meta->tree_category = isset($_POST['tree_category'])?serialize($_POST['tree_category']):'';
-				$board->meta->default_content = isset($_POST['default_content'])?$_POST['default_content']:'';
-				$board->meta->pass_autop = isset($_POST['pass_autop'])?$_POST['pass_autop']:'';
-				$board->meta->shortcode_execute = isset($_POST['shortcode_execute'])?$_POST['shortcode_execute']:'';
-				$board->meta->autolink = isset($_POST['autolink'])?$_POST['autolink']:'';
-				$board->meta->reply_copy_content = isset($_POST['reply_copy_content'])?$_POST['reply_copy_content']:'';
-				$board->meta->view_iframe = isset($_POST['view_iframe'])?$_POST['view_iframe']:'';
-				$board->meta->permission_comment_write = isset($_POST['permission_comment_write'])?$_POST['permission_comment_write']:'';
-				$board->meta->comments_plugin_id = isset($_POST['comments_plugin_id'])?$_POST['comments_plugin_id']:'';
-				$board->meta->use_comments_plugin = isset($_POST['use_comments_plugin'])?$_POST['use_comments_plugin']:'';
-				$board->meta->comments_plugin_row = isset($_POST['comments_plugin_row'])?$_POST['comments_plugin_row']:'';
-				$board->meta->conversion_tracking_code = isset($_POST['conversion_tracking_code'])?$_POST['conversion_tracking_code']:'';
-				$board->meta->always_view_list = isset($_POST['always_view_list'])?$_POST['always_view_list']:'';
-				$board->meta->max_attached_count = isset($_POST['max_attached_count'])?$_POST['max_attached_count']:'';
-				$board->meta->list_sort_numbers = isset($_POST['list_sort_numbers'])?$_POST['list_sort_numbers']:'';
-				$board->meta->permit = isset($_POST['permit'])?$_POST['permit']:'';
-				$board->meta->default_build_mod = isset($_POST['default_build_mod'])?$_POST['default_build_mod']:'';
-				$board->meta->after_executing_mod = isset($_POST['after_executing_mod'])?$_POST['after_executing_mod']:'';
-				$board->meta->add_menu_page = isset($_POST['add_menu_page'])?$_POST['add_menu_page']:'';
-				$board->meta->permission_list = isset($_POST['permission_list'])?$_POST['permission_list']:'';
-				$board->meta->permission_access = isset($_POST['permission_access'])?$_POST['permission_access']:'';
-				$board->meta->permission_order = isset($_POST['permission_order'])?$_POST['permission_order']:'';
-				$board->meta->permission_reply = isset($_POST['permission_reply'])?$_POST['permission_reply']:'';
-				$board->meta->permission_vote = isset($_POST['permission_vote'])?$_POST['permission_vote']:'';
+				$board->meta->latest_target_page       = isset($_POST['latest_target_page'])       ? $_POST['latest_target_page']       : '';
+				$board->meta->use_direct_url           = isset($_POST['use_direct_url'])           ? $_POST['use_direct_url']           : '';
+				$board->meta->latest_alerts            = isset($_POST['latest_alerts']) ? implode(',', array_map('sanitize_text_field', explode(',', $_POST['latest_alerts']))) : '';
+				$board->meta->comment_skin             = ($use_comment && isset($_POST['comment_skin'])) ? $_POST['comment_skin']       : '';
+				$board->meta->use_tree_category        = isset($_POST['use_tree_category'])        ? $_POST['use_tree_category']        : '';
+				$board->meta->tree_category            = isset($_POST['tree_category'])            ? serialize($_POST['tree_category']) : '';
+				$board->meta->default_content          = isset($_POST['default_content'])          ? $_POST['default_content']          : '';
+				$board->meta->pass_autop               = isset($_POST['pass_autop'])               ? $_POST['pass_autop']               : '';
+				$board->meta->shortcode_execute        = isset($_POST['shortcode_execute'])        ? $_POST['shortcode_execute']        : '';
+				$board->meta->autolink                 = isset($_POST['autolink'])                 ? $_POST['autolink']                 : '';
+				$board->meta->reply_copy_content       = isset($_POST['reply_copy_content'])       ? $_POST['reply_copy_content']       : '';
+				$board->meta->view_iframe              = isset($_POST['view_iframe'])              ? $_POST['view_iframe']              : '';
+				$board->meta->permission_comment_write = isset($_POST['permission_comment_write']) ? $_POST['permission_comment_write'] : '';
+				$board->meta->comments_plugin_id       = isset($_POST['comments_plugin_id'])       ? $_POST['comments_plugin_id']       : '';
+				$board->meta->use_comments_plugin      = isset($_POST['use_comments_plugin'])      ? $_POST['use_comments_plugin']      : '';
+				$board->meta->comments_plugin_row      = isset($_POST['comments_plugin_row'])      ? $_POST['comments_plugin_row']      : '';
+				$board->meta->conversion_tracking_code = isset($_POST['conversion_tracking_code']) ? $_POST['conversion_tracking_code'] : '';
+				$board->meta->always_view_list         = isset($_POST['always_view_list'])         ? $_POST['always_view_list']         : '';
+				$board->meta->max_attached_count       = isset($_POST['max_attached_count'])       ? $_POST['max_attached_count']       : '';
+				$board->meta->list_sort_numbers        = isset($_POST['list_sort_numbers'])        ? $_POST['list_sort_numbers']        : '';
+				$board->meta->permit                   = isset($_POST['permit'])                   ? $_POST['permit']                   : '';
+				$board->meta->default_build_mod        = isset($_POST['default_build_mod'])        ? $_POST['default_build_mod']        : '';
+				$board->meta->after_executing_mod      = isset($_POST['after_executing_mod'])      ? $_POST['after_executing_mod']      : '';
+				$board->meta->add_menu_page            = isset($_POST['add_menu_page'])            ? $_POST['add_menu_page']            : '';
+				$board->meta->permission_list          = isset($_POST['permission_list'])          ? $_POST['permission_list']          : '';
+				$board->meta->permission_access        = isset($_POST['permission_access'])        ? $_POST['permission_access']        : '';
+				$board->meta->permission_order         = isset($_POST['permission_order'])         ? $_POST['permission_order']         : '';
+				$board->meta->permission_reply         = isset($_POST['permission_reply'])         ? $_POST['permission_reply']         : '';
+				$board->meta->permission_vote          = isset($_POST['permission_vote'])          ? $_POST['permission_vote']          : '';
 				
 				if(isset($_POST['permission_read_roles'])){
 					$board->meta->permission_read_roles = serialize($_POST['permission_read_roles']);
@@ -180,16 +178,16 @@ class KBAdminController {
 					$board->meta->permission_vote_roles = serialize($_POST['permission_vote_roles']);
 				}
 				
-				$board->meta->document_insert_up_point = isset($_POST['document_insert_up_point'])?abs($_POST['document_insert_up_point']):'';
-				$board->meta->document_insert_down_point = isset($_POST['document_insert_down_point'])?abs($_POST['document_insert_down_point']):'';
-				$board->meta->document_delete_up_point = isset($_POST['document_delete_up_point'])?abs($_POST['document_delete_up_point']):'';
-				$board->meta->document_delete_down_point = isset($_POST['document_delete_down_point'])?abs($_POST['document_delete_down_point']):'';
-				$board->meta->document_read_down_point = isset($_POST['document_read_down_point'])?abs($_POST['document_read_down_point']):'';
-				$board->meta->attachment_download_down_point = isset($_POST['attachment_download_down_point'])?abs($_POST['attachment_download_down_point']):'';
-				$board->meta->comment_insert_up_point = isset($_POST['comment_insert_up_point'])?abs($_POST['comment_insert_up_point']):'';
-				$board->meta->comment_insert_down_point = isset($_POST['comment_insert_down_point'])?abs($_POST['comment_insert_down_point']):'';
-				$board->meta->comment_delete_up_point = isset($_POST['comment_delete_up_point'])?abs($_POST['comment_delete_up_point']):'';
-				$board->meta->comment_delete_down_point = isset($_POST['comment_delete_down_point'])?abs($_POST['comment_delete_down_point']):'';
+				$board->meta->document_insert_up_point       = isset($_POST['document_insert_up_point'])       ? abs($_POST['document_insert_up_point'])       : '';
+				$board->meta->document_insert_down_point     = isset($_POST['document_insert_down_point'])     ? abs($_POST['document_insert_down_point'])     : '';
+				$board->meta->document_delete_up_point       = isset($_POST['document_delete_up_point'])       ? abs($_POST['document_delete_up_point'])       : '';
+				$board->meta->document_delete_down_point     = isset($_POST['document_delete_down_point'])     ? abs($_POST['document_delete_down_point'])     : '';
+				$board->meta->document_read_down_point       = isset($_POST['document_read_down_point'])       ? abs($_POST['document_read_down_point'])       : '';
+				$board->meta->attachment_download_down_point = isset($_POST['attachment_download_down_point']) ? abs($_POST['attachment_download_down_point']) : '';
+				$board->meta->comment_insert_up_point        = isset($_POST['comment_insert_up_point'])        ? abs($_POST['comment_insert_up_point'])        : '';
+				$board->meta->comment_insert_down_point      = isset($_POST['comment_insert_down_point'])      ? abs($_POST['comment_insert_down_point'])      : '';
+				$board->meta->comment_delete_up_point        = isset($_POST['comment_delete_up_point'])        ? abs($_POST['comment_delete_up_point'])        : '';
+				$board->meta->comment_delete_down_point      = isset($_POST['comment_delete_down_point'])      ? abs($_POST['comment_delete_down_point'])      : '';
 				
 				// kboard_extends_setting_update 액션 실행
 				do_action('kboard_extends_setting_update', $board->meta, $board_id);
@@ -559,6 +557,68 @@ class KBAdminController {
 			}
 		}
 		exit;
+	}
+	
+	/**
+	 * 계층형 카테고리 업데이트
+	 */
+	public function tree_category_update(){
+		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		
+		$_POST = stripslashes_deep($_POST);
+		
+		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
+		
+		$tree_category = array();
+		if(isset($_POST['tree_category'])){
+			parse_str($_POST['tree_category'], $tree_category);
+		}
+		
+		$board = new KBoard($board_id);
+		$category = new KBoardTreeCategory();
+		$category->setBoardID($board_id);
+		$board->meta->tree_category = serialize($tree_category['tree_category']);
+		$category->setTreeCategory($tree_category['tree_category']);
+		$build_tree_category = $category->buildAdminTreeCategory();
+		
+		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
+		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
+		
+		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
+	}
+	
+	/**
+	 * 계층형 카테고리 순서 변경
+	 */
+	public function tree_category_sortable(){
+		$tree_category_serialize = isset($_POST['tree_category_serialize'])?$_POST['tree_category_serialize']:'';
+		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
+		
+		$board = new KBoard($board_id);
+		$category = new KBoardTreeCategory();
+		$category->setBoardID($board_id);
+		
+		$sortable_category = array();
+		
+		foreach($tree_category_serialize as $item){
+			if(isset($item['id']) && $item['id']){
+				foreach($category->tree_category as $key=>$value){
+					if($item['id'] == $value['id']){
+						$value['parent_id'] = $item['parent_id'];
+						$sortable_category[] = $value;
+					}
+				}
+			}
+		}
+		
+		$board->meta->tree_category = serialize($sortable_category);
+		$category->setTreeCategory($sortable_category);
+		$build_tree_category = $category->buildAdminTreeCategory();
+		
+		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
+		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
+		
+		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
 	}
 }
 ?>
