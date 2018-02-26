@@ -6,18 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBCommentsBuilder {
-
+	
 	var $board;
 	var $board_id;
 	var $content_uid;
 	var $skin;
 	var $skin_name;
 	var $permission_comment_write;
-
+	
 	public function __construct(){
 		$this->setSkin('default');
 	}
-
+	
 	/**
 	 * 스킨을 지정한다.
 	 * @param string $skin_name
@@ -28,7 +28,7 @@ class KBCommentsBuilder {
 		$this->skin_name = $skin_name;
 		return $this;
 	}
-
+	
 	/**
 	 * 댓글창 화면을 생성한다.
 	 * @return string
@@ -61,7 +61,7 @@ class KBCommentsBuilder {
 		
 		echo $this->skin->load($this->skin_name, 'list.php', $vars);
 	}
-
+	
 	/**
 	 * 댓글 리스트 트리를 생성한다.
 	 * @param string $template
@@ -74,8 +74,12 @@ class KBCommentsBuilder {
 		$commentList = new KBCommentList();
 		$commentList->board = $this->board;
 		
-		if($parent_uid) $commentList->initWithParentUID($parent_uid);
-		else $commentList->initWithUID($this->content_uid);
+		if($parent_uid){
+			$commentList->initWithParentUID($parent_uid);
+		}
+		else{
+			$commentList->initWithUID($this->content_uid);
+		}
 		
 		$url = new KBUrl();
 		$url->setBoard($this->board);
@@ -98,7 +102,7 @@ class KBCommentsBuilder {
 		
 		echo $this->skin->load($this->skin_name, $template, $vars);
 	}
-
+	
 	/**
 	 * 댓글 쓰기 권한이 있는 사용자인지 확인한다.
 	 * @return boolean
@@ -108,10 +112,10 @@ class KBCommentsBuilder {
 			return true;
 		}
 		else if(is_user_logged_in()){
-			if($this->permission_comment_write=='1'){
+			if($this->permission_comment_write == '1'){
 				return true;
 			}
-			else if($this->permission_comment_write=='roles'){
+			else if($this->permission_comment_write == 'roles'){
 				$current_user = wp_get_current_user();
 				if(isset($current_user->roles) && array_intersect($this->board->getCommentRoles(), $current_user->roles)){
 					return true;

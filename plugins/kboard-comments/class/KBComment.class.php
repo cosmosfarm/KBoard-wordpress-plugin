@@ -10,6 +10,9 @@ class KBComment {
 	var $board;
 	var $row;
 	var $option;
+	var $login_is_required_for_reading;
+	var $you_do_not_have_permission_for_reading;
+	var $remaining_time_for_reading;
 	
 	public function __construct(){
 		$this->board = new KBoard();
@@ -84,15 +87,62 @@ class KBComment {
 	 */
 	public function isEditor(){
 		if($this->uid && is_user_logged_in()){
-			if($this->user_uid == get_current_user_id()){
-				// 본인인 경우
+			$board = $this->getBoard();
+			if($board->isAdmin()){
+				// 게시판 관리자 허용
 				return true;
 			}
 			
+			if($this->getUserID() == get_current_user_id()){
+				// 본인인 경우 허용
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 보기 권한이 있는지 확인한다.
+	 * @return boolean
+	 */
+	public function isReader(){
+		if($this->uid){
 			$board = $this->getBoard();
-			if($board->id){
-				if($board->isAdmin()){
-					// 게시판 관리자 허용
+			if($board->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
+			
+			if($board->meta->permission_comment_read == 'author'){
+				if(is_user_logged_in()){
+					return true;
+				}
+				$this->login_is_required_for_reading = true;
+			}
+			else if($board->meta->permission_comment_read == 'comment_owner'){
+				if(is_user_logged_in()){
+					if($this->getUserID() == get_current_user_id()){
+						// 본인인 경우 허용
+						return true;
+					}
+					
+					$content = new KBContent();
+					$content->initWithUID($this->content_uid);
+					if($content->isEditor()){
+						// 게시글 작성자 허용
+						return true;
+					}
+				}
+				$this->you_do_not_have_permission_for_reading = true;
+			}
+			else{
+				if($board->meta->permission_comment_read_minute){
+					$this->remaining_time_for_reading = ($board->meta->permission_comment_read_minute * 60) - (current_time('timestamp') - strtotime($this->created));
+					if($this->remaining_time_for_reading <= 0){
+						return true;
+					}
+				}
+				else{
 					return true;
 				}
 			}

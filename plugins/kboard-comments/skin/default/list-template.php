@@ -7,7 +7,17 @@
 			</div>
 			<div class="comments-list-create" itemprop="dateCreated"><?php echo date('Y-m-d H:i', strtotime($comment->created))?></div>
 			<div class="comments-list-content" itemprop="description">
-				<?php echo nl2br($comment->content)?>
+				<?php if($comment->isReader()):?>
+					<?php echo nl2br($comment->content)?>
+				<?php else:?>
+					<?php if($comment->remaining_time_for_reading):?>
+						<div class="remaining_time_for_reading"><?php echo round($comment->remaining_time_for_reading/60)?>분 후 댓글을 읽을 수 있습니다. <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI'])?>">로그인</a> 하시면 바로 읽을 수 있습니다.</div>
+					<?php elseif($comment->login_is_required_for_reading):?>
+						<div class="login_is_required_for_reading">댓글을 읽을 권한이 없습니다. <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI'])?>">로그인</a> 해주세요.</div>
+					<?php else:?>
+						<div class="you_do_not_have_permission">댓글을 읽을 권한이 없습니다.</div>
+					<?php endif?>
+				<?php endif?>
 			</div>
 			
 			<div class="comments-list-controller">

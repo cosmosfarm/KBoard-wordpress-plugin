@@ -454,6 +454,26 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</div>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="permission_comment_read">댓글보기권한(Beta)</label></th>
+						<td>
+							<select name="permission_comment_read" id="permission_comment_read">
+								<option value=""<?php if(!$meta->permission_comment_read):?> selected<?php endif?>>
+									<?php echo kboard_permission('all')?>
+								</option>
+								<option value="author"<?php if($meta->permission_comment_read == 'author'):?> selected<?php endif?>>
+									<?php echo kboard_permission('author')?>
+								</option>
+								<option value="comment_owner"<?php if($meta->permission_comment_read == 'comment_owner'):?> selected<?php endif?>>
+									<?php echo kboard_permission('comment_owner')?>
+								</option>
+							</select>
+							<p class="description">제한없음 일 때 비로그인 사용자는 <input type="number" style="width:60px" name="permission_comment_read_minute" value="<?php echo intval($board->meta->permission_comment_read_minute)?>" min="0" max="9999999">분 이후에 댓글을 볼 수 있도록 합니다.</p>
+							<p class="description">시간이 0일 경우와 로그인 사용자는 댓글을 바로 볼 수 있습니다.</p>
+							<p class="description">본인의 댓글만 보기로 세팅하시려면 <label for="permission_comment_write" style="font-weight:bold">댓글쓰기권한</label>을 로그인 사용자 이상으로 변경해주세요.</p>
+							<p class="description">본인의 댓글만 보기는 다른 사람이 작성한 댓글을 볼 수 없으며 해당 게시글 작성자는 모든 댓글을 볼 수 있습니다.</p>
+						</td>
+					</tr>
 					<!--
 					<tr valign="top">
 						<th scope="row"><label for="permission_order">주문하기권한</label></th>

@@ -182,6 +182,9 @@ function kboard_permission($permission){
 	else if($permission == 'administrator'){
 		return __('최고관리자', 'kboard');
 	}
+	else if($permission == 'comment_owner'){
+		return __('본인의 댓글만 보기', 'kboard');
+	}
 	else if($permission == 'roles'){
 		return __('직접선택', 'kboard');
 	}

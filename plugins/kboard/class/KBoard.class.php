@@ -394,7 +394,7 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isAdmin(){
-		if(is_user_logged_in()){
+		if($this->id && is_user_logged_in()){
 			$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
 			
 			if(in_array('administrator', $this->current_user->roles)){
