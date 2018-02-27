@@ -81,6 +81,10 @@
 			</div>
 		</form>
 		<!-- 댓글 입력 폼 끝 -->
+		<?php elseif(is_user_logged_in()):?>
+		<div class="kboard-comments-login">
+			<?php echo __('You do not have permission to add comments.', 'kboard-comments')?>
+		</div>
 		<?php else:?>
 		<div class="kboard-comments-login">
 			<?php
