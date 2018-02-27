@@ -397,10 +397,10 @@ class KBAdminController {
 				$file_extension = explode('.', $file_name);
 				
 				if(end($file_extension) == 'csv' || end($file_extension) == 'CSV'){
-					if(($handle = fopen($file, "r")) !== false){
+					if(($handle = fopen($file, 'r')) !== false){
 						$length = 0;
 						
-						while(($data = fgetcsv($handle, 1000, ",")) !== false){
+						while(($data = fgetcsv($handle, 0, ',')) !== false){
 							$total = count($data);
 							
 							for($index=0; $index<$total; $index++){
@@ -408,7 +408,7 @@ class KBAdminController {
 								
 								// 인코딩 변환
 								if(function_exists('mb_detect_encoding')){
-									$encoding = mb_detect_encoding($value, array('CP949', 'EUC-KR', 'UTF-8-BOM', 'UTF-8', 'SJIS'));
+									$encoding = mb_detect_encoding($value, 'auto');
 									if($encoding != 'UTF-8'){
 										$value = @iconv($encoding, 'UTF-8//TRANSLIT', $value);
 									}
@@ -424,7 +424,6 @@ class KBAdminController {
 								else{
 									// 컬럼
 									$columns[] = $value;
-									
 								}
 							}
 							

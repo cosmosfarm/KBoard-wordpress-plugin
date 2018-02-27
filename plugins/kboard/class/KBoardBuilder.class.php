@@ -672,6 +672,11 @@ class KBoardBuilder {
 			exit;
 		}
 		
+		if($content->isTrash()){
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				if(!$content->notice && $content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
@@ -780,6 +785,11 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($content->isTrash()){
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
