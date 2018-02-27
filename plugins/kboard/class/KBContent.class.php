@@ -473,7 +473,7 @@ class KBContent {
 	}
 	
 	/**
-	 * 게시물의 조회수를 증가한다.
+	 * 게시글의 조회수를 증가한다.
 	 */
 	public function increaseView(){
 		global $wpdb;
@@ -1211,6 +1211,17 @@ class KBContent {
 			else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$this->uid]) && $_SESSION['kboard_confirm'][$this->uid] == $this->password){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 휴지통에 있는지 확인한다.
+	 * @return boolean
+	 */
+	public function isTrash(){
+		if($this->status == 'trash'){
+			return true;
 		}
 		return false;
 	}

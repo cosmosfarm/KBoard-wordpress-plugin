@@ -285,7 +285,12 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
-			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($content->isTrash()){
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		
@@ -451,6 +456,16 @@ class KBoardBuilder {
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
 		$content->setBoardID($this->board_id);
+		
+		if(!$content->uid){
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($content->isTrash()){
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
 		
 		$board = $this->board;
 		$content->board = $board;
