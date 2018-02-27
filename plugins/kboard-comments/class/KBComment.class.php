@@ -139,7 +139,7 @@ class KBComment {
 				}
 			}
 			else{
-				if($board->meta->permission_comment_read_minute){
+				if(!is_user_logged_in() && $board->meta->permission_comment_read_minute){
 					$this->remaining_time_for_reading = ($board->meta->permission_comment_read_minute * 60) - (current_time('timestamp') - strtotime($this->created));
 					if($this->remaining_time_for_reading <= 0){
 						return true;
