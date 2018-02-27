@@ -91,6 +91,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">카테고리 추가 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" category1="유머" category2="동영상"]</code></p>
 							<p class="description">정렬순서 변경 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" sort="newest|best|viewed|updated"]</code></p>
 							<p class="description">공지글 제외 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" with_notice="false"]</code></p>
+							<p class="description">며칠 이내 글만 보기 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" within_days="7"]</code></p>
 							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>">최신글 모아보기</a> 기능을 사용하세요.</p>
 						</td>
 					</tr>

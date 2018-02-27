@@ -735,7 +735,7 @@ function kboard_scripts(){
 	wp_register_script('lightslider', KBOARD_URL_PATH . '/assets/lightslider/lightslider.js', array('jquery'), '1.1.6');
 	
 	// 아임포트 등록
-	wp_register_script('iamport-payment', 'https://service.iamport.kr/js/iamport.payment-1.1.5.js', array('jquery'), '1.1.5');
+	wp_register_script('iamport-payment', 'https://service.iamport.kr/js/iamport.payment-1.1.6.js', array('jquery'), '1.1.6');
 	
 	// 구글 리캡차 등록
 	wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
