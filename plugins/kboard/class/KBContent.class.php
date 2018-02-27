@@ -1091,13 +1091,16 @@ class KBContent {
 	 * @return string
 	 */
 	public function getDate(){
+		$date = '';
 		if(isset($this->row->date)){
 			if(date('Ymd', current_time('timestamp')) == date('Ymd', strtotime($this->row->date))){
-				return date('H:i', strtotime($this->row->date));
+				$date = date('H:i', strtotime($this->row->date));
 			}
-			return date('Y.m.d', strtotime($this->row->date));
+			else{
+				$date = date('Y.m.d', strtotime($this->row->date));
+			}
 		}
-		return '';
+		return apply_filters('kboard_content_date', $date, $this, $this->getBoard());
 	}
 	
 	/**
