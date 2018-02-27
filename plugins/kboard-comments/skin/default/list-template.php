@@ -11,11 +11,11 @@
 					<?php echo nl2br($comment->content)?>
 				<?php else:?>
 					<?php if($comment->remaining_time_for_reading):?>
-						<div class="remaining_time_for_reading"><?php echo round($comment->remaining_time_for_reading/60)?>분 후 댓글을 읽을 수 있습니다. <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI'])?>">로그인</a> 하시면 바로 읽을 수 있습니다.</div>
+						<div class="remaining_time_for_reading"><?php echo sprintf(__('You can read comments after %d minutes. <a href="%s">Login</a> and you can read it right away.', 'kboard-comments'), round($comment->remaining_time_for_reading/60), wp_login_url($_SERVER['REQUEST_URI']))?></div>
 					<?php elseif($comment->login_is_required_for_reading):?>
-						<div class="login_is_required_for_reading">댓글을 읽을 권한이 없습니다. <a href="<?php echo wp_login_url($_SERVER['REQUEST_URI'])?>">로그인</a> 해주세요.</div>
+						<div class="login_is_required_for_reading"><?php echo sprintf(__('You do not have permission to read this comment. Please <a href="%s">login</a>.', 'kboard-comments'), wp_login_url($_SERVER['REQUEST_URI']))?></div>
 					<?php else:?>
-						<div class="you_do_not_have_permission">댓글을 읽을 권한이 없습니다.</div>
+						<div class="you_do_not_have_permission"><?php echo __('You do not have permission to read this comment.', 'kboard-comments')?></div>
 					<?php endif?>
 				<?php endif?>
 			</div>

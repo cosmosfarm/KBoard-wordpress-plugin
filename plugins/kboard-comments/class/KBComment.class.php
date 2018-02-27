@@ -132,8 +132,11 @@ class KBComment {
 						// 게시글 작성자 허용
 						return true;
 					}
+					$this->you_do_not_have_permission_for_reading = true;
 				}
-				$this->you_do_not_have_permission_for_reading = true;
+				else{
+					$this->login_is_required_for_reading = true;
+				}
 			}
 			else{
 				if($board->meta->permission_comment_read_minute){

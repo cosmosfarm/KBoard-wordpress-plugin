@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2017-08-08 16:52+0900\n"
-"PO-Revision-Date: 2017-08-08 16:52+0900\n"
+"POT-Creation-Date: 2018-02-27 11:17+0900\n"
+"PO-Revision-Date: 2018-02-27 11:17+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,11 +17,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBComment.class.php:133
+#: class/KBComment.class.php:191
 msgid "Deleted comment increment points"
 msgstr "Deleted comment increment points"
 
-#: class/KBComment.class.php:145
+#: class/KBComment.class.php:203
 msgid "Deleted comment decrease points"
 msgstr "Deleted comment decrease points"
 
@@ -38,21 +38,22 @@ msgstr "This page is restricted from external access."
 #: class/KBCommentController.class.php:183
 #: class/KBCommentController.class.php:211
 #: class/KBCommentController.class.php:263
-#: class/KBCommentController.class.php:317
-#: class/KBCommentController.class.php:352 class/KBCommentTemplate.class.php:68
+#: class/KBCommentController.class.php:320
+#: class/KBCommentController.class.php:358 class/KBCommentTemplate.class.php:34
+#: class/KBCommentTemplate.class.php:61 class/KBCommentTemplate.class.php:74
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBCommentController.class.php:86 index.php:124
+#: class/KBCommentController.class.php:86 index.php:127
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: class/KBCommentController.class.php:89 index.php:125 template/confirm.php:36
+#: class/KBCommentController.class.php:89 index.php:128 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
 #: class/KBCommentController.class.php:92
-#: class/KBCommentController.class.php:253 index.php:127 template/edit.php:37
+#: class/KBCommentController.class.php:253 index.php:130 template/edit.php:37
 msgid "Please enter the content."
 msgstr "Please enter the content."
 
@@ -84,19 +85,19 @@ msgstr "Writing comment increase points"
 
 #: class/KBCommentController.class.php:200
 #: class/KBCommentController.class.php:250 class/KBCommentTemplate.class.php:24
-#: class/KBCommentTemplate.class.php:48
+#: class/KBCommentTemplate.class.php:51
 msgid "uid is required."
 msgstr "uid is required."
 
 #: class/KBCommentController.class.php:203
 #: class/KBCommentController.class.php:256
-#: class/KBCommentController.class.php:313
-#: class/KBCommentController.class.php:348
+#: class/KBCommentController.class.php:316
+#: class/KBCommentController.class.php:354
 msgid "Please log in to continue."
 msgstr "Please log in to continue."
 
-#: class/KBCommentController.class.php:309
-#: class/KBCommentController.class.php:344
+#: class/KBCommentController.class.php:312
+#: class/KBCommentController.class.php:350
 msgid "You have already voted."
 msgstr "You have already voted."
 
@@ -120,12 +121,12 @@ msgstr "Content"
 msgid "Date"
 msgstr "Date"
 
-#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:17
-#: skin/default/list-template.php:19
+#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:27
+#: skin/default/list-template.php:29
 msgid "Delete"
 msgstr "Delete"
 
-#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:21
+#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:31
 msgid "Edit"
 msgstr "Edit"
 
@@ -133,7 +134,7 @@ msgstr "Edit"
 msgid "Open"
 msgstr "Open"
 
-#: class/KBCommentTemplate.class.php:31 class/KBCommentTemplate.class.php:55
+#: class/KBCommentTemplate.class.php:31 class/KBCommentTemplate.class.php:58
 msgid "Comment does not exist."
 msgstr "Comment does not exist."
 
@@ -141,79 +142,79 @@ msgstr "Comment does not exist."
 msgid "KBoard : 댓글"
 msgstr "KBoard : Comments"
 
-#: index.php:59
+#: index.php:62
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:122 skin/default/list-template.php:22
+#: index.php:125 skin/default/list-template.php:32
 msgid "Reply"
 msgstr "Reply"
 
-#: index.php:123
+#: index.php:126
 msgid "Cancel"
 msgstr "Cancel"
 
-#: index.php:126
+#: index.php:129
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
 
-#: index.php:128
+#: index.php:131
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
-#: index.php:129
+#: index.php:132
 msgid "Please wait."
 msgstr "Please wait."
 
-#: index.php:130
+#: index.php:133
 msgid "Email"
 msgstr "Email"
 
-#: index.php:131
+#: index.php:134
 msgid "Address"
 msgstr "Address"
 
-#: index.php:132
+#: index.php:135
 msgid "Postcode"
 msgstr "Postcode"
 
-#: index.php:133
+#: index.php:136
 msgid "Phone number"
 msgstr "Phone number"
 
-#: index.php:134
+#: index.php:137
 msgid "Find"
 msgstr "Find"
 
-#: index.php:135
+#: index.php:138
 msgid "Rate"
 msgstr "Rate"
 
-#: index.php:136
+#: index.php:139
 msgid "Ratings"
 msgstr "Ratings"
 
-#: index.php:137
+#: index.php:140
 msgid "Waiting"
 msgstr "Waiting"
 
-#: index.php:138
+#: index.php:141
 msgid "Complete"
 msgstr "Complete"
 
-#: index.php:139
+#: index.php:142
 msgid "Question"
 msgstr "Question"
 
-#: index.php:140
+#: index.php:143
 msgid "Answer"
 msgstr "Answer"
 
-#: index.php:141
+#: index.php:144
 msgid "Notify me of new comments via email"
 msgstr "Notify me of new comments via email"
 
-#: index.php:151
+#: index.php:154
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "You must be <a href=\"%s\">logged in</a> to post a comment."
@@ -238,11 +239,33 @@ msgstr "Blog"
 msgid "Search"
 msgstr "Search"
 
-#: skin/default/list-template.php:27
+#: skin/default/list-template.php:14
+#, php-format
+msgid ""
+"You can read comments after %d minutes. <a href=\"%s\">Login</a> and you can "
+"read it right away."
+msgstr ""
+"You can read comments after %d minutes. <a href=\"%s\">Login</a> and you can "
+"read it right away."
+
+#: skin/default/list-template.php:16
+#, php-format
+msgid ""
+"You do not have permission to read this comment. Please <a href=\"%s"
+"\">login</a>."
+msgstr ""
+"You do not have permission to read this comment. Please <a href=\"%s"
+"\">login</a>."
+
+#: skin/default/list-template.php:18
+msgid "You do not have permission to read this comment."
+msgstr "You do not have permission to read this comment."
+
+#: skin/default/list-template.php:37
 msgid "Like"
 msgstr "Like"
 
-#: skin/default/list-template.php:28
+#: skin/default/list-template.php:38
 msgid "Unlike"
 msgstr "Unlike"
 
@@ -349,10 +372,15 @@ msgstr "Edit content"
 #~ msgid "Unable to connect to Cosmosfarm server."
 #~ msgstr "코스모스팜 서버에 접속할 수 없습니다."
 
-#~ msgid "Unable to connect to the update server, Cosmosfarm account please connect again."
-#~ msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
+#~ msgid ""
+#~ "Unable to connect to the update server, Cosmosfarm account please connect "
+#~ "again."
+#~ msgstr ""
+#~ "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
 
-#~ msgid "Download file is decompression failed, please check directory and file permissions."
+#~ msgid ""
+#~ "Download file is decompression failed, please check directory and file "
+#~ "permissions."
 #~ msgstr "다운로드 파일 압축 해제 실패, 디렉토리 및 파일 권한을 확인하십시오."
 
 #~ msgid "File copy failed, directory requires write permission."
@@ -436,7 +464,9 @@ msgstr "Edit content"
 #~ msgid "Update the server connection fails, please reconnect the Cosmosfarm."
 #~ msgstr "업데이트 서버 연결 실패, 코스모스팜 계정을 다시 연결해 주세요."
 
-#~ msgid "Failure to decompress the file, check the permissions of directories and files."
+#~ msgid ""
+#~ "Failure to decompress the file, check the permissions of directories and "
+#~ "files."
 #~ msgstr "파일 압축 해제 실패, 디렉토리 및 파일의 권한을 확인하세요."
 
 #~ msgid "File copy failed"
