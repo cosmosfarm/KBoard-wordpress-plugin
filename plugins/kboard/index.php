@@ -1111,7 +1111,7 @@ function kboard_activation_execute(){
 	`option_key` varchar(127) NOT NULL,
 	`option_value` longtext NOT NULL,
 	PRIMARY KEY (`uid`),
-	UNIQUE KEY `content_uid` (`content_uid`,`option_key`),
+	KEY `content_uid` (`content_uid`),
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
 	
