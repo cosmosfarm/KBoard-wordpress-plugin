@@ -26,6 +26,7 @@ class KBContent {
 	var $thumbnail;
 	var $previous_status;
 	var $previous_board_id;
+	var $tree_category_depth;
 	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
@@ -147,7 +148,7 @@ class KBContent {
 	 */
 	public function execute(){
 		$board = $this->getBoard();
-		
+
 		if($this->execute_action == 'update'){
 			/*
 			 * 기존 게시글 업데이트
@@ -473,7 +474,7 @@ class KBContent {
 	}
 	
 	/**
-	 * 게시글의 조회수를 증가한다.
+	 * 게시물의 조회수를 증가한다.
 	 */
 	public function increaseView(){
 		global $wpdb;
@@ -1091,16 +1092,13 @@ class KBContent {
 	 * @return string
 	 */
 	public function getDate(){
-		$date = '';
 		if(isset($this->row->date)){
 			if(date('Ymd', current_time('timestamp')) == date('Ymd', strtotime($this->row->date))){
-				$date = date('H:i', strtotime($this->row->date));
+				return date('H:i', strtotime($this->row->date));
 			}
-			else{
-				$date = date('Y.m.d', strtotime($this->row->date));
-			}
+			return date('Y.m.d', strtotime($this->row->date));
 		}
-		return apply_filters('kboard_content_date', $date, $this, $this->getBoard());
+		return '';
 	}
 	
 	/**
@@ -1216,17 +1214,6 @@ class KBContent {
 	}
 	
 	/**
-	 * 휴지통에 있는지 확인한다.
-	 * @return boolean
-	 */
-	public function isTrash(){
-		if($this->status == 'trash'){
-			return true;
-		}
-		return false;
-	}
-	
-	/**
 	 * 입력 필드 이름을 반환한다.
 	 * @param string $name
 	 * @return string
@@ -1278,6 +1265,25 @@ class KBContent {
 			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->member_display, $this->getBoard());
 		}
 		return apply_filters('kboard_obfuscate_name', '', '', $this->getBoard());
+	}
+	
+	/**
+	 * 게시글에 저장된 트리 카테고리의 깊이를 반환한다.
+	 * @return int
+	 */
+	public function getTreeCategoryDepth(){
+		$this->tree_category_depth = 0;
+		if($this->tree_category_depth){
+			return $this->tree_category_depth;
+		}
+		if($this->uid){
+			$tree_category_count = $this->getBoard()->tree_category->getCount();
+			for($i=1; $i<=$tree_category_count; $i++){
+				if(!$this->option->{'tree_category_'.$i}) break;
+				$this->tree_category_depth++;
+			}
+		}
+		return $this->tree_category_depth;
 	}
 	
 	/**

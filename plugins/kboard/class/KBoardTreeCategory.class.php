@@ -10,6 +10,7 @@ class KBoardTreeCategory {
 	var $tree_category = array();
 	var $row = '';
 	var $dropdown = '';
+	var $list_row = '';
 	
 	public function __construct($value=''){
 		if($value){
@@ -132,6 +133,110 @@ class KBoardTreeCategory {
 			}
 		}
 		return $this->row;
+	}
+	
+	public function buildTreeCategorySelectBoxRoot(){
+		$index = 1;
+		$category_name = isset($_GET['kboard_search_option']['tree_category_'.$index]['value'])?$_GET['kboard_search_option']['tree_category_'.$index]['value']:'';
+		$parent_id = '';
+		?>
+		<div class="kboard-search-option-wrap-<?php echo $index?> kboard-search-option-wrap select">
+			<input type="hidden" name="kboard_search_option[tree_category_<?php echo $index?>][key]" value="tree_category_<?php echo $index?>">
+			<select id="kboard-search-option-<?php echo $index?>" name="kboard_search_option[tree_category_<?php echo $index?>][value]" onchange="kboard_tree_category_search(<?php echo $index?>);">
+				<option value="">카테고리 선택</option>
+				<?php foreach($this->tree_category as $row):?>
+				<?php if(!(isset($row['parent_id'])) || !$row['parent_id']):?>
+				<option value="<?php echo $row['category_name']?>"<?php if($category_name == $row['category_name']):?> selected<?php endif?>><?php echo $row['category_name']?></option>
+				<?php if($category_name == $row['category_name']):?>
+				<?php $parent_id = $row['id']?>
+				<?php endif?>
+				<?php endif?>
+				<?php endforeach?>
+			</select>
+		</div>
+		<?php
+		if($category_name) $this->buildTreeCategorySelectBoxChildren($index+1, $parent_id);
+	}
+	
+	public function buildTreeCategorySelectBoxChildren($index, $parent_id){
+		$category_id = '';
+		$category_name = isset($_GET['kboard_search_option']['tree_category_'.$index]['value'])?$_GET['kboard_search_option']['tree_category_'.$index]['value']:'';
+		$children_category = array();
+		
+		foreach($this->tree_category as $row){
+			if(isset($row['parent_id']) && $parent_id == $row['parent_id']){
+				$children_category[] = $row;
+			}
+		}
+		
+		if($children_category):
+		?>
+		<div class="kboard-search-option-wrap-<?php echo $index?> kboard-search-option-wrap select">
+			<input type="hidden" name="kboard_search_option[tree_category_<?php echo $index?>][key]" value="tree_category_<?php echo $index?>">
+			<select id="kboard-search-option-<?php echo $index?>" name="kboard_search_option[tree_category_<?php echo $index?>][value]" onchange="kboard_tree_category_search(<?php echo $index?>);">
+				<option value="">카테고리 선택</option>
+				<?php foreach($children_category as $row):?>
+				<option value="<?php echo $row['category_name']?>"<?php if($category_name == $row['category_name']):?> selected<?php endif?>><?php echo $row['category_name']?></option>
+				<?php if($category_name == $row['category_name']):?>
+				<?php $category_id = $row['id']?>
+				<?php endif?>
+				<?php endforeach?>
+			</select>
+		</div>
+		<?php
+		if($category_name && $category_id) $this->buildTreeCategorySelectBoxChildren($index+1, $category_id);
+		endif;
+	}
+	
+	public function buildTreeCategoryRoot(){
+		$index = 1;
+		$category_name = isset($_GET['kboard_search_option']['tree_category_'.$index]['value'])?$_GET['kboard_search_option']['tree_category_'.$index]['value']:'';
+		$parent_id;
+		?>
+		<div class="kboard-search-option-wrap-<?php echo $index?> kboard-search-option-wrap tab">
+			<input type="hidden" name="kboard_search_option[tree_category_<?php echo $index?>][key]" value="tree_category_<?php echo $index?>">
+			<input type="hidden" name="kboard_search_option[tree_category_<?php echo $index?>][value]" value="<?php echo $category_name?>">
+			<ul id="kboard-search-option-<?php echo $index?>" class="kboard-tree-category">
+				<li<?php if(!$category_name):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="kboard_tree_category_search1('<?php echo $index?>', '')">전체</a></li>
+				<?php foreach($this->tree_category as $row):?>
+				<?php if(!(isset($row['parent_id'])) || !$row['parent_id']):?>
+				<li<?php if($category_name == $row['category_name']):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="kboard_tree_category_search1('<?php echo $index?>', '<?php echo $row['category_name']?>')"><?php echo $row['category_name']?></a></li>
+				<?php if($category_name == $row['category_name']):?>
+				<?php $parent_id = $row['id']?>
+				<?php endif?>
+				<?php endif?>
+				<?php endforeach?>
+			</ul>
+		</div>
+		<?php
+		if($category_name) $this->buildTreeCategoryChildren($index+1, $parent_id);
+	}
+	
+	public function buildTreeCategoryChildren($index, $parent_id){
+		$category_id = '';
+		$category_name = isset($_GET['kboard_search_option']['tree_category_'.$index]['value'])?$_GET['kboard_search_option']['tree_category_'.$index]['value']:'';
+		$children_category = array();
+		
+		foreach($this->tree_category as $row){
+			if(isset($row['parent_id']) && $parent_id == $row['parent_id']) $children_category[] = $row;
+		}
+
+		if($children_category):
+		?>
+		<div class="kboard-search-option-wrap-<?php echo $index?> kboard-search-option-wrap tab">
+			<input type="hidden" name="kboard_search_option[tree_category_<?php echo $index?>][key]" value="tree_category_<?php echo $index?>">
+			<input type="hidden" name="kboard_search_option[tree_category_<?php echo $index?>][value]" value="<?php echo $category_name?>">
+			<ul id="kboard-search-option-<?php echo $index?>" class="kboard-tree-category">
+				<li<?php if(!$category_name):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="kboard_tree_category_search1('<?php echo $index?>', '')">전체</a></li>
+				<?php foreach($children_category as $row):?>
+				<li<?php if($category_name == $row['category_name']):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="kboard_tree_category_search1('<?php echo $index?>', '<?php echo $row['category_name']?>')"><?php echo $row['category_name']?></a></li>
+				<?php if($category_name == $row['category_name']): $category_id = $row['id']; endif?>
+				<?php endforeach?>
+			</ul>
+		</div>
+		<?php
+		if($category_name && $category_id) $this->buildTreeCategoryChildren($index+1, $category_id);
+		endif;
 	}
 	
 	/**

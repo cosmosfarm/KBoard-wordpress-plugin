@@ -20,11 +20,11 @@ function kboard_autolink_prependHTTP($m){
 	 */
 	$mStr = $m[1].$m[2].$m[3];
 	if(preg_match('#([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#', $mStr)){
-		return "<a href=\"mailto:".$m[2].$m[3]."\" target=\"_blank\">".$m[1].$m[2].$m[3]."</a>";
+		return "<a href=\"mailto:".$m[2].$m[3]."\" onclick=\"window.open(this.href);return false;\">".$m[1].$m[2].$m[3]."</a>";
 	}
 	else{
 		$http = (!preg_match("#(https://)#", $mStr)) ? 'http://' : 'https://';
-		return "<a href=\"".$http.$m[3]."\" target=\"_blank\">".$m[1].$m[2].$m[3]."</a>";
+		return "<a href=\"".$http.$m[3]."\" onclick=\"window.open(this.href);return false;\">".$m[1].$m[2].$m[3]."</a>";
 	}
 }
 ?>

@@ -51,11 +51,12 @@
 .wp-list-table.kboard select { width: 100%; }
 .wp-list-table.kboard h4 { margin: 0; }
 
-.sortable ul { margin-left: 30px; }
-.placeholder { margin-top: 9px; outline: 1px dashed #0085ba; }
 .kboard-category-setting-left,
 .kboard-category-setting-right { float: left; width: 50%; }
+.kboard-update-tree-category { display: none; }
+.kboard-update-tree-category.btn { margin-bottom: 50px; }
+.kboard-tree-category-wrap { overflow: hidden; }
+.sortable ul { margin-left: 30px; }
+.placeholder { margin-top: 10px; outline: 1px dashed #0085ba; }
 .menu-item-handle .item-title { margin: 0; }
 .menu-item-bar .menu-item-handle { width: auto; }
-.kbaord-update-tree-category { margin-bottom: 1em !important; }
-.kboard-tree-category-wrap { overflow: hidden; }

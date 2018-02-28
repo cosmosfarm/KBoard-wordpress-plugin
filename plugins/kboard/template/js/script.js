@@ -19,36 +19,56 @@
 			$(win).on("resize scroll", visPx);
 		});
 	};
-	kboard_tree_category_parents();
 }(jQuery, window));
 
 var kboard_ajax_lock = false;
 
+console.log(kboard_current);
+var mod = jQuery('input[name=mod]').val();
+if(mod == 'editor' && kboard_current.use_tree_category == 'yes'){
+	kboard_tree_category_parents();
+}
+
+function kboard_tree_category_search1(index, value){
+	var length = jQuery('.kboard-search-option-wrap').length;
+	var tree_category_index = parseInt(index) +1;
+
+	if(value){
+		jQuery('input[name="kboard_search_option[tree_category_'+index+'][value]"]').val(value);
+	}
+	else{
+		jQuery('input[name="kboard_search_option[tree_category_'+index+'][value]"]').val('');
+	}
+	
+	for(var i=tree_category_index; i<=length; i++){
+		jQuery('.kboard-search-option-wrap-'+i).remove();
+	}
+	jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+}
+
+function kboard_tree_category_search(index){
+	var length = jQuery('.kboard-search-option-wrap').length;
+	for(var i=index+1; i<=length; i++){
+		jQuery('.kboard-search-option-wrap-'+i).remove();
+	}
+	jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+}
+
 function kboard_tree_category_parents(){
 	if(kboard_current.use_tree_category){
 		var tree_category = kboard_current.tree_category;
-		var mod = jQuery('input[name=mod]').val();
 		var tree_category_name;
 		var tree_category_index = 1;
 		
-		if(mod == 'list'){
-			tree_category_name = 'category_';
-		}
-		else if(mod == 'editor'){
-			tree_category_name = 'kboard_option_tree_category_';
-		}
+		tree_category_name = 'kboard_option_tree_category_';
 		
 		jQuery('.kboard-tree-category-wrap').prepend('<select id="kboard-tree-category-'+tree_category_index+'" class="kboard-tree-category kboard-tree-category-'+tree_category_index+'"></select>');
 		jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="">카테고리 선택</option>');
 		jQuery('#kboard-tree-category-'+tree_category_index).after('<input type="hidden" id="'+tree_category_name+tree_category_index+'" name="'+tree_category_name+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
 		
-		if(jQuery('#kboard-tree-category-search-form').length){
-			jQuery('#kboard-tree-category-search-form').append('<input type="hidden" name="kboard_search_option[tree_category_'+tree_category_index+'][key]" value="tree_category_'+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
-			jQuery('#kboard-tree-category-search-form').append('<input type="hidden" id="kboard-search-option-'+tree_category_index+'" name="kboard_search_option[tree_category_'+tree_category_index+'][value]" value="'+jQuery('#kboard-tree-category-'+tree_category_index).val()+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
-		}
-		
 		jQuery('#kboard-tree-category-'+tree_category_index).change(function(){
 			kboard_tree_category_children(this.value, tree_category_index, tree_category_name);
+			jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
 		});
 		
 		jQuery.each(tree_category, function(index, element){
@@ -86,13 +106,9 @@ function kboard_tree_category_children(category_id, tree_category_index, tree_ca
 					
 					jQuery('#kboard-tree-category-'+(tree_category_index+1)).after('<input type="hidden" id="'+tree_category_name+(tree_category_index+1)+'" name="'+tree_category_name+(tree_category_index+1)+'" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'">');
 					
-					if(jQuery('#kboard-tree-category-search-form').length){					
-						jQuery('#kboard-tree-category-search-form').append('<input type="hidden" name="kboard_search_option[tree_category_'+(tree_category_index+1)+'][key]" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'" value="tree_category_'+(tree_category_index+1)+'">');
-						jQuery('#kboard-tree-category-search-form').append('<input type="hidden" id="kboard-search-option-'+(tree_category_index+1)+'" name="kboard_search_option[tree_category_'+(tree_category_index+1)+'][value]" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'" value="">');
-					}
-					
 					jQuery('#kboard-tree-category-'+(tree_category_index+1)).change(function(){
 						kboard_tree_category_children(this.value, (tree_category_index+1), tree_category_name);
+						jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
 					});
 				}
 				check++;
@@ -115,11 +131,11 @@ function kboard_tree_category_children(category_id, tree_category_index, tree_ca
 }
 
 function kboard_tree_category_selected(tree_category_index, tree_category_name){
-	var check = jQuery('input[name='+tree_category_name+tree_category_index+']').val();
+	var check = jQuery('#tree-category-check-'+tree_category_index).val();
 	
 	if(check){
 		jQuery('#kboard-tree-category-'+tree_category_index+' option').each(function(index, element){
-			if(jQuery(element).text() == jQuery('input[name='+tree_category_name+tree_category_index+']').val()){
+			if(jQuery(element).text() == check){
 				jQuery(element).attr('selected', 'selected');
 				kboard_tree_category_children(this.value, tree_category_index, tree_category_name);
 			}
@@ -132,10 +148,10 @@ function kboard_editor_open_media(){
 	var w = 900;
 	var h = 500;
 	
-	if(kbaord_current.board_id){
+	if(kboard_current.board_id){
 		if(jQuery('#kboard_media_wrapper').length){
 			jQuery('#kboard_media_wrapper').show();
-			jQuery('#kboard_media_wrapper').html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
+			jQuery('#kboard_media_wrapper').html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid));
 			jQuery('#kboard_media_background').show();
 		}
 		else{
@@ -155,7 +171,7 @@ function kboard_editor_open_media(){
 			init_window_size();
 			jQuery(window).resize(init_window_size);
 			
-			wrapper.html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kbaord_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kbaord_current.content_uid));
+			wrapper.html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid));
 			jQuery('body').append(background);
 			jQuery('body').append(wrapper);
 			

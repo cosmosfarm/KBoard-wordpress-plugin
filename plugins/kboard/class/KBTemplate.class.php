@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBTemplate {
-	
+
 	/**
 	 * 템플릿 페이지를 표시한다.
 	 */
@@ -19,7 +19,7 @@ class KBTemplate {
 		
 		add_action('wp_loaded', array($this, 'board'));
 	}
-	
+
 	/**
 	 * 게시판 화면을 출력한다.
 	 * @param int $board_id
@@ -50,7 +50,7 @@ class KBTemplate {
 			}
 		}
 	}
-	
+
 	/**
 	 * 코스모스팜 소셜댓글 출력한다.
 	 * @param KBoardMeta $meta
@@ -63,7 +63,7 @@ class KBTemplate {
 		include KBOARD_DIR_PATH . '/template/comments_plugin.php';
 		return ob_get_clean();
 	}
-	
+
 	/**
 	 * 코스모스팜 소셜댓글의 회원연동 API 토큰을 반환한다.
 	 * @return string
@@ -77,7 +77,7 @@ class KBTemplate {
 			return '';
 		}
 	}
-	
+
 	/**
 	 * 이미지 추가하기 팝업창 화면을 출력한다.
 	 */
@@ -87,30 +87,30 @@ class KBTemplate {
 		$media->board_id = intval(isset($_GET['board_id'])?$_GET['board_id']:'');
 		$media->content_uid = intval(isset($_GET['content_uid'])?$_GET['content_uid']:'');
 		$media->media_group = kboard_htmlclear(isset($_GET['media_group'])?$_GET['media_group']:'');
-		
+
 		include_once KBOARD_DIR_PATH . '/template/media.php';
 		exit;
 	}
-	
+
 	/**
 	 * 이미지 추가하기 팝업창 화면을 출력한다.
 	 */
 	public function documentPrint(){
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-		
+
 		$content = new KBContent();
 		$content->initWithUID($uid);
-		
+
 		if(!$content->uid){
 			wp_die(__('You do not have permission.', 'kboard'));
 		}
-		
+
 		$board = new KBoard($content->board_id);
-		
+
 		if(!$board->isReader($content->member_uid, $content->secret) && !$board->isConfirm($content->password, $content->uid)){
 			wp_die(__('You do not have permission.', 'kboard'));
 		}
-		
+
 		include_once KBOARD_DIR_PATH . '/template/document_print.php';
 		exit;
 	}

@@ -225,7 +225,7 @@ class KBUrl {
 	}
 	
 	/**
-	 * 게시글 주소를 반환한다.
+	 * 글게시 주소를 반환한다.
 	 * @param int $content_uid
 	 * @return string
 	 */

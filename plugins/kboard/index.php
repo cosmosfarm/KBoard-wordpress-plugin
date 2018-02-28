@@ -735,7 +735,7 @@ function kboard_scripts(){
 	wp_register_script('lightslider', KBOARD_URL_PATH . '/assets/lightslider/lightslider.js', array('jquery'), '1.1.6');
 	
 	// 아임포트 등록
-	wp_register_script('iamport-payment', 'https://service.iamport.kr/js/iamport.payment-1.1.6.js', array('jquery'), '1.1.6');
+	wp_register_script('iamport-payment', 'https://service.iamport.kr/js/iamport.payment-1.1.5.js', array('jquery'), '1.1.5');
 	
 	// 구글 리캡차 등록
 	wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
@@ -1111,7 +1111,7 @@ function kboard_activation_execute(){
 	`option_key` varchar(127) NOT NULL,
 	`option_value` longtext NOT NULL,
 	PRIMARY KEY (`uid`),
-	KEY `content_uid` (`content_uid`),
+	UNIQUE KEY `content_uid` (`content_uid`,`option_key`),
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
 	

@@ -27,45 +27,45 @@
 		</div>
 		
 		<?php if($board->use_category):?>
-			<?php if($board->initCategory1()):?>
-			<div class="kboard-attr-row">
-				<label class="attr-name" for="kboard-select-category1"><?php echo __('Category', 'kboard')?>1</label>
-				<div class="attr-value">
-					<select id="kboard-select-category1" name="category1">
-						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
-						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
-						<?php endwhile?>
-					</select>
+			<?php if($board->isTreeCategoryActive()):?>
+				<div class="kboard-attr-row">
+					<label class="attr-name" for="kboard-tree-category"><?php echo __('Category', 'kboard')?></label>
+					<div class="attr-value">
+						<?php for($i=1; $i<=$content->getTreeCategoryDepth(); $i++):?>
+						<input type="hidden" id="tree-category-check-<?php echo $i?>" value="<?php echo $content->option->{'tree_category_'.$i}?>">
+						<input type="hidden" name="kboard_option_tree_category_<?php echo $i?>" value="">
+						<?php endfor?>
+						<div class="kboard-tree-category-wrap"></div>
+					</div>
 				</div>
-			</div>
-			<?php endif?>
-			
-			<?php if($board->initCategory2()):?>
-			<div class="kboard-attr-row">
-				<label class="attr-name" for="kboard-select-category2"><?php echo __('Category', 'kboard')?>2</label>
-				<div class="attr-value">
-					<select id="kboard-select-category2" name="category2">
-						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
-						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
-						<?php endwhile?>
-					</select>
+			<?php else:?>
+				<?php if($board->initCategory1()):?>
+				<div class="kboard-attr-row">
+					<label class="attr-name" for="kboard-select-category1"><?php echo __('Category', 'kboard')?>1</label>
+					<div class="attr-value">
+						<select id="kboard-select-category1" name="category1">
+							<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
+							<?php while($board->hasNextCategory()):?>
+							<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+							<?php endwhile?>
+						</select>
+					</div>
 				</div>
-			</div>
+				<?php endif?>
+				<?php if($board->initCategory2()):?>
+				<div class="kboard-attr-row">
+					<label class="attr-name" for="kboard-select-category2"><?php echo __('Category', 'kboard')?>2</label>
+					<div class="attr-value">
+						<select id="kboard-select-category2" name="category2">
+							<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
+							<?php while($board->hasNextCategory()):?>
+							<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+							<?php endwhile?>
+						</select>
+					</div>
+				</div>
+				<?php endif?>
 			<?php endif?>
-		<?php endif?>
-		
-		<?php if($board->isTreeCategoryActive()):?>
-		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-tree-category"><?php echo __('Category', 'kboard')?></label>
-			<div class="attr-value">
-				<?php for($i=1; $i<=$board->tree_category->getCount(); $i++): if(!$content->option->{'tree_category_'.$i}) break?>
-				<input type="hidden" name="kboard_option_tree_category_<?php echo $i?>" value="<?php echo $content->option->{'tree_category_'.$i}?>">
-				<?php endfor?>
-				<div class="kboard-tree-category-wrap"></div>
-			</div>
-		</div>
 		<?php endif?>
 		
 		<?php if($board->viewUsernameField()):?>

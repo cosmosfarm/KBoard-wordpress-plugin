@@ -10,11 +10,10 @@
   3. kboard_content_unlike 액션 추가
   4. kboard_content_paragraph_breaks 필터 추가
   5. kboard_password_confirm_reauth 필터 추가
-  6. kboard_content_date 필터 추가
-  7. 최신글 숏코드 기간 설정 기능 추가
-  8. 계층형 카테고리 기능 추가
-  9. 댓글보기권한 추가
-  10. 버그 수정
+  6. 최신글 숏코드 기간 설정 기능 추가
+  7. 계층형 카테고리 기능 추가
+  8. 댓글보기권한 추가
+  9. 버그 수정
 
 
 5.3.4

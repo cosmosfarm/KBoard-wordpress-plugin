@@ -17,7 +17,7 @@
 				</div>
 				<?php endif?>
 				<?php if($content->option->tree_category_1):?>
-				<?php for($i=1; $i<=$board->tree_category->getCount(); $i++): if(!$content->option->{'tree_category_'.$i}) break?>
+				<?php for($i=1; $i<=$content->getTreeCategoryDepth(); $i++):?>
 				<div class="detail-attr detail-tree-category-<?php echo $i?>">
 					<div class="detail-name"><?php echo $content->option->{'tree_category_'.$i}?></div>
 				</div>

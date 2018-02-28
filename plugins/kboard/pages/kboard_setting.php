@@ -91,7 +91,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">카테고리 추가 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" category1="유머" category2="동영상"]</code></p>
 							<p class="description">정렬순서 변경 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" sort="newest|best|viewed|updated"]</code></p>
 							<p class="description">공지글 제외 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" with_notice="false"]</code></p>
-							<p class="description">며칠 이내 글만 보기 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" within_days="7"]</code></p>
 							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>">최신글 모아보기</a> 기능을 사용하세요.</p>
 						</td>
 					</tr>
@@ -561,24 +560,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 				<div class="col-left kboard-category-setting-left">
 					<div class="col-wrap">
 						<div class="form-wrap">
-							<div class="kbaord-new-tree-category">
-								<h2>새 카테고리 추가</h2>
-								<div class="form-field form-required term-name-wrap">
-									<label for="new-category-name">이름</label>
-									<input type="text" id="new-category-name" name="new_category">
-									<input type="hidden" id="new-parent-id">
-								</div>
-								
-								<div class="form-field term-parent-wrap">
-									<label for="parent">상위 카테고리</label>
-									<select id="parent" class="postform" name="parent_id">
-									<option value="">없음</option>
-									<?php echo $board->tree_category->buildAdminTreeCategoryDropdown($board->tree_category->buildAdminTreeCategory())?>
-									</select>
-								</div>
-							</div>
-							
-							<div class="kbaord-update-tree-category" style="display: none;">
+							<div class="kboard-update-tree-category">
 								<h2>카테고리 수정</h2>
 								<div class="form-field form-required term-name-wrap">
 									<label for="update-category-name">수정할 카테고리</label>
@@ -588,13 +570,22 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<input type="hidden" id="parent-id" name="parent_id" value="">
 								</div>
 							</div>
-			
-							<div class="kbaord-update-tree-category" style="display: none;">
+							
+							<div class="kboard-update-tree-category btn">
 								<button type="button" class="button" onclick="kboard_tree_category_update('kboard_tree_category_update')">이름 변경</button>
 								<button type="button" class="button" onclick="kboard_tree_category_update('kboard_tree_category_remove')">삭제</button>
 							</div>
 							
-							<div class="kbaord-new-tree-category-btn">
+							<div class="kboard-new-tree-category">
+								<h2>새 카테고리 추가</h2>
+								<div class="form-field form-required term-name-wrap">
+									<label for="new-category-name">이름</label>
+									<input type="text" id="new-category-name" name="new_category">
+									<input type="hidden" id="new-parent-id">
+								</div>
+							</div>
+							
+							<div class="kboard-new-tree-category-btn">
 								<button type="button" class="button-primary" onclick="kboard_tree_category_update('kboard_tree_category_create')">새 카테고리 추가</button>
 							</div>
 						</div>
@@ -987,15 +978,12 @@ function kboard_tree_category_sortable(tree_category_serialize){
 	jQuery.post(ajaxurl, {action:'kboard_tree_category_sortable', board_id:board_id, tree_category_serialize:tree_category_serialize}, function(data){
 		jQuery('.sortable li').remove();
 		jQuery('.sortable').append(data.table_body);
-		jQuery('#parent .tree-category-name').remove();
-		jQuery('#parent').append(data.dropdown);
 	});
 }
 function kboard_tree_category_update(sub_action){
 	var board_id = jQuery('input[name=board_id]').val();
 	var category_name = '';
 	var category_id = jQuery('#category-id').val();
-	var parent_id = jQuery('#parent').val();
 	var current_parent_id = jQuery('#parent-id').val();
 	var new_category_id = uniqid();
 	
@@ -1007,18 +995,17 @@ function kboard_tree_category_update(sub_action){
 		else{
 			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][id]" value="'+new_category_id+'">');
 			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][category_name]" value="'+category_name+'">');
-			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][parent_id]" value="'+parent_id+'">');
 		}
 	}
 	
 	if(sub_action == 'kboard_tree_category_update'){
 		category_name = jQuery('#update-category-name').val();
-		if(!category_name || category_id == parent_id){
+		console.log(category_name);
+		if(!category_name){
 			return false;
 		}
 		else{
 			jQuery('#tree-category-name-'+category_id).val(category_name);
-			jQuery('#tree-category-parent-').val(parent_id);
 		}
 	}
 
@@ -1042,42 +1029,26 @@ function kboard_tree_category_update(sub_action){
 	
 	jQuery.post(ajaxurl, {action:'kboard_tree_category_update', tree_category:tree_category, board_id:board_id, category_id:category_id}, function(data){
 		jQuery('#new-category-name').val('');
+		jQuery('#update-category-name').val('');
 		jQuery('#new-category-name').focus();
 		jQuery('.sortable li').remove();
 		jQuery('.sortable').prepend(data.table_body);
-		jQuery('#parent .tree-category-name').remove();
-		jQuery('#parent').prepend(data.dropdown);
 	});
 	return false;
 }
 function kboard_tree_category_edit_toggle(category_id, category_name, parent_id){
-	if(!parent_id || parent_id == 'parent'){
-		jQuery('#parent').val('');
-	}
-	
 	jQuery('#parent-id').val(parent_id);
 	
 	jQuery('li .parent-id'+category_id).val(parent_id);
-	if(category_id && category_name){
-		jQuery('.kbaord-update-tree-category').css('display', 'block');
-		jQuery('.kbaord-new-tree-category').css('display', 'none');
-		jQuery('.kbaord-new-tree-category-btn').click(function(){
-			kboard_tree_category_edit_toggle();
-		});
-	}
-	else{
-		jQuery('.kbaord-update-tree-category').css('display', 'none');
-		jQuery('.kbaord-new-tree-category').css('display', 'block');
-	}
-	
+	jQuery('.kboard-update-tree-category').css('display', 'block');
+		
 	jQuery('#category-id').val(category_id);
 	jQuery('.update_category_name').val(category_name);
-
-	jQuery('#parent option').each(function(index, element){
-		if(jQuery(element).val() == parent_id){
-			jQuery(element).attr('selected', 'selected');
-		}
-	});
+	jQuery('#update-category-name').focus();
+}
+function kboard_csv_upload(){
+	jQuery('input[name=action]', '#kboard-setting-form').val('kboard_csv_upload_execute');
+	jQuery('#kboard-setting-form').submit();
 }
 function kboard_csv_upload(){
 	jQuery('input[name=action]', '#kboard-setting-form').val('kboard_csv_upload_execute');
