@@ -457,11 +457,6 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		$content->setBoardID($this->board_id);
 		
-		if(!$content->uid){
-			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
-			exit;
-		}
-		
 		if($content->isTrash()){
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
