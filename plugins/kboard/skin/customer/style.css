@@ -219,6 +219,7 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 	#kboard-customer-editor .kboard-attr-row { padding: 10px 0; }
 	#kboard-customer-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
 	#kboard-customer-editor .kboard-attr-row .attr-value { margin: 0; }
+	#kboard-customer-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 10px; width: 100%; }
 	
 	#kboard-customer-document .kboard-title h1 { padding: 10px 5px; font-size: 18px; }
 	#kboard-customer-document .kboard-content .content-view { padding: 10px 5px; }

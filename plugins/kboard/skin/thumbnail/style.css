@@ -226,6 +226,7 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 	#kboard-thumbnail-editor .kboard-attr-row { padding: 10px 0; }
 	#kboard-thumbnail-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
 	#kboard-thumbnail-editor .kboard-attr-row .attr-value { margin: 0; }
+	#kboard-thumbnail-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 10px; width: 100%; }
 	
 	#kboard-thumbnail-document .kboard-title h1 { padding: 10px 5px; font-size: 18px; }
 	#kboard-thumbnail-document .kboard-content .content-view { padding: 10px 5px; }
