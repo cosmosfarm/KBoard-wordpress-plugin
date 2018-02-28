@@ -474,7 +474,7 @@ class KBContent {
 	}
 	
 	/**
-	 * 게시물의 조회수를 증가한다.
+	 * 게시글의 조회수를 증가한다.
 	 */
 	public function increaseView(){
 		global $wpdb;
@@ -1092,13 +1092,16 @@ class KBContent {
 	 * @return string
 	 */
 	public function getDate(){
+		$date = '';
 		if(isset($this->row->date)){
 			if(date('Ymd', current_time('timestamp')) == date('Ymd', strtotime($this->row->date))){
-				return date('H:i', strtotime($this->row->date));
+				$date = date('H:i', strtotime($this->row->date));
 			}
-			return date('Y.m.d', strtotime($this->row->date));
+			else{
+				$date = date('Y.m.d', strtotime($this->row->date));
+			}
 		}
-		return '';
+		return apply_filters('kboard_content_date', $date, $this, $this->getBoard());
 	}
 	
 	/**
@@ -1209,6 +1212,17 @@ class KBContent {
 			else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$this->uid]) && $_SESSION['kboard_confirm'][$this->uid] == $this->password){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 휴지통에 있는지 확인한다.
+	 * @return boolean
+	 */
+	public function isTrash(){
+		if($this->status == 'trash'){
+			return true;
 		}
 		return false;
 	}
