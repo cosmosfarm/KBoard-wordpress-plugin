@@ -702,5 +702,14 @@ class KBoard {
 		}
 		return 0;
 	}
+	
+	/**
+	 * KBoard 커뮤니티에 기여합니다.
+	 * @return boolean
+	 */
+	public function contribution(){
+		$contribution = true;
+		return apply_filters('kboard_contribution', $contribution, $this);
+	}
 }
 ?>

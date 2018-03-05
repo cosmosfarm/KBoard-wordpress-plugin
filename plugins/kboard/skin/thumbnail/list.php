@@ -168,7 +168,9 @@
 	<!-- 버튼 끝 -->
 	<?php endif?>
 	
+	<?php if($board->contribution()):?>
 	<div class="kboard-thumbnail-poweredby">
 		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 	</div>
+	<?php endif?>
 </div>

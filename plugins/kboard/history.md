@@ -16,10 +16,11 @@
   9. kboard_pre_document_delete 액션 추가
   10. kboard_pre_content_execute 액션 추가
   11. kboard_content_execute 액션 추가
-  12. 최신글 숏코드 기간 설정 기능 추가
-  13. 계층형 카테고리 기능 추가
-  14. 댓글보기권한 추가
-  15. 버그 수정
+  12. kboard_skin_editor_option 액션 추가
+  13. 최신글 숏코드 기간 설정 기능 추가
+  14. 계층형 카테고리 기능 추가
+  15. 댓글보기권한 추가
+  16. 버그 수정
 
 
 5.3.4

@@ -23,6 +23,7 @@
 				<?php if($board->isAdmin()):?>
 				<label class="attr-value-option"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
 				<?php endif?>
+				<?php do_action('kboard_skin_editor_option', $content, $board, $boardBuilder)?>
 			</div>
 		</div>
 		

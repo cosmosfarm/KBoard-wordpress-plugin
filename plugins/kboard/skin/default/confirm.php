@@ -1,5 +1,13 @@
+<?php
+if(isset($_GET['kboard-content-remove-nonce']) && $_GET['kboard-content-remove-nonce']){
+	$confirm_url = $url->getContentRemove(kboard_uid());
+}
+else{
+	$confirm_url = $url->set('mod', kboard_mod())->set('uid', kboard_uid())->toString();
+}
+?>
 <div id="kboard-default-editor">
-	<form method="post" action="<?php echo $url->set('mod', kboard_mod())->set('uid', kboard_uid())->toString()?>">
+	<form method="post" action="<?php echo $confirm_url?>">
 		<div class="kboard-attr-row kboard-confirm-row kboard-attr-title">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
 			<div class="attr-value">
