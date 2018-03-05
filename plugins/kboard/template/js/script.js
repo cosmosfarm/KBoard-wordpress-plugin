@@ -23,13 +23,12 @@
 
 var kboard_ajax_lock = false;
 
-console.log(kboard_current);
 var mod = jQuery('input[name=mod]').val();
 if(mod == 'editor' && kboard_current.use_tree_category == 'yes'){
 	kboard_tree_category_parents();
 }
 
-function kboard_tree_category_search1(index, value){
+function kboard_tree_category_search(index, value){
 	var length = jQuery('.kboard-search-option-wrap').length;
 	var tree_category_index = parseInt(index) +1;
 
@@ -44,14 +43,8 @@ function kboard_tree_category_search1(index, value){
 		jQuery('.kboard-search-option-wrap-'+i).remove();
 	}
 	jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
-}
-
-function kboard_tree_category_search(index){
-	var length = jQuery('.kboard-search-option-wrap').length;
-	for(var i=index+1; i<=length; i++){
-		jQuery('.kboard-search-option-wrap-'+i).remove();
-	}
-	jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+	
+	return false;
 }
 
 function kboard_tree_category_parents(){
@@ -86,12 +79,12 @@ function kboard_tree_category_children(category_id, tree_category_index, tree_ca
 	var length = jQuery('.kboard-tree-category').length;
 	var check = 0;
 	
-	for(var i=tree_category_index+1; i<=length; i++){ // 부모 카테고리 변경 시 자식 카테고리 지운다.
+	for(var i=tree_category_index+1; i<=length; i++){
 		jQuery('.kboard-tree-category-'+i).remove();
 		jQuery('.kboard-tree-category-hidden-'+i).remove();
 	}
 	
-	jQuery.each(tree_category, function(index, element){ // 선택된 select box의 id값에 매칭되는 name을 찾아 hidden 태그에 넣음
+	jQuery.each(tree_category, function(index, element){
 		if(jQuery('#kboard-tree-category-'+tree_category_index).val() == element.id){
 			jQuery('#'+tree_category_name+tree_category_index).val(element.category_name);
 		}
@@ -118,7 +111,7 @@ function kboard_tree_category_children(category_id, tree_category_index, tree_ca
 		kboard_tree_category_selected(tree_category_index+1, tree_category_name);
 	}
 	else{
-		for(var i=tree_category_index; i<=length; i++){ // 부모 카테고리 변경 시 자식 카테고리 지운다.
+		for(var i=tree_category_index; i<=length; i++){
 			jQuery('.kboard-tree-category-hidden-'+i).val('');
 			jQuery('.kboard-tree-category-hidden-'+(i+1)).remove();
 		}

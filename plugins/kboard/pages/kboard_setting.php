@@ -996,12 +996,12 @@ function kboard_tree_category_update(sub_action){
 		else{
 			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][id]" value="'+new_category_id+'">');
 			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][category_name]" value="'+category_name+'">');
+			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][parent_id]" value="">');
 		}
 	}
 	
 	if(sub_action == 'kboard_tree_category_update'){
 		category_name = jQuery('#update-category-name').val();
-		console.log(category_name);
 		if(!category_name){
 			return false;
 		}

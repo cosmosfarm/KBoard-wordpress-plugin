@@ -582,10 +582,9 @@ class KBAdminController {
 		$category->setTreeCategory($tree_category['tree_category']);
 		$build_tree_category = $category->buildAdminTreeCategory();
 		
-		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
 		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
 		
-		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
+		wp_send_json(array('table_body'=>$table_body));
 	}
 	
 	/**
@@ -616,10 +615,9 @@ class KBAdminController {
 		$category->setTreeCategory($sortable_category);
 		$build_tree_category = $category->buildAdminTreeCategory();
 		
-		$tree_category_dropdown = $category->buildAdminTreeCategoryDropdown($build_tree_category);
 		$table_body = $category->buildAdminTreeCategorySortableRow($build_tree_category);
 		
-		wp_send_json(array('table_body'=>$table_body, 'dropdown'=>$tree_category_dropdown));
+		wp_send_json(array('table_body'=>$table_body));
 	}
 }
 ?>

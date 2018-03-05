@@ -40,8 +40,8 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 #kboard-customer-list .kboard-category .kboard-category-list li.kboard-category-selected a { font-weight: bold; border-bottom: 2px solid #545861; color: #545861; }
 #kboard-customer-list .kboard-tree-category-wrap { float: left; padding-bottom: 15px; width: 100%; }
 #kboard-customer-list .kboard-tree-category-wrap select { display: inline; margin: 0 0 5px 0; padding: 0; width: 100%; height: 28px; line-height: 28px; font-size: 12px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: border-box; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-customer-list .kboard-tree-category-search .kboard-search-option-wrap.select { width: auto; }
-#kboard-customer-list .kboard-tree-category-search .kboard-search-option-wrap.tab { width: 100%; }
+#kboard-customer-list .kboard-tree-category-search .kboard-search-option-wrap.type-select { width: auto; }
+#kboard-customer-list .kboard-tree-category-search .kboard-search-option-wrap.type-tab { width: 100%; }
 #kboard-customer-list .kboard-tree-category { float: left; margin: 0 0 5px 0; padding: 0; width: 100%; list-style: none; border: 0; background-color: #f9f9f9; overflow: hidden; }
 #kboard-customer-list .kboard-tree-category li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 5px; border: 0; list-style: none; }
 #kboard-customer-list .kboard-tree-category li::before,
@@ -117,7 +117,8 @@ button.kboard-customer-button-small:active { opacity: 0.7; }
 #kboard-customer-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-customer-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
 #kboard-customer-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
-#kboard-customer-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 5px; width: 70%; }
+#kboard-customer-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap { float: left; width: 100%; }
+#kboard-customer-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { clear: both; float: left; margin-bottom: 5px; width: 30%; }
 #kboard-customer-editor .kboard-confirm-row { padding: 100px 0; }
 #kboard-customer-editor .kboard-content { float: left; margin: 0; padding: 9px 0; width: 100%; text-align: center; background-color: white; }
 #kboard-customer-editor .kboard-content textarea { display: inline; margin: 0; padding: 0; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; font-size: 13px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: border-box; }
