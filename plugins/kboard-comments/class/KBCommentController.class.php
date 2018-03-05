@@ -152,6 +152,8 @@ class KBCommentController {
 				}
 			}
 			
+			do_action('kboard_comments_pre_insert', 0, $content_uid, $board);
+			
 			$commentList = new KBCommentList($content_uid);
 			$commentList->board = $board;
 			$insert_id = $commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
@@ -211,6 +213,8 @@ class KBCommentController {
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
+		do_action('kboard_comments_pre_delete', $comment->uid, $comment->content_uid, $board);
+		
 		$comment->delete();
 		
 		if($comment->password && $comment->password == $password){
@@ -258,10 +262,13 @@ class KBCommentController {
 
 		$comment = new KBComment();
 		$comment->initWithUID($uid);
+		$board = $comment->getBoard();
 
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
+		
+		do_action('kboard_comments_pre_update', $comment->uid, $comment->content_uid, $board);
 		
 		$comment->content = $content;
 		$comment->update();

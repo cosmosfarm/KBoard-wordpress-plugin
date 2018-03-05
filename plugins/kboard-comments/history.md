@@ -7,8 +7,12 @@
 
   1. kboard_comment_like 액션 추가
   2. kboard_comment_unlike 액션 추가
-  3. 댓글보기권한 추가
-  4. 버그 수정
+  3. kboard_comments_update 액션 추가
+  4. kboard_comments_pre_insert 액션 추가
+  5. kboard_comments_pre_update 액션 추가
+  6. kboard_comments_pre_delete 액션 추가
+  7. 댓글보기권한 추가
+  8. 버그 수정
 
 
 4.4.2

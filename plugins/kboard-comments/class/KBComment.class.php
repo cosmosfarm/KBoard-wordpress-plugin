@@ -154,7 +154,7 @@ class KBComment {
 	}
 	
 	/**
-	 * 댓글 정보를 업데이트 한다.
+	 * 댓글 정보를 업데이트한다.
 	 */
 	public function update(){
 		global $wpdb;
@@ -165,6 +165,9 @@ class KBComment {
 				$update[] = "`$key`='$value'";
 			}
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
+			
+			// 댓글 수정 액션 훅 실행
+			do_action('kboard_comments_update', $this->uid, $this->content_uid, $board);
 		}
 	}
 	

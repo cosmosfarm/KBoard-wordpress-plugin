@@ -148,11 +148,14 @@ class KBContent {
 	 */
 	public function execute(){
 		$board = $this->getBoard();
-
+		
 		if($this->execute_action == 'update'){
 			/*
 			 * 기존 게시글 업데이트
 			 */
+			
+			// 게시글 수정 전에 액션 훅 실행
+			do_action('kboard_pre_document_update', $this->uid, $this->board_id, $this, $board);
 			
 			$this->initUploadAttachFiles();
 			$this->updateContent();
@@ -193,6 +196,9 @@ class KBContent {
 			
 			// 글쓴이의 id값 등록
 			$this->member_uid = get_current_user_id();
+			
+			// 게시글 입력 전에 액션 훅 실행
+			do_action('kboard_pre_document_insert', 0, $this->board_id, $this, $board);
 			
 			$this->initUploadAttachFiles();
 			if($this->insertContent()){
@@ -739,8 +745,8 @@ class KBContent {
 			$board = $this->getBoard();
 			
 			if($delete_action){
-				// 게시글 삭제 액션 실행
-				do_action('kboard_document_delete', $this->uid, $this->board_id, $this, $board);
+				// 게시글 삭제 전에 액션 실행
+				do_action('kboard_pre_document_delete', $this->uid, $this->board_id, $this, $board);
 				
 				// 글삭제 증가 포인트
 				if($board->meta->document_delete_up_point){
@@ -802,6 +808,11 @@ class KBContent {
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_vote` WHERE `target_uid`='{$this->uid}' AND `target_type`='document'");
 			
 			$wpdb->flush();
+			
+			if($delete_action){
+				// 게시글 삭제 액션 실행
+				do_action('kboard_document_delete', $this->uid, $this->board_id, $this, $board);
+			}
 		}
 	}
 	

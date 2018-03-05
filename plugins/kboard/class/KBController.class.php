@@ -84,7 +84,7 @@ class KBController {
 			
 			// 금지단어 체크
 			if(!$board->isAdmin()){
-					
+				
 				// 작성자 금지단어 체크
 				$name_filter = kboard_name_filter(true);
 				if($name_filter){
@@ -94,7 +94,7 @@ class KBController {
 						}
 					}
 				}
-					
+				
 				// 본문/제목/댓글 금지단어 체크
 				$content_filter = kboard_content_filter(true);
 				if($content_filter){
@@ -127,8 +127,12 @@ class KBController {
 				}
 			}
 			
+			do_action('kboard_pre_content_execute', $content, $board);
+			
 			// 실행
 			$execute_uid = $content->execute();
+			
+			do_action('kboard_content_execute', $content, $board);
 			
 			// 글쓰기 증가 포인트
 			if($content->execute_action == 'insert' && $board->meta->document_insert_up_point){
