@@ -353,6 +353,7 @@ class KBoard {
 	 */
 	public function isConfirm($content_password, $content_uid, $reauth=false){
 		$confirm = false;
+		$input_password = '';
 		
 		$reauth = apply_filters('kboard_password_confirm_reauth', $reauth, $this);
 		
