@@ -8,7 +8,7 @@ else{
 ?>
 <div id="kboard-default-editor">
 	<form method="post" action="<?php echo $confirm_url?>">
-		<div class="kboard-attr-row kboard-confirm-row kboard-attr-title">
+		<div class="kboard-attr-row kboard-confirm-row">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
 			<div class="attr-value">
 				<input type="password" name="password" placeholder="<?php echo __('Password', 'kboard')?>..." autofocus required>

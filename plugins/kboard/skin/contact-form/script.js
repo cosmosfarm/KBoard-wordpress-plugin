@@ -24,10 +24,10 @@ function kboard_editor_execute(form){
 		jQuery('[name=member_display]', form).eq(1).focus();
 		return false;
 	}
-	if(jQuery('input[name=kboard_option_email]', form).eq(1).exists() && !jQuery('input[name=kboard_option_email]', form).eq(1).val()){
+	if(jQuery('input[name=kboard_option_email]', form).exists() && !jQuery('input[name=kboard_option_email]', form).val()){
 		// 이메일 필드가 있을 경우 필수로 입력합니다.
 		alert(kboard_localize_strings.please_enter_the_email);
-		jQuery('[name=kboard_option_email]', form).eq(1).focus();
+		jQuery('[name=kboard_option_email]', form).focus();
 		return false;
 	}
 	if(!jQuery('input[name=title]', form).val()){

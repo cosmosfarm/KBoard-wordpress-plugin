@@ -383,7 +383,7 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isConfirmFailed(){
-		$submitted_password = isset($_POST['password'])?kboard_htmlclear($_POST['password']):'';
+		$submitted_password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 		if($submitted_password){
 			return true;
 		}
