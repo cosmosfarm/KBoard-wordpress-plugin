@@ -399,7 +399,7 @@ class KBContentList {
 		if($date_range['start_date'] && $date_range['end_date']){
 			$start_date = esc_sql($date_range['start_date']);
 			$end_date = esc_sql($date_range['end_date']);
-			$where[] = "(`date` BETWEEN '{$start_date}' AND '{$end_date}')";
+			$this->where[] = "(`date` BETWEEN '{$start_date}' AND '{$end_date}')";
 		}
 		else if($date_range['start_date']){
 			$start_date = esc_sql($date_range['start_date']);
