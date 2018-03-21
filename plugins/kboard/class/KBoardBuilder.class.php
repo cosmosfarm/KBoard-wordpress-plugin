@@ -936,6 +936,16 @@ class KBoardBuilder {
 		ob_start();
 		
 		$list = new KBContentList($this->board_id);
+		
+		if($this->board->isPrivate()){
+			if(is_user_logged_in()){
+				$list->memberUID(get_current_user_id());
+			}
+			else{
+				$list->stop = true;
+			}
+		}
+		
 		$list->is_latest = true;
 		$list->category1($this->category1);
 		$list->category2($this->category2);
