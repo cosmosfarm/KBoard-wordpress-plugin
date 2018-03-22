@@ -176,14 +176,12 @@ function kboard_editor_open_media(){
 }
 
 function kboard_editor_insert_media(url){
-	if(typeof tinyMCE != 'undefined'){
-		if(typeof tinyMCE.activeEditor != 'undefined'){
-			tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
-			tinyMCE.activeEditor.focus();
-			tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('#last_kboard_media_content')[0], true);
-			tinyMCE.activeEditor.selection.collapse(false);
-			tinyMCE.activeEditor.dom.setAttrib('last_kboard_media_content', 'id', '');
-		}
+	if(typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()){
+		tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
+		tinyMCE.activeEditor.focus();
+		tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('#last_kboard_media_content')[0], true);
+		tinyMCE.activeEditor.selection.collapse(false);
+		tinyMCE.activeEditor.dom.setAttrib('last_kboard_media_content', 'id', '');
 	}
 	else if(jQuery('#kboard_content').length){
 		jQuery('#kboard_content').val(function(index, value){
