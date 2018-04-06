@@ -2,6 +2,12 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
+4.4.4
+----------------------------------
+
+  1. kboard_comments_list_orderby 필터 추가
+
+
 4.4.3
 ----------------------------------
 

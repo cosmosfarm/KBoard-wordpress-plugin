@@ -49,7 +49,9 @@ class KBCommentList {
 	public function init(){
 		global $wpdb;
 		if($this->content_uid){
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY `{$this->sort}` {$this->order}");
+			$orderby = apply_filters('kboard_comments_list_orderby', "`{$this->sort}` {$this->order}", $this);
+			
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `content_uid`='{$this->content_uid}' AND (`parent_uid`<=0 OR `parent_uid` IS NULL) ORDER BY {$orderby}");
 		}
 		else{
 			// 전체 댓글을 불러올땐 최신순서로 정렬한다.
@@ -80,7 +82,10 @@ class KBCommentList {
 	public function initWithParentUID($parent_uid){
 		global $wpdb;
 		$this->parent_uid = $parent_uid;
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY `{$this->sort}` {$this->order}");
+		
+		$orderby = apply_filters('kboard_comments_list_orderby', "`{$this->sort}` {$this->order}", $this);
+		
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY {$orderby}");
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'");
 		$wpdb->flush();
 		return $this;
