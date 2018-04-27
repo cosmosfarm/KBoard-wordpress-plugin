@@ -180,6 +180,8 @@ class KBAdminController {
 					$board->meta->permission_vote_roles = serialize($_POST['permission_vote_roles']);
 				}
 				
+				$board->meta->skin_fields                    = isset($_POST['fields'])                         ? serialize($_POST['fields'])               : '';
+				
 				$board->meta->document_insert_up_point       = isset($_POST['document_insert_up_point'])       ? abs($_POST['document_insert_up_point'])       : '';
 				$board->meta->document_insert_down_point     = isset($_POST['document_insert_down_point'])     ? abs($_POST['document_insert_down_point'])     : '';
 				$board->meta->document_delete_up_point       = isset($_POST['document_delete_up_point'])       ? abs($_POST['document_delete_up_point'])       : '';

@@ -416,6 +416,8 @@ class KBoardBuilder {
 				$content->content = apply_filters('kboard_content_paragraph_breaks', $content->getContent(), $this);
 			}
 			
+			add_filter('kboard_content', array('KBoardFields', 'kboard_content_show_document'), 10, 3);
+			
 			// kboard_content 필터 실행
 			$content->content = apply_filters('kboard_content', $content->getContent(), $content->uid, $this->board_id);
 			

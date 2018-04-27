@@ -303,6 +303,23 @@ function kboard_comment_unlike(button, callback){
 	return false;
 }
 
+function kboard_fields_validation(callback){
+	jQuery('.kboard-attr-row.required').each(function(index, element){
+		var required = jQuery(element).find('.required');
+		
+		if(jQuery(required).length == 1 && jQuery() && jQuery(required).val() == 'default' || !jQuery(required).val()){
+			alert(kboard_localize_strings.required.replace('%s', jQuery(element).children('label').text()));
+			callback(required);
+			return false;
+		}
+		else if(jQuery(required).length > 1 && jQuery(element).find('.required:checked').length == 0){
+			alert(kboard_localize_strings.required.replace('%s', jQuery(element).children('label').text()));
+			callback(jQuery(required).eq(0));
+			return false;
+		}
+	});
+}
+
 function kboard_content_update(content_uid, data, callback){
 	if(!kboard_ajax_lock){
 		kboard_ajax_lock = true;

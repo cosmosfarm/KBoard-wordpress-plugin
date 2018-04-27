@@ -1243,16 +1243,6 @@ class KBContent {
 	}
 	
 	/**
-	 * 입력 필드 이름을 반환한다.
-	 * @param string $name
-	 * @return string
-	 */
-	public function getOptionFieldName($name){
-		$name = sanitize_key($name);
-		return self::$SKIN_OPTION_PREFIX . $name;
-	}
-	
-	/**
 	 * 작성자 ID를 반환한다.
 	 * @return int
 	 */

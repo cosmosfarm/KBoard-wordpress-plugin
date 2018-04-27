@@ -7,6 +7,8 @@
  */
 class KBoard {
 	
+	private $fields;
+	
 	var $id;
 	var $row;
 	var $content;
@@ -19,6 +21,7 @@ class KBoard {
 	public function __construct($id=''){
 		$this->row = new stdClass();
 		$this->meta = new KBoardMeta();
+		$this->fields = null;
 		$this->tree_category = new KBoardTreeCategory();
 		$this->current_user = wp_get_current_user();
 		$this->setID($id);
@@ -44,12 +47,14 @@ class KBoard {
 			if(isset($this->row->uid) && $this->row->uid){
 				$this->id = $this->row->uid;
 				$this->meta = new KBoardMeta($this->row->uid);
+				$this->fields = new KBoardFields($this);
 				$this->tree_category = new KBoardTreeCategory($this->meta->tree_category);
 				return $this;
 			}
 		}
 		$this->id = 0;
 		$this->meta = new KBoardMeta();
+		$this->fields = null;
 		$this->tree_category = new KBoardTreeCategory();
 		$wpdb->flush();
 		return $this;
@@ -74,15 +79,24 @@ class KBoard {
 		if(isset($this->row->uid) && $this->row->uid){
 			$this->id = $this->row->uid;
 			$this->meta = new KBoardMeta($this->row->uid);
+			$this->fields = new KBoardFields($this);
 			$this->tree_category = new KBoardTreeCategory($this->meta->tree_category);
 		}
 		else{
 			$this->id = 0;
 			$this->meta = new KBoardMeta();
+			$this->fields = null;
 			$this->tree_category = new KBoardTreeCategory();
 		}
 		$wpdb->flush();
 		return $this;
+	}
+	
+	public function fields(){
+		if(!$this->fields){
+			$this->fields = new KBoardFields($this);
+		}
+		return $this->fields;
 	}
 	
 	/**
@@ -98,6 +112,7 @@ class KBoard {
 			if(isset($this->row->uid) && $this->row->uid){
 				$this->id = $this->row->uid;
 				$this->meta = new KBoardMeta($this->row->uid);
+				$this->fields = new KBoardFields($this);
 				$this->tree_category = new KBoardTreeCategory($this->meta->tree_category);
 				$wpdb->flush();
 				return $this;
@@ -105,6 +120,7 @@ class KBoard {
 		}
 		$this->id = 0;
 		$this->meta = new KBoardMeta();
+		$this->fields = null;
 		$this->tree_category = new KBoardTreeCategory();
 		$wpdb->flush();
 		return $this;

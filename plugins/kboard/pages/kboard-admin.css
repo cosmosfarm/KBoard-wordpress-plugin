@@ -51,6 +51,61 @@
 .wp-list-table.kboard select { width: 100%; }
 .wp-list-table.kboard h4 { margin: 0; }
 
+.kboard-fields-wrap { float: left; width: 100%; }
+.kboard-fields-wrap .kboard-fields { float: left; margin: 0; width: 50%; }
+.kboard-fields-wrap .kboard-fields .default,
+.kboard-fields-wrap .kboard-fields .extends { overflow: hidden; }
+.kboard-fields-wrap .kboard-fields ul { position: relative; margin: 0; background: white; }
+.kboard-fields-wrap .kboard-fields li { position: relative;  margin: 10px; background-color: #f5f5f5; border: 1px solid #ccc; }
+.kboard-fields-wrap .kboard-fields li:hover { border: 1px solid #999; }
+.kboard-fields-wrap .kboard-fields li:first-child {  }
+.kboard-fields-wrap .kboard-fields .kboard-fields-default .kboard-fields-header,
+.kboard-fields-wrap .kboard-fields .kboard-fields-title button,
+.kboard-fields-wrap .kboard-fields .kboard-fields-extension button,
+.kboard-fields-wrap .kboard-fields .extends button { padding: 0 5px; width: 100%; height: 30px; line-height: 30px; background: 0; border: 0; text-align: left; cursor: move; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-header { cursor: pointer; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-header .fields-up { display: none; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-header,
+.kboard-fields-wrap .kboard-fields .kboard-fields-title { height: 30px; line-height: 30px; box-sizing: border-box; font-size: 15px; font-weight: bold; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-title { position: absolute; left: 0; right: 30px; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-header span,
+.kboard-fields-wrap .kboard-fields .kboard-fields-title span { float: right; cursor: pointer; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-toggle { float: right; height: 30px; line-height: 30px; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-toggle button { width: 30px; height: 30px; line-height: 30px; font-size: 15px; font-weight: bold; cursor: pointer; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-toggle .fields-remove { background: 0; border: 0; text-align: center; }
+.kboard-fields-wrap .kboard-fields .left .kboard-fields-title .fields-remove { display: none; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-title .fields-remove,
+.kboard-fields-wrap .kboard-fields .fields-up { display: none; }
+.kboard-fields-wrap .kboard-fields li.active .fields-down { display: none; }
+.kboard-fields-wrap .kboard-fields li.active .fields-up { display: inline; }
+.kboard-fields-wrap .kboard-fields li.left .kboard-fields-toggle { display: none; }
+.kboard-fields-wrap .kboard-fields li.default.title .kboard-fields-title { right: 0; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-list { display: none;  margin: 0; padding: 15px; background: white; }
+.kboard-fields-wrap .kboard-fields .kboard-saved-fields-header { height: 30px; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-list .kboard-extends-fields { position: relative;  height: 30px; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-list li { overflow: hidden; }
+.kboard-fields-wrap .kboard-fields .list-active .kboard-fields-title { right: 0; }
+.kboard-fields-wrap .kboard-fields .list-active .kboard-fields-header .fields-up { display: inline; }
+.kboard-fields-wrap .kboard-fields .list-active .kboard-fields-header .fields-down { display: none; }
+.kboard-fields-wrap .kboard-fields .list-active .kboard-fields-list { display: block; min-height: 30px; }
+.kboard-fields-wrap .kboard-fields .attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
+.kboard-fields-wrap .kboard-fields .attr-row.option-wrap button { width: auto; background: #f5f5f5; }
+.kboard-fields-wrap .kboard-fields .attr-name { margin: 0; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
+.kboard-fields-wrap .kboard-fields .attr-name .req { color: red; }
+.kboard-fields-wrap .kboard-fields .attr-row .attr-value { margin: 0 0 0 100px; padding: 0; line-height: 30px; font-size: 13px; }
+.kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
+.kboard-fields-wrap .kboard-fields .attr-row .attr-value select,
+.kboard-fields-wrap .kboard-fields .attr-row .attr-value textarea { margin: 0; font-weight: normal; outline: none; }
+.kboard-fields-wrap .kboard-fields .attr-row .attr-value .auto-meta-key { float: none; padding: 0; }
+.kboard-fields-wrap .kboard-fields .attr-row label { float: left; padding-left: 15px; }
+.kboard-fields-wrap .kboard-fields .attr-name.option label { float: left; }
+.kboard-fields-wrap .kboard-fields .attr-name.option input { width: 80px; }
+.kboard-fields-wrap .kboard-fields .attr-row .description { margin: 0; padding: 0 15px; color: #666666; }
+.kboard-fields-wrap .kboard-fields li .kboard-fields-content { display: none;  padding: 0; width: 100%; background: white; border-top: 1px solid #ccc; }
+.kboard-fields-wrap .kboard-fields li.active .kboard-fields-content { position: relative; display: block; overflow: hidden; }
+.kboard-fields-wrap .kboard-fields.kboard-sortable-fields { background: white; }
+
+
 .kboard-category-setting-left,
 .kboard-category-setting-right { float: left; width: 50%; }
 .kboard-update-tree-category { display: none; }
@@ -60,3 +115,10 @@
 .placeholder { margin-top: 10px; outline: 1px dashed #0085ba; }
 .menu-item-handle .item-title { margin: 0; }
 .menu-item-bar .menu-item-handle { width: auto; }
+
+@media screen and (max-width: 600px) {
+    .kboard-fields-wrap .kboard-fields { width: 100%; }
+    .kboard-fields-wrap .kboard-fields .attr-row .attr-value { margin: 0; }
+    .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
+    .kboard-fields-wrap .kboard-fields .attr-row .attr-value select { width: 100%; }
+}

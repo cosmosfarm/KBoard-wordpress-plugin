@@ -35,6 +35,7 @@ include_once 'class/KBContentOption.class.php';
 include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
 include_once 'class/KBoardTreeCategory.class.php';
+include_once 'class/KBoardFields.class.php';
 include_once 'class/KBoardList.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
@@ -764,6 +765,7 @@ function kboard_scripts(){
 		'kboard_add_media' => __('KBoard Add Media', 'kboard'),
 		'next' => __('Next', 'kboard'),
 		'prev' => __('Prev', 'kboard'),
+		'required' => __('%s is required.', 'kboard'),
 		'please_enter_the_title' => __('Please enter the title.', 'kboard'),
 		'please_enter_the_author' => __('Please enter the author.', 'kboard'),
 		'please_enter_the_password' => __('Please enter the password.', 'kboard'),

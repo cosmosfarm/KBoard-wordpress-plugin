@@ -30,11 +30,21 @@ class KBContentOption {
 			$value = esc_sql($value);
 			if($value){
 				$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
-				if($count){
-					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_option` SET `option_value`='$value' WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
+				if(is_array($value)){
+					if($count){
+						$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
+					}
+					foreach($value as $option){
+						$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUES ('$this->content_uid', '$key', '$option')");
+					}
 				}
 				else{
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUES ('$this->content_uid', '$key', '$value')");
+					if($count){
+						$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_option` SET `option_value`='$value' WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
+					}
+					else{
+						$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUES ('$this->content_uid', '$key', '$value')");
+					}
 				}
 			}
 			else{
@@ -51,7 +61,13 @@ class KBContentOption {
 		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid'");
 		$wpdb->flush();
 		foreach($results as $row){
-			$this->row->{$row->option_key} = $row->option_value;
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$row->option_key'");
+			if($count > 1){
+				$this->row->{$row->option_key}[] = $row->option_value;
+			}
+			else{
+				$this->row->{$row->option_key} = $row->option_value;
+			}
 		}
 	}
 	
