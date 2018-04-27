@@ -507,26 +507,35 @@ class KBContentList {
 				$where[] = $this->multipleOptionQuery($option);
 			}
 			else if(is_array($option)){
+				if(is_array($option['value'])){
+					$option['value'] = implode(',', $option['value']);
+				}
+				
 				$option_key = isset($option['key']) ? esc_sql(sanitize_key($option['key'])) : '';
 				$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
 				$option_compare = isset($option['compare']) ? esc_sql($option['compare']) : '';
-				$option_wildcard= isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
+				$option_wildcard = isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
 				
-				if($option_key && $option_value){
-					if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
-						$option_compare = '=';
-					}
-					
-					switch($option_wildcard){
-						case 'left': $option_value= "%{$option_value}"; break;
-						case 'right': $option_value= "{$option_value}%"; break;
-						case 'both': $option_value= "%{$option_value}%"; break;
-					}
-					
+				if($option_key){
 					$this->multiple_option_keys[$option_key] = $option_key;
 					$option_index = array_search($option_key, $this->multiple_option_keys);
 					
-					$where[] = "(`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} '{$option_value}')";
+					if(in_array($option_compare, array('IN', 'NOT IN'))){
+						$where[] = "(`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} ({$option_value}))";
+					}
+					else{
+						if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+							$option_compare = '=';
+						}
+						
+						switch($option_wildcard){
+							case 'left': $option_value = "%{$option_value}"; break;
+							case 'right': $option_value = "{$option_value}%"; break;
+							case 'both': $option_value = "%{$option_value}%"; break;
+						}
+						
+						$where[] = "(`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} '{$option_value}')";
+					}
 				}
 			}
 		}
@@ -539,7 +548,7 @@ class KBContentList {
 		}
 		return '';
 	}
-
+	
 	/**
 	 * 모든 게시글 리스트를 반환한다.
 	 * @return array

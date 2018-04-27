@@ -662,15 +662,18 @@ class KBContent {
 			$thumbnail_name = esc_sql($upload['original_name']);
 			$thumbnail_file = esc_sql($upload['path'] . $upload['stored_name']);
 			if($thumbnail_name){
-				// 업로드된 원본 이미지 크기를 줄인다.
-				$upload_dir = wp_upload_dir();
-				$file_path = explode('/wp-content/uploads', $upload['path'] . $upload['stored_name']);
-				$file_path = strtolower($upload_dir['basedir'] . end($file_path));
-				$image_editor = wp_get_image_editor($file_path);
-				if(!is_wp_error($image_editor)){
-					$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1200, 1200));
-					$image_editor->resize($thumbnail_size[0], $thumbnail_size[1]);
-					$image_editor->save($file_path);
+				$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1200, 1200));
+				if($thumbnail_size){
+					// 업로드된 원본 이미지 크기를 줄인다.
+					$upload_dir = wp_upload_dir();
+					$basedir = str_replace(ABSPATH, '', $upload_dir['basedir']);
+					$file_path = explode("/{$basedir}", $upload['path'] . $upload['stored_name']);
+					$file_path = strtolower($upload_dir['basedir'] . end($file_path));
+					$image_editor = wp_get_image_editor($file_path);
+					if(!is_wp_error($image_editor)){
+						$image_editor->resize($thumbnail_size[0], $thumbnail_size[1]);
+						$image_editor->save($file_path);
+					}
 				}
 				$this->removeThumbnail(false);
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='{$thumbnail_file}', `thumbnail_name`='{$thumbnail_name}' WHERE `uid`='{$this->uid}'");
@@ -1061,13 +1064,14 @@ class KBContent {
 	 * @return boolean
 	 */
 	public function isNew(){
+		$is_new = false;
 		if($this->uid){
 			$notify_time = kboard_new_document_notify_time();
 			if((current_time('timestamp')-strtotime($this->date)) <= $notify_time && $notify_time != '1'){
-				return true;
+				$is_new = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_content_is_new', $is_new, $this);
 	}
 	
 	/**

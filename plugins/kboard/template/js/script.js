@@ -141,10 +141,17 @@ function kboard_editor_open_media(){
 	var w = 900;
 	var h = 500;
 	
+	if(kboard_settings.home_url.indexOf('?') === -1){
+		var media_popup_url = kboard_settings.home_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid;
+	}
+	else{
+		var media_popup_url = kboard_settings.home_url+'&action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid;
+	}
+	
 	if(kboard_current.board_id){
 		if(jQuery('#kboard_media_wrapper').length){
 			jQuery('#kboard_media_wrapper').show();
-			jQuery('#kboard_media_wrapper').html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid));
+			jQuery('#kboard_media_wrapper').html(jQuery('<iframe frameborder="0"></iframe>').attr('src', media_popup_url));
 			jQuery('#kboard_media_background').show();
 		}
 		else{
@@ -164,7 +171,7 @@ function kboard_editor_open_media(){
 			init_window_size();
 			jQuery(window).resize(init_window_size);
 			
-			wrapper.html(jQuery('<iframe frameborder="0"></iframe>').attr('src', kboard_settings.home_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid));
+			wrapper.html(jQuery('<iframe frameborder="0"></iframe>').attr('src', media_popup_url));
 			jQuery('body').append(background);
 			jQuery('body').append(wrapper);
 			

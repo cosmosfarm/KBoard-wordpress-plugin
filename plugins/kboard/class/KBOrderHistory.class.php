@@ -155,26 +155,35 @@ class KBOrderHistory {
 				$where[] = $this->getSearchQuery($condition);
 			}
 			else if(is_array($condition)){
+				if(is_array($condition['value'])){
+					$condition['value'] = implode(',', $condition['value']);
+				}
+				
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
 				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
 				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
 				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
-				if($condition_key && $condition_value){
-					if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
-						$condition_compare = '=';
-					}
-					
-					switch($condition_wildcard){
-						case 'left': $condition_value = "%{$condition_value}"; break;
-						case 'right': $condition_value = "{$condition_value}%"; break;
-						case 'both': $condition_value = "%{$condition_value}%"; break;
-					}
-					
+				if($condition_key){
 					$this->multiple_option_keys[$condition_key] = $condition_key;
 					$condition_index = array_search($condition_key, $this->multiple_option_keys);
 					
-					$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+					if(in_array($condition_compare, array('IN', 'NOT IN'))){
+						$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} ({$condition_value}))";
+					}
+					else{
+						if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+							$condition_compare = '=';
+						}
+						
+						switch($condition_wildcard){
+							case 'left': $condition_value = "%{$condition_value}"; break;
+							case 'right': $condition_value = "{$condition_value}%"; break;
+							case 'both': $condition_value = "%{$condition_value}%"; break;
+						}
+						
+						$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+					}
 				}
 			}
 		}

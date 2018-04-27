@@ -50,6 +50,10 @@
 		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 180px; }
 	}
 	</style>
+	
+	<?php
+	do_action('kboard_add_media_head');
+	?>
 </head>
 <body>
 <form id="kboard-media-form" enctype="multipart/form-data" method="post" onsubmit="return kboard_media_form_execute(this)" data-allow="gif|jpg|jpeg|png">
@@ -87,7 +91,11 @@
 	<?php endforeach?>
 	
 	<?php if(!$index):?>
-	<div class="no-media"><?php echo __('업로드된 이미지가 없습니다.', 'kboard')?><br><?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D', 'kboard')?><br><a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a></div>
+	<div class="no-media">
+		<?php echo __('업로드된 이미지가 없습니다.', 'kboard')?><br>
+		<?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D', 'kboard')?><br>
+		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
+	</div>
 	<?php endif?>
 </div>
 

@@ -5,7 +5,10 @@
 5.3.7
 ----------------------------------
 
-  1. 버그 수정
+  1. kboard_content_is_new 필터 추가
+  2. kboard_add_media_head 액션 추가
+  3. kboard_resize() 함수 버그 수정
+  4. 버그 수정
 
 
 5.3.6
