@@ -446,7 +446,7 @@ class KBoardFields {
 		$board = new KBoard($board_id);
 		$field = $board->fields()->getSkinFields();
 		$option = new KBContentOption($content_uid);
-		print_r($field);
+		
 		$field_content = '';
 		foreach($field as $key=>$value){
 			if(isset($value['show_document']) && $value['show_document']){
