@@ -190,7 +190,7 @@ class KBOrderSales {
 				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
 				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
-				if($condition_key){
+				if($condition_key && $condition_value){
 					if(in_array($condition_compare, array('IN', 'NOT IN'))){
 						if(!isset($condition['table']) || !$condition['table'] || $condition['table'] == "{$wpdb->prefix}kboard_order_item_meta"){
 							$this->multiple_option_keys[$condition_key] = $condition_key;

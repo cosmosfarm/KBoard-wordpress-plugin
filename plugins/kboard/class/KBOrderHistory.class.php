@@ -164,7 +164,7 @@ class KBOrderHistory {
 				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
 				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
-				if($condition_key){
+				if($condition_key && $condition_value){
 					$this->multiple_option_keys[$condition_key] = $condition_key;
 					$condition_index = array_search($condition_key, $this->multiple_option_keys);
 					

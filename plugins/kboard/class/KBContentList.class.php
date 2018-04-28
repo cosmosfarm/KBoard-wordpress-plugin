@@ -516,7 +516,7 @@ class KBContentList {
 				$option_compare = isset($option['compare']) ? esc_sql($option['compare']) : '';
 				$option_wildcard = isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
 				
-				if($option_key){
+				if($option_key && $option_value){
 					$this->multiple_option_keys[$option_key] = $option_key;
 					$option_index = array_search($option_key, $this->multiple_option_keys);
 					
