@@ -858,9 +858,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<?php $fields = $board->fields()->getSkinFields()?>
 						<?php foreach($fields as $key=>$item):?>
 						<?php $meta_key = isset($item['meta_key'])&&$item['meta_key']?$item['meta_key']:$key?>
-						<li class="<?php echo $board->fields()->isDefaultFields($item['field_type'])?> <?php echo $meta_key?>">
-							<input type="hidden" class="parent_id" value="<?php echo $meta_key?>">
-							<input type="hidden" name="fields[<?php echo $meta_key?>][class]" class="field_data class" value="<?php echo $item['class']?>"> 
+						<li class="<?php echo $board->fields()->isDefaultFields($item['field_type'])?> <?php echo esc_attr($meta_key)?>">
+							<input type="hidden" class="parent_id" value="<?php echo esc_attr($meta_key)?>">
+							<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][class]" class="field_data class" value="<?php echo $item['class']?>"> 
 							<div class="kboard-saved-fields-header">
 								<div class="kboard-fields-title toggle kboard-field-handle">
 									<button type="button">
@@ -876,19 +876,19 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<?php endif?>
 							</div>
 							<div class="kboard-fields-content">
-								<input type="hidden" name="fields[<?php echo $meta_key?>][field_type]" class="field_data field_type" value="<?php echo $item['field_type']?>">
-								<input type="hidden" name="fields[<?php echo $meta_key?>][field_label]" class="field_data field_label" value="<?php echo $item['field_label']?>">
+								<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][field_type]" class="field_data field_type" value="<?php echo esc_attr($item['field_type'])?>">
+								<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][field_label]" class="field_data field_label" value="<?php echo esc_attr($item['field_label'])?>">
 								<?php if(isset($item['option_field'])):?>
-									<input type="hidden" name="fields[<?php echo $meta_key?>][option_field]" class="field_data option_field" value="1">
+									<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][option_field]" class="field_data option_field" value="1">
 								<?php endif?>
 								<?php if(isset($item['hidden'])):?>
-									<input type="text" name="fields[<?php echo $meta_key?>][hidden]" class="field_data hidden" value="1">
+									<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][hidden]" class="field_data hidden" value="1">
 								<?php endif?>
 								<?php if(isset($item['field_name'])):?>
 								<div class="attr-row">
 									<label class="attr-name">필드 레이블</label>
 									<div class="attr-value">
-										<input type="text" name="fields[<?php echo $meta_key?>][field_name]" class="field_data field_name" value="<?php echo $item['field_name']?$item['field_name']:$item['field_label'] ?>">
+										<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][field_name]" class="field_data field_name" value="<?php echo $item['field_name']?esc_attr($item['field_name']):esc_attr($item['field_label'])?>">
 									</div>
 								</div>
 								<?php endif?>
@@ -896,7 +896,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<div class="attr-row">
 									<label class="attr-name">메타키</label>
 									<div class="attr-value">
-										<input type="text" name="fields[<?php echo $meta_key?>][meta_key]" class="field_data meta_key" value="<?php echo $item['meta_key']?$item['meta_key']:$meta_key?>"<?php if($item['meta_key'] || $meta_key):?> readonly<?php endif?> placeholder="meta_key">
+										<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][meta_key]" class="field_data meta_key" value="<?php echo $item['meta_key']?esc_attr($item['meta_key']):esc_attr($meta_key)?>"<?php if($item['meta_key'] || $meta_key):?> readonly<?php endif?> placeholder="meta_key">
 									</div>
 									<div class="description">※ 입력하지 않으면 자동으로 설정되며 저장 이후에는 값을 변경할 수 없습니다.</div>
 								</div>
@@ -910,13 +910,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 													<label>라벨</label>
 												</div>
 												<div class="attr-value">
-													<input type="text" name="fields[<?php echo $meta_key?>][row][<?php echo $option_key?>][label]" class="field_data option_label" value="<?php echo $option_value['label']?>">
-													<button type="button" class="<?php echo $item['field_type']?>" onclick="add_option(this)">+</button>
-													<button type="button" class="<?php echo $item['field_type']?>" onclick="remove_option(this)">-</button>
+													<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo esc_attr($option_key)?>][label]" class="field_data option_label" value="<?php echo esc_attr($option_value['label'])?>">
+													<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="add_option(this)">+</button>
+													<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="remove_option(this)">-</button>
 													<?php if($item['field_type'] == 'checkbox'):?>
-													<input type="checkbox" name="fields[<?php echo $meta_key?>][row][<?php echo $option_key?>][default_value]" class="field_data default_value"<?php if(isset($option_value['default_value']) && $option_value['default_value'] == '1'):?> checked<?php endif?> value="1">
+													<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo esc_attr($option_key)?>][default_value]" class="field_data default_value"<?php if(isset($option_value['default_value']) && $option_value['default_value'] == '1'):?> checked<?php endif?> value="1">
 													<?php else:?>
-													<input type="radio" name="fields[<?php echo $meta_key?>][default_value]" class="field_data default_value"<?php if($item['default_value'] == $option_key):?> checked<?php endif?> value="<?php echo $option_key?>">
+													<input type="radio" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value"<?php if($item['default_value'] == $option_key):?> checked<?php endif?> value="<?php echo esc_attr($option_key)?>">
 													<?php endif?>
 													기본값
 												</div>
@@ -930,13 +930,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												<label>라벨</label>
 											</div>
 											<div class="attr-value">
-												<input type="text" name="fields[<?php echo $meta_key?>][row][<?php echo $uniq_id?>][label]" class="field_data option_label" value="">
-												<button type="button" class="<?php echo $item['field_type']?>" onclick="add_option(this)">+</button>
-												<button type="button" class="<?php echo $item['field_type']?>" onclick="remove_option(this)">-</button>
+												<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo $uniq_id?>][label]" class="field_data option_label" value="">
+												<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="add_option(this)">+</button>
+												<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="remove_option(this)">-</button>
 												<?php if($item['field_type'] == 'checkbox'):?>
-												<input type="checkbox" name="fields[<?php echo $meta_key?>][row][<?php echo $uniq_id?>][default_value]" class="field_data default_value" value="">
+												<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo $uniq_id?>][default_value]" class="field_data default_value" value="">
 												<?php else:?>
-												<input type="radio" name="fields[<?php echo $meta_key?>][default_value]" class="field_data default_value" value="">
+												<input type="radio" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" value="">
 												<?php endif?>
 												기본값
 											</div>
@@ -947,14 +947,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<div class="attr-row">
 									<label class="attr-name">표시할 권한</label>
 									<div class="attr-value">
-										<select name="fields[<?php echo $meta_key?>][permission]" class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
+										<select name="fields[<?php echo esc_attr($meta_key)?>][permission]" class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
 											<option value="all"<?php if($item['permission'] == 'all'):?> selected<?php endif?>>제한없음</option>
 											<option value="author"<?php if($item['permission'] == 'author'):?> selected<?php endif?>>로그인 사용자</option>
 											<option value="roles"<?php if($item['permission'] == 'roles'):?> selected<?php endif?>>직접선택</option>
 										</select>
 										<div class="kboard-permission-read-roles-view<?php if($item['permission'] != 'roles'):?> kboard-hide<?php endif?>">
 											<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-												<label><input type="checkbox" name="fields[<?php echo $meta_key?>][roles][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['roles'])):?> checked<?php endif?>><?php echo _x($roles_value['name'], 'User role')?></label>
+												<label><input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][roles][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['roles'])):?> checked<?php endif?>><?php echo _x($roles_value['name'], 'User role')?></label>
 											<?php endforeach?>
 										</div>
 									</div>
@@ -1019,7 +1019,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											</select>
 										<?php elseif($item['field_type'] == 'category1'):?>
 											<?php if($board->initCategory1()):?>
-												<select id="<?php echo $meta_key?>" name="fields[category1][default_value]" class="field_data default_value">
+												<select id="<?php echo esc_attr($meta_key)?>" name="fields[category1][default_value]" class="field_data default_value">
 													<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 													<?php while($board->hasNextCategory()):?>
 													<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
@@ -1028,7 +1028,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											<?php endif?>
 										<?php elseif($item['field_type'] == 'category2'):?>
 											<?php if($board->initCategory2()):?>
-												<select id="<?php echo $meta_key?>" name="fields[category2][default_value]" class="field_data default_value">
+												<select id="<?php echo esc_attr($meta_key)?>" name="fields[category2][default_value]" class="field_data default_value">
 													<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 													<?php while($board->hasNextCategory()):?>
 													<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
@@ -1036,7 +1036,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												</select>
 											<?php endif?>
 										<?php else:?>
-											<input type="text" name="fields[<?php echo $meta_key?>][default_value]" class="field_data default_value" value="<?php echo $item['default_value']?>">
+											<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" value="<?php echo $item['default_value']?>">
 										<?php endif?>
 										</div>
 									</div>
@@ -1044,14 +1044,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<?php if(isset($item['placeholder'])):?>
 								<div class="attr-row">
 									<label class="attr-name">placeholder</label>
-									<div class="attr-value"><input type="text" name="fields[<?php echo $meta_key?>][placeholder]" class="field_data placeholder" value="<?php echo $item['placeholder']?>"></div>
+									<div class="attr-value"><input type="text" name="fields[<?php echo esc_attr($meta_key)?>][placeholder]" class="field_data placeholder" value="<?php echo esc_attr($item['placeholder'])?>"></div>
 								</div>
 								<?php endif?>
 								<?php if(isset($item['description'])):?>
 								<div class="attr-row">
 									<label class="attr-name">설명</label>
 									<div class="attr-value">
-										<input type="text" name="fields[<?php echo $meta_key?>][description]" class="field_data field_description" value="<?php echo $item['description']?>">
+										<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][description]" class="field_data field_description" value="<?php echo esc_attr($item['description'])?>">
 									</div>
 									<?php if($item['field_type'] == 'title'):?>
 										<div class="description">※ 제목은 항상 필수로 입력해야 합니다.</div>
@@ -1080,20 +1080,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<div class="attr-row">
 									<?php if(isset($item['required'])):?>
 										<label>
-											<input type="hidden" name="fields[<?php echo $meta_key?>][required]" class="field_data required" value="">
-											<input type="checkbox" name="fields[<?php echo $meta_key?>][required]" class="field_data required" value="1"<?php if($item['required']):?> checked<?php endif?>>필수
+											<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][required]" class="field_data required" value="">
+											<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][required]" class="field_data required" value="1"<?php if($item['required']):?> checked<?php endif?>>필수
 										</label>
 									<?php endif?>
 									<?php if(isset($item['show_document'])):?>
 										<label>
-											<input type="hidden" name="fields[<?php echo $meta_key?>][show_document]" class="field_data show_document" value="">
-											<input type="checkbox" name="fields[<?php echo $meta_key?>][show_document]" class="field_data show_document" value="1"<?php if($item['show_document']):?> checked<?php endif?>>게시글 본문에 표시
+											<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][show_document]" class="field_data show_document" value="">
+											<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][show_document]" class="field_data show_document" value="1"<?php if($item['show_document']):?> checked<?php endif?>>게시글 본문에 표시
 										</label>
 									<?php endif?>
 									<?php if(isset($item['hidden'])):?>
 										<label>
-											<input type="hidden" name="fields[<?php echo $meta_key?>][hidden]" class="field_data hidden" value="">
-											<input type="checkbox" name="fields[<?php echo $meta_key?>][hidden]" class="field_data hidden" value="1"<?php if($item['hidden']):?> checked<?php endif?>>숨김
+											<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][hidden]" class="field_data hidden" value="">
+											<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][hidden]" class="field_data hidden" value="1"<?php if($item['hidden']):?> checked<?php endif?>>숨김
 										</label>
 									<?php endif?>
 								</div>
