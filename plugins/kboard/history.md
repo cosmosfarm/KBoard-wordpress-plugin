@@ -8,7 +8,15 @@
   1. kboard_content_is_new 필터 추가
   2. kboard_add_media_head 액션 추가
   3. kboard_resize() 함수 버그 수정
-  4. 버그 수정
+  4. kboard_admin_default_fields 필터 추가
+  5. kboard_admin_extends_fields 필터 추가
+  6. kboard_skin_fields 필터 추가
+  7. kboard_editor_field 필터 추가
+  8. kboard_field_data 필터 추가
+  9. kboard_fields_get_template 필터 추가
+  10. kboard_skin_field_before 액션 추가
+  11. kboard_skin_field_after 액션 추가
+  12. 버그 수정
 
 
 5.3.6
