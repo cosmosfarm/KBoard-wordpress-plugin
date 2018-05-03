@@ -333,11 +333,12 @@ class KBoardFields {
 	public function getTemplate($key, $field, $content=''){
 		$template = '';
 		$file_path = KBOARD_DIR_PATH . "/skin/{$this->board->skin}";
-		$field = apply_filters('kboard_field_data', $field, $content, $this->board);
 		
 		if(!$content){
 			$content = new KBContent();
 		}
+		
+		$field = apply_filters('kboard_field_data', $field, $content, $this->board);
 		
 		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
 		$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
