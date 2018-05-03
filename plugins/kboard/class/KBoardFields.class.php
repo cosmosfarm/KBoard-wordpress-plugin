@@ -357,6 +357,11 @@ class KBoardFields {
 		
 		$skin = KBoardSkin::getInstance();
 		
+		$boardBuilder = new KBoardBuilder($this->board->id);
+		$boardBuilder->setSkin($this->board->skin);
+		$boardBuilder->setRpp($this->board->page_rpp);
+		$boardBuilder->board = $this->board;
+		
 		$vars = array(
 			'field' => $field,
 			'meta_key' => $meta_key,
@@ -367,7 +372,8 @@ class KBoardFields {
 			'default_value' => $default_value,
 			'board' => $this->board,
 			'content' => $content,
-			'fields' => $this
+			'fields' => $this,
+			'boardBuilder' => $boardBuilder
 		);
 		
 		ob_start();
