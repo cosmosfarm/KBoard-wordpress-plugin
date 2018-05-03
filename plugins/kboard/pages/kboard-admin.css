@@ -51,7 +51,7 @@
 .wp-list-table.kboard select { width: 100%; }
 .wp-list-table.kboard h4 { margin: 0; }
 
-.kboard-fields-wrap { float: left; width: 100%; }
+.kboard-fields-wrap { overflow: hidden; }
 .kboard-fields-wrap .kboard-fields { float: left; margin: 0; width: 50%; }
 .kboard-fields-wrap .kboard-fields .default,
 .kboard-fields-wrap .kboard-fields .extends { overflow: hidden; }

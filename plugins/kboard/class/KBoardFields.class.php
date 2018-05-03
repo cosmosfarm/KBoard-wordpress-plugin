@@ -16,7 +16,7 @@ class KBoardFields {
 		if($value){
 			$this->setBoardID($value);
 		}
-
+		
 		$this->default_fields = array(
 			'title' => array(
 				'field_type'=>'title',
@@ -42,8 +42,8 @@ class KBoardFields {
 				'comment'=>'',
 				'description'=>''
 			),
-			'non_member' => array(
-				'field_type'=>'non_member',
+			'nonmember' => array(
+				'field_type'=>'nonmember',
 				'field_label'=>'비회원 ID/PW',
 				'class' => 'kboard-attr-non-member',
 				'description'=>''
@@ -89,8 +89,10 @@ class KBoardFields {
 			'content' => array(
 				'field_type'=>'content',
 				'field_label'=>'내용',
+				'field_name'=>'',
 				'class' => 'kboard-attr-content',
 				'required'=>'',
+				'placeholder'=>'',
 				'description'=>''
 			),
 			'media' => array(
@@ -224,7 +226,6 @@ class KBoardFields {
 				'permission'=>'',
 				'roles'=>'',
 				'default_value'=>'',
-				'required'=>'',
 				'show_document'=>'',
 				'description'=>''
 			)
@@ -275,8 +276,8 @@ class KBoardFields {
 					unset($default_fields[$key]);
 				}
 			}
-			
 		}
+		
 		return $default_fields;
 	}
 	
@@ -296,7 +297,7 @@ class KBoardFields {
 		$fields = array();
 		
 		if($this->skin_fields){
-			$fields = $this->skin_fields; 
+			$fields = $this->skin_fields;
 		}
 		else{
 			$fields = $this->default_fields;
@@ -324,57 +325,68 @@ class KBoardFields {
 	
 	/**
 	 * 필드의 레이아웃을 반환한다.
+	 * @param string $key
 	 * @param array $field
 	 * @param KBContent $content
 	 * @return string
 	 */
 	public function getTemplate($key, $field, $content=''){
 		$template = '';
-		$file_path = '';
-		
-		$file_path = apply_filters('kboard_editor_field', KBOARD_DIR_PATH . '/skin/'. $this->board->skin);
-		
+		$file_path = KBOARD_DIR_PATH . "/skin/{$this->board->skin}";
 		$field = apply_filters('kboard_field_data', $field, $content, $this->board);
 		
-		if(file_exists($file_path . '/editor-fields.php') && $this->isUseFields($field)){
-			if(!$content){
-				$content = new KBContent();
-			}
-			
-			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
-			$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
-			$required = (isset($field['required']) && $field['required']) ? 'required' : '';
-			$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
-			$wordpress_search = '';
-			$default_value = (isset($field['default_value']) && $field['default_value']) ? $field['default_value'] : '';
-			
-			if($field['field_type'] == 'search'){
-				if($content->search){
-					$wordpress_search = $content->search;
-				}
-				else if(isset($field['default_value']) && $field['default_value']){
-					$wordpress_search = $field['default_value'];
-				}
-			}
-			
-			ob_start();
-			
-			do_action('kboard_skin_field_before', $field, $content, $this->board);
-			do_action("kboard_skin_field_before_{$meta_key}", $field, $content, $this->board);
-			
-			include $file_path . '/editor-fields.php';
-			
-			do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);
-			do_action('kboard_skin_field_after', $field, $content, $this->board);
-			
-			$template = ob_get_clean();
+		if(!$content){
+			$content = new KBContent();
 		}
 		
-		return apply_filters('kboard_fields_get_template', $template, $field, $content, $this->board);
+		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
+		$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
+		$required = (isset($field['required']) && $field['required']) ? 'required' : '';
+		$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
+		$wordpress_search = '';
+		$default_value = (isset($field['default_value']) && $field['default_value']) ? $field['default_value'] : '';
+		
+		if($field['field_type'] == 'search'){
+			if($content->search){
+				$wordpress_search = $content->search;
+			}
+			else if(isset($field['default_value']) && $field['default_value']){
+				$wordpress_search = $field['default_value'];
+			}
+		}
+		
+		$skin = KBoardSkin::getInstance();
+		
+		$vars = array(
+			'field' => $field,
+			'meta_key' => $meta_key,
+			'field_name' => $field_name,
+			'required' => $required,
+			'placeholder' => $placeholder,
+			'wordpress_search' => $wordpress_search,
+			'default_value' => $default_value,
+			'board' => $this->board,
+			'content' => $content,
+			'fields' => $this
+		);
+		
+		ob_start();
+		
+		do_action('kboard_skin_field_before', $field, $content, $this->board);
+		do_action("kboard_skin_field_before_{$meta_key}", $field, $content, $this->board);
+		
+		echo apply_filters('kboard_fields_get_template', $skin->load($this->board->skin, 'editor-fields.php', $vars), $field, $content, $this->board);
+		
+		do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);
+		do_action('kboard_skin_field_after', $field, $content, $this->board);
+		
+		$template = ob_get_clean();
+		
+		return $template;
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param array $row
 	 * @return boolean
 	 */
@@ -394,7 +406,7 @@ class KBoardFields {
 	 * @param string $default_value
 	 * @return boolean
 	 */
-	public function isSavedOption($option, $default_value, $label){
+	public function isSavedOption($value, $label){
 		if(is_array($value) && in_array($label, $value)){
 			return true;
 		}
@@ -412,6 +424,7 @@ class KBoardFields {
 	 */
 	public function getOptionFieldName($name){
 		$name = sanitize_key($name);
+		
 		return KBContent::$SKIN_OPTION_PREFIX . $name;
 	}
 	
@@ -446,13 +459,18 @@ class KBoardFields {
 		$board = new KBoard($board_id);
 		$field = $board->fields()->getSkinFields();
 		$option = new KBContentOption($content_uid);
-		
+		$document = new KBContent();
+		$document->initWithUID($content_uid);
 		$field_content = '';
+		$separator = apply_filters('kboard_content_show_document_separator', ' ,');
+		
 		foreach($field as $key=>$value){
 			if(isset($value['show_document']) && $value['show_document']){
-				$option_value = $option->{$key};
-				if(is_array($option->{$key})){
-					$option_value = implode($option->{$key}, ', ');
+				$meta_key = (isset($value['meta_key']) && $value['meta_key']) ? $value['meta_key'] : $key;
+				$option_value = $document->option->{$meta_key};
+				
+				if(is_array($option->{$meta_key})){
+					$option_value = implode($document->option->{$meta_key}, $separator);
 				}
 				if(!(isset($value['field_name']) && $value['field_name'])){
 					$value['field_name'] = $value['field_label'];

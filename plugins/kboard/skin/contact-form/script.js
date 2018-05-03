@@ -18,33 +18,59 @@ function kboard_editor_execute(form){
 	/*
 	 * 폼 유효성 검사
 	 */
-	if(jQuery('input[name=member_display]', form).eq(1).exists() && !jQuery('input[name=member_display]', form).eq(1).val()){
-		// 이름 필드가 있을 경우 필수로 입력합니다.
-		alert(kboard_localize_strings.please_enter_the_name);
-		jQuery('[name=member_display]', form).eq(1).focus();
-		return false;
-	}
-	if(jQuery('input[name=kboard_option_email]', form).exists() && !jQuery('input[name=kboard_option_email]', form).val()){
-		// 이메일 필드가 있을 경우 필수로 입력합니다.
-		alert(kboard_localize_strings.please_enter_the_email);
-		jQuery('[name=kboard_option_email]', form).focus();
-		return false;
-	}
-	if(!jQuery('input[name=title]', form).val()){
-		// 제목 필드는 항상 필수로 입력합니다.
-		alert(kboard_localize_strings.please_enter_the_title);
-		jQuery('input[name=title]', form).focus();
-		return false;
-	}
-	if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
-		// 캡차 필드가 있을 경우 필수로 입력합니다.
-		alert(kboard_localize_strings.please_enter_the_CAPTCHA);
-		jQuery('input[name=captcha]', form).focus();
-		return false;
+	var validation = '';
+	kboard_fields_validation(function(fields){
+		if(fields){
+			validation = fields;
+			jQuery(fields).focus();
+		}
+	});
+	
+	if(!validation){
+		if(!jQuery('input[name=title]', form).val()){
+			// 제목 필드는 항상 필수로 입력합니다.
+			alert(kboard_localize_strings.please_enter_the_title);
+			jQuery('input[name=title]', form).focus();
+			return false;
+		}
+		if(jQuery('input[name=member_display]', form).eq(1).exists() && !jQuery('input[name=member_display]', form).eq(1).val()){
+			// 작성자 필드가 있을 경우 필수로 입력합니다.
+			alert(kboard_localize_strings.please_enter_the_author);
+			jQuery('[name=member_display]', form).eq(1).focus();
+			return false;
+		}
+		if(parseInt(jQuery('input[name=user_id]', form).val()) > 0){
+			// 로그인 사용자의 경우 비밀글 체크시에만 비밀번호를 필수로 입력합니다.
+			if(jQuery('input[name=secret]', form).prop('checked') && !jQuery('input[name=password]', form).val()){
+				alert(kboard_localize_strings.please_enter_the_password);
+				jQuery('input[name=password]', form).focus();
+				return false;
+			}
+		}
+		else{
+			// 비로그인 사용자는 반드시 비밀번호를 입력해야 합니다.
+			if(!jQuery('input[name=password]', form).val()){
+				alert(kboard_localize_strings.please_enter_the_password);
+				jQuery('input[name=password]', form).focus();
+				return false;
+			}
+		}
+		if(jQuery('input[name=captcha]', form).exists() && !jQuery('input[name=captcha]', form).val()){
+			// 캡차 필드가 있을 경우 필수로 입력합니다.
+			alert(kboard_localize_strings.please_enter_the_CAPTCHA);
+			jQuery('input[name=captcha]', form).focus();
+			return false;
+		}
+		
+		jQuery(form).data('validation', 'ok');
 	}
 	
-	jQuery(form).data('submitted', 'submitted');
-	jQuery('[type=submit]', form).text(kboard_localize_strings.please_wait);
-	jQuery('[type=submit]', form).val(kboard_localize_strings.please_wait);
-	return true;
+	if(jQuery(form).data('validation') == 'ok'){
+		jQuery(form).data('submitted', 'submitted');
+		jQuery('[type=submit]', form).text(kboard_localize_strings.please_wait);
+		jQuery('[type=submit]', form).val(kboard_localize_strings.please_wait);
+		return true;
+	}
+	
+	return false;
 }

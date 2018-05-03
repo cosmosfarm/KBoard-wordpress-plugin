@@ -179,13 +179,16 @@ class KBContent {
 			
 			// Captcha 검증
 			if($board->useCAPTCHA()){
-				if(!class_exists('KBCaptcha')){
-					include_once 'KBCaptcha.class.php';
-				}
-				$captcha = new KBCaptcha();
-				
-				if(!$captcha->validate()){
-					die("<script>alert('".__('CAPTCHA is invalid.', 'kboard')."');history.go(-1);</script>");
+				$fields = $board->fields()->getSkinFields();
+				if(isset($fields['captcha'])){
+					if(!class_exists('KBCaptcha')){
+						include_once 'KBCaptcha.class.php';
+					}
+					$captcha = new KBCaptcha();
+					
+					if(!$captcha->validate()){
+						die("<script>alert('".__('CAPTCHA is invalid.', 'kboard')."');history.go(-1);</script>");
+					}
 				}
 			}
 			

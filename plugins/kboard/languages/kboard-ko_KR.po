@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
 "POT-Creation-Date: 2018-04-27 18:38+0900\n"
-"PO-Revision-Date: 2018-04-27 18:39+0900\n"
+"PO-Revision-Date: 2018-05-02 13:32+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -633,7 +633,7 @@ msgstr "이전"
 #: index.php:768
 #, php-format
 msgid "%s is required."
-msgstr "%s 은(는) 필수입니다."
+msgstr "%s은(는) 필수입니다."
 
 #: index.php:772
 msgid "Please enter the CAPTCHA."

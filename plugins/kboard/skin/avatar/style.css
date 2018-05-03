@@ -113,6 +113,8 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 #kboard-avatar-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 #kboard-avatar-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
 #kboard-avatar-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
+#kboard-avatar-editor .kboard-attr-row .attr-name .attr-required-text { color: red; font-weight: normal; font-size: 12px; }
+#kboard-avatar-editor .kboard-attr-row.kboard-attr-content .attr-name { display: none; }
 #kboard-avatar-editor .kboard-attr-row .attr-value { margin: 0 0 0 150px; padding: 0; line-height: 30px; font-size: 13px; }
 #kboard-avatar-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-avatar-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
@@ -185,49 +187,49 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 #kboard-avatar-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 13px; }
 
 @media screen and (max-width: 600px) {
-	#kboard-avatar-list .kboard-category.category-mobile { display: block; }
-	#kboard-avatar-list .kboard-category.category-pc { display: none; }
-	#kboard-avatar-list .kboard-tree-category-search .kboard-search-option-wrap.select { width: 100%; }
-	#kboard-avatar-list .kboard-list table { border-top: 1px solid #f1f1f1; }
-	#kboard-avatar-list .kboard-list table thead { display: none; }
-	#kboard-avatar-list .kboard-list table td.kboard-list-title { padding: 10px 5px; }
-	#kboard-avatar-list .kboard-list table td.kboard-list-title .kboard-avatar-cut-strings { margin-bottom: 10px; white-space: normal; font-size: 15px; line-height: 23px; }
-	#kboard-avatar-list .kboard-list table td.kboard-list-uid,
-	#kboard-avatar-list .kboard-list table td.kboard-list-user,
-	#kboard-avatar-list .kboard-list table td.kboard-list-date,
-	#kboard-avatar-list .kboard-list table td.kboard-list-vote,
-	#kboard-avatar-list .kboard-list table td.kboard-list-view { display: none; }
-	#kboard-avatar-list .kboard-list .kboard-mobile-contents { display: block; }
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li { display: none; }
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.first-page,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.last-page,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.prev-page,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
-	#kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 0 18px; }
-	#kboard-avatar-list .kboard-search select { float: left; margin-right: 1%; width: 29%; min-width: 29%; height: 28px; line-height: 28px; box-sizing: border-box; }
-	#kboard-avatar-list .kboard-search input { float: left; margin-right: 1%; width: 49%; min-width: 49%; height: 28px; line-height: 28px; box-sizing: border-box; }
-	#kboard-avatar-list .kboard-search button { float: left; width: 20%; min-width: 20%; box-sizing: border-box; }
-	
-	#kboard-avatar-editor select,
-	#kboard-avatar-editor input[type=text],
-	#kboard-avatar-editor input[type=email],
-	#kboard-avatar-editor input[type=number],
-	#kboard-avatar-editor input[type=date],
-	#kboard-avatar-editor input[type=password],
-	#kboard-avatar-editor input[type=file] { width: 100%; box-sizing: border-box; }
-	#kboard-avatar-editor .kboard-attr-row { padding: 10px 0; }
-	#kboard-avatar-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
-	#kboard-avatar-editor .kboard-attr-row .attr-value { margin: 0; }
-	#kboard-avatar-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 10px; width: 100%; }
-	
-	#kboard-avatar-document .kboard-title h1 { padding: 10px 5px; font-size: 18px; }
-	#kboard-avatar-document .kboard-content .content-view { padding: 10px 5px; }
-	#kboard-avatar-document .kboard-detail .detail-attr { clear: both; padding: 10px 5px; line-height: normal; }
-	#kboard-avatar-document .kboard-detail .detail-attr.detail-writer { line-height: 24px; }
-	#kboard-avatar-document .kboard-document-action { padding: 10px 5px 5px 5px; }
-	#kboard-avatar-document .kboard-attach { margin: 0 5px; padding: 10px 0 5px 0; }
-	#kboard-avatar-document .kboard-document-navi .kboard-prev-document { width: 100%; }
-	#kboard-avatar-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
+    #kboard-avatar-list .kboard-category.category-mobile { display: block; }
+    #kboard-avatar-list .kboard-category.category-pc { display: none; }
+    #kboard-avatar-list .kboard-tree-category-search .kboard-search-option-wrap.select { width: 100%; }
+    #kboard-avatar-list .kboard-list table { border-top: 1px solid #f1f1f1; }
+    #kboard-avatar-list .kboard-list table thead { display: none; }
+    #kboard-avatar-list .kboard-list table td.kboard-list-title { padding: 10px 5px; }
+    #kboard-avatar-list .kboard-list table td.kboard-list-title .kboard-avatar-cut-strings { margin-bottom: 10px; white-space: normal; font-size: 15px; line-height: 23px; }
+    #kboard-avatar-list .kboard-list table td.kboard-list-uid,
+    #kboard-avatar-list .kboard-list table td.kboard-list-user,
+    #kboard-avatar-list .kboard-list table td.kboard-list-date,
+    #kboard-avatar-list .kboard-list table td.kboard-list-vote,
+    #kboard-avatar-list .kboard-list table td.kboard-list-view { display: none; }
+    #kboard-avatar-list .kboard-list .kboard-mobile-contents { display: block; }
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li { display: none; }
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.first-page,
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.last-page,
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.prev-page,
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page,
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
+    #kboard-avatar-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 0 18px; }
+    #kboard-avatar-list .kboard-search select { float: left; margin-right: 1%; width: 29%; min-width: 29%; height: 28px; line-height: 28px; box-sizing: border-box; }
+    #kboard-avatar-list .kboard-search input { float: left; margin-right: 1%; width: 49%; min-width: 49%; height: 28px; line-height: 28px; box-sizing: border-box; }
+    #kboard-avatar-list .kboard-search button { float: left; width: 20%; min-width: 20%; box-sizing: border-box; }
+    
+    #kboard-avatar-editor select,
+    #kboard-avatar-editor input[type=text],
+    #kboard-avatar-editor input[type=email],
+    #kboard-avatar-editor input[type=number],
+    #kboard-avatar-editor input[type=date],
+    #kboard-avatar-editor input[type=password],
+    #kboard-avatar-editor input[type=file] { width: 100%; box-sizing: border-box; }
+    #kboard-avatar-editor .kboard-attr-row { padding: 10px 0; }
+    #kboard-avatar-editor .kboard-attr-row .attr-name { padding: 0; width: 100%; font-size: 14px; }
+    #kboard-avatar-editor .kboard-attr-row .attr-value { margin: 0; }
+    #kboard-avatar-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 10px; width: 100%; }
+    
+    #kboard-avatar-document .kboard-title h1 { padding: 10px 5px; font-size: 18px; }
+    #kboard-avatar-document .kboard-content .content-view { padding: 10px 5px; }
+    #kboard-avatar-document .kboard-detail .detail-attr { clear: both; padding: 10px 5px; line-height: normal; }
+    #kboard-avatar-document .kboard-detail .detail-attr.detail-writer { line-height: 24px; }
+    #kboard-avatar-document .kboard-document-action { padding: 10px 5px 5px 5px; }
+    #kboard-avatar-document .kboard-attach { margin: 0 5px; padding: 10px 0 5px 0; }
+    #kboard-avatar-document .kboard-document-navi .kboard-prev-document { width: 100%; }
+    #kboard-avatar-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
 }
