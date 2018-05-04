@@ -11,26 +11,20 @@
 		<?php endif?>
 	</div>
 </div>
-<?php elseif($field['field_type'] == 'nonmember'):?>
+<?php elseif($field['field_type'] == 'author'):?>
+	<?php if($field['permission'] == 'always_visible' || (!$field['permission'] && $board->viewUsernameField())):?>
+		<div class="kboard-attr-row required">
+			<label class="attr-name" for="kboard-input-member-display"><span class="field-name"><?php echo esc_html($field_name)?></span> <span class="attr-required-text">*</span></label>
+			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" class="required" value="<?php echo $content->member_display?$content->member_display:$default_value?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>></div>
+		</div>
+	<?php elseif($field['permission'] == 'always_hide'):?>
+		<input type="hidden" id="kboard-input-member-display" name="member_display" value="<?php echo $default_value?>">
+	<?php endif?>
 	<?php if($board->viewUsernameField()):?>
-	<div class="kboard-attr-row">
-		<label class="attr-name" for="kboard-input-member-display"><?php echo __('Author', 'kboard')?></label>
-		<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" value="<?php echo $content->member_display?>" placeholder="<?php echo __('Author', 'kboard')?>"></div>
-	</div>
-	<div class="kboard-attr-row">
-		<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?></label>
-		<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
-	</div>
-	<?php else:?>
-	<input style="display:none" type="text" name="fake-autofill-fields">
-	<input style="display:none" type="password" name="fake-autofill-fields">
-	<!-- 비밀글 비밀번호 필드 시작 -->
-	<div class="kboard-attr-row secret-password-row"<?php if(!$content->secret):?> style="display:none"<?php endif?>>
-		<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?></label>
-		<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>...">
-		<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?></div>
-	</div>
-	<!-- 비밀글 비밀번호 필드 끝 -->
+		<div class="kboard-attr-row">
+			<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?> <span class="attr-required-text">*</span></label>
+			<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
+		</div>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'captcha'):?>
 	<?php if($board->useCAPTCHA() && !$content->uid):?>
@@ -131,6 +125,16 @@
 		<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 	</div>
 </div>
+<?php if(!$board->viewUsernameField()):?>
+<input style="display:none" type="text" name="fake-autofill-fields">
+<input style="display:none" type="password" name="fake-autofill-fields">
+<!-- 비밀글 비밀번호 필드 시작 -->
+<div class="kboard-attr-row secret-password-row"<?php if(!$content->secret):?> style="display:none"<?php endif?>>
+	<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?> <span class="attr-required-text">*</span></label>
+	<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
+</div>
+<!-- 비밀글 비밀번호 필드 끝 -->
+<?php endif?>
 <?php elseif($field['field_type'] == 'media'):?>
 <div class="kboard-attr-row <?php echo $field['class']?>">
 	<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>

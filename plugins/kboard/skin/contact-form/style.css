@@ -127,6 +127,8 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 12px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
 #kboard-contact-form-editor .kboard-attr-title input { width: 70%; }
 #kboard-contact-form-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; }
+#kboard-contact-form-editor .kboard-attr-row.kboard-attr-option { display: none; }
+#kboard-contact-form-editor .kboard-attr-row.secret-password-row { display: none; }
 #kboard-contact-form-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0; width: 100%; line-height: 34px; color: #545861; font-size: 16px; font-weight: bold; }
 #kboard-contact-form-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
 #kboard-contact-form-editor .kboard-attr-row .attr-name .attr-required-text { color: red; font-weight: normal; font-size: 12px; }

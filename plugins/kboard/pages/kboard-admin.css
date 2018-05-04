@@ -88,7 +88,7 @@
 .kboard-fields-wrap .kboard-fields li.default.title .kboard-fields-title { right: 0; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-list { display: none;  margin: 0; padding: 15px; background-color: white; }
 .kboard-fields-wrap .kboard-fields .kboard-saved-fields-header { height: 30px; }
-.kboard-fields-wrap .kboard-fields .kboard-fields-list .kboard-extends-fields { position: relative;  height: 30px; }
+.kboard-fields-wrap .kboard-fields .kboard-extends-fields { position: relative;  height: 30px; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-list li { overflow: hidden; }
 .kboard-fields-wrap .kboard-fields .list-active .kboard-fields-title { right: 0; }
 .kboard-fields-wrap .kboard-fields .list-active .kboard-fields-header .fields-up { display: inline; }
@@ -97,7 +97,7 @@
 .kboard-fields-wrap .kboard-fields .attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 .kboard-fields-wrap .kboard-fields .attr-row.option-wrap button { width: auto; background-color: #f5f5f5; }
 .kboard-fields-wrap .kboard-fields .attr-name { margin: 0; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
-.kboard-fields-wrap .kboard-fields .attr-name .req { color: red; }
+.kboard-fields-wrap .kboard-fields .attr-name .req { color: red; font-weight: normal; font-size: 12px; }
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value { margin: 0 0 0 120px; padding: 0; line-height: 30px; font-size: 13px; }
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value select,
@@ -123,7 +123,7 @@
 
 @media screen and (max-width: 600px) {
     .kboard-fields-wrap .kboard-fields-left { float: none; width: auto; }
-	.kboard-fields-wrap .kboard-fields-right { float: none; width: auto; }
+    .kboard-fields-wrap .kboard-fields-right { float: none; width: auto; }
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value { margin: 0; }
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value select { width: 100%; }

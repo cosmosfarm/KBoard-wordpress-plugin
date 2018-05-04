@@ -595,7 +595,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											<input type="hidden" class="field_data option_field" value="<?php echo $item['option_field']?>">
 										<?php endif?>
 										<div class="attr-row">
-											<label class="attr-name" for="<?php echo $key?>_field_label">필드 레이블</label>
+											<label class="attr-name" for="<?php echo $key?>_field_label">필드 레이블 <span class="req">*</span></label>
 											<div class="attr-value">
 												<input type="text" id="<?php echo $key?>_field_label" class="field_data field_name" value="<?php if(isset($item['field_name']) && $item['field_name']):echo $item['field_name']; endif?>">
 											</div>
@@ -768,7 +768,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<input type="hidden" class="field_data field_type" value="<?php echo $item['field_type']?>">
 										<input type="hidden" class="field_data field_label" value="<?php echo $item['field_label']?>">
 										<div class="attr-row">
-											<label class="attr-name">필드 레이블</label>
+											<label class="attr-name">필드 레이블 <span class="req">*</span></label>
 											<div class="attr-value"><input type="text" class="field_data field_name" placeholder="제목"></div>
 										</div>
 										<?php if(isset($item['meta_key'])):?>
@@ -898,15 +898,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="attr-row">
 										<div class="description">※ 글 작성 화면에서 표시되지 않는다면 기본설정 페이지에서 카테고리 사용과 카테고리 선택 설정을 확인해보세요.</div>
 									</div>
-									<?php elseif($item['field_type'] == 'nonmember'):?>
+									<?php elseif($item['field_type'] == 'author'):?>
 									<div class="attr-row">
-										<div class="description">※ 이 필드를 삭제하면 비회원으로 글을 작성하거나 비밀글 기능에 문제가 생길 수도 있습니다.</div>
+										<div class="description">※ 비회원은 비밀번호를 항상 필수로 입력해야 합니다.</div>
 									</div>
 									<?php endif?>
 									
 									<?php if(isset($item['field_name'])):?>
 									<div class="attr-row">
-										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>-field-label">필드 레이블</label>
+										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>-field-label">필드 레이블 <span class="req">*</span></label>
 										<div class="attr-value">
 											<input type="text" id="<?php echo esc_attr($meta_key)?>-field-label" name="fields[<?php echo esc_attr($meta_key)?>][field_name]" class="field_data field_name" value="<?php echo $item['field_name']?esc_attr($item['field_name']):esc_attr($item['field_label'])?>">
 										</div>
@@ -967,6 +967,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="attr-row">
 										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_permission">표시할 권한</label>
 										<div class="attr-value">
+											<?php if($item['field_type'] == 'author'):?>
+											<select id="<?php echo esc_attr($meta_key)?>_permission" name="fields[<?php echo esc_attr($meta_key)?>][permission]" class="field_data roles">
+												<option value="">비회원일때만 표시</option>
+												<option value="always_visible"<?php if($item['permission'] == 'always_visible'):?> selected<?php endif?>>항상 표시</option>
+												<option value="always_hide"<?php if($item['permission'] == 'always_hide'):?> selected<?php endif?>>항상 숨김</option>
+											</select>
+											<?php else:?>
 											<select id="<?php echo esc_attr($meta_key)?>_permission" name="fields[<?php echo esc_attr($meta_key)?>][permission]" class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
 												<option value="all"<?php if($item['permission'] == 'all'):?> selected<?php endif?>>제한없음</option>
 												<option value="author"<?php if($item['permission'] == 'author'):?> selected<?php endif?>>로그인 사용자</option>
@@ -977,6 +984,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 													<label><input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][roles][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['roles'])):?> checked<?php endif?>><?php echo _x($roles_value['name'], 'User role')?></label>
 												<?php endforeach?>
 											</div>
+											<?php endif?>
 										</div>
 									</div>
 									<?php endif?>

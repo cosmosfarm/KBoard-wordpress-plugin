@@ -70,9 +70,11 @@ class KBController {
 			else if(!$content->title){
 				die("<script>alert('".__('Please enter the title.', 'kboard')."');history.go(-1);</script>");
 			}
+			/*
 			else if(!is_user_logged_in() && !$content->member_display){
 				die("<script>alert('".__('Please enter the author.', 'kboard')."');history.go(-1);</script>");
 			}
+			*/
 			else if(!is_user_logged_in() && !$content->password){
 				die("<script>alert('".__('Please enter the password.', 'kboard')."');history.go(-1);</script>");
 			}

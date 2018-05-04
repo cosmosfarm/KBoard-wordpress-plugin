@@ -42,10 +42,14 @@ class KBoardFields {
 				'comment'=>'',
 				'description'=>''
 			),
-			'nonmember' => array(
-				'field_type'=>'nonmember',
-				'field_label'=>'비회원 ID/PW',
-				'class' => 'kboard-attr-non-member',
+			'author' => array(
+				'field_type'=>'author',
+				'field_label'=>'작성자 이름',
+				'class' => 'kboard-attr-author',
+				'field_name'=>'',
+				'permission' => '',
+				'default_value' => '',
+				'placeholder' => '',
 				'description'=>''
 			),
 			'category1' => array(
