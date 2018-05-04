@@ -412,7 +412,8 @@ class KBoard {
 	 */
 	public function isAdmin(){
 		if($this->id && is_user_logged_in()){
-			$admin_user = array_map(create_function('$string', 'return trim($string);'), explode(',', $this->admin_user));
+			$admin_user = explode(',', $this->admin_user);
+			$admin_user = array_map('sanitize_text_field', $admin_user);
 			
 			if(in_array('administrator', $this->current_user->roles)){
 				// 최고관리자 허용
