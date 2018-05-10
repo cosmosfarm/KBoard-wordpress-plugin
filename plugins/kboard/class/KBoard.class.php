@@ -92,13 +92,6 @@ class KBoard {
 		return $this;
 	}
 	
-	public function fields(){
-		if(!$this->fields){
-			$this->fields = new KBoardFields($this);
-		}
-		return $this->fields;
-	}
-	
 	/**
 	 * 게시글이 등록된 게시판 정보를 초기화한다.
 	 * @param int $content_uid
@@ -728,6 +721,17 @@ class KBoard {
 	public function contribution(){
 		$contribution = true;
 		return apply_filters('kboard_contribution', $contribution, $this);
+	}
+	
+	/**
+	 * 필드 클래스를 반환한다.
+	 * @return KBoardFields
+	 */
+	public function fields(){
+		if(!$this->fields){
+			$this->fields = new KBoardFields($this);
+		}
+		return $this->fields;
 	}
 }
 ?>

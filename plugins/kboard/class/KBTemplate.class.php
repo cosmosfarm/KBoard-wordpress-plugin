@@ -88,6 +88,8 @@ class KBTemplate {
 		$media->content_uid = intval(isset($_GET['content_uid'])?$_GET['content_uid']:'');
 		$media->media_group = kboard_htmlclear(isset($_GET['media_group'])?$_GET['media_group']:'');
 		
+		$board = new KBoard($media->board_id);
+		
 		include_once KBOARD_DIR_PATH . '/template/media.php';
 		exit;
 	}
