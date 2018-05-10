@@ -19,219 +19,236 @@ class KBoardFields {
 		
 		$this->default_fields = array(
 			'title' => array(
-				'field_type'=>'title',
-				'field_label'=>__('Title', 'kboard'),
+				'field_type' => 'title',
+				'field_label' => __('Title', 'kboard'),
 				'class' => 'kboard-attr-title',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'placeholder'=>'',
-				'description'=>''
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'placeholder' => '',
+				'description' => '',
+				'close_button' => ''
 			),
 			'option' => array(
-				'field_type'=>'option',
-				'field_label'=>__('Options', 'kboard'),
+				'field_type' => 'option',
+				'field_label' => __('Options', 'kboard'),
 				'class' => 'kboard-attr-option',
-				'field_name'=>'',
-				'secret_permission'=>'',
-				'secret'=>'',
-				'notice_permission'=>'',
-				'notice'=>'',
-				'comment_permission'=>'',
-				'comment'=>'',
-				'description'=>''
+				'field_name' => '',
+				'secret_permission' => '',
+				'secret' => '',
+				'notice_permission' => 'roles',
+				'notice'=> array('administrator'),
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'author' => array(
-				'field_type'=>'author',
-				'field_label'=>'작성자 이름',
+				'field_type' => 'author',
+				'field_label' => '작성자 이름',
 				'class' => 'kboard-attr-author',
-				'field_name'=>'',
+				'field_name' => '',
 				'permission' => '',
 				'default_value' => '',
 				'placeholder' => '',
-				'description'=>''
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'category1' => array(
-				'field_type'=>'category1',
-				'field_label'=>__('Category', 'kboard').'1',
+				'field_type' => 'category1',
+				'field_label' => __('Category', 'kboard').'1',
 				'class' => 'kboard-attr-category1',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'required'=>'',
-				'description'=>''
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'required' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'category2' => array(
-				'field_type'=>'category2',
-				'field_label'=>__('Category', 'kboard').'2',
+				'field_type' => 'category2',
+				'field_label' => __('Category', 'kboard').'2',
 				'class' => 'kboard-attr-category2',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'required'=>'',
-				'description'=>''
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'required' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'tree_category' => array(
-				'field_type'=>'tree_category',
-				'field_label'=>'계층형 ' . __('Category', 'kboard'),
+				'field_type' => 'tree_category',
+				'field_label' => '계층형 ' . __('Category', 'kboard'),
 				'class' => 'kboard-attr-tree-category',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
 				'option_field'=>true,
-				'description'=>''
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'captcha' => array(
-				'field_type'=>'captcha',
-				'field_label'=>'캡차',
+				'field_type' => 'captcha',
+				'field_label' => '캡차',
 				'class' => 'kboard-attr-captcha',
-				'description'=>''
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'content' => array(
-				'field_type'=>'content',
-				'field_label'=>'내용',
-				'field_name'=>'',
+				'field_type' => 'content',
+				'field_label' => '내용',
+				'field_name' => '',
 				'class' => 'kboard-attr-content',
-				'required'=>'',
-				'placeholder'=>'',
-				'description'=>''
+				'required' => '',
+				'placeholder' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'media' => array(
-				'field_type'=>'media',
-				'field_label'=>__('Photos', 'kboard'),
+				'field_type' => 'media',
+				'field_label' => __('Photos', 'kboard'),
 				'class' => 'kboard-attr-media',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'description'=>''
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'thumbnail' => array(
-				'field_type'=>'thumbnail',
-				'field_label'=>__('Thumbnail', 'kboard'),
+				'field_type' => 'thumbnail',
+				'field_label' => __('Thumbnail', 'kboard'),
 				'class' => 'kboard-attr-thumbnail',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'description'=>''
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'attach' => array(
-				'field_type'=>'attach',
-				'field_label'=>__('Attachment', 'kboard'),
+				'field_type' => 'attach',
+				'field_label' => __('Attachment', 'kboard'),
 				'class' => 'kboard-attr-attach',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'description'=>''
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'search' => array(
-				'field_type'=>'search',
-				'field_label'=>__('WP Search', 'kboard'),
+				'field_type' => 'search',
+				'field_label' => __('WP Search', 'kboard'),
 				'class' => 'kboard-attr-search',
-				'hidden'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'description'=>''
+				'hidden' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'ip' => array(
-				'field_type'=>'ip',
-				'field_label'=>'아이피',
-				'kboard_extends'=>'',
-				'hidden'=>'',
-				'default_value'=>'',
+				'field_type' => 'ip',
+				'field_label' => '아이피',
+				'kboard_extends' => '',
+				'hidden' => '',
+				'default_value' => '',
 				'class' => 'kboard-attr-ip',
-				'show_document'=>'',
-				'option_field'=>true
+				'show_document' => '',
+				'option_field'=>true,
+				'close_button' => 'yes'
 			)
 		);
 		
 		$this->extens_fields = array(
 			'text' => array(
-				'field_type'=>'text',
-				'field_label'=>'텍스트 (text)',
+				'field_type' => 'text',
+				'field_label' => '텍스트 (text / hidden)',
 				'class' => 'kboard-attr-text',
-				'hidden'=>'',
-				'meta_key'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'placeholder'=>'',
-				'required'=>'',
-				'show_document'=>'',
-				'description'=>''
+				'hidden' => '',
+				'meta_key' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'placeholder' => '',
+				'required' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'select' => array(
-				'field_type'=>'select',
-				'field_label'=>'셀렉트 (select)',
+				'field_type' => 'select',
+				'field_label' => '셀렉트 (select)',
 				'class' => 'kboard-attr-select',
-				'meta_key'=>'',
-				'row'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'required'=>'',
-				'show_document'=>'',
-				'description'=>''
+				'meta_key' => '',
+				'row' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'required' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'radio' => array(
-				'field_type'=>'radio',
-				'field_label'=>'라디오 (radio)',
+				'field_type' => 'radio',
+				'field_label' => '라디오 (radio)',
 				'class' => 'kboard-attr-radio',
-				'meta_key'=>'',
-				'row'=>'',
-				'textarea'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'required'=>'',
-				'show_document'=>'',
-				'description'=>''
+				'meta_key' => '',
+				'row' => '',
+				'textarea' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'required' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'checkbox' => array(
-				'field_type'=>'checkbox',
-				'field_label'=>'체크박스 (checkbox)',
+				'field_type' => 'checkbox',
+				'field_label' => '체크박스 (checkbox)',
 				'class' => 'kboard-attr-checkbox',
-				'meta_key'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'row'=>'',
-				'roles'=>'',
-				'required'=>'',
-				'show_document'=>'',
-				'description'=>''
+				'meta_key' => '',
+				'field_name' => '',
+				'permission' => '',
+				'row' => '',
+				'roles' => '',
+				'required' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'textarea' => array(
-				'field_type'=>'textarea',
-				'field_label'=>'텍스트 에어리어 (textarea)',
+				'field_type' => 'textarea',
+				'field_label' => '텍스트 에어리어 (textarea)',
 				'class' => 'kboard-attr-textarea',
-				'meta_key'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'placeholder'=>'',
-				'required'=>'',
-				'show_document'=>'',
-				'description'=>''
+				'meta_key' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'placeholder' => '',
+				'required' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			),
 			'wp_editor' => array(
-				'field_type'=>'wp_editor',
-				'field_label'=>'워드프레스 내장 에디터',
+				'field_type' => 'wp_editor',
+				'field_label' => '워드프레스 내장 에디터',
 				'class' => 'kboard-attr-wp-editor',
-				'meta_key'=>'',
-				'field_name'=>'',
-				'permission'=>'',
-				'roles'=>'',
-				'default_value'=>'',
-				'show_document'=>'',
-				'description'=>''
+				'meta_key' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'default_value' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
 			)
 		);
 	}
@@ -336,62 +353,79 @@ class KBoardFields {
 	 */
 	public function getTemplate($key, $field, $content=''){
 		$template = '';
-		$file_path = KBOARD_DIR_PATH . "/skin/{$this->board->skin}";
+		$permission = (isset($field['permission'])&&$field['permission']) ? $field['permission'] : '';
+		$roles = (isset($field['roles'])&&$field['roles']) ? $field['roles'] : '';
 		
-		if(!$content){
-			$content = new KBContent();
-		}
-		
-		$field = apply_filters('kboard_field_data', $field, $content, $this->board);
-		
-		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
-		$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
-		$required = (isset($field['required']) && $field['required']) ? 'required' : '';
-		$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
-		$wordpress_search = '';
-		$default_value = (isset($field['default_value']) && $field['default_value']) ? $field['default_value'] : '';
-		
-		if($field['field_type'] == 'search'){
-			if($content->search){
-				$wordpress_search = $content->search;
+		if($this->isUseFields($permission, $roles)){
+			$template = '';
+			$file_path = KBOARD_DIR_PATH . "/skin/{$this->board->skin}";
+			
+			if(!$content){
+				$content = new KBContent();
 			}
-			else if(isset($field['default_value']) && $field['default_value']){
-				$wordpress_search = $field['default_value'];
+			
+			$field = apply_filters('kboard_field_data', $field, $content, $this->board);
+			
+			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
+			$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
+			$required = (isset($field['required']) && $field['required']) ? 'required' : '';
+			$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
+			$wordpress_search = '';
+			$default_value = (isset($field['default_value']) && $field['default_value']) ? $field['default_value'] : '';
+			$row = false;
+			
+			if(isset($field['row']) && $field['row']){
+				foreach($field['row'] as $item){
+					if(isset($item['label']) && $item['label']){
+						$row = true;
+						break;
+					}
+				}
 			}
+			
+			if($field['field_type'] == 'search'){
+				if($content->search){
+					$wordpress_search = $content->search;
+				}
+				else if(isset($field['default_value']) && $field['default_value']){
+					$wordpress_search = $field['default_value'];
+				}
+			}
+			
+			$skin = KBoardSkin::getInstance();
+			
+			$boardBuilder = new KBoardBuilder($this->board->id);
+			$boardBuilder->setSkin($this->board->skin);
+			$boardBuilder->setRpp($this->board->page_rpp);
+			$boardBuilder->board = $this->board;
+			
+			$vars = array(
+				'field' => $field,
+				'meta_key' => $meta_key,
+				'field_name' => $field_name,
+				'required' => $required,
+				'placeholder' => $placeholder,
+				'row' => $row,
+				'wordpress_search' => $wordpress_search,
+				'default_value' => $default_value,
+				'board' => $this->board,
+				'content' => $content,
+				'fields' => $this,
+				'boardBuilder' => $boardBuilder
+			);
+			
+			ob_start();
+			
+			do_action('kboard_skin_field_before', $field, $content, $this->board);
+			do_action("kboard_skin_field_before_{$meta_key}", $field, $content, $this->board);
+			
+			echo apply_filters('kboard_fields_get_template', $skin->load($this->board->skin, 'editor-fields.php', $vars), $field, $content, $this->board);
+			
+			do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);
+			do_action('kboard_skin_field_after', $field, $content, $this->board);
+			
+			$template = ob_get_clean();
 		}
-		
-		$skin = KBoardSkin::getInstance();
-		
-		$boardBuilder = new KBoardBuilder($this->board->id);
-		$boardBuilder->setSkin($this->board->skin);
-		$boardBuilder->setRpp($this->board->page_rpp);
-		$boardBuilder->board = $this->board;
-		
-		$vars = array(
-			'field' => $field,
-			'meta_key' => $meta_key,
-			'field_name' => $field_name,
-			'required' => $required,
-			'placeholder' => $placeholder,
-			'wordpress_search' => $wordpress_search,
-			'default_value' => $default_value,
-			'board' => $this->board,
-			'content' => $content,
-			'fields' => $this,
-			'boardBuilder' => $boardBuilder
-		);
-		
-		ob_start();
-		
-		do_action('kboard_skin_field_before', $field, $content, $this->board);
-		do_action("kboard_skin_field_before_{$meta_key}", $field, $content, $this->board);
-		
-		echo apply_filters('kboard_fields_get_template', $skin->load($this->board->skin, 'editor-fields.php', $vars), $field, $content, $this->board);
-		
-		do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);
-		do_action('kboard_skin_field_after', $field, $content, $this->board);
-		
-		$template = ob_get_clean();
 		
 		return $template;
 	}
@@ -444,26 +478,21 @@ class KBoardFields {
 	 * @param string $name
 	 * @return boolean
 	 */
-	public function isUseFields($fields){
-		if(isset($fields['permission']) && $fields['permission']){
-			switch($fields['permission']){
-				case 'all':
-					return true;
-				case 'author':
-					return is_user_logged_in() ? true : false;
-				case 'roles':
-					if(is_user_logged_in()){
-						$user = wp_get_current_user();
-						$role = (array) $user->roles;
-						if(array_intersect($fields['roles'], $role)){
-							return true;
-						}
+	public function isUseFields($permission, $roles){
+		switch($permission){
+			case 'all': return true;
+			case 'author':	return is_user_logged_in() ? true : false;
+			case 'roles':
+				if(is_user_logged_in()){
+					$user = wp_get_current_user();
+					$role = (array) $user->roles;
+					if(array_intersect($roles, $role)){
+						return true;
 					}
-					return false;
-				default: return true;
-			}
+				}
+				return false;
+			default: return true;
 		}
-		return true;
 	}
 	
 	public static function kboard_content_show_document($content, $content_uid, $board_id){
@@ -473,7 +502,7 @@ class KBoardFields {
 		$document = new KBContent();
 		$document->initWithUID($content_uid);
 		$field_content = '';
-		$separator = apply_filters('kboard_content_show_document_separator', ' ,');
+		$separator = apply_filters('kboard_content_show_document_separator', ' ,', $content, $content_uid, $board_id);
 		
 		foreach($field as $key=>$value){
 			if(isset($value['show_document']) && $value['show_document']){

@@ -111,15 +111,15 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 #kboard-avatar-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 12px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
 #kboard-avatar-editor .kboard-attr-title input { width: 70%; }
 #kboard-avatar-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
-#kboard-avatar-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 20px; width: 120px; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
+#kboard-avatar-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0 10px 0 10px; width: 120px; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
 #kboard-avatar-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
 #kboard-avatar-editor .kboard-attr-row .attr-name .attr-required-text { color: red; font-weight: normal; font-size: 12px; }
 #kboard-avatar-editor .kboard-attr-row.kboard-attr-content .attr-name { display: none; }
-#kboard-avatar-editor .kboard-attr-row .attr-value { margin: 0 0 0 150px; padding: 0; line-height: 30px; font-size: 13px; }
+#kboard-avatar-editor .kboard-attr-row .attr-value { margin: 0 0 0 140px; padding: 0; line-height: 30px; font-size: 13px; }
 #kboard-avatar-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
 #kboard-avatar-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
 #kboard-avatar-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
-#kboard-avatar-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap { float: left; width: 100%; }
+#kboard-avatar-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap { overflow: hidden; }
 #kboard-avatar-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { clear: both; float: left; margin-bottom: 5px; width: 30%; }
 #kboard-avatar-editor .kboard-confirm-row { padding: 100px 0; }
 #kboard-avatar-editor .kboard-content { float: left; margin: 0; padding: 9px 0; width: 100%; text-align: center; background-color: white; }

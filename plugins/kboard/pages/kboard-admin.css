@@ -61,13 +61,13 @@
 .kboard-fields-wrap .kboard-fields .default,
 .kboard-fields-wrap .kboard-fields .extends { overflow: hidden; }
 .kboard-fields-wrap .kboard-fields ul { position: relative; margin: 0; }
-.kboard-fields-wrap .kboard-fields li { position: relative;  margin: 10px 0; background-color: white; border: 1px solid #ccc; }
+.kboard-fields-wrap .kboard-fields li { position: relative;  margin: 10px 0; background-color: #f5f5f5; border: 1px solid #ccc; }
 .kboard-fields-wrap .kboard-fields li:hover { border: 1px solid #999; }
 .kboard-fields-wrap .kboard-fields li:first-child {  }
 .kboard-fields-wrap .kboard-fields .kboard-fields-default .kboard-fields-header,
 .kboard-fields-wrap .kboard-fields .kboard-fields-title button,
 .kboard-fields-wrap .kboard-fields .kboard-fields-extension button,
-.kboard-fields-wrap .kboard-fields .extends button { margin: 0; padding: 0 10px; width: 100%; height: 30px; line-height: 30px; background: none; background-color: #f5f5f5; border: 0; text-align: left; cursor: move; }
+.kboard-fields-wrap .kboard-fields .extends button { margin: 0; padding: 0 10px; width: 100%; height: 30px; line-height: 30px; background: none; border: 0; text-align: left; cursor: move; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-header { cursor: pointer; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-header .fields-up { display: none; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-header,
@@ -75,7 +75,7 @@
 .kboard-fields-wrap .kboard-fields .kboard-fields-title { position: absolute; left: 0; right: 30px; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-header span,
 .kboard-fields-wrap .kboard-fields .kboard-fields-title span { float: right; cursor: pointer; }
-.kboard-fields-wrap .kboard-fields .kboard-fields-toggle { float: right; height: 30px; line-height: 30px; background-color: #f5f5f5; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-toggle { float: right; height: 30px; line-height: 30px; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-toggle button { margin: 0; padding: 0; width: 30px; height: 30px; line-height: 30px; font-size: 10px; color: #555d66; font-weight: bold; cursor: pointer; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-toggle .fields-remove { background: none; border: 0; text-align: center; }
 .kboard-fields-wrap .kboard-fields .left .kboard-fields-title .fields-remove { display: none; }
@@ -85,10 +85,10 @@
 .kboard-fields-wrap .kboard-fields li.active .fields-down { display: none; }
 .kboard-fields-wrap .kboard-fields li.active .fields-up { display: inline; }
 .kboard-fields-wrap .kboard-fields li.left .kboard-fields-toggle { display: none; }
-.kboard-fields-wrap .kboard-fields li.default.title .kboard-fields-title { right: 0; }
+.kboard-fields-wrap .kboard-fields .kboard-fields-title.only-toggle { right: 0; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-list { display: none;  margin: 0; padding: 15px; background-color: white; }
-.kboard-fields-wrap .kboard-fields .kboard-saved-fields-header { height: 30px; }
-.kboard-fields-wrap .kboard-fields .kboard-extends-fields { position: relative;  height: 30px; }
+.kboard-fields-wrap .kboard-fields .kboard-saved-fields-header,
+.kboard-fields-wrap .kboard-fields .kboard-extends-fields { height: 30px; }
 .kboard-fields-wrap .kboard-fields .kboard-fields-list li { overflow: hidden; }
 .kboard-fields-wrap .kboard-fields .list-active .kboard-fields-title { right: 0; }
 .kboard-fields-wrap .kboard-fields .list-active .kboard-fields-header .fields-up { display: inline; }
@@ -96,14 +96,13 @@
 .kboard-fields-wrap .kboard-fields .list-active .kboard-fields-list { display: block; min-height: 30px; }
 .kboard-fields-wrap .kboard-fields .attr-row { float: left; padding: 5px 0; width: 100%; background-color: white; }
 .kboard-fields-wrap .kboard-fields .attr-row.option-wrap button { width: auto; background-color: #f5f5f5; }
-.kboard-fields-wrap .kboard-fields .attr-name { margin: 0; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
+.kboard-fields-wrap .kboard-fields .attr-name { float: left; margin: 0; line-height: 30px; color: #545861; font-size: 13px; font-weight: bold; }
 .kboard-fields-wrap .kboard-fields .attr-name .req { color: red; font-weight: normal; font-size: 12px; }
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value { margin: 0 0 0 120px; padding: 0; line-height: 30px; font-size: 13px; }
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value select,
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value textarea { margin: 0; font-weight: normal; outline: none; }
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value .auto-meta-key { float: none; padding: 0; }
-.kboard-fields-wrap .kboard-fields .attr-row label { float: left; }
 .kboard-fields-wrap .kboard-fields .attr-name.option label { float: left; }
 .kboard-fields-wrap .kboard-fields .attr-name.option input { width: 80px; }
 .kboard-fields-wrap .kboard-fields .attr-row .description { margin: 0; padding: 0; color: #666666; }
