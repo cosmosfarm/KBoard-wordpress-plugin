@@ -90,7 +90,7 @@ class KBoardFields {
 			),
 			'captcha' => array(
 				'field_type' => 'captcha',
-				'field_label' => '캡차',
+				'field_label' => '보안코드 (캡차)',
 				'class' => 'kboard-attr-captcha',
 				'description' => '',
 				'close_button' => 'yes'
@@ -145,11 +145,11 @@ class KBoardFields {
 				'roles' => '',
 				'default_value' => '',
 				'description' => '',
-				'close_button' => 'yes'
+				'close_button' => ''
 			),
 			'ip' => array(
 				'field_type' => 'ip',
-				'field_label' => '아이피',
+				'field_label' => '작성자 아이피 주소',
 				'kboard_extends' => '',
 				'hidden' => '',
 				'default_value' => '',
@@ -357,9 +357,6 @@ class KBoardFields {
 		$roles = (isset($field['roles'])&&$field['roles']) ? $field['roles'] : '';
 		
 		if($this->isUseFields($permission, $roles)){
-			$template = '';
-			$file_path = KBOARD_DIR_PATH . "/skin/{$this->board->skin}";
-			
 			if(!$content){
 				$content = new KBContent();
 			}
@@ -392,6 +389,13 @@ class KBoardFields {
 				}
 			}
 			
+			$order = new KBOrder();
+			$order->board = $this->board;
+			$order->board_id = $this->board->id;
+			
+			$url = new KBUrl();
+			$url->setBoard($this->board);
+			
 			$skin = KBoardSkin::getInstance();
 			
 			$boardBuilder = new KBoardBuilder($this->board->id);
@@ -411,6 +415,11 @@ class KBoardFields {
 				'board' => $this->board,
 				'content' => $content,
 				'fields' => $this,
+				'order' => $order,
+				'url' => $url,
+				'skin' => $skin,
+				'skin_path' => $skin->url($this->board->skin),
+				'skin_dir' => $skin->dir($this->board->skin),
 				'boardBuilder' => $boardBuilder
 			);
 			

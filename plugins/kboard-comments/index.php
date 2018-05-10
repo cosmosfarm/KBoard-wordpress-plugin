@@ -168,9 +168,14 @@ function kboard_comments_field($field_html, $board, $content_uid, $comment_build
 add_action('admin_notices', 'kboard_comments_admin_notices');
 function kboard_comments_admin_notices(){
 	if(current_user_can('activate_plugins')){
+		
+		// 관리자 알림 시작
+		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
+		
 		$upgrader = KBUpgrader::getInstance();
-		if(version_compare(KBOARD_COMMNETS_VERSION, $upgrader->getLatestVersion()->comments, '<')){
-			echo '<div class="notice notice-info is-dismissible"><p>KBoard 댓글 : ' . $upgrader->getLatestVersion()->comments . ' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
+		$vsersion = $upgrader->getLatestVersion()->comments;
+		if(version_compare(KBOARD_COMMNETS_VERSION, $vsersion, '<')){
+			echo KBAdminNotices::get_comments_update_notice_message_message($vsersion);
 		}
 	}
 }
@@ -201,8 +206,9 @@ function kboard_comments_update_check(){
 	if(get_option('kboard_comments_version') !== false){
 		update_option('kboard_comments_version', KBOARD_COMMNETS_VERSION);
 		
-		// 관리자 알림
-		add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 댓글 : '.KBOARD_COMMNETS_VERSION.' 버전으로 업데이트 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
+		// 관리자 알림 시작
+		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
+		KBAdminNotices::comments_updated_notice();
 	}
 	else{
 		add_option('kboard_comments_version', KBOARD_COMMNETS_VERSION, null, 'no');

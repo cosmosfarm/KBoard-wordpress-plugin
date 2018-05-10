@@ -145,11 +145,11 @@ function kboard_admin_init(){
 	}
 	
 	// 관리자 컨트롤러 시작
-	include_once 'class/KBAdminController.class.php';
+	include_once KBOARD_DIR_PATH . '/class/KBAdminController.class.php';
 	$admin_controller = new KBAdminController();
 	
 	// 사용자 프로필 필드 추가
-	include_once 'class/KBUserProfileFields.class.php';
+	include_once KBOARD_DIR_PATH . '/class/KBUserProfileFields.class.php';
 	$user_profile_fields = new KBUserProfileFields();
 }
 
@@ -686,12 +686,18 @@ function kboard_ajax_builder(){
 add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
 	if(current_user_can('activate_plugins')){
+		
+		// 관리자 알림 시작
+		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
+		
 		if(!is_writable(WP_CONTENT_DIR . '/uploads')){
-			echo '<div class="notice notice-error"><p>KBoard 게시판 : 디렉토리 '.WP_CONTENT_DIR.'/uploads'.'에 파일을 쓸 수 없습니다. 디렉토리가 존재하지 않거나 쓰기 권한이 있는지 확인해주세요. - <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;">이 알림에 대해서 질문하기</a></p></div>';
+			echo KBAdminNotices::get_upload_folder_not_writable_message();
 		}
+		
 		$upgrader = KBUpgrader::getInstance();
-		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '<')){
-			echo '<div class="notice notice-info is-dismissible"><p>KBoard 게시판 : '.$upgrader->getLatestVersion()->kboard.' 버전으로 업그레이드가 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_dashboard').'">대시보드로 이동</a> 또는 <a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
+		$vsersion = $upgrader->getLatestVersion()->kboard;
+		if(version_compare(KBOARD_VERSION, $vsersion, '<')){
+			echo KBAdminNotices::get_kboard_update_notice_message_message($vsersion);
 		}
 	}
 }
@@ -990,8 +996,9 @@ function kboard_update_check(){
 	if(get_option('kboard_version') !== false){
 		update_option('kboard_version', KBOARD_VERSION);
 		
-		// 관리자 알림
-		add_action('admin_notices', create_function('', "echo '<div class=\"updated\"><p>KBoard 게시판 : '.KBOARD_VERSION.' 버전으로 업데이트 되었습니다. - <a href=\"http://www.cosmosfarm.com/products/kboard\" onclick=\"window.open(this.href);return false;\">홈페이지 열기</a></p></div>';"));
+		// 관리자 알림 시작
+		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
+		KBAdminNotices::kboard_updated_notice();
 	}
 	else{
 		add_option('kboard_version', KBOARD_VERSION, null, 'no');

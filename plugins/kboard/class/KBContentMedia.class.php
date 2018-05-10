@@ -48,7 +48,6 @@ class KBContentMedia {
 		if($this->board_id && $this->media_group){
 			$upload_dir = wp_upload_dir();
 			$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
-
 			
 			$file = new KBFileHandler();
 			$file->setPath($attach_store_path);

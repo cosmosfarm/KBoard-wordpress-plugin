@@ -59,7 +59,7 @@ class KBMail {
 	public function getHtmlContentType(){
 		return 'text/html';
 	}
-
+	
 	public function message_template($args){
 		
 		$subject = $args['subject'];
