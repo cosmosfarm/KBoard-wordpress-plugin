@@ -360,7 +360,7 @@ class KBoardFields {
 				$content = new KBContent();
 			}
 			
-			$field = apply_filters('kboard_field_data', $field, $content, $this->board);
+			$field = apply_filters('kboard_get_template_field_data', $field, $content, $this->board);
 			
 			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
 			$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
@@ -427,7 +427,7 @@ class KBoardFields {
 			do_action('kboard_skin_field_before', $field, $content, $this->board);
 			do_action("kboard_skin_field_before_{$meta_key}", $field, $content, $this->board);
 			
-			echo apply_filters('kboard_fields_get_template', $skin->load($this->board->skin, 'editor-fields.php', $vars), $field, $content, $this->board);
+			echo apply_filters('kboard_get_template_field_html', $skin->load($this->board->skin, 'editor-fields.php', $vars), $field, $content, $this->board);
 			
 			do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);
 			do_action('kboard_skin_field_after', $field, $content, $this->board);
@@ -454,7 +454,7 @@ class KBoardFields {
 	
 	/**
 	 * 기본값이나 저장된 값이 있는지 확인한다.
-	 * @param array||string $option
+	 * @param array|string $option
 	 * @param string $label
 	 * @param string $default_value
 	 * @return boolean
@@ -510,31 +510,37 @@ class KBoardFields {
 	 * @param int $board_id
 	 * @return string
 	 */
-	public static function kboard_content_show_document($content, $content_uid, $board_id){
+	public static function document_add_option_value($content, $content_uid, $board_id){
 		$board = new KBoard($board_id);
-		$field = $board->fields()->getSkinFields();
-		$option = new KBContentOption($content_uid);
+		$skin_fields = $board->fields()->getSkinFields();
+		//$option = new KBContentOption($content_uid);
 		$document = new KBContent();
 		$document->initWithUID($content_uid);
-		$field_content = '';
-		$separator = apply_filters('kboard_content_option_field_separator', ' ,', $content, $content_uid, $board_id);
 		
-		foreach($field as $key=>$value){
-			if(isset($value['show_document']) && $value['show_document']){
-				$meta_key = (isset($value['meta_key']) && $value['meta_key']) ? $value['meta_key'] : $key;
-				$option_value = $document->option->{$meta_key};
-				
-				if(is_array($option->{$meta_key})){
-					$option_value = implode($document->option->{$meta_key}, $separator);
+		$option_value_list = array();
+		
+		foreach($skin_fields as $key=>$field){
+			$field = apply_filters('kboard_document_add_option_value_field_data', $field, $document, $board);
+			
+			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
+			$option_value = $document->option->{$meta_key};
+			
+			if(isset($field['show_document']) && $field['show_document'] && $option_value){
+				if(is_array($option_value)){
+					$separator = apply_filters('kboard_document_add_option_value_separator', ', ', $field, $document, $board);
+					$option_value = implode($separator, $option_value);
 				}
-				if(!(isset($value['field_name']) && $value['field_name'])){
-					$value['field_name'] = $value['field_label'];
+				
+				if(!(isset($field['field_name']) && $field['field_name'])){
+					$field['field_name'] = $field['field_label'];
 				}
 				
-				$field_content .= $value['field_name'] . ' : ' . $option_value . '<br>';
+				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '">' . $field['field_name'] . ' : ' . $option_value . '</div>';
+				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $document, $board);
 			}
 		}
-		$content = $field_content . $content;
+		
+		$content = '<div class="kboard-document-add-option-value-wrap">' . implode('', $option_value_list) . '</div>' . $content;
 		
 		return $content;
 	}

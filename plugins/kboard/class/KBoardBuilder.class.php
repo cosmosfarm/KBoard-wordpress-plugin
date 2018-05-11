@@ -407,6 +407,8 @@ class KBoardBuilder {
 		if($allow_document){
 			$content->increaseView();
 			
+			add_filter('kboard_content', array('KBoardFields', 'document_add_option_value'), 10, 3);
+			
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){
 				include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
@@ -415,8 +417,6 @@ class KBoardBuilder {
 			else{
 				$content->content = apply_filters('kboard_content_paragraph_breaks', $content->getContent(), $this);
 			}
-			
-			add_filter('kboard_content', array('KBoardFields', 'kboard_content_show_document'), 10, 3);
 			
 			// kboard_content 필터 실행
 			$content->content = apply_filters('kboard_content', $content->getContent(), $content->uid, $this->board_id);
