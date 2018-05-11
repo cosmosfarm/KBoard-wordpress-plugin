@@ -12,9 +12,9 @@
   5. kboard_admin_default_fields 필터 추가
   6. kboard_admin_extends_fields 필터 추가
   7. kboard_skin_fields 필터 추가
-  8. kboard_editor_field 필터 추가
-  9. kboard_field_data 필터 추가
-  10. kboard_fields_get_template 필터 추가
+  8. kboard_field_data 필터 추가
+  9. kboard_fields_get_template 필터 추가
+  10. kboard_content_option_field_separator 필터 추가
   11. kboard_skin_field_before 액션 추가
   12. kboard_skin_field_after 액션 추가
   13. 버그 수정
