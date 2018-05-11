@@ -7,9 +7,9 @@
  */
 final class KBUpgrader {
 	
-	static private $instance;
-	static private $latest_version;
-	static private $sever_host = 'www.cosmosfarm.com';
+	private static $instance;
+	private static $latest_version;
+	private static $sever_host = 'www.cosmosfarm.com';
 	
 	static $CONNECT_LOGIN_STATUS = 'http://www.cosmosfarm.com/accounts/loginstatus';
 	static $CONNECT_VERSION = 'http://www.cosmosfarm.com/wpstore/kboard/version';
@@ -29,7 +29,7 @@ final class KBUpgrader {
 	 * 인스턴스를 반환한다.
 	 * @return KBUpgrader
 	 */
-	static public function getInstance(){
+	public static function getInstance(){
 		if(!self::$instance) self::$instance = new KBUpgrader();
 		return self::$instance;
 	}
@@ -39,7 +39,7 @@ final class KBUpgrader {
 	 * @param string $url
 	 * @return object
 	 */
-	static public function connect($url){
+	public static function connect($url){
 		$response = wp_remote_get($url, array('headers'=>array('Referer'=>$_SERVER['HTTP_HOST']), 'sslverify'=>false));
 		
 		if(is_wp_error($response) || !isset($response['body']) || !$response['body']){
@@ -60,7 +60,7 @@ final class KBUpgrader {
 	 * 서버에서 최신버전을 가져온다.
 	 * @return string
 	 */
-	static public function getLatestVersion(){
+	public static function getLatestVersion(){
 		if(self::$latest_version){
 			return self::$latest_version;
 		}

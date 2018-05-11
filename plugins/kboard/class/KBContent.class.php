@@ -1361,7 +1361,7 @@ class KBContent {
 	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.
 	 */
-	static function autolink($contents){
+	public static function autolink($contents){
 		// http://yongji.tistory.com/28
 		$pattern = "/(http|https|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:[0-9]{2,4})?\/?"; //domain+port
 		$pattern .= "([\.~_0-9a-z-]+\/?)*";// sub roots

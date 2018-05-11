@@ -356,6 +356,46 @@ function kboard_content_filter($to_array=false){
 	return $content_filter;
 }
 
+function kboard_register_skin_dir($skin_name, $dir_name){
+	global $kboard_skin_dir_name;
+	
+	if(!is_array($kboard_skin_dir_name)){
+		$kboard_skin_dir_name = array();
+	}
+	
+	if(!is_array($kboard_skin_dir_name[$skin_name])){
+		$kboard_skin_dir_name[$skin_name] = array();
+	}
+	
+	if(!is_array($kboard_skin_dir_name[$skin_name][$dir_name])){
+		$kboard_skin_dir_name[$skin_name][$dir_name] = array();
+	}
+	
+	$kboard_skin_dir_name[$skin_name][$dir_name] = $dir_name;
+}
+
+function kboard_check_skin_dir($skin_name, $dir_name){
+	global $kboard_skin_dir_name;
+	
+	if(!is_array($kboard_skin_dir_name)){
+		return false;
+	}
+	
+	if(!isset($kboard_skin_dir_name[$skin_name]) || !$kboard_skin_dir_name[$skin_name]){
+		return false;
+	}
+	
+	if(!isset($kboard_skin_dir_name[$skin_name][$dir_name]) || !$kboard_skin_dir_name[$skin_name][$dir_name]){
+		return false;
+	}
+	
+	if($kboard_skin_dir_name[$skin_name][$dir_name] != $dir_name){
+		return false;
+	}
+	
+	return true;
+}
+
 /**
  * 구글 reCAPTCHA 사용 여부를 체크한다.
  * @return boolean

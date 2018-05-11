@@ -7,7 +7,7 @@
  */
 class KBoardSkin {
 	
-	static private $instance;
+	private static $instance;
 	private $active;
 	private $list;
 	
@@ -31,7 +31,7 @@ class KBoardSkin {
 	 * 인스턴스를 반환한다.
 	 * @return KBoardSkin
 	 */
-	static public function getInstance(){
+	public static function getInstance(){
 		if(!self::$instance) self::$instance = new KBoardSkin();
 		return self::$instance;
 	}
