@@ -9,7 +9,7 @@ class KBoardFields {
 	
 	var $board;
 	var $default_fields = array();
-	var $extens_fields = array();
+	var $extends_fields = array();
 	var $skin_fields = array();
 	
 	public function __construct($value){
@@ -151,16 +151,15 @@ class KBoardFields {
 				'field_type' => 'ip',
 				'field_label' => '작성자 아이피 주소',
 				'kboard_extends' => '',
-				'hidden' => '',
 				'default_value' => '',
 				'class' => 'kboard-attr-ip',
 				'show_document' => '',
-				'option_field'=>true,
+				'option_field'=> true,
 				'close_button' => 'yes'
 			)
 		);
 		
-		$this->extens_fields = array(
+		$this->extends_fields = array(
 			'text' => array(
 				'field_type' => 'text',
 				'field_label' => '텍스트 (text / hidden)',
@@ -307,7 +306,7 @@ class KBoardFields {
 	 * @return array
 	 */
 	public function getExtensionFields(){
-		return apply_filters('kboard_admin_extends_fields', $this->extens_fields, $this->board);
+		return apply_filters('kboard_admin_extends_fields', $this->extends_fields, $this->board);
 	}
 	
 	/**
@@ -504,6 +503,13 @@ class KBoardFields {
 		}
 	}
 	
+	/**
+	 * 게시글 본문 페이지에 입력 필드를 표시한다.
+	 * @param string $content
+	 * @param int $content_uid
+	 * @param int $board_id
+	 * @return string
+	 */
 	public static function kboard_content_show_document($content, $content_uid, $board_id){
 		$board = new KBoard($board_id);
 		$field = $board->fields()->getSkinFields();
@@ -511,7 +517,7 @@ class KBoardFields {
 		$document = new KBContent();
 		$document->initWithUID($content_uid);
 		$field_content = '';
-		$separator = apply_filters('kboard_content_show_document_separator', ' ,', $content, $content_uid, $board_id);
+		$separator = apply_filters('kboard_content_option_field_separator', ' ,', $content, $content_uid, $board_id);
 		
 		foreach($field as $key=>$value){
 			if(isset($value['show_document']) && $value['show_document']){

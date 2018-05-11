@@ -39,14 +39,6 @@
 			
 			<div class="kboard-content" itemprop="description">
 				<div class="content-view">
-					<?php if($board->isAdmin()):?>
-					<p>
-						<?php echo __('Name', 'kboard')?> : <?php echo $content->member_display?><br>
-						<?php echo __('Email', 'kboard')?> : <?php echo $content->option->email?><br>
-						<?php echo __('Phone number', 'kboard')?> : <?php echo $content->option->tel?>
-					</p>
-					<?php endif?>
-					
 					<?php echo $content->content?>
 				</div>
 			</div>

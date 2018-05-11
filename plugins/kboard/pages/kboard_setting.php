@@ -726,7 +726,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</ul>
 						</li>
 						<li class="kboard-fields-extension left">
-							<?php $extens_field = $board->fields()->getExtensionFields()?>
+							<?php $extends_field = $board->fields()->getExtensionFields()?>
 							<button type="button" class="kboard-fields-header">
 								확장 필드
 								<span class="fields-up">▲</span>
@@ -734,8 +734,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</button>
 							
 							<ul class="kboard-fields-list kboard-fields-content">
-							<?php if($extens_field):?>
-								<?php foreach($extens_field as $key=>$item):?>
+							<?php if($extends_field):?>
+								<?php foreach($extends_field as $key=>$item):?>
 								<li class="extends <?php echo $key?>">
 									<input type="hidden" value="<?php echo $item['class']?>" class="field_data class">
 									<input type="hidden" class="field_data close_button" value="<?php echo isset($item['close_button'])?$item['close_button']:''?>">
@@ -892,6 +892,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<?php elseif($item['field_type'] == 'author'):?>
 									<div class="attr-row">
 										<div class="description">※ 비회원은 비밀번호를 항상 필수로 입력해야 합니다.</div>
+									</div>
+									<?php elseif($item['field_type'] == 'attach'):?>
+									<div class="attr-row">
+										<div class="description">※ 글 작성 화면에서 표시되지 않는다면 기본설정 페이지에서 최대 첨부파일 개수를 확인해보세요.</div>
 									</div>
 									<?php endif?>
 									
@@ -1067,16 +1071,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="attr-row">
 										<label class="attr-name">사용 예제</label>
 										<div class="attr-value">
-											<div class="">
+											<div class="example">
 											<?php
-											$my_option = '{'.$meta_key.'}';										
+											$option = '{'.$meta_key.'}';										
 											if($board->fields()->isDefaultFields($item['field_type']) == 'extends' || isset($item['option_field']) && $item['option_field']){
-												$my_option = 'option->' . '{\'' . $meta_key . '\'}';
+												$option = 'option->' . '{\'' . $meta_key . '\'}';
+											}
+											if(isset($item['show_document'])){
+												echo esc_html('<?php echo $content->'.$option.'?>');
 											}
 											?>
-											<?php if(isset($item['show_document'])):?>
-												&#60;&#63;php echo $content-><?php echo $my_option?>&#63;&#62;
-											<?php endif?>
 											</div>
 										</div>
 									</div>
