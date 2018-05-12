@@ -58,7 +58,7 @@
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-thumbnail">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
-						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt=""><?php else:?><i class="icon-picture"></i><?php endif?>
+						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
@@ -66,7 +66,7 @@
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->getThumbnail(96, 70)):?>
 								<div class="kboard-mobile-contents">
-									<img src="<?php echo $content->getThumbnail(96, 70)?>" alt="" class="contents-thumbnail">
+									<img src="<?php echo $content->getThumbnail(96, 70)?>" alt="<?php echo esc_attr($content->title)?>" class="contents-thumbnail">
 								</div>
 								<?php endif?>
 								<?php if($content->isNew()):?><span class="kboard-thumbnail-new-notify">New</span><?php endif?>
@@ -96,7 +96,7 @@
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-thumbnail">
 						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
-						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt=""><?php else:?><i class="icon-picture"></i><?php endif?>
+						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
@@ -104,7 +104,7 @@
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->getThumbnail(96, 70)):?>
 								<div class="kboard-mobile-contents">
-									<img src="<?php echo $content->getThumbnail(96, 70)?>" alt="" class="contents-thumbnail">
+									<img src="<?php echo $content->getThumbnail(96, 70)?>" alt="<?php echo esc_attr($content->title)?>" class="contents-thumbnail">
 								</div>
 								<?php endif?>
 								<?php if($content->isNew()):?><span class="kboard-thumbnail-new-notify">New</span><?php endif?>
