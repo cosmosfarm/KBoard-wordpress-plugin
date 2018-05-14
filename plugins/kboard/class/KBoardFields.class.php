@@ -292,7 +292,7 @@ class KBoardFields {
 		
 		if($this->skin_fields){
 			foreach($this->skin_fields as $key=>$item){
-				if(isset($item['meta_key']) && !$item['meta_key']){
+				if(!(isset($item['meta_key']) && $item['meta_key'])){
 					$this->skin_fields[$key]['meta_key'] = $key;
 				}
 			}

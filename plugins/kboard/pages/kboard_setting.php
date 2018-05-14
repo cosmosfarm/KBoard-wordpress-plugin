@@ -622,14 +622,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<div class="attr-row">
 											<label class="attr-name" for="<?php echo $key?>_secret">비밀글</label>
 											<div class="attr-value">
-												<select id="<?php echo $key?>_secret" class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
+												<select id="<?php echo $key?>_secret" class="field_data secret-roles" onchange="kboard_fields_permission_roles_view(this)">
 													<option value="all" selected>제한없음</option>
 													<option value="author">로그인 사용자</option>
 													<option value="roles">직접선택</option>
 												</select>
 												<div class="kboard-permission-read-roles-view kboard-hide">
 													<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-														<label><input type="checkbox" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false" checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+														<label><input type="checkbox" class="field_data secret_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false" checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
 													<?php endforeach?>
 												</div>
 											</div>
@@ -637,14 +637,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<div class="attr-row">
 											<label class="attr-name" for="<?php echo $key?>-notice">공지사항</label>
 											<div class="attr-value">
-												<select id="<?php echo $key?>-notice" class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
+												<select id="<?php echo $key?>-notice" class="field_data notice-roles" onchange="kboard_fields_permission_roles_view(this)">
 													<option value="all" selected>제한없음</option>
 													<option value="author">로그인 사용자</option>
 													<option value="roles">직접선택</option>
 												</select>
 												<div class="kboard-permission-read-roles-view<?php if($item['permission'] != 'roles'):?> kboard-hide<?php endif?>">
 													<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-														<label><input type="checkbox" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['roles'])):?> checked<?php endif?>><?php echo _x($roles_value['name'], 'User role')?></label>
+														<label><input type="checkbox" class="field_data notice_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['roles'])):?> checked<?php endif?>><?php echo _x($roles_value['name'], 'User role')?></label>
 													<?php endforeach?>
 												</div>
 											</div>
@@ -907,15 +907,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										</div>
 									</div>
 									<?php endif?>
-									<?php if(isset($item['meta_key'])):?>
 									<div class="attr-row">
 										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>">메타키</label>
 										<div class="attr-value">
-											<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][meta_key]" id="<?php echo esc_attr($meta_key)?>" class="field_data meta_key" value="<?php echo $item['meta_key']?esc_attr($item['meta_key']):esc_attr($meta_key)?>"<?php if($item['meta_key'] || $meta_key):?> readonly<?php endif?> placeholder="meta_key">
+											<input type="text" name="fields[<?php echo esc_attr($meta_key)?>][meta_key]" id="<?php echo esc_attr($meta_key)?>" class="field_data meta_key" value="<?php echo $meta_key?>"<?php if($meta_key):?> readonly<?php endif?> placeholder="meta_key">
 										</div>
 										<div class="description">※ 입력하지 않으면 자동으로 설정되며 저장 이후에는 값을 변경할 수 없습니다.</div>
 									</div>
-									<?php endif?>
 									<?php if(isset($item['row'])):?>
 										<?php if($board->fields()->ExistValue($item['row'])):?>
 											<?php foreach($item['row'] as $option_key=>$option_value):?>
@@ -1526,8 +1524,16 @@ jQuery(document).ready(function(){
 			}
 			
 			jQuery(li.item).find('.field_data.roles').attr('name', 'fields['+uniq_id+'][permission]');
+			jQuery(li.item).find('.field_data.secret-roles').attr('name', 'fields['+uniq_id+'][secret_permission]');
+			jQuery(li.item).find('.field_data.notice-roles').attr('name', 'fields['+uniq_id+'][notice_permission]');
 			jQuery(li.item).find('.roles_checkbox').each(function(index, element){
 				jQuery(element).attr('name', 'fields['+uniq_id+'][roles][]');
+			});
+			jQuery(li.item).find('.secret_checkbox').each(function(index, element){
+				jQuery(element).attr('name', 'fields['+uniq_id+'][secret][]');
+			});
+			jQuery(li.item).find('.notice_checkbox').each(function(index, element){
+				jQuery(element).attr('name', 'fields['+uniq_id+'][notice][]');
 			});
 			
 			jQuery(li.item).addClass(uniq_id);
