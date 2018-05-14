@@ -56,7 +56,7 @@
 				<tr class="kboard-list-notice<?php if($content->uid == kboard_uid()):?> kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-title">
-						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 							<div class="kboard-customer-cut-strings">
 								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
 								<?php if($content->isNew()):?><span class="kboard-customer-new-notify">New</span><?php endif?>
@@ -84,7 +84,7 @@
 				<tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-title">
-						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 							<div class="kboard-customer-cut-strings">
 								<?php if($content->isNew()):?><span class="kboard-customer-new-notify">New</span><?php endif?>
 								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>

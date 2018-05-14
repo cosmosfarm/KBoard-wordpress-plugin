@@ -20,7 +20,7 @@ else{
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Document', 'kboard')?></a>
+				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-thumbnail-button-small"><?php echo __('Document', 'kboard')?></a>
 				<?php endif?>
 				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
 			</div>

@@ -15,13 +15,13 @@
 		<input type="hidden" name="password" value="<?php echo uniqid()?>">
 		
 		<?php foreach($board->fields()->getSkinFields() as $key=>$field):?>
-			<?php echo $board->fields()->getTemplate($key, $field, $content)?>
+			<?php echo $board->fields()->getTemplate($field, $content)?>
 		<?php endforeach?>
 		
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-contact-form-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-contact-form-button-small"><?php echo __('Back', 'kboard')?></a>
 				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-contact-form-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php elseif($board->isWriter()):?>
 				<button type="submit" class="kboard-contact-form-button-large"><?php echo __('Send', 'kboard')?></button>

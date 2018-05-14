@@ -12,13 +12,13 @@
 		<input type="hidden" name="user_id" value="<?php echo get_current_user_id()?>">
 		
 		<?php foreach($board->fields()->getSkinFields() as $key=>$field):?>
-			<?php echo $board->fields()->getTemplate($key, $field, $content)?>
+			<?php echo $board->fields()->getTemplate($field, $content)?>
 		<?php endforeach?>
 		
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-thumbnail-button-small"><?php echo __('Back', 'kboard')?></a>
 				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php else:?>
 				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Back', 'kboard')?></a>

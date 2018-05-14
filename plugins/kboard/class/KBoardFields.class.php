@@ -22,6 +22,7 @@ class KBoardFields {
 				'field_type' => 'title',
 				'field_label' => __('Title', 'kboard'),
 				'class' => 'kboard-attr-title',
+				'meta_key' => 'title',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -34,6 +35,7 @@ class KBoardFields {
 				'field_type' => 'option',
 				'field_label' => __('Options', 'kboard'),
 				'class' => 'kboard-attr-option',
+				'meta_key' => 'option',
 				'field_name' => '',
 				'secret_permission' => '',
 				'secret' => '',
@@ -46,6 +48,7 @@ class KBoardFields {
 				'field_type' => 'author',
 				'field_label' => '작성자 이름',
 				'class' => 'kboard-attr-author',
+				'meta_key' => 'author',
 				'field_name' => '',
 				'permission' => '',
 				'default_value' => '',
@@ -57,6 +60,7 @@ class KBoardFields {
 				'field_type' => 'category1',
 				'field_label' => __('Category', 'kboard').'1',
 				'class' => 'kboard-attr-category1',
+				'meta_key' => 'category1',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -69,6 +73,7 @@ class KBoardFields {
 				'field_type' => 'category2',
 				'field_label' => __('Category', 'kboard').'2',
 				'class' => 'kboard-attr-category2',
+				'meta_key' => 'category2',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -81,6 +86,7 @@ class KBoardFields {
 				'field_type' => 'tree_category',
 				'field_label' => '계층형 ' . __('Category', 'kboard'),
 				'class' => 'kboard-attr-tree-category',
+				'meta_key' => 'tree_category',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -92,6 +98,7 @@ class KBoardFields {
 				'field_type' => 'captcha',
 				'field_label' => '보안코드 (캡차)',
 				'class' => 'kboard-attr-captcha',
+				'meta_key' => 'captcha',
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -100,6 +107,7 @@ class KBoardFields {
 				'field_label' => '내용',
 				'field_name' => '',
 				'class' => 'kboard-attr-content',
+				'meta_key' => 'content',
 				'required' => '',
 				'placeholder' => '',
 				'description' => '',
@@ -109,6 +117,7 @@ class KBoardFields {
 				'field_type' => 'media',
 				'field_label' => __('Photos', 'kboard'),
 				'class' => 'kboard-attr-media',
+				'meta_key' => 'media',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -119,6 +128,7 @@ class KBoardFields {
 				'field_type' => 'thumbnail',
 				'field_label' => __('Thumbnail', 'kboard'),
 				'class' => 'kboard-attr-thumbnail',
+				'meta_key' => 'thumbnail',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -129,6 +139,7 @@ class KBoardFields {
 				'field_type' => 'attach',
 				'field_label' => __('Attachment', 'kboard'),
 				'class' => 'kboard-attr-attach',
+				'meta_key' => 'attach',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
@@ -139,6 +150,7 @@ class KBoardFields {
 				'field_type' => 'search',
 				'field_label' => __('WP Search', 'kboard'),
 				'class' => 'kboard-attr-search',
+				'meta_key' => 'search',
 				'hidden' => '',
 				'field_name' => '',
 				'permission' => '',
@@ -153,6 +165,7 @@ class KBoardFields {
 				'kboard_extends' => '',
 				'default_value' => '',
 				'class' => 'kboard-attr-ip',
+				'meta_key' => 'ip',
 				'show_document' => '',
 				'option_field'=> true,
 				'close_button' => 'yes'
@@ -276,6 +289,14 @@ class KBoardFields {
 		else{
 			$this->skin_fields = unserialize($skin_fields);
 		}
+		
+		if($this->skin_fields){
+			foreach($this->skin_fields as $key=>$item){
+				if(isset($item['meta_key']) && !$item['meta_key']){
+					$this->skin_fields[$key]['meta_key'] = $key;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -350,19 +371,19 @@ class KBoardFields {
 	 * @param KBContent $content
 	 * @return string
 	 */
-	public function getTemplate($key, $field, $content=''){
+	public function getTemplate($field, $content=''){
 		$template = '';
 		$permission = (isset($field['permission'])&&$field['permission']) ? $field['permission'] : '';
 		$roles = (isset($field['roles'])&&$field['roles']) ? $field['roles'] : '';
+		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : '';
 		
-		if($this->isUseFields($permission, $roles)){
+		if($this->isUseFields($permission, $roles) && $meta_key){
 			if(!$content){
 				$content = new KBContent();
 			}
 			
 			$field = apply_filters('kboard_get_template_field_data', $field, $content, $this->board);
 			
-			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
 			$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
 			$required = (isset($field['required']) && $field['required']) ? 'required' : '';
 			$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
@@ -443,7 +464,7 @@ class KBoardFields {
 	 * @param array $row
 	 * @return boolean
 	 */
-	public function getRow($row){
+	public function ExistValue($row){
 		foreach($row as $key=>$item){
 			if(isset($item['label']) && $item['label']){
 				return true;

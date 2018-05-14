@@ -2,7 +2,7 @@
 <tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 	<td class="kboard-list-uid"></td>
 	<td class="kboard-list-title" style="padding-left:<?php echo ($depth+1)*5?>px">
-		<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+		<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 			<div class="kboard-customer-cut-strings">
 				<img src="<?php echo $skin_path?>/images/icon-reply.png" alt="">
 				<?php if($content->isNew()):?><span class="kboard-customer-new-notify">New</span><?php endif?>

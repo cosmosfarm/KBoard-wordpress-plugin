@@ -917,7 +917,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									</div>
 									<?php endif?>
 									<?php if(isset($item['row'])):?>
-										<?php if($board->fields()->getRow($item['row'])):?>
+										<?php if($board->fields()->ExistValue($item['row'])):?>
 											<?php foreach($item['row'] as $option_key=>$option_value):?>
 											<?php if(isset($option_value['label']) && $option_value['label']):?>
 												<div class="attr-row option-wrap">

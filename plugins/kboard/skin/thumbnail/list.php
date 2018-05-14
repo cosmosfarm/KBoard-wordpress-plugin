@@ -57,12 +57,12 @@
 				<tr class="kboard-list-notice<?php if($content->uid == kboard_uid()):?> kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-thumbnail">
-						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
-						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->getThumbnail(96, 70)):?>
 								<div class="kboard-mobile-contents">
@@ -95,12 +95,12 @@
 				<tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-thumbnail">
-						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
-						<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toString()?>">
+						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->getThumbnail(96, 70)):?>
 								<div class="kboard-mobile-contents">
