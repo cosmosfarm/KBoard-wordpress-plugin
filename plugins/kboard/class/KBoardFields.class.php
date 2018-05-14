@@ -54,7 +54,7 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'description' => '',
-				'close_button' => 'yes'
+				'close_button' => ''
 			),
 			'category1' => array(
 				'field_type' => 'category1',
