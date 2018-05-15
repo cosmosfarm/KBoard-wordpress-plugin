@@ -36,7 +36,7 @@ class KBContentList {
 	var $row;
 	var $is_loop_start;
 	var $is_first;
-	var $is_rss;
+	var $is_rss = false;
 	var $is_latest = false;
 	var $within_days = 0;
 	
@@ -480,7 +480,7 @@ class KBContentList {
 		
 		$this->is_loop_start = true;
 		
-		if($this->board->meta->list_sort_numbers == 'asc'){
+		if($this->board && $this->board->meta->list_sort_numbers == 'asc'){
 			$this->index = $offset + 1;
 		}
 		else{
@@ -589,7 +589,7 @@ class KBContentList {
 		
 		$this->is_loop_start = true;
 		
-		if($this->board->meta->list_sort_numbers == 'asc'){
+		if($this->board && $this->board->meta->list_sort_numbers == 'asc'){
 			$this->index = 1;
 		}
 		else{
@@ -642,7 +642,7 @@ class KBContentList {
 		
 		$this->is_loop_start = true;
 		
-		if($this->board->meta->list_sort_numbers == 'asc'){
+		if($this->board && $this->board->meta->list_sort_numbers == 'asc'){
 			$this->index = $offset + 1;
 		}
 		else{
@@ -661,8 +661,8 @@ class KBContentList {
 		$this->row = current($this->resource);
 		
 		if($this->row){
-			if(!$this->is_loop_start && !$this->is_rss){
-				if($this->board->meta->list_sort_numbers == 'asc'){
+			if(!$this->is_loop_start){
+				if($this->board && $this->board->meta->list_sort_numbers == 'asc'){
 					$this->index++;
 				}
 				else{
@@ -738,7 +738,7 @@ class KBContentList {
 	/**
 	 * 공지사항 리스트에서 다음 게시물을 반환한다.
 	 * @deprecated
-	 * @see ContentList::hasNextNotice()
+	 * @see KBContentList::hasNextNotice()
 	 * @return KBContent
 	 */
 	public function hasNoticeNext(){
@@ -747,7 +747,7 @@ class KBContentList {
 	
 	/**
 	 * 공지사항 리스트에서 다음 게시물을 반환한다.
-	 * @return Content
+	 * @return KBContent
 	 */
 	public function hasNextNotice(){
 		if(!$this->resource_notice) $this->getNoticeList();

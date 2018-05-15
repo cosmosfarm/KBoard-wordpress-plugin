@@ -24,30 +24,30 @@ class KBContentListTable extends WP_List_Table {
 		$hidden = array();
 		$sortable = array();
 		$this->_column_headers = array($columns, $hidden, $sortable);
-
+		
 		$this->board_list = new KBoardList();
 		$this->board_list->init();
-		$this->active_admin_board =  $this->board_list->getActiveAdmin();
+		$this->active_admin_board = $this->board_list->getActiveAdmin();
 		
 		$keyword = isset($_GET['s'])?esc_attr($_GET['s']):'';
-
+		
 		$list = new KBContentList($this->filter_board_id);
 		$list->rpp = 20;
 		$list->page = $this->get_pagenum();
 		$list->status = $this->filter_view;
 		$list->initWithKeyword($keyword);
 		$this->items = $list->resource;
-
+		
 		$this->set_pagination_args(array('total_items'=>$list->total, 'per_page'=>$list->rpp));
 	}
-
+	
 	public function get_table_classes(){
 		$classes = parent::get_table_classes();
 		$classes[] = 'kboard';
 		$classes[] = 'kboard-content-list';
 		return $classes;
 	}
-
+	
 	public function get_views(){
 		global $wpdb;
 		
@@ -72,39 +72,38 @@ class KBContentListTable extends WP_List_Table {
 
 		return $views;
 	}
-
+	
 	public function no_items(){
 		echo __('No documents found.', 'kboard');
 	}
-
+	
 	public function get_columns(){
 		return array(
-				'cb' => '<input type="checkbox">',
-				'board' => __('Forum', 'kboard'),
-				'title' => __('Title', 'kboard'),
-				'member' => __('Author', 'kboard'),
-				'view' => __('Views', 'kboard'),
-				'secret' => __('Secret', 'kboard'),
-				'notice' => __('Notice', 'kboard'),
-				'date' => __('Date', 'kboard'),
-				'status' => __('Status', 'kboard'),
+			'cb' => '<input type="checkbox">',
+			'board' => __('Forum', 'kboard'),
+			'title' => __('Title', 'kboard'),
+			'member' => __('Author', 'kboard'),
+			'view' => __('Views', 'kboard'),
+			'secret' => __('Secret', 'kboard'),
+			'notice' => __('Notice', 'kboard'),
+			'date' => __('Date', 'kboard'),
+			'status' => __('Status', 'kboard')
 		);
 	}
-
-	function get_bulk_actions(){
+	
+	public function get_bulk_actions(){
 		if($this->filter_view == 'trash'){
 			return array(
-					'published' => __('Restore', 'kboard'),
-					'delete' => __('Delete Permanently', 'kboard'),
+				'published' => __('Restore', 'kboard'),
+				'delete' => __('Delete Permanently', 'kboard')
 			);
 		}
 		return array(
-				'trash' => __('Move to Trash', 'kboard'),
+			'trash' => __('Move to Trash', 'kboard')
 		);
 	}
-
-	public function display_tablenav($which){
-		?>
+	
+	public function display_tablenav($which){ ?>
 		<div class="tablenav <?php echo esc_attr($which)?>">
 			<div class="alignleft actions bulkactions"><?php $this->bulk_actions($which)?></div>
 			<?php if($which=='top'):?>
@@ -126,12 +125,10 @@ class KBContentListTable extends WP_List_Table {
 			?>
 			<br class="clear">
 		</div>
-	<?php
-	}
+	<?php }
 	
 	public function display_rows(){
 		foreach($this->items as $key=>$item){
-			
 			if(in_array($item->board_id, $this->active_admin_board)){
 				$item->url = admin_url("admin.php?page=kboard_admin_view_{$item->board_id}&mod=document&uid={$item->uid}");
 			}
@@ -139,7 +136,6 @@ class KBContentListTable extends WP_List_Table {
 				$url = new KBUrl();
 				$item->url = $url->getDocumentRedirect($item->uid);
 			}
-			
 			$this->single_row($item);
 		}
 	}
@@ -200,8 +196,7 @@ class KBContentListTable extends WP_List_Table {
 		echo '</tr>';
 	}
 	
-	public function search_box($text, $input_id){
-	?>
+	public function search_box($text, $input_id){ ?>
 	<p class="search-box">
 		<input type="search" id="<?php echo $input_id?>" name="s" value="<?php _admin_search_query()?>">
 		<?php submit_button($text, 'button', false, false, array('id'=>'search-submit'))?>

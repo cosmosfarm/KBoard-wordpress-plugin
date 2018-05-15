@@ -915,7 +915,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<div class="description">※ 입력하지 않으면 자동으로 설정되며 저장 이후에는 값을 변경할 수 없습니다.</div>
 									</div>
 									<?php if(isset($item['row'])):?>
-										<?php if($board->fields()->ExistValue($item['row'])):?>
+										<?php if($board->fields()->valueExists($item['row'])):?>
 											<?php foreach($item['row'] as $option_key=>$option_value):?>
 											<?php if(isset($option_value['label']) && $option_value['label']):?>
 												<div class="attr-row option-wrap">

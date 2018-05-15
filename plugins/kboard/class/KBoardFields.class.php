@@ -460,11 +460,11 @@ class KBoardFields {
 	}
 	
 	/**
-	 *
+	 * 저장된 값이 있는지 체크한다.
 	 * @param array $row
 	 * @return boolean
 	 */
-	public function ExistValue($row){
+	public function valueExists($row){
 		foreach($row as $key=>$item){
 			if(isset($item['label']) && $item['label']){
 				return true;
@@ -531,7 +531,7 @@ class KBoardFields {
 	 * @param int $board_id
 	 * @return string
 	 */
-	public static function document_add_option_value($content, $content_uid, $board_id){
+	public static function documentAddOptionValue($content, $content_uid, $board_id){
 		$board = new KBoard($board_id);
 		$skin_fields = $board->fields()->getSkinFields();
 		//$option = new KBContentOption($content_uid);

@@ -407,7 +407,7 @@ class KBoardBuilder {
 		if($allow_document){
 			$content->increaseView();
 			
-			add_filter('kboard_content', array('KBoardFields', 'document_add_option_value'), 10, 3);
+			add_filter('kboard_content', array('KBoardFields', 'documentAddOptionValue'), 10, 3);
 			
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){
