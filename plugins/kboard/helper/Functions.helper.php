@@ -362,7 +362,7 @@ function kboard_content_filter($to_array=false){
  * @param string $current_name
  */
 function kboard_register_current_skin($skin_name, $current_name){
-	if(!is_array($GLOBALS['KBOARD']['skin_dir'])){
+	if(!isset($GLOBALS['KBOARD']['skin_dir']) || !is_array($GLOBALS['KBOARD']['skin_dir'])){
 		$GLOBALS['KBOARD']['skin_dir'] = array();
 	}
 	if(!isset($GLOBALS['KBOARD']['skin_dir'][$skin_name]) || !is_array($GLOBALS['KBOARD']['skin_dir'][$skin_name])){
@@ -378,7 +378,7 @@ function kboard_register_current_skin($skin_name, $current_name){
  * @return boolean
  */
 function kboard_check_current_skin($skin_name, $current_name){
-	if(!is_array($GLOBALS['KBOARD']['skin_dir'])){
+	if(!isset($GLOBALS['KBOARD']['skin_dir']) || !is_array($GLOBALS['KBOARD']['skin_dir'])){
 		return false;
 	}
 	if(!isset($GLOBALS['KBOARD']['skin_dir'][$skin_name]) || !is_array($GLOBALS['KBOARD']['skin_dir'][$skin_name])){

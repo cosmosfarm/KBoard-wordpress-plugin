@@ -487,7 +487,6 @@ class KBoardFields {
 		else if($value == $label || $value == '1'){
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -534,10 +533,8 @@ class KBoardFields {
 	public static function documentAddOptionValue($content, $content_uid, $board_id){
 		$board = new KBoard($board_id);
 		$skin_fields = $board->fields()->getSkinFields();
-		//$option = new KBContentOption($content_uid);
 		$document = new KBContent();
 		$document->initWithUID($content_uid);
-		
 		$option_value_list = array();
 		
 		foreach($skin_fields as $key=>$field){
@@ -562,7 +559,6 @@ class KBoardFields {
 		}
 		
 		$content = '<div class="kboard-document-add-option-value-wrap">' . implode('', $option_value_list) . '</div>' . $content;
-		
 		return $content;
 	}
 }

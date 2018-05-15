@@ -56,19 +56,19 @@ class KBContentListTable extends WP_List_Table {
 		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE 1");
 		$class = !$this->filter_view ? ' class="current"' : '';
-		$views['all'] = '<a href="' . admin_url('admin.php?page=kboard_content_list') . '"' . $class . '>' . __('All', 'kboard') . "<span class=\"count\">({$count})</span></a>";
+		$views['all'] = '<a href="' . admin_url('admin.php?page=kboard_content_list') . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='' OR `status` IS NULL");
 		$class = $this->filter_view == 'published' ? ' class="current"' : '';
-		$views['published'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=published') . '"' . $class . '>' . __('Published', 'kboard') . "<span class=\"count\">({$count})</span></a>";
+		$views['published'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=published') . '"' . $class . '>' . __('Published', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='pending_approval'");
 		$class = $this->filter_view == 'pending_approval' ? ' class="current"' : '';
-		$views['pending_approval'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=pending_approval') . '"' . $class . '>' . __('Pending approval', 'kboard') . "<span class=\"count\">({$count})</span></a>";
+		$views['pending_approval'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=pending_approval') . '"' . $class . '>' . __('Pending approval', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='trash'");
 		$class = $this->filter_view == 'trash' ? ' class="current"' : '';
-		$views['trash'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=trash') . '"' . $class . '>' . __('Trash', 'kboard') . "<span class=\"count\">({$count})</span></a>";
+		$views['trash'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=trash') . '"' . $class . '>' . __('Trash', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 
 		return $views;
 	}
