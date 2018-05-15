@@ -356,43 +356,40 @@ function kboard_content_filter($to_array=false){
 	return $content_filter;
 }
 
-function kboard_register_skin_dir($skin_name, $dir_name){
-	global $kboard_skin_dir_name;
-	
-	if(!is_array($kboard_skin_dir_name)){
-		$kboard_skin_dir_name = array();
+/**
+ * 사용중인 스킨을 등록한다.
+ * @param string $skin_name
+ * @param string $current_name
+ */
+function kboard_register_current_skin($skin_name, $current_name){
+	if(!is_array($GLOBALS['KBOARD']['skin_dir'])){
+		$GLOBALS['KBOARD']['skin_dir'] = array();
 	}
-	
-	if(!is_array($kboard_skin_dir_name[$skin_name])){
-		$kboard_skin_dir_name[$skin_name] = array();
+	if(!isset($GLOBALS['KBOARD']['skin_dir'][$skin_name]) || !is_array($GLOBALS['KBOARD']['skin_dir'][$skin_name])){
+		$GLOBALS['KBOARD']['skin_dir'][$skin_name] = array();
 	}
-	
-	if(!is_array($kboard_skin_dir_name[$skin_name][$dir_name])){
-		$kboard_skin_dir_name[$skin_name][$dir_name] = array();
-	}
-	
-	$kboard_skin_dir_name[$skin_name][$dir_name] = $dir_name;
+	$GLOBALS['KBOARD']['skin_dir'][$skin_name][$current_name] = $current_name;
 }
 
-function kboard_check_skin_dir($skin_name, $dir_name){
-	global $kboard_skin_dir_name;
-	
-	if(!is_array($kboard_skin_dir_name)){
+/**
+ * 등록된 스킨이 맞는지 체크한다.
+ * @param string $skin_name
+ * @param string $current_name
+ * @return boolean
+ */
+function kboard_check_current_skin($skin_name, $current_name){
+	if(!is_array($GLOBALS['KBOARD']['skin_dir'])){
 		return false;
 	}
-	
-	if(!isset($kboard_skin_dir_name[$skin_name]) || !$kboard_skin_dir_name[$skin_name]){
+	if(!isset($GLOBALS['KBOARD']['skin_dir'][$skin_name]) || !is_array($GLOBALS['KBOARD']['skin_dir'][$skin_name])){
 		return false;
 	}
-	
-	if(!isset($kboard_skin_dir_name[$skin_name][$dir_name]) || !$kboard_skin_dir_name[$skin_name][$dir_name]){
+	if(!isset($GLOBALS['KBOARD']['skin_dir'][$skin_name][$current_name]) || !$GLOBALS['KBOARD']['skin_dir'][$skin_name][$current_name]){
 		return false;
 	}
-	
-	if($kboard_skin_dir_name[$skin_name][$dir_name] != $dir_name){
+	if($GLOBALS['KBOARD']['skin_dir'][$skin_name][$current_name] != $current_name){
 		return false;
 	}
-	
 	return true;
 }
 
