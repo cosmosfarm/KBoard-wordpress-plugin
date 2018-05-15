@@ -36,6 +36,7 @@ class KBContentList {
 	var $row;
 	var $is_loop_start;
 	var $is_first;
+	var $is_rss;
 	var $is_latest = false;
 	var $within_days = 0;
 	
@@ -114,6 +115,7 @@ class KBContentList {
 		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		$wpdb->flush();
 		$this->index = $this->total;
+		$this->is_rss = true;
 		return $this;
 	}
 	
@@ -591,7 +593,7 @@ class KBContentList {
 			$this->index = 1;
 		}
 		else{
-			$this->total;$this->total - $offset;
+			$this->index = $this->total - $offset;
 		}
 		
 		return $this->resource;
@@ -659,7 +661,7 @@ class KBContentList {
 		$this->row = current($this->resource);
 		
 		if($this->row){
-			if(!$this->is_loop_start){
+			if(!$this->is_loop_start && !$this->is_rss){
 				if($this->board->meta->list_sort_numbers == 'asc'){
 					$this->index++;
 				}
