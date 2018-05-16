@@ -300,7 +300,13 @@ class KBContent {
 		$data['status'] = isset($data['status'])?sanitize_key($data['status']):'';
 		$data['password'] = isset($data['password'])?$data['password']:'';
 		
-		if(!$data['member_display']) $data['member_display'] = __('Anonymous', 'kboard');
+		if(!$data['member_display']){
+			$data['member_display'] = __('Anonymous', 'kboard');
+		}
+		
+		if(!in_array($data['status'], array('trash', 'pending_approval'))){
+			$data['status'] = '';
+		}
 		
 		// 불필요한 데이터 필터링
 		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
@@ -395,6 +401,14 @@ class KBContent {
 			if(isset($data['thumbnail_name'])) $data['thumbnail_name'] = sanitize_text_field($data['thumbnail_name']);
 			if(isset($data['status'])) $data['status'] = sanitize_key($data['status']);
 			if(isset($data['password'])) $data['password'] = $data['password'];
+			
+			if(isset($data['member_display']) && !$data['member_display']){
+				$data['member_display'] = __('Anonymous', 'kboard');
+			}
+			
+			if(isset($data['status']) && !in_array($data['status'], array('trash', 'pending_approval'))){
+				$data['status'] = '';
+			}
 			
 			// 불필요한 데이터 필터링
 			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
