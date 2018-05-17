@@ -169,13 +169,15 @@ add_action('admin_notices', 'kboard_comments_admin_notices');
 function kboard_comments_admin_notices(){
 	if(current_user_can('activate_plugins')){
 		
-		// 관리자 알림 시작
-		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
-		
-		$upgrader = KBUpgrader::getInstance();
-		$vsersion = $upgrader->getLatestVersion()->comments;
-		if(version_compare(KBOARD_COMMNETS_VERSION, $vsersion, '<')){
-			echo KBAdminNotices::get_comments_update_notice_message_message($vsersion);
+		if(!get_option('kboard_updates_notify_disabled')){
+			// 관리자 알림 시작
+			include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
+			
+			$upgrader = KBUpgrader::getInstance();
+			$vsersion = $upgrader->getLatestVersion()->comments;
+			if(version_compare(KBOARD_COMMNETS_VERSION, $vsersion, '<')){
+				echo KBAdminNotices::get_comments_update_notice_message_message($vsersion);
+			}
 		}
 	}
 }

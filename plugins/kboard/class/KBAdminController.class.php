@@ -549,16 +549,18 @@ class KBAdminController {
 			
 			$_POST = stripslashes_deep($_POST);
 			
-			$option_name = isset($_POST['option'])?$_POST['option']:'';
-			$new_value = isset($_POST['value'])?$_POST['value']:'';
-			if(!$new_value){
-				delete_option($option_name);
-			}
-			else if(get_option($option_name) !== false){
-				update_option($option_name, $new_value, 'yes');
-			}
-			else{
-				add_option($option_name, $new_value, '', 'yes');
+			$option = isset($_POST['option'])?$_POST['option']:array();
+			
+			foreach($option as $name=>$value){
+				if(!$value){
+					delete_option($name);
+				}
+				else if(get_option($name) !== false){
+					update_option($name, $value, 'yes');
+				}
+				else{
+					add_option($name, $value, '', 'yes');
+				}
 			}
 		}
 		exit;
@@ -595,6 +597,8 @@ class KBAdminController {
 	 * 계층형 카테고리 순서 변경
 	 */
 	public function tree_category_sortable(){
+		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		
 		$tree_category_serialize = isset($_POST['tree_category_serialize'])?$_POST['tree_category_serialize']:'';
 		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
 		

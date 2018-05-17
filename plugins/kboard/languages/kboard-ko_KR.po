@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2018-05-04 15:20+0900\n"
-"PO-Revision-Date: 2018-05-04 15:21+0900\n"
+"POT-Creation-Date: 2018-05-17 22:14+0900\n"
+"PO-Revision-Date: 2018-05-17 22:14+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -33,36 +33,36 @@ msgstr "KBoard 댓글 포인트"
 msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "KBoard 댓글 포인트를 관리합니다."
 
-#: class/KBAdminController.class.php:29 class/KBAdminController.class.php:213
-#: class/KBAdminController.class.php:240 class/KBAdminController.class.php:277
-#: class/KBAdminController.class.php:319 class/KBAdminController.class.php:382
-#: class/KBAdminController.class.php:569 class/KBController.class.php:54
-#: class/KBController.class.php:59 class/KBController.class.php:63
-#: class/KBController.class.php:68 class/KBController.class.php:115
-#: class/KBController.class.php:516 class/KBController.class.php:519
-#: class/KBController.class.php:532 class/KBController.class.php:535
-#: class/KBController.class.php:571 class/KBController.class.php:603
-#: class/KBController.class.php:670 class/KBController.class.php:725
-#: class/KBController.class.php:763 class/KBController.class.php:780
-#: class/KBTemplate.class.php:105 class/KBTemplate.class.php:111
-#: class/KBoardBuilder.class.php:489 class/KBoardBuilder.class.php:494
-#: class/KBoardBuilder.class.php:507 class/KBoardBuilder.class.php:512
-#: class/KBoardBuilder.class.php:528 class/KBoardBuilder.class.php:613
-#: class/KBoardBuilder.class.php:616 class/KBoardBuilder.class.php:922
-#: class/KBoardBuilder.class.php:927 index.php:354 index.php:680 index.php:886
-#: index.php:919
+#: class/KBAdminController.class.php:29 class/KBAdminController.class.php:215
+#: class/KBAdminController.class.php:242 class/KBAdminController.class.php:279
+#: class/KBAdminController.class.php:321 class/KBAdminController.class.php:384
+#: class/KBAdminController.class.php:573 class/KBAdminController.class.php:600
+#: class/KBController.class.php:54 class/KBController.class.php:59
+#: class/KBController.class.php:63 class/KBController.class.php:68
+#: class/KBController.class.php:115 class/KBController.class.php:516
+#: class/KBController.class.php:519 class/KBController.class.php:532
+#: class/KBController.class.php:535 class/KBController.class.php:571
+#: class/KBController.class.php:603 class/KBController.class.php:670
+#: class/KBController.class.php:725 class/KBController.class.php:763
+#: class/KBController.class.php:780 class/KBTemplate.class.php:107
+#: class/KBTemplate.class.php:113 class/KBoardBuilder.class.php:489
+#: class/KBoardBuilder.class.php:494 class/KBoardBuilder.class.php:507
+#: class/KBoardBuilder.class.php:512 class/KBoardBuilder.class.php:528
+#: class/KBoardBuilder.class.php:613 class/KBoardBuilder.class.php:616
+#: class/KBoardBuilder.class.php:922 class/KBoardBuilder.class.php:927
+#: index.php:784 index.php:998 index.php:1031
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
-#: class/KBAdminController.class.php:256
+#: class/KBAdminController.class.php:258
 msgid "복원파일의 데이터로 복구 되었습니다."
 msgstr "복원파일의 데이터로 복구 되었습니다."
 
-#: class/KBAdminController.class.php:259
+#: class/KBAdminController.class.php:261
 msgid "올바른 복원파일이 아닙니다."
 msgstr "올바른 복원파일이 아닙니다."
 
-#: class/KBAdminController.class.php:263
+#: class/KBAdminController.class.php:265
 msgid "파일 업로드에 실패 했습니다."
 msgstr "파일 업로드에 실패 했습니다."
 
@@ -96,20 +96,20 @@ msgstr "KBoard 신규등록"
 msgid "Go to Homepage"
 msgstr "홈페이지로 이동"
 
-#: class/KBContent.class.php:303
+#: class/KBContent.class.php:304 class/KBContent.class.php:406
 msgid "Anonymous"
 msgstr "익명"
 
-#: class/KBContent.class.php:529 class/KBContent.class.php:569
-#: class/KBContent.class.php:662
+#: class/KBContent.class.php:543 class/KBContent.class.php:583
+#: class/KBContent.class.php:676
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "업로드 경로가 없습니다. 게시판 ID를 입력하고 초기화 해주세요."
 
-#: class/KBContent.class.php:766 pages/kboard_setting.php:1343
+#: class/KBContent.class.php:780 pages/kboard_setting.php:1333
 msgid "Deleted increment points"
 msgstr "글삭제 증가 포인트"
 
-#: class/KBContent.class.php:778 pages/kboard_setting.php:1351
+#: class/KBContent.class.php:792 pages/kboard_setting.php:1341
 msgid "Deleted decrease points"
 msgstr "글삭제 감소 포인트"
 
@@ -158,15 +158,15 @@ msgstr "글삭제 감소 포인트"
 msgid "All"
 msgstr "전체"
 
-#: class/KBContentListTable.class.php:63 class/KBContentListTable.class.php:194
+#: class/KBContentListTable.class.php:63 class/KBContentListTable.class.php:190
 msgid "Published"
 msgstr "발행됨"
 
-#: class/KBContentListTable.class.php:67 class/KBContentListTable.class.php:195
+#: class/KBContentListTable.class.php:67 class/KBContentListTable.class.php:191
 msgid "Pending approval"
 msgstr "승인 대기중"
 
-#: class/KBContentListTable.class.php:71 class/KBContentListTable.class.php:196
+#: class/KBContentListTable.class.php:71 class/KBContentListTable.class.php:192
 msgid "Trash"
 msgstr "휴지통"
 
@@ -190,17 +190,12 @@ msgid "Title"
 msgstr "제목"
 
 #: class/KBContentListTable.class.php:85 skin/avatar/document.php:27
-#: skin/avatar/editor-fields.php:17 skin/avatar/editor-fields.php:18
 #: skin/avatar/list.php:48 skin/avatar/list.php:142
 #: skin/contact-form/admin-document.php:27 skin/contact-form/admin-list.php:48
-#: skin/contact-form/admin-list.php:133 skin/contact-form/editor-fields.php:17
-#: skin/contact-form/editor-fields.php:18 skin/customer/document.php:27
-#: skin/customer/editor-fields.php:17 skin/customer/editor-fields.php:18
+#: skin/contact-form/admin-list.php:133 skin/customer/document.php:27
 #: skin/customer/list.php:48 skin/customer/list.php:134
-#: skin/default/document.php:27 skin/default/editor-fields.php:17
-#: skin/default/editor-fields.php:18 skin/default/list.php:48
+#: skin/default/document.php:27 skin/default/list.php:48
 #: skin/default/list.php:134 skin/thumbnail/document.php:27
-#: skin/thumbnail/editor-fields.php:17 skin/thumbnail/editor-fields.php:18
 #: skin/thumbnail/list.php:49 skin/thumbnail/list.php:155
 msgid "Author"
 msgstr "작성자"
@@ -220,27 +215,25 @@ msgstr "작성자"
 msgid "Views"
 msgstr "조회"
 
-#: class/KBContentListTable.class.php:87 skin/avatar/editor-fields.php:126
+#: class/KBContentListTable.class.php:87 skin/avatar/editor-fields.php:121
 #: skin/avatar/latest.php:16 skin/avatar/list.php:62 skin/avatar/list.php:94
 #: skin/avatar/reply-template.php:9 skin/contact-form/admin-list.php:62
-#: skin/contact-form/admin-list.php:90 skin/contact-form/editor-fields.php:123
-#: skin/contact-form/latest.php:16 skin/customer/editor-fields.php:126
-#: skin/customer/latest.php:16 skin/customer/list.php:61
-#: skin/customer/list.php:90 skin/customer/reply-template.php:9
-#: skin/default/editor-fields.php:126 skin/default/latest.php:16
-#: skin/default/list.php:62 skin/default/list.php:90
-#: skin/default/reply-template.php:9 skin/thumbnail/editor-fields.php:126
+#: skin/contact-form/admin-list.php:90 skin/contact-form/latest.php:16
+#: skin/customer/editor-fields.php:121 skin/customer/latest.php:16
+#: skin/customer/list.php:61 skin/customer/list.php:90
+#: skin/customer/reply-template.php:9 skin/default/editor-fields.php:121
+#: skin/default/latest.php:16 skin/default/list.php:62 skin/default/list.php:90
+#: skin/default/reply-template.php:9 skin/thumbnail/editor-fields.php:121
 #: skin/thumbnail/latest.php:16 skin/thumbnail/list.php:73
 #: skin/thumbnail/list.php:111 skin/thumbnail/reply-template.php:17
 msgid "Secret"
 msgstr "비밀글"
 
-#: class/KBContentListTable.class.php:88 skin/avatar/editor-fields.php:128
+#: class/KBContentListTable.class.php:88 skin/avatar/editor-fields.php:124
 #: skin/avatar/list.php:57 skin/contact-form/admin-list.php:57
-#: skin/contact-form/editor-fields.php:125 skin/customer/editor-fields.php:128
-#: skin/customer/list.php:57 skin/default/editor-fields.php:128
-#: skin/default/list.php:57 skin/thumbnail/editor-fields.php:128
-#: skin/thumbnail/list.php:58
+#: skin/customer/editor-fields.php:124 skin/customer/list.php:57
+#: skin/default/editor-fields.php:124 skin/default/list.php:57
+#: skin/thumbnail/editor-fields.php:124 skin/thumbnail/list.php:58
 msgid "Notice"
 msgstr "공지사항"
 
@@ -272,33 +265,33 @@ msgstr "영구적으로 삭제하기"
 msgid "Move to Trash"
 msgstr "휴지통으로 이동"
 
-#: class/KBContentListTable.class.php:119
+#: class/KBContentListTable.class.php:118
 msgid "Filter"
 msgstr "필터"
 
-#: class/KBContentListTable.class.php:163
+#: class/KBContentListTable.class.php:159
 msgid "The reply."
 msgstr "댓글입니다."
 
-#: class/KBContentListTable.class.php:182
-#: class/KBContentListTable.class.php:185 index.php:781
+#: class/KBContentListTable.class.php:178
+#: class/KBContentListTable.class.php:181 index.php:893
 msgid "Yes"
 msgstr "예"
 
-#: class/KBContentListTable.class.php:182
-#: class/KBContentListTable.class.php:185 index.php:782
+#: class/KBContentListTable.class.php:178
+#: class/KBContentListTable.class.php:181 index.php:894
 msgid "No"
 msgstr "아니요"
 
-#: class/KBContentListTable.class.php:190
+#: class/KBContentListTable.class.php:186
 msgid "Update"
 msgstr "업데이트"
 
-#: class/KBController.class.php:71 index.php:769
+#: class/KBController.class.php:71 index.php:881
 msgid "Please enter the title."
 msgstr "제목을 입력해주세요."
 
-#: class/KBController.class.php:79 index.php:771
+#: class/KBController.class.php:79 index.php:883
 msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
@@ -308,15 +301,15 @@ msgid "\"%s\" is not available."
 msgstr "\"%s\"는 사용할 수 없습니다."
 
 #: class/KBController.class.php:120 class/KBoardBuilder.class.php:535
-#: index.php:897 index.php:930
+#: index.php:1009 index.php:1042
 msgid "You have not enough points."
 msgstr "포인트가 부족합니다."
 
-#: class/KBController.class.php:126 pages/kboard_setting.php:1335
+#: class/KBController.class.php:126 pages/kboard_setting.php:1325
 msgid "Writing decrease points"
 msgstr "글쓰기 감소 포인트"
 
-#: class/KBController.class.php:146 pages/kboard_setting.php:1327
+#: class/KBController.class.php:146 pages/kboard_setting.php:1317
 msgid "Writing increase points"
 msgstr "글쓰기 증가 포인트"
 
@@ -329,7 +322,7 @@ msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 msgid "File does not exist."
 msgstr "파일이 없습니다."
 
-#: class/KBController.class.php:397 pages/kboard_setting.php:1367
+#: class/KBController.class.php:397 pages/kboard_setting.php:1357
 msgid "Attachment download decrease points"
 msgstr "첨부파일 다운로드 감소 포인트"
 
@@ -339,12 +332,12 @@ msgid "Success!"
 msgstr "성공!"
 
 #: class/KBController.class.php:717 class/KBController.class.php:755
-#: index.php:775
+#: index.php:887
 msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
 #: class/KBController.class.php:721 class/KBController.class.php:759
-#: class/KBoardBuilder.class.php:197 index.php:875 index.php:908
+#: class/KBoardBuilder.class.php:197 index.php:987 index.php:1020
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -394,7 +387,7 @@ msgid "생성일"
 msgstr "생성일"
 
 #: class/KBLatestviewListTable.class.php:79 skin/avatar/document.php:106
-#: skin/contact-form/admin-document.php:113 skin/customer/document.php:113
+#: skin/contact-form/admin-document.php:105 skin/customer/document.php:113
 #: skin/default/document.php:106 skin/thumbnail/document.php:106
 msgid "Edit"
 msgstr "글수정"
@@ -423,21 +416,21 @@ msgstr "잘못된 접근입니다."
 msgid "Integration feed"
 msgstr "통합 피드"
 
-#: class/KBUpgrader.class.php:93
+#: class/KBUpgrader.class.php:170
 msgid ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
 msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
 
-#: class/KBUpgrader.class.php:115
+#: class/KBUpgrader.class.php:192
 msgid "There was an error unzipping the file."
-msgstr ""
+msgstr "파일을 압축 해제하는 중 오류가 발생했습니다."
 
 #: class/KBUrl.class.php:240
 msgid "No document."
 msgstr "글이 없습니다."
 
-#: class/KBoardBuilder.class.php:400 pages/kboard_setting.php:1359
+#: class/KBoardBuilder.class.php:400 pages/kboard_setting.php:1349
 msgid "Reading decrease points"
 msgstr "글읽기 감소 포인트"
 
@@ -445,35 +438,35 @@ msgstr "글읽기 감소 포인트"
 msgid "Please enter your password."
 msgstr "비밀번호를 입력해주세요."
 
-#: class/KBoardFields.class.php:34
+#: class/KBoardFields.class.php:36
 msgid "Options"
 msgstr "옵션"
 
-#: class/KBoardFields.class.php:57 class/KBoardFields.class.php:68
-#: class/KBoardFields.class.php:79 pages/kboard_setting.php:680
-#: pages/kboard_setting.php:689 pages/kboard_setting.php:1043
-#: pages/kboard_setting.php:1052 skin/avatar/editor-fields.php:73
-#: skin/avatar/editor-fields.php:90 skin/contact-form/editor-fields.php:70
-#: skin/contact-form/editor-fields.php:87 skin/customer/editor-fields.php:73
-#: skin/customer/editor-fields.php:90 skin/default/editor-fields.php:73
-#: skin/default/editor-fields.php:90 skin/thumbnail/editor-fields.php:73
-#: skin/thumbnail/editor-fields.php:90
+#: class/KBoardFields.class.php:61 class/KBoardFields.class.php:74
+#: class/KBoardFields.class.php:87 pages/kboard_setting.php:666
+#: pages/kboard_setting.php:675 pages/kboard_setting.php:1033
+#: pages/kboard_setting.php:1042 skin/avatar/editor-fields.php:67
+#: skin/avatar/editor-fields.php:84 skin/contact-form/editor-fields.php:67
+#: skin/contact-form/editor-fields.php:84 skin/customer/editor-fields.php:67
+#: skin/customer/editor-fields.php:84 skin/default/editor-fields.php:67
+#: skin/default/editor-fields.php:84 skin/thumbnail/editor-fields.php:67
+#: skin/thumbnail/editor-fields.php:84
 msgid "Category"
 msgstr "카테고리"
 
-#: class/KBoardFields.class.php:104
+#: class/KBoardFields.class.php:118
 msgid "Photos"
 msgstr "사진"
 
-#: class/KBoardFields.class.php:113 skin/thumbnail/list.php:47
+#: class/KBoardFields.class.php:129 skin/thumbnail/list.php:47
 msgid "Thumbnail"
 msgstr "썸네일"
 
-#: class/KBoardFields.class.php:122
+#: class/KBoardFields.class.php:140
 msgid "Attachment"
 msgstr "첨부파일"
 
-#: class/KBoardFields.class.php:131
+#: class/KBoardFields.class.php:151
 msgid "WP Search"
 msgstr "통합검색"
 
@@ -540,7 +533,7 @@ msgstr "최고관리자"
 
 #: helper/Functions.helper.php:186
 msgid "본인의 댓글만 보기"
-msgstr ""
+msgstr "본인의 댓글만 보기"
 
 #: helper/Functions.helper.php:189
 msgid "직접선택"
@@ -558,402 +551,400 @@ msgstr "마지막"
 msgid "KBoard : 게시판"
 msgstr "KBoard : 게시판"
 
-#: index.php:160 index.php:765 skin/avatar/editor-fields.php:138
-#: skin/contact-form/editor-fields.php:135 skin/customer/editor-fields.php:138
-#: skin/default/editor-fields.php:138 skin/thumbnail/editor-fields.php:138
+#: index.php:159 index.php:877 skin/avatar/editor-fields.php:144
+#: skin/contact-form/editor-fields.php:120 skin/customer/editor-fields.php:144
+#: skin/default/editor-fields.php:144 skin/thumbnail/editor-fields.php:144
 msgid "KBoard Add Media"
 msgstr "KBoard 미디어 추가"
 
-#: index.php:185
+#: index.php:184
 msgid "New Forum"
 msgstr "게시판 생성"
 
-#: index.php:208
+#: index.php:206
 msgid "대시보드"
 msgstr "대시보드"
 
-#: index.php:209
+#: index.php:207
 msgid "게시판 목록 및 관리"
 msgstr "게시판 목록 및 관리"
 
-#: index.php:210
+#: index.php:208
 msgid "게시판 생성"
 msgstr "게시판 생성"
 
-#: index.php:211
+#: index.php:209
 msgid "최신글 모아보기"
 msgstr "최신글 모아보기"
 
-#: index.php:212
+#: index.php:210
 msgid "최신글 모아보기 생성"
 msgstr "최신글 모아보기 생성"
 
-#: index.php:213
+#: index.php:211
 msgid "백업 및 복구"
 msgstr "백업 및 복구"
 
-#: index.php:214
+#: index.php:212
+msgid "업데이트"
+msgstr "업데이트"
+
+#: index.php:213
 msgid "전체 게시글"
 msgstr "전체 게시글"
 
-#: index.php:217
-msgid "게시판 업데이트"
-msgstr "게시판 업데이트"
-
-#: index.php:221 index.php:222 pages/welcome.php:31
+#: index.php:217 index.php:218 pages/welcome.php:35
 msgid "스토어"
 msgstr "스토어"
 
-#: index.php:225
+#: index.php:221
 msgid "전체 댓글"
 msgstr "전체 댓글"
 
-#: index.php:766
+#: index.php:878
 msgid "Next"
 msgstr "다음"
 
-#: index.php:767
+#: index.php:879
 msgid "Prev"
 msgstr "이전"
 
-#: index.php:768
+#: index.php:880
 #, php-format
 msgid "%s is required."
 msgstr "%s은(는) 필수입니다."
 
-#: index.php:770
+#: index.php:882
 msgid "Please enter the author."
 msgstr "작성자를 입력해주세요."
 
-#: index.php:772
+#: index.php:884
 msgid "Please enter the CAPTCHA."
 msgstr "옆에 보이는 보안코드를 입력해주세요."
 
-#: index.php:773
+#: index.php:885
 msgid "Please enter the name."
 msgstr "이름을 입력해주세요."
 
-#: index.php:774
+#: index.php:886
 msgid "Please enter the email."
 msgstr "이메일을 입력해주세요."
 
-#: index.php:776 pages/kboard_dashboard.php:201 pages/kboard_dashboard.php:212
-#: pages/kboard_dashboard.php:217 pages/kboard_dashboard.php:230
+#: index.php:888
 msgid "Please wait."
 msgstr "기다려주세요."
 
-#: index.php:777 pages/kboard_latestview_setting.php:69 skin/avatar/list.php:16
+#: index.php:889 pages/kboard_latestview_setting.php:69 skin/avatar/list.php:16
 #: skin/contact-form/admin-list.php:16 skin/customer/list.php:16
 #: skin/default/list.php:16 skin/thumbnail/list.php:16
 msgid "Newest"
 msgstr "최신순"
 
-#: index.php:778 pages/kboard_latestview_setting.php:70 skin/avatar/list.php:17
+#: index.php:890 pages/kboard_latestview_setting.php:70 skin/avatar/list.php:17
 #: skin/contact-form/admin-list.php:17 skin/customer/list.php:17
 #: skin/default/list.php:17 skin/thumbnail/list.php:17
 msgid "Best"
 msgstr "추천순"
 
-#: index.php:779 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:19
+#: index.php:891 pages/kboard_latestview_setting.php:72 skin/avatar/list.php:19
 #: skin/contact-form/admin-list.php:19 skin/customer/list.php:19
 #: skin/default/list.php:19 skin/thumbnail/list.php:19
 msgid "Updated"
 msgstr "업데이트순"
 
-#: index.php:780 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:18
+#: index.php:892 pages/kboard_latestview_setting.php:71 skin/avatar/list.php:18
 #: skin/contact-form/admin-list.php:18 skin/customer/list.php:18
 #: skin/default/list.php:18 skin/thumbnail/list.php:18
 msgid "Viewed"
 msgstr "조회순"
 
-#: index.php:783
+#: index.php:895
 msgid "Did it help?"
 msgstr "도움이 되었나요?"
 
-#: index.php:784
+#: index.php:896
 msgid "Hashtag"
 msgstr "해시태그"
 
-#: index.php:785
+#: index.php:897
 msgid "Tag"
 msgstr "태그"
 
-#: index.php:786
+#: index.php:898
 msgid "Add a Tag"
 msgstr "태그 추가"
 
-#: index.php:787
+#: index.php:899
 msgid "Removing tag"
 msgstr "태그 삭제"
 
-#: index.php:788
+#: index.php:900
 msgid "Changes you made may not be saved."
 msgstr "변경사항이 저장되지 않을 수 있습니다."
 
-#: index.php:789 skin/contact-form/admin-document.php:45
+#: index.php:901
 msgid "Email"
 msgstr "이메일"
 
-#: index.php:790
+#: index.php:902
 msgid "Address"
 msgstr "주소"
 
-#: index.php:791
+#: index.php:903
 msgid "Postcode"
 msgstr "우편번호"
 
-#: index.php:792 skin/contact-form/admin-document.php:46
-#: skin/customer/document.php:45
+#: index.php:904 skin/customer/document.php:45
 msgid "Phone number"
 msgstr "휴대폰번호"
 
-#: index.php:793
+#: index.php:905
 msgid "Mobile phone"
 msgstr "휴대폰번호"
 
-#: index.php:794
+#: index.php:906
 msgid "Phone"
 msgstr "휴대폰번호"
 
-#: index.php:795
+#: index.php:907
 msgid "Company name"
 msgstr "회사명"
 
-#: index.php:796
+#: index.php:908
 msgid "VAT number"
 msgstr "사업자등록번호"
 
-#: index.php:797
+#: index.php:909
 msgid "Bank account"
 msgstr "은행계좌"
 
-#: index.php:798
+#: index.php:910
 msgid "Name of deposit"
 msgstr "입금자명"
 
-#: index.php:799
+#: index.php:911
 msgid "Find"
 msgstr "찾기"
 
-#: index.php:800
+#: index.php:912
 msgid "Rate"
 msgstr "등급"
 
-#: index.php:801
+#: index.php:913
 msgid "Ratings"
 msgstr "등급"
 
-#: index.php:802
+#: index.php:914
 msgid "Waiting"
 msgstr "대기"
 
-#: index.php:803
+#: index.php:915
 msgid "Complete"
 msgstr "완료"
 
-#: index.php:804
+#: index.php:916
 msgid "Question"
 msgstr "질문"
 
-#: index.php:805
+#: index.php:917
 msgid "Answer"
 msgstr "답변"
 
-#: index.php:806
+#: index.php:918
 msgid "Notify me of new comments via email"
 msgstr "이메일로 새로운 댓글 알림 받기"
 
-#: index.php:807
+#: index.php:919
 msgid "Ask Question"
 msgstr "질문하기"
 
-#: index.php:808
+#: index.php:920
 msgid "Categories"
 msgstr "카테고리"
 
-#: index.php:809
+#: index.php:921
 msgid "Pages"
 msgstr "페이지"
 
-#: index.php:810
+#: index.php:922
 msgid "All Products"
 msgstr "전체상품"
 
-#: index.php:811
+#: index.php:923
 msgid "Your Orders"
 msgstr "주문조회"
 
-#: index.php:812
+#: index.php:924
 msgid "Your Sales"
 msgstr "판매조회"
 
-#: index.php:813
+#: index.php:925
 msgid "My Orders"
 msgstr "주문조회"
 
-#: index.php:814
+#: index.php:926
 msgid "My Sales"
 msgstr "판매조회"
 
-#: index.php:815
+#: index.php:927
 msgid "New Product"
 msgstr "상품등록"
 
-#: index.php:816
+#: index.php:928
 msgid "Edit Product"
 msgstr "상품수정"
 
-#: index.php:817
+#: index.php:929
 msgid "Delete Product"
 msgstr "상품삭제"
 
-#: index.php:818
+#: index.php:930
 msgid "Seller"
 msgstr "판매자"
 
-#: index.php:819
+#: index.php:931
 msgid "Period"
 msgstr "기간"
 
-#: index.php:820
+#: index.php:932
 msgid "Period of use"
 msgstr "사용기간"
 
-#: index.php:821
+#: index.php:933
 msgid "Last updated"
 msgstr "업데이트 날짜"
 
-#: index.php:822
+#: index.php:934
 msgid "List price"
 msgstr "정상가격"
 
-#: index.php:823
+#: index.php:935
 msgid "Price"
 msgstr "판매가격"
 
-#: index.php:824
+#: index.php:936
 msgid "Total price"
 msgstr "총 가격"
 
-#: index.php:825
+#: index.php:937
 msgid "Amount"
 msgstr "결제금액"
 
-#: index.php:826
+#: index.php:938
 msgid "Quantity"
 msgstr "수량"
 
-#: index.php:827
+#: index.php:939
 msgid "Use points"
 msgstr "포인트 사용"
 
-#: index.php:828
+#: index.php:940
 msgid "My points"
 msgstr "내 포인트"
 
-#: index.php:829
+#: index.php:941
 msgid "Available points"
 msgstr "사용 가능 포인트"
 
-#: index.php:830
+#: index.php:942
 msgid "Apply points"
 msgstr "적용된 포인트"
 
-#: index.php:831
+#: index.php:943
 msgid "Buy It Now"
 msgstr "구매하기"
 
-#: index.php:832
+#: index.php:944
 msgid "Sold Out"
 msgstr "품절"
 
-#: index.php:833
+#: index.php:945
 msgid "For free"
 msgstr "무료"
 
-#: index.php:834
+#: index.php:946
 #, php-format
 msgid "Pay %s"
 msgstr "%s 결제"
 
-#: index.php:835
+#: index.php:947
 msgid "Payment method"
 msgstr "결제수단"
 
-#: index.php:836
+#: index.php:948
 msgid "Credit card"
 msgstr "신용카드"
 
-#: index.php:837
+#: index.php:949
 msgid "Make a deposit"
 msgstr "무통장입금"
 
-#: index.php:838
+#: index.php:950
 msgid "Reward point"
 msgstr "적립 포인트"
 
-#: index.php:839
+#: index.php:951
 msgid "Download expiry"
 msgstr "다운로드 기간"
 
-#: index.php:840
+#: index.php:952
 msgid "Checkout"
 msgstr "주문정보확인"
 
-#: index.php:841
+#: index.php:953
 msgid "Buyer information"
 msgstr "주문자"
 
-#: index.php:842
+#: index.php:954
 msgid "Applying cash receipts"
 msgstr "현금영수증 신청"
 
-#: index.php:843
+#: index.php:955
 msgid "Privacy policy"
 msgstr "개인 정보 정책"
 
-#: index.php:844
+#: index.php:956
 msgid "I agree to the privacy policy."
 msgstr "개인 정보 정책에 동의합니다."
 
-#: index.php:845
+#: index.php:957
 msgid ""
 "I confirm the terms of the transaction and agree to the payment process."
 msgstr "거래조건을 확인했으며 결제진행에 동의합니다."
 
-#: index.php:846
+#: index.php:958
 msgid "Today"
 msgstr "오늘"
 
-#: index.php:847
+#: index.php:959
 msgid "Yesterday"
 msgstr "어제"
 
-#: index.php:848
+#: index.php:960
 msgid "This month"
 msgstr "이번달"
 
-#: index.php:849
+#: index.php:961
 msgid "Last month"
 msgstr "지난달"
 
-#: index.php:850
+#: index.php:962
 msgid "Last 30 days"
 msgstr "최근30일"
 
-#: index.php:851
+#: index.php:963
 msgid "Agree"
 msgstr "찬성"
 
-#: index.php:852
+#: index.php:964
 msgid "Disagree"
 msgstr "반대"
 
-#: index.php:853
+#: index.php:965
 msgid "Opinion"
 msgstr "의견"
 
-#: index.php:946
+#: index.php:1058
 msgid "KBoard Forum Settings"
 msgstr "KBoard 게시판 관리"
 
@@ -961,6 +952,7 @@ msgstr "KBoard 게시판 관리"
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6
 #: pages/kboard_latestview.php:6 pages/kboard_latestview_setting.php:6
 #: pages/kboard_list.php:6 pages/kboard_setting.php:11 pages/kboard_store.php:7
+#: pages/kboard_updates.php:6
 msgid "Home"
 msgstr "홈페이지"
 
@@ -968,6 +960,7 @@ msgstr "홈페이지"
 #: pages/kboard_content_list.php:7 pages/kboard_dashboard.php:7
 #: pages/kboard_latestview.php:7 pages/kboard_latestview_setting.php:7
 #: pages/kboard_list.php:7 pages/kboard_setting.php:12 pages/kboard_store.php:8
+#: pages/kboard_updates.php:7
 msgid "Community"
 msgstr "커뮤니티"
 
@@ -975,6 +968,7 @@ msgstr "커뮤니티"
 #: pages/kboard_content_list.php:8 pages/kboard_dashboard.php:8
 #: pages/kboard_latestview.php:8 pages/kboard_latestview_setting.php:8
 #: pages/kboard_list.php:8 pages/kboard_setting.php:13 pages/kboard_store.php:9
+#: pages/kboard_updates.php:8
 msgid "Support"
 msgstr "고객지원"
 
@@ -982,7 +976,7 @@ msgstr "고객지원"
 #: pages/kboard_content_list.php:9 pages/kboard_dashboard.php:9
 #: pages/kboard_latestview.php:9 pages/kboard_latestview_setting.php:9
 #: pages/kboard_list.php:9 pages/kboard_setting.php:14
-#: pages/kboard_store.php:10
+#: pages/kboard_store.php:10 pages/kboard_updates.php:9
 msgid "Blog"
 msgstr "블로그"
 
@@ -1049,7 +1043,7 @@ msgstr "KBoard : 대시보드"
 msgid "시스템 설정"
 msgstr "시스템 설정"
 
-#: pages/kboard_dashboard.php:121
+#: pages/kboard_dashboard.php:160
 msgid "커뮤니티로 이동"
 msgstr "커뮤니티로 이동"
 
@@ -1061,7 +1055,7 @@ msgstr "KBoard : 최신글 뷰"
 msgid "KBoard : 최신글 뷰 관리"
 msgstr "KBoard : 최신글 뷰 관리"
 
-#: pages/kboard_latestview_setting.php:123 pages/kboard_setting.php:1464
+#: pages/kboard_latestview_setting.php:123 pages/kboard_setting.php:1454
 msgid "변경 사항 저장"
 msgstr "변경 사항 저장"
 
@@ -1101,46 +1095,46 @@ msgstr "대량관리"
 msgid "확장설정"
 msgstr "확장설정"
 
-#: pages/kboard_setting.php:680 pages/kboard_setting.php:689
-#: pages/kboard_setting.php:1043 pages/kboard_setting.php:1052
-#: skin/avatar/editor-fields.php:73 skin/avatar/editor-fields.php:90
-#: skin/contact-form/editor-fields.php:70
-#: skin/contact-form/editor-fields.php:87 skin/customer/editor-fields.php:73
-#: skin/customer/editor-fields.php:90 skin/default/editor-fields.php:73
-#: skin/default/editor-fields.php:90 skin/thumbnail/editor-fields.php:73
-#: skin/thumbnail/editor-fields.php:90
+#: pages/kboard_setting.php:666 pages/kboard_setting.php:675
+#: pages/kboard_setting.php:1033 pages/kboard_setting.php:1042
+#: skin/avatar/editor-fields.php:67 skin/avatar/editor-fields.php:84
+#: skin/contact-form/editor-fields.php:67
+#: skin/contact-form/editor-fields.php:84 skin/customer/editor-fields.php:67
+#: skin/customer/editor-fields.php:84 skin/default/editor-fields.php:67
+#: skin/default/editor-fields.php:84 skin/thumbnail/editor-fields.php:67
+#: skin/thumbnail/editor-fields.php:84
 msgid "Select"
 msgstr "선택"
 
-#: pages/kboard_setting.php:1329 pages/kboard_setting.php:1337
-#: pages/kboard_setting.php:1345 pages/kboard_setting.php:1353
-#: pages/kboard_setting.php:1361 pages/kboard_setting.php:1369
-#: pages/kboard_setting.php:1377 pages/kboard_setting.php:1385
-#: pages/kboard_setting.php:1393 pages/kboard_setting.php:1401
+#: pages/kboard_setting.php:1319 pages/kboard_setting.php:1327
+#: pages/kboard_setting.php:1335 pages/kboard_setting.php:1343
+#: pages/kboard_setting.php:1351 pages/kboard_setting.php:1359
+#: pages/kboard_setting.php:1367 pages/kboard_setting.php:1375
+#: pages/kboard_setting.php:1383 pages/kboard_setting.php:1391
 msgid "Please enter only numbers"
 msgstr "숫자만 입력해주세요"
 
-#: pages/kboard_setting.php:1375
+#: pages/kboard_setting.php:1365
 msgid "Writing comment increase points"
 msgstr "댓글쓰기 증가 포인트"
 
-#: pages/kboard_setting.php:1383
+#: pages/kboard_setting.php:1373
 msgid "Writing comment decrease points"
 msgstr "댓글쓰기 감소 포인트"
 
-#: pages/kboard_setting.php:1391
+#: pages/kboard_setting.php:1381
 msgid "Deleted comment increment points"
 msgstr "댓글삭제 증가 포인트"
 
-#: pages/kboard_setting.php:1399
+#: pages/kboard_setting.php:1389
 msgid "Deleted comment decrease points"
 msgstr "댓글삭제 감소 포인트"
 
-#: pages/kboard_setting.php:1420
+#: pages/kboard_setting.php:1410
 msgid "Download"
 msgstr "다운로드"
 
-#: pages/kboard_setting.php:1436
+#: pages/kboard_setting.php:1426
 msgid "Upload"
 msgstr "업로드"
 
@@ -1152,6 +1146,10 @@ msgstr "KBoard : 스토어"
 #: pages/kboard_store.php:94
 msgid "로그인"
 msgstr "로그인"
+
+#: pages/kboard_updates.php:5
+msgid "KBoard : 업데이트"
+msgstr "KBoard : 업데이트"
 
 #: pages/welcome.php:4
 msgid "코스모스팜 대시보드 입니다."
@@ -1165,41 +1163,29 @@ msgstr "최신버전 확인 및 운영관련 기능을 사용할 수 있습니�
 msgid "KBoard 버전"
 msgstr "KBoard 버전"
 
-#: pages/welcome.php:13
-msgid "설치된 게시판 플러그인 버전"
-msgstr "설치된 게시판 플러그인 버전"
+#: pages/welcome.php:23
+msgid "Events and News"
+msgstr "이벤트 및 뉴스"
 
-#: pages/welcome.php:13 pages/welcome.php:18
-msgid "최신"
-msgstr "최신"
-
-#: pages/welcome.php:14 pages/welcome.php:19
-msgid "변경사항"
-msgstr "변경사항"
-
-#: pages/welcome.php:18
-msgid "설치된 댓글 플러그인 버전"
-msgstr "설치된 댓글 플러그인 버전"
-
-#: pages/welcome.php:33
+#: pages/welcome.php:37
 msgid "등록된 상품이 없습니다."
 msgstr "등록된 상품이 없습니다."
 
 #: skin/avatar/confirm.php:12 skin/avatar/confirm.php:14
-#: skin/avatar/editor-fields.php:21 skin/avatar/editor-fields.php:22
-#: skin/avatar/editor-fields.php:29 skin/avatar/editor-fields.php:30
+#: skin/avatar/editor-fields.php:25 skin/avatar/editor-fields.php:26
+#: skin/avatar/editor-fields.php:135 skin/avatar/editor-fields.php:136
 #: skin/contact-form/confirm.php:12 skin/contact-form/confirm.php:14
-#: skin/contact-form/editor-fields.php:26
-#: skin/contact-form/editor-fields.php:27 skin/customer/confirm.php:12
-#: skin/customer/confirm.php:14 skin/customer/editor-fields.php:21
-#: skin/customer/editor-fields.php:22 skin/customer/editor-fields.php:29
-#: skin/customer/editor-fields.php:30 skin/default/confirm.php:12
-#: skin/default/confirm.php:14 skin/default/editor-fields.php:21
-#: skin/default/editor-fields.php:22 skin/default/editor-fields.php:29
-#: skin/default/editor-fields.php:30 skin/thumbnail/confirm.php:12
-#: skin/thumbnail/confirm.php:14 skin/thumbnail/editor-fields.php:21
-#: skin/thumbnail/editor-fields.php:22 skin/thumbnail/editor-fields.php:29
-#: skin/thumbnail/editor-fields.php:30
+#: skin/contact-form/editor-fields.php:25
+#: skin/contact-form/editor-fields.php:26 skin/customer/confirm.php:12
+#: skin/customer/confirm.php:14 skin/customer/editor-fields.php:25
+#: skin/customer/editor-fields.php:26 skin/customer/editor-fields.php:135
+#: skin/customer/editor-fields.php:136 skin/default/confirm.php:12
+#: skin/default/confirm.php:14 skin/default/editor-fields.php:25
+#: skin/default/editor-fields.php:26 skin/default/editor-fields.php:135
+#: skin/default/editor-fields.php:136 skin/thumbnail/confirm.php:12
+#: skin/thumbnail/confirm.php:14 skin/thumbnail/editor-fields.php:25
+#: skin/thumbnail/editor-fields.php:26 skin/thumbnail/editor-fields.php:135
+#: skin/thumbnail/editor-fields.php:136
 msgid "Password"
 msgstr "비밀번호"
 
@@ -1216,7 +1202,7 @@ msgid "Document"
 msgstr "본문보기"
 
 #: skin/avatar/confirm.php:25 skin/avatar/document.php:101
-#: skin/avatar/editor.php:22 skin/contact-form/admin-document.php:109
+#: skin/avatar/editor.php:22 skin/contact-form/admin-document.php:101
 #: skin/contact-form/confirm.php:25 skin/contact-form/editor.php:25
 #: skin/customer/confirm.php:25 skin/customer/document.php:108
 #: skin/customer/editor.php:22 skin/default/confirm.php:25
@@ -1232,25 +1218,25 @@ msgstr "목록보기"
 msgid "Password confirm"
 msgstr "비밀번호 확인"
 
-#: skin/avatar/document.php:48 skin/contact-form/admin-document.php:56
+#: skin/avatar/document.php:48 skin/contact-form/admin-document.php:48
 #: skin/customer/document.php:55 skin/default/document.php:48
 #: skin/thumbnail/document.php:48
 msgid "Like"
 msgstr "좋아요"
 
-#: skin/avatar/document.php:49 skin/contact-form/admin-document.php:57
+#: skin/avatar/document.php:49 skin/contact-form/admin-document.php:49
 #: skin/customer/document.php:56 skin/default/document.php:49
 #: skin/thumbnail/document.php:49
 msgid "Unlike"
 msgstr "싫어요"
 
-#: skin/avatar/document.php:52 skin/contact-form/admin-document.php:60
+#: skin/avatar/document.php:52 skin/contact-form/admin-document.php:52
 #: skin/customer/document.php:59 skin/default/document.php:52
 #: skin/thumbnail/document.php:52
 msgid "Print"
 msgstr "인쇄"
 
-#: skin/avatar/document.php:59 skin/contact-form/admin-document.php:67
+#: skin/avatar/document.php:59 skin/contact-form/admin-document.php:59
 #: skin/customer/document.php:66 skin/default/document.php:59
 #: skin/thumbnail/document.php:59
 #, php-format
@@ -1262,64 +1248,62 @@ msgstr "다운로드 %s"
 msgid "Reply"
 msgstr "답글쓰기"
 
-#: skin/avatar/document.php:107 skin/avatar/editor-fields.php:58
-#: skin/avatar/editor-fields.php:146 skin/contact-form/admin-document.php:114
-#: skin/contact-form/editor-fields.php:55
-#: skin/contact-form/editor-fields.php:143 skin/customer/document.php:114
-#: skin/customer/editor-fields.php:58 skin/customer/editor-fields.php:146
-#: skin/default/document.php:107 skin/default/editor-fields.php:58
-#: skin/default/editor-fields.php:146 skin/thumbnail/document.php:107
-#: skin/thumbnail/editor-fields.php:58 skin/thumbnail/editor-fields.php:146
-#: template/media.php:168
+#: skin/avatar/document.php:107 skin/avatar/editor-fields.php:52
+#: skin/avatar/editor-fields.php:152 skin/contact-form/admin-document.php:106
+#: skin/contact-form/editor-fields.php:52 skin/customer/document.php:114
+#: skin/customer/editor-fields.php:52 skin/customer/editor-fields.php:152
+#: skin/default/document.php:107 skin/default/editor-fields.php:52
+#: skin/default/editor-fields.php:152 skin/thumbnail/document.php:107
+#: skin/thumbnail/editor-fields.php:52 skin/thumbnail/editor-fields.php:152
+#: template/media.php:171
 msgid "Are you sure you want to delete?"
 msgstr "삭제 하시겠습니까?"
 
-#: skin/avatar/document.php:107 skin/contact-form/admin-document.php:114
+#: skin/avatar/document.php:107 skin/contact-form/admin-document.php:106
 #: skin/customer/document.php:114 skin/default/document.php:107
 #: skin/thumbnail/document.php:107
 msgid "Delete"
 msgstr "글삭제"
 
 #: skin/avatar/document.php:114 skin/avatar/list.php:160
-#: skin/contact-form/admin-document.php:121
+#: skin/contact-form/admin-document.php:113
 #: skin/contact-form/admin-list.php:151 skin/contact-form/editor.php:40
 #: skin/customer/document.php:121 skin/customer/list.php:152
 #: skin/default/document.php:114 skin/default/list.php:152
 #: skin/thumbnail/document.php:114 skin/thumbnail/list.php:173
-#: template/media.php:97
+#: template/media.php:99
 msgid "KBoard is the best community software available for WordPress"
 msgstr "의미있는 워드프레스 게시판"
 
-#: skin/avatar/editor-fields.php:46 skin/contact-form/editor-fields.php:43
-#: skin/customer/editor-fields.php:46 skin/default/editor-fields.php:46
-#: skin/thumbnail/editor-fields.php:46
+#: skin/avatar/editor-fields.php:40 skin/contact-form/editor-fields.php:40
+#: skin/customer/editor-fields.php:40 skin/default/editor-fields.php:40
+#: skin/thumbnail/editor-fields.php:40
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
-#: skin/avatar/editor-fields.php:58 skin/avatar/editor-fields.php:146
-#: skin/contact-form/editor-fields.php:55
-#: skin/contact-form/editor-fields.php:143 skin/customer/editor-fields.php:58
-#: skin/customer/editor-fields.php:146 skin/default/editor-fields.php:58
-#: skin/default/editor-fields.php:146 skin/thumbnail/editor-fields.php:58
-#: skin/thumbnail/editor-fields.php:146
+#: skin/avatar/editor-fields.php:52 skin/avatar/editor-fields.php:152
+#: skin/contact-form/editor-fields.php:52 skin/customer/editor-fields.php:52
+#: skin/customer/editor-fields.php:152 skin/default/editor-fields.php:52
+#: skin/default/editor-fields.php:152 skin/thumbnail/editor-fields.php:52
+#: skin/thumbnail/editor-fields.php:152
 msgid "Delete file"
 msgstr "파일 삭제"
 
-#: skin/avatar/editor-fields.php:159 skin/contact-form/editor-fields.php:156
-#: skin/customer/editor-fields.php:159 skin/default/editor-fields.php:159
-#: skin/thumbnail/editor-fields.php:159
+#: skin/avatar/editor-fields.php:165 skin/contact-form/editor-fields.php:132
+#: skin/customer/editor-fields.php:165 skin/default/editor-fields.php:165
+#: skin/thumbnail/editor-fields.php:165
 msgid "Public"
 msgstr "제목과 내용 검색허용"
 
-#: skin/avatar/editor-fields.php:160 skin/contact-form/editor-fields.php:157
-#: skin/customer/editor-fields.php:160 skin/default/editor-fields.php:160
-#: skin/thumbnail/editor-fields.php:160
+#: skin/avatar/editor-fields.php:166 skin/contact-form/editor-fields.php:133
+#: skin/customer/editor-fields.php:166 skin/default/editor-fields.php:166
+#: skin/thumbnail/editor-fields.php:166
 msgid "Only title (secret document)"
 msgstr "제목만 검색허용 (비밀글)"
 
-#: skin/avatar/editor-fields.php:161 skin/contact-form/editor-fields.php:158
-#: skin/customer/editor-fields.php:161 skin/default/editor-fields.php:161
-#: skin/thumbnail/editor-fields.php:161
+#: skin/avatar/editor-fields.php:167 skin/contact-form/editor-fields.php:134
+#: skin/customer/editor-fields.php:167 skin/default/editor-fields.php:167
+#: skin/thumbnail/editor-fields.php:167
 msgid "Exclusion"
 msgstr "통합검색 제외"
 
@@ -1372,10 +1356,6 @@ msgstr "내용"
 msgid "New"
 msgstr "글쓰기"
 
-#: skin/contact-form/admin-document.php:44 skin/customer/document.php:44
-msgid "Name"
-msgstr "이름"
-
 #: skin/contact-form/editor.php:27
 msgid "Send"
 msgstr "보내기"
@@ -1383,6 +1363,10 @@ msgstr "보내기"
 #: skin/contact-form/editor.php:46
 msgid "Your message was sent successfully. Thanks."
 msgstr "메시지가 성공적으로 전송되었습니다. 감사합니다."
+
+#: skin/customer/document.php:44
+msgid "Name"
+msgstr "이름"
 
 #: template/media.php:9 template/media.php:68
 msgid "KBoard 미디어 추가"
@@ -1432,27 +1416,39 @@ msgstr "업로드된 이미지가 없습니다."
 msgid "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
 msgstr "업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D"
 
-#: template/media.php:103
+#: template/media.php:106
 msgid "로딩중"
 msgstr "로딩중"
 
-#: template/media.php:142
+#: template/media.php:145
 msgid "선택한 이미지가 없습니다."
 msgstr "선택한 이미지가 없습니다."
 
-#: template/media.php:151 template/media.php:161
+#: template/media.php:154 template/media.php:164
 msgid "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 msgstr "선택한 이미지를 본문에 삽입했습니다. 창을 닫을까요?"
 
-#: template/media.php:178
+#: template/media.php:181
 msgid ""
 "Network connection with the server is unstable. Please proceed to upload "
 "again."
 msgstr "서버와 네트워크 연결 불안정합니다. 다시 업로드를 시도해주세요."
 
-#: template/media.php:199 template/media.php:214
+#: template/media.php:202 template/media.php:217
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "이미지 파일만 업로드 가능합니다."
+
+#~ msgid "설치된 게시판 플러그인 버전"
+#~ msgstr "설치된 게시판 플러그인 버전"
+
+#~ msgid "최신"
+#~ msgstr "최신"
+
+#~ msgid "변경사항"
+#~ msgstr "변경사항"
+
+#~ msgid "설치된 댓글 플러그인 버전"
+#~ msgstr "설치된 댓글 플러그인 버전"
 
 #~ msgid "Your Message"
 #~ msgstr "메시지"

@@ -9,12 +9,14 @@ final class KBUpgrader {
 	
 	private static $instance;
 	private static $latest_version;
-	private static $sever_host = 'www.cosmosfarm.com';
+	private static $latest_news;
 	
-	static $CONNECT_LOGIN_STATUS = 'http://www.cosmosfarm.com/accounts/loginstatus';
-	static $CONNECT_VERSION = 'http://www.cosmosfarm.com/wpstore/kboard/version';
-	static $CONNECT_KBOARD = 'http://www.cosmosfarm.com/wpstore/kboard/getkboard';
-	static $CONNECT_COMMENTS = 'http://www.cosmosfarm.com/wpstore/kboard/getcomments';
+	static $CONNECT_VERSION = 'http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/version.json';
+	static $CONNECT_NEWS = 'http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/news.json';
+	static $CONNECT_KBOARD = 'http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/kboard-latest.zip';
+	static $CONNECT_COMMENTS = 'http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/kboard-comments-latest.zip';
+	static $CONNECT_KBOARD_NOSKINS = 'http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/kboard-latest-noskins.zip';
+	static $CONNECT_COMMENTS_NOSKINS = 'http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/kboard-comments-latest-noskins.zip';
 	
 	static $TYPE_PLUGINS = '/plugins';
 	static $TYPE_THEMES = '/themes';
@@ -35,43 +37,118 @@ final class KBUpgrader {
 	}
 	
 	/**
+	 * 캐시를 비운다.
+	 */
+	public static function flush(){
+		unset($_SESSION['kboard_latest_version']);
+		unset($_SESSION['kboard_latest_news']);
+		
+		self::$latest_version = '';
+		self::$latest_news = '';
+	}
+	
+	/**
 	 * 서버에 접속한다.
 	 * @param string $url
 	 * @return object
 	 */
 	public static function connect($url){
-		$response = wp_remote_get($url, array('headers'=>array('Referer'=>$_SERVER['HTTP_HOST']), 'sslverify'=>false));
+		$response = wp_remote_get($url);
 		
 		if(is_wp_error($response) || !isset($response['body']) || !$response['body']){
-			$data = new stdClass();
-			$data->kboard = 0;
-			$data->comments = 0;
-			$data->error = $response->get_error_message();
+			echo $response->get_error_message();
+			
+			return '';
 		}
 		else{
-			$data = json_decode($response['body']);
-			$data->error = '';
+			return json_decode($response['body']);
 		}
-		
-		return $data;
 	}
 	
 	/**
-	 * 서버에서 최신버전을 가져온다.
-	 * @return string
+	 * 서버에서 최신버전 정보를 가져온다.
+	 * @return object
 	 */
 	public static function getLatestVersion(){
+		$version = self::connect(self::$CONNECT_VERSION);
+		if(!$version){
+			$version = new stdClass();
+			$version->kboard = '';
+			$version->comments = '';
+		}
+		self::$latest_version = $version;
+		
 		if(self::$latest_version){
 			return self::$latest_version;
 		}
-		else if(isset($_SESSION['kboard_latest_version']) && $_SESSION['kboard_latest_version']){
+		else if(isset($_SESSION['kboard_latest_version']) && is_object($_SESSION['kboard_latest_version']) && $_SESSION['kboard_latest_version']){
 			self::$latest_version = $_SESSION['kboard_latest_version'];
 		}
 		else if(!self::$latest_version){
-			self::$latest_version = self::connect(self::$CONNECT_VERSION.'?version='.KBOARD_VERSION);
+			$version = self::connect(self::$CONNECT_VERSION);
+			if(!$version){
+				$version = new stdClass();
+				$version->kboard = '';
+				$version->comments = '';
+			}
+			self::$latest_version = $version;
 		}
 		$_SESSION['kboard_latest_version'] = self::$latest_version;
 		return self::$latest_version;
+	}
+	
+	/**
+	 * 서버에서 이벤트 및 뉴스 정보를 가져온다.
+	 * @return object
+	 */
+	public static function getLatestNews(){
+		if(self::$latest_news){
+			return self::$latest_news;
+		}
+		else if(isset($_SESSION['kboard_latest_news']) && is_array($_SESSION['kboard_latest_news']) && $_SESSION['kboard_latest_news']){
+			self::$latest_news = $_SESSION['kboard_latest_news'];
+		}
+		else if(!self::$latest_news){
+			$news = self::connect(self::$CONNECT_NEWS);
+			if(!$news){
+				$news = array();
+			}
+			self::$latest_news = $news;
+		}
+		$_SESSION['kboard_latest_news'] = self::$latest_news;
+		return self::$latest_news;
+	}
+	
+	public function getKBoard(){
+		$download_file = download_url(self::$CONNECT_KBOARD);
+		if(is_wp_error($download_file)){
+			die('<script>alert("업데이트 파일 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.");history.go(-1);</script>');
+		}
+		return $download_file;
+	}
+	
+	public function getKBoardNoSkins(){
+		$download_file = download_url(self::$CONNECT_KBOARD_NOSKINS);
+		if(is_wp_error($download_file)){
+			die('<script>alert("업데이트 파일 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.");history.go(-1);</script>');
+		}
+		return $download_file;
+	}
+	
+	public function getComments(){
+		$download_file = download_url(self::$CONNECT_COMMENTS);
+		if(is_wp_error($download_file)){
+			die('<script>alert("업데이트 파일 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.");history.go(-1);</script>');
+		}
+		return $download_file;
+	}
+	
+	public function getCommentsNoSkins(){
+		$download_file = download_url(self::$CONNECT_COMMENTS_NOSKINS);
+		if(is_wp_error($download_file)){
+			die('<script>alert("업데이트 파일 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.");history.go(-1);</script>');
+		}
+		return $download_file;
 	}
 	
 	/**

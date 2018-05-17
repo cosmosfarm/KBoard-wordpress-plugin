@@ -24,7 +24,6 @@ define('KBOARD_SETTING_PAGE', admin_url('admin.php?page=kboard_list'));
 define('KBOARD_LATESTVIEW_PAGE', admin_url('admin.php?page=kboard_latestview'));
 define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('admin.php?page=kboard_latestview_new'));
 define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
-define('KBOARD_UPGRADE_ACTION', admin_url('admin.php?page=kboard_upgrade'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
 
 include_once 'class/KBoardBuilder.class.php';
@@ -191,7 +190,6 @@ function kboard_settings_link($links){
 add_action('welcome_panel', 'kboard_welcome_panel');
 function kboard_welcome_panel(){
 	echo '<script>jQuery(document).ready(function($){jQuery("div.welcome-panel-content").eq(0).hide();});</script>';
-	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/welcome.php';
 }
 
@@ -211,10 +209,8 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'activate_plugins', 'kboard_latestview', 'kboard_latestview');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'activate_plugins', 'kboard_latestview_new', 'kboard_latestview_new');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'activate_plugins', 'kboard_backup', 'kboard_backup');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'activate_plugins', 'kboard_updates', 'kboard_updates');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'activate_plugins', 'kboard_content_list', 'kboard_content_list');
-	
-	// 표시되지 않는 페이지
-	add_submenu_page('kboard_new', KBOARD_PAGE_TITLE, __('게시판 업데이트', 'kboard'), 'activate_plugins', 'kboard_upgrade', 'kboard_upgrade');
 	
 	// 스토어 메뉴 등록
 	$_wp_last_object_menu++;
@@ -245,7 +241,6 @@ function kboard_store(){
  * 게시판 대시보드 페이지
  */
 function kboard_dashboard(){
-	$upgrader = KBUpgrader::getInstance();
 	include_once 'pages/kboard_dashboard.php';
 }
 
@@ -348,64 +343,173 @@ function kboard_backup(){
 }
 
 /*
- * 게시판 업그레이드
+ * 플러그인 업데이트 페이지
  */
-function kboard_upgrade(){
-	if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
-	
+function kboard_updates(){
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
 	$download_version = isset($_GET['download_version'])?kboard_htmlclear($_GET['download_version']):'';
-	$form_url = wp_nonce_url(admin_url("admin.php?page=kboard_upgrade&action=$action" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_upgrade');
+	$form_url = wp_nonce_url(admin_url("admin.php?page=kboard_updates&action={$action}" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_updates');
+	
 	$upgrader = KBUpgrader::getInstance();
 	
 	if($action == 'kboard'){
-		if(version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '>=')){
-			die('<script>alert("최신버전 입니다.");location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
-		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_KBOARD, $upgrader->getLatestVersion()->kboard, KBStore::getAccessToken());
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
+		$download_file = $upgrader->getKBoard();
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("KBoard 게시판 업그레이드가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
+		die('<script>alert("KBoard 게시판 플러그인 설치가 완료되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
+	}
+	if($action == 'kboard-noskins'){
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
+		$download_file = $upgrader->getKBoardNoSkins();
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
+		die('<script>alert("KBoard 게시판 플러그인 설치가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
 	}
 	else if($action == 'comments'){
-		if(defined('KBOARD_COMMNETS_VERSION')){
-			if(version_compare(KBOARD_COMMNETS_VERSION, $upgrader->getLatestVersion()->comments, '>=')){
-				die('<script>alert("최신버전 입니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
-			}
-		}
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
-		$download_file = $upgrader->download(KBUpgrader::$CONNECT_COMMENTS, $upgrader->getLatestVersion()->comments, KBStore::getAccessToken());
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
+		$download_file = $upgrader->getComments();
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
-		die('<script>alert("KBoard 댓글 업그레이드가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
+		die('<script>alert("KBoard 댓글 플러그인 설치가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
+	}
+	else if($action == 'comments-noskins'){
+		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
+		$download_file = $upgrader->getCommentsNoSkins();
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
+		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
+		die('<script>alert("KBoard 댓글 플러그인 설치가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");window.location.href="' . admin_url('plugins.php') . '"</script>');
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");window.location.href="' . admin_url('themes.php') . '"</script>');
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
+		
+		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
+		ob_flush();
+		flush();
+		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
+		echo "<p>다운로드를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
+		echo "<p>설치를 완료했습니다.</p>";
+		ob_flush();
+		flush();
+		
 		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
 	}
-	else{
-		die('<script>alert("설치에 실패 했습니다.");window.location.href="' . admin_url('admin.php?page=kboard_dashboard') . '"</script>');
-	}
+	
+	$upgrader->flush();
+	$version = $upgrader->getLatestVersion();
+	
+	include_once 'pages/kboard_updates.php';
 }
 
 /*
@@ -694,10 +798,12 @@ function kboard_admin_notices(){
 			echo KBAdminNotices::get_upload_folder_not_writable_message();
 		}
 		
-		$upgrader = KBUpgrader::getInstance();
-		$vsersion = $upgrader->getLatestVersion()->kboard;
-		if(version_compare(KBOARD_VERSION, $vsersion, '<')){
-			echo KBAdminNotices::get_kboard_update_notice_message_message($vsersion);
+		if(!get_option('kboard_updates_notify_disabled')){
+			$upgrader = KBUpgrader::getInstance();
+			$vsersion = $upgrader->getLatestVersion()->kboard;
+			if(version_compare(KBOARD_VERSION, $vsersion, '<')){
+				echo KBAdminNotices::get_kboard_update_notice_message_message($vsersion);
+			}
 		}
 	}
 }

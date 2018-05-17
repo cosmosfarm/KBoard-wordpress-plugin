@@ -7,34 +7,35 @@
 	<div style="float:right"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none;overflow:hidden;width:500px;height:60px" allowTransparency="true"></iframe></div>
 	<div class="welcome-panel-column-container">
 		<div class="welcome-panel-column" style="overflow:hidden">
-			<h4><?php echo __('KBoard 버전', 'kboard')?></h4>
+			<h4><?php echo __('KBoard 버전', 'kboard')?> <!--<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_updates')?>" style="font-weight:normal">최신버전 확인</a>--></h4>
 			<ul>
 				<li>
-					<?php echo __('설치된 게시판 플러그인 버전', 'kboard')?>: <?php echo KBOARD_VERSION?> (<?php echo __('최신', 'kboard')?>: <?php echo $upgrader->getLatestVersion()->kboard?>)
-					<?php if(current_user_can('activate_plugins') && $upgrader->getLatestVersion()->kboard && version_compare(KBOARD_VERSION, $upgrader->getLatestVersion()->kboard, '<')):?><br><a class="button" href="<?php echo admin_url('admin.php?page=kboard_upgrade&action=kboard')?>" onclick="return cf_upgrade(this.href);"><?php echo $upgrader->getLatestVersion()->kboard?> 버전 업데이트</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
+					현재 설치된 게시판 플러그인 버전은 <strong><?php echo KBOARD_VERSION?></strong> 입니다. 
 				</li>
 				<li>
-					<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
-					<?php echo __('설치된 댓글 플러그인 버전', 'kboard')?>: <?php echo KBOARD_COMMNETS_VERSION?> (<?php echo __('최신', 'kboard')?>: <?php echo $upgrader->getLatestVersion()->comments?>)
-					<?php if(current_user_can('activate_plugins') && $upgrader->getLatestVersion()->comments &&  version_compare(KBOARD_COMMNETS_VERSION, $upgrader->getLatestVersion()->comments, '<')):?><br><a class="button" href="<?php echo admin_url('admin.php?page=kboard_upgrade&action=comments')?>" onclick="return cf_upgrade(this.href);"><?php echo $upgrader->getLatestVersion()->comments?> 버전 업데이트</a> <a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href);return false;"><?php echo __('변경사항', 'kboard')?></a><?php endif?>
+					<?php if(defined('KBOARD_COMMNETS_VERSION')):?> 
+						현재 설치된 댓글 플러그인 버전은 <strong><?php echo KBOARD_COMMNETS_VERSION?></strong> 입니다.
 					<?php else:?>
-					<ul>
-						<li><a class="button" href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">댓글 플러그인 홈페이지에서 다운로드하기</a></li>
-						<li><a class="button" href="<?php echo admin_url('admin.php?page=kboard_upgrade&action=comments')?>" onclick="return cf_upgrade(this.href);">댓글 플러그인 <?php echo $upgrader->getLatestVersion()->comments?> 버전 자동으로 설치하기</a></li>
-					</ul>
+						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates')?>">KBoard 댓글 플러그인 설치하기</a>
 					<?php endif?>
 				</li>
 			</ul>
-			<iframe src="//www.cosmosfarm.com/display/size/320_100" frameborder="0" scrolling="no" style="margin-top:20px;width:320px;height:100px;border:none"></iframe>
+			<h4><?php echo __('Events and News', 'kboard')?></h4>
+			<ul>
+				<?php
+				$upgrader = KBUpgrader::getInstance();
+				foreach($upgrader->getLatestNews() as $row):?>
+				<li>
+					<a href="<?php echo esc_url($row->url)?>" target="<?php echo esc_attr($row->target)?>"><?php echo esc_html($row->title)?></a>
+				</li>
+				<?php endforeach?>
+			</ul>
 		</div>
 		<div class="welcome-panel-column">
 			<h4><?php echo __('스토어', 'kboard')?></h4>
 			<ul id="cf-wpstore-products">
 				<li><?php echo __('등록된 상품이 없습니다.', 'kboard')?></li>
 			</ul>
-		</div>
-		<div class="welcome-panel-column">
-			<iframe src="//www.cosmosfarm.com/display/size/300_250" frameborder="0" scrolling="no" style="margin-top:20px;width:300px;height:250px;border:none"></iframe>
 		</div>
 	</div>
 </div>
@@ -52,6 +53,19 @@ jQuery(document).ready(function(){
 		}
 	});
 });
+function cf_addWpstoreProduct(title, created, link){
+	var products = document.getElementById('cf-wpstore-products');
+	var a = document.createElement('a');
+	a.innerHTML = title;
+	a.setAttribute('href', link);
+	a.onclick = function(){
+		window.open(this.href); return false;
+	}
+	var li = document.createElement('li');
+	li.appendChild(a);
+	products.appendChild(li);
+}
+/*
 function cf_upgrade(upgrade_url){
 	if(confirm('업데이트전에 플러그인을 백업하세요. 모두 최신 파일로 교체됩니다. 계속 할까요?')){
 		window.location.href = upgrade_url;
@@ -77,16 +91,5 @@ function cf_oauthStatus(upgrade_url){
 	});
 	return false;
 }
-function cf_addWpstoreProduct(title, created, link){
-	var products = document.getElementById('cf-wpstore-products');
-	var a = document.createElement('a');
-	a.innerHTML = title;
-	a.setAttribute('href', link);
-	a.onclick = function(){
-		window.open(this.href); return false;
-	}
-	var li = document.createElement('li');
-	li.appendChild(a);
-	products.appendChild(li);
-}
+*/
 </script>

@@ -107,7 +107,7 @@ jQuery(window).scroll(function(){
 });
 function cf_get_kbstore_list(page){
 	var current_scroll_top = jQuery(window).scrollTop();
-	cosmosfarm.getWpstoreProducts('<?php echo $category?>', page, 10, function(res){
+	cosmosfarm.getWpstoreProducts('<?php echo esc_attr($category)?>', page, 10, function(res){
 		if(res.length <= 0) cf_list_continue = false;
 		for(var i=0; i<res.length; i++){
 			cf_add_kbstore_product(res[i].thumbnail, res[i].title, res[i].link, res[i].download, res[i].formatted_category, res[i].category, res[i].version, res[i].description, res[i].price, res[i].purchased);
@@ -150,7 +150,9 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	a_purchase.innerHTML = '구매하기';
 	a_purchase.setAttribute('href', link);
 	a_purchase.onclick = function(){
-		if(confirm('구매는 스토어 웹사이트에서 가능합니다.')) window.open(this.href);
+		if(confirm('제품 구매는 스토어 홈페이지에서 가능합니다.')){
+			window.open(this.href);
+		}
 		return false;
 	}
 	
@@ -175,7 +177,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 		});
 		return false;
 	}
-
+	
 	action_links.appendChild(a_detail);
 	action_links.appendChild(document.createTextNode(' '));
 	if(category=='design'){
@@ -195,13 +197,13 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 		else action_links.appendChild(a_purchase);
 	}
 	td2.appendChild(action_links);
-
+	
 	var td3 = document.createElement('td');
 	td3.innerHTML = formatted_category;
-
+	
 	var td4 = document.createElement('td');
 	td4.innerHTML = version;
-
+	
 	var td5 = document.createElement('td');
 	var td5_wrap = document.createElement('div');
 	var td5_more = document.createElement('p');
@@ -213,14 +215,14 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	td5_wrap.innerHTML = description;
 	td5_more.className = 'kbstore-description-more';
 	td5_more.innerHTML = '<a href="#'+row_id+'" class="button button-small" onclick="return cf_kbstore_description_full(this)">설명 펼치기</a>';
-
+	
 	var tr = document.createElement('tr');
 	tr.appendChild(td1);
 	tr.appendChild(td2);
 	tr.appendChild(td3);
 	tr.appendChild(td4);
 	tr.appendChild(td5);
-
+	
 	var list = document.getElementById('kbstore-products-list');
 	list.appendChild(tr);
 }
@@ -228,12 +230,12 @@ function cf_get_a_install(action, download, version){
 	var a_install = document.createElement('a');
 	a_install.className = 'button-primary';
 	a_install.innerHTML = '설치하기';
-	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
+	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
 	a_install.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
 				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면, 새로운 파일로 교체됩니다.')){
-					window.location.href = '<?php echo admin_url('admin.php?page=kboard_upgrade')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+					window.location.href = '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
 				}
 			}
 			else{
