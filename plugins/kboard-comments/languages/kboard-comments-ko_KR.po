@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
 "POT-Creation-Date: 2018-05-17 22:16+0900\n"
-"PO-Revision-Date: 2018-05-17 22:16+0900\n"
+"PO-Revision-Date: 2018-05-18 13:54+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -301,7 +301,7 @@ msgstr "입력"
 
 #: skin/default/list.php:86
 msgid "You do not have permission to add comments."
-msgstr "댓글을 작성 할 수있는 권한이 없습니다."
+msgstr "댓글을 작성할 수 있는 권한이 없습니다."
 
 #: template/confirm.php:9 template/confirm.php:23 template/edit.php:9
 msgid "Password confirmation"

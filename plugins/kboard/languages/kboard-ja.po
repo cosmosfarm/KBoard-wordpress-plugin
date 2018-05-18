@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2018-05-17 22:14+0900\n"
-"PO-Revision-Date: 2018-05-17 22:15+0900\n"
+"POT-Creation-Date: 2018-05-18 13:45+0900\n"
+"PO-Revision-Date: 2018-05-18 13:45+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -1076,6 +1076,14 @@ msgstr "基本設定"
 #: pages/kboard_setting.php:24
 msgid "권한설정"
 msgstr "権限設定"
+
+#: pages/kboard_setting.php:26
+msgid "입력필드 설정"
+msgstr "フィールド"
+
+#: pages/kboard_setting.php:27
+msgid "계층형 카테고리"
+msgstr "ツリーカテゴリ"
 
 #: pages/kboard_setting.php:28
 msgid "고급설정"
