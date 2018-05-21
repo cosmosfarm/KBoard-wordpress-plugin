@@ -1,10 +1,12 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="welcome-panel-content">
-	<div style="float:left;">
-		<h2><?php echo __('코스모스팜 대시보드 입니다.', 'kboard')?></h2>
-		<p class="about-description"><?php echo __('최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.', 'kboard')?></p>
+	<div class="welcome-panel-column-container">
+		<div class="kboard-panel-column">
+			<h2><?php echo __('코스모스팜 대시보드 입니다.', 'kboard')?></h2>
+			<p class="about-description"><?php echo __('최신버전 확인 및 운영관련 기능을 사용할 수 있습니다.', 'kboard')?></p>
+		</div>
+		<div class="kboard-panel-column"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none;overflow:hidden;width:500px;height:60px" allowTransparency="true"></iframe></div>
 	</div>
-	<div style="float:right"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fcosmosfarm.sns&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=60" scrolling="no" frameborder="0" style="border:none;overflow:hidden;width:500px;height:60px" allowTransparency="true"></iframe></div>
 	<div class="welcome-panel-column-container">
 		<div class="welcome-panel-column" style="overflow:hidden">
 			<h4><?php echo __('KBoard 버전', 'kboard')?> <!--<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_updates')?>" style="font-weight:normal">최신버전 확인</a>--></h4>

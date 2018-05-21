@@ -120,10 +120,14 @@
 .menu-item-handle .item-title { margin: 0; }
 .menu-item-bar .menu-item-handle { width: auto; }
 
+.kboard-panel-column { float: left; margin-bottom: 20px; width: 50%; }
+
 @media screen and (max-width: 600px) {
     .kboard-fields-wrap .kboard-fields-left { float: none; width: auto; }
     .kboard-fields-wrap .kboard-fields-right { float: none; width: auto; }
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value { margin: 0; }
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value select { width: 100%; }
+    
+    .kboard-panel-column { float: none; width: auto; }
 }
