@@ -226,6 +226,53 @@
 				<p><button type="submit" class="button">게시글 바로 삭제 <?php echo get_option('kboard_content_delete_immediately')?'비활성화':'활성화'?></button></p>
 			</form>
 		</li>
+		<li id="kboard_naver_api_setting">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>네이버 API 설정</h4>
+				<p>
+					네이버에서 제공하는 API와 서비스를 KBoard(케이보드)에서 사용할 수 있습니다.<br>
+					일부 스킨과 플러그인에서 사용됩니다.
+				</p>
+				<p>
+					Client ID <input type="text" name="option[kboard_naver_api_client_id]" value="<?php echo get_option('kboard_naver_api_client_id')?>" placeholder="Client ID"><br>
+					Client Secret <input type="text" name="option[kboard_naver_api_client_secret]" value="<?php echo get_option('kboard_naver_api_client_secret')?>" placeholder="Client Secret"><br>
+					<button type="submit" class="button">네이버 API 정보 업데이트</button>
+				</p>
+			</form>
+		</li>
+		<li id="kboard_kakao_api_setting">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>카카오 API 설정</h4>
+				<p>
+					카카오에서 제공하는 API와 서비스를 KBoard(케이보드)에서 사용할 수 있습니다.<br>
+					일부 스킨과 플러그인에서 사용됩니다.
+				</p>
+				<p>
+					REST API 키 <input type="text" name="option[kboard_kakao_api_rest_key]" value="<?php echo get_option('kboard_kakao_api_rest_key')?>" placeholder="REST API 키"><br>
+					JavaScript 키<input type="text" name="option[kboard_kakao_api_javascript_key]" value="<?php echo get_option('kboard_kakao_api_javascript_key')?>" placeholder="JavaScript 키"><br>
+					<button type="submit" class="button">카카오 API 정보 업데이트</button>
+				</p>
+			</form>
+		</li>
+		<li id="kboard_google_api_setting">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>구글 API 설정</h4>
+				<p>
+					구글에서 제공하는 API와 서비스를 KBoard(케이보드)에서 사용할 수 있습니다.<br>
+					일부 스킨과 플러그인에서 사용됩니다.
+				</p>
+				<p>
+					API 키 <input type="text" name="option[kboard_google_api_key]" value="<?php echo get_option('kboard_google_api_key')?>" placeholder="API 키"><br>
+					<button type="submit" class="button">구글 API 정보 업데이트</button>
+				</p>
+			</form>
+		</li>
 		<!--
 		<li id="kboard_iamport">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">

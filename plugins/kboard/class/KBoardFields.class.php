@@ -497,7 +497,6 @@ class KBoardFields {
 	 */
 	public function getOptionFieldName($name){
 		$name = sanitize_key($name);
-		
 		return KBContent::$SKIN_OPTION_PREFIX . $name;
 	}
 	
@@ -553,7 +552,7 @@ class KBoardFields {
 					$field['field_name'] = $field['field_label'];
 				}
 				
-				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '">' . $field['field_name'] . ' : ' . $option_value . '</div>';
+				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span> : ' . nl2br($option_value) . '</div><hr>';
 				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $document, $board);
 			}
 		}

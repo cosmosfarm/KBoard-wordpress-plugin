@@ -184,7 +184,7 @@ function kboard_editor_open_media(){
 
 function kboard_editor_insert_media(url){
 	if(typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()){
-		tinyMCE.activeEditor.execCommand('mceInsertRawHTML', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
+		tinyMCE.activeEditor.execCommand('mceInsertContent', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
 		tinyMCE.activeEditor.focus();
 		tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('#last_kboard_media_content')[0], true);
 		tinyMCE.activeEditor.selection.collapse(false);

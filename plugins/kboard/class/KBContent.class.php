@@ -1325,6 +1325,21 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글에 저장된 트리 카테고리의 값을 반환한다.
+	 * @return array
+	 */
+	public function getTreeCategoryValues(){
+		$values = array();
+		if($this->uid){
+			$depth = $this->getTreeCategoryDepth();
+			for($i=1; $i<=$depth; $i++){
+				$values['tree_category_'.$i] = $this->option->{'tree_category_'.$i};
+			}
+		}
+		return $values;
+	}
+	
+	/**
 	 * 정보를 배열로 반환한다.
 	 * @return array
 	 */
