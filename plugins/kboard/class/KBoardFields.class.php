@@ -163,7 +163,6 @@ class KBoardFields {
 				'field_type' => 'ip',
 				'field_label' => '작성자 아이피 주소',
 				'kboard_extends' => '',
-				'default_value' => '',
 				'class' => 'kboard-attr-ip',
 				'meta_key' => 'ip',
 				'show_document' => '',
