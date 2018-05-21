@@ -19,7 +19,8 @@
   12. kboard_document_add_option_value_field_html 필터 추가
   13. kboard_skin_field_before 액션 추가
   14. kboard_skin_field_after 액션 추가
-  15. 버그 수정
+  15. 업데이트 기능 개선
+  16. 버그 수정
 
 
 5.3.6
