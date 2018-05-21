@@ -204,7 +204,7 @@ class KBoard {
 			}
 			else if($this->permission_read == 'roles' && !$secret){
 				// 선택된 역할의 사용자 허용
-				if(array_intersect($this->getReadRoles(), $this->current_user->roles)){
+				if(array_intersect($this->getReadRoles(), kboard_current_user_roles())){
 					return true;
 				}
 			}
@@ -231,7 +231,7 @@ class KBoard {
 			}
 			else if($this->permission_write == 'roles'){
 				// 선택된 역할의 사용자 허용
-				if(array_intersect($this->getWriteRoles(), $this->current_user->roles)){
+				if(array_intersect($this->getWriteRoles(), kboard_current_user_roles())){
 					return true;
 				}
 			}
@@ -273,7 +273,7 @@ class KBoard {
 			}
 			else if($this->meta->permission_order == 'roles'){
 				// 선택된 역할의 사용자 허용
-				if(array_intersect($this->getOrderRoles(), $this->current_user->roles)){
+				if(array_intersect($this->getOrderRoles(), kboard_current_user_roles())){
 					return true;
 				}
 			}
@@ -300,7 +300,7 @@ class KBoard {
 			}
 			else if($this->meta->permission_reply == 'roles'){
 				// 선택된 역할의 사용자 허용
-				if(array_intersect($this->getReplyRoles(), $this->current_user->roles)){
+				if(array_intersect($this->getReplyRoles(), kboard_current_user_roles())){
 					return true;
 				}
 			}
@@ -341,7 +341,7 @@ class KBoard {
 			}
 			else if($this->meta->permission_vote == 'roles'){
 				// 선택된 역할의 사용자 허용
-				if(array_intersect($this->getVoteRoles(), $this->current_user->roles)){
+				if(array_intersect($this->getVoteRoles(), kboard_current_user_roles())){
 					return true;
 				}
 			}
@@ -408,7 +408,7 @@ class KBoard {
 			$admin_user = explode(',', $this->admin_user);
 			$admin_user = array_map('sanitize_text_field', $admin_user);
 			
-			if(in_array('administrator', $this->current_user->roles)){
+			if(in_array('administrator', kboard_current_user_roles())){
 				// 최고관리자 허용
 				return true;
 			}
@@ -416,7 +416,7 @@ class KBoard {
 				// 선택된 관리자 허용
 				return true;
 			}
-			else if(array_intersect($this->getAdminRoles(), $this->current_user->roles)){
+			else if(array_intersect($this->getAdminRoles(), kboard_current_user_roles())){
 				// 선택된 역할의 사용자 허용
 				return true;
 			}

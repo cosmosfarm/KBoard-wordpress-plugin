@@ -372,8 +372,8 @@ class KBoardFields {
 	 */
 	public function getTemplate($field, $content=''){
 		$template = '';
-		$permission = (isset($field['permission'])&&$field['permission']) ? $field['permission'] : '';
-		$roles = (isset($field['roles'])&&$field['roles']) ? $field['roles'] : '';
+		$permission = (isset($field['permission']) && $field['permission']) ? $field['permission'] : '';
+		$roles = (isset($field['roles']) && $field['roles']) ? $field['roles'] : '';
 		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : '';
 		
 		if($this->isUseFields($permission, $roles) && $meta_key){
@@ -507,12 +507,10 @@ class KBoardFields {
 	public function isUseFields($permission, $roles){
 		switch($permission){
 			case 'all': return true;
-			case 'author':	return is_user_logged_in() ? true : false;
+			case 'author': return is_user_logged_in() ? true : false;
 			case 'roles':
 				if(is_user_logged_in()){
-					$user = wp_get_current_user();
-					$role = (array) $user->roles;
-					if(array_intersect($roles, $role)){
+					if(array_intersect($roles, kboard_current_user_roles())){
 						return true;
 					}
 				}

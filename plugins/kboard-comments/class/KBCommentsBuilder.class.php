@@ -116,8 +116,7 @@ class KBCommentsBuilder {
 				return true;
 			}
 			else if($this->permission_comment_write == 'roles'){
-				$current_user = wp_get_current_user();
-				if(isset($current_user->roles) && array_intersect($this->board->getCommentRoles(), $current_user->roles)){
+				if(array_intersect($this->board->getCommentRoles(), kboard_current_user_roles())){
 					return true;
 				}
 			}

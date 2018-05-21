@@ -440,6 +440,27 @@ function kboard_recaptcha_secret_key(){
 }
 
 /**
+ * 현재 사용자의 역할을 반환한다.
+ * @return array
+ */
+function kboard_current_user_roles(){
+	$roles = array();
+	if(is_user_logged_in()){
+		$user = wp_get_current_user();
+		if($user->roles){
+			$roles = (array) $user->roles;
+		}
+		else{
+			$user = new WP_User(get_current_user_id(), '', get_current_blog_id());
+			if($user->roles){
+				$roles = (array) $user->roles;
+			}
+		}
+	}
+	return apply_filters('kboard_current_user_roles', $roles);
+}
+
+/**
  * 사용자 IP 주소를 반환한다.
  * @return string
  */
