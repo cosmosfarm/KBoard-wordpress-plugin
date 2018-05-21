@@ -939,7 +939,7 @@ class KBoardBuilder {
 		
 		$list = new KBContentList($this->board_id);
 		
-		if($this->board->isPrivate()){
+		if(!is_array($this->board_id) && $this->board->isPrivate()){
 			if(is_user_logged_in()){
 				$list->memberUID(get_current_user_id());
 			}
