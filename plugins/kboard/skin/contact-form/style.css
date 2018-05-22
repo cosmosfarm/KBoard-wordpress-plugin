@@ -133,7 +133,9 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-editor .kboard-attr-row .attr-name .attr-required-text { color: red; font-weight: normal; font-size: 12px; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value { margin: 0; padding: 0; line-height: 34px; font-size: 16px; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-option input[type=checkbox] { cursor: pointer; }
+#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-option input { cursor: pointer; }
+#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-label { display: inline; padding-right: 10px; width: auto; cursor: pointer; }
+#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-label input { cursor: pointer; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap { float: left; width: 100%; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { clear: both; float: left; margin-bottom: 5px; width: 30%; }

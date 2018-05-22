@@ -12,7 +12,6 @@
 		<input type="hidden" name="user_id" value="<?php echo get_current_user_id()?>">
 		<input type="hidden" name="secret" value="true">
 		<input type="hidden" name="wordpress_search" value="3">
-		<input type="hidden" name="password" value="<?php echo uniqid()?>">
 		
 		<?php foreach($board->fields()->getSkinFields() as $key=>$field):?>
 			<?php echo $board->fields()->getTemplate($field, $content)?>

@@ -106,10 +106,10 @@
 		</div>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'title'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?>">
+	<div class="kboard-attr-row <?php echo $field['class']?> required">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span> <span class="attr-required-text">*</span></label>
 		<div class="attr-value">
-			<input type="text" id="<?php echo esc_attr($meta_key)?>" name="title" value="<?php echo $content->title?$content->title:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
+			<input type="text" id="<?php echo esc_attr($meta_key)?>" name="title" class="required" value="<?php echo $content->title?$content->title:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
@@ -209,9 +209,9 @@
 		<?php foreach($field['row'] as $option_key=>$option_value):?>
 			<?php if(isset($option_value['label']) && $option_value['label']):?>
 				<?php if($content->option->{$meta_key}):?>
-					<label><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+					<label class="attr-value-label"><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 				<?php else:?>
-					<label><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+					<label class="attr-value-label"><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 				<?php endif?>
 			<?php endif?>
 		<?php endforeach?>
@@ -228,9 +228,9 @@
 				<?php if(isset($option_value['label']) && $option_value['label']):?>
 					<?php $default_value = (isset($option_value['default_value']) && $option_value['default_value']) ? $option_value['default_value'] : ''?>
 					<?php if($content->option->{$meta_key}):?>
-						<label><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+						<label class="attr-value-label"><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 					<?php else:?>
-						<label><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+						<label class="attr-value-label"><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 					<?php endif?>
 				<?php endif?>
 			<?php endforeach?>

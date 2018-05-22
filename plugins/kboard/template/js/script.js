@@ -307,7 +307,7 @@ function kboard_fields_validation(callback){
 	jQuery('.kboard-attr-row.required').each(function(index, element){
 		var required = jQuery(element).find('.required');
 		
-		if(jQuery(required).length == 1 && jQuery() && jQuery(required).val() == 'default' || !jQuery(required).val()){
+		if(jQuery(required).length == 1 && jQuery(required).val() == 'default' || !jQuery(required).val()){
 			alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
 			callback(required);
 			

@@ -39,13 +39,7 @@
 			
 			<div class="kboard-content" itemprop="description">
 				<div class="content-view">
-					<?php if($board->isEditor($content->member_uid)):?>
-					<p>
-						<?php echo __('Name', 'kboard')?> : <?php echo $content->option->name?><br>
-						<?php echo __('Phone number', 'kboard')?> : <?php echo $content->option->tel?>
-					</p>
-					<?php endif?>
-					
+					<?php echo $content->getOptionsHTML()?>
 					<?php echo $content->content?>
 				</div>
 			</div>

@@ -156,6 +156,7 @@ class KBAdminController {
 				$board->meta->max_attached_count             = isset($_POST['max_attached_count'])             ? $_POST['max_attached_count']              : '';
 				$board->meta->list_sort_numbers              = isset($_POST['list_sort_numbers'])              ? $_POST['list_sort_numbers']               : '';
 				$board->meta->permit                         = isset($_POST['permit'])                         ? $_POST['permit']                          : '';
+				$board->meta->secret_checked_default         = isset($_POST['secret_checked_default'])         ? $_POST['secret_checked_default']          : '';
 				$board->meta->default_build_mod              = isset($_POST['default_build_mod'])              ? $_POST['default_build_mod']               : '';
 				$board->meta->after_executing_mod            = isset($_POST['after_executing_mod'])            ? $_POST['after_executing_mod']             : '';
 				$board->meta->add_menu_page                  = isset($_POST['add_menu_page'])                  ? $_POST['add_menu_page']                   : '';

@@ -1340,6 +1340,18 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글 본문 페이지에 표시할 입력 데이터의 태그를 반환한다.
+	 * @return string
+	 */
+	public function getOptionsHTML(){
+		if($this->uid){
+			$board = $this->getBoard();
+			return $board->fields()->getValuesHTML($this);
+		}
+		return '';
+	}
+	
+	/**
 	 * 정보를 배열로 반환한다.
 	 * @return array
 	 */

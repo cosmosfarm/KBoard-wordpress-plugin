@@ -24,7 +24,7 @@ class KBoardFields {
 				'class' => 'kboard-attr-title',
 				'meta_key' => 'title',
 				'field_name' => '',
-				'permission' => '',
+				'permission' => 'all',
 				'roles' => '',
 				'default_value' => '',
 				'placeholder' => '',
@@ -270,6 +270,7 @@ class KBoardFields {
 	 */
 	public function setBoardID($board){
 		if(is_int($board)){
+			
 		}
 		else{
 			$this->board = $board;
@@ -520,28 +521,25 @@ class KBoardFields {
 	}
 	
 	/**
-	 * 게시글 본문 페이지에 입력 필드를 표시한다.
-	 * @param string $content
-	 * @param int $content_uid
-	 * @param int $board_id
+	 * 게시글 본문 페이지에 표시할 입력 데이터의 태그를 반환한다.
+	 * @param KBContent $content
 	 * @return string
 	 */
-	public static function documentAddOptionValue($content, $content_uid, $board_id){
-		$board = new KBoard($board_id);
-		$skin_fields = $board->fields()->getSkinFields();
-		$document = new KBContent();
-		$document->initWithUID($content_uid);
+	public function getValuesHTML($content){
 		$option_value_list = array();
 		
+		$board = $this->board;
+		$skin_fields = $board->fields()->getSkinFields();
+		
 		foreach($skin_fields as $key=>$field){
-			$field = apply_filters('kboard_document_add_option_value_field_data', $field, $document, $board);
+			$field = apply_filters('kboard_document_add_option_value_field_data', $field, $content, $board);
 			
 			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
-			$option_value = $document->option->{$meta_key};
+			$option_value = $content->option->{$meta_key};
 			
 			if(isset($field['show_document']) && $field['show_document'] && $option_value){
 				if(is_array($option_value)){
-					$separator = apply_filters('kboard_document_add_option_value_separator', ', ', $field, $document, $board);
+					$separator = apply_filters('kboard_document_add_option_value_separator', ', ', $field, $content, $board);
 					$option_value = implode($separator, $option_value);
 				}
 				
@@ -550,12 +548,14 @@ class KBoardFields {
 				}
 				
 				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span> : ' . nl2br($option_value) . '</div><hr>';
-				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $document, $board);
+				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $content, $board);
 			}
 		}
-		
-		$content = '<div class="kboard-document-add-option-value-wrap">' . implode('', $option_value_list) . '</div>' . $content;
-		return $content;
+
+		if($option_value_list){
+			return '<div class="kboard-document-add-option-value-wrap">' . implode('', $option_value_list) . '</div>';
+		}
+		return '';
 	}
 }
 ?>

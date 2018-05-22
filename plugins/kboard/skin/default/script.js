@@ -27,20 +27,6 @@ function kboard_editor_execute(form){
 	});
 	
 	if(!validation){
-		if(!jQuery('input[name=title]', form).val()){
-			// 제목 필드는 항상 필수로 입력합니다.
-			alert(kboard_localize_strings.please_enter_the_title);
-			jQuery('input[name=title]', form).focus();
-			return false;
-		}
-		/*
-		if(jQuery('input[name=member_display]', form).eq(1).exists() && !jQuery('input[name=member_display]', form).eq(1).val()){
-			// 작성자 필드가 있을 경우 필수로 입력합니다.
-			alert(kboard_localize_strings.please_enter_the_author);
-			jQuery('[name=member_display]', form).eq(1).focus();
-			return false;
-		}
-		*/
 		if(parseInt(jQuery('input[name=user_id]', form).val()) > 0){
 			// 로그인 사용자의 경우 비밀글 체크시에만 비밀번호를 필수로 입력합니다.
 			if(jQuery('input[name=secret]', form).prop('checked') && !jQuery('input[name=password]', form).val()){

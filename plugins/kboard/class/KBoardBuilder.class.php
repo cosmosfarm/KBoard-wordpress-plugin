@@ -407,8 +407,6 @@ class KBoardBuilder {
 		if($allow_document){
 			$content->increaseView();
 			
-			add_filter('kboard_content', array('KBoardFields', 'documentAddOptionValue'), 10, 3);
-			
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
 			if(!$board->use_editor && $this->meta->autolink){
 				include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
@@ -546,8 +544,12 @@ class KBoardBuilder {
 			}
 			
 			// 내용이 없으면 등록된 기본 양식을 가져온다.
-			if(!$content->content){
+			if(!$content->uid && !$content->content){
 				$content->content = $this->meta->default_content;
+			}
+			// 새로운 글 작성 시 기본적으로 비밀글로 설정한다.
+			if(!$content->uid && $this->meta->secret_checked_default){
+				$content->secret = 'true';
 			}
 			
 			// 새로운 답글 쓰기에서만 실행한다.

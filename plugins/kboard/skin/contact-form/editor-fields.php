@@ -21,10 +21,7 @@
 		<input type="hidden" id="kboard-input-member-display" name="member_display" value="<?php echo $default_value?>">
 	<?php endif?>
 	<?php if($board->viewUsernameField()):?>
-		<div class="kboard-attr-row">
-			<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?> <span class="attr-required-text">*</span></label>
-			<div class="attr-value"><input type="password" id="kboard-input-password" name="password" value="<?php echo $content->password?>" placeholder="<?php echo __('Password', 'kboard')?>..."></div>
-		</div>
+		<input type="hidden" name="password" value="<?php echo uniqid()?>">
 	<?php endif?>
 <?php elseif($field['field_type'] == 'captcha'):?>
 	<?php if($board->useCAPTCHA() && !$content->uid):?>
@@ -106,10 +103,10 @@
 		</div>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'title'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?>">
+	<div class="kboard-attr-row <?php echo $field['class']?> required">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span> <span class="attr-required-text">*</span></label>
 		<div class="attr-value">
-			<input type="text" id="<?php echo esc_attr($meta_key)?>" name="title" value="<?php echo $content->title?$content->title:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
+			<input type="text" id="<?php echo esc_attr($meta_key)?>" name="title" class="required" value="<?php echo $content->title?$content->title:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
@@ -121,22 +118,6 @@
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
-<?php elseif($field['field_type'] == 'search'):?>
-	<?php if(isset($field['hidden']) && $field['hidden'] == '1'):?>
-		<input type="hidden" name="wordpress_search" value="<?php echo esc_attr($default_value)?>">
-	<?php else:?>
-		<div class="kboard-attr-row <?php echo $field['class']?>">
-			<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
-			<div class="attr-value">
-				<select id="kboard-select-wordpress-search" name="wordpress_search">
-					<option value="1"<?php if($wordpress_search == '1'):?> selected<?php endif?>><?php echo __('Public', 'kboard')?></option>
-					<option value="2"<?php if($wordpress_search == '2'):?> selected<?php endif?>><?php echo __('Only title (secret document)', 'kboard')?></option>
-					<option value="3"<?php if($wordpress_search == '3'):?> selected<?php endif?>><?php echo __('Exclusion', 'kboard')?></option>
-				</select>
-				<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
-			</div>
-		</div>
-	<?php endif?>
 <?php elseif($field['field_type'] == 'text'):?>
 	<?php if(isset($field['hidden']) && $field['hidden']):?>
 		<input type="hidden" id="<?php echo esc_attr($meta_key)?>" class="<?php echo $required?>" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>" value="<?php echo $content->option->{esc_attr($meta_key)}?$content->option->{esc_attr($meta_key)}:esc_attr($default_value)?>">
@@ -176,9 +157,9 @@
 		<?php foreach($field['row'] as $option_key=>$option_value):?>
 			<?php if(isset($option_value['label']) && $option_value['label']):?>
 				<?php if($content->option->{$meta_key}):?>
-					<label><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+					<label class="attr-value-label"><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 				<?php else:?>
-					<label><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+					<label class="attr-value-label"><input type="radio" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 				<?php endif?>
 			<?php endif?>
 		<?php endforeach?>
@@ -195,9 +176,9 @@
 				<?php if(isset($option_value['label']) && $option_value['label']):?>
 					<?php $default_value = (isset($option_value['default_value']) && $option_value['default_value']) ? $option_value['default_value'] : ''?>
 					<?php if($content->option->{$meta_key}):?>
-						<label><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+						<label class="attr-value-label"><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 					<?php else:?>
-						<label><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"><?php echo esc_attr($option_value['label'])?></label>
+						<label class="attr-value-label"><input type="checkbox" name="<?php echo $fields->getOptionFieldName(esc_attr($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
 					<?php endif?>
 				<?php endif?>
 			<?php endforeach?>
