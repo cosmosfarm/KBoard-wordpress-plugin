@@ -1586,6 +1586,18 @@ jQuery(document).ready(function(){
 			jQuery(this).closest('li').remove();
 		}
 	});
+
+	jQuery('#new-category-name').keypress(function(event){
+		if(event.keyCode === 10 || event.keyCode === 13){
+			event.preventDefault();
+		}
+	});
+
+	jQuery('#update-category-name').keypress(function(event){
+		if(event.keyCode === 10 || event.keyCode === 13){
+			event.preventDefault();
+		}
+	});
 });
 
 function kboard_fields_toggle(element, active){

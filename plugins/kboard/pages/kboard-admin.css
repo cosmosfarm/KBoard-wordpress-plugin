@@ -129,5 +129,8 @@
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
     .kboard-fields-wrap .kboard-fields .attr-row .attr-value select { width: 100%; }
     
+    .kboard-category-setting-left,
+    .kboard-category-setting-right { float: none; width: auto; }
+    
     .kboard-panel-column { float: none; width: auto; }
 }
