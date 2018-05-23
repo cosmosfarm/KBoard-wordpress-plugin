@@ -39,7 +39,7 @@
 			
 			<div class="kboard-content" itemprop="description">
 				<div class="content-view">
-					<?php echo $content->getOptionsHTML()?>
+					<?php echo $content->getDocumentOptionsHTML()?>
 					<?php echo $content->content?>
 				</div>
 			</div>

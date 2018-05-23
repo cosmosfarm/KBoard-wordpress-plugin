@@ -521,11 +521,11 @@ class KBoardFields {
 	}
 	
 	/**
-	 * 게시글 본문 페이지에 표시할 입력 데이터의 태그를 반환한다.
+	 * 게시글 본문 페이지에 표시할 옵션값 태그를 반환한다.
 	 * @param KBContent $content
 	 * @return string
 	 */
-	public function getValuesHTML($content){
+	public function getDocumentValuesHTML($content){
 		$option_value_list = array();
 		
 		$board = $this->board;
@@ -551,11 +551,40 @@ class KBoardFields {
 				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $content, $board);
 			}
 		}
-
+		
 		if($option_value_list){
 			return '<div class="kboard-document-add-option-value-wrap">' . implode('', $option_value_list) . '</div>';
 		}
 		return '';
+	}
+	
+	/**
+	 *게시글 본문 페이지에 표시할 옵션값을 반환한다.
+	 * @param KBContent $content
+	 * @return array
+	 */
+	public function getDocumentValues($content){
+		$option_value_list = array();
+		
+		$board = $this->board;
+		$skin_fields = $board->fields()->getSkinFields();
+		
+		foreach($skin_fields as $key=>$field){
+			$field = apply_filters('kboard_document_add_option_value_field_data', $field, $content, $board);
+			
+			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
+			$option_value = $content->option->{$meta_key};
+			
+			if(isset($field['show_document']) && $field['show_document'] && $option_value){
+				if(!(isset($field['field_name']) && $field['field_name'])){
+					$field['field_name'] = $field['field_label'];
+				}
+				
+				$option_value_list[$meta_key] = array('field'=>$field, 'value'=>$option_value);
+			}
+		}
+		
+		return $option_value_list;
 	}
 }
 ?>

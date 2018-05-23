@@ -1340,13 +1340,25 @@ class KBContent {
 	}
 	
 	/**
-	 * 게시글 본문 페이지에 표시할 입력 데이터의 태그를 반환한다.
+	 * 게시글 본문 페이지에 표시할 옵션값 태그를 반환한다.
 	 * @return string
 	 */
-	public function getOptionsHTML(){
+	public function getDocumentOptionsHTML(){
 		if($this->uid){
 			$board = $this->getBoard();
-			return $board->fields()->getValuesHTML($this);
+			return $board->fields()->getDocumentValuesHTML($this);
+		}
+		return '';
+	}
+	
+	/**
+	 * 게시글 본문 페이지에 표시할 옵션값을 반환한다.
+	 * @return array
+	 */
+	public function getDocumentOptions(){
+		if($this->uid){
+			$board = $this->getBoard();
+			return $board->fields()->getDocumentValues($this);
 		}
 		return '';
 	}

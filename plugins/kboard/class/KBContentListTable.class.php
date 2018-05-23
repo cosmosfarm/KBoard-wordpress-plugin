@@ -6,19 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBContentListTable extends WP_List_Table {
-
+	
 	var $board_list;
 	var $filter_board_id;
 	var $filter_view;
 	var $active_admin_board;
-
+	
 	public function __construct(){
 		parent::__construct();
 		$this->filter_board_id = isset($_GET['filter_board_id'])&&$_GET['filter_board_id']?$_GET['filter_board_id']:'';
 		$this->filter_board_id = isset($_POST['filter_board_id'])?$_POST['filter_board_id']:$this->filter_board_id;
 		$this->filter_view = isset($_GET['filter_view'])?$_GET['filter_view']:'';
 	}
-
+	
 	public function prepare_items(){
 		$columns = $this->get_columns();
 		$hidden = array();
