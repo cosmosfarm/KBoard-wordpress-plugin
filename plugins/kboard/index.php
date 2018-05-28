@@ -863,6 +863,7 @@ function kboard_scripts(){
 		'ajax_url' => admin_url('admin-ajax.php'),
 		'alax_url' => admin_url('admin-ajax.php'),
 		'plugin_url' => KBOARD_URL_PATH,
+		'add_media_url' => apply_filters('kboard_add_media_url', home_url('/', 'relative')),
 		'media_group' => uniqid(),
 		'ajax_security' => wp_create_nonce('kboard_ajax_security'),
 	);

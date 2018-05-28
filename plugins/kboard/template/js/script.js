@@ -142,10 +142,10 @@ function kboard_editor_open_media(){
 	var h = 500;
 	
 	if(kboard_settings.home_url.indexOf('?') === -1){
-		var media_popup_url = kboard_settings.home_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid;
+		var media_popup_url = kboard_settings.add_media_url+'?action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid;
 	}
 	else{
-		var media_popup_url = kboard_settings.home_url+'&action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid;
+		var media_popup_url = kboard_settings.add_media_url+'&action=kboard_media&board_id='+kboard_current.board_id+'&media_group='+kboard_settings.media_group+'&content_uid='+kboard_current.content_uid;
 	}
 	
 	if(kboard_current.board_id){
