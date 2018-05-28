@@ -2,6 +2,12 @@
 
 [homepage](http://www.cosmosfarm.com/products/kboard)
 
+5.3.8
+----------------------------------
+
+  1. kboard_add_media_url 필터 추가
+
+
 5.3.7
 ----------------------------------
 
