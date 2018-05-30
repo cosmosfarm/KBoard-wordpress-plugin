@@ -96,7 +96,7 @@ class KBSeo {
 		}
 		return $this;
 	}
-
+	
 	/**
 	 * 워드프레스 사이트 제목에 게시물 제목을 추가한다.
 	 * @param string|array $title
@@ -111,7 +111,7 @@ class KBSeo {
 			return $this->getTitle();
 		}
 	}
-
+	
 	/**
 	 * head에 SEO 정보를 추가한다.
 	 */
@@ -120,7 +120,7 @@ class KBSeo {
 		do_action('kboard_head');
 		echo "<!-- WordPress KBoard plugin " . KBOARD_VERSION . " - http://www.cosmosfarm.com/products/kboard -->\n\n";
 	}
-
+	
 	/**
 	 * 게시물 정보 Open Graph protocol(OGP)을 추가한다.
 	 */
@@ -137,7 +137,7 @@ class KBSeo {
 			echo "\n";
 		}
 	}
-
+	
 	/**
 	 * Twitter 정보를 추가한다.
 	 */
@@ -147,7 +147,7 @@ class KBSeo {
 		echo '<meta property="twitter:description" content="' . $this->getDescription() . '">';
 		echo "\n";
 	}
-
+	
 	/**
 	 * 게시물 정보 메타태그를 추가한다.
 	 */
@@ -157,7 +157,7 @@ class KBSeo {
 		echo '<meta name="description" content="' . $this->getDescription() . '">';
 		echo "\n";
 	}
-
+	
 	/**
 	 * 작성자 메타태그를 추가한다.
 	 */
@@ -165,7 +165,7 @@ class KBSeo {
 		echo '<meta name="author" content="' . $this->getUsername() . '">';
 		echo "\n";
 	}
-
+	
 	/**
 	 * 작성일 메타태그를 추가한다.
 	 */
@@ -173,7 +173,7 @@ class KBSeo {
 		echo '<meta name="author-date(date)" content="' . date('Y-m-d H:i:s', strtotime($this->content->date)) . '">';
 		echo "\n";
 	}
-
+	
 	/**
 	 * Canonical 주소를 추가한다.
 	 */
@@ -183,7 +183,7 @@ class KBSeo {
 		echo '<link rel="shortlink" href="' . $this->getCanonical() . '">';
 		echo "\n";
 	}
-
+	
 	/**
 	 * RSS 피드 주소를 추가한다.
 	 */
@@ -196,7 +196,7 @@ class KBSeo {
 			$check_kboard_seo_rss_once = true;
 		}
 	}
-
+	
 	/**
 	 * 페이지의 제목을 반환한다.
 	 * @param string $title
@@ -204,11 +204,11 @@ class KBSeo {
 	 */
 	public function getTitle($title=''){
 		if($this->content->title){
-			return kboard_htmlclear($this->content->title);
+			return esc_attr(sanitize_text_field($this->content->title));
 		}
-		return $title;
+		return esc_attr($title);
 	}
-
+	
 	/**
 	 * 페이지의 내용을 반환한다.
 	 * @param string $description
@@ -216,11 +216,11 @@ class KBSeo {
 	 */
 	public function getDescription($description=''){
 		if($this->content->content){
-			return trim(str_replace("\n", ' ', kboard_htmlclear($this->content->content)));
+			return esc_attr(sanitize_text_field($this->content->content));
 		}
-		return $description;
+		return esc_attr($description);
 	}
-
+	
 	/**
 	 * 페이지의 대표 이미지 주소를 반환한다.
 	 * @param string $image
@@ -228,11 +228,11 @@ class KBSeo {
 	 */
 	public function getImage($image=''){
 		if($this->content->getThumbnail()){
-			return $this->content->getThumbnail();
+			return esc_attr($this->content->getThumbnail());
 		}
-		return $image;
+		return esc_attr($image);
 	}
-
+	
 	/**
 	 * 글 작성자 이름을 반환한다.
 	 * @param string $username
@@ -240,11 +240,11 @@ class KBSeo {
 	 */
 	public function getUsername($username=''){
 		if($this->content->member_display){
-			return trim(kboard_htmlclear($this->content->member_display));
+			return esc_attr(sanitize_text_field($this->content->member_display));
 		}
-		return $username;
+		return esc_attr($username);
 	}
-
+	
 	/**
 	 * Canonical 주소를 반환한다.
 	 * @param string $canonical_url
@@ -253,9 +253,9 @@ class KBSeo {
 	public function getCanonical($canonical_url=''){
 		if($this->content->uid){
 			$url = new KBUrl();
-			return $url->getDocumentRedirect($this->content->uid);
+			return esc_url_raw($url->getDocumentRedirect($this->content->uid));
 		}
-		return $canonical_url;
+		return esc_url_raw($canonical_url);
 	}
 }
 ?>
