@@ -303,8 +303,8 @@ function kboard_comment_unlike(button, callback){
 	return false;
 }
 
-function kboard_fields_validation(callback){
-	jQuery('.kboard-attr-row.required').each(function(index, element){
+function kboard_fields_validation(form, callback){
+	jQuery('.kboard-attr-row.required', form).each(function(index, element){
 		var required = jQuery(element).find('.required');
 		
 		if(jQuery(required).length == 1 && jQuery(required).val() == 'default' || !jQuery(required).val()){

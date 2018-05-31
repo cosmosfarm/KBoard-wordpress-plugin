@@ -606,7 +606,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											<input type="hidden" class="field_data option_field" value="<?php echo $item['option_field']?>">
 										<?php endif?>
 										<div class="attr-row">
-											<label class="attr-name" for="<?php echo $key?>_field_label">필드 레이블 <span class="req">*</span></label>
+											<label class="attr-name" for="<?php echo $key?>_field_label">필드 레이블</label>
 											<div class="attr-value">
 												<input type="text" id="<?php echo $key?>_field_label" class="field_data field_name" value="<?php if(isset($item['field_name']) && $item['field_name']):echo $item['field_name']; endif?>">
 											</div>
@@ -767,7 +767,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<input type="hidden" class="field_data field_type" value="<?php echo $item['field_type']?>">
 										<input type="hidden" class="field_data field_label" value="<?php echo $item['field_label']?>">
 										<div class="attr-row">
-											<label class="attr-name">필드 레이블 <span class="req">*</span></label>
+											<label class="attr-name">필드 레이블</label>
 											<div class="attr-value"><input type="text" class="field_data field_name" placeholder="제목"></div>
 										</div>
 										<?php if(isset($item['meta_key'])):?>
@@ -914,9 +914,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									
 									<?php if(isset($item['field_name'])):?>
 									<div class="attr-row">
-										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>-field-label">필드 레이블 <span class="req">*</span></label>
+										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>-field-label">필드 레이블</label>
 										<div class="attr-value">
-											<input type="text" id="<?php echo esc_attr($meta_key)?>-field-label" name="fields[<?php echo esc_attr($meta_key)?>][field_name]" class="field_data field_name" value="<?php echo $item['field_name']?esc_attr($item['field_name']):esc_attr($item['field_label'])?>">
+											<input type="text" id="<?php echo esc_attr($meta_key)?>-field-label" name="fields[<?php echo esc_attr($meta_key)?>][field_name]" class="field_data field_name" value="<?php echo $item['field_name']?>" placeholder="<?php echo $item['field_type']?>">
 										</div>
 									</div>
 									<?php endif?>
@@ -1763,6 +1763,7 @@ function kboard_tree_category_update(sub_action){
 		jQuery('#update-category-name').val('');
 		jQuery('#new-category-name').focus();
 		jQuery('.sortable li').remove();
+		jQuery('.sortable input').remove();
 		jQuery('.sortable').prepend(data.table_body);
 	});
 	return false;
