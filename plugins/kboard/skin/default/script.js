@@ -19,7 +19,7 @@ function kboard_editor_execute(form){
 	 * 폼 유효성 검사
 	 */
 	var validation = '';
-	kboard_fields_validation(jQuery(form), function(fields){
+	kboard_fields_validation(form, function(fields){
 		if(fields){
 			validation = fields;
 			jQuery(fields).focus();
