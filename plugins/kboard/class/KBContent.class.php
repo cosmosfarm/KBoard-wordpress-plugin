@@ -1364,6 +1364,18 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글에 표시할 첨부파일을 반환한다.
+	 * @return array
+	 */
+	public function getAttachs(){
+		if($this->uid){
+			$board = $this->getBoard();
+			return $board->fields()->getAttachs($this);
+		}
+		return '';
+	}
+	
+	/**
 	 * 정보를 배열로 반환한다.
 	 * @return array
 	 */

@@ -248,6 +248,18 @@ class KBoardFields {
 				'description' => '',
 				'close_button' => 'yes'
 			),
+			'file' => array(
+				'field_type' => 'file',
+				'field_label' => '파일 (file)',
+				'class' => 'kboard-attr-file',
+				'meta_key' => '',
+				'field_name' => '',
+				'permission' => '',
+				'roles' => '',
+				'show_document' => '',
+				'description' => '',
+				'close_button' => 'yes'
+			),
 			'wp_editor' => array(
 				'field_type' => 'wp_editor',
 				'field_label' => '워드프레스 내장 에디터',
@@ -534,11 +546,18 @@ class KBoardFields {
 		foreach($skin_fields as $key=>$field){
 			$field = apply_filters('kboard_document_add_option_value_field_data', $field, $content, $board);
 			
-			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
-			$option_value = $content->option->{$meta_key};
+			$meta_key = (isset($field['meta_key'])&&$field['meta_key']) ? $field['meta_key'] : $key;
+			$field_type = (isset($field['field_type'])&&$field['field_type']) ? $field['field_type'] : '';
+			
+			if($field_type == 'file'){
+				$option_value = isset($content->attach->{$meta_key}) ? $content->attach->{$meta_key} : array();
+			}
+			else{
+				$option_value = $content->option->{$meta_key};
+			}
 			
 			if(isset($field['show_document']) && $field['show_document'] && $option_value){
-				if(is_array($option_value)){
+				if(is_array($option_value) && $field_type != 'file'){
 					$separator = apply_filters('kboard_document_add_option_value_separator', ', ', $field, $content, $board);
 					$option_value = implode($separator, $option_value);
 				}
@@ -547,7 +566,16 @@ class KBoardFields {
 					$field['field_name'] = $field['field_label'];
 				}
 				
-				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span> : ' . nl2br($option_value) . '</div><hr>';
+				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span> : ';
+				
+				if($field_type == 'file'){
+					$url = new KBUrl();
+					$download_button = "<button type='button' class='kboard-button-action kboard-button-download' onclick='window.location.href=\"{$url->getDownloadURLWithAttach($content->uid, $meta_key)}\"' title=''>{$option_value[1]}</button>";
+					$html .= $download_button . '</div><hr>';
+				}
+				else{
+					$html .= nl2br($option_value) . '</div><hr>';
+				}
 				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $content, $board);
 			}
 		}
@@ -559,7 +587,7 @@ class KBoardFields {
 	}
 	
 	/**
-	 *게시글 본문 페이지에 표시할 옵션값을 반환한다.
+	 * 게시글 본문 페이지에 표시할 옵션값을 반환한다.
 	 * @param KBContent $content
 	 * @return array
 	 */
@@ -585,6 +613,24 @@ class KBoardFields {
 		}
 		
 		return $option_value_list;
+	}
+	
+	/**
+	 * 게시글에 표시할 첨부파일을 반환한다.
+	 * @param KBContent $content
+	 * @return array
+	 */
+	public function getAttachs($content){
+		$skin_fields = $this->getSkinFields();
+		$attach_list = $content->attach;
+		
+		foreach($skin_fields as $meta_key=>$item){
+			if(array_key_exists($meta_key, $attach_list)){
+				unset($attach_list->$meta_key);
+			}
+		}
+		
+		return $attach_list;
 	}
 }
 ?>

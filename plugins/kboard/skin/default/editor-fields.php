@@ -246,6 +246,15 @@
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
+<?php elseif($field['field_type'] == 'file'):?>
+	<div class="kboard-attr-row <?php echo $field['class']?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+		<div class="attr-value">
+			<?php if(isset($content->attach->{$meta_key})):?><?php echo $content->attach->$meta_key[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, $meta_key)?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
+				<input type="file" id="kboard-input-<?php echo $meta_key?>" name="kboard_attach_<?php echo $meta_key?>">
+			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
+		</div>
+	</div>
 <?php elseif($field['field_type'] == 'wp_editor'):?>
 	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
