@@ -6,7 +6,8 @@
 ----------------------------------
 
   1. kboard_add_media_url 필터 추가
-  2. 버그 수정
+  2. kboard_content_is_attached 필터 추가
+  3. 버그 수정
 
 
 5.3.7

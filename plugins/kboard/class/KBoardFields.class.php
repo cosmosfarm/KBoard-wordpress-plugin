@@ -46,7 +46,7 @@ class KBoardFields {
 			),
 			'author' => array(
 				'field_type' => 'author',
-				'field_label' => '작성자 이름',
+				'field_label' => __('Author', 'kboard'),
 				'class' => 'kboard-attr-author',
 				'meta_key' => 'author',
 				'field_name' => '',
@@ -84,19 +84,19 @@ class KBoardFields {
 			),
 			'tree_category' => array(
 				'field_type' => 'tree_category',
-				'field_label' => '계층형 ' . __('Category', 'kboard'),
+				'field_label' => __('Tree Category', 'kboard'),
 				'class' => 'kboard-attr-tree-category',
 				'meta_key' => 'tree_category',
 				'field_name' => '',
 				'permission' => '',
 				'roles' => '',
-				'option_field'=>true,
+				'option_field' => true,
 				'description' => '',
 				'close_button' => 'yes'
 			),
 			'captcha' => array(
 				'field_type' => 'captcha',
-				'field_label' => '보안코드 (캡차)',
+				'field_label' => __('Captcha', 'kboard'),
 				'class' => 'kboard-attr-captcha',
 				'meta_key' => 'captcha',
 				'description' => '',
@@ -104,7 +104,7 @@ class KBoardFields {
 			),
 			'content' => array(
 				'field_type' => 'content',
-				'field_label' => '내용',
+				'field_label' => __('Content', 'kboard'),
 				'field_name' => '',
 				'class' => 'kboard-attr-content',
 				'meta_key' => 'content',
@@ -161,12 +161,12 @@ class KBoardFields {
 			),
 			'ip' => array(
 				'field_type' => 'ip',
-				'field_label' => '작성자 아이피 주소',
+				'field_label' => __('IP Address', 'kboard'),
 				'kboard_extends' => '',
 				'class' => 'kboard-attr-ip',
 				'meta_key' => 'ip',
 				'show_document' => '',
-				'option_field'=> true,
+				'option_field' => true,
 				'close_button' => 'yes'
 			)
 		);
@@ -174,7 +174,7 @@ class KBoardFields {
 		$this->extends_fields = array(
 			'text' => array(
 				'field_type' => 'text',
-				'field_label' => '텍스트 (text / hidden)',
+				'field_label' => __('Text/Hidden', 'kboard'),
 				'class' => 'kboard-attr-text',
 				'hidden' => '',
 				'meta_key' => '',
@@ -190,7 +190,7 @@ class KBoardFields {
 			),
 			'select' => array(
 				'field_type' => 'select',
-				'field_label' => '셀렉트 (select)',
+				'field_label' => __('Select Box', 'kboard'),
 				'class' => 'kboard-attr-select',
 				'meta_key' => '',
 				'row' => '',
@@ -205,7 +205,7 @@ class KBoardFields {
 			),
 			'radio' => array(
 				'field_type' => 'radio',
-				'field_label' => '라디오 (radio)',
+				'field_label' => __('Radio Button', 'kboard'),
 				'class' => 'kboard-attr-radio',
 				'meta_key' => '',
 				'row' => '',
@@ -221,7 +221,7 @@ class KBoardFields {
 			),
 			'checkbox' => array(
 				'field_type' => 'checkbox',
-				'field_label' => '체크박스 (checkbox)',
+				'field_label' => __('Checkbox', 'kboard'),
 				'class' => 'kboard-attr-checkbox',
 				'meta_key' => '',
 				'field_name' => '',
@@ -235,7 +235,7 @@ class KBoardFields {
 			),
 			'textarea' => array(
 				'field_type' => 'textarea',
-				'field_label' => '텍스트 에어리어 (textarea)',
+				'field_label' => __('Textarea', 'kboard'),
 				'class' => 'kboard-attr-textarea',
 				'meta_key' => '',
 				'field_name' => '',
@@ -250,7 +250,7 @@ class KBoardFields {
 			),
 			'file' => array(
 				'field_type' => 'file',
-				'field_label' => '파일 (file)',
+				'field_label' => __('File', 'kboard'),
 				'class' => 'kboard-attr-file',
 				'meta_key' => '',
 				'field_name' => '',
@@ -262,7 +262,7 @@ class KBoardFields {
 			),
 			'wp_editor' => array(
 				'field_type' => 'wp_editor',
-				'field_label' => '워드프레스 내장 에디터',
+				'field_label' => __('WP Editor', 'kboard'),
 				'class' => 'kboard-attr-wp-editor',
 				'meta_key' => '',
 				'field_name' => '',
@@ -370,7 +370,9 @@ class KBoardFields {
 	 * @return string
 	 */
 	public function isDefaultFields($fields_type){
-		if(isset($this->default_fields[$fields_type])){
+		$default_fields = apply_filters('kboard_admin_default_fields', $this->default_fields, $this->board);
+		
+		if(isset($default_fields[$fields_type])){
 			return 'default';
 		}
 		return 'extends';
@@ -396,7 +398,7 @@ class KBoardFields {
 			
 			$field = apply_filters('kboard_get_template_field_data', $field, $content, $this->board);
 			
-			$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $field['field_label'];
+			$field_name = (isset($field['field_name']) && $field['field_name']) ? $field['field_name'] : $this->getFieldLabel($field);
 			$required = (isset($field['required']) && $field['required']) ? 'required' : '';
 			$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
 			$wordpress_search = '';
@@ -469,6 +471,27 @@ class KBoardFields {
 		}
 		
 		return $template;
+	}
+	
+	/**
+	 * 번역된 필드의 레이블을 반환한다.
+	 * @param array $field
+	 * @return string
+	 */
+	public function getFieldLabel($field){
+		$field_type = $field['field_type'];
+		
+		$fields = apply_filters('kboard_admin_default_fields', $this->default_fields, $this->board);
+		if(isset($fields[$field_type])){
+			return $fields[$field_type]['field_label'];
+		}
+		
+		$fields = apply_filters('kboard_admin_extends_fields', $this->extends_fields, $this->board);
+		if(isset($fields[$field_type])){
+			return $fields[$field_type]['field_label'];
+		}
+		
+		return $field['field_label'];
 	}
 	
 	/**
@@ -618,19 +641,19 @@ class KBoardFields {
 	/**
 	 * 게시글에 표시할 첨부파일을 반환한다.
 	 * @param KBContent $content
-	 * @return array
+	 * @return object
 	 */
-	public function getAttachs($content){
+	public function getAttachmentList($content){
 		$skin_fields = $this->getSkinFields();
 		$attach_list = $content->attach;
 		
-		foreach($skin_fields as $meta_key=>$item){
+		foreach($skin_fields as $meta_key=>$field){
 			if(array_key_exists($meta_key, $attach_list)){
 				unset($attach_list->$meta_key);
 			}
 		}
 		
-		return $attach_list;
+		return $attach_list ? $attach_list : new stdClass();
 	}
 }
 ?>

@@ -590,25 +590,25 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="kboard-extends-fields">
 										<div class="kboard-fields-title toggle kboard-field-handle">
 											<button type="button">
-												<?php echo $item['field_label']?>
+												<?php echo esc_html($item['field_label'])?>
 												<span class="fields-up">▲</span>
 												<span class="fields-down">▼</span>
 											</button>
 										</div>
 										<div class="kboard-fields-toggle">
-											<button type="button" class="fields-remove" title="삭제">X</button>
+											<button type="button" class="fields-remove" title="<?php echo __('Remove', 'kboard')?>">X</button>
 										</div>
 									</div>
 									<div class="kboard-fields-content">
-										<input type="hidden" class="field_data field_type" value="<?php echo $item['field_type']?>">
-										<input type="hidden" class="field_data field_label" value="<?php echo $item['field_label']?>">
+										<input type="hidden" class="field_data field_type" value="<?php echo esc_attr($item['field_type'])?>">
+										<input type="hidden" class="field_data field_label" value="<?php echo esc_attr($item['field_label'])?>">
 										<?php if(isset($item['option_field'])):?>
-											<input type="hidden" class="field_data option_field" value="<?php echo $item['option_field']?>">
+											<input type="hidden" class="field_data option_field" value="<?php echo esc_attr($item['option_field'])?>">
 										<?php endif?>
 										<div class="attr-row">
 											<label class="attr-name" for="<?php echo $key?>_field_label">필드 레이블</label>
 											<div class="attr-value">
-												<input type="text" id="<?php echo $key?>_field_label" class="field_data field_name" value="<?php if(isset($item['field_name']) && $item['field_name']):echo $item['field_name']; endif?>">
+												<input type="text" id="<?php echo $key?>_field_label" class="field_data field_name" placeholder="<?php echo esc_attr($item['field_label'])?>">
 											</div>
 										</div>
 										<?php if(isset($item['roles'])):?>
@@ -698,7 +698,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<?php endif?>
 										<?php if(isset($item['placeholder'])):?>
 										<div class="attr-row">
-											<label class="attr-name" for="<?php echo $key?>_placeholder">placeholder</label>
+											<label class="attr-name" for="<?php echo $key?>_placeholder">Placeholder</label>
 											<div class="attr-value"><input type="text" id="<?php echo $key?>_placeholder" class="field_data placeholder" value="<?php if(isset($item['placeholder']) && $item['placeholder']):echo $item['placeholder']; endif?>"></div>
 										</div>
 										<?php endif?>
@@ -754,21 +754,21 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="kboard-extends-fields">
 										<div class="kboard-fields-title toggle kboard-field-handle">
 											<button type="button">
-												<?php echo $item['field_label']?>
+												<?php echo esc_html($item['field_label'])?>
 												<span class="fields-up">▲</span>
 												<span class="fields-down">▼</span>
 											</button>
 										</div>
 										<div class="kboard-fields-toggle">
-											<button type="button" class="fields-remove" title="삭제">X</button>
+											<button type="button" class="fields-remove" title="<?php echo __('Remove', 'kboard')?>">X</button>
 										</div>
 									</div>
 									<div class="kboard-fields-content">
-										<input type="hidden" class="field_data field_type" value="<?php echo $item['field_type']?>">
-										<input type="hidden" class="field_data field_label" value="<?php echo $item['field_label']?>">
+										<input type="hidden" class="field_data field_type" value="<?php echo esc_attr($item['field_type'])?>">
+										<input type="hidden" class="field_data field_label" value="<?php echo esc_attr($item['field_label'])?>">
 										<div class="attr-row">
 											<label class="attr-name">필드 레이블</label>
-											<div class="attr-value"><input type="text" class="field_data field_name" placeholder="제목"></div>
+											<div class="attr-value"><input type="text" class="field_data field_name" placeholder="<?php echo esc_attr($item['field_label'])?>"></div>
 										</div>
 										<?php if(isset($item['meta_key'])):?>
 										<div class="attr-row">
@@ -823,7 +823,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<?php endif?>
 										<?php if(isset($item['placeholder'])):?>
 										<div class="attr-row">
-											<label class="attr-name">placeholder</label>
+											<label class="attr-name">Placeholder</label>
 											<div class="attr-value"><input type="text" class="field_data placeholder"></div>
 										</div>
 										<?php endif?>
@@ -861,10 +861,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<div class="kboard-fields kboard-sortable-fields">
 						<h3 class="kboard-fields-h3">입력 필드 구조</h3>
 						<div class="description">왼쪽 열에서 필드를 드래그 앤 드롭으로 추가하세요.</div>
-						<ul class="kboard-fields-sortable connected-sortable">
+						<ul class="kboard-skin-fields kboard-fields-sortable connected-sortable">
 							<?php $fields = $board->fields()->getSkinFields()?>
 							<?php foreach($fields as $key=>$item):?>
-							<?php $meta_key = isset($item['meta_key'])&&$item['meta_key']?$item['meta_key']:$key?>
+							<?php
+							$meta_key = isset($item['meta_key']) && $item['meta_key'] ? $item['meta_key'] : $key;
+							$field_label = $board->fields()->getFieldLabel($item);
+							?>
 							<li class="<?php echo $board->fields()->isDefaultFields($item['field_type'])?> <?php echo esc_attr($meta_key)?>">
 								<input type="hidden" class="parent_id" value="<?php echo esc_attr($meta_key)?>">
 								<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][class]" class="field_data class" value="<?php echo $item['class']?>"> 
@@ -872,20 +875,23 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<div class="kboard-saved-fields-header">
 									<div class="kboard-fields-title toggle kboard-field-handle<?php if(!(isset($item['close_button']) && $item['close_button'] == 'yes')):?> only-toggle<?php endif?>">
 										<button type="button">
-											<?php echo $item['field_label']?>
+											<?php echo esc_html($field_label)?>
+											<?php if(isset($item['field_name']) && $item['field_name']):?>
+											: <?php echo esc_html($item['field_name'])?>
+											<?php endif?>
 											<span class="fields-up">▲</span>
 											<span class="fields-down">▼</span>
 										</button>
 									</div>
 									<?php if(isset($item['close_button']) && $item['close_button'] == 'yes'):?>
 									<div class="kboard-fields-toggle">
-										<button type="button" class="fields-remove" title="삭제">X</button>
+										<button type="button" class="fields-remove" title="<?php echo __('Remove', 'kboard')?>">X</button>
 									</div>
 									<?php endif?>
 								</div>
 								<div class="kboard-fields-content">
 									<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][field_type]" class="field_data field_type" value="<?php echo esc_attr($item['field_type'])?>">
-									<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][field_label]" class="field_data field_label" value="<?php echo esc_attr($item['field_label'])?>">
+									<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][field_label]" class="field_data field_label" value="<?php echo esc_attr($field_label)?>">
 									<?php if(isset($item['option_field'])):?>
 										<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][option_field]" class="field_data option_field" value="1">
 									<?php endif?>
@@ -916,7 +922,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="attr-row">
 										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>-field-label">필드 레이블</label>
 										<div class="attr-value">
-											<input type="text" id="<?php echo esc_attr($meta_key)?>-field-label" name="fields[<?php echo esc_attr($meta_key)?>][field_name]" class="field_data field_name" value="<?php echo $item['field_name']?>" placeholder="<?php echo $item['field_type']?>">
+											<input type="text" id="<?php echo esc_attr($meta_key)?>-field-label" name="fields[<?php echo esc_attr($meta_key)?>][field_name]" class="field_data field_name" value="<?php echo esc_attr($item['field_name'])?>" placeholder="<?php echo esc_attr($field_label)?>">
 										</div>
 									</div>
 									<?php endif?>
@@ -1070,7 +1076,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<?php endif?>
 									<?php if(isset($item['placeholder'])):?>
 									<div class="attr-row">
-										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_placeholder">placeholder</label>
+										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_placeholder">Placeholder</label>
 										<div class="attr-value"><input type="text" id="<?php echo esc_attr($meta_key)?>_placeholder" name="fields[<?php echo esc_attr($meta_key)?>][placeholder]" class="field_data placeholder" value="<?php echo esc_attr($item['placeholder'])?>"></div>
 									</div>
 									<?php endif?>
@@ -1088,13 +1094,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<div class="attr-value">
 											<div class="example">
 											<?php
-											$option = '{'.$meta_key.'}';
-											if($board->fields()->isDefaultFields($item['field_type']) == 'extends' || isset($item['option_field']) && $item['option_field']){
-												$option = 'option->' . '{\'' . $meta_key . '\'}';
+											if($board->fields()->isDefaultFields($item['field_type']) == 'extends' || (isset($item['option_field']) && $item['option_field'])){
+												if($item['field_type'] == 'file'){
+													$print_code = '<?php echo $content->attach->{\'' . $meta_key . '\'}[1]?>';
+												}
+												else{
+													$print_code = '<?php echo $content->option->{\'' . $meta_key . '\'}?>';
+												}
 											}
-											if(isset($item['show_document'])){
-												echo esc_html('<?php echo $content->'.$option.'?>');
-											}
+											echo esc_html($print_code);
 											?>
 											</div>
 										</div>
@@ -1126,6 +1134,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</li>
 							<?php endforeach?>
 						</ul>
+						<div class="description">에러가 나거나 설정이 잘못됐다면 <button type="button" class="button button-small" onclick="kboard_skin_fields_reset()">초기화</button> 해주세요.</div>
 					</div>
 				</div>
 			</div>
@@ -1492,7 +1501,7 @@ jQuery(document).ready(function(){
 		expandOnHover: 700,
 		startCollapsed: false
 	});
-
+	
 	jQuery('ul.kboard-fields-list, ul.kboard-fields-sortable').sortable({
 		connectWith: '.connected-sortable',
 		handle: '.kboard-field-handle',
@@ -1566,7 +1575,7 @@ jQuery(document).ready(function(){
 			return li.item.clone();
 		},
 	});
-
+	
 	jQuery('.kboard-fields-header').click(function(){
 		kboard_fields_toggle(this, 'list-active');
 	});
@@ -1586,20 +1595,27 @@ jQuery(document).ready(function(){
 			jQuery(this).closest('li').remove();
 		}
 	});
-
+	
 	jQuery('#new-category-name').keypress(function(event){
 		if(event.keyCode === 10 || event.keyCode === 13){
 			event.preventDefault();
 		}
 	});
-
+	
 	jQuery('#update-category-name').keypress(function(event){
 		if(event.keyCode === 10 || event.keyCode === 13){
 			event.preventDefault();
 		}
 	});
 });
-
+function kboard_skin_fields_reset(){
+	if(confirm('입력필드 설정을 기본값으로 되돌릴까요? 기존에 저장된 내용을 잃을 수 있습니다.')){
+		jQuery('.kboard-skin-fields').slideUp(function(){
+			jQuery(this).html('');
+			jQuery('#kboard-setting-form').submit();
+		});
+	}
+}
 function kboard_fields_toggle(element, active){
 	if(jQuery(element).closest('li').hasClass(active)){
 		jQuery(element).closest('li').removeClass(active);

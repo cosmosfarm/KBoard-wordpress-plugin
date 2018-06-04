@@ -102,7 +102,7 @@ class KBContent {
 		$wpdb->flush();
 		return $this;
 	}
-
+	
 	/**
 	 * 게시글 정보를 입력받는다.
 	 * @param object $row
@@ -640,10 +640,19 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글의 옵션값을 반환한다.
+	 * @param string $option_name
+	 * @return string|array
+	 */
+	public function getOptionValue($option_name){
+		return $this->option->{$key};
+	}
+	
+	/**
 	 * 게시글의 옵션을 저장한다.
 	 * @param array $options
 	 */
-	function updateOptions($options=array()){
+	public function updateOptions($options=array()){
 		global $wpdb;
 		if($this->uid){
 			if(!$options) $options = $_POST;
@@ -1113,12 +1122,13 @@ class KBContent {
 	 * @return boolean
 	 */
 	public function isAttached(){
+		$is_attached = false;
 		if($this->uid){
-			if(count((array)$this->attach) > 0){
-				return true;
+			if(count((array)$this->getAttachmentList()) > 0){
+				$is_attached = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_content_is_attached', $is_attached, $this, $this->getBoard());
 	}
 	
 	/**
@@ -1360,19 +1370,19 @@ class KBContent {
 			$board = $this->getBoard();
 			return $board->fields()->getDocumentValues($this);
 		}
-		return '';
+		return array();
 	}
 	
 	/**
 	 * 게시글에 표시할 첨부파일을 반환한다.
-	 * @return array
+	 * @return object
 	 */
-	public function getAttachs(){
+	public function getAttachmentList(){
 		if($this->uid){
 			$board = $this->getBoard();
-			return $board->fields()->getAttachs($this);
+			return $board->fields()->getAttachmentList($this);
 		}
-		return '';
+		return new stdClass();
 	}
 	
 	/**
