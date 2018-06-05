@@ -1310,9 +1310,9 @@ class KBContent {
 			}
 			
 			$obfuscate_name = mb_substr($this->member_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen-$showlen);
-			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->member_display, $this->getBoard());
+			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->member_display, $this, $this->getBoard());
 		}
-		return apply_filters('kboard_obfuscate_name', '', '', $this->getBoard());
+		return apply_filters('kboard_obfuscate_name', '', '', $this, $this->getBoard());
 	}
 	
 	/**
@@ -1383,6 +1383,18 @@ class KBContent {
 			return $board->fields()->getAttachmentList($this);
 		}
 		return new stdClass();
+	}
+	
+	/**
+	 * 게시글 본문에 이미지가 포함되어 있는지 확인한다.
+	 * @return boolean
+	 */
+	public function hasImage(){
+		$has_image = false;
+		if($this->uid && strpos($this->content, '<img') !== false){
+			$has_image = true;
+		}
+		return apply_filters('kboard_content_has_image', $has_image, $this, $this->getBoard());
 	}
 	
 	/**
