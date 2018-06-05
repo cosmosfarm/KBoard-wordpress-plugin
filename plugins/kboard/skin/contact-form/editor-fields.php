@@ -1,13 +1,13 @@
 <?php if($field['field_type'] == 'ip'):?>
 	<input type="hidden" name="kboard_option_ip" value="<?php echo kboard_user_ip()?>">
 <?php elseif($field['field_type'] == 'content'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="kboard-content">
 			<?php if($board->use_editor):?>
 				<?php wp_editor($content->content, 'kboard_content', array('media_buttons'=>$board->isAdmin(), 'editor_height'=>400))?>
 			<?php else:?>
-				<textarea name="kboard_content" id="kboard_content" class="<?php echo $required?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>><?php echo $content->content?></textarea>
+				<textarea name="kboard_content" id="kboard_content" class="<?php echo esc_attr($required)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>><?php echo $content->content?></textarea>
 			<?php endif?>
 		</div>
 	</div>
@@ -15,10 +15,10 @@
 	<?php if($field['permission'] == 'always_visible' || (!$field['permission'] && $board->viewUsernameField())):?>
 		<div class="kboard-attr-row required">
 			<label class="attr-name" for="kboard-input-member-display"><span class="field-name"><?php echo esc_html($field_name)?></span> <span class="attr-required-text">*</span></label>
-			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" class="required" value="<?php echo $content->member_display?$content->member_display:$default_value?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>></div>
+			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" class="required" value="<?php echo $content->member_display?$content->member_display:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>></div>
 		</div>
 	<?php elseif($field['permission'] == 'always_hide'):?>
-		<input type="hidden" id="kboard-input-member-display" name="member_display" value="<?php echo $default_value?>">
+		<input type="hidden" id="kboard-input-member-display" name="member_display" value="<?php echo esc_attr($default_value)?>">
 	<?php endif?>
 	<?php if($board->viewUsernameField()):?>
 		<input type="hidden" name="password" value="<?php echo uniqid()?>">
@@ -57,10 +57,10 @@
 <?php elseif($field['field_type'] == 'category1'):?>
 	<?php if(!$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory1()):?>
-			<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 				<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 				<div class="attr-value">
-					<select id="<?php echo esc_attr($meta_key)?>" name="category1" class="<?php echo $required?>">
+					<select id="<?php echo esc_attr($meta_key)?>" name="category1" class="<?php echo esc_attr($required)?>">
 						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
@@ -74,10 +74,10 @@
 <?php elseif($field['field_type'] == 'category2'):?>
 	<?php if(!$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory2()):?>
-			<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 				<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 				<div class="attr-value">
-					<select id="<?php echo esc_attr($meta_key)?>" name="category2" class="<?php echo $required?>">
+					<select id="<?php echo esc_attr($meta_key)?>" name="category2" class="<?php echo esc_attr($required)?>">
 						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
 						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
@@ -90,7 +90,7 @@
 	<?php endif?>
 <?php elseif($field['field_type'] == 'tree_category'):?>
 	<?php if($board->isTreeCategoryActive()):?>
-		<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+		<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 			<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 			<div class="attr-value">
 				<?php for($i=1; $i<=$content->getTreeCategoryDepth(); $i++):?>
@@ -103,7 +103,7 @@
 		</div>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'title'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> required">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> required">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span> <span class="attr-required-text">*</span></label>
 		<div class="attr-value">
 			<input type="text" id="<?php echo esc_attr($meta_key)?>" name="title" class="required" value="<?php echo $content->title?$content->title:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
@@ -111,7 +111,7 @@
 		</div>
 	</div>
 <?php elseif($field['field_type'] == 'media'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 		<div class="attr-value">
 			<a href="#" onclick="kboard_editor_open_media();return false;"><?php echo __('KBoard Add Media', 'kboard')?></a>
@@ -120,28 +120,28 @@
 	</div>
 <?php elseif($field['field_type'] == 'text'):?>
 	<?php if(isset($field['hidden']) && $field['hidden']):?>
-		<input type="hidden" id="<?php echo esc_attr($meta_key)?>" class="<?php echo $required?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>" value="<?php echo $content->option->{esc_attr($meta_key)}?$content->option->{esc_attr($meta_key)}:esc_attr($default_value)?>">
+		<input type="hidden" id="<?php echo esc_attr($meta_key)?>" class="<?php echo esc_attr($required)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>" value="<?php echo $content->option->{$meta_key}?$content->option->{$meta_key}:esc_attr($default_value)?>">
 	<?php else:?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
-			<input type="text" id="<?php echo esc_attr($meta_key)?>" class="<?php echo $required?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>" value="<?php echo $content->option->{esc_attr($meta_key)}?$content->option->{esc_attr($meta_key)}:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
+			<input type="text" id="<?php echo esc_attr($meta_key)?>" class="<?php echo esc_attr($required)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>" value="<?php echo $content->option->{$meta_key}?$content->option->{$meta_key}:esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'select' && $row):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
-			<select id="<?php echo esc_attr($meta_key)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo $required?>">
+			<select id="<?php echo esc_attr($meta_key)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo esc_attr($required)?>">
 				<option value="default">선택</option>
 				<?php foreach($field['row'] as $option_key=>$option_value):?>
 					<?php if(isset($option_value['label']) && $option_value['label']):?>
 						<?php if($content->option->{$meta_key}):?>
-							<option value="<?php echo esc_attr($option_value['label'])?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> selected<?php endif?>><?php echo esc_attr($option_value['label'])?></option>
+							<option value="<?php echo esc_attr($option_value['label'])?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> selected<?php endif?>><?php echo esc_html($option_value['label'])?></option>
 						<?php else:?>
-							<option value="<?php echo esc_attr($option_value['label'])?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> selected<?php endif?>><?php echo esc_attr($option_value['label'])?></option>
+							<option value="<?php echo esc_attr($option_value['label'])?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> selected<?php endif?>><?php echo esc_html($option_value['label'])?></option>
 						<?php endif?>
 					<?php endif?>
 				<?php endforeach?>
@@ -151,15 +151,15 @@
 	</div>
 <?php elseif($field['field_type'] == 'radio' && $row):?>
 	<?php if(isset($field['row']) && $field['row']):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
 		<?php foreach($field['row'] as $option_key=>$option_value):?>
 			<?php if(isset($option_value['label']) && $option_value['label']):?>
 				<?php if($content->option->{$meta_key}):?>
-					<label class="attr-value-label"><input type="radio" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
+					<label class="attr-value-label"><input type="radio" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo esc_attr($required)?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_html($option_value['label'])?></label>
 				<?php else:?>
-					<label class="attr-value-label"><input type="radio" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
+					<label class="attr-value-label"><input type="radio" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo esc_attr($required)?>"<?php if($fields->isSavedOption($default_value, $option_key)):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_html($option_value['label'])?></label>
 				<?php endif?>
 			<?php endif?>
 		<?php endforeach?>
@@ -169,16 +169,16 @@
 	<?php endif?>
 <?php elseif($field['field_type'] == 'checkbox' && $row):?>
 	<?php if(isset($field['row']) && $field['row']):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
 			<?php foreach($field['row'] as $option_key=>$option_value):?>
 				<?php if(isset($option_value['label']) && $option_value['label']):?>
 					<?php $default_value = (isset($option_value['default_value']) && $option_value['default_value']) ? $option_value['default_value'] : ''?>
 					<?php if($content->option->{$meta_key}):?>
-						<label class="attr-value-label"><input type="checkbox" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
+						<label class="attr-value-label"><input type="checkbox" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>[]"class="<?php echo esc_attr($required)?>"<?php if($fields->isSavedOption($content->option->{$meta_key}, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_html($option_value['label'])?></label>
 					<?php else:?>
-						<label class="attr-value-label"><input type="checkbox" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>[]"class="<?php echo $required?>"<?php if($fields->isSavedOption($default_value, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_attr($option_value['label'])?></label>
+						<label class="attr-value-label"><input type="checkbox" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>[]"class="<?php echo esc_attr($required)?>"<?php if($fields->isSavedOption($default_value, $option_value['label'])):?> checked<?php endif?> value="<?php echo esc_attr($option_value['label'])?>"> <?php echo esc_html($option_value['label'])?></label>
 					<?php endif?>
 				<?php endif?>
 			<?php endforeach?>
@@ -187,27 +187,27 @@
 	</div>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'textarea'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
-			<textarea id="<?php echo esc_attr($meta_key)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo $required?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>><?php echo $content->option->{esc_attr($meta_key)}?$content->option->{esc_attr($meta_key)}:esc_attr($default_value)?></textarea>
+			<textarea id="<?php echo esc_attr($meta_key)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>"class="<?php echo esc_attr($required)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>><?php echo $content->option->{$meta_key}?$content->option->{$meta_key}:esc_textarea($default_value)?></textarea>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
 <?php elseif($field['field_type'] == 'file'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 		<div class="attr-value">
 			<?php if(isset($content->attach->{$meta_key})):?><?php echo $content->attach->{$meta_key}[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, $meta_key)?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
-				<input type="file" id="kboard-input-<?php echo $meta_key?>" name="kboard_attach_<?php echo $meta_key?>">
+				<input type="file" id="kboard-input-<?php echo esc_attr($meta_key)?>" name="kboard_attach_<?php echo esc_attr($meta_key)?>">
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
 <?php elseif($field['field_type'] == 'wp_editor'):?>
-	<div class="kboard-attr-row <?php echo $field['class']?> <?php echo $required?>">
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
-			<?php wp_editor($content->option->{esc_attr($meta_key)}?$content->option->{esc_attr($meta_key)}:esc_attr($default_value), esc_attr($fields->getOptionFieldName($meta_key)), array('media_buttons'=>$board->isAdmin(), 'editor_height'=>400, 'editor_class'=>$required))?>
+			<?php wp_editor($content->option->{$meta_key}?$content->option->{$meta_key}:$default_value, $fields->getOptionFieldName($meta_key), array('media_buttons'=>$board->isAdmin(), 'editor_height'=>400, 'editor_class'=>$required))?>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
