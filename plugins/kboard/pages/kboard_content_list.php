@@ -11,6 +11,7 @@
 	<?php $table->views()?>
 	<form method="get">
 		<input type="hidden" name="page" value="kboard_content_list">
+		<input type="hidden" name="filter_view" value="<?php echo $table->filter_view?>">
 		<input type="hidden" name="filter_board_id" value="<?php echo $table->filter_board_id?>">
 		<?php $table->search_box(__('Search', 'kboard'), 'kboard_content_list_search')?>
 	</form>
@@ -27,14 +28,17 @@ function kboard_content_list_update(){
 	});
 	return false;
 }
-function kboard_content_list_filter(){
-	var board_id = jQuery('select[name=filter_board_id]').val();
+function kboard_content_list_filter(form){
+	var url = '<?php echo admin_url('admin.php?page=kboard_content_list')?>'
+	var filter_view = jQuery('input[name=filter_view]', form).val();
+	var board_id = jQuery('select[name=filter_board_id]', form).val();
+	if(filter_view){
+		url += '&filter_view='+filter_view;
+	}
 	if(board_id){
-		window.location.href='<?php echo admin_url('admin.php?page=kboard_content_list&filter_board_id=')?>'+board_id;
+		url += '&filter_board_id='+board_id;
 	}
-	else{
-		window.location.href='<?php echo admin_url('admin.php?page=kboard_content_list')?>';
-	}
+	window.location.href = url;
 }
 jQuery(document).ready(function(){
 	jQuery('.kboard-content-datepicker').datepicker({

@@ -8,7 +8,9 @@
   1. kboard_add_media_url 필터 추가
   2. kboard_content_is_attached 필터 추가
   3. kboard_content_title_allowable_tags 필터 추가
-  4. 버그 수정
+  4. 입력필드 설정 기능 개선
+  5. 전체 게시글 메뉴 기능 개선
+  6. 버그 수정
 
 
 5.3.7

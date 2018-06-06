@@ -8,15 +8,14 @@
 class KBContentListTable extends WP_List_Table {
 	
 	var $board_list;
-	var $filter_board_id;
 	var $filter_view;
+	var $filter_board_id;
 	var $active_admin_board;
 	
 	public function __construct(){
 		parent::__construct();
-		$this->filter_board_id = isset($_GET['filter_board_id'])&&$_GET['filter_board_id']?$_GET['filter_board_id']:'';
-		$this->filter_board_id = isset($_POST['filter_board_id'])?$_POST['filter_board_id']:$this->filter_board_id;
-		$this->filter_view = isset($_GET['filter_view'])?$_GET['filter_view']:'';
+		$this->filter_view = isset($_REQUEST['filter_view'])?$_REQUEST['filter_view']:'';
+		$this->filter_board_id = isset($_REQUEST['filter_board_id'])?intval($_REQUEST['filter_board_id']):'';
 	}
 	
 	public function prepare_items(){
@@ -56,20 +55,20 @@ class KBContentListTable extends WP_List_Table {
 		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE 1");
 		$class = !$this->filter_view ? ' class="current"' : '';
-		$views['all'] = '<a href="' . admin_url('admin.php?page=kboard_content_list') . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
+		$views['all'] = '<a href="' . add_query_arg(array('filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='' OR `status` IS NULL");
 		$class = $this->filter_view == 'published' ? ' class="current"' : '';
-		$views['published'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=published') . '"' . $class . '>' . __('Published', 'kboard') . " <span class=\"count\">({$count})</span></a>";
+		$views['published'] = '<a href="' . add_query_arg(array('filter_view'=>'published', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Published', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='pending_approval'");
 		$class = $this->filter_view == 'pending_approval' ? ' class="current"' : '';
-		$views['pending_approval'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=pending_approval') . '"' . $class . '>' . __('Pending approval', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-
+		$views['pending_approval'] = '<a href="' . add_query_arg(array('filter_view'=>'pending_approval', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Pending approval', 'kboard') . " <span class=\"count\">({$count})</span></a>";
+		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='trash'");
 		$class = $this->filter_view == 'trash' ? ' class="current"' : '';
-		$views['trash'] = '<a href="' . admin_url('admin.php?page=kboard_content_list&filter_view=trash') . '"' . $class . '>' . __('Trash', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-
+		$views['trash'] = '<a href="' . add_query_arg(array('filter_view'=>'trash', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Trash', 'kboard') . " <span class=\"count\">({$count})</span></a>";
+		
 		return $views;
 	}
 	
@@ -108,6 +107,7 @@ class KBContentListTable extends WP_List_Table {
 			<div class="alignleft actions bulkactions"><?php $this->bulk_actions($which)?></div>
 			<?php if($which=='top'):?>
 			<div class="alignleft actions">
+				<input type="hidden" name="filter_view" value="<?php echo esc_attr($this->filter_view)?>">
 				<label class="screen-reader-text" for="filter-by-board-id">게시판으로 필터</label>
 				<select id="filter-by-board-id" name="filter_board_id">
 					<option value="">전체 게시글</option>
@@ -115,7 +115,7 @@ class KBContentListTable extends WP_List_Table {
 					<option value="<?php echo $board->uid?>"<?php if($this->filter_board_id == $board->uid):?> selected<?php endif?>><?php echo $board->board_name?></option>
 					<?php endforeach?>
 				</select>
-				<input type="button" name="filter_action" class="button" value="<?php echo __('Filter', 'kboard')?>" onclick="kboard_content_list_filter()">
+				<input type="button" name="filter_action" class="button" value="<?php echo __('Filter', 'kboard')?>" onclick="kboard_content_list_filter(this.form)">
 				<span class="spinner"></span>
 			</div>
 			<?php endif?>
