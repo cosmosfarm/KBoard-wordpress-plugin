@@ -77,6 +77,12 @@ function kboard_toggle_password_field(checkbox){
 	}
 }
 
+function kboard_radio_reset(obj){
+	jQuery(obj).parents('.kboard-attr-row').find('input[type=radio]').each(function(){
+		jQuery(this).prop('checked',false);
+	});
+}
+
 jQuery(window).bind('beforeunload',function(e){
 	e = e || window.event;
 	if(jQuery('.kboard-form').data('submitted') != 'submitted'){

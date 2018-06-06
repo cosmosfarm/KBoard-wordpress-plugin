@@ -779,22 +779,27 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<?php endif?>
 										<?php if(isset($item['row'])):?>
 											<?php $uniq_id = uniqid()?>
-											<div class="attr-row option-wrap">
-												<div class="attr-name option">
-													<label for="<?php echo $uniq_id?>">라벨</label>
-												</div>
-												<div class="attr-value">
-													<input type="text" id="<?php echo $uniq_id?>" class="field_data option_label">
-													<button type="button" class="<?php echo $item['field_type']?>" onclick="add_option(this)">+</button>
-													<button type="button" class="<?php echo $item['field_type']?>" onclick="remove_option(this)">-</button>
-													<label>
-													<?php if($item['field_type'] == 'checkbox'):?>
-													<input type="checkbox" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
-													<?php else:?>
-													<input type="radio" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
-													<?php endif?>
-													기본값
-													</label>
+											<div class="kboard-radio-reset">
+												<div class="attr-row option-wrap">
+													<div class="attr-name option">
+														<label for="<?php echo $uniq_id?>">라벨</label>
+													</div>
+													<div class="attr-value">
+														<input type="text" id="<?php echo $uniq_id?>" class="field_data option_label">
+														<button type="button" class="<?php echo $item['field_type']?>" onclick="add_option(this)">+</button>
+														<button type="button" class="<?php echo $item['field_type']?>" onclick="remove_option(this)">-</button>
+														<label>
+															<?php if($item['field_type'] == 'checkbox'):?>
+															<input type="checkbox" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
+															<?php else:?>
+															<input type="radio" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
+															<?php endif?>
+															기본값
+														</label>
+														<?php if($item['field_type'] == 'radio' || $item['field_type'] == 'select'):?>
+															<span style="vertical-align:middle;cursor:pointer;" onclick="kboard_radio_reset(this)">· <?php echo __('Reset', 'kboard')?></span>
+														<?php endif?>
+													</div>
 												</div>
 											</div>
 										<?php endif?>
@@ -937,28 +942,36 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									
 									<?php if(isset($item['row'])):?>
 										<?php if($board->fields()->valueExists($item['row'])):?>
+											<div class="kboard-radio-reset">
+											<?php $already_echo = false;?>
 											<?php foreach($item['row'] as $option_key=>$option_value):?>
-											<?php if(isset($option_value['label']) && $option_value['label']):?>
-												<div class="attr-row option-wrap">
-													<div class="attr-name option">
-														<label for="<?php echo esc_attr($option_key)?>_label">라벨</label>
+												<?php if(isset($option_value['label']) && $option_value['label']):?>
+													<div class="attr-row option-wrap">
+														<div class="attr-name option">
+															<label for="<?php echo esc_attr($option_key)?>_label">라벨</label>
+														</div>
+														<div class="attr-value">
+															<input type="text" id="<?php echo esc_attr($option_key)?>_label" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo esc_attr($option_key)?>][label]" id="<?php echo esc_attr($meta_key)?>" class="field_data option_label" value="<?php echo esc_attr($option_value['label'])?>">
+															<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="add_option(this)">+</button>
+															<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="remove_option(this)">-</button>
+															<label>
+																<?php if($item['field_type'] == 'checkbox'):?>
+																<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo esc_attr($option_key)?>][default_value]" class="field_data default_value"<?php if(isset($option_value['default_value']) && $option_value['default_value'] == '1'):?> checked<?php endif?> value="1">
+																<?php else:?>
+																<input type="radio" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value"<?php if(isset($item['default_value']) && $item['default_value']==$option_key):?> checked<?php endif?> value="<?php echo esc_attr($option_key)?>">
+																<?php endif?>
+																기본값
+															</label>
+															<?php if($item['field_type'] == 'radio' || $item['field_type'] == 'select'):?>
+																<?php if(!$already_echo):?>
+																<span style="vertical-align:middle;cursor:pointer;" onclick="kboard_radio_reset(this)">· <?php echo __('Reset', 'kboard')?></span>
+																<?php $already_echo=true; endif?>
+															<?php endif?>
+														</div>
 													</div>
-													<div class="attr-value">
-														<input type="text" id="<?php echo esc_attr($option_key)?>_label" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo esc_attr($option_key)?>][label]" id="<?php echo esc_attr($meta_key)?>" class="field_data option_label" value="<?php echo esc_attr($option_value['label'])?>">
-														<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="add_option(this)">+</button>
-														<button type="button" class="<?php echo esc_attr($item['field_type'])?>" onclick="remove_option(this)">-</button>
-														<label>
-														<?php if($item['field_type'] == 'checkbox'):?>
-														<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][row][<?php echo esc_attr($option_key)?>][default_value]" class="field_data default_value"<?php if(isset($option_value['default_value']) && $option_value['default_value'] == '1'):?> checked<?php endif?> value="1">
-														<?php else:?>
-														<input type="radio" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value"<?php if($item['default_value'] == $option_key):?> checked<?php endif?> value="<?php echo esc_attr($option_key)?>">
-														<?php endif?>
-														기본값
-														</label>
-													</div>
-												</div>
-											<?php endif?>
+												<?php endif?>
 											<?php endforeach?>
+											</div>
 										<?php else:?>
 											<?php $uniq_id = uniqid()?>
 											<div class="attr-row option-wrap">
@@ -1097,6 +1110,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											if($board->fields()->isDefaultFields($item['field_type']) == 'extends' || (isset($item['option_field']) && $item['option_field'])){
 												if($item['field_type'] == 'file'){
 													$print_code = '<?php echo $content->attach->{\'' . $meta_key . '\'}[1]?>';
+												}
+												else if($item['field_type'] == 'checkbox'){
+													$print_code = '<?php echo implode(\', \', $content->option->{\'' . $meta_key . '\'})?>';
 												}
 												else{
 													$print_code = '<?php echo $content->option->{\'' . $meta_key . '\'}?>';
@@ -1608,6 +1624,11 @@ jQuery(document).ready(function(){
 		}
 	});
 });
+function kboard_radio_reset(obj){
+	jQuery(obj).parents('.kboard-radio-reset').find('input[type=radio]').each(function(){
+		jQuery(this).prop('checked', false);
+	});
+}
 function kboard_skin_fields_reset(){
 	if(confirm('입력필드 설정을 기본값으로 되돌릴까요? 기존에 저장된 내용을 잃을 수 있습니다.')){
 		jQuery('.kboard-skin-fields').slideUp(function(){

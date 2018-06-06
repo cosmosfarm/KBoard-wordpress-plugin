@@ -58,15 +58,21 @@ class KBContentOption {
 		global $wpdb;
 		$this->row = new stdClass();
 		$this->content_uid = intval($content_uid);
-		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid'");
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' ORDER BY `uid` ASC");
 		$wpdb->flush();
+		
+		$option_list = array();
 		foreach($results as $row){
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$row->option_key'");
-			if($count > 1){
-				$this->row->{$row->option_key}[] = $row->option_value;
+			if(!isset($option_list[$row->option_key])) $option_list[$row->option_key] = array();
+			$option_list[$row->option_key][] = $row->option_value;
+		}
+		
+		foreach($option_list as $option_key=>$option_value){
+			if(count($option_value) > 1){
+				$this->row->{$option_key} = $option_value;
 			}
 			else{
-				$this->row->{$row->option_key} = $row->option_value;
+				$this->row->{$option_key} = $option_value[0];
 			}
 		}
 	}

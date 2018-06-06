@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2018-06-04 18:36+0900\n"
-"PO-Revision-Date: 2018-06-04 18:37+0900\n"
+"POT-Creation-Date: 2018-06-06 20:01+0900\n"
+"PO-Revision-Date: 2018-06-06 20:01+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -96,24 +96,24 @@ msgstr "KBoard new document"
 msgid "Go to Homepage"
 msgstr "Go to Homepage"
 
-#: class/KBContent.class.php:304 class/KBContent.class.php:406
+#: class/KBContent.class.php:304 class/KBContent.class.php:408
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: class/KBContent.class.php:543 class/KBContent.class.php:583
-#: class/KBContent.class.php:676
+#: class/KBContent.class.php:547 class/KBContent.class.php:587
+#: class/KBContent.class.php:689
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "No upload path. Please enter board ID and initialize."
 
-#: class/KBContent.class.php:780 pages/kboard_setting.php:1350
+#: class/KBContent.class.php:793 pages/kboard_setting.php:1375
 msgid "Deleted increment points"
 msgstr "Deleted increment points"
 
-#: class/KBContent.class.php:792 pages/kboard_setting.php:1358
+#: class/KBContent.class.php:805 pages/kboard_setting.php:1383
 msgid "Deleted decrease points"
 msgstr "Deleted decrease points"
 
-#: class/KBContentListTable.class.php:59
+#: class/KBContentListTable.class.php:58
 #: skin/avatar/list-category-default.php:7
 #: skin/avatar/list-category-default.php:16
 #: skin/avatar/list-category-default.php:28
@@ -150,27 +150,27 @@ msgstr "Deleted decrease points"
 msgid "All"
 msgstr "All"
 
-#: class/KBContentListTable.class.php:63 class/KBContentListTable.class.php:190
+#: class/KBContentListTable.class.php:62 class/KBContentListTable.class.php:190
 msgid "Published"
 msgstr "Published"
 
-#: class/KBContentListTable.class.php:67 class/KBContentListTable.class.php:191
+#: class/KBContentListTable.class.php:66 class/KBContentListTable.class.php:191
 msgid "Pending approval"
 msgstr "Pending approval"
 
-#: class/KBContentListTable.class.php:71 class/KBContentListTable.class.php:192
+#: class/KBContentListTable.class.php:70 class/KBContentListTable.class.php:192
 msgid "Trash"
 msgstr "Trash"
 
-#: class/KBContentListTable.class.php:77
+#: class/KBContentListTable.class.php:76
 msgid "No documents found."
 msgstr "No documents found."
 
-#: class/KBContentListTable.class.php:83
+#: class/KBContentListTable.class.php:82
 msgid "Forum"
 msgstr "Forum"
 
-#: class/KBContentListTable.class.php:84 class/KBoardFields.class.php:23
+#: class/KBContentListTable.class.php:83 class/KBoardFields.class.php:23
 #: skin/avatar/latest.php:5 skin/avatar/list.php:47 skin/avatar/list.php:140
 #: skin/contact-form/admin-list.php:47 skin/contact-form/admin-list.php:131
 #: skin/contact-form/latest.php:5 skin/default/latest.php:5
@@ -180,7 +180,7 @@ msgstr "Forum"
 msgid "Title"
 msgstr "Title"
 
-#: class/KBContentListTable.class.php:85 class/KBoardFields.class.php:49
+#: class/KBContentListTable.class.php:84 class/KBoardFields.class.php:49
 #: skin/avatar/document.php:27 skin/avatar/list.php:48 skin/avatar/list.php:142
 #: skin/contact-form/admin-document.php:27 skin/contact-form/admin-list.php:48
 #: skin/contact-form/admin-list.php:133 skin/default/document.php:27
@@ -190,7 +190,7 @@ msgstr "Title"
 msgid "Author"
 msgstr "Author"
 
-#: class/KBContentListTable.class.php:86 skin/avatar/document.php:35
+#: class/KBContentListTable.class.php:85 skin/avatar/document.php:35
 #: skin/avatar/list.php:51 skin/avatar/list.php:76 skin/avatar/list.php:108
 #: skin/avatar/reply-template.php:23 skin/contact-form/admin-document.php:35
 #: skin/contact-form/admin-list.php:51 skin/contact-form/admin-list.php:74
@@ -202,7 +202,7 @@ msgstr "Author"
 msgid "Views"
 msgstr "Views"
 
-#: class/KBContentListTable.class.php:87 skin/avatar/editor-fields.php:121
+#: class/KBContentListTable.class.php:86 skin/avatar/editor-fields.php:121
 #: skin/avatar/latest.php:16 skin/avatar/list.php:62 skin/avatar/list.php:94
 #: skin/avatar/reply-template.php:9 skin/contact-form/admin-list.php:62
 #: skin/contact-form/admin-list.php:90 skin/contact-form/latest.php:16
@@ -214,14 +214,14 @@ msgstr "Views"
 msgid "Secret"
 msgstr "Secret"
 
-#: class/KBContentListTable.class.php:88 skin/avatar/editor-fields.php:124
+#: class/KBContentListTable.class.php:87 skin/avatar/editor-fields.php:124
 #: skin/avatar/list.php:57 skin/contact-form/admin-list.php:57
 #: skin/default/editor-fields.php:124 skin/default/list.php:57
 #: skin/thumbnail/editor-fields.php:124 skin/thumbnail/list.php:58
 msgid "Notice"
 msgstr "Notice"
 
-#: class/KBContentListTable.class.php:89 skin/avatar/document.php:31
+#: class/KBContentListTable.class.php:88 skin/avatar/document.php:31
 #: skin/avatar/latest.php:6 skin/avatar/list.php:49
 #: skin/contact-form/admin-document.php:31 skin/contact-form/admin-list.php:49
 #: skin/contact-form/latest.php:6 skin/default/document.php:31
@@ -231,20 +231,20 @@ msgstr "Notice"
 msgid "Date"
 msgstr "Date"
 
-#: class/KBContentListTable.class.php:90
+#: class/KBContentListTable.class.php:89
 msgid "Status"
 msgstr "Status"
 
-#: class/KBContentListTable.class.php:97
+#: class/KBContentListTable.class.php:96
 msgid "Restore"
 msgstr "Restore"
 
-#: class/KBContentListTable.class.php:98
+#: class/KBContentListTable.class.php:97
 #: class/KBLatestviewListTable.class.php:60 class/KBoardListTable.class.php:65
 msgid "Delete Permanently"
 msgstr "Delete Permanently"
 
-#: class/KBContentListTable.class.php:102
+#: class/KBContentListTable.class.php:101
 msgid "Move to Trash"
 msgstr "Move to Trash"
 
@@ -288,11 +288,11 @@ msgstr "\"%s\" is not available."
 msgid "You have not enough points."
 msgstr "You have not enough points."
 
-#: class/KBController.class.php:118 pages/kboard_setting.php:1342
+#: class/KBController.class.php:118 pages/kboard_setting.php:1367
 msgid "Writing decrease points"
 msgstr "Writing decrease points"
 
-#: class/KBController.class.php:136 pages/kboard_setting.php:1334
+#: class/KBController.class.php:136 pages/kboard_setting.php:1359
 msgid "Writing increase points"
 msgstr "Writing increase points"
 
@@ -305,7 +305,7 @@ msgstr "This page is restricted from external access."
 msgid "File does not exist."
 msgstr "File does not exist."
 
-#: class/KBController.class.php:387 pages/kboard_setting.php:1374
+#: class/KBController.class.php:387 pages/kboard_setting.php:1399
 msgid "Attachment download decrease points"
 msgstr "Attachment download decrease points"
 
@@ -415,7 +415,7 @@ msgstr "There was an error unzipping the file."
 msgid "No document."
 msgstr "No document."
 
-#: class/KBoardBuilder.class.php:400 pages/kboard_setting.php:1366
+#: class/KBoardBuilder.class.php:400 pages/kboard_setting.php:1391
 msgid "Reading decrease points"
 msgstr "Reading decrease points"
 
@@ -429,7 +429,7 @@ msgstr "Options"
 
 #: class/KBoardFields.class.php:61 class/KBoardFields.class.php:74
 #: pages/kboard_setting.php:678 pages/kboard_setting.php:687
-#: pages/kboard_setting.php:1050 pages/kboard_setting.php:1059
+#: pages/kboard_setting.php:1069 pages/kboard_setting.php:1078
 #: skin/avatar/editor-fields.php:67 skin/avatar/editor-fields.php:84
 #: skin/contact-form/editor-fields.php:64
 #: skin/contact-form/editor-fields.php:81 skin/default/editor-fields.php:67
@@ -1057,7 +1057,7 @@ msgstr ""
 msgid "KBoard : 전체 게시글"
 msgstr "KBoard : All Documents"
 
-#: pages/kboard_content_list.php:15 pages/kboard_latestview.php:13
+#: pages/kboard_content_list.php:16 pages/kboard_latestview.php:13
 #: pages/kboard_list.php:13 skin/avatar/list.php:145
 #: skin/contact-form/admin-list.php:136 skin/default/list.php:137
 #: skin/thumbnail/list.php:158
@@ -1084,7 +1084,7 @@ msgstr "KBoard : Latestview"
 msgid "KBoard : 최신글 뷰 관리"
 msgstr "KBoard : Latestview Settings"
 
-#: pages/kboard_latestview_setting.php:123 pages/kboard_setting.php:1471
+#: pages/kboard_latestview_setting.php:123 pages/kboard_setting.php:1496
 msgid "변경 사항 저장"
 msgstr "Save changes"
 
@@ -1133,49 +1133,57 @@ msgid "확장설정"
 msgstr "Extended"
 
 #: pages/kboard_setting.php:599 pages/kboard_setting.php:763
-#: pages/kboard_setting.php:882
+#: pages/kboard_setting.php:893
 msgid "Remove"
 msgstr "Remove"
 
 #: pages/kboard_setting.php:678 pages/kboard_setting.php:687
-#: pages/kboard_setting.php:1050 pages/kboard_setting.php:1059
+#: pages/kboard_setting.php:1069 pages/kboard_setting.php:1078
 #: skin/avatar/editor-fields.php:67 skin/avatar/editor-fields.php:84
-#: skin/contact-form/editor-fields.php:64
-#: skin/contact-form/editor-fields.php:81 skin/default/editor-fields.php:67
-#: skin/default/editor-fields.php:84 skin/thumbnail/editor-fields.php:67
-#: skin/thumbnail/editor-fields.php:84
+#: skin/avatar/editor-fields.php:190 skin/contact-form/editor-fields.php:64
+#: skin/contact-form/editor-fields.php:81
+#: skin/contact-form/editor-fields.php:138 skin/default/editor-fields.php:67
+#: skin/default/editor-fields.php:84 skin/default/editor-fields.php:190
+#: skin/thumbnail/editor-fields.php:67 skin/thumbnail/editor-fields.php:84
+#: skin/thumbnail/editor-fields.php:190
 msgid "Select"
 msgstr "Select"
 
-#: pages/kboard_setting.php:1336 pages/kboard_setting.php:1344
-#: pages/kboard_setting.php:1352 pages/kboard_setting.php:1360
-#: pages/kboard_setting.php:1368 pages/kboard_setting.php:1376
-#: pages/kboard_setting.php:1384 pages/kboard_setting.php:1392
-#: pages/kboard_setting.php:1400 pages/kboard_setting.php:1408
+#: pages/kboard_setting.php:800 pages/kboard_setting.php:967
+#: skin/avatar/editor-fields.php:218 skin/contact-form/editor-fields.php:166
+#: skin/default/editor-fields.php:218 skin/thumbnail/editor-fields.php:218
+msgid "Reset"
+msgstr "Reset"
+
+#: pages/kboard_setting.php:1361 pages/kboard_setting.php:1369
+#: pages/kboard_setting.php:1377 pages/kboard_setting.php:1385
+#: pages/kboard_setting.php:1393 pages/kboard_setting.php:1401
+#: pages/kboard_setting.php:1409 pages/kboard_setting.php:1417
+#: pages/kboard_setting.php:1425 pages/kboard_setting.php:1433
 msgid "Please enter only numbers"
 msgstr "Please enter only numbers"
 
-#: pages/kboard_setting.php:1382
+#: pages/kboard_setting.php:1407
 msgid "Writing comment increase points"
 msgstr "Writing comment increase points"
 
-#: pages/kboard_setting.php:1390
+#: pages/kboard_setting.php:1415
 msgid "Writing comment decrease points"
 msgstr "Writing comment decrease points"
 
-#: pages/kboard_setting.php:1398
+#: pages/kboard_setting.php:1423
 msgid "Deleted comment increment points"
 msgstr "Deleted comment increment points"
 
-#: pages/kboard_setting.php:1406
+#: pages/kboard_setting.php:1431
 msgid "Deleted comment decrease points"
 msgstr "Deleted comment decrease points"
 
-#: pages/kboard_setting.php:1427
+#: pages/kboard_setting.php:1452
 msgid "Download"
 msgstr "Download"
 
-#: pages/kboard_setting.php:1443
+#: pages/kboard_setting.php:1468
 msgid "Upload"
 msgstr "Upload"
 
@@ -1277,12 +1285,14 @@ msgid "Reply"
 msgstr "Reply"
 
 #: skin/avatar/document.php:108 skin/avatar/editor-fields.php:52
-#: skin/avatar/editor-fields.php:152 skin/contact-form/admin-document.php:107
-#: skin/contact-form/editor-fields.php:49 skin/default/document.php:108
+#: skin/avatar/editor-fields.php:152 skin/avatar/editor-fields.php:254
+#: skin/contact-form/admin-document.php:107
+#: skin/contact-form/editor-fields.php:49
+#: skin/contact-form/editor-fields.php:202 skin/default/document.php:108
 #: skin/default/editor-fields.php:52 skin/default/editor-fields.php:152
-#: skin/default/editor-fields.php:253 skin/thumbnail/document.php:108
+#: skin/default/editor-fields.php:254 skin/thumbnail/document.php:108
 #: skin/thumbnail/editor-fields.php:52 skin/thumbnail/editor-fields.php:152
-#: template/media.php:171
+#: skin/thumbnail/editor-fields.php:254 template/media.php:171
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
@@ -1306,9 +1316,11 @@ msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
 #: skin/avatar/editor-fields.php:52 skin/avatar/editor-fields.php:152
-#: skin/contact-form/editor-fields.php:49 skin/default/editor-fields.php:52
-#: skin/default/editor-fields.php:152 skin/default/editor-fields.php:253
+#: skin/avatar/editor-fields.php:254 skin/contact-form/editor-fields.php:49
+#: skin/contact-form/editor-fields.php:202 skin/default/editor-fields.php:52
+#: skin/default/editor-fields.php:152 skin/default/editor-fields.php:254
 #: skin/thumbnail/editor-fields.php:52 skin/thumbnail/editor-fields.php:152
+#: skin/thumbnail/editor-fields.php:254
 msgid "Delete file"
 msgstr "Delete file"
 

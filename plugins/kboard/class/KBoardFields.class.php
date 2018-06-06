@@ -404,14 +404,22 @@ class KBoardFields {
 			$wordpress_search = '';
 			$default_value = (isset($field['default_value']) && $field['default_value']) ? $field['default_value'] : '';
 			$row = false;
-			
+
+			$default_value_list = array();
 			if(isset($field['row']) && $field['row']){
 				foreach($field['row'] as $item){
 					if(isset($item['label']) && $item['label']){
 						$row = true;
-						break;
+						
+						if(isset($item['default_value']) && $item['default_value']){
+							$default_value_list[] = $item['label'];
+						}
 					}
 				}
+			}
+			
+			if($default_value_list){
+				$default_value = $default_value_list;
 			}
 			
 			if($field['field_type'] == 'search'){
@@ -420,6 +428,16 @@ class KBoardFields {
 				}
 				else if(isset($field['default_value']) && $field['default_value']){
 					$wordpress_search = $field['default_value'];
+				}
+			}
+			
+			// 게시글 수정시에는 기본값을 제거하고 저장된 상태를 표시하도록 한다.
+			if($content->uid){
+				if(is_array($default_value)){
+					$default_value = array();
+				}
+				else{
+					$default_value = '';
 				}
 			}
 			
@@ -519,7 +537,7 @@ class KBoardFields {
 		if(is_array($value) && in_array($label, $value)){
 			return true;
 		}
-		else if($value == $label || $value == '1'){
+		else if($value == $label){
 			return true;
 		}
 		return false;

@@ -62,3 +62,9 @@ function kboard_editor_execute(form){
 	
 	return false;
 }
+
+function kboard_radio_reset(obj){
+	jQuery(obj).parents('.kboard-attr-row').find('input[type=radio]').each(function(){
+		jQuery(this).prop('checked',false);
+	});
+}
