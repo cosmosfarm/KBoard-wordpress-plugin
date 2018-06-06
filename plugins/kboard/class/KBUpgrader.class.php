@@ -188,11 +188,21 @@ final class KBUpgrader {
 		
 		if($delete_package) unlink($package);
 		
-		if(!$unzipfile){
-			die('<script>alert("'.__('There was an error unzipping the file.', 'kboard').'");history.go(-1);</script>');
+		if(is_wp_error($unzipfile)){
+			foreach($unzipfile->errors as $code=>$message){
+				if(is_array($message)){
+					$message = implode(', ', $message);
+					echo "<p>{$message} ({$unzipfile->error_data[$code]})</p>";
+				}
+				else{
+					echo "<p>{$message} ({$unzipfile->error_data[$code]})</p>";
+				}
+			}
+			die('<script>alert("'.$unzipfile->get_error_message().'");</script>');
+			exit;
 		}
 		
-		return '';
+		return $unzipfile;
 	}
 	
 	/**
