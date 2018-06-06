@@ -308,6 +308,8 @@ class KBContent {
 			$data['status'] = '';
 		}
 		
+		$data['title'] = $this->titleStripTags($data['title']);
+		
 		// 불필요한 데이터 필터링
 		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
 		
@@ -409,6 +411,8 @@ class KBContent {
 			if(isset($data['status']) && !in_array($data['status'], array('trash', 'pending_approval'))){
 				$data['status'] = '';
 			}
+			
+			$data['title'] = $this->titleStripTags($data['title']);
 			
 			// 불필요한 데이터 필터링
 			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
@@ -1420,6 +1424,16 @@ class KBContent {
 			return get_object_vars($object);
 		}
 		return array();
+	}
+	
+	/**
+	 * 제목 문자열에서 HTML과 PHP 태그를 제거한다.
+	 * @param string $title
+	 * @return string
+	 */
+	public function titleStripTags($title){
+		$title = strip_tags($title, apply_filters('kboard_content_title_allowable_tags', '<i><b><u><s><br><span><strong><img><ins><del>', $this, $this->getBoard()));
+		return $title;
 	}
 	
 	/**

@@ -586,7 +586,7 @@ class KBoardFields {
 				}
 				
 				if(!(isset($field['field_name']) && $field['field_name'])){
-					$field['field_name'] = $field['field_label'];
+					$field['field_name'] = $this->getFieldLabel($field);
 				}
 				
 				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span> : ';
@@ -628,7 +628,7 @@ class KBoardFields {
 			
 			if(isset($field['show_document']) && $field['show_document'] && $option_value){
 				if(!(isset($field['field_name']) && $field['field_name'])){
-					$field['field_name'] = $field['field_label'];
+					$field['field_name'] = $this->getFieldLabel($field);
 				}
 				
 				$option_value_list[$meta_key] = array('field'=>$field, 'value'=>$option_value);
