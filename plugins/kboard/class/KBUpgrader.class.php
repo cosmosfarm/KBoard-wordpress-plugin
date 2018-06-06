@@ -183,7 +183,7 @@ final class KBUpgrader {
 	public function install($package, $content_type, $delete_package=true){
 		WP_Filesystem();
 		
-		$destination_path= trailingslashit(WP_CONTENT_DIR . $content_type);
+		$destination_path = trailingslashit(WP_CONTENT_DIR . $content_type);
 		$unzipfile = unzip_file($package, $destination_path);
 		
 		if($delete_package) unlink($package);
@@ -198,7 +198,7 @@ final class KBUpgrader {
 					echo "<p>{$message} ({$unzipfile->error_data[$code]})</p>";
 				}
 			}
-			die('<script>alert("'.$unzipfile->get_error_message().'");</script>');
+			echo '<script>alert("'.$unzipfile->get_error_message().'");</script>';
 			exit;
 		}
 		
