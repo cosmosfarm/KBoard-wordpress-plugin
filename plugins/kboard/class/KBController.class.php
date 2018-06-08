@@ -764,6 +764,11 @@ class KBController {
 			if($content->uid && $content->isEditor()){
 				$content->updateContent($_POST['data']);
 				$content->updateOptions($_POST['data']);
+				
+				// 게시글 수정 액션 훅 실행
+				$content->initWithUID($_POST['content_uid']);
+				do_action('kboard_document_update', $content->uid, $content->board_id, $content, $content->getBoard());
+				
 				wp_send_json(array('result'=>'success', 'data'=>$_POST['data']));
 			}
 		}
