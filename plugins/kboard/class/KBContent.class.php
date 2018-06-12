@@ -412,7 +412,9 @@ class KBContent {
 				$data['status'] = '';
 			}
 			
-			$data['title'] = $this->titleStripTags($data['title']);
+			if(isset($data['title'])){
+				$data['title'] = $this->titleStripTags($data['title']);
+			}
 			
 			// 불필요한 데이터 필터링
 			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
