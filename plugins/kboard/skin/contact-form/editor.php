@@ -14,7 +14,7 @@
 		<input type="hidden" name="wordpress_search" value="3">
 		
 		<?php foreach($board->fields()->getSkinFields() as $key=>$field):?>
-			<?php echo $board->fields()->getTemplate($field, $content)?>
+			<?php echo $board->fields()->getTemplate($field, $content, $boardBuilder)?>
 		<?php endforeach?>
 		
 		<div class="kboard-control">

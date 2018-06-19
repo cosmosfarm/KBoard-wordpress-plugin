@@ -12,7 +12,7 @@
 		<input type="hidden" name="user_id" value="<?php echo get_current_user_id()?>">
 		
 		<?php foreach($board->fields()->getSkinFields() as $key=>$field):?>
-			<?php echo $board->fields()->getTemplate($field, $content)?>
+			<?php echo $board->fields()->getTemplate($field, $content, $boardBuilder)?>
 		<?php endforeach?>
 		
 		<div class="kboard-control">

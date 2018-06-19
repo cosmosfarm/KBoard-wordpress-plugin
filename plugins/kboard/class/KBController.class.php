@@ -405,15 +405,9 @@ class KBController {
 		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
-			if($ie) $file_info->file_name = iconv('UTF-8', 'EUC-KR//IGNORE', $file_info->file_name);
-			
-			header('Content-type: ' . $file_info->mime_type);
-			header('Content-Disposition: attachment; filename="' . $file_info->file_name . '"');
-			header('Content-Transfer-Encoding: binary');
-			header('Content-length: ' . $file_info->size);
-			header('Expires: 0');
-			
 			if($ie){
+				$file_info->file_name = iconv('UTF-8', 'EUC-KR//IGNORE', $file_info->file_name);
+				
 				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 				header('Pragma: public');
 			}
@@ -421,9 +415,16 @@ class KBController {
 				header('Pragma: no-cache');
 			}
 			
-			$fp = fopen($file_info->full_path, 'rb');
-			fpassthru($fp);
-			fclose($fp);
+			header('Content-type: ' . $file_info->mime_type);
+			header('Content-Disposition: attachment; filename="' . $file_info->file_name . '"');
+			header('Content-Transfer-Encoding: binary');
+			header('Content-length: ' . $file_info->size);
+			header('Expires: 0');
+			
+			ob_clean();
+			flush();
+			
+			readfile($file_info->full_path);
 		}
 		exit;
 	}

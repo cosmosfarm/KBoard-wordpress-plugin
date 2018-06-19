@@ -81,7 +81,7 @@ class KBoardBuilder {
 			wp_localize_script('kboard-script', 'kboard_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid, 'use_tree_category'=>$this->meta->use_tree_category, 'tree_category'=>$tree_category));
 			
 			// KBoard 미디어 추가
-			add_action('media_buttons_context',  'kboard_editor_button');
+			add_action('media_buttons_context', 'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
 			add_filter('mce_external_plugins', 'kboard_add_media_button');
 			

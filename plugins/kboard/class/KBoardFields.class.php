@@ -383,9 +383,10 @@ class KBoardFields {
 	 * @param string $key
 	 * @param array $field
 	 * @param KBContent $content
+	 * @param KBoardBuilder $boardBuilder
 	 * @return string
 	 */
-	public function getTemplate($field, $content=''){
+	public function getTemplate($field, $content='', $boardBuilder=''){
 		$template = '';
 		$permission = (isset($field['permission']) && $field['permission']) ? $field['permission'] : '';
 		$roles = (isset($field['roles']) && $field['roles']) ? $field['roles'] : '';
@@ -450,10 +451,12 @@ class KBoardFields {
 			
 			$skin = KBoardSkin::getInstance();
 			
-			$boardBuilder = new KBoardBuilder($this->board->id);
-			$boardBuilder->setSkin($this->board->skin);
-			$boardBuilder->setRpp($this->board->page_rpp);
-			$boardBuilder->board = $this->board;
+			if(!$boardBuilder){
+				$boardBuilder = new KBoardBuilder($this->board->id);
+				$boardBuilder->setSkin($this->board->skin);
+				$boardBuilder->setRpp($this->board->page_rpp);
+				$boardBuilder->board = $this->board;
+			}
 			
 			$vars = array(
 				'field' => $field,
