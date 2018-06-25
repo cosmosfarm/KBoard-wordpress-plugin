@@ -337,6 +337,11 @@ class KBController {
 		
 		$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
 		
+		$file_info = apply_filters('kboard_pre_download_file', $file_info, $content->uid, $board->id);
+		
+		do_action('kboard_pre_file_download', $file_info, $content, $board);
+		do_action("kboard_{$board->skin}_pre_file_download", $file_info, $content, $board);
+		
 		list($path) = explode("{$ds}wp-content", dirname(__FILE__));
 		$file_info->full_path = $path . str_replace('/', $ds, $file_info->file_path);
 		

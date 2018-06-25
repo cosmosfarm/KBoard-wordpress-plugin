@@ -934,9 +934,10 @@ class KBoardBuilder {
 	/**
 	 * 최신 게시물 리스트를 생성한다.
 	 * @param boolean $with_notice
+	 * @param array $args
 	 * @return string
 	 */
-	public function createLatest($with_notice=true){
+	public function createLatest($with_notice=true, $args=array()){
 		ob_start();
 		
 		$list = new KBContentList($this->board_id);
@@ -962,6 +963,7 @@ class KBoardBuilder {
 		$url->setBoard($this->board);
 		
 		$vars = array(
+			'latest' => $args,
 			'board_url' => $this->url,
 			'list' => $list,
 			'url' => $url,

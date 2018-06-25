@@ -697,7 +697,8 @@ function kboard_latest_shortcode($args){
 			$board_builder->setWithinDays($within_days);
 		}
 		
-		$latest = $board_builder->createLatest($with_notice);
+		$args['type'] = 'latest';
+		$latest = $board_builder->createLatest($with_notice, $args);
 		
 		if(isset($args['blog']) && $args['blog']){
 			do_action('kboard_restore_current_blog', $args);
@@ -736,7 +737,8 @@ function kboard_latestview_shortcode($args){
 			$with_notice = false;
 		}
 		
-		$latest = $board_builder->createLatest($with_notice);
+		$args['type'] = 'latestview';
+		$latest = $board_builder->createLatest($with_notice, $args);
 		return $latest;
 	}
 	else{
