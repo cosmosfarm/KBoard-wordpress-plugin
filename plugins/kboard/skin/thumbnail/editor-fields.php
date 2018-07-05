@@ -18,7 +18,7 @@
 			<div class="attr-value"><input type="text" id="kboard-input-member-display" name="member_display" class="required" value="<?php echo $content->member_display?esc_attr($content->member_display):esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>></div>
 		</div>
 	<?php elseif($field['permission'] == 'always_hide'):?>
-		<input type="hidden" id="kboard-input-member-display" name="member_display" value="<?php echo esc_attr($default_value)?>">
+		<input type="hidden" id="kboard-input-member-display" name="member_display" value="<?php echo $content->member_display?esc_attr($content->member_display):esc_attr($default_value)?>">
 	<?php endif?>
 	<?php if($board->viewUsernameField()):?>
 		<div class="kboard-attr-row kboard-attr-password">
