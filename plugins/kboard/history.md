@@ -8,7 +8,8 @@
   1. 스킨 코드 개선
   2. kboard_pre_download_file 필터 추가
   3. kboard_pre_file_download 액션 추가
-  4. 버그 수정
+  4. kboard_builder_mod() 함수 추가
+  5. 버그 수정
 
 
 5.3.9

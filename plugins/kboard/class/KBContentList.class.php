@@ -453,27 +453,34 @@ class KBContentList {
 		$this->where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 
 		// kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
-		$select = apply_filters('kboard_list_select', "`{$wpdb->prefix}kboard_board_content`.`uid`", $this->board_id, $this);
+		$default_select = "`{$wpdb->prefix}kboard_board_content`.`uid`";
+		$select = apply_filters('kboard_list_select', $default_select, $this->board_id, $this);
 		$from = apply_filters('kboard_list_from', implode(' ', $this->from), $this->board_id, $this);
 		$where = apply_filters('kboard_list_where', implode(' AND ', $this->where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
-		$results = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
-		foreach($results as $row){
-			if($row->uid){
-				$select_uid[] = intval($row->uid);
-			}
-		}
-		
-		if(!isset($select_uid)){
-			$this->total = 0;
-			$this->resource = array();
+		if($default_select != $select){
+			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM {$from} WHERE {$where}");
+			$this->resource = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
 		}
 		else{
-			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM {$from} WHERE {$where}");
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY {$orderby}");
+			$results = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
+			foreach($results as $row){
+				if($row->uid){
+					$select_uid[] = intval($row->uid);
+				}
+			}
+			
+			if(!isset($select_uid)){
+				$this->total = 0;
+				$this->resource = array();
+			}
+			else{
+				$this->total = $wpdb->get_var("SELECT COUNT(*) FROM {$from} WHERE {$where}");
+				$this->resource = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_board_content`.* FROM {$from} WHERE `{$wpdb->prefix}kboard_board_content`.`uid` IN(".implode(',', $select_uid).") ORDER BY {$orderby}");
+			}
 		}
 		
 		$wpdb->flush();

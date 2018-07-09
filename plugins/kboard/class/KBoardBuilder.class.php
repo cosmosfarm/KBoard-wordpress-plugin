@@ -158,6 +158,10 @@ class KBoardBuilder {
 	 * 게시판 리스트를 배열로 반환한다.
 	 */
 	public function getListArray(){
+		
+		// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
+		kboard_builder_mod('list');
+		
 		$list = $this->getList();
 		while($content = $list->hasNext()){
 			$url = new KBUrl(wp_get_referer());
@@ -202,6 +206,9 @@ class KBoardBuilder {
 				$url = new KBUrl();
 				return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
+			
+			// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
+			kboard_builder_mod($this->mod);
 			
 			if($this->meta->pass_autop == 'enable'){
 				do_action('kboard_skin_header', $this);

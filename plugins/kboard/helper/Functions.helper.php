@@ -552,6 +552,25 @@ function kboard_mod($default=''){
 }
 
 /**
+ * KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 반환한다.
+ * @param string $mod
+ * @return string
+ */
+function kboard_builder_mod($mod=''){
+	static $builder_mod;
+	if($builder_mod === null){
+		$builder_mod = '';
+	}
+	if($mod){
+		$builder_mod = $mod;
+	}
+	if(!in_array($builder_mod, array('list', 'document', 'editor', 'remove', 'order', 'complete', 'history', 'sales'))){
+		$builder_mod = '';
+	}
+	return apply_filters('kboard_builder_mod', $builder_mod);
+}
+
+/**
  * keyword 값을 반환한다.
  * @return string
  */
