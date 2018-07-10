@@ -27,7 +27,7 @@
 						<select name="skin" id="skin">
 							<?php
 							if(!$latestview->skin) $latestview->skin = 'default';
-							foreach($skin->getList() as $skin_item):
+							foreach($skin->getLatestviewList() as $skin_item):
 							?>
 							<option value="<?php echo $skin_item->name?>"<?php if($latestview->skin == $skin_item->name):?> selected<?php endif?>><?php echo $skin_item->name?></option>
 							<?php endforeach?>

@@ -959,6 +959,7 @@ class KBoardBuilder {
 		}
 		
 		$list->is_latest = true;
+		$list->latest = $args;
 		$list->category1($this->category1);
 		$list->category2($this->category2);
 		$list->setSorting($this->sort);

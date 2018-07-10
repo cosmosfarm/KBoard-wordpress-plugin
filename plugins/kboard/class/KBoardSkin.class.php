@@ -10,6 +10,8 @@ class KBoardSkin {
 	private static $instance;
 	private $active;
 	private $list;
+	private $latestview_list;
+	private $merged_list;
 	
 	private function __construct(){
 		$dir = KBOARD_DIR_PATH . '/skin';
@@ -24,6 +26,8 @@ class KBoardSkin {
 			}
 		}
 		$this->list = apply_filters('kboard_skin_list', $this->list);
+		$this->latestview_list = apply_filters('kboard_skin_latestview_list', $this->list);
+		$this->merged_list = array_merge($this->list, $this->latestview_list);
 		closedir($dh);
 	}
 	
@@ -45,6 +49,13 @@ class KBoardSkin {
 	}
 	
 	/**
+	 * 최신글 모아보기 스킨 리스트를 반환한다.
+	 */
+	public function getLatestviewList(){
+		return $this->latestview_list ? $this->latestview_list : array();
+	}
+	
+	/**
 	 * 스킨 레이아웃을 불러온다.
 	 * @param string $skin_name
 	 * @param string $file
@@ -58,17 +69,17 @@ class KBoardSkin {
 		
 		$is_admin = false;
 		if(is_admin()){
-			if(file_exists("{$this->list[$skin_name]->dir}/admin-{$file}")){
+			if(file_exists("{$this->merged_list[$skin_name]->dir}/admin-{$file}")){
 				$is_admin = true;
 			}
 		}
 		
 		if($is_admin){
-			include "{$this->list[$skin_name]->dir}/admin-{$file}";
+			include "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
 		}
 		else{
-			if(file_exists("{$this->list[$skin_name]->dir}/{$file}")){
-				include "{$this->list[$skin_name]->dir}/{$file}";
+			if(file_exists("{$this->merged_list[$skin_name]->dir}/{$file}")){
+				include "{$this->merged_list[$skin_name]->dir}/{$file}";
 			}
 			else{
 				echo sprintf(__('%s file does not exist.', 'kboard'), $file);
@@ -83,8 +94,8 @@ class KBoardSkin {
 	 * @param string $skin_name
 	 */
 	public function loadFunctions($skin_name){
-		if(file_exists("{$this->list[$skin_name]->dir}/functions.php")){
-			include_once "{$this->list[$skin_name]->dir}/functions.php";
+		if(file_exists("{$this->merged_list[$skin_name]->dir}/functions.php")){
+			include_once "{$this->merged_list[$skin_name]->dir}/functions.php";
 		}
 	}
 	
@@ -95,7 +106,7 @@ class KBoardSkin {
 	 * @return string
 	 */
 	public function url($skin_name, $file=''){
-		return "{$this->list[$skin_name]->url}" . ($file ? "/{$file}" : '');
+		return "{$this->merged_list[$skin_name]->url}" . ($file ? "/{$file}" : '');
 	}
 	
 	/**
@@ -105,7 +116,7 @@ class KBoardSkin {
 	 * @return string
 	 */
 	public function dir($skin_name, $file=''){
-		return "{$this->list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
+		return "{$this->merged_list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
 	}
 	
 	/**

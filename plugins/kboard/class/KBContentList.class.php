@@ -39,6 +39,7 @@ class KBContentList {
 	var $is_rss = false;
 	var $is_latest = false;
 	var $within_days = 0;
+	var $latest = array();
 	
 	public function __construct($board_id=''){
 		if($board_id) $this->setBoardID($board_id);
