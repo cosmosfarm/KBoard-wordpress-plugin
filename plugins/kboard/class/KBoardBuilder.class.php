@@ -20,6 +20,7 @@ class KBoardBuilder {
 	var $sort;
 	var $url;
 	var $within_days;
+	var $view_iframe;
 	
 	public function __construct($board_id='', $is_latest=false){
 		$this->category1 = kboard_category1();
@@ -184,9 +185,16 @@ class KBoardBuilder {
 			$_data['search'] = $content->search;
 			$_data['attach'] = $content->attach;
 			$_data['option'] = $content->option->toArray();
-			$_data['urls']['document'] = $url->set('uid', $content->uid)->set('mod', 'document')->toString();
-			$_data['urls']['editor'] = $url->set('uid', $content->uid)->set('mod', 'editor')->toString();
-			$_data['urls']['remove'] = $url->getContentRemove($content->uid);
+			if($this->view_iframe){
+				$_data['urls']['document'] = $url->set('uid', $content->uid)->set('mod', 'document')->set('kboard_id', $content->board_id)->set('view_iframe', '1')->toString();
+				$_data['urls']['editor'] = $url->set('uid', $content->uid)->set('mod', 'editor')->set('kboard_id', $content->board_id)->set('view_iframe', '1')->toString();
+				$_data['urls']['remove'] = $url->set('uid', $content->uid)->set('mod', 'remove')->set('kboard_id', $content->board_id)->set('view_iframe', '1')->toString();
+			}
+			else{
+				$_data['urls']['document'] = $url->getDocumentURLWithUID($content->uid);
+				$_data['urls']['editor'] = $url->getContentEditor($content->uid);
+				$_data['urls']['remove'] = $url->getContentRemove($content->uid);
+			}
 			$data[] = $_data;
 		}
 		return $data;

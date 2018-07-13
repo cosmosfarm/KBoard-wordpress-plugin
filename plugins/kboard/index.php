@@ -765,9 +765,16 @@ function kboard_ajax_builder(){
 	$board = new KBoard();
 	$board->setID($board_id);
 	
+	$view_iframe = $board->meta->view_iframe;
+	
+	if(isset($_REQUEST['view_iframe'])){
+		$view_iframe = $_REQUEST['view_iframe'] ? '1' : '';
+	}
+	
 	if($board->id){
 		$board_builder = new KBoardBuilder($board->id);
 		$board_builder->board = $board;
+		$board_builder->view_iframe = $view_iframe;
 		
 		if(isset($_REQUEST['rpp']) && $_REQUEST['rpp']){
 			$board_builder->setRpp($_REQUEST['rpp']);
