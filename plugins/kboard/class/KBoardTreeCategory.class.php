@@ -116,11 +116,12 @@ class KBoardTreeCategory {
 	 * @param array $search_option
 	 */
 	public function getSelectedList(){
+		$kboard_search_option = kboard_search_option();
 		$search_option = array();
-		if(isset($_GET['kboard_search_option']['tree_category_1']['value']) && $_GET['kboard_search_option']['tree_category_1']['value']){
+		if(isset($kboard_search_option['tree_category_1']['value']) && $kboard_search_option['tree_category_1']['value']){
 			for($i=1; $i<=$this->getCount(); $i++){
-				if(!(isset($_GET['kboard_search_option']['tree_category_'.$i]['value']) && $_GET['kboard_search_option']['tree_category_'.$i]['value'])) break;
-				$search_option[] = $_GET['kboard_search_option']['tree_category_'.$i]['value'];
+				if(!(isset($kboard_search_option['tree_category_'.$i]['value']) && $kboard_search_option['tree_category_'.$i]['value'])) break;
+				$search_option[] = $kboard_search_option['tree_category_'.$i]['value'];
 			}
 		}
 		return $search_option;
@@ -173,7 +174,8 @@ class KBoardTreeCategory {
 	 * @return number
 	 */
 	public function getCategoryNameWithDepth($depth){
-		$current_category = isset($_GET['kboard_search_option']['tree_category_'.$depth]['value'])?$_GET['kboard_search_option']['tree_category_'.$depth]['value']:'';
+		$kboard_search_option = kboard_search_option();
+		$current_category = isset($kboard_search_option['tree_category_'.$depth]['value'])?$kboard_search_option['tree_category_'.$depth]['value']:'';
 		return $current_category;
 	}
 }
