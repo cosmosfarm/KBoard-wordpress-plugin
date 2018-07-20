@@ -110,8 +110,8 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-editor input[type=number],
 #kboard-contact-form-editor input[type=date],
 #kboard-contact-form-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 32px; line-height: 32px; font-size: 16px; color: #666666; border-radius: 0; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: white; box-sizing: content-box; vertical-align: top; }
-#kboard-contact-form-editor input[type=checkbox] { -webkit-appearance: checkbox; -moz-appearance: checkbox; appearance: checkbox; }
-#kboard-contact-form-editor input[type=radio] { -webkit-appearance: radio; -moz-appearance: radio; appearance: radio; }
+#kboard-contact-form-editor input[type=checkbox] { width: auto; -webkit-appearance: checkbox; -moz-appearance: checkbox; appearance: checkbox; }
+#kboard-contact-form-editor input[type=radio] { width: auto; -webkit-appearance: radio; -moz-appearance: radio; appearance: radio; }
 #kboard-contact-form-editor select:hover,
 #kboard-contact-form-editor textarea:hover,
 #kboard-contact-form-editor input[type=text]:hover,
