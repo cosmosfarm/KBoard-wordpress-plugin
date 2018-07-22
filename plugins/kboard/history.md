@@ -9,8 +9,11 @@
   2. kboard_pre_download_file 필터 추가
   3. kboard_skin_latestview_list 필터 추가
   4. kboard_pre_file_download 액션 추가
-  5. kboard_builder_mod() 함수 추가
-  6. 버그 수정
+  5. kboard_skin_editor_header_before 액션 추가
+  6. kboard_skin_editor_header_after 액션 추가
+  7. kboard_skin_editor_header 필터 추가
+  8. kboard_builder_mod() 함수 추가
+  9. 버그 수정
 
 
 5.3.9

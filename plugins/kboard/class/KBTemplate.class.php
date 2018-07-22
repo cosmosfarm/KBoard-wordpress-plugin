@@ -107,10 +107,29 @@ class KBTemplate {
 			wp_die(__('You do not have permission.', 'kboard'));
 		}
 		
-		$board = new KBoard($content->board_id);
+		$board = $content->getBoard();
 		
-		if(!$board->isReader($content->member_uid, $content->secret) && !$board->isConfirm($content->password, $content->uid)){
-			wp_die(__('You do not have permission.', 'kboard'));
+		if(!$content->isReader()){
+			if($board->permission_read != 'all' && !is_user_logged_in()){
+				wp_die(__('You do not have permission.', 'kboard'));
+			}
+			else if($content->secret){
+				if(!$content->isConfirm()){
+					if($content->parent_uid){
+						$parent = new KBContent();
+						$parent->initWithUID($content->getTopContentUID());
+						if(!$board->isReader($parent->member_uid, $content->secret) && !$parent->isConfirm()){
+							wp_die(__('You do not have permission.', 'kboard'));
+						}
+					}
+					else{
+						wp_die(__('You do not have permission.', 'kboard'));
+					}
+				}
+			}
+			else{
+				wp_die(__('You do not have permission.', 'kboard'));
+			}
 		}
 		
 		include_once KBOARD_DIR_PATH . '/template/document_print.php';

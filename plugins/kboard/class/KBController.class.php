@@ -50,12 +50,12 @@ class KBController {
 			$content->saveTemporary();
 			$board = $content->getBoard();
 			
-			if(!$uid && !$board->isWriter()){
+			if(!$content->uid && !$board->isWriter()){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
-			else if($uid && !$board->isEditor($content->member_uid)){
-				if($board->permission_write=='all'){
-					if(!$board->isConfirm($content->password, $content->uid)){
+			else if($content->uid && !$content->isEditor()){
+				if($board->permission_write=='all' && !$content->member_uid){
+					if(!$content->isConfirm()){
 						die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 					}
 				}
@@ -64,14 +64,24 @@ class KBController {
 				}
 			}
 			
+			$content->new_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):$content->password;
+			
 			if(!$board->id){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}
 			else if(!$content->title){
 				die("<script>alert('".__('Please enter the title.', 'kboard')."');history.go(-1);</script>");
 			}
-			else if(!is_user_logged_in() && !$content->password){
+			else if(!is_user_logged_in() && !$content->new_password){
 				die("<script>alert('".__('Please enter the password.', 'kboard')."');history.go(-1);</script>");
+			}
+			
+			if($content->execute_action == 'update'){
+				if(isset($_POST['kboard-editor-content-nonce'])){
+					if(!wp_verify_nonce($_POST['kboard-editor-content-nonce'], "kboard-editor-content-{$content->uid}")){
+						die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+					}
+				}
 			}
 			
 			// 금지단어 체크
@@ -214,49 +224,33 @@ class KBController {
 		}
 		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-		if(isset($_GET['file'])){
-			$file = trim($_GET['file']);
-			$file = sanitize_key($file);
-			$file = esc_sql($file);
-		}
-		else{
-			$file = '';
-		}
-		
-		if(!$uid || !$file){
-			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), new KBContent(), new KBoard());
-			exit;
-		}
+		$file = isset($_GET['file'])?sanitize_key($_GET['file']):'';
 		
 		$content = new KBContent();
 		$content->initWithUID($uid);
+		$board = $content->getBoard();
 		
-		if($content->parent_uid){
-			$parent = new KBContent();
-			$parent->initWithUID($content->getTopContentUID());
-			$board = new KBoard($parent->board_id);
+		if(!$content->uid || !$file){
+			wp_die(__('You do not have permission.', 'kboard'));
 		}
-		else{
-			$board = new KBoard($content->board_id);
-		}
-
-		if(!$board->isEditor($content->member_uid)){
-			if($board->permission_write=='all'){
-				if(!$board->isConfirm($content->password, $content->uid)){
-					$url = new KBUrl();
-					$skin_path = KBOARD_URL_PATH . "/skin/$board->skin";
-					include KBOARD_DIR_PATH . "/skin/$board->skin/confirm.php";
-					exit;
+		
+		if(!$content->isEditor()){
+			if($board->permission_write=='all' && !$content->member_uid){
+				if(!$content->isConfirm()){
+					wp_die(__('You do not have permission.', 'kboard'));
 				}
 			}
 			else{
-				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
-				exit;
+				wp_die(__('You do not have permission.', 'kboard'));
 			}
 		}
-
-		if($file == 'thumbnail') $content->removeThumbnail();
-		else $content->removeAttached($file);
+		
+		if($file == 'thumbnail'){
+			$content->removeThumbnail();
+		}
+		else{
+			$content->removeAttached($file);
+		}
 
 		wp_redirect(wp_get_referer());
 		exit;
@@ -278,47 +272,30 @@ class KBController {
 		}
 		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
-		if(isset($_GET['file'])){
-			$file = trim($_GET['file']);
-			$file = sanitize_key($file);
-			$file = esc_sql($file);
-		}
-		else{
-			$file = '';
-		}
-		
-		if(!$uid || !$file){
-			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), new KBContent(), new KBoard());
-			exit;
-		}
+		$file = isset($_GET['file'])?sanitize_key($_GET['file']):'';
 		
 		$content = new KBContent();
 		$content->initWithUID($uid);
+		$board = $content->getBoard();
 		
-		if($content->parent_uid){
-			$parent = new KBContent();
-			$parent->initWithUID($content->getTopContentUID());
-			$board = new KBoard($parent->board_id);
-		}
-		else{
-			$board = new KBoard($content->board_id);
+		if(!$content->uid || !$file){
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+			exit;
 		}
 		
-		if(!$board->isReader($content->member_uid, $content->secret)){
+		if(!$content->isReader()){
 			if($board->permission_read != 'all' && !is_user_logged_in()){
 				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
 				exit;
 			}
 			else if($content->secret){
-				if(!$board->isConfirm($content->password, $content->uid)){
+				if(!$content->isConfirm()){
 					if($content->parent_uid){
 						$parent = new KBContent();
 						$parent->initWithUID($content->getTopContentUID());
-						if(!$board->isReader($parent->member_uid, $content->secret)){
-							if(!$board->isConfirm($parent->password, $parent->uid)){
-								do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
-								exit;
-							}
+						if(!$board->isReader($parent->member_uid, $content->secret) && !$parent->isConfirm()){
+							do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+							exit;
 						}
 					}
 					else{
@@ -767,7 +744,7 @@ class KBController {
 		if(isset($_POST['content_uid']) && intval($_POST['content_uid'])){
 			$content = new KBContent();
 			$content->initWithUID($_POST['content_uid']);
-			if($content->uid && $content->isEditor()){
+			if($content->isEditor() || $content->isConfirm()){
 				$content->updateContent($_POST['data']);
 				$content->updateOptions($_POST['data']);
 				

@@ -190,7 +190,7 @@ class KBContentList {
 	
 	/**
 	 * 글 작성자 고유 ID값을 입력한다.
-	 * @param unknown $member_uid
+	 * @param int $member_uid
 	 * @return KBContentList
 	 */
 	public function memberUID($member_uid){
@@ -480,7 +480,7 @@ class KBContentList {
 			}
 			else{
 				$this->total = $wpdb->get_var("SELECT COUNT(*) FROM {$from} WHERE {$where}");
-				$this->resource = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_board_content`.* FROM {$from} WHERE `{$wpdb->prefix}kboard_board_content`.`uid` IN(".implode(',', $select_uid).") ORDER BY {$orderby}");
+				$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY FIELD(`uid`,".implode(',', $select_uid).")");
 			}
 		}
 		

@@ -38,8 +38,8 @@ class KBoardList {
 		else{
 			$where = '1=1';
 		}
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_setting` WHERE $where");
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE $where ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_setting` WHERE {$where}");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_setting` WHERE {$where} ORDER BY `uid` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
 		return $this;
 	}
 	

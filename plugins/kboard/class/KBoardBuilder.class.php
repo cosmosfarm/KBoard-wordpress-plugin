@@ -342,7 +342,7 @@ class KBoardBuilder {
 		);
 		
 		$allow_document = false;
-		if(!$this->board->isReader($content->member_uid, $content->secret)){
+		if(!$content->isReader()){
 			if($this->board->permission_read != 'all' && !is_user_logged_in()){
 				if($this->meta->view_iframe){
 					do_action('kboard_cannot_read_document', 'go_login', wp_login_url($url->getDocumentRedirect($content->uid)), $content, $board, $this);
@@ -352,20 +352,15 @@ class KBoardBuilder {
 				}
 			}
 			else if($content->secret){
-				if(!$this->board->isConfirm($content->password, $content->uid)){
+				if(!$content->isConfirm()){
 					if($content->parent_uid){
 						$parent = new KBContent();
 						$parent->initWithUID($content->getTopContentUID());
-						if($this->board->isReader($parent->member_uid, $content->secret)){
+						if($this->board->isReader($parent->member_uid, $content->secret) || $parent->isConfirm()){
 							$allow_document = true;
 						}
 						else{
-							if(!$this->board->isConfirm($parent->password, $parent->uid)){
-								echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
-							}
-							else{
-								$allow_document = true;
-							}
+							echo $this->skin->load($this->skin_name, 'confirm.php', $vars);
 						}
 					}
 					else{
@@ -497,7 +492,7 @@ class KBoardBuilder {
 		);
 		
 		$confirm_view = false;
-		if(!$this->uid && !$this->board->isWriter()){
+		if(!$content->uid && !$this->board->isWriter()){
 			if(is_user_logged_in()){
 				echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
 				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
@@ -509,9 +504,9 @@ class KBoardBuilder {
 			}
 			exit;
 		}
-		else if($this->uid && !$this->board->isEditor($content->member_uid)){
+		else if($content->uid && !$content->isEditor()){
 			if($this->board->permission_write=='all' && !$content->member_uid){
-				if(!$this->board->isConfirm($content->password, $content->uid)){
+				if(!$content->isConfirm()){
 					$confirm_view = true;
 				}
 			}
@@ -619,9 +614,9 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		$confirm_view = false;
-		if(!$this->board->isEditor($content->member_uid)){
+		if(!$content->isEditor()){
 			if($this->board->permission_write=='all' && !$content->member_uid){
-				if(!$this->board->isConfirm($content->password, $content->uid, true)){
+				if(!$content->isConfirm(true)){
 					$confirm_view = true;
 				}
 			}
@@ -642,8 +637,13 @@ class KBoardBuilder {
 			$content->board = $board;
 			$board->content = $content;
 			
+			$order = new KBOrder();
+			$order->board = $board;
+			$order->board_id = $board->id;
+			
 			$vars = array(
 				'content' => $content,
+				'order' => $order,
 				'url' => $url,
 				'skin' => $this->skin,
 				'skin_path' => $this->skin->url($this->skin_name),

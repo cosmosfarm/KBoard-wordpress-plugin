@@ -27,6 +27,7 @@ class KBContent {
 	var $previous_status;
 	var $previous_board_id;
 	var $tree_category_depth;
+	var $new_password;
 	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
@@ -99,6 +100,7 @@ class KBContent {
 		$this->setExecuteAction();
 		$this->previous_status = $this->status;
 		$this->previous_board_id = $this->board_id;
+		$this->new_password = $this->password;
 		$wpdb->flush();
 		return $this;
 	}
@@ -122,6 +124,7 @@ class KBContent {
 		$this->setExecuteAction();
 		$this->previous_status = $this->status;
 		$this->previous_board_id = $this->board_id;
+		$this->new_password = $this->password;
 		$wpdb->flush();
 		return $this;
 	}
@@ -270,7 +273,7 @@ class KBContent {
 			$data['thumbnail_file'] = '';
 			$data['thumbnail_name'] = '';
 			$data['status'] = $this->status;
-			$data['password'] = $this->password;
+			$data['password'] = $this->new_password;
 		}
 		
 		// 입력할 데이터 필터
@@ -298,7 +301,7 @@ class KBContent {
 		$data['thumbnail_file'] = isset($data['thumbnail_file'])?sanitize_text_field($data['thumbnail_file']):'';
 		$data['thumbnail_name'] = isset($data['thumbnail_name'])?sanitize_text_field($data['thumbnail_name']):'';
 		$data['status'] = isset($data['status'])?sanitize_key($data['status']):'';
-		$data['password'] = isset($data['password'])?$data['password']:'';
+		$data['password'] = isset($data['password'])?sanitize_text_field($data['password']):'';
 		
 		if(!$data['member_display']){
 			$data['member_display'] = __('Anonymous', 'kboard');
@@ -374,7 +377,7 @@ class KBContent {
 				$data['thumbnail_file'] = $this->thumbnail_file;
 				$data['thumbnail_name'] = $this->thumbnail_name;
 				$data['status'] = $this->status;
-				if($this->member_uid || $this->password) $data['password'] = $this->password;
+				if($this->member_uid || $this->password) $data['password'] = $this->new_password;
 			}
 			
 			// 수정할 데이터 필터
@@ -402,7 +405,7 @@ class KBContent {
 			if(isset($data['thumbnail_file'])) $data['thumbnail_file'] = sanitize_text_field($data['thumbnail_file']);
 			if(isset($data['thumbnail_name'])) $data['thumbnail_name'] = sanitize_text_field($data['thumbnail_name']);
 			if(isset($data['status'])) $data['status'] = sanitize_key($data['status']);
-			if(isset($data['password'])) $data['password'] = $data['password'];
+			if(isset($data['password'])) $data['password'] = sanitize_text_field($data['password']);
 			
 			if(isset($data['member_display']) && !$data['member_display']){
 				$data['member_display'] = __('Anonymous', 'kboard');
@@ -564,7 +567,8 @@ class KBContent {
 			
 			foreach($_FILES as $key=>$value){
 				if(strpos($key, KBContent::$SKIN_ATTACT_PREFIX) === false) continue;
-				$key = sanitize_key(str_replace(KBContent::$SKIN_ATTACT_PREFIX, '', $key));
+				$key = str_replace(KBContent::$SKIN_ATTACT_PREFIX, '', $key);
+				$key = sanitize_key($key);
 				
 				$upload = $file->upload(KBContent::$SKIN_ATTACT_PREFIX . $key);
 				$original_name = $upload['original_name'];
@@ -635,7 +639,8 @@ class KBContent {
 	public function removeAttached($key){
 		global $wpdb;
 		if($this->uid){
-			$key = esc_sql(sanitize_key($key));
+			$key = sanitize_key($key);
+			$key = esc_sql($key);
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 			if($file){
 				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file);
@@ -665,8 +670,10 @@ class KBContent {
 			$this->option = new KBContentOption($this->uid);
 			foreach($options as $key=>$value){
 				if(strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== false){
-					$key = sanitize_key(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key));
-					$value = kboard_safeiframe(kboard_xssfilter($value));
+					$key = str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key);
+					$key = sanitize_key($key);
+					$value = kboard_xssfilter($value);
+					$value = kboard_safeiframe($value);
 					$this->option->{$key} = $value;
 				}
 			}
@@ -1197,8 +1204,6 @@ class KBContent {
 		$this->notice = isset($_POST['notice'])?sanitize_key($_POST['notice']):'';
 		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'1';
 		if(isset($_POST['status'])) $this->status = sanitize_key($_POST['status']);
-		$password = isset($_POST['password'])?$_POST['password']:'';
-		$this->password = '';
 		
 		if(is_user_logged_in() && !$this->member_display){
 			$current_user = wp_get_current_user();
@@ -1218,8 +1223,6 @@ class KBContent {
 		$temporary->option = $option;
 		$_SESSION['kboard_temporary_content'] = $temporary;
 		
-		$this->password = $password;
-		
 		$this->setExecuteAction();
 	}
 	
@@ -1228,6 +1231,15 @@ class KBContent {
 	 */
 	public function initWithTemporary(){
 		if(isset($_SESSION['kboard_temporary_content']) && $_SESSION['kboard_temporary_content']){
+			
+			// 민감한 정보 제거
+			if(isset($_SESSION['kboard_temporary_content']->uid)){
+				$_SESSION['kboard_temporary_content']->uid = '';
+			}
+			if(isset($_SESSION['kboard_temporary_content']->password)){
+				$_SESSION['kboard_temporary_content']->password = '';
+			}
+			
 			$temporary = $_SESSION['kboard_temporary_content'];
 			$this->row = $temporary;
 		}
@@ -1250,6 +1262,20 @@ class KBContent {
 	}
 	
 	/**
+	 * 글 읽기 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isReader(){
+		if($this->uid){
+			$board = $this->getBoard();
+			if($board->isReader($this->member_uid, $this->secret)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * 글 수정 권한이 있는 사용자인지 확인한다.
 	 * @return boolean
 	 */
@@ -1259,7 +1285,19 @@ class KBContent {
 			if($board->isEditor($this->member_uid)){
 				return true;
 			}
-			else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$this->uid]) && $_SESSION['kboard_confirm'][$this->uid] == $this->password){
+		}
+		return false;
+	}
+	
+	/**
+	 * 게시글 비밀번호와 일치하는지 확인한다.
+	 * @param boolean $reauth
+	 * @return boolean
+	 */
+	public function isConfirm($reauth=false){
+		if($this->uid){
+			$board = $this->getBoard();
+			if($board->isConfirm($this->password, $this->uid, $reauth)){
 				return true;
 			}
 		}

@@ -136,6 +136,40 @@ class KBoardSkin {
 		return (isset($this->active[$blog_id]) && $this->active[$blog_id]) ? $this->active[$blog_id] : array();
 	}
 	
+	/**
+	 * 스킨의 editor 폼에 필수 정보를 출력한다.
+	 * @param KBContent $content
+	 * @param KBoard $board
+	 */
+	public function editorHeader($content, $board){
+		wp_nonce_field('kboard-editor-execute', 'kboard-editor-execute-nonce');
+		
+		if($content->uid){
+			wp_nonce_field("kboard-editor-content-{$content->uid}", 'kboard-editor-content-nonce');
+		}
+		
+		do_action('kboard_skin_editor_header_before', $content, $board);
+		
+		$header = array();
+		$header['action'] = '<input type="hidden" name="action" value="kboard_editor_execute">';
+		$header['mod'] = '<input type="hidden" name="mod" value="editor">';
+		$header['uid'] = sprintf('<input type="hidden" name="uid" value="%d">', $content->uid);
+		$header['board_id'] = sprintf('<input type="hidden" name="board_id" value="%d">', $content->board_id);
+		$header['parent_uid'] = sprintf('<input type="hidden" name="parent_uid" value="%d">', $content->parent_uid);
+		$header['member_uid'] = sprintf('<input type="hidden" name="member_uid" value="%d">', $content->member_uid);
+		$header['member_display'] = sprintf('<input type="hidden" name="member_display" value="%s">', $content->member_display);
+		$header['date'] = sprintf('<input type="hidden" name="date" value="%s">', $content->date);
+		$header['user_id'] = sprintf('<input type="hidden" name="user_id" value="%d">', get_current_user_id());
+		
+		$header = apply_filters('kboard_skin_editor_header', $header, $content, $board);
+		
+		foreach($header as $input){
+			echo $input;
+		}
+		
+		do_action('kboard_skin_editor_header_after', $content, $board);
+	}
+	
 	public function getOptionSearchFieldKey($key, $compare){
 		
 	}
