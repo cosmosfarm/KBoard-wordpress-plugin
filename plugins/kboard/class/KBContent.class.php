@@ -31,6 +31,7 @@ class KBContent {
 	
 	public function __construct($board_id=''){
 		$this->row = new stdClass();
+		$this->execute_action = 'insert';
 		if($board_id) $this->setBoardID($board_id);
 	}
 	
