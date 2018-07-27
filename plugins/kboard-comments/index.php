@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 댓글
 Plugin URI: http://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 댓글 플러그인 입니다.
-Version: 4.4.4
+Version: 4.4.5
 Author: 코스모스팜 - Cosmosfarm
 Author URI: http://www.cosmosfarm.com/
 */
@@ -12,7 +12,7 @@ if(!defined('ABSPATH')) exit;
 if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_for_network')) require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
-define('KBOARD_COMMNETS_VERSION', '4.4.4');
+define('KBOARD_COMMNETS_VERSION', '4.4.5');
 define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
@@ -122,26 +122,28 @@ function kboard_comments_scripts(){
 	
 	// 번역 등록
 	$localize = array(
-			'reply' => __('Reply', 'kboard-comments'),
-			'cancel' => __('Cancel', 'kboard-comments'),
-			'please_enter_the_author' => __('Please enter the author.', 'kboard-comments'),
-			'please_enter_the_password' => __('Please enter the password.', 'kboard-comments'),
-			'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard-comments'),
-			'please_enter_the_content' => __('Please enter the content.', 'kboard-comments'),
-			'are_you_sure_you_want_to_delete' => __('Are you sure you want to delete?', 'kboard-comments'),
-			'please_wait' => __('Please wait.', 'kboard-comments'),
-			'email' => __('Email', 'kboard-comments'),
-			'address' => __('Address', 'kboard-comments'),
-			'postcode' => __('Postcode', 'kboard-comments'),
-			'phone_number' => __('Phone number', 'kboard-comments'),
-			'find' => __('Find', 'kboard-comments'),
-			'rate' => __('Rate', 'kboard-comments'),
-			'ratings' => __('Ratings', 'kboard-comments'),
-			'waiting' => __('Waiting', 'kboard-comments'),
-			'complete' => __('Complete', 'kboard-comments'),
-			'question' => __('Question', 'kboard-comments'),
-			'answer' => __('Answer', 'kboard-comments'),
-			'notify_me_of_new_comments_via_email' => __('Notify me of new comments via email', 'kboard-comments'),
+		'reply' => __('Reply', 'kboard-comments'),
+		'cancel' => __('Cancel', 'kboard-comments'),
+		'please_enter_the_author' => __('Please enter the author.', 'kboard-comments'),
+		'please_enter_the_password' => __('Please enter the password.', 'kboard-comments'),
+		'please_enter_the_CAPTCHA' => __('Please enter the CAPTCHA.', 'kboard-comments'),
+		'please_enter_the_content' => __('Please enter the content.', 'kboard-comments'),
+		'are_you_sure_you_want_to_delete' => __('Are you sure you want to delete?', 'kboard-comments'),
+		'please_wait' => __('Please wait.', 'kboard-comments'),
+		'email' => __('Email', 'kboard-comments'),
+		'address' => __('Address', 'kboard-comments'),
+		'postcode' => __('Postcode', 'kboard-comments'),
+		'phone_number' => __('Phone number', 'kboard-comments'),
+		'find' => __('Find', 'kboard-comments'),
+		'rate' => __('Rate', 'kboard-comments'),
+		'ratings' => __('Ratings', 'kboard-comments'),
+		'waiting' => __('Waiting', 'kboard-comments'),
+		'complete' => __('Complete', 'kboard-comments'),
+		'question' => __('Question', 'kboard-comments'),
+		'answer' => __('Answer', 'kboard-comments'),
+		'notify_me_of_new_comments_via_email' => __('Notify me of new comments via email', 'kboard-comments'),
+		'comment' => __('Comment', 'kboard-comments'),
+		'comments' => __('Comments', 'kboard-comments'),
 	);
 	wp_localize_script('kboard-script', 'kboard_comments_localize_strings', $localize);
 }

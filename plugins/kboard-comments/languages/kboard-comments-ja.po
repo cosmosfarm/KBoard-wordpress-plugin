@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2018-05-17 22:17+0900\n"
-"PO-Revision-Date: 2018-05-17 22:17+0900\n"
+"POT-Creation-Date: 2018-07-27 14:49+0900\n"
+"PO-Revision-Date: 2018-07-27 14:49+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Basepath: ..\n"
@@ -214,7 +214,15 @@ msgstr "回答"
 msgid "Notify me of new comments via email"
 msgstr "電子メールで新しいコメントの通知を受け取る"
 
-#: index.php:154
+#: index.php:145
+msgid "Comment"
+msgstr "コメント"
+
+#: index.php:146
+msgid "Comments"
+msgstr "コメント"
+
+#: index.php:156
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "書き込みを残すには、<a href=\"%s\">ログイン</a>してください。"
