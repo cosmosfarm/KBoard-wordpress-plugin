@@ -151,7 +151,7 @@ class KBoardBuilder {
 		$list->setCompare(kboard_compare());
 		$list->setDateRange(kboard_start_date(), kboard_end_date());
 		$list->setSearchOption(kboard_search_option());
-		$list->getList(kboard_keyword(), kboard_target());
+		$list->getList(kboard_keyword(), kboard_target(), kboard_with_notice());
 		return $list;
 	}
 	
@@ -159,7 +159,6 @@ class KBoardBuilder {
 	 * 게시판 리스트를 배열로 반환한다.
 	 */
 	public function getListArray(){
-		
 		// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
 		kboard_builder_mod('list');
 		
