@@ -327,6 +327,33 @@ class KBoard {
 	}
 	
 	/**
+	 * 첨부파일 다운로드 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isAttachmentDownload(){
+		if(!$this->meta->permission_attachment_download){
+			return true;
+		}
+		else if(is_user_logged_in()){
+			if($this->isAdmin()){
+				// 게시판 관리자 허용
+				return true;
+			}
+			else if($this->meta->permission_attachment_download == 'roles'){
+				// 선택된 역할의 사용자 허용
+				if(array_intersect($this->getAttachmentDownloadRoles(), kboard_current_user_roles())){
+					return true;
+				}
+			}
+			else{
+				// 로그인 사용자 허용
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * 추천권한이 있는 사용자인지 확인한다.
 	 * @return boolean
 	 */
@@ -514,6 +541,17 @@ class KBoard {
 	public function getAdminRoles(){
 		if($this->meta->permission_admin_roles){
 			return unserialize($this->meta->permission_admin_roles);
+		}
+		return array();
+	}
+	
+	/**
+	 * 첨부파일 다운로드 권한의 role을 반환한다.
+	 * @return array
+	 */
+	public function getAttachmentDownloadRoles(){
+		if($this->meta->permission_attachment_download_roles){
+			return unserialize($this->meta->permission_attachment_download_roles);
 		}
 		return array();
 	}

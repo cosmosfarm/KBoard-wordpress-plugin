@@ -13,8 +13,9 @@
   6. kboard_skin_editor_header_after 액션 추가
   7. kboard_skin_editor_header 필터 추가
   8. kboard_builder_mod() 함수 추가
-  9. 번역 추가
-  10. 버그 수정
+  9. 첨부파일 다운로드 권한 추가
+  10. 번역 추가
+  11. 버그 수정
 
 
 5.3.9

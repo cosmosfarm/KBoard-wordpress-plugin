@@ -147,6 +147,7 @@ class KBAdminController {
 				$board->meta->permission_comment_read        = isset($_POST['permission_comment_read'])        ? $_POST['permission_comment_read']         : '';
 				$board->meta->permission_comment_read_minute = isset($_POST['permission_comment_read_minute']) ? $_POST['permission_comment_read_minute']  : '';
 				$board->meta->permission_order               = isset($_POST['permission_order'])               ? $_POST['permission_order']                : '';
+				$board->meta->permission_attachment_download = isset($_POST['permission_attachment_download']) ? $_POST['permission_attachment_download']  : '';
 				$board->meta->permission_vote                = isset($_POST['permission_vote'])                ? $_POST['permission_vote']                 : '';
 				$board->meta->comments_plugin_id             = isset($_POST['comments_plugin_id'])             ? $_POST['comments_plugin_id']              : '';
 				$board->meta->use_comments_plugin            = isset($_POST['use_comments_plugin'])            ? $_POST['use_comments_plugin']             : '';
@@ -181,6 +182,9 @@ class KBAdminController {
 				}
 				if(isset($_POST['permission_vote_roles'])){
 					$board->meta->permission_vote_roles = serialize($_POST['permission_vote_roles']);
+				}
+				if(isset($_POST['permission_attachment_download_roles'])){
+					$board->meta->permission_attachment_download_roles = serialize($_POST['permission_attachment_download_roles']);
 				}
 				
 				$board->meta->skin_fields                    = isset($_POST['fields'])                         ? serialize($_POST['fields'])                   : '';

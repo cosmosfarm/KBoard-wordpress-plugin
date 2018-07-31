@@ -502,6 +502,30 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 					-->
 					<tr valign="top">
+						<th scope="row"><label for="permission_attachment_download">첨부파일 다운로드 권한</label></th>
+						<td>
+							<select name="permission_attachment_download" id="permission_attachment_download" onchange="kboard_permission_roles_view('.kboard-permission-attachment-download-roles-view', this.value)">
+								<option value=""<?php if(!$meta->permission_attachment_download):?> selected<?php endif?>>
+									<?php echo kboard_permission('all')?>
+								</option>
+								<option value="1"<?php if($meta->permission_attachment_download == '1'):?> selected<?php endif?>>
+									<?php echo kboard_permission('author')?>
+								</option>
+								<option value="roles"<?php if($meta->permission_attachment_download == 'roles'):?> selected<?php endif?>>
+									<?php echo kboard_permission('roles')?>
+								</option>
+							</select>
+							<div class="kboard-permission-attachment-download-roles-view<?php if($meta->permission_attachment_download != 'roles'):?> kboard-hide<?php endif?>">
+								<input type="hidden" name="permission_attachment_download_roles" value="">
+								<?php $vote_roles = $board->getAttachmentDownloadRoles();?>
+								<?php foreach(get_editable_roles() as $key=>$value):?>
+									<label><input type="checkbox" name="permission_attachment_download_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $vote_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
+								<?php endforeach?>
+							</div>
+							<p class="description">게시글에 등록된 첨부파일 다운로드를 제한할 수 있습니다. 먼저 읽기권한이 있는 사용자만 다운로드가 가능합니다. 글 작성자 본인은 항상 다운로드할 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="permission_vote">추천권한</label></th>
 						<td>
 							<select name="permission_vote" id="permission_vote" onchange="kboard_permission_roles_view('.kboard-permission-vote-roles-view', this.value)">

@@ -1306,6 +1306,20 @@ class KBContent {
 	}
 	
 	/**
+	 * 첨부파일 다운로드 권한이 있는 사용자인지 확인한다.
+	 * @return boolean
+	 */
+	public function isAttachmentDownload(){
+		if($this->uid){
+			$board = $this->getBoard();
+			if($board->isAttachmentDownload()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * 휴지통에 있는지 확인한다.
 	 * @return boolean
 	 */

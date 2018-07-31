@@ -1041,7 +1041,7 @@ add_action('kboard_cannot_download_file', 'kboard_cannot_download_file_go_back',
 function kboard_cannot_download_file_go_back($action, $url, $content, $board){
 	if($action == 'go_back'){
 		echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
-		echo '<script>window.location.href="' . $url . '";</script>';
+		echo '<script>history.go(-1);</script>';
 	}
 }
 
@@ -1052,7 +1052,7 @@ add_action('kboard_cannot_download_file', 'kboard_not_enough_points_download_fil
 function kboard_not_enough_points_download_file_go_back($action, $url, $content, $board){
 	if($action == 'not_enough_points'){
 		echo '<script>alert("'.__('You have not enough points.', 'kboard').'");</script>';
-		echo '<script>window.location.href="' . $url . '";</script>';
+		echo '<script>history.go(-1);</script>';
 	}
 }
 

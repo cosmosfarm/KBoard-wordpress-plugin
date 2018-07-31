@@ -310,6 +310,17 @@ class KBController {
 			}
 		}
 		
+		if(!$content->isAttachmentDownload()){
+			if($board->meta->permission_attachment_download == '1' && !is_user_logged_in()){
+				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
+				exit;
+			}
+			else{
+				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+				exit;
+			}
+		}
+		
 		$ds = DIRECTORY_SEPARATOR;
 		
 		$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
