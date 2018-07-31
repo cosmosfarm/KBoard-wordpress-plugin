@@ -714,7 +714,7 @@ function kboard_order_item_id(){
  * with_notice 값을 반환한다.
  * @return string
  */
-function kboard_with_notice(){ 
+function kboard_with_notice(){
 	static $with_notice;
 	if($with_notice === null){
 		$with_notice = (isset($_REQUEST['with_notice'])&&intval($_REQUEST['with_notice']))?true:false;
