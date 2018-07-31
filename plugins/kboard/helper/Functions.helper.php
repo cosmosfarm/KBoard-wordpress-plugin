@@ -717,7 +717,6 @@ function kboard_order_item_id(){
 function kboard_with_notice(){
 	static $with_notice;
 	if($with_notice === null){
-		exit;
 		$with_notice = (isset($_REQUEST['with_notice'])&&intval($_REQUEST['with_notice']))?true:false;
 	}
 	return apply_filters('kboard_with_notice', $with_notice);

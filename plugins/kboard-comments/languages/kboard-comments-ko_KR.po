@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2018-05-17 22:16+0900\n"
-"PO-Revision-Date: 2018-05-18 13:54+0900\n"
+"POT-Creation-Date: 2018-07-27 14:48+0900\n"
+"PO-Revision-Date: 2018-07-27 14:48+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Basepath: ..\n"
@@ -214,7 +214,15 @@ msgstr "답변"
 msgid "Notify me of new comments via email"
 msgstr "이메일로 새로운 댓글 알림 받기"
 
-#: index.php:154
+#: index.php:145
+msgid "Comment"
+msgstr "댓글"
+
+#: index.php:146
+msgid "Comments"
+msgstr "댓글"
+
+#: index.php:156
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "댓글을 남기려면 <a href=\"%s\">로그인</a>하세요."

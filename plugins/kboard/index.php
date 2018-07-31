@@ -973,6 +973,8 @@ function kboard_scripts(){
 		'agree' => __('Agree', 'kboard'),
 		'disagree' => __('Disagree', 'kboard'),
 		'opinion' => __('Opinion', 'kboard'),
+		'comment' => __('Comment', 'kboard'),
+		'comments' => __('Comments', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
