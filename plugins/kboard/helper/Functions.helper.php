@@ -723,4 +723,3 @@ function kboard_with_notice(){
 	return apply_filters('kboard_with_notice', $with_notice);
 }
 ?>
-?>
