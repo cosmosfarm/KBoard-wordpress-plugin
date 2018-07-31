@@ -522,7 +522,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<label><input type="checkbox" name="permission_attachment_download_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $vote_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
 								<?php endforeach?>
 							</div>
-							<p class="description">게시글에 등록된 첨부파일 다운로드를 제한할 수 있습니다. 먼저 읽기권한이 있는 사용자만 다운로드가 가능합니다. 글 작성자 본인은 항상 다운로드할 수 있습니다.</p>
+							<p class="description">게시글에 등록된 첨부파일 다운로드를 제한할 수 있습니다.</p>
+							<p class="description">먼저 읽기권한이 있는 사용자만 다운로드가 가능합니다. 글 작성자 본인은 항상 다운로드할 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
