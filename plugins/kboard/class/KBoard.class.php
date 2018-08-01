@@ -744,6 +744,8 @@ class KBoard {
 				$where[] = "(`category1`='{$category}' OR `category2`='{$category}')";
 			}
 			
+			$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+			
 			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
 			$wpdb->flush();
 			
