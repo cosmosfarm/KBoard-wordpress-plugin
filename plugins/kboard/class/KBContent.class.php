@@ -41,14 +41,14 @@ class KBContent {
 				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
 					if($this->isEditor()){
 						switch($name){
-							case 'title': return sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title); break;
-							case 'content': return sprintf(__('<p>&#91;Waiting for administrator Approval.&#93;</p>%s', 'kboard'), $this->row->content); break;
+							case 'title': return apply_filters('kboard_pending_approval_title', sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title), $this); break;
+							case 'content': return apply_filters('kboard_pending_approval_content', sprintf(__('<p>&#91;Waiting for administrator Approval.&#93;</p>%s', 'kboard'), $this->row->content), $this); break;
 						}
 					}
 					else{
 						switch($name){
-							case 'title': return __('&#91;Pending&#93; Waiting for administrator Approval.', 'kboard'); break;
-							case 'content': return __('&#91;Waiting for administrator Approval.&#93;', 'kboard'); break;
+							case 'title': return apply_filters('kboard_pending_approval_title', __('&#91;Pending&#93; Waiting for administrator Approval.', 'kboard'), $this); break;
+							case 'content': return apply_filters('kboard_pending_approval_content', __('&#91;Waiting for administrator Approval.&#93;', 'kboard'), $this); break;
 						}
 					}
 				}

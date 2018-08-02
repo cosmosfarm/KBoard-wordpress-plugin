@@ -67,7 +67,9 @@ function kboard_safeiframe($data){
 	// kboard_iframe_whitelist 필터
 	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);
 	
-	$re = preg_match_all('/<iframe.+?src="(.+?)".+?[^>]*+>/is', $data, $matches);
+	$data = (string) $data;
+	preg_match_all('/<iframe.+?src="(.+?)".+?[^>]*+>/is', $data, $matches);
+	
 	$iframe = $matches[0];
 	$domain = $matches[1];
 	
