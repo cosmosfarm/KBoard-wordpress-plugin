@@ -59,6 +59,8 @@ function kboard_xssfilter($data){
  * @return string
  */
 function kboard_safeiframe($data){
+	if(is_array($data)) return array_map('kboard_safeiframe', $data);
+	
 	/*
 	 * 허가된 도메인 호스트 (화이트리스트)
 	 */
@@ -67,7 +69,6 @@ function kboard_safeiframe($data){
 	// kboard_iframe_whitelist 필터
 	$whitelist = apply_filters('kboard_iframe_whitelist', $whitelist);
 	
-	$data = (string) $data;
 	preg_match_all('/<iframe.+?src="(.+?)".+?[^>]*+>/is', $data, $matches);
 	
 	$iframe = $matches[0];
