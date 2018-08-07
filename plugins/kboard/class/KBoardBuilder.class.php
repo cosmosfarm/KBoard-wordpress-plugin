@@ -163,6 +163,7 @@ class KBoardBuilder {
 		kboard_builder_mod('list');
 		
 		$list = $this->getList();
+		$data = array();
 		while($content = $list->hasNext()){
 			$url = new KBUrl(wp_get_referer());
 			$_data['uid'] = $content->uid;
