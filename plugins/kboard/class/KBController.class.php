@@ -167,6 +167,8 @@ class KBController {
 			
 			$next_page_url = apply_filters('kboard_after_executing_url', $next_page_url, $execute_uid, $board_id);
 			
+			do_action('kboard_content_execute_pre_redirect', $next_page_url, $content, $board);
+			
 			if($content->execute_action == 'insert'){
 				if($board->meta->conversion_tracking_code){
 					echo $board->meta->conversion_tracking_code;
