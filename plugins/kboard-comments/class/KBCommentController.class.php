@@ -50,7 +50,7 @@ class KBCommentController {
 			if(is_user_logged_in()){
 				$current_user = wp_get_current_user();
 				$member_uid = $current_user->ID;
-				$member_display = $member_display?$member_display:$current_user->display_name;
+				$member_display = $member_display ? $member_display : $current_user->display_name;
 			}
 			
 			$option = new stdClass();
@@ -154,11 +154,17 @@ class KBCommentController {
 			
 			do_action('kboard_comments_pre_insert', 0, $content_uid, $board);
 			
-			$commentList = new KBCommentList($content_uid);
-			$commentList->board = $board;
-			$insert_id = $commentList->add($parent_uid, $member_uid, $member_display, $content, $password);
+			$comment_list = new KBCommentList($content_uid);
+			$comment_list->board = $board;
+			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $password);
 			
-			$comment_option = new KBCommentOption($insert_id);
+			// 댓글과 미디어의 관계를 입력한다.
+			$media = new KBCommentMedia();
+			$media->comment_uid = $comment_uid;
+			$media->media_group = isset($_POST['media_group']) ? sanitize_key($_POST['media_group']) : '';
+			$media->createRelationships();
+			
+			$comment_option = new KBCommentOption($comment_uid);
 			foreach($option as $key=>$value){
 				$comment_option->{$key} = $value;
 			}
@@ -175,7 +181,7 @@ class KBCommentController {
 				}
 			}
 			
-			if($insert_id){
+			if($comment_uid){
 				unset($_SESSION['kboard_temporary_comments']);
 			}
 			

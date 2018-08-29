@@ -26,18 +26,19 @@ define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('admin.php?page=kboard_latestview
 define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
 
-include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
 include_once 'class/KBContentMedia.class.php';
+include_once 'class/KBCommentMedia.class.php';
 include_once 'class/KBContentOption.class.php';
 include_once 'class/KBController.class.php';
 include_once 'class/KBoard.class.php';
-include_once 'class/KBoardTreeCategory.class.php';
+include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBoardFields.class.php';
 include_once 'class/KBoardList.class.php';
 include_once 'class/KBoardMeta.class.php';
 include_once 'class/KBoardSkin.class.php';
+include_once 'class/KBoardTreeCategory.class.php';
 include_once 'class/KBOrder.class.php';
 include_once 'class/KBOrderHistory.class.php';
 include_once 'class/KBOrderItem.class.php';
@@ -858,7 +859,7 @@ function kboard_scripts(){
 	wp_register_script('lightslider', KBOARD_URL_PATH . '/assets/lightslider/lightslider.js', array('jquery'), '1.1.6');
 	
 	// 아임포트 등록
-	wp_register_script('iamport-payment', 'https://service.iamport.kr/js/iamport.payment-1.1.6.js', array('jquery'), '1.1.6');
+	wp_register_script('iamport-payment', 'https://service.iamport.kr/js/iamport.payment-1.1.7.js', array('jquery'), '1.1.7');
 	
 	// 구글 리캡차 등록
 	wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
@@ -870,10 +871,8 @@ function kboard_scripts(){
 		'site_url' => site_url('/', 'relative'),
 		'post_url' => admin_url('admin-post.php'),
 		'ajax_url' => admin_url('admin-ajax.php'),
-		'alax_url' => admin_url('admin-ajax.php'),
 		'plugin_url' => KBOARD_URL_PATH,
-		'add_media_url' => apply_filters('kboard_add_media_url', home_url('/', 'relative')),
-		'media_group' => uniqid(),
+		'media_group' => kboard_media_group(),
 		'ajax_security' => wp_create_nonce('kboard_ajax_security'),
 	);
 	$kboard_iamport_id = get_option('kboard_iamport_id');
@@ -1184,15 +1183,20 @@ function kboard_activation_execute(){
 	PRIMARY KEY (`uid`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_attached` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_attached` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`content_uid` bigint(20) unsigned NOT NULL,
+	`comment_uid` bigint(20) unsigned NOT NULL,
 	`file_key` varchar(127) NOT NULL,
 	`date` char(14) NOT NULL,
 	`file_path` varchar(127) NOT NULL,
 	`file_name` varchar(127) NOT NULL,
+	`file_size` bigint(20) unsigned NOT NULL,
+	`download_count` int(10) unsigned NOT NULL,
+	`metadata` longtext NOT NULL,
 	PRIMARY KEY (`uid`),
-	KEY `content_uid` (`content_uid`)
+	KEY `content_uid` (`content_uid`),
+	KEY `comment_uid` (`comment_uid`)
 	) {$charset_collate};");
 	
 	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
@@ -1266,20 +1270,25 @@ function kboard_activation_execute(){
 	UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_meida` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`media_group` varchar(127) DEFAULT NULL,
 	`date` char(14) DEFAULT NULL,
 	`file_path` varchar(127) DEFAULT NULL,
 	`file_name` varchar(127) DEFAULT NULL,
+	`file_size` bigint(20) unsigned NOT NULL,
+	`download_count` int(10) unsigned NOT NULL,
+	`metadata` longtext NOT NULL,
 	PRIMARY KEY (`uid`),
 	KEY `media_group` (`media_group`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_meida_relationships` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_meida_relationships` (
 	`content_uid` bigint(20) unsigned NOT NULL,
+	`comment_uid` bigint(20) unsigned NOT NULL,
 	`media_uid` bigint(20) unsigned NOT NULL,
-	UNIQUE KEY `content_uid` (`content_uid`,`media_uid`),
+	KEY `content_uid_2` (`content_uid`),
+	KEY `comment_uid` (`comment_uid`),
 	KEY `media_uid` (`media_uid`)
 	) {$charset_collate};");
 	
@@ -1557,6 +1566,16 @@ function kboard_activation_execute(){
 	 * kboard_board_meta 테이블에서 게시판의 total, list_total 데이터를 지움으로써 초기화한다.
 	 */
 	$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='total' OR `key`='list_total'");
+	
+	/*
+	 * KBoard 5.3.11
+	 * kboard_meida_relationships 테이블에 content_uid 인덱스 삭제
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_meida_relationships` WHERE `Key_name`='content_uid'");
+	if(count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_meida_relationships` DROP INDEX `content_uid`");
+	}
+	unset($index);
 }
 
 /*

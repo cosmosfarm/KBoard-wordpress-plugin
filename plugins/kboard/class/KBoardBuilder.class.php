@@ -72,14 +72,27 @@ class KBoardBuilder {
 		
 		if(!$is_latest){
 			$default_build_mod = $this->meta->default_build_mod;
-			if(!$default_build_mod) $default_build_mod = 'list';
+			if(!$default_build_mod){
+				$default_build_mod = 'list';
+			}
 			$this->mod = kboard_mod(apply_filters('kboard_default_build_mod', $default_build_mod, $this->board_id));
 			
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
 			
-			$tree_category = unserialize($this->meta->tree_category);
-			wp_localize_script('kboard-script', 'kboard_current', array('board_id'=>$this->board_id, 'content_uid'=>$this->uid, 'use_tree_category'=>$this->meta->use_tree_category, 'tree_category'=>$tree_category));
+			wp_localize_script('kboard-script', 'kboard_current', array(
+				'board_id'          => $this->board_id,
+				'content_uid'       => $this->uid,
+				'use_tree_category' => $this->meta->use_tree_category,
+				'tree_category'     => unserialize($this->meta->tree_category),
+				'mod'               => $this->mod,
+				'add_media_url'     => apply_filters('kboard_add_media_url', add_query_arg(array(
+					'action'      => 'kboard_media',
+					'board_id'    => $this->board_id,
+					'media_group' => kboard_media_group(),
+					'content_uid' => ($this->mod=='editor' ? $this->uid : '')
+				), home_url('/', 'relative'))),
+			));
 			
 			// KBoard 미디어 추가
 			add_action('media_buttons_context', 'kboard_editor_button');

@@ -481,6 +481,18 @@ function kboard_user_ip(){
 }
 
 /**
+ * media_group 값을 반환한다.
+ * @return string
+ */
+function kboard_media_group($reset=false){
+	static $media_group;
+	if($media_group === null || $reset){
+		$media_group = uniqid();
+	}
+	return apply_filters('kboard_media_group', $media_group);
+}
+
+/**
  * category1 값을 반환한다.
  * @return string
  */

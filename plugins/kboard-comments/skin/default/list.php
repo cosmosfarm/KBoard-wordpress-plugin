@@ -33,9 +33,14 @@
 			
 			<div class="kboard-comments-form">
 				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
+				<input type="hidden" name="media_group" value="<?php echo kboard_media_group()?>">
 				
 				<div class="comments-field">
-					<textarea name="comment_content" placeholder="<?php echo __('Add a comment', 'kboard-comments')?>..." onfocus="kboard_comments_field_show()" required><?php echo $temporary->content?></textarea>
+					<?php if(defined('KBOARD_COMMENTS_WP_EDITOR') && KBOARD_COMMENTS_WP_EDITOR):?>
+						<?php wp_editor($temporary->content, 'comment_content', array('media_buttons'=>$board->isAdmin(), 'tinymce'=>array('init_instance_callback' => 'function(editor){editor.on(\'focus\', kboard_comments_field_show)}')))?>
+					<?php else:?>
+						<textarea name="comment_content" placeholder="<?php echo __('Add a comment', 'kboard-comments')?>..." onfocus="kboard_comments_field_show()" required><?php echo $temporary->content?></textarea>
+					<?php endif?>
 				</div>
 				
 				<div class="comments-field-wrap">

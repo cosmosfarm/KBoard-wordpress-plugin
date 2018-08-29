@@ -61,10 +61,11 @@ class KBContentMedia {
 			foreach($upload_results as $upload){
 				$file_name = esc_sql($upload['original_name']);
 				$file_path = esc_sql($upload['path'] . $upload['stored_name']);
-					
+				$file_size = intval(filesize(KBOARD_WORDPRESS_ROOT . $upload['path'] . $upload['stored_name']));
+				
 				if($file_name){
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`) VALUES ('{$this->media_group}', '$date', '$file_path', '$file_name')");
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('{$this->media_group}', '$date', '$file_path', '$file_name', '$file_size', '0', '')");
 				}	
 			}
 		}
@@ -82,7 +83,7 @@ class KBContentMedia {
 		if($this->content_uid && $this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` WHERE `media_group`='{$this->media_group}'");
 			foreach($results as $row){
-				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida_relationships` (`content_uid`, `media_uid`) VALUES ('{$this->content_uid}', '{$row->uid}')");
+				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida_relationships` (`content_uid`, `comment_uid`, `media_uid`) VALUES ('{$this->content_uid}', '0', '{$row->uid}')");
 			}
 		}
 	}
@@ -135,7 +136,7 @@ class KBContentMedia {
 	public function truncate(){
 		global $wpdb;
 		$date = date('YmdHis', current_time('timestamp')-3600);
-		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND `{$wpdb->prefix}kboard_meida_relationships`.`content_uid` IS NULL");
+		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`date`<'{$date}' AND (`{$wpdb->prefix}kboard_meida_relationships`.`content_uid` IS NULL AND `{$wpdb->prefix}kboard_meida_relationships`.`comment_uid` IS NULL)");
 		foreach($results as $row){
 			$this->deleteWithMedia($row);
 		}

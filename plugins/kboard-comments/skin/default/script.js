@@ -33,11 +33,6 @@ function kboard_comments_execute(form){
 		jQuery('input[name=captcha]', form).focus();
 		return false;
 	}
-	else if(jQuery('textarea[name=comment_content]', form).exists() && !jQuery('textarea[name=comment_content]', form).val()){
-		alert(kboard_comments_localize_strings.please_enter_the_content);
-		jQuery('textarea[name=comment_content]', form).focus();
-		return false;
-	}
 	
 	jQuery(form).data('submitted', 'submitted');
 	return true;
@@ -71,9 +66,14 @@ function kboard_comments_reply(obj, form_id, cancel_id){
 	}
 	else{
 		jQuery(form_id).append(jQuery('.kboard-comments-form'));
-		jQuery('textarea[name=content]').focus();
+		jQuery('textarea[name=comment_content]').focus();
 		jQuery('.kboard-reply').text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
 		jQuery(obj).text(kboard_comments_localize_strings.cancel).addClass('kboard-reply-active');
+	}
+	if(typeof tinyMCE != 'undefined' && tinyMCE.activeEditor){
+		tinyMCE.EditorManager.execCommand('mceFocus', false, 'comment_content');      
+		tinyMCE.EditorManager.execCommand('mceRemoveEditor', true, 'comment_content');
+		tinyMCE.EditorManager.execCommand('mceAddEditor', true, 'comment_content');
 	}
 	return false;
 }

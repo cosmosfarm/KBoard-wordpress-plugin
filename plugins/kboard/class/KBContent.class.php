@@ -539,7 +539,7 @@ class KBContent {
 			$url = new KBUrl();
 			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}'");
 			foreach($result as $row){
-				$this->attach->{$row->file_key} = array($row->file_path, $row->file_name, $url->getDownloadURLWithAttach($this->uid, $row->file_key));
+				$this->attach->{$row->file_key} = array($row->file_path, $row->file_name, $url->getDownloadURLWithAttach($this->uid, $row->file_key), intval($row->file_size), intval($row->download_count), $row->metadata);
 			}
 		}
 		return $this->attach;
@@ -598,15 +598,16 @@ class KBContent {
 				$file_key = esc_sql($attach_file->key);
 				$file_path = esc_sql($attach_file->path);
 				$file_name = esc_sql($attach_file->name);
+				$file_size = intval(filesize(KBOARD_WORDPRESS_ROOT . $file_path));
 				
 				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				if($present_file){
 					@unlink(KBOARD_WORDPRESS_ROOT . $present_file);
-					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name' WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
+					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name', `file_size`='$file_size' WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				}
 				else{
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `file_key`, `date`, `file_path`, `file_name`) VALUES ('$this->uid', '$file_key', '$date', '$file_path', '$file_name')");
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `comment_uid`, `file_key`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('$this->uid', '0', '$file_key', '$date', '$file_path', '$file_name', '$file_size', '0', '')");
 				}
 			}
 		}

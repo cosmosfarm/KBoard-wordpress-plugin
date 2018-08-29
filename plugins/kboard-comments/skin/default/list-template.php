@@ -8,7 +8,7 @@
 			<div class="comments-list-create" itemprop="dateCreated"><?php echo date('Y-m-d H:i', strtotime($comment->created))?></div>
 			<div class="comments-list-content" itemprop="description">
 				<?php if($comment->isReader()):?>
-					<?php echo nl2br($comment->content)?>
+					<?php echo wpautop($comment->content)?>
 				<?php else:?>
 					<?php if($comment->remaining_time_for_reading):?>
 						<div class="remaining_time_for_reading"><?php echo sprintf(__('You can read comments after %d minutes. <a href="%s">Login</a> and you can read it right away.', 'kboard-comments'), round($comment->remaining_time_for_reading/60), wp_login_url($_SERVER['REQUEST_URI']))?></div>

@@ -219,6 +219,10 @@ class KBComment {
 			// 게시글의 댓글 숫자를 변경한다.
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
 			
+			// 미디어 파일을 삭제한다.
+			$media = new KBCommentMedia();
+			$media->deleteWithCommentUID($this->uid);
+			
 			// 자식 댓글을 삭제한다.
 			$this->deleteChildren();
 			
@@ -243,10 +247,14 @@ class KBComment {
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$parent_uid}'");
 			foreach($results as $key=>$child){
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$child->uid}'");
-				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$this->uid}'");
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_comments_option` WHERE `comment_uid`='{$child->uid}'");
 				
 				// 게시글의 댓글 숫자를 변경한다.
-				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
+				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$child->content_uid}'");
+				
+				// 미디어 파일을 삭제한다.
+				$media = new KBCommentMedia();
+				$media->deleteWithCommentUID($child->uid);
 				
 				// 자식 댓글을 삭제한다.
 				$this->deleteChildren($child->uid);
