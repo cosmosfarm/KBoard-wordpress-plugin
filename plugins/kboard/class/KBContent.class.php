@@ -11,7 +11,7 @@ class KBContent {
 	private $filter_keys;
 	
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
-	static $SKIN_ATTACT_PREFIX = 'kboard_attach_';
+	static $SKIN_ATTACH_PREFIX = 'kboard_attach_';
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	static $SKIN_OPTION_PREFIX = 'kboard_option_';
 	
@@ -555,7 +555,7 @@ class KBContent {
 		// 업로드된 파일이 있는지 확인한다. (없으면 중단)
 		$upload_checker = false;
 		foreach($_FILES as $key=>$value){
-			if(strpos($key, KBContent::$SKIN_ATTACT_PREFIX) === false) continue;
+			if(strpos($key, KBContent::$SKIN_ATTACH_PREFIX) === false) continue;
 			if($_FILES[$key]['tmp_name']){
 				$upload_checker = true;
 				break;
@@ -567,11 +567,11 @@ class KBContent {
 			$file->setPath($this->attach_store_path);
 			
 			foreach($_FILES as $key=>$value){
-				if(strpos($key, KBContent::$SKIN_ATTACT_PREFIX) === false) continue;
-				$key = str_replace(KBContent::$SKIN_ATTACT_PREFIX, '', $key);
+				if(strpos($key, KBContent::$SKIN_ATTACH_PREFIX) === false) continue;
+				$key = str_replace(KBContent::$SKIN_ATTACH_PREFIX, '', $key);
 				$key = sanitize_key($key);
 				
-				$upload = $file->upload(KBContent::$SKIN_ATTACT_PREFIX . $key);
+				$upload = $file->upload(KBContent::$SKIN_ATTACH_PREFIX . $key);
 				$original_name = $upload['original_name'];
 				$file_path = $upload['path'] . $upload['stored_name'];
 				
@@ -618,7 +618,7 @@ class KBContent {
 			}
 		}
 	}
-
+	
 	/**
 	 * 게시글의 모든 첨부파일을 삭제한다.
 	 */

@@ -9,6 +9,14 @@
 			<div class="comments-list-content" itemprop="description">
 				<?php if($comment->isReader()):?>
 					<?php echo wpautop($comment->content)?>
+					
+					<?php if(isset($comment->attach->image1)):?>
+						<p><img src="<?php echo esc_attr($comment->attach->image1[0])?>" alt="<?php echo esc_attr($comment->attach->image1[1])?>"></p>
+					<?php endif?>
+					
+					<?php if(isset($comment->attach->file1)):?>
+						<p><?php echo __('Attachment', 'kboard-comments')?>:<a href="<?php echo $comment->attach->file1[2]?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo $comment->attach->file1[1]?></a></p>
+					<?php endif?>
 				<?php else:?>
 					<?php if($comment->remaining_time_for_reading):?>
 						<div class="remaining_time_for_reading"><?php echo sprintf(__('You can read comments after %d minutes. <a href="%s">Login</a> and you can read it right away.', 'kboard-comments'), round($comment->remaining_time_for_reading/60), wp_login_url($_SERVER['REQUEST_URI']))?></div>
@@ -46,7 +54,7 @@
 			<!-- 답글 리스트 끝 -->
 			
 			<!-- 댓글 입력 폼 시작 -->
-			<form action="<?php echo $commentURL->getInsertURL()?>" method="post" id="kboard-comment-reply-form-<?php echo $comment->uid?>" class="comments-reply-form" onsubmit="return kboard_comments_execute(this);">
+			<form id="kboard-comment-reply-form-<?php echo $comment->uid?>" method="post" action="<?php echo $commentURL->getInsertURL()?>" class="comments-reply-form" enctype="multipart/form-data" onsubmit="return kboard_comments_execute(this);">
 				<input type="hidden" name="content_uid" value="<?php echo $comment->content_uid?>">
 				<input type="hidden" name="parent_uid" value="<?php echo $comment->uid?>">
 				<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">

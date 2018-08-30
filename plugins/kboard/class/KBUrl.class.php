@@ -181,7 +181,7 @@ class KBUrl {
 	public function getDownloadURLWithAttach($content_uid, $file_key){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			return add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}"));
+			$url = add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}"));
 		}
 		else{
 			$url = '';

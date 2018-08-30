@@ -996,7 +996,7 @@ add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_login'
 function kboard_cannot_read_document_go_login($action, $url, $content, $board, $board_builder){
 	if($action == 'go_login'){
 		echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-		echo '<script>top.window.location.href="' . $url . '";</script>';
+		echo '<script>top.window.location.href="' . esc_url_raw($url) . '";</script>';
 	}
 }
 
@@ -1007,7 +1007,7 @@ add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_back',
 function kboard_cannot_read_document_go_back($action, $url, $content, $board, $board_builder){
 	if($action == 'go_back'){
 		echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
-		echo '<script>window.location.href="' . $url . '";</script>';
+		echo '<script>window.location.href="' . esc_url_raw($url) . '";</script>';
 	}
 }
 
@@ -1018,26 +1018,26 @@ add_action('kboard_cannot_read_document', 'kboard_not_enough_points_read_documen
 function kboard_not_enough_points_read_document_go_back($action, $url, $content, $board, $board_builder){
 	if($action == 'not_enough_points'){
 		echo '<script>alert("'.__('You have not enough points.', 'kboard').'");</script>';
-		echo '<script>window.location.href="' . $url . '";</script>';
+		echo '<script>window.location.href="' . esc_url_raw($url) . '";</script>';
 	}
 }
 
 /*
  * 첨부파일 다운로드 권한이 없어서 로그인 페이지로 이동한다.
  */
-add_action('kboard_cannot_download_file', 'kboard_cannot_download_file_go_login', 10, 4);
-function kboard_cannot_download_file_go_login($action, $url, $content, $board){
+add_action('kboard_cannot_download_file', 'kboard_cannot_download_file_go_login', 10, 5);
+function kboard_cannot_download_file_go_login($action, $url, $content, $board, $comment){
 	if($action == 'go_login'){
 		echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
-		echo '<script>top.window.location.href="' . $url . '";</script>';
+		echo '<script>top.window.location.href="' . esc_url_raw($url) . '";</script>';
 	}
 }
 
 /*
  * 첨부파일 다운로드 권한이 없어서 이전 페이지로 돌아간다.
  */
-add_action('kboard_cannot_download_file', 'kboard_cannot_download_file_go_back', 10, 4);
-function kboard_cannot_download_file_go_back($action, $url, $content, $board){
+add_action('kboard_cannot_download_file', 'kboard_cannot_download_file_go_back', 10, 5);
+function kboard_cannot_download_file_go_back($action, $url, $content, $board, $comment){
 	if($action == 'go_back'){
 		echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
 		echo '<script>history.go(-1);</script>';
@@ -1047,8 +1047,8 @@ function kboard_cannot_download_file_go_back($action, $url, $content, $board){
 /*
  * 첨부파일 다운로드 포인트 부족으로 이전 페이지로 돌아간다.
  */
-add_action('kboard_cannot_download_file', 'kboard_not_enough_points_download_file_go_back', 10, 4);
-function kboard_not_enough_points_download_file_go_back($action, $url, $content, $board){
+add_action('kboard_cannot_download_file', 'kboard_not_enough_points_download_file_go_back', 10, 5);
+function kboard_not_enough_points_download_file_go_back($action, $url, $content, $board, $comment){
 	if($action == 'not_enough_points'){
 		echo '<script>alert("'.__('You have not enough points.', 'kboard').'");</script>';
 		echo '<script>history.go(-1);</script>';

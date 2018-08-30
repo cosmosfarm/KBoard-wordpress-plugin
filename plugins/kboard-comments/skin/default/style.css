@@ -10,6 +10,7 @@
 .kboard-comments-default input[type=email],
 .kboard-comments-default input[type=number],
 .kboard-comments-default input[type=date],
+.kboard-comments-default input[type=file],
 .kboard-comments-default input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 50%; height: 26px; line-height: 26px; font-size: 13px; border: 1px solid #eaeaea; background-color: white; color: #8a8a8a; vertical-align: top; box-sizing: content-box; }
 .kboard-comments-default .kboard-comments-wrap { padding: 15px 15px 0 0; }
 .kboard-comments-default .comments-header { padding: 0 0 0 15px; overflow: hidden; line-height: 1; }

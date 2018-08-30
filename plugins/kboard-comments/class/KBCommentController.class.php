@@ -7,6 +7,8 @@
  */
 class KBCommentController {
 	
+	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
+	var $skin_attach_prefix = 'comment_attach_';
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	var $skin_option_prefix = 'comment_option_';
 	
@@ -28,6 +30,7 @@ class KBCommentController {
 	 * 댓글 입력
 	 */
 	public function insert(){
+		global $wpdb;
 		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
 			
@@ -154,9 +157,71 @@ class KBCommentController {
 			
 			do_action('kboard_comments_pre_insert', 0, $content_uid, $board);
 			
+			// 업로드된 파일이 있는지 확인한다. (없으면 중단)
+			$upload_checker = false;
+			foreach($_FILES as $key=>$value){
+				if(strpos($key, $this->skin_attach_prefix) === false) continue;
+				if($_FILES[$key]['tmp_name']){
+					$upload_checker = true;
+					break;
+				}
+			}
+			
+			$upload_attach_files = array();
+			if($upload_checker){
+				$upload_dir = wp_upload_dir();
+				$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$board->id}/" . date('Ym', current_time('timestamp')) . '/';
+				
+				$file = new KBFileHandler();
+				$file->setPath($attach_store_path);
+				
+				foreach($_FILES as $key=>$value){
+					if(strpos($key, $this->skin_attach_prefix) === false) continue;
+					$key = str_replace($this->skin_attach_prefix, '', $key);
+					$key = sanitize_key($key);
+					
+					$upload = $file->upload($this->skin_attach_prefix . $key);
+					$original_name = $upload['original_name'];
+					$file_path = $upload['path'] . $upload['stored_name'];
+					
+					if($original_name){
+						$attach_file = new stdClass();
+						$attach_file->key = $key;
+						$attach_file->path = $file_path;
+						$attach_file->name = $original_name;
+						$upload_attach_files[] = $attach_file;
+					}
+				}
+			}
+			
 			$comment_list = new KBCommentList($content_uid);
 			$comment_list->board = $board;
 			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $password);
+			
+			if($comment_uid && $upload_attach_files && is_array($upload_attach_files)){
+				foreach($upload_attach_files as $attach_file){
+					$file_key = esc_sql($attach_file->key);
+					$file_path = esc_sql($attach_file->path);
+					$file_name = esc_sql($attach_file->name);
+					$file_size = intval(filesize(KBOARD_WORDPRESS_ROOT . $file_path));
+					
+					$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid' AND `file_key`='$file_key'");
+					if($present_file){
+						@unlink(KBOARD_WORDPRESS_ROOT . $present_file);
+						$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name', `file_size`='$file_size' WHERE `comment_uid`='$comment_uid' AND `file_key`='$file_key'");
+					}
+					else{
+						$date = date('YmdHis', current_time('timestamp'));
+						$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `comment_uid`, `file_key`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('0', '$comment_uid', '$file_key', '$date', '$file_path', '$file_name', '$file_size', '0', '')");
+					}
+				}
+			}
+			else if($upload_attach_files && is_array($upload_attach_files)){
+				foreach($upload_attach_files as $attach_file){
+					kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $attach_file->path);
+					@unlink(KBOARD_WORDPRESS_ROOT . $attach_file->path);
+				}
+			}
 			
 			// 댓글과 미디어의 관계를 입력한다.
 			$media = new KBCommentMedia();

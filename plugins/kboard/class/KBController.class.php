@@ -274,20 +274,40 @@ class KBController {
 		}
 		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
+		$comment_uid = isset($_GET['comment_uid'])?intval($_GET['comment_uid']):'';
 		$file = isset($_GET['file'])?sanitize_key($_GET['file']):'';
 		
 		$content = new KBContent();
+		$comment = new KBComment();
+		
+		if($comment_uid){
+			$comment->initWithUID($comment_uid);
+			$board = $content->getBoard();
+			
+			if(!$comment->uid){
+				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
+				exit;
+			}
+			
+			$uid = $comment->content_uid;
+		}
+		
 		$content->initWithUID($uid);
 		$board = $content->getBoard();
 		
-		if(!$content->uid || !$file){
-			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+		if(!$file){
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
+			exit;
+		}
+		
+		if(!$content->uid){
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 			exit;
 		}
 		
 		if(!$content->isReader()){
 			if($board->permission_read != 'all' && !is_user_logged_in()){
-				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
+				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board, $comment);
 				exit;
 			}
 			else if($content->secret){
@@ -296,41 +316,48 @@ class KBController {
 						$parent = new KBContent();
 						$parent->initWithUID($content->getTopContentUID());
 						if(!$board->isReader($parent->member_uid, $content->secret) && !$parent->isConfirm()){
-							do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+							do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 							exit;
 						}
 					}
 					else{
-						do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+						do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 						exit;
 					}
 				}
 			}
 			else{
-				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 				exit;
 			}
 		}
 		
 		if(!$content->isAttachmentDownload()){
 			if($board->meta->permission_attachment_download == '1' && !is_user_logged_in()){
-				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board);
+				do_action('kboard_cannot_download_file', 'go_login', wp_login_url(wp_get_referer()), $content, $board, $comment);
 				exit;
 			}
 			else{
-				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+				do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 				exit;
 			}
 		}
 		
+		$file = esc_sql($file);
+		
+		if($comment->uid){
+			$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='{$comment->uid}' AND `file_key`='{$file}'");
+		}
+		else{
+			$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$content->uid}' AND `file_key`='{$file}'");
+		}
+		
+		$file_info = apply_filters('kboard_pre_download_file', $file_info, $content->uid, $board->id, $comment->uid);
+		
+		do_action('kboard_pre_file_download', $file_info, $content, $board, $comment);
+		do_action("kboard_{$board->skin}_pre_file_download", $file_info, $content, $board, $comment);
+		
 		$ds = DIRECTORY_SEPARATOR;
-		
-		$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$uid' AND `file_key`='$file'");
-		
-		$file_info = apply_filters('kboard_pre_download_file', $file_info, $content->uid, $board->id);
-		
-		do_action('kboard_pre_file_download', $file_info, $content, $board);
-		do_action("kboard_{$board->skin}_pre_file_download", $file_info, $content, $board);
 		
 		list($path) = explode("{$ds}wp-content", dirname(__FILE__));
 		$file_info->full_path = $path . str_replace('/', $ds, $file_info->file_path);
@@ -345,7 +372,7 @@ class KBController {
 		$file_info->mime_type = kboard_mime_type($file_info->full_path);
 		$file_info->size = sprintf('%d', filesize($file_info->full_path));
 		
-		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id);
+		$file_info = apply_filters('kboard_download_file', $file_info, $content->uid, $board->id, $comment->uid);
 		
 		if(!$file_info->file_path || !file_exists($file_info->full_path)){
 			echo '<script>alert("'.__('File does not exist.', 'kboard').'");</script>';
@@ -353,14 +380,14 @@ class KBController {
 			exit;
 		}
 		
-		do_action('kboard_file_download', $file_info, $content, $board);
-		do_action("kboard_{$board->skin}_file_download", $file_info, $content, $board);
+		do_action('kboard_file_download', $file_info, $content, $board, $comment);
+		do_action("kboard_{$board->skin}_file_download", $file_info, $content, $board, $comment);
 		
 		// 첨부파일 다운로드 감소 포인트
 		if($board->meta->attachment_download_down_point){
 			if(function_exists('mycred_add')){
 				if(!is_user_logged_in()){
-					do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board);
+					do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 					exit;
 				}
 				else if($content->member_uid != get_current_user_id()){
@@ -372,7 +399,7 @@ class KBController {
 					if(!$log->have_entries()){
 						$balance = mycred_get_users_balance(get_current_user_id());
 						if($board->meta->attachment_download_down_point > $balance){
-							do_action('kboard_cannot_download_file', 'not_enough_points', wp_get_referer(), $content, $board);
+							do_action('kboard_cannot_download_file', 'not_enough_points', wp_get_referer(), $content, $board, $comment);
 							exit;
 						}
 						else{
@@ -385,6 +412,9 @@ class KBController {
 				}
 			}
 		}
+		
+		// download_count 증가
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `download_count`=`download_count`+1 WHERE `uid`='{$file_info->uid}'");
 		
 		if(get_option('kboard_attached_copy_download')){
 			$unique_dir = uniqid();

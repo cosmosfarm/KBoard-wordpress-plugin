@@ -27,7 +27,7 @@
 		
 		<?php if($commentBuilder->isWriter()):?>
 		<!-- 댓글 입력 폼 시작 -->
-		<form id="kboard-comments-form-<?php echo $content_uid?>" method="post" action="<?php echo $commentURL->getInsertURL()?>" onsubmit="return kboard_comments_execute(this);">
+		<form id="kboard-comments-form-<?php echo $content_uid?>" method="post" action="<?php echo $commentURL->getInsertURL()?>" enctype="multipart/form-data" onsubmit="return kboard_comments_execute(this);">
 			<input type="hidden" name="content_uid" value="<?php echo $content_uid?>">
 			<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
 			
@@ -35,7 +35,7 @@
 				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
 				<input type="hidden" name="media_group" value="<?php echo kboard_media_group()?>">
 				
-				<div class="comments-field">
+				<div class="comments-field field-content">
 					<?php if(defined('KBOARD_COMMENTS_WP_EDITOR') && KBOARD_COMMENTS_WP_EDITOR):?>
 						<?php wp_editor($temporary->content, 'comment_content', array('media_buttons'=>$board->isAdmin(), 'tinymce'=>array('init_instance_callback' => 'function(editor){editor.on(\'focus\', kboard_comments_field_show)}')))?>
 					<?php else:?>
@@ -52,23 +52,33 @@
 					<?php if(is_user_logged_in()):?>
 					<input type="hidden" name="member_display" value="<?php echo $member_display?>">
 					<?php else:?>
-					<div class="comments-field">
+					<div class="comments-field field-member-display">
 						<label class="comments-field-label" for="comment_member_display"><?php echo __('Author', 'kboard-comments')?></label>
 						<input type="text" id="comment_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>..." required>
 					</div>
-					<div class="comments-field">
+					<div class="comments-field field-password">
 						<label class="comments-field-label" for="comment_password"><?php echo __('Password', 'kboard-comments')?></label>
 						<input type="password" id="comment_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>..." required>
 					</div>
 					<?php endif?>
 					
+					<div class="comments-field field-image1">
+						<label class="comments-field-label" for="comment_image1">사진</label>
+						<input type="file" id="comment_image1" name="comment_attach_image1" accept="image/*">
+					</div>
+					
+					<div class="comments-field field-file1">
+						<label class="comments-field-label" for="comment_file1">첨부파일</label>
+						<input type="file" id="comment_file1" name="comment_attach_file1">
+					</div>
+					
 					<?php if($board->useCAPTCHA()):?>
 						<?php if(kboard_use_recaptcha()):?>
-							<div class="comments-field">
+							<div class="comments-field field-recaptcha">
 								<div class="g-recaptcha" data-sitekey="<?php echo kboard_recaptcha_site_key()?>"></div>
 							</div>
 						<?php else:?>
-							<div class="comments-field">
+							<div class="comments-field field-captcha">
 								<label class="comments-field-label" for="comment_captcha"><img src="<?php echo kboard_captcha()?>" alt=""></label>
 								<input type="text" id="comment_captcha" name="captcha" value="" placeholder="CAPTCHA..." required>
 							</div>

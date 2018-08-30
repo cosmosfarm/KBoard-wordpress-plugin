@@ -10,6 +10,7 @@ class KBComment {
 	var $board;
 	var $row;
 	var $option;
+	var $attach;
 	var $login_is_required_for_reading;
 	var $you_do_not_have_permission_for_reading;
 	var $remaining_time_for_reading;
@@ -48,6 +49,7 @@ class KBComment {
 		$uid = intval($uid);
 		$this->row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `uid`='{$uid}'");
 		$this->option = new KBCommentOption($this->uid);
+		$this->initAttachedFiles();
 		$wpdb->flush();
 		return $this;
 	}
@@ -61,8 +63,27 @@ class KBComment {
 		global $wpdb;
 		$this->row = $comment;
 		$this->option = new KBCommentOption($this->uid);
+		$this->initAttachedFiles();
 		$wpdb->flush();
 		return $this;
+	}
+	
+	/**
+	 * 댓글 첨부파일 정보를 초기화 한다.
+	 * @return array
+	 */
+	public function initAttachedFiles(){
+		global $wpdb;
+		$this->attach = new stdClass();
+		if($this->uid){
+			$url = new KBCommentUrl($this->uid);
+			$url->setBoard($this->getBoard());
+			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='{$this->uid}'");
+			foreach($result as $row){
+				$this->attach->{$row->file_key} = array($row->file_path, $row->file_name, $url->getDownloadURLWithAttach($row->file_key), intval($row->file_size), intval($row->download_count), $row->metadata);
+			}
+		}
+		return $this->attach;
 	}
 	
 	/**
@@ -219,6 +240,8 @@ class KBComment {
 			// 게시글의 댓글 숫자를 변경한다.
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$this->content_uid}'");
 			
+			$this->deleteAllAttached();
+			
 			// 미디어 파일을 삭제한다.
 			$media = new KBCommentMedia();
 			$media->deleteWithCommentUID($this->uid);
@@ -251,6 +274,8 @@ class KBComment {
 				
 				// 게시글의 댓글 숫자를 변경한다.
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`-1 WHERE `uid`='{$child->content_uid}'");
+				
+				$this->deleteAllAttached($child->uid);
 				
 				// 미디어 파일을 삭제한다.
 				$media = new KBCommentMedia();
@@ -304,6 +329,40 @@ class KBComment {
 			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->user_display, $this->getBoard());
 		}
 		return apply_filters('kboard_obfuscate_name', '', '', $this->getBoard());
+	}
+	
+	/**
+	 * 댓글의 모든 첨부파일을 삭제한다.
+	 */
+	public function deleteAllAttached($comment_uid=''){
+		global $wpdb;
+		$comment_uid = $comment_uid ? intval($comment_uid) : $this->uid;
+		if($comment_uid){
+			$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid'");
+			foreach($result as $file){
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file->file_path);
+				@unlink(KBOARD_WORDPRESS_ROOT . $file->file_path);
+			}
+			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid'");
+		}
+	}
+	
+	/**
+	 * 첨부파일을 삭제한다.
+	 * @param string $key
+	 */
+	public function deleteAttached($key){
+		global $wpdb;
+		if($this->uid){
+			$key = sanitize_key($key);
+			$key = esc_sql($key);
+			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$this->uid' AND `file_key`='$key'");
+			if($file){
+				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file);
+				@unlink(KBOARD_WORDPRESS_ROOT . $file);
+				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$this->uid' AND `file_key`='$key'");
+			}
+		}
 	}
 }
 ?>
