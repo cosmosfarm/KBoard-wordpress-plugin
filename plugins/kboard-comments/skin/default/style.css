@@ -58,6 +58,7 @@
 	.kboard-comments-default input[type=number],
 	.kboard-comments-default input[type=date],
 	.kboard-comments-default input[type=password] { width: 100%; height: 28px; line-height: 28px; box-sizing: border-box; }
+	.kboard-comments-default input[type=file] { width: 100%; height: auto; line-height: normal; box-sizing: border-box; }
 	.kboard-comments-default .kboard-comments-form .comments-field { float: none; width: auto; }
 	.kboard-comments-default .kboard-comments-form .comments-field .comments-field-label { display: block; margin: 0; }
 	.kboard-comments-default .kboard-comments-form .comments-field-wrap { float: left; width: 100%; }
