@@ -216,7 +216,6 @@ class KBoardFields {
 				'description' => '',
 				'required' => '',
 				'show_document' => '',
-				'textarea' => '',
 				'close_button' => 'yes'
 			),
 			'checkbox' => array(
