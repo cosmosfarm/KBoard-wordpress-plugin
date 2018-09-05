@@ -343,7 +343,6 @@ class KBUrl {
 			$this->data['uid'] = $content_uid;
 			$this->data['mod'] = 'remove';
 			$url = add_query_arg('kboard-content-remove-nonce', wp_create_nonce('kboard-content-remove'), $this->toString());
-			
 		}
 		else{
 			$url = '';
