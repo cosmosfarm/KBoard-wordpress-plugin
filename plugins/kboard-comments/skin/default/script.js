@@ -82,3 +82,9 @@ function kboard_comments_field_show(){
 	jQuery('.comments-field-wrap').show();
 	jQuery('.comments-submit-button').show();
 }
+
+jQuery(document).ready(function(){
+	jQuery('textarea[name=comment_content]').focus(function(){
+		kboard_comments_field_show();
+	});
+});
