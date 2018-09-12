@@ -259,7 +259,7 @@ class KBCommentList {
 		$content_uid = $this->content_uid;
 		$parent_uid = intval($parent_uid);
 		$user_uid = intval($user_uid);
-		$user_display = esc_sql(kboard_htmlclear($user_display));
+		$user_display = esc_sql(sanitize_text_field($user_display));
 		$content = esc_sql(kboard_safeiframe(kboard_xssfilter($content)));
 		$like = 0;
 		$unlike = 0;

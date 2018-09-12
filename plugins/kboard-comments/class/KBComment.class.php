@@ -182,9 +182,17 @@ class KBComment {
 		if($this->uid){
 			foreach($this->row as $key=>$value){
 				if($key == 'uid') continue;
+				else if($key == 'user_display' || $key == 'password'){
+					$value = sanitize_text_field($value);
+				}
+				else if($key == 'content'){
+					$value = kboard_safeiframe(kboard_xssfilter($value));
+				}
+				$key = esc_sql(sanitize_key($key));
 				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
 			}
+			
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
 			
 			// 댓글 수정 액션 훅 실행
