@@ -203,20 +203,20 @@ function kboard_settings_menu(){
 	
 	// KBoard 메뉴 등록
 	$_wp_last_object_menu++;
-	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'activate_plugins', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'activate_plugins', 'kboard_dashboard');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록 및 관리', 'kboard'), 'activate_plugins', 'kboard_list', 'kboard_list');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'activate_plugins', 'kboard_new', 'kboard_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'activate_plugins', 'kboard_latestview', 'kboard_latestview');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'activate_plugins', 'kboard_latestview_new', 'kboard_latestview_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'activate_plugins', 'kboard_backup', 'kboard_backup');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'activate_plugins', 'kboard_updates', 'kboard_updates');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'activate_plugins', 'kboard_content_list', 'kboard_content_list');
+	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'manage_options', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'manage_options', 'kboard_dashboard');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록 및 관리', 'kboard'), 'manage_options', 'kboard_list', 'kboard_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'manage_options', 'kboard_new', 'kboard_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'manage_options', 'kboard_latestview', 'kboard_latestview');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'manage_options', 'kboard_latestview_new', 'kboard_latestview_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'manage_options', 'kboard_backup', 'kboard_backup');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'manage_options', 'kboard_updates', 'kboard_updates');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'manage_options', 'kboard_content_list', 'kboard_content_list');
 	
 	// 스토어 메뉴 등록
 	$_wp_last_object_menu++;
-	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'activate_plugins', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'activate_plugins', 'kboard_store');
+	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
 	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
@@ -224,7 +224,7 @@ function kboard_settings_menu(){
 	
 	$result = $wpdb->get_results("SELECT `meta`.`board_id`, `setting`.`board_name` FROM `{$wpdb->prefix}kboard_board_meta` AS `meta` LEFT JOIN `{$wpdb->prefix}kboard_board_setting` AS `setting` ON `meta`.`board_id`=`setting`.`uid` WHERE `meta`.`key`='add_menu_page'");
 	foreach($result as $row){
-		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'activate_plugins', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
+		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'manage_options', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
 	}
 	
 	// 메뉴 액션 실행
@@ -799,7 +799,7 @@ function kboard_ajax_builder(){
  */
 add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
-	if(current_user_can('activate_plugins')){
+	if(current_user_can('manage_options')){
 		
 		// 관리자 알림 시작
 		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
@@ -1061,7 +1061,7 @@ function kboard_not_enough_points_download_file_go_back($action, $url, $content,
 add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);
 function kboard_add_toolbar_link($wp_admin_bar){
 	global $post, $wpdb;
-	if(!is_admin() && current_user_can('activate_plugins') && isset($post->ID) && $post->ID){
+	if(!is_admin() && current_user_can('manage_options') && isset($post->ID) && $post->ID){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='{$post->ID}'");
 		if($board_id){
 			$args = array(

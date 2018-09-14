@@ -26,7 +26,7 @@ class KBAdminController {
 	public function update(){
 		global $wpdb;
 		if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
 			
 			header('Content-Type: text/html; charset=UTF-8');
@@ -217,7 +217,7 @@ class KBAdminController {
 	 * 백업
 	 */
 	public function backup(){
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-backup-download-nonce']) && wp_verify_nonce($_POST['kboard-backup-download-nonce'], 'kboard-backup-download')){
 			set_time_limit(0);
 			ini_set('memory_limit', '-1');
@@ -244,7 +244,7 @@ class KBAdminController {
 	 * 복원
 	 */
 	public function restore(){
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-restore-execute-nonce']) && wp_verify_nonce($_POST['kboard-restore-execute-nonce'], 'kboard-restore-execute')){
 			set_time_limit(0);
 			ini_set('memory_limit', '-1');
@@ -281,7 +281,7 @@ class KBAdminController {
 	 * 최신글 뷰 업데이트
 	 */
 	function latestview_update(){
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		
 		$latestview_uid = $_POST['latestview_uid'];
 		$latestview_link = $_POST['latestview_link'];
@@ -323,7 +323,7 @@ class KBAdminController {
 	
 	public function csv_download(){
 		global $wpdb;
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_GET['kboard-csv-download-execute-nonce']) && wp_verify_nonce($_GET['kboard-csv-download-execute-nonce'], 'kboard-csv-download-execute')){
 			set_time_limit(0);
 			ini_set('memory_limit', '-1');
@@ -386,7 +386,7 @@ class KBAdminController {
 	
 	public function csv_upload(){
 		global $wpdb;
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
 			set_time_limit(0);
 			ini_set('memory_limit', '-1');
@@ -533,7 +533,7 @@ class KBAdminController {
 	 * 전체 게시글 정보 업데이트
 	 */
 	public function content_list_update(){
-		if(current_user_can('activate_plugins')){
+		if(current_user_can('manage_options')){
 			$content = new KBContent();
 			foreach($_POST['board_id'] as $uid=>$value){
 				$content->initWithUID($uid);
@@ -550,7 +550,7 @@ class KBAdminController {
 	 * 시스템 설정 업데이트
 	 */
 	public function system_option_update(){
-		if(current_user_can('activate_plugins')){
+		if(current_user_can('manage_options')){
 			
 			$_POST = stripslashes_deep($_POST);
 			
@@ -575,7 +575,7 @@ class KBAdminController {
 	 * 계층형 카테고리 업데이트
 	 */
 	public function tree_category_update(){
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		
 		$_POST = stripslashes_deep($_POST);
 		
@@ -602,7 +602,7 @@ class KBAdminController {
 	 * 계층형 카테고리 순서 변경
 	 */
 	public function tree_category_sortable(){
-		if(!current_user_can('activate_plugins')) wp_die(__('You do not have permission.', 'kboard'));
+		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		
 		$tree_category_serialize = isset($_POST['tree_category_serialize'])?$_POST['tree_category_serialize']:'';
 		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
