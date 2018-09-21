@@ -75,7 +75,7 @@
 				$bottom_content = new KBContent();
 				$bottom_content->initWithUID($bottom_content_uid);
 				?>
-				<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>">
+				<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>" title="<?php echo esc_attr(wp_strip_all_tags($bottom_content->title))?>">
 					<span class="navi-arrow">«</span>
 					<span class="navi-document-title kboard-contact-form-cut-strings"><?php echo $bottom_content->title?></span>
 				</a>
@@ -89,7 +89,7 @@
 				$top_content = new KBContent();
 				$top_content->initWithUID($top_content_uid);
 				?>
-				<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>">
+				<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>" title="<?php echo esc_attr(wp_strip_all_tags($top_content->title))?>">
 					<span class="navi-document-title kboard-contact-form-cut-strings"><?php echo $top_content->title?></span>
 					<span class="navi-arrow">»</span>
 				</a>
