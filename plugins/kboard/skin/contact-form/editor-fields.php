@@ -112,7 +112,7 @@
 	</div>
 <?php elseif($field['field_type'] == 'media'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+		<label class="attr-name" onclick="kboard_editor_open_media();return false;"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 		<div class="attr-value">
 			<a href="#" onclick="kboard_editor_open_media();return false;"><?php echo __('KBoard Add Media', 'kboard')?></a>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>

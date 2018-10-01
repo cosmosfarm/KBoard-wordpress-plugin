@@ -139,7 +139,7 @@
 	<?php endif?>
 <?php elseif($field['field_type'] == 'media'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+		<label class="attr-name" onclick="kboard_editor_open_media();return false;"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 		<div class="attr-value">
 			<a href="#" onclick="kboard_editor_open_media();return false;"><?php echo __('KBoard Add Media', 'kboard')?></a>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
@@ -147,7 +147,7 @@
 	</div>
 <?php elseif($field['field_type'] == 'thumbnail'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+		<label class="attr-name" for="kboard-input-thumbnail"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 		<div class="attr-value">
 			<?php if($content->thumbnail_file):?><?php echo $content->thumbnail_name?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid);?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
 			<input type="file" id="kboard-input-thumbnail" name="thumbnail" accept="image/*">
@@ -159,7 +159,7 @@
 		<input type="hidden" name="wordpress_search" value="<?php echo esc_attr($default_value)?>">
 	<?php else:?>
 		<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
-			<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+			<label class="attr-name" for="kboard-select-wordpress-search"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 			<div class="attr-value">
 				<select id="kboard-select-wordpress-search" name="wordpress_search">
 					<option value="1"<?php if($wordpress_search == '1'):?> selected<?php endif?>><?php echo __('Public', 'kboard')?></option>
