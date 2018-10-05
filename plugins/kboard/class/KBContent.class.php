@@ -479,6 +479,7 @@ class KBContent {
 					'post_type'     => 'kboard'
 			);
 			wp_insert_post($kboard_post);
+			add_action('kboard_document_insert', array($this, 'setPostThumbnail'), 10, 4);
 		}
 	}
 	
@@ -497,6 +498,7 @@ class KBContent {
 					'post_parent'   => $this->board_id
 			);
 			wp_update_post($kboard_post);
+			add_action('kboard_document_update', array($this, 'setPostThumbnail'), 10, 4);
 		}
 	}
 	
@@ -504,8 +506,75 @@ class KBContent {
 	 * posts 테이블에 내용을 삭제한다.
 	 * @param int $post_id
 	 */
+	
 	public function deletePost($post_id){
+		if(has_post_thumbnail($post_id)){
+			$attachment_id = get_post_thumbnail_id($post_id);
+			wp_delete_attachment($attachment_id, true);
+			delete_post_thumbnail($post_id);
+		}
 		wp_delete_post($post_id);
+	}
+	
+	/**
+	 * post에 썸네일을 등록한다.
+	 * @param int $uid
+	 * @param int $board_id
+	 * @param KBContent $content
+	 * @param KBoard $board
+	 */
+	public function setPostThumbnail($uid, $board_id, $content, $board){
+		global $wpdb;
+		
+		if($uid){
+			$post_id = $content->getPostId();
+			$thumbnail = $wpdb->get_row("SELECT `thumbnail_file`, `thumbnail_name` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$uid}'");
+			
+			if($thumbnail->thumbnail_file){
+				$file = file_get_contents(KBOARD_WORDPRESS_ROOT . $thumbnail->thumbnail_file);
+				
+				if($file){
+					$file_type = wp_check_filetype(basename($thumbnail->thumbnail_file), null);
+					$upload_dir = wp_upload_dir();
+					$upload_file = $upload_dir['path'] . '/' . basename($thumbnail->thumbnail_file);
+					
+					$save_result = file_put_contents($upload_file, $file);
+					
+					if($save_result !== false){
+						$attachment = array(
+							'post_mime_type' => $file_type['type'],
+							'post_title' => $thumbnail->thumbnail_name,
+							'post_content' => '',
+							'post_status' => 'inherit'
+						);
+						
+						$attach_id = wp_insert_attachment($attachment, $upload_file);
+						
+						if($attach_id){
+							if(!function_exists('wp_generate_attachment_metadata')){
+								include_once(ABSPATH . 'wp-admin/includes/image.php');
+							}
+							$media = get_post($attach_id);
+							$fullsize_path = get_attached_file($media->ID);
+							$attach_data = wp_generate_attachment_metadata($attach_id, $fullsize_path);
+							wp_update_attachment_metadata($attach_id, $attach_data);
+							if(has_post_thumbnail($post_id)){
+								$attachment_id = get_post_thumbnail_id($post_id);
+								wp_delete_attachment($attachment_id, true);
+							}
+							set_post_thumbnail($post_id, $media->ID);
+						}
+					}
+				}
+			}
+			else{
+				if(has_post_thumbnail($post_id)){
+					$attachment_id = get_post_thumbnail_id($post_id);
+					wp_delete_attachment($attachment_id, true);
+					delete_post_thumbnail($post_id);
+				}
+			}
+		}
 	}
 	
 	/**
