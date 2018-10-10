@@ -322,6 +322,8 @@ class KBContent {
 				$value = esc_sql($value);
 				$insert_key[] = "`$key`";
 				$insert_data[] = "'$value'";
+				
+				$this->{$key} = $value;
 			}
 			
 			$board = $this->getBoard();
@@ -426,6 +428,8 @@ class KBContent {
 			foreach($data as $key=>$value){
 				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
+				
+				$this->{$key} = $value;
 			}
 			
 			if(isset($data['status']) && $this->previous_status != $data['status']){
@@ -506,7 +510,6 @@ class KBContent {
 	 * posts 테이블에 내용을 삭제한다.
 	 * @param int $post_id
 	 */
-	
 	public function deletePost($post_id){
 		if(has_post_thumbnail($post_id)){
 			$attachment_id = get_post_thumbnail_id($post_id);
