@@ -313,6 +313,9 @@ class KBContent {
 		}
 		
 		$data['title'] = $this->titleStripTags($data['title']);
+		$data['title'] = $this->encodeEmoji($data['title']);
+		
+		$data['content'] = $this->encodeEmoji($data['content']);
 		
 		// 불필요한 데이터 필터링
 		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
@@ -420,6 +423,11 @@ class KBContent {
 			
 			if(isset($data['title'])){
 				$data['title'] = $this->titleStripTags($data['title']);
+				$data['title'] = $this->encodeEmoji($data['title']);
+			}
+			
+			if(isset($data['content'])){
+				$data['content'] = $this->encodeEmoji($data['content']);
 			}
 			
 			// 불필요한 데이터 필터링
@@ -1562,6 +1570,21 @@ class KBContent {
 	public function titleStripTags($title){
 		$title = strip_tags($title, apply_filters('kboard_content_title_allowable_tags', '<i><b><u><s><br><span><strong><img><ins><del>', $this, $this->getBoard()));
 		return $title;
+	}
+	
+	/**
+	 * 이모지를 해당하는 HTML 엔터티로 변환한다.
+	 * @param string $string
+	 * @return string
+	 */
+	public function encodeEmoji($string){
+		global $wpdb;
+		if($string && $wpdb->charset != 'utf8mb4'){
+			if(function_exists('wp_encode_emoji') && function_exists('mb_convert_encoding')){
+				$string = wp_encode_emoji($string);
+			}
+		}
+		return $string;
 	}
 	
 	/**

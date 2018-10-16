@@ -1,70 +1,54 @@
-## 워드프레스 게시판 KBoard
+# 무료 워드프레스 게시판 KBoard
 
-KBoard는 다년간의 업데이트로 안정성이 뛰어난 워드프레스 게시판입니다.
+KBoard(케이보드)는 다년간의 업데이트로 안정성이 뛰어나며 모든 기능을 자유롭게 커스터마이징 할 수 있는 워드프레스 게시판입니다.
+한국에서 가장 많이 사용되는 플러그인이기 때문에 문제 발생시 커뮤니티에서 바로 해결책을 찾아볼 수 있습니다.
 자세한 설명은 홈페이지를 확인해주세요.
-- [홈페이지](http://www.cosmosfarm.com/)
-- [KBoard 다운로드](http://www.cosmosfarm.com/products/kboard)
+- [코스모스팜 홈페이지](https://www.cosmosfarm.com/)
+- [KBoard 다운로드](https://www.cosmosfarm.com/products/kboard)
 - [페이스북](https://www.facebook.com/cosmosfarm.sns)
 - [트위터](https://twitter.com/cosmosfarm)
-- [블로그](http://blog.cosmosfarm.com/)
+- [블로그](https://blog.cosmosfarm.com/)
+- [게시판 스킨 더보기](https://www.cosmosfarm.com/wpstore)
+- [데모게시판](https://www.cosmosfarm.com/demo/)
+- KBoard(케이보드) 플러그인을 커스터마이징 하시려면 [훅(Hooks)](https://www.cosmosfarm.com/products/kboard/hooks) 기능을 활용해주세요.
+- KBoard(케이보드) 사용중 궁금한 점은 [커뮤니티](https://www.cosmosfarm.com/threads) 검색 또는 질문을 올려주세요.
 
+## 무료 워드프레스 플러그인
+KBoard(케이보드)는 세계에서 가장 많이 사용하는 CMS인 워드프레스(WordPress)의 플러그인으로 제공되고 동작합니다. 플러그인 파일을 업로드하고 활성화시켜주는 것 만으로 설치는 완료됩니다.
+- [KBoard 다운로드](https://www.cosmosfarm.com/products/kboard)
 
+## 정기결제 유료회원제 운영
+코스모스팜 회원관리 플러그인에 포함된 정기결제, 자동결제 기능과 결합하면 유료회원제 홈페이지를 운영할 수 있으며 허가된 사용자에게만 권한을 부여할 수 있습니다.
+- [더알아보기](https://www.cosmosfarm.com/wpstore/product/cosmosfarm-members)
 
-### 꼭 게시판과 댓글을 함께 설치 해주세요.
+## 소셜 공유 기능
+여러분의 사이트로 방문자가 늘어나도록 페이스북, 네이버, 카카오톡, 트위터 등 SNS에 콘텐츠를 공유할 수 있습니다.
+- [소셜 공유 버튼 플러그인](https://ko.wordpress.org/plugins/cosmosfarm-share-buttons/)
 
-- KBoard 사용중 궁금한 점은 [커뮤니티](http://www.cosmosfarm.com/threads)에 질문을 올려주세요.
+## 갤러리 게시판
+스튜디오, 행사, 포트폴리오, 제품소개 등 게시판에 사진을 등록하고 정보 전달을 위해 활용할 수 있습니다.
+- [스킨 더보기](https://www.cosmosfarm.com/wpstore/category/kboard_gallery)
 
+## 커뮤니티 게시판
+쇼핑몰의 고객센터, 포럼 형태의 게시판과 상담, 질문 답변 게시판으로 사용이 가능합니다.
+- [스킨 더보기](https://www.cosmosfarm.com/wpstore/category/kboard_community)
 
+## 유튜브, 구글지도 기능 활용
+게시판에 유튜브 동영상을 올리거나 구글 지도위에 프랜차이즈, 부동산정보, 맛집, 관광지, 여행지 정보를 표시할 수 있는 다양한 게시판 스킨을 제공합니다.
+- [스킨 더보기](https://www.cosmosfarm.com/wpstore/category/kboard)
 
-### 다양한 스킨이 준비되어 있습니다.
+## 포인트와 랭킹 관리
+워드프레스를 커뮤니티 사이트로 활용할 수 있도록 포인트를 관리할 수 있습니다. KBoard는 게시글을 쓰거나 댓글을 남기면 회원에게 포인트를 지급할 수 있습니다.
+- [myCRED 플러그인](https://ko.wordpress.org/plugins/mycred/)
+- [자동등업 기능 추가](https://www.cosmosfarm.com/wpstore/product/cosmosfarm-members)
 
-- http://www.cosmosfarm.com/wpstore
+## 비전문가도 가능한 커스터마이징
+KBoard는 전문가가 아니어도 코드 추가나 편집 없이 새로운 양식 필드를 쉽게 추가할 수 있는 기능이 무료로 포함되어 있습니다. 또한 전문가를 위해서 세세한 기능까지 모두 커스터마이징 가능하도록 준비되어 있습니다.
+- [입력필드 추가](https://blog.cosmosfarm.com/?p=214)
+- [액션과 필터](http://www.cosmosfarm.com/products/kboard/hooks)
 
-
-
-### Examples (데모게시판)
-
-- http://www.cosmosfarm.com/demo/
-
-
-
-### Description (소개)
-
-- 워드프레스(WordPress) 플러그인
-
-> KBoard는 세계에서 가장 많이 사용하는 CMS인 워드프레스의 플러그인으로 제공되고 동작합니다. 플러그인 파일을 업로드하고 활성화 시켜주는것 만드로 설치는 완료됩니다.
-
-- 파워풀한 기능
-
-> 게시판 레이아웃과 다양한 옵션으로 각각의 게시판마다 독립적인 운영정책을 가질 수 있습니다. 하지만 두려워 마세요, 왜냐하면 KBoard는 간단히 설치하고 즉시 게시판을 생성할 수 있기때문입니다.
-
-- 친숙한 사용자 경험
-
-> KBoard는 워드프레스에 무수히 많은 기존의 포럼형 게시판과는 완전히 다릅니다. 공지사항과 커뮤니티를 운영할 수 있고 자료실과 포토갤러리도 충분히 가능합니다. 이제 워드프레스 홈페이지에서도 일반적인는 게시글과 댓글을 작성할 수 있습니다.
-
-- 다양한 스킨
-
-> 똑같은 웹사이트는 없기 때문에 웹사이트의 아이덴티티에 맞춰 새롭게 디자인 될 필요가 있습니다. KBoard는 다양한 스킨을 통해 완전 새로운 게시판으로 바뀔 수 있습니다. 하지만, 모던하며 아름다운 디자인의 기본 스킨만으로도 충분합니다.
-
-- 최신글 리스트 그리고 반응형 웹
-
-> 게시판을 적용했다면, 메인화면에 그리고 사이드바에 조그만 최신글 리스트도 설치해보세요. 웹사이트가 훨씬 스마트해 보이게 됩니다. 또한 반응형 웹(Responsive Web)이 적용된 스킨이라면 어떠한 스마트 디바이스에서도 문제없이 표시됩니다.
-
-- 광고 비용 절약
-
-> KBoard는 검색엔진 최적화(SEO)가 적용된 스킨을 내장하고 있습니다. 또한 RSS피드를 거대 검색엔진의 사이트맵으로 등록하세요. KBoard에 내장된 기능들을 활용하면, 비용지출을 최소화할 수 있습니다.
-
-
-
-### Installation (설치)
-
-1. Upload 'kboard','kboard-comments' to the '/wp-content/plugins/' directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-
-
-
-###  Extension (확장)
-
-워드프레스 훅(Hooks) 기능을 사용해서 KBoard에 새로운 기능을 추가할 수 있습니다.
-사용 방법은 홈페이지를 확인 해주세요.
-http://www.cosmosfarm.com/products/kboard/hooks
+## 모든 기능을 무제한으로
+코스모스팜이 제공하는 전체 기능을 경제적인 가격으로 이용하세요.
+월 9,000원부터 18,000원까지 개인 기업 모두 이용 가능합니다.
+수익금은 KBoard 연구 개발과 고객지원에 사용됩니다.
+- [무제한 라이센스 플랜선택](https://www.cosmosfarm.com/wpstore/category/license)

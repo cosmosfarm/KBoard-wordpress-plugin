@@ -1,12 +1,13 @@
 #KBoard Changelog
 
-[homepage](http://www.cosmosfarm.com/products/kboard)
+[homepage](https://www.cosmosfarm.com/products/kboard)
 
 5.3.11
 ----------------------------------
 
   1. kboard_content_execute_pre_redirect 액션 추가
-  2. 버그 수정
+  2. 일부 데이터베이스에 이모지(emoji) 입력 안되는 문제 개선
+  3. 버그 수정
 
 
 5.3.10

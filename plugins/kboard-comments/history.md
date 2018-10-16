@@ -1,6 +1,6 @@
 #KBoard-comments Changelog
 
-[homepage](http://www.cosmosfarm.com/products/kboard)
+[homepage](https://www.cosmosfarm.com/products/kboard)
 
 4.4.6
 ----------------------------------
