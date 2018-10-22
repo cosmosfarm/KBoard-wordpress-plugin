@@ -23,7 +23,7 @@
 
 var kboard_ajax_lock = false;
 
-var mod = jQuery('input[name=mod]').val();
+var mod = jQuery('input[name=mod]', '.kboard-form').val();
 if(mod == 'editor' && kboard_current.use_tree_category == 'yes'){
 	kboard_tree_category_parents();
 }
