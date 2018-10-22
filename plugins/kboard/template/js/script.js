@@ -23,10 +23,12 @@
 
 var kboard_ajax_lock = false;
 
-var mod = jQuery('input[name=mod]', '.kboard-form').val();
-if(mod == 'editor' && kboard_current.use_tree_category == 'yes'){
-	kboard_tree_category_parents();
-}
+jQuery(document).ready(function(){
+	var kboard_mod = jQuery('input[name=mod]', '.kboard-form').val();
+	if(kboard_mod == 'editor' && kboard_current.use_tree_category == 'yes'){
+		kboard_tree_category_parents();
+	}
+});
 
 function kboard_tree_category_search(index, value){
 	var length = jQuery('.kboard-search-option-wrap').length;
