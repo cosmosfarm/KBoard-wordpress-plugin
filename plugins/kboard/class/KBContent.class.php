@@ -225,9 +225,10 @@ class KBContent {
 					 */
 					$url = new KBUrl();
 					$mail = new KBMail();
+					$mail->content_uid = $this->uid;
 					$mail->to = explode(',', $board->meta->latest_alerts);
 					$mail->title = apply_filters('kboard_latest_alerts_subject', '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title, $this);
-					$mail->content = apply_filters('kboard_latest_alerts_message', $this->content, $this);
+					$mail->content = apply_filters('kboard_latest_alerts_message', $this->getDocumentOptionsHTML() . $this->content, $this);
 					$mail->url = $url->getDocumentRedirect($this->uid);
 					$mail->url_name = __('Go to Homepage', 'kboard');
 					$mail->send();

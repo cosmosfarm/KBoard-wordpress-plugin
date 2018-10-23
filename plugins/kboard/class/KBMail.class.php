@@ -7,6 +7,7 @@
  */
 class KBMail {
 	
+	var $content_uid;
 	var $headers;
 	var $from_name;
 	var $from;
@@ -48,7 +49,8 @@ class KBMail {
 			</table>';
 		}
 		
-		$result = wp_mail($this->to, $this->title, $message, $this->headers);
+		$attachments = apply_filters('kboard_latest_alerts_attachments', $this->getAttachments(), $this);
+		$result = wp_mail($this->to, $this->title, $message, $this->headers, $attachments);
 		
 		remove_filter('wp_mail', array($this, 'message_template'));
 		remove_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
@@ -61,7 +63,6 @@ class KBMail {
 	}
 	
 	public function message_template($args){
-		
 		$subject = $args['subject'];
 		$message = wpautop($args['message']);
 		
@@ -70,6 +71,20 @@ class KBMail {
 		$args['message'] = ob_get_clean();
 		
 		return $args;
+	}
+	
+	public function getAttachments(){
+		$content = new KBContent();
+		$content->initWithUID($this->content_uid);
+		$attachments = array();
+		
+		if($content->isAttached()){
+			foreach($content->getAttachmentList() as $key=>$attach){
+				$attachments[] = KBOARD_WORDPRESS_ROOT . $attach[0];
+			}
+		}
+		
+		return $attachments;
 	}
 }
 ?>
