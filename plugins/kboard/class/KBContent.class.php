@@ -216,6 +216,8 @@ class KBContent {
 				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				if($board->meta->latest_alerts){
+					$this->initAttachedFiles();
+					
 					if(!class_exists('KBMail')){
 						include_once 'KBMail.class.php';
 					}
@@ -225,13 +227,14 @@ class KBContent {
 					 */
 					$url = new KBUrl();
 					$mail = new KBMail();
-					$mail->content_uid = $this->uid;
 					$mail->to = explode(',', $board->meta->latest_alerts);
 					$mail->title = apply_filters('kboard_latest_alerts_subject', '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title, $this);
 					$mail->content = apply_filters('kboard_latest_alerts_message', $this->getDocumentOptionsHTML() . $this->content, $this);
 					$mail->url = $url->getDocumentRedirect($this->uid);
 					$mail->url_name = __('Go to Homepage', 'kboard');
+					$mail->attachments = apply_filters('kboard_latest_alerts_attachments', $this->getMailAttachments(), $this);
 					$mail->send();
+					$this->deleteMailAttachments();
 				}
 				
 				// 게시글 입력 액션 훅 실행
@@ -1524,6 +1527,44 @@ class KBContent {
 			return $board->fields()->getAttachmentList($this);
 		}
 		return new stdClass();
+	}
+	
+	/**
+	 * 메일에 첨부할 첨부파일을 반환한다.
+	 * @return array
+	 */
+	public function getMailAttachments(){
+		$attachments = array();
+		
+		if(count((array)$this->attach) > 0){
+			$kboard_mail_attached_dir = WP_CONTENT_DIR.'/uploads/kboard_mail_attached/';
+			if(!is_dir($kboard_mail_attached_dir)){
+				wp_mkdir_p($kboard_mail_attached_dir);
+			}
+			
+			foreach($this->attach as $key=>$attach){
+				$source = KBOARD_WORDPRESS_ROOT . $attach[0];
+				$dest = $kboard_mail_attached_dir.$attach[1];
+				copy($source, $dest);
+				$attachments[] = $dest;
+			}
+		}
+		
+		return $attachments;
+	}
+	
+	/**
+	 * 메일에 첨부한 첨부파일을 삭제한다.
+	 */
+	public function deleteMailAttachments(){
+		foreach($this->getMailAttachments() as $attach){
+			wp_delete_file($attach);
+		}
+		
+		$kboard_mail_attached_dir = WP_CONTENT_DIR.'/uploads/kboard_mail_attached/';
+		if(is_dir($kboard_mail_attached_dir)){
+			rmdir($kboard_mail_attached_dir);
+		}
 	}
 	
 	/**

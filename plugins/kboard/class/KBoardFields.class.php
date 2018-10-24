@@ -613,7 +613,12 @@ class KBoardFields {
 				
 				if($field_type == 'file'){
 					$url = new KBUrl();
-					$download_button = "<button type='button' class='kboard-button-action kboard-button-download' onclick='window.location.href=\"{$url->getDownloadURLWithAttach($content->uid, $meta_key)}\"' title=''>{$option_value[1]}</button>";
+					if($content->execute_action == 'insert'){
+						$download_button = $option_value[1];
+					}
+					else{
+						$download_button = "<button type=\"button\" class=\"kboard-button-action kboard-button-download\" onclick=\"window.location.href='{$url->getDownloadURLWithAttach($content->uid, $meta_key)}'\" title=\"\">{$option_value[1]}</button>";
+					}
 					$html .= $download_button . '</div><hr>';
 				}
 				else{
