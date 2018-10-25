@@ -1557,12 +1557,16 @@ class KBContent {
 	 * 메일에 첨부한 첨부파일을 삭제한다.
 	 */
 	public function deleteMailAttachments(){
-		foreach($this->getMailAttachments() as $attach){
-			wp_delete_file($attach);
+		if(!function_exists('list_files')){
+			include_once ABSPATH . '/wp-admin/includes/file.php';
 		}
 		
 		$kboard_mail_attached_dir = WP_CONTENT_DIR.'/uploads/kboard_mail_attached/';
 		if(is_dir($kboard_mail_attached_dir)){
+			foreach(list_files($kboard_mail_attached_dir) as $attach){
+				wp_delete_file($attach);
+			}
+			
 			rmdir($kboard_mail_attached_dir);
 		}
 	}

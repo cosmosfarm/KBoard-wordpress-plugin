@@ -379,7 +379,6 @@ class KBoardFields {
 	
 	/**
 	 * 필드의 레이아웃을 반환한다.
-	 * @param string $key
 	 * @param array $field
 	 * @param KBContent $content
 	 * @param KBoardBuilder $boardBuilder
@@ -530,9 +529,8 @@ class KBoardFields {
 	
 	/**
 	 * 기본값이나 저장된 값이 있는지 확인한다.
-	 * @param array|string $option
+	 * @param array|string $value
 	 * @param string $label
-	 * @param string $default_value
 	 * @return boolean
 	 */
 	public function isSavedOption($value, $label){
@@ -672,7 +670,8 @@ class KBoardFields {
 		$skin_fields = $this->getSkinFields();
 		$attach_list = $content->attach;
 		
-		foreach($skin_fields as $meta_key=>$field){
+		foreach($skin_fields as $key=>$field){
+			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
 			if(array_key_exists($meta_key, $attach_list)){
 				unset($attach_list->$meta_key);
 			}
