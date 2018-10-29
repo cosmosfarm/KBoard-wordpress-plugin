@@ -100,12 +100,17 @@ class KBCommentController {
 			
 			// 금지단어 체크
 			if(!$board->isAdmin()){
+				$replace = array(' ', '「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ');
 				
 				// 작성자 금지단어 체크
 				$name_filter = kboard_name_filter(true);
 				if($name_filter){
+					$subject = urldecode($member_display);
+					$subject = strtolower($subject);
+					$subject = str_replace($replace, '', $subject);
+					
 					foreach($name_filter as $filter){
-						if($filter && strpos($member_display, $filter) !== false){
+						if($filter && strpos($subject, $filter) !== false){
 							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
 						}
 					}
@@ -114,8 +119,12 @@ class KBCommentController {
 				// 본문/제목/댓글 금지단어 체크
 				$content_filter = kboard_content_filter(true);
 				if($content_filter){
+					$subject = urldecode($content);
+					$subject = strtolower($subject);
+					$subject = str_replace($replace, '', $subject);
+					
 					foreach($content_filter as $filter){
-						if($filter && strpos($content, $filter) !== false){
+						if($filter && strpos($subject, $filter) !== false){
 							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
 						}
 					}

@@ -8,7 +8,8 @@
   1. kboard_content_execute_pre_redirect 액션 추가
   2. 일부 데이터베이스에 이모지(emoji) 입력 안되는 문제 개선
   3. kboard_latest_alerts_attachments 필터 추가
-  4. 버그 수정
+  4. 금지단어가 있는 게시글 차단 기능 개선
+  5. 버그 수정
 
 
 5.3.10
