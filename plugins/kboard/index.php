@@ -907,6 +907,7 @@ function kboard_scripts(){
 		'add_a_tag' => __('Add a Tag', 'kboard'),
 		'removing_tag' => __('Removing tag', 'kboard'),
 		'changes_you_made_may_not_be_saved' => __('Changes you made may not be saved.', 'kboard'),
+		'name' => __('Name', 'kboard'),
 		'email' => __('Email', 'kboard'),
 		'address' => __('Address', 'kboard'),
 		'postcode' => __('Postcode', 'kboard'),

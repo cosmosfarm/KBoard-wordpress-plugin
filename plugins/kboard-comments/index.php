@@ -130,6 +130,7 @@ function kboard_comments_scripts(){
 		'please_enter_the_content' => __('Please enter the content.', 'kboard-comments'),
 		'are_you_sure_you_want_to_delete' => __('Are you sure you want to delete?', 'kboard-comments'),
 		'please_wait' => __('Please wait.', 'kboard-comments'),
+		'name' => __('Name', 'kboard'),
 		'email' => __('Email', 'kboard-comments'),
 		'address' => __('Address', 'kboard-comments'),
 		'postcode' => __('Postcode', 'kboard-comments'),
