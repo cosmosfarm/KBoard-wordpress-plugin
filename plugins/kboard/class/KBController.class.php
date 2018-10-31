@@ -86,7 +86,7 @@ class KBController {
 			
 			// 금지단어 체크
 			if(!$board->isAdmin()){
-				$replace = array(' ', '「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ', '$', '*', '♣', '☞');
+				$replace = array(' ', '「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ', '$', '*', '♣', '♧', '☞');
 				
 				// 작성자 금지단어 체크
 				$name_filter = kboard_name_filter(true);
@@ -106,6 +106,16 @@ class KBController {
 				$content_filter = kboard_content_filter(true);
 				if($content_filter){
 					$subject = urldecode($content->content);
+					$subject = strtolower($subject);
+					$subject = str_replace($replace, '', $subject);
+					
+					foreach($content_filter as $filter){
+						if($filter && strpos($subject, $filter) !== false){
+							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard'), $filter)."');history.go(-1);</script>");
+						}
+					}
+					
+					$subject = urldecode($content->title);
 					$subject = strtolower($subject);
 					$subject = str_replace($replace, '', $subject);
 					
