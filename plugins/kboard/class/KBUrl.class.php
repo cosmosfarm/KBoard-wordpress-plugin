@@ -322,14 +322,15 @@ class KBUrl {
 	 * @param string $display
 	 * @return string
 	 */
-	public function getIamportEndpoint($display=''){
+	public function getIamportEndpoint($display='', $salt=''){
 		if($display){
-			$url = site_url("?action=kboard_iamport_endpoint&display=$display");
+			$url = site_url("?action=kboard_iamport_endpoint&display={$display}");
 		}
 		else{
 			$url = site_url("?action=kboard_iamport_endpoint");
 		}
-		return apply_filters('kboard_url_iamport_endpoint', $url, $display, $this->board);
+		$url = add_query_arg(array('kboard-iamport-endpoint-nonce' => wp_create_nonce('kboard-iamport-endpoint-' . $salt)), $url);
+		return apply_filters('kboard_url_iamport_endpoint', $url, $display, $salt, $this->board);
 	}
 	
 	/**

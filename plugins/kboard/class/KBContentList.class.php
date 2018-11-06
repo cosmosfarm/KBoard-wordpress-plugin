@@ -66,15 +66,15 @@ class KBContentList {
 		global $wpdb;
 		if($keyword){
 			$keyword = esc_sql($keyword);
-			$where[] = "(`title` LIKE '%$keyword%' OR `content` LIKE '%$keyword%')";
+			$where[] = "(`title` LIKE '%{$keyword}%' OR `content` LIKE '%{$keyword}%')";
 		}
-		if($this->board_id) $where[] = "`board_id`='$this->board_id'";
+		if($this->board_id) $where[] = "`board_id`='{$this->board_id}'";
 		if($this->status){
 			if($this->status == 'published'){
 				$where[] = "(`status`='' OR `status` IS NULL)";
 			}
 			else{
-				$where[] = "`status`='$this->status'";
+				$where[] = "`status`='{$this->status}'";
 			}
 		}
 		if(!isset($where) || !$where) $where[] = '1=1';
@@ -103,17 +103,29 @@ class KBContentList {
 	
 	/**
 	 * RSS 피드 출력을 위한 리스트를 반환한다.
+	 * @param int $board_id
 	 * @return KBContentList
 	 */
-	public function initWithRSS(){
+	public function initWithRSS($board_id=''){
 		global $wpdb;
-		$result = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_setting` WHERE `permission_read`='all'");
-		foreach($result as $row) $read[] = $row->uid;
-		if(isset($read) && $read) $where[] = 'board_id IN(' . implode(',', $read) . ')';
+		if($board_id){
+			$board_id = intval($board_id);
+			$where[] = "`board_id`='{$board_id}'";
+		}
+		else{
+			$read = array();
+			$result = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_setting` WHERE `permission_read`='all'");
+			foreach($result as $row){
+				$read[] = $row->uid;
+			}
+			if($read){
+				$where[] = '`board_id` IN(' . implode(',', $read) . ')';
+			}
+		}
 		$where[] = "`secret`=''";
 		$where[] = "(`status`='' OR `status` IS NULL)";
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT ".($this->page-1)*$this->rpp.",$this->rpp");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT " . ($this->page-1)*$this->rpp . ",{$this->rpp}");
 		$wpdb->flush();
 		$this->index = $this->total;
 		$this->is_rss = true;

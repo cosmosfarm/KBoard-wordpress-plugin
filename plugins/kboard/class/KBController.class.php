@@ -514,6 +514,14 @@ class KBController {
 			exit;
 			*/
 			
+			if(!isset($_REQUEST['kboard-iamport-endpoint-nonce']) || !wp_verify_nonce($_REQUEST['kboard-iamport-endpoint-nonce'], "kboard-iamport-endpoint-{$payment->data->merchant_uid}")){
+				if($display == 'mobile'){
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+				}
+			}
 			if(!$payment->success){
 				if($display == 'mobile'){
 					die('<script>alert("'.$payment->message.'");window.location.href="'.$_POST['next_page_url'].'";</script>');
