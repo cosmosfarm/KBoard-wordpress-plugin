@@ -13,11 +13,12 @@ class KBBackup {
 	 */
 	public function getTables(){
 		global $wpdb;
+		$tables = array();
 		$tables_result = $wpdb->get_results('SHOW TABLES', ARRAY_N);
 		foreach($tables_result as $table){
-			if(strpos($table[0], $wpdb->prefix.'kboard_') !== false) $tables[] = $table[0];
+			if(strpos($table[0], "{$wpdb->prefix}kboard_") !== false) $tables[] = $table[0];
 		}
-		return isset($tables)?$tables:array();
+		return $tables;
 	}
 	
 	/**
@@ -77,11 +78,19 @@ class KBBackup {
 	 * @param string $filename
 	 */
 	public function download($data, $file='xml', $filename=''){
-		if(!$filename) $filename = 'KBoard-Backup-'.date("Ymd").'.'.$file;
+		if(!$filename){
+			$ymd = date('Ymd', current_time('timestamp'));
+			$filename = "KBoard-Backup-{$ymd}.{$file}";
+		}
+		
 		header("Content-Type: ".kboard_mime_type($filename));
 		header("Content-Disposition: attachment; filename=\"".$filename."\"");
 		header("Pragma: no-cache");
 		Header("Expires: 0");
+		
+		ob_clean();
+		flush();
+		
 		if($file == 'xml'){
 			echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 			echo "<kboard>\n";
@@ -152,8 +161,8 @@ class KBBackup {
 						if($wpdb->insert_id){
 							$kboard_post = array(
 								'post_author'   => $row['member_uid']['@cdata'],
-								'post_title'    => esc_sql($row['title']['@cdata']),
-								'post_content'  => esc_sql(($row['secret']['@cdata']=='true' || $row['search']['@cdata']==2)?'':$row['content']['@cdata']),
+								'post_title'    => $row['title']['@cdata'],
+								'post_content'  => ($row['secret']['@cdata']=='true' || $row['search']['@cdata']==2) ? '' : $row['content']['@cdata'],
 								'post_status'   => 'publish',
 								'comment_status'=> 'closed',
 								'ping_status'   => 'closed',

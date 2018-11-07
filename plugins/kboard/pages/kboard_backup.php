@@ -11,6 +11,12 @@
 	<table class="form-table">
 		<tbody>
 			<tr valign="top">
+				<th scope="row"></th>
+				<td>
+					웹호스팅의 하드와 데이터베이스 전체 백업기능이 있다면 먼저 웹호스팅의 백업 기능을 사용해보세요.
+				</td>
+			</tr>
+			<tr valign="top">
 				<th scope="row"><label for=""><?php echo __('백업파일 다운로드', 'kboard')?></label></th>
 				<td>
 					<form action="<?php echo admin_url('admin-post.php')?>" method="post">
