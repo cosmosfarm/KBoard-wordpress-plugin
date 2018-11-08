@@ -4,11 +4,11 @@
 	<h1>
 		<?php echo __('KBoard : 스토어', 'kboard')?>
 		<a href="#" class="page-title-action kbstore-login-button"></a>
-		<a href="http://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="http://blog.cosmosfarm.com/" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/wpstore/manage/license" class="page-title-action" onclick="window.open(this.href);return false;">라이센스 도메인 등록 및 관리</a>
+		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/wpstore/manage/license" class="page-title-action" onclick="window.open(this.href);return false;">라이센스 도메인 등록 및 관리</a>
 	</h1>
 	
 	<div class="wp-filter">

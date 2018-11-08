@@ -1,17 +1,17 @@
 <?php
 if(!defined('ABSPATH')) exit;
 if(!defined('KBOARD_COMMNETS_VERSION')){
-	die('<script>alert("KBoard 댓글 플러그인을 추가로 설치해주세요.\n코스모스팜 홈페이지(http://www.cosmosfarm.com/)에서 다운로드 가능합니다.");history.go(-1);</script>');
+	die('<script>alert("KBoard 댓글 플러그인을 추가로 설치해주세요.\n코스모스팜 홈페이지(https://www.cosmosfarm.com/)에서 다운로드 가능합니다.");history.go(-1);</script>');
 }
 ?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
 	<h1>
 		<?php echo __('KBoard : 게시판 관리', 'kboard')?>
-		<a href="http://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="http://blog.cosmosfarm.com/" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
 	</h1>
 	<form id="kboard-setting-form" action="<?php echo admin_url('admin-post.php')?>" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field('kboard-setting-execute', 'kboard-setting-execute-nonce');?>
@@ -120,7 +120,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</select>
 							<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>">스킨 더보기</a>
 							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p>
-							<p class="description"><a href="http://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220885880601" onclick="window.open(this.href);return false;">contact-form 스킨 설정 방법 알아보기</a></p>
+							<p class="description"><a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220885880601" onclick="window.open(this.href);return false;">contact-form 스킨 설정 방법 알아보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1238,7 +1238,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->shortcode_execute):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="http://blog.naver.com/chan2rrj/50179426321" onclick="window.open(this.href);return false;">더보기</a></p>
+							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드를 실행합니다. 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다.  <a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=50179426321" onclick="window.open(this.href);return false;">더보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1283,7 +1283,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="disable"<?php if($meta->pass_autop == 'disable'):?> selected<?php endif?>>비활성화</option>
 								<option value="enable"<?php if($meta->pass_autop == 'enable'):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="http://blog.naver.com/chan2rrj/50178536050" onclick="window.open(this.href);return false;">더보기</a></p>
+							<p class="description">문제가 없다면 활성화 하지 마세요. 특정 테마에서 content에 자동으로 P태그가 추가되어 레이아웃이 깨지는 현상이 발생됩니다. 활성화시 content에 P태그가 추가되기 전에 게시판을 출력시킵니다. <a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=50178536050" onclick="window.open(this.href);return false;">더보기</a></p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1333,14 +1333,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							먼저 <a href="http://www.cosmosfarm.com/plugin/comments" onclick="window.open(this.href);return false;">코스모스팜 소셜댓글</a> 관리사이트에서 이 워드프레스 사이트를 <a href="http://www.cosmosfarm.com/plugin/comments/create" onclick="window.open(this.href);return false;">등록</a>해주세요.
+							먼저 <a href="https://www.cosmosfarm.com/plugin/comments" onclick="window.open(this.href);return false;">코스모스팜 소셜댓글</a> 관리사이트에서 이 워드프레스 사이트를 <a href="https://www.cosmosfarm.com/plugin/comments/create" onclick="window.open(this.href);return false;">등록</a>해주세요.
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="comments_plugin_id">소셜댓글 ID</label></th>
 						<td>
 							<input type="text" name="comments_plugin_id" id="comments_plugin_id" value="<?php echo $meta->comments_plugin_id?>">
-							<p class="description"><a href="http://www.cosmosfarm.com/plugin/comments/sites" onclick="window.open(this.href);return false;">등록된 사이트</a> » 설치하기 페이지에 나와있는 ID값을 입력해주세요.</p>
+							<p class="description"><a href="https://www.cosmosfarm.com/plugin/comments/sites" onclick="window.open(this.href);return false;">등록된 사이트</a> » 설치하기 페이지에 나와있는 ID값을 입력해주세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1503,7 +1503,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="http://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a> 
+							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="https://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a> 
 						</td>
 					</tr>
 				</tbody>

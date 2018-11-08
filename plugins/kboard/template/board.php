@@ -10,6 +10,7 @@
 	<style>
 	html, body { margin: 0; padding: 0; width: 1px; min-width: 100%; *width: 100%; }
 	a { color: #545861; }
+	img { border: 0; }
 	</style>
 	
 	<?php

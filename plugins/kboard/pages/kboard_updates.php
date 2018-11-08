@@ -3,10 +3,10 @@
 	<div class="kboard-header-logo"></div>
 	<h1>
 		<?php echo __('KBoard : 업데이트', 'kboard')?>
-		<a href="http://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="http://blog.cosmosfarm.com/" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
 	</h1>
 	<table class="form-table">
 		<tbody>
@@ -68,7 +68,7 @@
 				<td>
 					<p style="margin:0">업데이트에 실패하면 FTP로 접속해서 수동으로 업데이트해주셔야 합니다.</p>
 					<p><a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=221215008402" onclick="window.open(this.href);return false;">KBoard(케이보드) 플러그인 업데이트 방법</a></p>
-					<p><a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">KBoard(케이보드) 공식 홈페이지</a></p>
+					<p><a href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">KBoard(케이보드) 공식 홈페이지</a></p>
 				</td>
 			</tr>
 		</tbody>

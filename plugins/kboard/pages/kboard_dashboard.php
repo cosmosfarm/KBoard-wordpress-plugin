@@ -3,10 +3,10 @@
 	<div class="kboard-header-logo"></div>
 	<h1>
 		<?php echo __('KBoard : 대시보드', 'kboard')?>
-		<a href="http://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="http://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="http://blog.cosmosfarm.com/" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
 	</h1>
 	<div id="welcome-panel" class="welcome-panel">
 		<?php include 'welcome.php'?>
@@ -157,7 +157,7 @@
 				<p>
 					스킨파일 수정없이 새로운 디자인 속성을 추가할 수 있습니다.<br>
 					잘못된 CSS를 입력하게 되면 사이트 레이아웃이 깨질 수 있습니다.<br>
-					CSS 수정 관련 질문은 커뮤니티를 이용해 주세요. <a href="http://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;"><?php echo __('커뮤니티로 이동', 'kboard')?></a>
+					CSS 수정 관련 질문은 커뮤니티를 이용해 주세요. <a href="https://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;"><?php echo __('커뮤니티로 이동', 'kboard')?></a>
 				</p>
 				<p>
 					<textarea rows="10" name="option[kboard_custom_css]"><?php echo get_option('kboard_custom_css')?></textarea>
@@ -283,7 +283,7 @@
 					아임포트는 국내외 주요 PG사와의 연동을 지원합니다.<br>
 					KBoard에서는 아임포트 서비스와 연동해 쉽고 편리하게 결제 기능을 제공합니다.<br>
 					실제 결제 기능을 사용하기 위해서 아임포트와 PG사 가입이 필요합니다.<br>
-					PG사 가입은 아임포트에 문의해주세요. <a href="http://www.iamport.kr/" onclick="window.open(this.href);return false;">http://www.iamport.kr/</a><br>
+					PG사 가입은 아임포트에 문의해주세요. <a href="https://www.iamport.kr" onclick="window.open(this.href);return false;">https://www.iamport.kr</a><br>
 					아임포트에 로그인 후 <a href="https://admin.iamport.kr/settings" onclick="window.open(this.href);return false;">시스템설정</a>에 있는 정보를 입력하시면 테스트 결제 또는 실제 결제 기능을 사용할 수 있습니다.<br>
 				</p>
 				<p>

@@ -1,5 +1,5 @@
 /**
- * @author http://www.cosmosfarm.com/
+ * @author https://www.cosmosfarm.com
  */
 jQuery(document).ready(function(){
 	if(cosmosfarm_comments_plugin_id){

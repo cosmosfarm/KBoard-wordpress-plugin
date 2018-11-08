@@ -1,5 +1,5 @@
 /**
- * @author http://www.cosmosfarm.com/
+ * @author https://www.cosmosfarm.com
  */
 (function(){
 	tinymce.create('tinymce.plugins.KBoard_Media_Button', {
