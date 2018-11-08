@@ -218,15 +218,12 @@ class KBContent {
 				if($board->meta->latest_alerts){
 					$this->initAttachedFiles();
 					
-					if(!class_exists('KBMail')){
-						include_once 'KBMail.class.php';
-					}
 					/*
 					 * http://www.cosmosfarm.com/threads/document/3025
 					 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
 					 */
 					$url = new KBUrl();
-					$mail = new KBMail();
+					$mail = kboard_mail();
 					$mail->to = explode(',', $board->meta->latest_alerts);
 					$mail->title = apply_filters('kboard_latest_alerts_subject', '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title, $this);
 					$mail->content = apply_filters('kboard_latest_alerts_message', $this->getDocumentOptionsHTML() . $this->content, $this);

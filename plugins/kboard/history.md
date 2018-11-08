@@ -10,7 +10,8 @@
   3. kboard_latest_alerts_attachments 필터 추가
   4. 금지단어가 있는 게시글 차단 기능 개선
   5. 게시판별 RSS 주소 기능 추가
-  6. 버그 수정
+  6. kboard_mail() 함수 추가
+  7. 버그 수정
 
 
 5.3.10

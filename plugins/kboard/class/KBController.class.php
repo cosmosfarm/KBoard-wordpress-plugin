@@ -26,8 +26,8 @@ class KBController {
 		add_action('wp_ajax_kboard_order_cancel', array($this, 'orderCancel'));
 		add_action('wp_ajax_kboard_order_update', array($this, 'orderUpdate'));
 		add_action('wp_ajax_kboard_order_item_update', array($this, 'orderItemUpdate'));
-		add_action('wp_ajax_nopriv_kboard_content_update', array($this, 'contentUpdate'));
 		add_action('wp_ajax_kboard_content_update', array($this, 'contentUpdate'));
+		add_action('wp_ajax_nopriv_kboard_content_update', array($this, 'contentUpdate'));
 	}
 	
 	/**

@@ -481,6 +481,17 @@ function kboard_user_ip(){
 }
 
 /**
+ * KBMail 인스턴스를 반환한다.
+ * @return KBMail
+ */
+function kboard_mail(){
+	if(!class_exists('KBMail')){
+		include_once KBOARD_DIR_PATH . '/class/KBMail.class.php';
+	}
+	return new KBMail();
+}
+
+/**
  * media_group 값을 반환한다.
  * @return string
  */
