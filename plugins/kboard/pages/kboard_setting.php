@@ -36,6 +36,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<div class="tab-kboard-setting tab-kboard-setting-active">
 			<table class="form-table">
 				<tbody>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							<a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=221273415599" onclick="window.open(this.href);return false;">워드프레스 페이지에 게시판 삽입하기 방법</a>
+						</td>
+					</tr>
 					<?php if(!$board->id):?>
 					<tr valign="top">
 						<th scope="row"></th>

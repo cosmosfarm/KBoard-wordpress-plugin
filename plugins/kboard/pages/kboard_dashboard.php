@@ -140,7 +140,10 @@
 					구글 reCAPTCHA는 게시판에서 스팸을 막기 위한 효과적인 솔루션입니다.<br>
 					구글 reCAPTCHA를 활성화하면 KBoard에 내장된 CAPTCHA 보안코드 대신 구글 reCAPTCHA를 사용하게 됩니다.<br>
 					<a href="https://www.google.com/recaptcha/admin" onclick="window.open(this.href);return false;">https://www.google.com/recaptcha/admin</a> 에서 발급받은 Site key와 Secret key를 입력하면 자동으로 활성화됩니다.<br>
-					구글 reCAPTCHA 기능이 없는 일부 스킨에서는 동작하지 않습니다.
+					구글 reCAPTCHA 기능이 없는 일부 스킨에서는 동작하지 않습니다.<br>
+					<br>
+					reCAPTCHA v2 -> Checkbox 타입을 선택해주세요.<br>
+					<a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=221282560693" onclick="window.open(this.href);return false;">리캡차(reCAPTCHA) 설정 자세히 보기</a>
 				</p>
 				<p>
 					Site key <input type="text" name="option[kboard_recaptcha_site_key]" value="<?php echo get_option('kboard_recaptcha_site_key')?>" placeholder="Site key"><br>
