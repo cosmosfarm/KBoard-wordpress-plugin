@@ -224,6 +224,15 @@ class KBoardBuilder {
 		}
 		else{
 			if(($this->meta->view_iframe || is_admin()) && !kboard_id()){
+				$view_iframe = true;
+			}
+			else{
+				$view_iframe = false;
+			}
+			
+			$view_iframe = apply_filters('kboard_builder_view_iframe', $view_iframe, $this);
+			
+			if($view_iframe){
 				$url = new KBUrl();
 				return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
