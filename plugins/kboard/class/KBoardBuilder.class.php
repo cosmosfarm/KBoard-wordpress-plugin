@@ -923,7 +923,7 @@ class KBoardBuilder {
 		$url = new KBUrl();
 		$url->setBoard($this->board);
 		
-		if($this->board->isWriter()){
+		if($this->board->isWriter() && is_user_logged_in()){
 			$list = new KBOrderSales();
 			$list->board = $this->board;
 			$list->board_id = $this->board_id;
