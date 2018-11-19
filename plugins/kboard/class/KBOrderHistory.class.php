@@ -44,8 +44,14 @@ class KBOrderHistory {
 					$where[] = $search_query;
 					
 					foreach($this->multiple_option_keys as $condition_name){
-						$condition_key= array_search($condition_name, $this->multiple_option_keys);
-						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
+						$condition_key = array_search($condition_name, $this->multiple_option_keys);
+						if($condition_key == 'title' || $condition_key == 'item_user_name'){
+							$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item` AS `order_item` ON `order_item`.order_id=`{$wpdb->prefix}posts`.ID";
+							$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
+						}
+						else{
+							$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
+						}
 					}
 				}
 			}
@@ -73,18 +79,24 @@ class KBOrderHistory {
 			$from[] = "`{$wpdb->posts}`";
 			$where[] = "`{$wpdb->posts}`.`post_type`='kboard_order'";
 			$where[] = "`{$wpdb->posts}`.`post_author`='0'";
-			$search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$search_option[] = array('key'=>'nonmember_key', 'compare'=>'=', 'value'=>$nonmember_key);
+			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$this->search_option[] = array('key'=>'nonmember_key', 'compare'=>'=', 'value'=>$nonmember_key);
 			
-			$search_option = apply_filters('kboard_history_search_option', $search_option, $this);
+			$search_option = apply_filters('kboard_history_search_option', $this->search_option, $this);
 			if($search_option){
 				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
 					$where[] = $search_query;
 					
 					foreach($this->multiple_option_keys as $condition_name){
-						$condition_key= array_search($condition_name, $this->multiple_option_keys);
-						$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
+						$condition_key = array_search($condition_name, $this->multiple_option_keys);
+						if($condition_key == 'title' || $condition_key == 'item_user_name'){
+							$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item` AS `order_item` ON `order_item`.order_id=`{$wpdb->prefix}posts`.ID";
+							$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
+						}
+						else{
+							$from[] = "INNER JOIN `{$wpdb->postmeta}` AS `meta_{$condition_key}` ON `{$wpdb->posts}`.`ID`=`meta_{$condition_key}`.`post_id`";
+						}
 					}
 				}
 			}
@@ -122,7 +134,7 @@ class KBOrderHistory {
 					$where[] = $search_query;
 					
 					foreach($this->multiple_option_keys as $condition_name){
-						$condition_key= array_search($condition_name, $this->multiple_option_keys);
+						$condition_key = array_search($condition_name, $this->multiple_option_keys);
 						$from[] = "INNER JOIN `{$wpdb->prefix}kboard_order_item_meta` AS `meta_{$condition_key}` ON `{$wpdb->prefix}kboard_order_item`.`order_item_id`=`meta_{$condition_key}`.`order_item_id`";
 					}
 				}
@@ -143,6 +155,8 @@ class KBOrderHistory {
 	 * @return string
 	 */
 	public function getSearchQuery($multiple, $relation='AND'){
+		global $wpdb;
+		
 		if(isset($multiple['relation'])){
 			if(in_array($multiple['relation'], array('AND', 'OR'))){
 				$relation = $multiple['relation'];
@@ -165,11 +179,17 @@ class KBOrderHistory {
 				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
 				if($condition_key && $condition_value){
-					$this->multiple_option_keys[$condition_key] = $condition_key;
-					$condition_index = array_search($condition_key, $this->multiple_option_keys);
-					
 					if(in_array($condition_compare, array('IN', 'NOT IN'))){
-						$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} ({$condition_value}))";
+						if(!isset($condition['table']) || !$condition['table'] || $condition['table'] == "{$wpdb->prefix}kboard_order_item_meta"){
+							$this->multiple_option_keys[$condition_key] = $condition_key;
+							$condition_index = array_search($condition_key, $this->multiple_option_keys);
+							$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} ({$condition_value}))";
+						}
+						else{
+							$this->multiple_postmeta_keys[$condition_key] = $condition_key;
+							$condition_index = array_search($condition_key, $this->multiple_postmeta_keys);
+							$where[] = "(`postmeta_{$condition_index}`.`meta_key`='{$condition_key}' AND `postmeta_{$condition_index}`.`meta_value` {$condition_compare} ({$condition_value}))";
+						}
 					}
 					else{
 						if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
@@ -182,7 +202,16 @@ class KBOrderHistory {
 							case 'both': $condition_value = "%{$condition_value}%"; break;
 						}
 						
-						$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+						if(!isset($condition['table']) || !$condition['table'] || $condition['table'] == "{$wpdb->prefix}kboard_order_item_meta"){
+							$this->multiple_option_keys[$condition_key] = $condition_key;
+							$condition_index = array_search($condition_key, $this->multiple_option_keys);
+							$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+						}
+						else{
+							$this->multiple_postmeta_keys[$condition_key] = $condition_key;
+							$condition_index = array_search($condition_key, $this->multiple_postmeta_keys);
+							$where[] = "(`postmeta_{$condition_index}`.`meta_key`='{$condition_key}' AND `postmeta_{$condition_index}`.`meta_value` {$condition_compare} '{$condition_value}')";
+						}
 					}
 				}
 			}
@@ -193,6 +222,26 @@ class KBOrderHistory {
 				return '(' . implode(" {$relation} ", $where) . ')';
 			}
 			return implode(" {$relation} ", $where);
+		}
+		return '';
+	}
+	
+	/**
+	 * 검색 옵션의 데이터를 반환한다.
+	 * @param array $associative
+	 * @param array $search_option
+	 * @return string
+	 */
+	public function getSearchOptionValue($associative, $search_option=array()){
+		if(!$search_option) $search_option = $this->search_option;
+		$key = array_shift($associative);
+		if(isset($search_option[$key])){
+			if(is_array($search_option[$key])){
+				return $this->getSearchOptionValue($associative, $search_option[$key]);
+			}
+			else{
+				return $search_option[$key];
+			}
 		}
 		return '';
 	}
