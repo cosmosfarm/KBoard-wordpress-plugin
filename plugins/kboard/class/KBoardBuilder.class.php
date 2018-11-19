@@ -318,7 +318,7 @@ class KBoardBuilder {
 		$url = new KBUrl();
 		$url->setBoard($this->board);
 		
-		$content = new KBContent($this->board_id);
+		$content = new KBContent();
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
