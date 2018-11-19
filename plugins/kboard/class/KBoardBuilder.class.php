@@ -326,6 +326,11 @@ class KBoardBuilder {
 			exit;
 		}
 		
+		if($content->board_id != $this->board_id){
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+			exit;
+		}
+		
 		if($content->isTrash()){
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
@@ -485,9 +490,13 @@ class KBoardBuilder {
 			}
 		}
 		
-		$content = new KBContent();
+		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
-		$content->setBoardID($this->board_id);
+		
+		if($content->board_id != $this->board_id){
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+			exit;
+		}
 		
 		if($content->isTrash()){
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
@@ -635,6 +644,16 @@ class KBoardBuilder {
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
+		if(!$content->uid){
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($content->board_id != $this->board_id){
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+			exit;
+		}
+		
 		$confirm_view = false;
 		if(!$content->isEditor()){
 			if($this->board->permission_write=='all' && !$content->member_uid){
@@ -705,6 +724,11 @@ class KBoardBuilder {
 		
 		if(!$content->uid){
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($content->board_id != $this->board_id){
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
 			exit;
 		}
 		
@@ -822,6 +846,11 @@ class KBoardBuilder {
 		
 		if(!$content->uid){
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($content->board_id != $this->board_id){
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
 			exit;
 		}
 		
