@@ -276,7 +276,6 @@
 				</p>
 			</form>
 		</li>
-		<!--
 		<li id="kboard_iamport">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
@@ -297,7 +296,6 @@
 				</p>
 			</form>
 		</li>
-		-->
 	</ul>
 </div>
 <script>
