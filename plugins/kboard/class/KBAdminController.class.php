@@ -73,20 +73,7 @@ class KBAdminController {
 						'category2_list'   => $category2_list,
 						'created'          => date('YmdHis', current_time('timestamp'))
 					),
-					array(
-						'%s',
-						'%s',
-						'%d',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s'
-					)
+					array('%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
 				);
 				$board_id = $wpdb->insert_id;
 			}
@@ -107,19 +94,7 @@ class KBAdminController {
 						'admin_user'       => $admin_user
 					),
 					array('uid' => $board_id),
-					array(
-						'%s',
-						'%s',
-						'%d',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s'
-					),
+					array('%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'),
 					array('%d')
 				);
 			}

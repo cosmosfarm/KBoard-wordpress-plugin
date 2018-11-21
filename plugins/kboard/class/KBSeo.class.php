@@ -10,36 +10,54 @@ class KBSeo {
 	private $content;
 	
 	public function __construct(){
+		global $post;
+		
 		$mod = isset($_REQUEST['mod'])?sanitize_key($_REQUEST['mod']):'';
 		if($mod == 'document'){
 			$this->content = new KBContent();
 			$this->content->initWithUID(kboard_uid());
+			$board = $this->content->getBoard();
 			
 			if($this->content->uid){
-				if(current_theme_supports('title-tag')){
-					add_filter('document_title_parts', array($this, 'title'), 10, 1);
-				}
-				else{
-					add_filter('wp_title', array($this, 'title'), 10, 1);
-				}
-				
-				$view_iframe = isset($_GET['view_iframe'])?$_GET['view_iframe']:'';
-				
 				$is_display = false;
-				$board = $this->content->getBoard();
-				if(!$view_iframe && !is_admin()){
-					if($board->isReader($this->content->member_uid, $this->content->secret)){
+				
+				if($board->meta->auto_page || $board->meta->latest_target_page){
+					if($post->ID == $board->meta->auto_page){
 						$is_display = true;
 					}
-					else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
-						if($board->isConfirm($this->content->password, $this->content->uid)){
-							$is_display = true;
-						}
+					else if($post->ID == $board->meta->latest_target_page){
+						$is_display = true;
 					}
+				}
+				else{
+					$is_display = true;
 				}
 				
 				if($is_display){
-					$this->init();
+					if(current_theme_supports('title-tag')){
+						add_filter('document_title_parts', array($this, 'title'), 10, 1);
+					}
+					else{
+						add_filter('wp_title', array($this, 'title'), 10, 1);
+					}
+					
+					$is_display = false;
+					$view_iframe = isset($_GET['view_iframe'])?$_GET['view_iframe']:'';
+					
+					if(!$view_iframe && !is_admin()){
+						if($board->isReader($this->content->member_uid, $this->content->secret)){
+							$is_display = true;
+						}
+						else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
+							if($board->isConfirm($this->content->password, $this->content->uid)){
+								$is_display = true;
+							}
+						}
+					}
+					
+					if($is_display){
+						$this->init();
+					}
 				}
 			}
 		}
