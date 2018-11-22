@@ -178,7 +178,8 @@ class KBoardBuilder {
 		$list = $this->getList();
 		$data = array();
 		while($content = $list->hasNext()){
-			$url = new KBUrl(wp_get_referer());
+			$url = new KBUrl();
+			$url->setPath(wp_get_referer());
 			$_data['uid'] = $content->uid;
 			$_data['member_uid'] = $content->member_uid;
 			$_data['member_display'] = $content->member_display;
@@ -1027,7 +1028,9 @@ class KBoardBuilder {
 		$list->getList('', '', $with_notice);
 		
 		$url = new KBUrl();
+		$url->is_latest = true;
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$vars = array(
 			'latest' => $args,

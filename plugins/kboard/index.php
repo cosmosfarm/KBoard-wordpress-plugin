@@ -730,6 +730,7 @@ function kboard_latestview_shortcode($args){
 		$board_builder->setSkin($latestview->skin);
 		$board_builder->setRpp($latestview->rpp);
 		$board_builder->setSorting($latestview->sort);
+		$board_builder->board = new KBoard();
 		$board_builder->category1 = '';
 		$board_builder->category2 = '';
 		

@@ -11,6 +11,7 @@ class KBUrl {
 	private $data;
 	
 	var $board;
+	var $is_latest = false;
 	
 	public function __construct($path=''){
 		$this->board = new KBoard();
@@ -82,7 +83,7 @@ class KBUrl {
 				if($value) $this->set($key, $value);
 			}
 		}
-		$this->path = isset($url['path']) ? $url['path'] : '';
+		$this->path = $path;
 		return $this;
 	}
 	
@@ -90,16 +91,14 @@ class KBUrl {
 	 * 안전한 쿼리스트링을 반환한다.
 	 * @return string
 	 */
-	public function getCleanQueryStrings(){
+	public function getCleanQueryString(){
+		$query_string = array();
 		foreach($this->data as $key=>$value){
-			if(is_array($value)){
-				$query_strings[] = http_build_query(array(sanitize_key($key)=>$value));
-			}
-			else if($value){
-				$query_strings[] = sanitize_key($key).'='.urlencode(sanitize_text_field($value));
+			if($value){
+				$query_string[$key] = $value;
 			}
 		}
-		return isset($query_strings) ? implode('&', $query_strings) : '';
+		return $query_string;
 	}
 	
 	/**
@@ -109,6 +108,8 @@ class KBUrl {
 	 * @return KBUrl
 	 */
 	public function set($key, $value){
+		$key = sanitize_key($key);
+		$value = sanitize_text_field($value);
 		$this->data[$key] = $value;
 		return $this;
 	}
@@ -118,14 +119,17 @@ class KBUrl {
 	 * @return string
 	 */
 	public function toString(){
-		$query_strings = $this->getCleanQueryStrings();
+		$query_string = $this->getCleanQueryString();
 		$this->init();
 		if($this->path){
-			return $this->path . ($query_strings ? "?{$query_strings}" : '');
+			return add_query_arg($query_string, $this->path);
+		}
+		else if($this->is_latest){
+			return $this->getDocumentRedirect($query_string['uid']);
 		}
 		else{
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? "?{$query_strings}" : '');
+			return add_query_arg($query_string, $url['path']);
 		}
 	}
 	
@@ -139,20 +143,12 @@ class KBUrl {
 			return $this->getDocumentRedirect($this->data['uid']);
 		}
 		
-		// 입력받은 경로를 처리한다.
-		$url = parse_url($path);
-		if(isset($url['query'])){
-			$query  = explode('&', html_entity_decode($url['query']));
-			foreach($query as $value){
-				list($key, $value) = explode('=', $value);
-				// 중복된 get 값이 있으면 덮어 씌운다.
-				if($value) $this->set($key, $value);
-			}
-		}
+		$this->setPath($path);
 		
-		$query_strings = $this->getCleanQueryStrings();
+		$query_string = $this->getCleanQueryString();
 		$this->init();
-		return (isset($url['path']) ? $url['path'] : '') . ($query_strings ? "?{$query_strings}" : '');
+		
+		return add_query_arg($query_string, $this->path);
 	}
 	
 	/**
