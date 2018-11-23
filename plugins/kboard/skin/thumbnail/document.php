@@ -77,7 +77,7 @@
 				?>
 				<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>" title="<?php echo esc_attr(wp_strip_all_tags($bottom_content->title))?>">
 					<span class="navi-arrow">«</span>
-					<span class="navi-document-title kboard-thumbnail-cut-strings"><?php echo $bottom_content->title?></span>
+					<span class="navi-document-title kboard-thumbnail-cut-strings"><?php echo wp_strip_all_tags($bottom_content->title)?></span>
 				</a>
 				<?php endif?>
 			</div>
@@ -90,7 +90,7 @@
 				$top_content->initWithUID($top_content_uid);
 				?>
 				<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>" title="<?php echo esc_attr(wp_strip_all_tags($top_content->title))?>">
-					<span class="navi-document-title kboard-thumbnail-cut-strings"><?php echo $top_content->title?></span>
+					<span class="navi-document-title kboard-thumbnail-cut-strings"><?php echo wp_strip_all_tags($top_content->title)?></span>
 					<span class="navi-arrow">»</span>
 				</a>
 				<?php endif?>
@@ -112,7 +112,7 @@
 		
 		<?php if($board->contribution() && !$board->meta->always_view_list):?>
 		<div class="kboard-thumbnail-poweredby">
-			<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
+			<a href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 		</div>
 		<?php endif?>
 	</div>
