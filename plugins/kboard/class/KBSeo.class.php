@@ -21,11 +21,17 @@ class KBSeo {
 			if($this->content->uid){
 				$is_display = false;
 				
-				if($board->meta->auto_page || $board->meta->latest_target_page){
-					if($post->ID == $board->meta->auto_page){
+				if($board->meta->view_iframe && kboard_id()){
+					$is_display = true;
+				}
+				else if($board->meta->add_menu_page && is_admin()){
+					$is_display = true;
+				}
+				else if($board->meta->auto_page || $board->meta->latest_target_page){
+					if($post && $post->ID == $board->meta->auto_page){
 						$is_display = true;
 					}
-					else if($post->ID == $board->meta->latest_target_page){
+					else if($post && $post->ID == $board->meta->latest_target_page){
 						$is_display = true;
 					}
 				}
@@ -42,16 +48,13 @@ class KBSeo {
 					}
 					
 					$is_display = false;
-					$view_iframe = isset($_GET['view_iframe'])?$_GET['view_iframe']:'';
 					
-					if(!$view_iframe && !is_admin()){
-						if($board->isReader($this->content->member_uid, $this->content->secret)){
+					if($board->isReader($this->content->member_uid, $this->content->secret)){
+						$is_display = true;
+					}
+					else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
+						if($board->isConfirm($this->content->password, $this->content->uid)){
 							$is_display = true;
-						}
-						else if($board->permission_write=='all' && ($board->permission_read=='all' || $board->permission_read=='author')){
-							if($board->isConfirm($this->content->password, $this->content->uid)){
-								$is_display = true;
-							}
 						}
 					}
 					
