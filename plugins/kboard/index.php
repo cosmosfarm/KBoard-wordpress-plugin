@@ -605,9 +605,9 @@ function kboard_builder($args){
 	
 	if($board->id){
 		$board_builder = new KBoardBuilder($board->id);
+		$board_builder->board = $board;
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($board->page_rpp);
-		$board_builder->board = $board;
 		
 		if(isset($args['category1']) && $args['category1']){
 			$board_builder->category1 = $args['category1'];
@@ -663,12 +663,12 @@ function kboard_latest_shortcode($args){
 	$board = new KBoard();
 	$board->setID($args['id']);
 	
-	if($board->uid){
-		$board_builder = new KBoardBuilder($board->uid, true);
+	if($board->id){
+		$board_builder = new KBoardBuilder($board->id, true);
+		$board_builder->board = $board;
 		$board_builder->setSkin($board->skin);
 		$board_builder->setRpp($args['rpp']);
 		$board_builder->setURL($args['url']);
-		$board_builder->board = $board;
 		
 		if(isset($args['sort']) && $args['sort']){
 			$board_builder->setSorting($args['sort']);
@@ -727,12 +727,12 @@ function kboard_latestview_shortcode($args){
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
 		$board_builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
-		$board_builder->setSkin($latestview->skin);
-		$board_builder->setRpp($latestview->rpp);
-		$board_builder->setSorting($latestview->sort);
 		$board_builder->board = new KBoard();
 		$board_builder->category1 = '';
 		$board_builder->category2 = '';
+		$board_builder->setSkin($latestview->skin);
+		$board_builder->setRpp($latestview->rpp);
+		$board_builder->setSorting($latestview->sort);
 		
 		$with_notice = true;
 		if(isset($args['with_notice']) && $args['with_notice'] == 'false'){

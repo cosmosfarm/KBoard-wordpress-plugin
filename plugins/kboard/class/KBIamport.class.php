@@ -24,7 +24,13 @@ final class KBIamport {
 		$payment->data = new stdClass();
 		
 		if($imp_uid && $this->getAccessToken()){
-			$response = wp_safe_remote_get(sprintf('%s/%s?_token=%s', $this->payments_url, $imp_uid, $this->getAccessToken()));
+			
+			$args = array();
+			$args['method'] = 'GET';
+			$args['headers'] = array('Authorization' => $this->getAccessToken());
+			
+			$response = wp_remote_request(sprintf('%s/%s', $this->payments_url, $imp_uid), $args);
+			
 			$data = json_decode($response['body']);
 			if($response['response']['code'] != '200'){
 				$payment->message = $data->message;
@@ -51,8 +57,16 @@ final class KBIamport {
 		$payment->data = new stdClass();
 		
 		if($imp_uid && $this->getAccessToken()){
-			$body['imp_uid'] = $imp_uid;
-			$response = wp_safe_remote_post(sprintf('%s?_token=%s', $this->cancel_url, $this->getAccessToken()), array('body'=>$body));
+			
+			$args = array();
+			$args['method'] = 'POST';
+			$args['headers'] = array('Authorization' => $this->getAccessToken());
+			$args['body'] = array(
+				'imp_uid' => $imp_uid
+			);
+			
+			$response = wp_remote_request(sprintf('%s', $this->cancel_url), $args);
+			
 			$data = json_decode($response['body']);
 			if($response['response']['code'] != '200'){
 				$payment->message = $data->message;
@@ -77,9 +91,15 @@ final class KBIamport {
 			return $this->access_token;
 		}
 		
-		$body['imp_key'] = $this->imp_key;
-		$body['imp_secret'] = $this->imp_secret;
-		$response = wp_safe_remote_post($this->accesstoken_url, array('body'=>$body));
+		$args = array();
+		$args['method'] = 'POST';
+		$args['body'] = array(
+			'imp_key'    => $this->imp_key,
+			'imp_secret' => $this->imp_secret
+		);
+		
+		$response = wp_remote_request(sprintf('%s', $this->accesstoken_url), $args);
+		
 		if($response['response']['code'] != '200'){
 			echo $response['response']['message'];
 			$this->access_token = '';

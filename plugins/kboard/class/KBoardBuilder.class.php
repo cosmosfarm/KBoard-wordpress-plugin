@@ -47,7 +47,7 @@ class KBoardBuilder {
 	 */
 	public function setSkin($skin){
 		$this->skin = KBoardSkin::getInstance();
-		$this->skin_name = $skin;
+		$this->skin_name = apply_filters('kboard_builder_set_skin', $skin, $this);
 	}
 	
 	/**

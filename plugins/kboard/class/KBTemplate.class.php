@@ -17,7 +17,12 @@ class KBTemplate {
 			case 'kboard_document_print': add_action('wp_loaded', array($this, 'documentPrint')); break;
 		}
 		
-		add_action('wp_loaded', array($this, 'board'));
+		if(is_admin()){
+			add_action('wp_loaded', array($this, 'board'));
+		}
+		else{
+			add_action('template_redirect', array($this, 'board'));
+		}
 	}
 	
 	/**

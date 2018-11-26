@@ -12,7 +12,8 @@
   5. 게시판별 RSS 주소 기능 추가
   6. kboard_mail() 함수 추가
   7. kboard_builder_view_iframe 필터 추가
-  8. 버그 수정
+  8. kboard_builder_set_skin 필터 추가
+  9. 버그 수정
 
 
 5.3.10
