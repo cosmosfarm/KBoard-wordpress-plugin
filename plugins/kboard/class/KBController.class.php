@@ -238,18 +238,18 @@ class KBController {
 	public function fileDelete(){
 		header('Content-Type: text/html; charset=UTF-8');
 		
-		if(!isset($_GET['kboard-file-delete-nonce']) || !wp_verify_nonce($_GET['kboard-file-delete-nonce'], 'kboard-file-delete')){
-			if(!wp_get_referer()){
-				wp_die(__('This page is restricted from external access.', 'kboard'));
-			}
-		}
-		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$file = isset($_GET['file'])?sanitize_key($_GET['file']):'';
 		
 		$content = new KBContent();
 		$content->initWithUID($uid);
 		$board = $content->getBoard();
+		
+		if(!isset($_GET['kboard-file-delete-nonce']) || !wp_verify_nonce($_GET['kboard-file-delete-nonce'], 'kboard-file-delete')){
+			if(!wp_get_referer()){
+				wp_die(__('This page is restricted from external access.', 'kboard'));
+			}
+		}
 		
 		if(!$content->uid || !$file){
 			wp_die(__('You do not have permission.', 'kboard'));
@@ -286,12 +286,6 @@ class KBController {
 		header('X-Robots-Tag: noindex, nofollow'); // 검색엔진 수집 금지
 		header('Content-Type: text/html; charset=UTF-8');
 		
-		if(!isset($_GET['kboard-file-download-nonce']) || !wp_verify_nonce($_GET['kboard-file-download-nonce'], 'kboard-file-download')){
-			if(!wp_get_referer()){
-				wp_die(__('This page is restricted from external access.', 'kboard'));
-			}
-		}
-		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$comment_uid = isset($_GET['comment_uid'])?intval($_GET['comment_uid']):'';
 		$file = isset($_GET['file'])?sanitize_key($_GET['file']):'';
@@ -313,6 +307,12 @@ class KBController {
 		
 		$content->initWithUID($uid);
 		$board = $content->getBoard();
+		
+		if(!isset($_GET['kboard-file-download-nonce']) || !wp_verify_nonce($_GET['kboard-file-download-nonce'], 'kboard-file-download')){
+			if(!wp_get_referer()){
+				wp_die(__('This page is restricted from external access.', 'kboard'));
+			}
+		}
 		
 		if(!$file){
 			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);

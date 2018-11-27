@@ -212,7 +212,7 @@ class KBUrl {
 	public function getDownloadURLWithAttachAndOderItemID($content_uid, $file_key, $order_item_id){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			$url = site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}&order_item_id={$order_item_id}");
+			$url = add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}&order_item_id={$order_item_id}"));
 		}
 		else{
 			$url = '';
