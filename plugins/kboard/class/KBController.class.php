@@ -23,8 +23,6 @@ class KBController {
 		add_action('wp_ajax_nopriv_kboard_document_like', array($this, 'documentLike'));
 		add_action('wp_ajax_kboard_document_unlike', array($this, 'documentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_document_unlike', array($this, 'documentUnlike'));
-		add_action('wp_ajax_kboard_order_cancel', array($this, 'orderCancel'));
-		add_action('wp_ajax_kboard_order_update', array($this, 'orderUpdate'));
 		add_action('wp_ajax_kboard_order_item_update', array($this, 'orderItemUpdate'));
 		add_action('wp_ajax_kboard_content_update', array($this, 'contentUpdate'));
 		add_action('wp_ajax_nopriv_kboard_content_update', array($this, 'contentUpdate'));
@@ -482,12 +480,7 @@ class KBController {
 		if($imp_uid){
 			header('Content-Type: text/html; charset=UTF-8');
 			
-			if(!class_exists('KBIamport')){
-				include_once KBOARD_DIR_PATH . '/class/KBIamport.class.php';
-			}
-			$iamport = new KBIamport();
-			$iamport->imp_key = get_option('kboard_iamport_api_key');
-			$iamport->imp_secret = get_option('kboard_iamport_api_secret');
+			$iamport = kboard_iamport();
 			
 			if(!$iamport->imp_key || !$iamport->imp_secret){
 				if($display == 'mobile'){
@@ -505,18 +498,11 @@ class KBController {
 			$_POST['kboard_order']['merchant_uid'] = $payment->data->merchant_uid;
 			$_POST['kboard_order']['receipt_url'] = $payment->data->receipt_url;
 			
-			/*
-			echo '<pre>';
-			print_r($payment);
-			print_r($payment->data);
-			print_r($_POST);
-			echo '</pre>';
-			exit;
-			*/
+			$next_page_url = isset($_POST['next_page_url']) ? esc_url_raw($_POST['next_page_url']) : home_url();
 			
 			if(!isset($_GET['kboard-iamport-endpoint-nonce']) || !wp_verify_nonce($_GET['kboard-iamport-endpoint-nonce'], "kboard-iamport-endpoint-{$payment->data->merchant_uid}")){
 				if($display == 'mobile'){
-					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$next_page_url.'";</script>');
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
@@ -524,7 +510,7 @@ class KBController {
 			}
 			if(!$payment->success){
 				if($display == 'mobile'){
-					die('<script>alert("'.$payment->message.'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+					die('<script>alert("'.$payment->message.'");window.location.href="'.$next_page_url.'";</script>');
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>$payment->message));
@@ -532,7 +518,7 @@ class KBController {
 			}
 			if($payment->data->status != 'paid'){
 				if($display == 'mobile'){
-					die('<script>alert("'.$payment->data->fail_reason.'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+					die('<script>alert("'.$payment->data->fail_reason.'");window.location.href="'.$next_page_url.'";</script>');
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>$payment->data->fail_reason));
@@ -545,7 +531,7 @@ class KBController {
 			));
 			if($orders){
 				if($display == 'mobile'){
-					die('<script>alert("iamport error");window.location.href="'.$_POST['next_page_url'].'";</script>');
+					die('<script>alert("iamport error");window.location.href="'.$next_page_url.'";</script>');
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>'iamport error'));
@@ -556,7 +542,7 @@ class KBController {
 			$board = new KBoard($board_id);
 			if(!$board->id){
 				if($display == 'mobile'){
-					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$next_page_url.'";</script>');
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
@@ -572,7 +558,7 @@ class KBController {
 			
 			if($order->getAmount() != $payment->data->amount){
 				if($display == 'mobile'){
-					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$_POST['next_page_url'].'";</script>');
+					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$next_page_url.'";</script>');
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
@@ -587,7 +573,7 @@ class KBController {
 			/* 결제 데이터 저장 끝 */
 			
 			$url = new KBUrl();
-			$next_page_url = $url->clear()->set('order_id', $order->order_id)->toStringWithPath($_POST['next_page_url']);
+			$next_page_url = $url->clear()->set('order_id', $order->order_id)->toStringWithPath($next_page_url);
 			$next_page_url = apply_filters('kboard_after_order_url', $next_page_url, $order->order_id, $board_id);
 			
 			if($display == 'mobile'){
@@ -640,73 +626,6 @@ class KBController {
 		exit;
 	}
 	
-	public function orderCancel(){
-		check_ajax_referer('kboard_ajax_security', 'security');
-		
-		$result = array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard'));
-		
-		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
-		$board = new KBoard($board_id);
-		
-		if($board->id){
-			header('Content-Type: text/html; charset=UTF-8');
-			
-			$order_id = isset($_POST['order_id'])?intval($_POST['order_id']):'';
-			$order = new KBOrder();
-			$order->board = $board;
-			$order->board_id = $board->id;
-			$order->initWithID($order_id);
-			$order->initOrderItems();
-			
-			if($order->user_id && is_user_logged_in()){
-				if($order->user_id == get_current_user_id()){
-					if($order->imp_uid){
-						
-						if(!class_exists('KBIamport')){
-							include_once KBOARD_DIR_PATH . '/class/KBIamport.class.php';
-						}
-						$iamport = new KBIamport();
-						$iamport->imp_key = get_option('kboard_iamport_api_key');
-						$iamport->imp_secret = get_option('kboard_iamport_api_secret');
-						
-						if(!$iamport->imp_key || !$iamport->imp_secret){
-							wp_send_json(array('result'=>'error', 'message'=>'iamport error'));
-						}
-						
-						$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
-						$result = apply_filters('kboard_order_cancel_action', $result, $order, $board);
-						$result = apply_filters("kboard_{$board->skin}_order_cancel_action", $result, $order, $board);
-						
-						/*
-						$payment = $iamport->cancel($order->imp_uid);
-						if(!$payment->success){
-							$result = array('result'=>'error', 'message'=>$payment->message);
-						}
-						if($payment->data->status == 'cancelled'){
-							$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
-							$result = apply_filters('kboard_order_cancel_action', $result, $order, $board);
-							$result = apply_filters("kboard_{$board->skin}_order_cancel_action", $result, $order, $board);
-						}
-						*/
-					}
-					else{
-						$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
-						$result = apply_filters('kboard_order_cancel_action', $result, $order, $board);
-						$result = apply_filters("kboard_{$board->skin}_order_cancel_action", $result, $order, $board);
-					}
-				}
-			}
-		}
-		
-		wp_send_json($result);
-	}
-	
-	public function orderUpdate(){
-		check_ajax_referer('kboard_ajax_security', 'security');
-		print_r($_POST);
-		exit;
-	}
-	
 	public function orderItemUpdate(){
 		check_ajax_referer('kboard_ajax_security', 'security');
 		
@@ -721,7 +640,50 @@ class KBController {
 			$item->board_id = $board->id;
 			$item->initWithID($order_item_id);
 			if($item->order_item_id && $item->content->isEditor()){
-				$result = array('result'=>'success', 'message'=>__('Success!', 'kboard'));
+				
+				$order_status = isset($_POST['order_status'])?sanitize_text_field($_POST['order_status']):'';
+				
+				if($order_status == 'paid' && $item->order_status != 'paid'){
+					$item->update(array(
+						'order_status' => $order_status
+					));
+					
+					$item->addUserRewardPoint();
+					
+					$result = array('result'=>'success', 'message'=>__('Order information has been changed.', 'kboard'));
+				}
+				else if($order_status == 'cancel' && $item->order_status != 'cancel'){
+					$item->update(array(
+						'order_status' => $order_status
+					));
+					
+					$item->cancelUserRewardPoint();
+					
+					if($item->order->imp_uid){
+						$iamport = kboard_iamport();
+						
+						if(!$iamport->imp_key || !$iamport->imp_secret){
+							$result = array('result'=>'error', 'message'=>'iamport error');
+						}
+						else{
+							$payment = $iamport->cancel($item->order->imp_uid);
+							
+							if(!$payment->success){
+								$result = array('result'=>'error', 'message'=>$payment->message);
+							}
+							else if($payment->data->status == 'cancelled'){
+								$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
+							}
+							else{
+								$result = array('result'=>'error', 'message'=>'iamport error');
+							}
+						}
+					}
+					else{
+						$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
+					}
+				}
+				
 				$result = apply_filters('kboard_order_item_update_action', $result, $item, $board);
 				$result = apply_filters("kboard_{$board->skin}_order_item_update_action", $result, $item, $board);
 			}

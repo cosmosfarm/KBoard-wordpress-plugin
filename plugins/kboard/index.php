@@ -976,6 +976,8 @@ function kboard_scripts(){
 		'opinion' => __('Opinion', 'kboard'),
 		'comment' => __('Comment', 'kboard'),
 		'comments' => __('Comments', 'kboard'),
+		'your_order_has_been_cancelled' => __('Your order has been cancelled.', 'kboard'),
+		'order_information_has_been_changed' => __('Order information has been changed.', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

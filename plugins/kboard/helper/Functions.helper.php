@@ -492,6 +492,19 @@ function kboard_mail(){
 }
 
 /**
+ * 아임포트 클래스를 반환한다.
+ */
+function kboard_iamport(){
+	if(!class_exists('KBIamport')){
+		include_once KBOARD_DIR_PATH . '/class/KBIamport.class.php';
+	}
+	$iamport = new KBIamport();
+	$iamport->imp_key = get_option('kboard_iamport_api_key');
+	$iamport->imp_secret = get_option('kboard_iamport_api_secret');
+	return $iamport;
+}
+
+/**
  * media_group 값을 반환한다.
  * @return string
  */
