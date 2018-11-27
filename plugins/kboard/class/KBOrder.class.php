@@ -110,6 +110,7 @@ class KBOrder {
 				$item->title = wp_strip_all_tags($item->title);
 				$item->price = floatval($item->price);
 				$item->reward_point = floatval($item->reward_point);
+				$item->order_status = $item->price > 0 ? 'pay_waiting' : 'paid';
 				$item->quantity = intval($item->quantity);
 				$item->total = $item->price * $item->quantity;
 				$item->total_reward_point = $item->reward_point * $item->quantity;
@@ -238,13 +239,17 @@ class KBOrder {
 	/**
 	 * 주문 항목을 저장한다.
 	 */
-	public function createItems(){
+	public function createItems($data=array()){
 		if($this->order_id){
 			foreach($this->items as $item){
 				$item->board = $this->board;
 				$item->board_id = $this->board_id;
 				$item->order_id = $this->order_id;
 				$item->create();
+				
+				if($data){
+					$item->update($data);
+				}
 			}
 		}
 	}

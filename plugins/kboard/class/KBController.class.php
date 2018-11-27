@@ -471,6 +471,9 @@ class KBController {
 		exit;
 	}
 	
+	/**
+	 * 아임포트 결제후 데이터 검증 및 저장
+	 */
 	public function iamportEndpoint(){
 		kboard_switch_to_blog();
 		
@@ -566,7 +569,9 @@ class KBController {
 			}
 			
 			$order->create();
-			$order->createItems();
+			$order->createItems(array(
+				'order_status' => 'paid'
+			));
 			
 			do_action('kboard_order_execute', $order, $board);
 			do_action("kboard_{$board->skin}_order_execute", $order, $board);
@@ -586,6 +591,9 @@ class KBController {
 		exit;
 	}
 	
+	/**
+	 * 무통장입금, 무료 상품 정보 저장
+	 */
 	public function orderExecute(){
 		if(isset($_POST['kboard-order-execute-nonce']) && wp_verify_nonce($_POST['kboard-order-execute-nonce'], 'kboard-order-execute')){
 			kboard_switch_to_blog();
@@ -626,6 +634,9 @@ class KBController {
 		exit;
 	}
 	
+	/**
+	 * 무통장입금확인, 결제취소 등 결제정보 변경
+	 */
 	public function orderItemUpdate(){
 		check_ajax_referer('kboard_ajax_security', 'security');
 		
