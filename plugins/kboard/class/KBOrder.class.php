@@ -42,6 +42,7 @@ class KBOrder {
 	}
 	
 	public function initWithID($order_id){
+		$this->row = new stdClass();
 		$this->amount = 0;
 		$this->items = array();
 		$this->items_count = 0;
@@ -51,6 +52,44 @@ class KBOrder {
 			$this->row = get_post($this->order_id);
 			if(!$this->row){
 				$this->order_id = '';
+			}
+		}
+	}
+	
+	public function initWithImpUID($imp_uid){
+		$this->row = new stdClass();
+		$this->amount = 0;
+		$this->items = array();
+		$this->items_count = 0;
+		$this->use_points = 0;
+		$this->order_id = 0;
+		if($imp_uid){
+			$orders = get_posts(array(
+				'post_type' => 'kboard_order',
+				'meta_query' => array(array('key'=>'imp_uid', 'value'=>$imp_uid))
+			));
+			foreach($orders as $post){
+				$this->row = $post;
+				$this->order_id = $post->ID;
+			}
+		}
+	}
+	
+	public function initWithMerchantUID($merchant_uid){
+		$this->row = new stdClass();
+		$this->amount = 0;
+		$this->items = array();
+		$this->items_count = 0;
+		$this->use_points = 0;
+		$this->order_id = 0;
+		if($merchant_uid){
+			$orders = get_posts(array(
+				'post_type' => 'kboard_order',
+				'meta_query' => array(array('key'=>'merchant_uid', 'value'=>$merchant_uid))
+			));
+			foreach($orders as $post){
+				$this->row = $post;
+				$this->order_id = $post->ID;
 			}
 		}
 	}
@@ -82,7 +121,9 @@ class KBOrder {
 	public function initOrderItems(){
 		global $wpdb;
 		
-		if($this->board_id && isset($_POST['kboard_order_item']) && is_array($_POST['kboard_order_item'])){
+		$this->amount = 0;
+		
+		if(!$this->order_id && $this->board_id && isset($_POST['kboard_order_item']) && is_array($_POST['kboard_order_item'])){
 			foreach($_POST['kboard_order_item'][$this->board_id] as $order_item_key=>$order_item){
 				$order_item_key = intval($order_item_key);
 				if(!$order_item_key) continue;
@@ -144,7 +185,6 @@ class KBOrder {
 			}
 		}
 		else{
-			$this->amount = 0;
 			$this->items = array();
 			$this->items_count = 0;
 		}
@@ -233,6 +273,19 @@ class KBOrder {
 		}
 		else{
 			$this->order_id = '';
+		}
+	}
+	
+	/**
+	 * 주문 정보를 저장한다.
+	 * @param array $data
+	 */
+	public function update($data){
+		if($this->order_id){
+			foreach($data as $meta_key=>$meta_value){
+				$this->{$meta_key} = $meta_value;
+				update_post_meta($this->order_id, $meta_key, $meta_value);
+			}
 		}
 	}
 	

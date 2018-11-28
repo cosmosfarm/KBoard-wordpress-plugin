@@ -762,6 +762,7 @@ class KBoardBuilder {
 		$order->initOrderItems();
 		
 		$vars = array(
+			'merchant_uid' => 'merchant_' . uniqid(),
 			'content' => $content,
 			'order' => $order,
 			'url' => $url,

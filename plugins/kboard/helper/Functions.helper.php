@@ -499,6 +499,7 @@ function kboard_iamport(){
 		include_once KBOARD_DIR_PATH . '/class/KBIamport.class.php';
 	}
 	$iamport = new KBIamport();
+	$iamport->imp_id = get_option('kboard_iamport_id');
 	$iamport->imp_key = get_option('kboard_iamport_api_key');
 	$iamport->imp_secret = get_option('kboard_iamport_api_secret');
 	return $iamport;

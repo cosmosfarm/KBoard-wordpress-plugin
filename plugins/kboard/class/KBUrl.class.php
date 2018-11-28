@@ -330,6 +330,25 @@ class KBUrl {
 	}
 	
 	/**
+	 * 아임포트 Notification URL을 반환한다.
+	 * @return string
+	 */
+	public function getIamportNotification(){
+		$iamport = kboard_iamport();
+		if($iamport->imp_id && $iamport->imp_key && $iamport->imp_secret){
+			$url = site_url("?action=kboard_iamport_notification");
+			$security = hash('sha512', $iamport->imp_id . $iamport->imp_key . $iamport->imp_secret);
+			$security = hash('sha256', $security);
+			$security = hash('md5', $security);
+			$url = add_query_arg(array('security' => $security), $url);
+		}
+		else{
+			$url = '';
+		}
+		return apply_filters('kboard_url_iamport_notification', $url, $this->board);
+	}
+	
+	/**
 	 * 게시글 삭제 주소를 반환한다.
 	 * @param int $content_uid
 	 * @return string

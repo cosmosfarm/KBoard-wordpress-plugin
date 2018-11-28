@@ -96,6 +96,7 @@ class KBOrderItem {
 		
 		if($this->order_item_id){
 			foreach($data as $meta_key=>$meta_value){
+				$this->{$meta_key} = $meta_value;
 				$meta_key = esc_sql($meta_key);
 				$meta_value = esc_sql($meta_value);
 				$wpdb->update("{$wpdb->prefix}kboard_order_item_meta", array('meta_value'=>$meta_value), array('order_item_id'=>$this->order_item_id, 'meta_key'=>$meta_key), array('%s'), array('%d', '%s'));
@@ -103,6 +104,9 @@ class KBOrderItem {
 		}
 	}
 	
+	/**
+	 * 리워드 포인트를 지급한다.
+	 */
 	public function addUserRewardPoint(){
 		if($this->order_item_id && $this->order_user_id && $this->total_reward_point){
 			if(function_exists('mycred_add')){
@@ -111,6 +115,9 @@ class KBOrderItem {
 		}
 	}
 	
+	/**
+	 * 지급된 리워드 포인트를 취소한다.
+	 */
 	public function cancelUserRewardPoint(){
 		if($this->order_item_id && $this->order_user_id && $this->total_reward_point){
 			if(function_exists('mycred_add')){

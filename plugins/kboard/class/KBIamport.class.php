@@ -7,6 +7,7 @@
  */
 final class KBIamport {
 	
+	var $imp_id;
 	var $imp_key;
 	var $imp_secret;
 	

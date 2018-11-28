@@ -16,6 +16,7 @@ class KBController {
 			case 'kboard_file_delete': add_action('wp_loaded', array($this, 'fileDelete'), 0); break;
 			case 'kboard_file_download': add_action('wp_loaded', array($this, 'fileDownload'), 0); break;
 			case 'kboard_iamport_endpoint': add_action('wp_loaded', array($this, 'iamportEndpoint'), 0); break;
+			case 'kboard_iamport_notification': add_action('wp_loaded', array($this, 'iamportNotification'), 0); break;
 			case 'kboard_order_execute': add_action('wp_loaded', array($this, 'orderExecute'), 0); break;
 		}
 		
@@ -592,6 +593,89 @@ class KBController {
 	}
 	
 	/**
+	 * 아임포트 Notification 실행
+	 */
+	public function iamportNotification(){
+		kboard_switch_to_blog();
+		
+		$iamport = kboard_iamport();
+		
+		if(!$iamport->imp_id || !$iamport->imp_key || !$iamport->imp_secret){
+			exit;
+		}
+		
+		$security = hash('sha512', $iamport->imp_id . $iamport->imp_key . $iamport->imp_secret);
+		$security = hash('sha256', $security);
+		$security = hash('md5', $security);
+		
+		if(!isset($_GET['security']) || $_GET['security'] != $security){
+			exit;
+		}
+		
+		$data = file_get_contents('php://input');
+		$data = json_decode($data);
+		
+		$imp_uid = isset($data->imp_uid)?$data->imp_uid:'';
+		$merchant_uid = isset($data->merchant_uid)?$data->merchant_uid:'';
+		$status = isset($data->status)?$data->status:'';
+		
+		if($imp_uid && $merchant_uid && $status == 'paid'){
+			header('Content-Type: text/html; charset=UTF-8');
+			
+			$payment = $iamport->payments($imp_uid);
+			parse_str($payment->data->custom_data, $_POST);
+			
+			if(!$payment->success){
+				exit;
+			}
+			if($payment->data->status != 'paid'){
+				exit;
+			}
+			
+			$orders = get_posts(array(
+				'post_type' => 'kboard_order',
+				'meta_query' => array(array('key'=>'imp_uid', 'value'=>$payment->data->imp_uid))
+			));
+			if($orders){
+				exit;
+			}
+			
+			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+			$board = new KBoard($board_id);
+			if(!$board->id){
+				exit;
+			}
+			
+			/* 결제 데이터 저장 시작 */
+			$order = new KBOrder();
+			$order->board = $board;
+			$order->board_id = $board->id;
+			$order->initWithMerchantUID($merchant_uid);
+			$order->initOrderItems();
+			
+			if($order->getAmount() != $payment->data->amount){
+				exit;
+			}
+			
+			$order->update(array(
+				'imp_uid' => $payment->data->imp_uid,
+				'receipt_url' => $payment->data->receipt_url,
+			));
+			
+			foreach($order->items as $item){
+				$item->update(array(
+					'order_status' => 'paid'
+				));
+			}
+			
+			do_action('kboard_order_execute', $order, $board);
+			do_action("kboard_{$board->skin}_order_execute", $order, $board);
+			/* 결제 데이터 저장 끝 */
+		}
+		exit;
+	}
+	
+	/**
 	 * 무통장입금, 무료 상품 정보 저장
 	 */
 	public function orderExecute(){
@@ -617,6 +701,25 @@ class KBController {
 			
 			$order->create();
 			$order->createItems();
+			
+			if($order->payment_method == 'vbank'){
+				$iamport = kboard_iamport();
+				
+				if($iamport->imp_key && $iamport->imp_secret){
+					$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
+					$payment = $iamport->payments($imp_uid);
+					
+					// 아임포트에서 보내주는 timestamp는 한국시간 기준으로 생성됐기 때문에 timezone을 변경해준다.
+					date_default_timezone_set('Asia/Seoul');
+					
+					$order->update(array(
+						'vbank_date' => date('Y-m-d H:i', $payment->data->vbank_date),
+						'vbank_holder' => $payment->data->vbank_holder,
+						'vbank_name' => $payment->data->vbank_name,
+						'vbank_num' => $payment->data->vbank_num,
+					));
+				}
+			}
 			
 			do_action('kboard_order_execute', $order, $board);
 			do_action("kboard_{$board->skin}_order_execute", $order, $board);
