@@ -13,7 +13,8 @@
   6. kboard_mail() 함수 추가
   7. kboard_builder_view_iframe 필터 추가
   8. kboard_builder_set_skin 필터 추가
-  9. 버그 수정
+  9. kboard_order_update_value 필터 추가
+  10. 버그 수정
 
 
 5.3.10

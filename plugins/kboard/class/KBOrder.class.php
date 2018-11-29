@@ -38,6 +38,8 @@ class KBOrder {
 			if($value <= 0) $value = 0;
 		}
 		
+		$value = apply_filters('kboard_order_update_value', $value, $key, $this->board);
+		
 		$this->row->{$key} = $value;
 	}
 	

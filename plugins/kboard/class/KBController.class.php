@@ -713,7 +713,7 @@ class KBController {
 					date_default_timezone_set('Asia/Seoul');
 					
 					$order->update(array(
-						'vbank_date' => date('Y-m-d H:i', $payment->data->vbank_date),
+						'vbank_date' => date('Y-m-d H:i:s', $payment->data->vbank_date),
 						'vbank_holder' => $payment->data->vbank_holder,
 						'vbank_name' => $payment->data->vbank_name,
 						'vbank_num' => $payment->data->vbank_num,
@@ -767,12 +767,6 @@ class KBController {
 					$result = array('result'=>'success', 'message'=>__('Order information has been changed.', 'kboard'));
 				}
 				else if($order_status == 'cancel' && $item->order_status != 'cancel'){
-					$item->update(array(
-						'order_status' => $order_status
-					));
-					
-					$item->cancelUserRewardPoint();
-					
 					if($item->order->imp_uid){
 						$iamport = kboard_iamport();
 						
@@ -786,6 +780,12 @@ class KBController {
 								$result = array('result'=>'error', 'message'=>$payment->message);
 							}
 							else if($payment->data->status == 'cancelled'){
+								$item->update(array(
+									'order_status' => $order_status
+								));
+								
+								$item->cancelUserRewardPoint();
+								
 								$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
 							}
 							else{
