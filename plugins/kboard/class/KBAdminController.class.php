@@ -342,7 +342,13 @@ class KBAdminController {
 						$row_data['update'] = date('Y-m-d H:i:s', strtotime($row_data['update']));
 						
 						foreach($option as $option_key){
-							$row_data[] = $content->option->{$option_key};
+							$option_value = $content->option->{$option_key};
+							if(is_array($option_value)){
+								$row_data[] = json_encode($option_value, JSON_UNESCAPED_UNICODE);
+							}
+							else{
+								$row_data[] = $option_value;
+							}
 						}
 						
 						fputcsv($csv, $row_data);
@@ -403,7 +409,14 @@ class KBAdminController {
 									if($columns[$index] == 'date' || $columns[$index] == 'update'){
 										$value = date('YmdHis', strtotime($value));
 									}
-									$row_data[$columns[$index]] = $value;
+									
+									$decode_value = json_decode($value);
+									if(is_array($decode_value)){
+										$row_data[$columns[$index]] = $decode_value;
+									}
+									else{
+										$row_data[$columns[$index]] = $value;
+									}
 								}
 								else{
 									// 컬럼
