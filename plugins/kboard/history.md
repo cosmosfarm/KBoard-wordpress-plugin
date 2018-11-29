@@ -14,7 +14,8 @@
   7. kboard_builder_view_iframe 필터 추가
   8. kboard_builder_set_skin 필터 추가
   9. kboard_order_update_value 필터 추가
-  10. 버그 수정
+  10. 글쓰기 아이프레임으로 보기 기능 추가 (워드프레스 내장 에디터 깨질때 사용 가능)
+  11. 버그 수정
 
 
 5.3.10

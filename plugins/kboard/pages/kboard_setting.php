@@ -1303,6 +1303,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="editor_view_iframe">글쓰기 아이프레임으로 보기</label></th>
+						<td>
+							<select name="editor_view_iframe" id="editor_view_iframe">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->editor_view_iframe):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">문제가 없다면 활성화 하지 마세요. 글쓰기 화면 또는 워드프레스 내장 에디터가 깨질 때 사용해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="conversion_tracking_code">전환추적 코드</label></th>
 						<td>
 							<textarea name="conversion_tracking_code" id="conversion_tracking_code" style="width:600px;max-width:100%;height:100px;"><?php echo $meta->conversion_tracking_code?></textarea>

@@ -231,6 +231,17 @@ class KBoardBuilder {
 				$view_iframe = false;
 			}
 			
+			if($this->meta->editor_view_iframe && !is_admin()){
+				if($this->mod == 'editor' && !kboard_id()){
+					$view_iframe = true;
+				}
+				else if($this->mod != 'editor' && kboard_id() && !$this->meta->view_iframe){
+					$url = new KBUrl();
+					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->toString() . '";</script>';
+					exit;
+				}
+			}
+			
 			$view_iframe = apply_filters('kboard_builder_view_iframe', $view_iframe, $this);
 			
 			if($view_iframe){
