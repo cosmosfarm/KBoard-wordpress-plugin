@@ -726,7 +726,7 @@ class KBController {
 			/* 결제 데이터 저장 끝 */
 			
 			$url = new KBUrl();
-			$next_page_url = $url->set('order_id', $order->order_id)->set('mod', 'history')->toString();
+			$next_page_url = $url->set('pageid', '1')->set('order_id', $order->order_id)->set('mod', 'history')->toString();
 			$next_page_url = apply_filters('kboard_after_order_url', $next_page_url, $order->order_id, $board_id);
 			
 			wp_redirect($next_page_url);
@@ -774,7 +774,16 @@ class KBController {
 							$result = array('result'=>'error', 'message'=>'iamport error');
 						}
 						else{
-							$payment = $iamport->cancel($item->order->imp_uid);
+							if($item->order->payment_method == 'vbank'){
+								$payment = $iamport->cancel($item->order->imp_uid, array(
+									'refund_bank' => apply_filters('kboard_order_vbank_refund_bank_code', $item->order->refund_bank, $item, $board),
+									'refund_account' => $item->order->refund_account,
+									'refund_holder' => $item->order->refund_holder,
+								));
+							}
+							else{
+								$payment = $iamport->cancel($item->order->imp_uid);
+							}
 							
 							if(!$payment->success){
 								$result = array('result'=>'error', 'message'=>$payment->message);
@@ -793,7 +802,13 @@ class KBController {
 							}
 						}
 					}
-					else{
+					else if($item->order->payment_method == 'cash'){
+						$item->update(array(
+							'order_status' => $order_status
+						));
+						
+						$item->cancelUserRewardPoint();
+						
 						$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
 					}
 				}

@@ -51,7 +51,7 @@ final class KBIamport {
 		return $payment;
 	}
 	
-	public function cancel($imp_uid){
+	public function cancel($imp_uid, $body=array()){
 		$payment = new stdClass();
 		$payment->success = false;
 		$payment->message = '';
@@ -62,9 +62,8 @@ final class KBIamport {
 			$args = array();
 			$args['method'] = 'POST';
 			$args['headers'] = array('Authorization' => $this->getAccessToken());
-			$args['body'] = array(
-				'imp_uid' => $imp_uid
-			);
+			$args['body'] = $body;
+			$args['body']['imp_uid'] = $imp_uid;
 			
 			$response = wp_remote_request(sprintf('%s', $this->cancel_url), $args);
 			
