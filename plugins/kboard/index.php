@@ -357,6 +357,10 @@ function kboard_updates(){
 	if($action == 'kboard'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
+		echo "<h1>KBoard 게시판 플러그인 설치</h1>";
+		ob_flush();
+		flush();
+		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
 		flush();
@@ -371,10 +375,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("KBoard 게시판 플러그인 설치가 완료되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
+		echo "<p>KBoard 게시판 플러그인 설치가 완료 되었습니다.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	if($action == 'kboard-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<h1>KBoard 게시판 플러그인 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -390,10 +406,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("KBoard 게시판 플러그인 설치가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
+		echo "<p>KBoard 게시판 플러그인 설치가 완료 되었습니다.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	else if($action == 'comments'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<h1>KBoard 댓글 플러그인 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -409,10 +437,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("KBoard 댓글 플러그인 설치가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
+		echo "<p>KBoard 댓글 플러그인 설치가 완료 되었습니다.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	else if($action == 'comments-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<h1>KBoard 댓글 플러그인 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -428,10 +468,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("KBoard 댓글 플러그인 설치가 완료 되었습니다.");window.location.href="' . admin_url('admin.php?page=kboard_updates') . '"</script>');
+		echo "<p>KBoard 댓글 플러그인 설치가 완료 되었습니다.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
+		
+		echo "<h1>플러그인 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -447,10 +499,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.");window.location.href="' . admin_url('plugins.php') . '"</script>');
+		echo "<p>플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('plugins.php') . "\" class=\"button\">플러그인 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
+		
+		echo "<h1>테마 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -466,10 +530,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("테마 설치가 완료 되었습니다. 테마를 선택해주세요.");window.location.href="' . admin_url('themes.php') . '"</script>');
+		echo "<p>테마 설치가 완료 되었습니다. 테마를 선택해주세요.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('themes.php') . "\" class=\"button\">테마 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
+		
+		echo "<h1>KBoard 게시판 스킨 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -485,10 +561,22 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
+		echo "<p>게시판 스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_store') . "\" class=\"button\">스토어 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
+		
+		echo "<h1>KBoard 댓글 스킨 설치</h1>";
+		ob_flush();
+		flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
 		ob_flush();
@@ -504,7 +592,15 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		die('<script>alert("스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.");window.location.href="' . admin_url('admin.php?page=kboard_store') . '"</script>');
+		echo "<p>댓글 스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.</p>";
+		ob_flush();
+		flush();
+		
+		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_store') . "\" class=\"button\">스토어 메뉴로 이동</a></p>";
+		ob_flush();
+		flush();
+		
+		exit;
 	}
 	
 	$upgrader->flush();

@@ -336,6 +336,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							<a href="https://codex.wordpress.org/Roles_and_Capabilities" onclick="window.open(this.href);return false;">워드프레스 사용자 역할과 권한 알아보기</a>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="permission_admin">최고관리자그룹</label></th>
 						<td>
 							<input type="hidden" name="permission_admin_roles" value="">
@@ -1237,6 +1243,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<div class="tab-kboard-setting">
 			<table class="form-table">
 				<tbody>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							궁금한 것은 <a href="https://www.cosmosfarm.com/threads" onclick="window.open(this.href);return false;">KBoard 커뮤니티</a>에서 검색하고 질문해보세요.
+						</td>
+					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="shortcode_execute">게시글 숏코드(Shortcode) 실행</label></th>
 						<td>

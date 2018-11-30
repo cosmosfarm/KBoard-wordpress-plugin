@@ -500,6 +500,9 @@ class KBContentList {
 		
 		$this->is_loop_start = true;
 		
+		$this->total = apply_filters('kboard_content_list_total_count', $this->total, $this->board, $this);
+		$this->resource = apply_filters('kboard_content_list_items', $this->resource, $this->board, $this);
+		
 		if($this->board && $this->board->meta->list_sort_numbers == 'asc'){
 			$this->index = $offset + 1;
 		}

@@ -5,17 +5,19 @@
 5.3.11
 ----------------------------------
 
-  1. kboard_content_execute_pre_redirect 액션 추가
-  2. 일부 데이터베이스에 이모지(emoji) 입력 안되는 문제 개선
-  3. kboard_latest_alerts_attachments 필터 추가
-  4. 금지단어가 있는 게시글 차단 기능 개선
-  5. 게시판별 RSS 주소 기능 추가
-  6. kboard_mail() 함수 추가
-  7. kboard_builder_view_iframe 필터 추가
-  8. kboard_builder_set_skin 필터 추가
-  9. kboard_order_update_value 필터 추가
-  10. 글쓰기 아이프레임으로 보기 기능 추가 (워드프레스 내장 에디터 깨질때 사용 가능)
-  11. 버그 수정
+  1. 일부 데이터베이스에 이모지(emoji) 입력 안되는 문제 개선
+  2. 금지단어가 있는 게시글 차단 기능 개선
+  3. 게시판별 RSS 주소 기능 추가
+  4. kboard_mail() 함수 추가
+  5. 글쓰기 아이프레임으로 보기 기능 추가 (워드프레스 내장 에디터 깨질 때 사용 가능)
+  6. kboard_content_execute_pre_redirect 액션 추가
+  7. kboard_latest_alerts_attachments 필터 추가
+  8. kboard_builder_view_iframe 필터 추가
+  9. kboard_builder_set_skin 필터 추가
+  10. kboard_order_update_value 필터 추가
+  11. kboard_content_list_total_count 필터 추가
+  12. kboard_content_list_items 필터 추가
+  13. 버그 수정
 
 
 5.3.10

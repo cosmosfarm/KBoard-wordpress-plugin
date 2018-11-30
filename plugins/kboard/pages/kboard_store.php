@@ -158,7 +158,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	
 	var a_download = document.createElement('a');
 	a_download.className = 'button';
-	a_download.innerHTML = '다운로드';
+	a_download.innerHTML = '설치하기';
 	a_download.setAttribute('href', download+'?app_id='+cosmosfarm.app_id+'&access_token='+cosmosfarm.access_token);
 	a_download.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
@@ -182,19 +182,19 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	action_links.appendChild(document.createTextNode(' '));
 	if(category=='design'){
 		if(purchased=='1' || price<=0) action_links.appendChild(a_download);
-		else action_links.appendChild(a_purchase);
+		else action_links.appendChild(a_download);
 	}
 	else if(category=='kboard'){
 		if(purchased=='1' || price<=0) action_links.appendChild(cf_get_a_install('kboard-skin', download, version));
-		else action_links.appendChild(a_purchase);
+		else action_links.appendChild(a_download);
 	}
 	else if(category=='theme'){
 		if(purchased=='1' || price<=0) action_links.appendChild(cf_get_a_install('theme', download, version));
-		else action_links.appendChild(a_purchase);
+		else action_links.appendChild(a_download);
 	}
 	else{
 		if(purchased=='1' || price<=0) action_links.appendChild(cf_get_a_install('plugin', download, version));
-		else action_links.appendChild(a_purchase);
+		else action_links.appendChild(a_download);
 	}
 	td2.appendChild(action_links);
 	
@@ -234,7 +234,7 @@ function cf_get_a_install(action, download, version){
 	a_install.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
-				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면, 새로운 파일로 교체됩니다.')){
+				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
 					window.location.href = '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
 				}
 			}
