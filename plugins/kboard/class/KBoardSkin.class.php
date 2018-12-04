@@ -67,6 +67,13 @@ class KBoardSkin {
 		
 		extract($vars, EXTR_SKIP);
 		
+		$is_ajax = false;
+		if(defined('DOING_AJAX') && DOING_AJAX){
+			if(file_exists("{$this->merged_list[$skin_name]->dir}/ajax-{$file}")){
+				$is_ajax = true;
+			}
+		}
+		
 		$is_admin = false;
 		if(is_admin()){
 			if(file_exists("{$this->merged_list[$skin_name]->dir}/admin-{$file}")){
@@ -74,7 +81,10 @@ class KBoardSkin {
 			}
 		}
 		
-		if($is_admin){
+		if($is_ajax){
+			include "{$this->merged_list[$skin_name]->dir}/ajax-{$file}";
+		}
+		else if($is_admin){
 			include "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
 		}
 		else{

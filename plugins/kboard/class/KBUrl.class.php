@@ -35,11 +35,16 @@ class KBUrl {
 		$this->data['mod'] = '';
 		$this->data['uid'] = '';
 		$this->data['rpp'] = '';
+		$this->data['sort'] = '';
+		$this->data['skin'] = '';
 		$this->data['action'] = '';
+		$this->data['base_url'] = '';
 		$this->data['security'] = '';
+		$this->data['board_id'] = '';
 		$this->data['order_id'] = '';
 		$this->data['parent_uid'] = '';
 		$this->data['execute_uid'] = '';
+		$this->data['ajax_builder_type'] = '';
 		$this->data['kboard_list_sort'] = '';
 		$this->data['kboard_list_sort_remember'] = '';
 		$this->data['kboard_comments_sort'] = '';
@@ -74,13 +79,15 @@ class KBUrl {
 	 * @param string $path
 	 */
 	public function setPath($path){
-		$url = parse_url($path);
-		if(isset($url['query'])){
-			$query  = explode('&', html_entity_decode($url['query']));
-			foreach($query as $value){
-				list($key, $value) = explode('=', $value);
-				// 중복된 get 값이 있으면 덮어 씌운다.
-				if($value) $this->set($key, $value);
+		if($path){
+			$url = parse_url($path);
+			if(isset($url['query'])){
+				$query  = explode('&', html_entity_decode($url['query']));
+				foreach($query as $value){
+					list($key, $value) = explode('=', $value);
+					// 중복된 get 값이 있으면 덮어 씌운다.
+					if($value) $this->set($key, $value);
+				}
 			}
 		}
 		$this->path = $path;

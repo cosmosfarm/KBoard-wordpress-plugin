@@ -10,7 +10,7 @@
 			<?php while($content = $list->hasNext()):?>
 			<tr>
 				<td class="kboard-latest-title">
-					<a href="<?php echo $url->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath($board_url)?>">
+					<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
 						<div class="kboard-thumbnail-cut-strings">
 							<?php if($content->isNew()):?><span class="kboard-thumbnail-new-notify">N</span><?php endif?>
 							<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>

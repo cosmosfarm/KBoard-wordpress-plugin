@@ -758,4 +758,16 @@ function kboard_with_notice(){
 	}
 	return apply_filters('kboard_with_notice', $with_notice);
 }
+
+/**
+ * view_iframe 값을 반환한다.
+ * @return string
+ */
+function kboard_view_iframe(){
+	static $view_iframe;
+	if($view_iframe === null){
+		$view_iframe = (isset($_REQUEST['view_iframe'])&&intval($_REQUEST['view_iframe']))?true:false;
+	}
+	return apply_filters('kboard_view_iframe', $view_iframe);
+}
 ?>

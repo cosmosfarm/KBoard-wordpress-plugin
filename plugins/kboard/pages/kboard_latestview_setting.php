@@ -18,7 +18,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="name">최신글 뷰 이름</label></th>
 					<td>
-						<input type="text" id="name" name="name" size="30" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
+						<input type="text" id="name" name="name" class="regular-text" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
 					</td>
 				</tr>
 				<tr valign="top">
@@ -32,7 +32,8 @@
 							<option value="<?php echo $skin_item->name?>"<?php if($latestview->skin == $skin_item->name):?> selected<?php endif?>><?php echo $skin_item->name?></option>
 							<?php endforeach?>
 						</select>
-						<p class="description">최신글 스킨에 따라 모양과 기능이 변합니다. 디자인 수정은 스킨 폴더의 latest.php 파일을 수정해 주세요.</p>
+						<p class="description">최신글 스킨에 따라 모양과 기능이 변합니다.</p>
+						<p class="description">디자인 수정은 스킨 폴더의 latest.php 파일을 수정해 주세요.</p>
 					</td>
 				</tr>
 				<tr valign="top">
@@ -50,9 +51,15 @@
 							<option value="8"<?php if($latestview->rpp == 8):?> selected<?php endif?>>8개</option>
 							<option value="9"<?php if($latestview->rpp == 9):?> selected<?php endif?>>9개</option>
 							<option value="10"<?php if($latestview->rpp == 10):?> selected<?php endif?>>10개</option>
+							<option value="11"<?php if($latestview->rpp == 11):?> selected<?php endif?>>11개</option>
 							<option value="12"<?php if($latestview->rpp == 12):?> selected<?php endif?>>12개</option>
+							<option value="13"<?php if($latestview->rpp == 13):?> selected<?php endif?>>13개</option>
+							<option value="14"<?php if($latestview->rpp == 14):?> selected<?php endif?>>14개</option>
 							<option value="15"<?php if($latestview->rpp == 15):?> selected<?php endif?>>15개</option>
+							<option value="16"<?php if($latestview->rpp == 16):?> selected<?php endif?>>16개</option>
 							<option value="17"<?php if($latestview->rpp == 17):?> selected<?php endif?>>17개</option>
+							<option value="18"<?php if($latestview->rpp == 18):?> selected<?php endif?>>18개</option>
+							<option value="19"<?php if($latestview->rpp == 19):?> selected<?php endif?>>19개</option>
 							<option value="20"<?php if($latestview->rpp == 20):?> selected<?php endif?>>20개</option>
 							<option value="25"<?php if($latestview->rpp == 25):?> selected<?php endif?>>25개</option>
 							<option value="30"<?php if($latestview->rpp == 30):?> selected<?php endif?>>30개</option>

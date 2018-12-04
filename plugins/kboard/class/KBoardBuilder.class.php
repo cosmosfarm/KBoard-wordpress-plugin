@@ -21,6 +21,7 @@ class KBoardBuilder {
 	var $url;
 	var $within_days;
 	var $view_iframe;
+	var $is_ajax = false;
 	
 	public function __construct($board_id='', $is_latest=false){
 		$this->category1 = kboard_category1();
@@ -170,6 +171,7 @@ class KBoardBuilder {
 	
 	/**
 	 * 게시판 리스트를 배열로 반환한다.
+	 * @return array
 	 */
 	public function getListArray(){
 		// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
@@ -177,9 +179,13 @@ class KBoardBuilder {
 		
 		$list = $this->getList();
 		$data = array();
+		
 		while($content = $list->hasNext()){
 			$url = new KBUrl();
+			$url->setBoard($this->board);
 			$url->setPath(wp_get_referer());
+			
+			$_data = array();
 			$_data['uid'] = $content->uid;
 			$_data['member_uid'] = $content->member_uid;
 			$_data['member_display'] = $content->member_display;
@@ -199,19 +205,32 @@ class KBoardBuilder {
 			$_data['search'] = $content->search;
 			$_data['attach'] = $content->attach;
 			$_data['option'] = $content->option->toArray();
+			
 			if($this->view_iframe){
-				$_data['urls']['document'] = $url->set('uid', $content->uid)->set('mod', 'document')->set('kboard_id', $content->board_id)->set('view_iframe', '1')->toString();
-				$_data['urls']['editor'] = $url->set('uid', $content->uid)->set('mod', 'editor')->set('kboard_id', $content->board_id)->set('view_iframe', '1')->toString();
-				$_data['urls']['remove'] = $url->set('uid', $content->uid)->set('mod', 'remove')->set('kboard_id', $content->board_id)->set('view_iframe', '1')->toString();
+				$url->set('kboard_id', $content->board_id);
+				$url->set('view_iframe', '1');
 			}
-			else{
-				$_data['urls']['document'] = $url->getDocumentURLWithUID($content->uid);
-				$_data['urls']['editor'] = $url->getContentEditor($content->uid);
-				$_data['urls']['remove'] = $url->getContentRemove($content->uid);
-			}
+			
+			$_data['urls']['document'] = $url->getDocumentURLWithUID($content->uid);
+			$_data['urls']['editor'] = $url->getContentEditor($content->uid);
+			$_data['urls']['remove'] = $url->getContentRemove($content->uid);
+			
 			$data[] = $_data;
 		}
 		return $data;
+	}
+	
+	/**
+	 * 게시판 리스트 페이지의 HTML 코드를 반환한다.
+	 * @return string
+	 */
+	public function getListHTML(){
+		// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
+		kboard_builder_mod('list');
+		
+		ob_start();
+		$this->builderList();
+		return ob_get_clean();
 	}
 	
 	/**
@@ -278,6 +297,7 @@ class KBoardBuilder {
 		
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$vars = array(
 			'list' => $this->getList(),
@@ -307,6 +327,7 @@ class KBoardBuilder {
 		
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$vars = array(
 			'list' => $list,
@@ -329,6 +350,7 @@ class KBoardBuilder {
 	public function builderDocument(){
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
@@ -492,6 +514,7 @@ class KBoardBuilder {
 	public function builderEditor(){
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		if($this->board->isWriter() && $this->board->permission_write=='all' && isset($_POST['title']) && $_POST['title']){
 			$next_url = $url->set('uid', $this->uid)->set('mod', 'editor')->toString();
@@ -644,6 +667,7 @@ class KBoardBuilder {
 	public function builderRemove(){
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		if(!isset($_GET['kboard-content-remove-nonce']) || !wp_verify_nonce($_GET['kboard-content-remove-nonce'], 'kboard-content-remove')){
 			if(!wp_get_referer()){
@@ -730,6 +754,7 @@ class KBoardBuilder {
 	public function builderOrder(){
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
@@ -853,6 +878,7 @@ class KBoardBuilder {
 	public function builderComplete(){
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
@@ -944,6 +970,7 @@ class KBoardBuilder {
 		
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		$vars = array(
 			'list' => $list,
@@ -964,6 +991,7 @@ class KBoardBuilder {
 	public function builderSales(){
 		$url = new KBUrl();
 		$url->setBoard($this->board);
+		$url->setPath($this->url);
 		
 		if($this->board->isWriter() && is_user_logged_in()){
 			$list = new KBOrderSales();

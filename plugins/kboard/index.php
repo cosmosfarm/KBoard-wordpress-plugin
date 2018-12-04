@@ -700,19 +700,19 @@ function kboard_builder($args){
 	$board->setID($args['id']);
 	
 	if($board->id){
-		$board_builder = new KBoardBuilder($board->id);
-		$board_builder->board = $board;
-		$board_builder->setSkin($board->skin);
-		$board_builder->setRpp($board->page_rpp);
+		$builder = new KBoardBuilder($board->id);
+		$builder->board = $board;
+		$builder->setSkin($board->skin);
+		$builder->setRpp($board->page_rpp);
 		
 		if(isset($args['category1']) && $args['category1']){
-			$board_builder->category1 = $args['category1'];
+			$builder->category1 = $args['category1'];
 		}
 		if(isset($args['category2']) && $args['category2']){
-			$board_builder->category2 = $args['category2'];
+			$builder->category2 = $args['category2'];
 		}
 		
-		$kboard = $board_builder->create();
+		$kboard = $builder->create();
 		
 		if(isset($args['blog']) && $args['blog']){
 			do_action('kboard_restore_current_blog', $args);
@@ -760,28 +760,28 @@ function kboard_latest_shortcode($args){
 	$board->setID($args['id']);
 	
 	if($board->id){
-		$board_builder = new KBoardBuilder($board->id, true);
-		$board_builder->board = $board;
-		$board_builder->setSkin($board->skin);
-		$board_builder->setRpp($args['rpp']);
-		$board_builder->setURL($args['url']);
+		$builder = new KBoardBuilder($board->id, true);
+		$builder->board = $board;
+		$builder->setSkin($board->skin);
+		$builder->setRpp($args['rpp']);
+		$builder->setURL($args['url']);
 		
 		if(isset($args['sort']) && $args['sort']){
-			$board_builder->setSorting($args['sort']);
+			$builder->setSorting($args['sort']);
 		}
 		
 		if(isset($args['category1']) && $args['category1']){
-			$board_builder->category1 = $args['category1'];
+			$builder->category1 = $args['category1'];
 		}
 		else{
-			$board_builder->category1 = '';
+			$builder->category1 = '';
 		}
 		
 		if(isset($args['category2']) && $args['category2']){
-			$board_builder->category2 = $args['category2'];
+			$builder->category2 = $args['category2'];
 		}
 		else{
-			$board_builder->category2 = '';
+			$builder->category2 = '';
 		}
 		
 		$with_notice = true;
@@ -791,11 +791,11 @@ function kboard_latest_shortcode($args){
 		
 		if(isset($args['within_days']) && $args['within_days']){
 			$within_days = intval($args['within_days']);
-			$board_builder->setWithinDays($within_days);
+			$builder->setWithinDays($within_days);
 		}
 		
 		$args['type'] = 'latest';
-		$latest = $board_builder->createLatest($with_notice, $args);
+		$latest = $builder->createLatest($with_notice, $args);
 		
 		if(isset($args['blog']) && $args['blog']){
 			do_action('kboard_restore_current_blog', $args);
@@ -822,13 +822,13 @@ function kboard_latestview_shortcode($args){
 	
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
-		$board_builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
-		$board_builder->board = new KBoard();
-		$board_builder->category1 = '';
-		$board_builder->category2 = '';
-		$board_builder->setSkin($latestview->skin);
-		$board_builder->setRpp($latestview->rpp);
-		$board_builder->setSorting($latestview->sort);
+		$builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
+		$builder->board = new KBoard();
+		$builder->category1 = '';
+		$builder->category2 = '';
+		$builder->setSkin($latestview->skin);
+		$builder->setRpp($latestview->rpp);
+		$builder->setSorting($latestview->sort);
 		
 		$with_notice = true;
 		if(isset($args['with_notice']) && $args['with_notice'] == 'false'){
@@ -836,7 +836,7 @@ function kboard_latestview_shortcode($args){
 		}
 		
 		$args['type'] = 'latestview';
-		$latest = $board_builder->createLatest($with_notice, $args);
+		$latest = $builder->createLatest($with_notice, $args);
 		return $latest;
 	}
 	else{
@@ -863,29 +863,55 @@ function kboard_ajax_builder(){
 	$board = new KBoard();
 	$board->setID($board_id);
 	
-	$view_iframe = $board->meta->view_iframe;
-	
-	if(isset($_REQUEST['view_iframe'])){
-		$view_iframe = $_REQUEST['view_iframe'] ? '1' : '';
-	}
-	
 	if($board->id){
-		$board_builder = new KBoardBuilder($board->id);
-		$board_builder->board = $board;
-		$board_builder->view_iframe = $view_iframe;
+		$builder = new KBoardBuilder($board->id);
+		$builder->mod = 'list';
+		$builder->board = $board;
+		$builder->is_ajax = true;
+		$builder->view_iframe = $board->meta->view_iframe;
+		
+		if(isset($_REQUEST['view_iframe'])){
+			$builder->view_iframe = $_REQUEST['view_iframe'] ? '1' : '';
+		}
 		
 		if(isset($_REQUEST['rpp']) && $_REQUEST['rpp']){
-			$board_builder->setRpp($_REQUEST['rpp']);
+			$builder->setRpp($_REQUEST['rpp']);
 		}
 		else{
-			$board_builder->setRpp($board->page_rpp);
+			$builder->setRpp($board->page_rpp);
 		}
 		
 		if(isset($_REQUEST['sort']) && $_REQUEST['sort']){
-			$board_builder->setSorting($_REQUEST['sort']);
+			$sort = sanitize_key($_REQUEST['sort']);
+			$builder->setSorting($sort);
 		}
 		
-		wp_send_json(array('result'=>'success', 'data'=>$board_builder->getListArray()));
+		if(isset($_REQUEST['base_url']) && $_REQUEST['base_url']){
+			$builder->setURL($_REQUEST['base_url']);
+		}
+		else{
+			$builder->setURL(wp_get_referer());
+		}
+		
+		if(isset($_REQUEST['skin']) && $_REQUEST['skin']){
+			$skin = sanitize_key($_REQUEST['skin']);
+			$builder->setSkin($skin);
+		}
+		else{
+			$builder->setSkin($board->skin);
+		}
+		
+		$ajax_builder_type = 'array';
+		if(isset($_REQUEST['ajax_builder_type']) && in_array($_REQUEST['ajax_builder_type'], array('array', 'html'))){
+			$ajax_builder_type = $_REQUEST['ajax_builder_type'];
+		}
+		
+		if($ajax_builder_type == 'array'){
+			wp_send_json(array('result'=>'success', 'data'=>$builder->getListArray()));
+		}
+		else if($ajax_builder_type == 'html'){
+			wp_send_json(array('result'=>'success', 'data'=>$builder->getListHTML()));
+		}
 	}
 	
 	wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
@@ -970,6 +996,7 @@ function kboard_scripts(){
 		'ajax_url' => admin_url('admin-ajax.php'),
 		'plugin_url' => KBOARD_URL_PATH,
 		'media_group' => kboard_media_group(),
+		'view_iframe' => kboard_view_iframe(),
 		'ajax_security' => wp_create_nonce('kboard_ajax_security'),
 	);
 	$kboard_iamport_id = get_option('kboard_iamport_id');
@@ -1093,7 +1120,7 @@ function kboard_admin_style(){
  * 읽기권한이 없어서 로그인 페이지로 이동한다.
  */
 add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_login', 10, 5);
-function kboard_cannot_read_document_go_login($action, $url, $content, $board, $board_builder){
+function kboard_cannot_read_document_go_login($action, $url, $content, $board, $builder){
 	if($action == 'go_login'){
 		echo '<script>alert("'.__('Please Log in to continue.', 'kboard').'");</script>';
 		echo '<script>top.window.location.href="' . esc_url_raw($url) . '";</script>';
@@ -1104,7 +1131,7 @@ function kboard_cannot_read_document_go_login($action, $url, $content, $board, $
  * 읽기권한이 없어서 게시판 리스트로 돌아간다.
  */
 add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_back', 10, 5);
-function kboard_cannot_read_document_go_back($action, $url, $content, $board, $board_builder){
+function kboard_cannot_read_document_go_back($action, $url, $content, $board, $builder){
 	if($action == 'go_back'){
 		echo '<script>alert("'.__('You do not have permission.', 'kboard').'");</script>';
 		echo '<script>window.location.href="' . esc_url_raw($url) . '";</script>';
@@ -1115,7 +1142,7 @@ function kboard_cannot_read_document_go_back($action, $url, $content, $board, $b
  * 포인트 부족으로 게시판 리스트로 돌아간다.
  */
 add_action('kboard_cannot_read_document', 'kboard_not_enough_points_read_document_go_back', 10, 5);
-function kboard_not_enough_points_read_document_go_back($action, $url, $content, $board, $board_builder){
+function kboard_not_enough_points_read_document_go_back($action, $url, $content, $board, $builder){
 	if($action == 'not_enough_points'){
 		echo '<script>alert("'.__('You have not enough points.', 'kboard').'");</script>';
 		echo '<script>window.location.href="' . esc_url_raw($url) . '";</script>';
@@ -1194,7 +1221,7 @@ function kboard_head(){
  * 게시글 내용의 문단을 나눈다.
  */
 add_filter('kboard_content_paragraph_breaks', 'kboard_content_paragraph_breaks', 10, 2);
-function kboard_content_paragraph_breaks($content, $board_builder){
+function kboard_content_paragraph_breaks($content, $builder){
 	$content = nl2br($content);
 	$content = preg_replace("/(<(|\/)(table|thead|tfoot|tbody|th|tr|td).*>)(<br \/>)/", "\$1", $content);
 	return $content;
