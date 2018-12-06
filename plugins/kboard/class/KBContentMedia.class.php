@@ -17,6 +17,8 @@ class KBContentMedia {
 	public function getList(){
 		global $wpdb;
 		
+		$results = array();
+		
 		$this->content_uid = intval($this->content_uid);
 		$this->media_group = esc_sql($this->media_group);
 		
@@ -28,9 +30,6 @@ class KBContentMedia {
 		}
 		else if($this->media_group){
 			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
-		}
-		else{
-			$results = array();
 		}
 		
 		return $results;

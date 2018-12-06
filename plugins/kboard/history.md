@@ -18,8 +18,9 @@
   11. kboard_order_update_value 필터 추가
   12. kboard_content_list_total_count 필터 추가
   13. kboard_content_list_items 필터 추가
-  14. kboard_view_iframe 필터 추가
-  15. 버그 수정
+  14. kboard_content_media_list 필터 추가
+  15. kboard_view_iframe 필터 추가
+  16. 버그 수정
 
 
 5.3.10

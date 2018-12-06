@@ -466,7 +466,7 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isUsePointOrder(){
-		if(is_user_logged_in() && class_exists('myCRED_Core')){
+		if(class_exists('myCRED_Core')){
 			return true;
 		}
 		return false;

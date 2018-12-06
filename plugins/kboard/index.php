@@ -561,7 +561,7 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		echo "<p>게시판 스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.</p>";
+		echo "<p>게시판 스킨 설치가 완료 되었습니다. <code>KBoard -&gt; 게시판 목록 -&gt; 게시판 선택 -&gt; 게시판 관리</code> 페이지에서 스킨을 선택해주세요.</p>";
 		ob_flush();
 		flush();
 		
@@ -592,7 +592,7 @@ function kboard_updates(){
 		ob_flush();
 		flush();
 		
-		echo "<p>댓글 스킨 설치가 완료 되었습니다. 게시판 목록->관리 페이지에서 스킨을 선택해주세요.</p>";
+		echo "<p>댓글 스킨 설치가 완료 되었습니다. <code>KBoard -&gt; 게시판 목록 -&gt; 게시판 선택 -&gt; 게시판 관리</code> 페이지에서 스킨을 선택해주세요.</p>";
 		ob_flush();
 		flush();
 		
@@ -1101,6 +1101,9 @@ function kboard_scripts(){
 		'comments' => __('Comments', 'kboard'),
 		'your_order_has_been_cancelled' => __('Your order has been cancelled.', 'kboard'),
 		'order_information_has_been_changed' => __('Order information has been changed.', 'kboard'),
+		'order_date' => __('Order date', 'kboard'),
+		'point_payment' => __('Point payment', 'kboard'),
+		'cancel_point_payment' => __('Cancel point payment', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

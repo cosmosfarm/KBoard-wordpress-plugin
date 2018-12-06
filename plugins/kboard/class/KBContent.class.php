@@ -1167,6 +1167,20 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글에 등록된 미디어 목록을 반환한다.
+	 * @return array
+	 */
+	public function getMediaList(){
+		$media_list = array();
+		if($this->uid){
+			$media = new KBContentMedia();
+			$media->content_uid = $this->uid;
+			$media_list = $media->getList();
+		}
+		return apply_filters('kboard_content_media_list', $media_list, $this);
+	}
+	
+	/**
 	 * 게시글에서 댓글을 보여줄지 확인한다.
 	 */
 	public function visibleComments(){

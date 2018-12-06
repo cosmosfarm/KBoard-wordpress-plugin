@@ -529,9 +529,10 @@ class KBController {
 				}
 			}
 			
+			// 동일한 결제건이 이미 저장되어 있는지 확인
 			$orders = get_posts(array(
-					'post_type' => 'kboard_order',
-					'meta_query' => array(array('key'=>'imp_uid', 'value'=>$payment->data->imp_uid))
+				'post_type' => 'kboard_order',
+				'meta_query' => array(array('key'=>'imp_uid', 'value'=>$payment->data->imp_uid))
 			));
 			if($orders){
 				if($display == 'mobile'){
@@ -560,6 +561,7 @@ class KBController {
 			$order->initOrder();
 			$order->initOrderItems();
 			
+			// 결제된 가격이 정확한지 체크
 			if($order->getAmount() != $payment->data->amount){
 				if($display == 'mobile'){
 					die('<script>alert("'.__('You do not have permission.', 'kboard').'");window.location.href="'.$next_page_url.'";</script>');
@@ -569,10 +571,30 @@ class KBController {
 				}
 			}
 			
+			// 포인트 결제 적용
+			if($board->isUsePointOrder() && is_user_logged_in() && $order->use_points){
+				$balance = mycred_get_users_balance(get_current_user_id());
+				if($balance >= $order->use_points){
+					mycred_add('kboard_order', get_current_user_id(), ($order->use_points*-1), __('Point payment', 'kboard'));
+				}
+				else{
+					if($display == 'mobile'){
+						die('<script>alert("'.__('Your point is not enough.', 'kboard').'");window.location.href="'.$next_page_url.'";</script>');
+					}
+					else{
+						wp_send_json(array('result'=>'error', 'message'=>__('Your point is not enough.', 'kboard')));
+					}
+				}
+			}
+			
 			$order->create();
 			$order->createItems(array(
 				'order_status' => 'paid'
 			));
+			
+			foreach($order->items as $item){
+				$item->addUserRewardPoint();
+			}
 			
 			do_action('kboard_order_execute', $order, $board);
 			do_action("kboard_{$board->skin}_order_execute", $order, $board);
@@ -632,6 +654,7 @@ class KBController {
 				exit;
 			}
 			
+			// 동일한 결제건이 이미 저장되어 있는지 확인
 			$orders = get_posts(array(
 				'post_type' => 'kboard_order',
 				'meta_query' => array(array('key'=>'imp_uid', 'value'=>$payment->data->imp_uid))
@@ -653,8 +676,20 @@ class KBController {
 			$order->initWithMerchantUID($merchant_uid);
 			$order->initOrderItems();
 			
+			// 결제된 가격이 정확한지 체크
 			if($order->getAmount() != $payment->data->amount){
 				exit;
+			}
+			
+			// 포인트 결제 적용
+			if($board->isUsePointOrder() && $order->user_id && $order->use_points){
+				$balance = mycred_get_users_balance($order->user_id);
+				if($balance >= $order->use_points){
+					mycred_add('kboard_order', $order->user_id, ($order->use_points*-1), __('Point payment', 'kboard'));
+				}
+				else{
+					exit;
+				}
 			}
 			
 			$order->update(array(
@@ -666,6 +701,8 @@ class KBController {
 				$item->update(array(
 					'order_status' => 'paid'
 				));
+				
+				$item->addUserRewardPoint();
 			}
 			
 			do_action('kboard_order_execute', $order, $board);
@@ -699,10 +736,19 @@ class KBController {
 			$order->initOrder();
 			$order->initOrderItems();
 			
-			$order->create();
-			$order->createItems();
+			// 포인트 결제 적용
+			if($board->isUsePointOrder() && is_user_logged_in() && $order->use_points){
+				$balance = mycred_get_users_balance(get_current_user_id());
+				if($balance >= $order->use_points){
+					mycred_add('kboard_order', get_current_user_id(), ($order->use_points*-1), __('Point payment', 'kboard'));
+				}
+				else{
+					die('<script>alert("'.__('Your point is not enough.', 'kboard').'");history.go(-1);</script>');
+				}
+			}
 			
-			if($order->payment_method == 'vbank'){
+			// 가상계좌 정보 저장
+			if($order->getAmount() && $order->payment_method == 'vbank'){
 				$iamport = kboard_iamport();
 				
 				if($iamport->imp_key && $iamport->imp_secret){
@@ -719,7 +765,20 @@ class KBController {
 						'vbank_num' => $payment->data->vbank_num,
 					));
 				}
+				else{
+					die('<script>alert("iamport error");history.go(-1);</script>');
+				}
 			}
+			
+			if($order->getAmount() > 0){
+				$items_data = array('order_status' => 'pay_waiting');
+			}
+			else{
+				$items_data = array('order_status' => 'paid');
+			}
+			
+			$order->create();
+			$order->createItems($items_data);
 			
 			do_action('kboard_order_execute', $order, $board);
 			do_action("kboard_{$board->skin}_order_execute", $order, $board);
@@ -753,21 +812,51 @@ class KBController {
 			$item->board = $board;
 			$item->board_id = $board->id;
 			$item->initWithID($order_item_id);
+			
 			if($item->order_item_id && $item->content->isEditor()){
-				
 				$order_status = isset($_POST['order_status'])?sanitize_text_field($_POST['order_status']):'';
 				
 				if($order_status == 'paid' && $item->order_status != 'paid'){
-					$item->update(array(
-						'order_status' => $order_status
-					));
+					$is_success = true;
 					
-					$item->addUserRewardPoint();
+					// 포인트 결제 적용
+					if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
+						$balance = mycred_get_users_balance($item->order->user_id);
+						if($balance >= $item->order->use_points){
+							mycred_add('kboard_order', $item->order->user_id, ($item->order->use_points*-1), __('Point payment', 'kboard'));
+						}
+						else{
+							$is_success = false;
+							$result = array('result'=>'error', 'message'=>__('Not enough points.', 'kboard'));
+						}
+					}
 					
-					$result = array('result'=>'success', 'message'=>__('Order information has been changed.', 'kboard'));
+					if($is_success){
+						$item->update(array(
+							'order_status' => $order_status
+						));
+						
+						$item->addUserRewardPoint();
+						
+						$result = array('result'=>'success', 'message'=>__('Order information has been changed.', 'kboard'));
+					}
 				}
 				else if($order_status == 'cancel' && $item->order_status != 'cancel'){
-					if($item->order->imp_uid){
+					if($item->order->getAmount() <= 0){
+						// 포인트 결제 취소
+						if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
+							mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+						}
+						
+						$item->update(array(
+							'order_status' => $order_status
+						));
+						
+						$item->cancelUserRewardPoint();
+						
+						$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
+					}
+					else if($item->order->imp_uid){
 						$iamport = kboard_iamport();
 						
 						if(!$iamport->imp_key || !$iamport->imp_secret){
@@ -789,6 +878,11 @@ class KBController {
 								$result = array('result'=>'error', 'message'=>$payment->message);
 							}
 							else if($payment->data->status == 'cancelled'){
+								// 포인트 결제 취소
+								if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
+									mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+								}
+								
 								$item->update(array(
 									'order_status' => $order_status
 								));
@@ -803,6 +897,11 @@ class KBController {
 						}
 					}
 					else if($item->order->payment_method == 'cash'){
+						// 포인트 결제 취소
+						if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
+							mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+						}
+						
 						$item->update(array(
 							'order_status' => $order_status
 						));

@@ -5,7 +5,7 @@
 
 .kboard-comments-default { background-color: #f9f9f9; }
 .kboard-comments-default form { margin: 0; padding: 0; }
-.kboard-comments-default hr { clear: both; margin: 0; padding: 5px 0 0 0; height:0; border: 0; border-bottom: 1px dashed #d8d8d8; background: none; }
+.kboard-comments-default hr { clear: both; margin: 0 !important; padding: 5px 0 0 0 !important; max-width: 100% !important; height: 0 !important; border: 0 !important; border-bottom: 1px dashed #d8d8d8 !important; background: none !important; background-color: transparent !important; }
 .kboard-comments-default input[type=text],
 .kboard-comments-default input[type=email],
 .kboard-comments-default input[type=number],

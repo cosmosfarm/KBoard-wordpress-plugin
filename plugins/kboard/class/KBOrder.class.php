@@ -103,13 +103,20 @@ class KBOrder {
 		if(isset($_POST['kboard_order']) && is_array($_POST['kboard_order'])){
 			foreach($_POST['kboard_order'] as $key=>$value){
 				if($key == 'use_points'){
-					// 포인트 기능을 사용할 수 없다면 continue
-					if(!$this->board->isUsePointOrder()) continue;
-				
-					// 실제로 포인트가 있는지 체크 해야함
-					$value = intval($value);
-					$balance = mycred_get_users_balance(get_current_user_id());
-					if($value && $value > $balance) $value = $balance;
+					if($this->board->isUsePointOrder()){
+						// 실제로 포인트가 있는지 체크 해야함
+						$value = intval($value);
+						$balance = mycred_get_users_balance(get_current_user_id());
+						if($balance < 0){
+							$balance = 0;
+						}
+						if($value > 0 && $value > $balance){
+							$value = $balance;
+						}
+					}
+					else{
+						$value = 0;
+					}
 				}
 				
 				$this->{$key} = $value;
@@ -168,6 +175,11 @@ class KBOrder {
 				$this->items[$order_item_key] = $item;
 				$this->items_count = count($this->items);
 				
+				// 총 결제금액 이상으로 포인트를 사용할 수 없다.
+				if($this->board->isUsePointOrder() && $this->use_points > $this->amount){
+					$this->use_points = $this->amount;
+				}
+				
 				// 주문 제목 생성
 				$first_item = reset($this->items);
 				$this->title = wp_strip_all_tags($first_item->title);
@@ -181,6 +193,7 @@ class KBOrder {
 			foreach($results as $item){
 				$this->items[$item->order_item_id] = new KBOrderItem();
 				$this->items[$item->order_item_id]->initWithID($item->order_item_id);
+				$this->items[$item->order_item_id]->board = $this->board;
 				$this->items[$item->order_item_id]->total = $this->items[$item->order_item_id]->price * $this->items[$item->order_item_id]->quantity;
 				$this->amount += $this->items[$item->order_item_id]->total;
 				$this->items_count = count($this->items);

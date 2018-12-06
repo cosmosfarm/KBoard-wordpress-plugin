@@ -499,7 +499,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="permission_order">주문하기권한</label></th>
 						<td>
-							<select name="permission_order" id="permission_order" onchange="kboard_permission_roles_view(('.kboard-permission-order-roles-view', this.value)">
+							<select name="permission_order" id="permission_order" onchange="kboard_permission_roles_view('.kboard-permission-order-roles-view', this.value)">
 								<option value=""<?php if(!$meta->permission_order):?> selected<?php endif?>>
 									<?php echo kboard_permission('all')?>
 								</option>

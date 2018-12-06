@@ -30,7 +30,7 @@ class KBTemplate {
 	 * @param int $board_id
 	 */
 	public function board(){
-		$board_id = isset($_GET['kboard_id'])?intval($_GET['kboard_id']):'';
+		$board_id = kboard_id();
 		if($board_id){
 			$meta = new KBoardMeta($board_id);
 			if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
@@ -103,7 +103,7 @@ class KBTemplate {
 	 * 이미지 추가하기 팝업창 화면을 출력한다.
 	 */
 	public function documentPrint(){
-		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
+		$uid = kboard_uid();
 		
 		$content = new KBContent();
 		$content->initWithUID($uid);
