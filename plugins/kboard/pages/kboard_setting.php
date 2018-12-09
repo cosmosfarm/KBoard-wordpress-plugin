@@ -1529,7 +1529,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row">CSV 파일 다운로드</th>
 						<td>
 							<input type="button" class="button-primary" value="<?php echo __('Download', 'kboard')?>" onclick="window.location.href='<?php echo wp_nonce_url(add_query_arg(array('action'=>'kboard_csv_download_execute', 'board_id'=>$board->id), admin_url('admin-post.php')), 'kboard-csv-download-execute', 'kboard-csv-download-execute-nonce')?>'">
-							<p class="description">대략 <?php echo number_format($board->getTotal())?>개의 게시글 정보를 다운로드합니다.</p>
+							<p class="description">대략 <?php echo number_format($board->getTotal())?>개의 게시글 정보를 다운로드합니다. (휴지통에 있는 게시글이 포함됩니다.)</p>
 							<p class="description">게시글 양이 많다면 웹호스팅의 트래픽 사용량이 높아지니 주의해주세요.</p>
 						</td>
 					</tr>
