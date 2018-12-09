@@ -736,49 +736,55 @@ class KBController {
 			$order->initOrder();
 			$order->initOrderItems();
 			
-			// 포인트 결제 적용
-			if($board->isUsePointOrder() && is_user_logged_in() && $order->use_points){
-				$balance = mycred_get_users_balance(get_current_user_id());
-				if($balance >= $order->use_points){
-					mycred_add('kboard_order', get_current_user_id(), ($order->use_points*-1), __('Point payment', 'kboard'));
-				}
-				else{
-					die('<script>alert("'.__('Your point is not enough.', 'kboard').'");history.go(-1);</script>');
-				}
-			}
-			
-			// 가상계좌 정보 저장
-			if($order->getAmount() && $order->payment_method == 'vbank'){
-				$iamport = kboard_iamport();
-				
-				if($iamport->imp_key && $iamport->imp_secret){
-					$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
-					$payment = $iamport->payments($imp_uid);
-					
-					// 아임포트에서 보내주는 timestamp는 한국시간 기준으로 생성됐기 때문에 timezone을 변경해준다.
-					date_default_timezone_set('Asia/Seoul');
-					
-					$order->update(array(
-						'vbank_date' => date('Y-m-d H:i:s', $payment->data->vbank_date),
-						'vbank_holder' => $payment->data->vbank_holder,
-						'vbank_name' => $payment->data->vbank_name,
-						'vbank_num' => $payment->data->vbank_num,
-					));
-				}
-				else{
-					die('<script>alert("iamport error");history.go(-1);</script>');
-				}
-			}
-			
 			if($order->getAmount() > 0){
 				$items_data = array('order_status' => 'pay_waiting');
+				
+				// 가상계좌 정보 저장
+				if($order->payment_method == 'vbank'){
+					$iamport = kboard_iamport();
+					
+					if($iamport->imp_key && $iamport->imp_secret){
+						$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
+						$payment = $iamport->payments($imp_uid);
+						// 아임포트에서 보내주는 timestamp는 한국시간 기준으로 생성됐기 때문에 timezone을 변경해준다.
+						date_default_timezone_set('Asia/Seoul');
+						
+						$order->vbank_date = date('Y-m-d H:i:s', $payment->data->vbank_date);
+						$order->vbank_holder = $payment->data->vbank_holder;
+						$order->vbank_name = $payment->data->vbank_name;
+						$order->vbank_num = $payment->data->vbank_num;
+						
+						// WordPress calculates offsets from UTC.
+						date_default_timezone_set('UTC');
+					}
+					else{
+						die('<script>alert("iamport error");history.go(-1);</script>');
+					}
+				}
 			}
 			else{
 				$items_data = array('order_status' => 'paid');
+				
+				// 포인트 결제 적용
+				if($board->isUsePointOrder() && is_user_logged_in() && $order->use_points){
+					$balance = mycred_get_users_balance(get_current_user_id());
+					if($balance >= $order->use_points){
+						mycred_add('kboard_order', get_current_user_id(), ($order->use_points*-1), __('Point payment', 'kboard'));
+					}
+					else{
+						die('<script>alert("'.__('Your point is not enough.', 'kboard').'");history.go(-1);</script>');
+					}
+				}
 			}
 			
 			$order->create();
 			$order->createItems($items_data);
+			
+			if($order->getAmount() <= 0){
+				foreach($order->items as $item){
+					$item->addUserRewardPoint();
+				}
+			}
 			
 			do_action('kboard_order_execute', $order, $board);
 			do_action("kboard_{$board->skin}_order_execute", $order, $board);
