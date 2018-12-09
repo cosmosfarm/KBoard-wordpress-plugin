@@ -11,11 +11,11 @@
 					<?php echo wpautop($comment->content)?>
 					
 					<?php if(isset($comment->attach->image1)):?>
-						<p><img src="<?php echo esc_attr($comment->attach->image1[0])?>" alt="<?php echo esc_attr($comment->attach->image1[1])?>"></p>
+						<p class="comments-list-image1"><img src="<?php echo esc_attr($comment->attach->image1[0])?>" alt="<?php echo esc_attr($comment->attach->image1[1])?>"></p>
 					<?php endif?>
 					
 					<?php if(isset($comment->attach->file1)):?>
-						<p><?php echo __('Attachment', 'kboard-comments')?> : <a href="<?php echo $comment->attach->file1[2]?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo $comment->attach->file1[1]?></a></p>
+						<p class="comments-list-file1"><?php echo __('Attachment', 'kboard-comments')?> : <a href="<?php echo $comment->attach->file1[2]?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo $comment->attach->file1[1]?></a></p>
 					<?php endif?>
 				<?php else:?>
 					<?php if($comment->remaining_time_for_reading):?>
