@@ -15,7 +15,7 @@
 					<?php endif?>
 					
 					<?php if(isset($comment->attach->file1)):?>
-						<p><?php echo __('Attachment', 'kboard-comments')?>:<a href="<?php echo $comment->attach->file1[2]?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo $comment->attach->file1[1]?></a></p>
+						<p><?php echo __('Attachment', 'kboard-comments')?> : <a href="<?php echo $comment->attach->file1[2]?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo $comment->attach->file1[1]?></a></p>
 					<?php endif?>
 				<?php else:?>
 					<?php if($comment->remaining_time_for_reading):?>
