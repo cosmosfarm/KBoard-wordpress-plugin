@@ -140,12 +140,18 @@ class KBOrder {
 				if(!isset($order_item['quantity']) || $order_item['quantity'] <= 0) continue;
 				if(isset($order_item['delete']) && $order_item['delete']) continue;
 				
-				// 주문 가격 체크
 				$content = new KBContent();
 				$content->initWithUID($order_item['uid']);
+				
+				// 주문 가격 체크
 				if($content->option->price){
 					if(!isset($order_item['price']) || !$order_item['price']) continue;
 					if($content->option->price != $order_item['price']) continue;
+				}
+				
+				// 적립 포인트 체크
+				if(isset($order_item['reward_point']) && $order_item['reward_point']){
+					if($content->option->reward_point != $order_item['reward_point']) continue;
 				}
 				
 				$item = new KBOrderItem();
