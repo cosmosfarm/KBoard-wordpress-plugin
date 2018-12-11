@@ -109,9 +109,15 @@ class KBCommentController {
 					$subject = strtolower($subject);
 					$subject = str_replace($replace, '', $subject);
 					
+					$name_filter_message = get_option('kboard_name_filter_message', '');
+					
 					foreach($name_filter as $filter){
 						if($filter && strpos($subject, $filter) !== false){
-							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
+							if(!$name_filter_message){
+								$name_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
+							}
+							$name_filter_message = apply_filters('kboard_comments_name_filter_message', $name_filter_message, $filter, $subject, $board);
+							die("<script>alert('".$name_filter_message."');history.go(-1);</script>");
 						}
 					}
 				}
@@ -123,9 +129,15 @@ class KBCommentController {
 					$subject = strtolower($subject);
 					$subject = str_replace($replace, '', $subject);
 					
+					$content_filter_message = get_option('kboard_content_filter_message', '');
+					
 					foreach($content_filter as $filter){
 						if($filter && strpos($subject, $filter) !== false){
-							die("<script>alert('".sprintf(__('"%s" is not available.', 'kboard-comments'), $filter)."');history.go(-1);</script>");
+							if(!$content_filter_message){
+								$content_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
+							}
+							$content_filter_message = apply_filters('kboard_comments_content_filter_message', $content_filter_message, $filter, $subject, $board);
+							die("<script>alert('".$content_filter_message."');history.go(-1);</script>");
 						}
 					}
 				}
