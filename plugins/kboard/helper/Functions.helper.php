@@ -332,7 +332,6 @@ function kboard_allow_file_extensions($to_array=false){
  */
 function kboard_name_filter($to_array=false){
 	$name_filter = get_option('kboard_name_filter', '관리자, 운영자, admin, administrator');
-	$name_filter = trim($name_filter);
 	
 	if($to_array){
 		$name_filter = explode(',', $name_filter);
@@ -347,7 +346,6 @@ function kboard_name_filter($to_array=false){
  */
 function kboard_content_filter($to_array=false){
 	$content_filter = get_option('kboard_content_filter', '');
-	$content_filter = trim($content_filter);
 	
 	if($to_array){
 		$content_filter = explode(',', $content_filter);

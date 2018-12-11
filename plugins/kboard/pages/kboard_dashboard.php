@@ -197,6 +197,10 @@
 					<input type="text" name="option[kboard_name_filter]" value="<?php echo kboard_name_filter()?>" style="width:100%">
 					<button type="submit" class="button">금지단어 업데이트</button>
 				</p>
+				<p>
+					<input type="text" name="option[kboard_name_filter_message]" value="<?php echo get_option('kboard_name_filter_message', '')?>" style="width:100%" placeholder="<?php echo __('%s is not available.', 'kboard')?>">
+					<button type="submit" class="button">금지단어 메시지 업데이트</button>
+				</p>
 			</form>
 		</li>
 		<li id="kboard_content_filter">
@@ -212,6 +216,10 @@
 				<p>
 					<input type="text" name="option[kboard_content_filter]" value="<?php echo kboard_content_filter()?>" style="width:100%">
 					<button type="submit" class="button">금지단어 업데이트</button>
+				</p>
+				<p>
+					<input type="text" name="option[kboard_content_filter_message]" value="<?php echo get_option('kboard_content_filter_message', '')?>" style="width:100%" placeholder="<?php echo __('%s is not available.', 'kboard')?>">
+					<button type="submit" class="button">금지단어 메시지 업데이트</button>
 				</p>
 			</form>
 		</li>

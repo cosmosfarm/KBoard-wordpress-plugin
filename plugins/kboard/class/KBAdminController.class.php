@@ -546,6 +546,7 @@ class KBAdminController {
 			$option = isset($_POST['option'])?$_POST['option']:array();
 			
 			foreach($option as $name=>$value){
+				$value = trim($value);
 				if(!$value){
 					delete_option($name);
 				}
