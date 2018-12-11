@@ -7,9 +7,7 @@
   
   1. kboard_name_filter_message 필터 추가
   2. kboard_content_filter_message 필터 추가
-  3. kboard_comments_name_filter_message 필터 추가
-  4. kboard_comments_content_filter_message 필터 추가
-  5. 금지단어가 있는 게시글 차단 메시지 설정 추가
+  3. 금지단어가 있는 게시글 차단 메시지 설정 추가
 
 5.3.11
 ----------------------------------
