@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2018-12-06 16:00+0900\n"
-"PO-Revision-Date: 2018-12-06 16:01+0900\n"
+"POT-Creation-Date: 2018-12-12 09:55+0900\n"
+"PO-Revision-Date: 2018-12-12 09:55+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.9\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -36,17 +36,17 @@ msgstr "Manage comments KBoard point."
 #: class/KBAdminController.class.php:29 class/KBAdminController.class.php:196
 #: class/KBAdminController.class.php:223 class/KBAdminController.class.php:260
 #: class/KBAdminController.class.php:302 class/KBAdminController.class.php:371
-#: class/KBAdminController.class.php:567 class/KBAdminController.class.php:594
+#: class/KBAdminController.class.php:568 class/KBAdminController.class.php:595
 #: class/KBController.class.php:53 class/KBController.class.php:58
 #: class/KBController.class.php:62 class/KBController.class.php:69
-#: class/KBController.class.php:81 class/KBController.class.php:135
-#: class/KBController.class.php:254 class/KBController.class.php:260
-#: class/KBController.class.php:264 class/KBController.class.php:509
-#: class/KBController.class.php:512 class/KBController.class.php:550
-#: class/KBController.class.php:553 class/KBController.class.php:567
-#: class/KBController.class.php:570 class/KBController.class.php:729
-#: class/KBController.class.php:783 class/KBController.class.php:922
-#: class/KBController.class.php:960 class/KBController.class.php:982
+#: class/KBController.class.php:81 class/KBController.class.php:153
+#: class/KBController.class.php:272 class/KBController.class.php:278
+#: class/KBController.class.php:282 class/KBController.class.php:527
+#: class/KBController.class.php:530 class/KBController.class.php:568
+#: class/KBController.class.php:571 class/KBController.class.php:585
+#: class/KBController.class.php:588 class/KBController.class.php:747
+#: class/KBController.class.php:829 class/KBController.class.php:982
+#: class/KBController.class.php:1020 class/KBController.class.php:1042
 #: class/KBTemplate.class.php:112 class/KBTemplate.class.php:119
 #: class/KBTemplate.class.php:127 class/KBTemplate.class.php:131
 #: class/KBTemplate.class.php:136 class/KBoardBuilder.class.php:563
@@ -282,71 +282,74 @@ msgstr "Please enter the title."
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
-#: class/KBController.class.php:99 class/KBController.class.php:113
-#: class/KBController.class.php:123
+#: class/KBController.class.php:102 class/KBController.class.php:122
+#: class/KBController.class.php:138 pages/kboard_dashboard.php:201
+#: pages/kboard_dashboard.php:221
 #, php-format
-msgid "\"%s\" is not available."
-msgstr "\"%s\" is not available."
+msgid "%s is not available."
+msgstr "%s is not available."
 
-#: class/KBController.class.php:140 class/KBoardBuilder.class.php:609
+#: class/KBController.class.php:158 class/KBoardBuilder.class.php:609
 #: index.php:1150 index.php:1183
 msgid "You have not enough points."
 msgstr "You have not enough points."
 
-#: class/KBController.class.php:146 pages/kboard_setting.php:1441
+#: class/KBController.class.php:164 pages/kboard_setting.php:1441
 msgid "Writing decrease points"
 msgstr "Writing decrease points"
 
-#: class/KBController.class.php:164 pages/kboard_setting.php:1433
+#: class/KBController.class.php:182 pages/kboard_setting.php:1433
 msgid "Writing increase points"
 msgstr "Writing increase points"
 
-#: class/KBController.class.php:249 class/KBController.class.php:312
+#: class/KBController.class.php:267 class/KBController.class.php:330
 #: class/KBoardBuilder.class.php:674
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBController.class.php:384 class/KBController.class.php:396
+#: class/KBController.class.php:402 class/KBController.class.php:414
 msgid "File does not exist."
 msgstr "File does not exist."
 
-#: class/KBController.class.php:427 pages/kboard_setting.php:1476
+#: class/KBController.class.php:445 pages/kboard_setting.php:1476
 msgid "Attachment download decrease points"
 msgstr "Attachment download decrease points"
 
-#: class/KBController.class.php:578 class/KBController.class.php:688
-#: class/KBController.class.php:804 index.php:1105
+#: class/KBController.class.php:596 class/KBController.class.php:706
+#: class/KBController.class.php:790 class/KBController.class.php:850
+#: index.php:1105
 msgid "Point payment"
 msgstr "Point payment"
 
-#: class/KBController.class.php:582 class/KBController.class.php:585
+#: class/KBController.class.php:600 class/KBController.class.php:603
+#: class/KBController.class.php:793
 msgid "Your point is not enough."
 msgstr "Your point is not enough."
 
-#: class/KBController.class.php:808
+#: class/KBController.class.php:854
 msgid "Not enough points."
 msgstr "Not enough points."
 
-#: class/KBController.class.php:819 index.php:1103
+#: class/KBController.class.php:865 index.php:1103
 msgid "Order information has been changed."
 msgstr "Order information has been changed."
 
-#: class/KBController.class.php:847 class/KBController.class.php:866
-#: index.php:1106
+#: class/KBController.class.php:872 class/KBController.class.php:907
+#: class/KBController.class.php:926 index.php:1106
 msgid "Cancel point payment"
 msgstr "Cancel point payment"
 
-#: class/KBController.class.php:856 class/KBController.class.php:875
-#: index.php:1102
+#: class/KBController.class.php:881 class/KBController.class.php:916
+#: class/KBController.class.php:935 index.php:1102
 msgid "Your order has been cancelled."
 msgstr "Your order has been cancelled."
 
-#: class/KBController.class.php:914 class/KBController.class.php:952
+#: class/KBController.class.php:974 class/KBController.class.php:1012
 #: index.php:1020
 msgid "You have already voted."
 msgstr "You have already voted."
 
-#: class/KBController.class.php:918 class/KBController.class.php:956
+#: class/KBController.class.php:978 class/KBController.class.php:1016
 #: class/KBoardBuilder.class.php:242 index.php:1128 index.php:1161
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
