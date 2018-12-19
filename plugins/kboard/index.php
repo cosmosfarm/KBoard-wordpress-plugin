@@ -358,30 +358,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
 		echo "<h1>KBoard 게시판 플러그인 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->getKBoard();
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>KBoard 게시판 플러그인 설치가 완료 되었습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -389,30 +389,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
 		echo "<h1>KBoard 게시판 플러그인 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->getKBoardNoSkins();
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>KBoard 게시판 플러그인 설치가 완료 되었습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -420,30 +420,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
 		echo "<h1>KBoard 댓글 플러그인 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->getComments();
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>KBoard 댓글 플러그인 설치가 완료 되었습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -451,30 +451,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
 		echo "<h1>KBoard 댓글 플러그인 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->getCommentsNoSkins();
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>KBoard 댓글 플러그인 설치가 완료 되었습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -482,30 +482,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
 		echo "<h1>플러그인 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_PLUGINS);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>플러그인 설치가 완료 되었습니다. 플러그인을 활성화해주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('plugins.php') . "\" class=\"button\">플러그인 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -513,30 +513,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
 		
 		echo "<h1>테마 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_THEMES);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>테마 설치가 완료 되었습니다. 테마를 선택해주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('themes.php') . "\" class=\"button\">테마 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -544,30 +544,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
 		
 		echo "<h1>KBoard 게시판 스킨 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_KBOARD_SKIN);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>게시판 스킨 설치가 완료 되었습니다. <code>KBoard -&gt; 게시판 목록 -&gt; 게시판 선택 -&gt; 게시판 관리</code> 페이지에서 스킨을 선택해주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_store') . "\" class=\"button\">스토어 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}
@@ -575,30 +575,30 @@ function kboard_updates(){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
 		
 		echo "<h1>KBoard 댓글 스킨 설치</h1>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>다운로드 중입니다. 기다려주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$download_file = $upgrader->download($download_url, $download_version, KBStore::getAccessToken());
 		echo "<p>다운로드를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		$install_result = $upgrader->install($download_file, KBUpgrader::$TYPE_COMMENTS_SKIN);
 		echo "<p>설치를 완료했습니다.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p>댓글 스킨 설치가 완료 되었습니다. <code>KBoard -&gt; 게시판 목록 -&gt; 게시판 선택 -&gt; 게시판 관리</code> 페이지에서 스킨을 선택해주세요.</p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_store') . "\" class=\"button\">스토어 메뉴로 이동</a></p>";
-		ob_flush();
-		flush();
+		@ob_flush();
+		@flush();
 		
 		exit;
 	}

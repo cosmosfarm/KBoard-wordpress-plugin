@@ -88,8 +88,8 @@ class KBBackup {
 		header("Pragma: no-cache");
 		Header("Expires: 0");
 		
-		ob_clean();
-		flush();
+		@ob_clean();
+		@flush();
 		
 		if($file == 'xml'){
 			echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";

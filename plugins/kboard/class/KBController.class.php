@@ -482,8 +482,8 @@ class KBController {
 			header('Content-length: ' . $file_info->size);
 			header('Expires: 0');
 			
-			ob_clean();
-			flush();
+			@ob_clean();
+			@flush();
 			
 			readfile($file_info->full_path);
 		}

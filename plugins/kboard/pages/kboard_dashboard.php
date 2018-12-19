@@ -194,7 +194,7 @@
 					단어를 콤마(,)로 구분해서 추가해주세요.
 				</p>
 				<p>
-					<input type="text" name="option[kboard_name_filter]" value="<?php echo kboard_name_filter()?>" style="width:100%">
+					<textarea name="option[kboard_name_filter]" style="width:100%"><?php echo kboard_name_filter()?></textarea>
 					<button type="submit" class="button">금지단어 업데이트</button>
 				</p>
 				<p>
@@ -214,7 +214,7 @@
 					단어를 콤마(,)로 구분해서 추가해주세요.
 				</p>
 				<p>
-					<input type="text" name="option[kboard_content_filter]" value="<?php echo kboard_content_filter()?>" style="width:100%">
+					<textarea name="option[kboard_content_filter]" style="width:100%"><?php echo kboard_content_filter()?></textarea>
 					<button type="submit" class="button">금지단어 업데이트</button>
 				</p>
 				<p>

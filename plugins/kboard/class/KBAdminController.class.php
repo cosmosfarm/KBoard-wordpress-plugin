@@ -325,6 +325,9 @@ class KBAdminController {
 				header('Pragma: no-cache');
 				header('Expires: 0');
 				
+				@ob_clean();
+				@flush();
+				
 				$csv = fopen('php://output', 'w');
 				
 				fprintf($csv, chr(0xEF).chr(0xBB).chr(0xBF));
@@ -546,7 +549,8 @@ class KBAdminController {
 			$option = isset($_POST['option'])?$_POST['option']:array();
 			
 			foreach($option as $name=>$value){
-				$value = trim($value);
+				$value = sanitize_textarea_field($value);
+				
 				if(!$value){
 					delete_option($name);
 				}
