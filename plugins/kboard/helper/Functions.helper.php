@@ -479,6 +479,18 @@ function kboard_user_ip(){
 }
 
 /**
+ * 배열 원소들을 정수형으로 변환한다.
+ * @param array $array
+ * @return array
+ */
+function kboard_array2int($array){
+	foreach($array as &$item){
+		$item = (int)$item;
+	}
+	return $array;
+}
+
+/**
  * KBMail 인스턴스를 반환한다.
  * @return KBMail
  */

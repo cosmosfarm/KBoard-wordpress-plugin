@@ -317,16 +317,21 @@ class KBContentList {
 		}
 		
 		if(is_array($this->board_id)){
-			foreach($this->board_id as $key=>$value){
-				$value = intval($value);
-				$board_ids[] = "'{$value}'";
-			}
-			$board_ids = implode(',', $board_ids);
-			$this->where[] = "`board_id` IN ($board_ids)";
+			$board_id = kboard_array2int($this->board_id);
+			$board_id = implode(',', $board_id);
+			$this->where[] = "`board_id` IN ($board_id)";
 		}
 		else{
-			$this->board_id = intval($this->board_id);
-			$this->where[] = "`board_id`='$this->board_id'";
+			$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+			if(is_array($allowed_board_id)){
+				$board_id = kboard_array2int($allowed_board_id);
+				$board_id = implode(',', $board_id);
+				$this->where[] = "`board_id` IN ($board_id)";
+			}
+			else{
+				$allowed_board_id = (int)$allowed_board_id;
+				$this->where[] = "`board_id`='$allowed_board_id'";
+			}
 		}
 		
 		if(!in_array($this->compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
@@ -461,10 +466,10 @@ class KBContentList {
 		
 		// 공지사항이 아닌 게시글만 불러온다.
 		if(!$with_notice) $this->where[] = "`notice`=''";
-
+		
 		// 휴지통에 없는 게시글만 불러온다.
 		$this->where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
-
+		
 		// kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
 		$default_select = "`{$wpdb->prefix}kboard_board_content`.`uid`";
 		$select = apply_filters('kboard_list_select', $default_select, $this->board_id, $this);

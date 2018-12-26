@@ -356,16 +356,30 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
+			echo '<script>alert("'.__('Invalid URL address.', 'kboard').'");</script>';
 			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
 		
-		if($content->board_id != $this->board_id){
-			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+		$not_allowed = false;
+		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+		if(is_array($allowed_board_id)){
+			if(!in_array($content->board_id, $allowed_board_id)){
+				$not_allowed = true;
+			}
+		}
+		else if($content->board_id != $allowed_board_id){
+			$not_allowed = true;
+		}
+		
+		if($not_allowed){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
 		if($content->isTrash()){
+			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
@@ -373,11 +387,13 @@ class KBoardBuilder {
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				if(!$content->notice && $content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
+					echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
 					echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 					exit;
 				}
 			}
 			else{
+				echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
 				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 				exit;
 			}
@@ -528,14 +544,29 @@ class KBoardBuilder {
 		$content = new KBContent($this->board_id);
 		$content->initWithUID($this->uid);
 		
-		if($content->board_id != $this->board_id){
-			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
-			exit;
-		}
-		
-		if($content->isTrash()){
-			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
-			exit;
+		if($content->uid){
+			$not_allowed = false;
+			$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+			if(is_array($allowed_board_id)){
+				if(!in_array($content->board_id, $allowed_board_id)){
+					$not_allowed = true;
+				}
+			}
+			else if($content->board_id != $allowed_board_id){
+				$not_allowed = true;
+			}
+			
+			if($not_allowed){
+				echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+				echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
+				exit;
+			}
+			
+			if($content->isTrash()){
+				echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
+				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+				exit;
+			}
 		}
 		
 		$board = $this->board;
@@ -681,12 +712,25 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
-			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			echo '<script>alert("'.__('Invalid URL address.', 'kboard').'");</script>';
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
 		
-		if($content->board_id != $this->board_id){
-			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+		$not_allowed = false;
+		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+		if(is_array($allowed_board_id)){
+			if(!in_array($content->board_id, $allowed_board_id)){
+				$not_allowed = true;
+			}
+		}
+		else if($content->board_id != $allowed_board_id){
+			$not_allowed = true;
+		}
+		
+		if($not_allowed){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
@@ -760,16 +804,30 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
-			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			echo '<script>alert("'.__('Invalid URL address.', 'kboard').'");</script>';
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
 		
-		if($content->board_id != $this->board_id){
-			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+		$not_allowed = false;
+		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+		if(is_array($allowed_board_id)){
+			if(!in_array($content->board_id, $allowed_board_id)){
+				$not_allowed = true;
+			}
+		}
+		else if($content->board_id != $allowed_board_id){
+			$not_allowed = true;
+		}
+		
+		if($not_allowed){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
 		if($content->isTrash()){
+			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
@@ -777,11 +835,13 @@ class KBoardBuilder {
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				if(!$content->notice && $content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
+					echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
 					echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 					exit;
 				}
 			}
 			else{
+				echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
 				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 				exit;
 			}
@@ -884,16 +944,30 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if(!$content->uid){
-			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			echo '<script>alert("'.__('Invalid URL address.', 'kboard').'");</script>';
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
 		
-		if($content->board_id != $this->board_id){
-			echo '<script>window.location.href="' . $url->set('mod', 'list')->set('uid', '')->toString() . '";</script>';
+		$not_allowed = false;
+		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+		if(is_array($allowed_board_id)){
+			if(!in_array($content->board_id, $allowed_board_id)){
+				$not_allowed = true;
+			}
+		}
+		else if($content->board_id != $allowed_board_id){
+			$not_allowed = true;
+		}
+		
+		if($not_allowed){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
 		if($content->isTrash()){
+			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
@@ -901,11 +975,13 @@ class KBoardBuilder {
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
 				if(!$content->notice && $content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
+					echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
 					echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 					exit;
 				}
 			}
 			else{
+				echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
 				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 				exit;
 			}
