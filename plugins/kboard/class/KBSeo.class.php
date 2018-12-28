@@ -104,8 +104,8 @@ class KBSeo {
 			add_filter('wpseo_opengraph_image_size', '__return_false');
 			add_filter('wpseo_opengraph_url', '__return_false');
 			add_filter('wpseo_twitter_title', '__return_false');
-			add_filter('wpseo_twitter_card_type', '__return_false');
 			add_filter('wpseo_twitter_description', '__return_false');
+			add_filter('wpseo_twitter_card_type', array($this, 'twitter_card_summary'));
 			add_filter('wpseo_twitter_image', '__return_false');
 			add_filter('wpseo_twitter_image_size', '__return_false');
 			add_filter('wpseo_canonical', '__return_false');
@@ -137,9 +137,9 @@ class KBSeo {
 	 * head에 SEO 정보를 추가한다.
 	 */
 	public function head(){
-		echo "\n<!-- WordPress KBoard plugin " . KBOARD_VERSION . " - http://www.cosmosfarm.com/products/kboard -->\n";
+		echo "\n<!-- WordPress KBoard plugin " . KBOARD_VERSION . " - https://www.cosmosfarm.com/products/kboard -->\n";
 		do_action('kboard_head');
-		echo "<!-- WordPress KBoard plugin " . KBOARD_VERSION . " - http://www.cosmosfarm.com/products/kboard -->\n\n";
+		echo "<!-- WordPress KBoard plugin " . KBOARD_VERSION . " - https://www.cosmosfarm.com/products/kboard -->\n\n";
 	}
 	
 	/**
@@ -152,6 +152,7 @@ class KBSeo {
 		echo "\n";
 		echo '<meta property="og:url" content="' . $this->getCanonical() . '">';
 		echo "\n";
+		
 		$image = $this->getImage();
 		if($image){
 			echo '<meta property="og:image" content="' . $image . '">';
@@ -163,10 +164,46 @@ class KBSeo {
 	 * Twitter 정보를 추가한다.
 	 */
 	public function twitter(){
-		echo '<meta property="twitter:card" content="summary">';
+		echo '<meta name="twitter:description" content="' . $this->getDescription() . '">';
 		echo "\n";
-		echo '<meta property="twitter:description" content="' . $this->getDescription() . '">';
+		echo '<meta name="twitter:title" content="' . $this->getTitle() . '">';
 		echo "\n";
+		
+		$image = $this->getImage();
+		if($image){
+			add_filter('wpseo_twitter_card_type', array($this, 'twitter_card_summary_large_image'));
+			
+			echo '<meta name="twitter:card" content="summary_large_image">';
+			echo "\n";
+			echo '<meta name="twitter:image" content="' . $image . '">';
+			echo "\n";
+		}
+		else{
+			add_filter('wpseo_twitter_card_type', array($this, 'twitter_card_summary'));
+			
+			echo '<meta name="twitter:card" content="summary">';
+			echo "\n";
+		}
+	}
+	
+	/**
+	 * twitter:card summary_large_image
+	 * @param string $type
+	 * @return string
+	 */
+	public function twitter_card_summary_large_image($type){
+		$type = 'summary_large_image';
+		return $type;
+	}
+	
+	/**
+	 * twitter:card summary
+	 * @param string $type
+	 * @return string
+	 */
+	public function twitter_card_summary($type){
+		$type = 'summary';
+		return $type;
 	}
 	
 	/**
@@ -185,13 +222,21 @@ class KBSeo {
 	public function author(){
 		echo '<meta name="author" content="' . $this->getUsername() . '">';
 		echo "\n";
+		echo '<meta name="article:author" content="' . $this->getUsername() . '">';
+		echo "\n";
 	}
 	
 	/**
 	 * 작성일 메타태그를 추가한다.
 	 */
 	public function date(){
-		echo '<meta name="author-date(date)" content="' . date('Y-m-d H:i:s', strtotime($this->content->date)) . '">';
+		$timezone_string = get_option('timezone_string');
+		
+		echo '<meta name="article:published_time" content="' . date('c', strtotime("{$timezone_string} {$this->content->date}")) . '">';
+		echo "\n";
+		echo '<meta name="article:modified_time" content="' . date('c', strtotime("{$timezone_string} {$this->content->update}")) . '">';
+		echo "\n";
+		echo '<meta name="og:updated_time" content="' . date('c', strtotime("{$timezone_string} {$this->content->update}")) . '">';
 		echo "\n";
 	}
 	
