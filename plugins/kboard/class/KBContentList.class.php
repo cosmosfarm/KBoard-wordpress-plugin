@@ -322,7 +322,8 @@ class KBContentList {
 			$this->where[] = "`board_id` IN ($board_id)";
 		}
 		else{
-			$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
+			$allowed_board_id = $this->board_id;
+			$allowed_board_id = apply_filters('kboard_allowed_board_id', $allowed_board_id, $this->board);
 			if(is_array($allowed_board_id)){
 				$board_id = kboard_array2int($allowed_board_id);
 				$board_id = implode(',', $board_id);

@@ -361,26 +361,15 @@ class KBoardBuilder {
 			exit;
 		}
 		
-		$not_allowed = false;
-		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
-		if(is_array($allowed_board_id)){
-			if(!in_array($content->board_id, $allowed_board_id)){
-				$not_allowed = true;
-			}
-		}
-		else if($content->board_id != $allowed_board_id){
-			$not_allowed = true;
-		}
-		
-		if($not_allowed){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
-			exit;
-		}
-		
 		if($content->isTrash()){
 			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($this->isNotAllowed($content->board_id)){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
@@ -545,26 +534,15 @@ class KBoardBuilder {
 		$content->initWithUID($this->uid);
 		
 		if($content->uid){
-			$not_allowed = false;
-			$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
-			if(is_array($allowed_board_id)){
-				if(!in_array($content->board_id, $allowed_board_id)){
-					$not_allowed = true;
-				}
-			}
-			else if($content->board_id != $allowed_board_id){
-				$not_allowed = true;
-			}
-			
-			if($not_allowed){
-				echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-				echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
-				exit;
-			}
-			
 			if($content->isTrash()){
 				echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+				exit;
+			}
+			
+			if($this->isNotAllowed($content->board_id)){
+				echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+				echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 				exit;
 			}
 		}
@@ -717,18 +695,7 @@ class KBoardBuilder {
 			exit;
 		}
 		
-		$not_allowed = false;
-		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
-		if(is_array($allowed_board_id)){
-			if(!in_array($content->board_id, $allowed_board_id)){
-				$not_allowed = true;
-			}
-		}
-		else if($content->board_id != $allowed_board_id){
-			$not_allowed = true;
-		}
-		
-		if($not_allowed){
+		if($this->isNotAllowed($content->board_id)){
 			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
 			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
@@ -809,26 +776,15 @@ class KBoardBuilder {
 			exit;
 		}
 		
-		$not_allowed = false;
-		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
-		if(is_array($allowed_board_id)){
-			if(!in_array($content->board_id, $allowed_board_id)){
-				$not_allowed = true;
-			}
-		}
-		else if($content->board_id != $allowed_board_id){
-			$not_allowed = true;
-		}
-		
-		if($not_allowed){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
-			exit;
-		}
-		
 		if($content->isTrash()){
 			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($this->isNotAllowed($content->board_id)){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
@@ -949,26 +905,15 @@ class KBoardBuilder {
 			exit;
 		}
 		
-		$not_allowed = false;
-		$allowed_board_id = apply_filters('kboard_allowed_board_id', $this->board_id, $this->board_id, $this);
-		if(is_array($allowed_board_id)){
-			if(!in_array($content->board_id, $allowed_board_id)){
-				$not_allowed = true;
-			}
-		}
-		else if($content->board_id != $allowed_board_id){
-			$not_allowed = true;
-		}
-		
-		if($not_allowed){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
-			exit;
-		}
-		
 		if($content->isTrash()){
 			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
 			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
+			exit;
+		}
+		
+		if($this->isNotAllowed($content->board_id)){
+			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
+			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
 			exit;
 		}
 		
@@ -1163,6 +1108,21 @@ class KBoardBuilder {
 		echo $this->skin->load($this->skin_name, 'latest.php', $vars);
 		
 		return ob_get_clean();
+	}
+	
+	public function isNotAllowed($board_id){
+		$not_allowed = false;
+		$allowed_board_id = $this->board_id;
+		$allowed_board_id = apply_filters('kboard_allowed_board_id', $allowed_board_id, $this->board);
+		if(is_array($allowed_board_id)){
+			if(!in_array($board_id, $allowed_board_id)){
+				$not_allowed = true;
+			}
+		}
+		else if($board_id != $allowed_board_id){
+			$not_allowed = true;
+		}
+		return $not_allowed;
 	}
 }
 ?>

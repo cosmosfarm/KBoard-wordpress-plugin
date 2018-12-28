@@ -69,6 +69,14 @@ class KBoard {
 	}
 	
 	/**
+	 * 게시판 아이디값을 반환한다.
+	 * @return int
+	 */
+	public function ID(){
+		return $this->id;
+	}
+	
+	/**
 	 * 게시판 정보를 입력받는다.
 	 * @param object $row
 	 * @return KBoard
