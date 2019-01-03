@@ -82,18 +82,22 @@ class KBoardSkin {
 		}
 		
 		if($is_ajax){
-			include "{$this->merged_list[$skin_name]->dir}/ajax-{$file}";
+			$current_file_path = "{$this->merged_list[$skin_name]->dir}/ajax-{$file}";
 		}
 		else if($is_admin){
-			include "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
+			$current_file_path = "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
 		}
 		else{
-			if(file_exists("{$this->merged_list[$skin_name]->dir}/{$file}")){
-				include "{$this->merged_list[$skin_name]->dir}/{$file}";
-			}
-			else{
-				echo sprintf(__('%s file does not exist.', 'kboard'), $file);
-			}
+			$current_file_path = "{$this->merged_list[$skin_name]->dir}/{$file}";
+		}
+		
+		$current_file_path = apply_filters('kboard_skin_file_path', $current_file_path, $skin_name, $file, $vars, $this);
+		
+		if(file_exists($current_file_path)){
+			include $current_file_path;
+		}
+		else{
+			echo sprintf(__('%s file does not exist.', 'kboard'), $file);
 		}
 		
 		return ob_get_clean();
