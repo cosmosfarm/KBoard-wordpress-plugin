@@ -18,6 +18,8 @@ class KBTemplate {
 		}
 		
 		if(is_admin()){
+			include_once ABSPATH . 'wp-admin/includes/screen.php';
+			
 			add_action('wp_loaded', array($this, 'board'));
 		}
 		else{
