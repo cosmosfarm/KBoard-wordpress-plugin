@@ -154,7 +154,7 @@
 				<option value="content"<?php if(kboard_target() == 'content'):?> selected<?php endif?>><?php echo __('Content', 'kboard')?></option>
 				<option value="member_display"<?php if(kboard_target() == 'member_display'):?> selected<?php endif?>><?php echo __('Author', 'kboard')?></option>
 			</select>
-			<input type="text" name="keyword" value="<?php echo kboard_keyword()?>">
+			<input type="text" name="keyword" value="<?php echo esc_attr(kboard_keyword())?>">
 			<button type="submit" class="kboard-thumbnail-button-small"><?php echo __('Search', 'kboard')?></button>
 		</form>
 	</div>
