@@ -1104,6 +1104,7 @@ function kboard_scripts(){
 		'order_date' => __('Order date', 'kboard'),
 		'point_payment' => __('Point payment', 'kboard'),
 		'cancel_point_payment' => __('Cancel point payment', 'kboard'),
+		'paypal' => __('PayPal', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

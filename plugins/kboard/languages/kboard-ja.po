@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2018-12-26 20:03+0900\n"
-"PO-Revision-Date: 2018-12-26 20:05+0900\n"
+"POT-Creation-Date: 2019-01-09 15:06+0900\n"
+"PO-Revision-Date: 2019-01-09 15:06+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -47,14 +47,14 @@ msgstr "KBoard コメントポイントを管理します。"
 #: class/KBController.class.php:588 class/KBController.class.php:747
 #: class/KBController.class.php:829 class/KBController.class.php:982
 #: class/KBController.class.php:1020 class/KBController.class.php:1042
-#: class/KBTemplate.class.php:112 class/KBTemplate.class.php:119
-#: class/KBTemplate.class.php:127 class/KBTemplate.class.php:131
-#: class/KBTemplate.class.php:136 class/KBoardBuilder.class.php:590
-#: class/KBoardBuilder.class.php:595 class/KBoardBuilder.class.php:608
-#: class/KBoardBuilder.class.php:613 class/KBoardBuilder.class.php:629
-#: class/KBoardBuilder.class.php:740 class/KBoardBuilder.class.php:743
-#: class/KBoardBuilder.class.php:1097 class/KBoardBuilder.class.php:1102
-#: index.php:917 index.php:1139 index.php:1172
+#: class/KBTemplate.class.php:114 class/KBTemplate.class.php:121
+#: class/KBTemplate.class.php:129 class/KBTemplate.class.php:133
+#: class/KBTemplate.class.php:138 class/KBoardBuilder.class.php:572
+#: class/KBoardBuilder.class.php:577 class/KBoardBuilder.class.php:590
+#: class/KBoardBuilder.class.php:595 class/KBoardBuilder.class.php:611
+#: class/KBoardBuilder.class.php:713 class/KBoardBuilder.class.php:716
+#: class/KBoardBuilder.class.php:1052 class/KBoardBuilder.class.php:1057
+#: index.php:917 index.php:1140 index.php:1173
 msgid "You do not have permission."
 msgstr "権限がありません。"
 
@@ -289,8 +289,8 @@ msgstr "パスワードを入力してください。。"
 msgid "%s is not available."
 msgstr "%sは使用できません。"
 
-#: class/KBController.class.php:158 class/KBoardBuilder.class.php:636
-#: index.php:1150 index.php:1183
+#: class/KBController.class.php:158 class/KBoardBuilder.class.php:618
+#: index.php:1151 index.php:1184
 msgid "You have not enough points."
 msgstr "ポイントが足りません。"
 
@@ -303,7 +303,7 @@ msgid "Writing increase points"
 msgstr "作文の増加ポイント"
 
 #: class/KBController.class.php:267 class/KBController.class.php:330
-#: class/KBoardBuilder.class.php:701
+#: class/KBoardBuilder.class.php:683
 msgid "This page is restricted from external access."
 msgstr "このページは外部からのアクセスを制限しています。"
 
@@ -350,7 +350,7 @@ msgid "You have already voted."
 msgstr "すでに投票しました。"
 
 #: class/KBController.class.php:978 class/KBController.class.php:1016
-#: class/KBoardBuilder.class.php:242 index.php:1128 index.php:1161
+#: class/KBoardBuilder.class.php:242 index.php:1129 index.php:1162
 msgid "Please Log in to continue."
 msgstr "続行するにはログインしてください。"
 
@@ -425,7 +425,7 @@ msgstr "前へ"
 msgid "It is an invalid access."
 msgstr "許可がありません。"
 
-#: class/KBSeo.class.php:215
+#: class/KBSeo.class.php:260
 msgid "Integration feed"
 msgstr "全体フィード"
 
@@ -441,33 +441,33 @@ msgstr ""
 msgid "No document."
 msgstr "書き込みがありません"
 
-#: class/KBoardBuilder.class.php:359 class/KBoardBuilder.class.php:711
-#: class/KBoardBuilder.class.php:801 class/KBoardBuilder.class.php:939
+#: class/KBoardBuilder.class.php:359 class/KBoardBuilder.class.php:693
+#: class/KBoardBuilder.class.php:774 class/KBoardBuilder.class.php:903
 msgid "Invalid URL address."
 msgstr "間違ったURLアドレスです。"
 
-#: class/KBoardBuilder.class.php:374 class/KBoardBuilder.class.php:556
-#: class/KBoardBuilder.class.php:726 class/KBoardBuilder.class.php:816
-#: class/KBoardBuilder.class.php:954
-msgid "This post has been moved."
-msgstr "この掲示文は移動されました。"
-
-#: class/KBoardBuilder.class.php:380 class/KBoardBuilder.class.php:562
-#: class/KBoardBuilder.class.php:822 class/KBoardBuilder.class.php:960
+#: class/KBoardBuilder.class.php:365 class/KBoardBuilder.class.php:538
+#: class/KBoardBuilder.class.php:780 class/KBoardBuilder.class.php:909
 msgid "This post has been removed."
 msgstr "この掲示文は削除されました。"
 
-#: class/KBoardBuilder.class.php:388 class/KBoardBuilder.class.php:394
-#: class/KBoardBuilder.class.php:830 class/KBoardBuilder.class.php:836
-#: class/KBoardBuilder.class.php:968 class/KBoardBuilder.class.php:974
+#: class/KBoardBuilder.class.php:371 class/KBoardBuilder.class.php:544
+#: class/KBoardBuilder.class.php:699 class/KBoardBuilder.class.php:786
+#: class/KBoardBuilder.class.php:915
+msgid "This post has been moved."
+msgstr "この掲示文は移動されました。"
+
+#: class/KBoardBuilder.class.php:379 class/KBoardBuilder.class.php:385
+#: class/KBoardBuilder.class.php:794 class/KBoardBuilder.class.php:800
+#: class/KBoardBuilder.class.php:923 class/KBoardBuilder.class.php:929
 msgid "This post can only be read by the owner."
 msgstr "この掲示文は主人のみ読むことができます。"
 
-#: class/KBoardBuilder.class.php:485 pages/kboard_setting.php:1466
+#: class/KBoardBuilder.class.php:476 pages/kboard_setting.php:1466
 msgid "Reading decrease points"
 msgstr "文読むことの減少ポイント"
 
-#: class/KBoardBuilder.class.php:536
+#: class/KBoardBuilder.class.php:527
 msgid "Please enter your password."
 msgstr "パスワードを入力してください。。"
 
@@ -588,7 +588,7 @@ msgstr "ページビュー"
 msgid "페이지 연결 없음"
 msgstr "ページ接続なし"
 
-#: class/KBoardSkin.class.php:95
+#: class/KBoardSkin.class.php:100
 #, php-format
 msgid "%s file does not exist."
 msgstr "%sファイルがありません。"
@@ -1038,7 +1038,11 @@ msgstr "コメント"
 msgid "Order date"
 msgstr "注文日"
 
-#: index.php:1199
+#: index.php:1107
+msgid "PayPal"
+msgstr "ペイパル"
+
+#: index.php:1200
 msgid "KBoard Forum Settings"
 msgstr "KBoard Forumの設定"
 
