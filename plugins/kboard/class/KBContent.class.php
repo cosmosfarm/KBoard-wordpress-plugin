@@ -1471,6 +1471,24 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글에 저장된 카테고리의 값을 반환한다.
+	 * @param string $format
+	 * @return array
+	 */
+	public function getCategoryValues($format='%s'){
+		$values = array();
+		if($this->uid){
+			if($this->category1){
+				$values[] = sprintf($format, $this->category1);
+			}
+			if($this->category2){
+				$values[] = sprintf($format, $this->category2);
+			}
+		}
+		return $values;
+	}
+	
+	/**
 	 * 게시글에 저장된 트리 카테고리의 깊이를 반환한다.
 	 * @return int
 	 */
@@ -1491,14 +1509,15 @@ class KBContent {
 	
 	/**
 	 * 게시글에 저장된 트리 카테고리의 값을 반환한다.
+	 * @param string $format
 	 * @return array
 	 */
-	public function getTreeCategoryValues(){
+	public function getTreeCategoryValues($format='%s'){
 		$values = array();
 		if($this->uid){
 			$depth = $this->getTreeCategoryDepth();
 			for($i=1; $i<=$depth; $i++){
-				$values['tree_category_'.$i] = $this->option->{'tree_category_'.$i};
+				$values['tree_category_'.$i] = sprintf($format, $this->option->{'tree_category_'.$i});
 			}
 		}
 		return $values;
