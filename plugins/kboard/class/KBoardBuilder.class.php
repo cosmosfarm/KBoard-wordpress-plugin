@@ -256,7 +256,7 @@ class KBoardBuilder {
 				}
 				else if($this->mod != 'editor' && kboard_id() && !$this->meta->view_iframe){
 					$url = new KBUrl();
-					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->toString() . '";</script>';
+					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->set('iframe_id', '')->toString() . '";</script>';
 					exit;
 				}
 			}
@@ -265,7 +265,8 @@ class KBoardBuilder {
 			
 			if($view_iframe){
 				$url = new KBUrl();
-				return '<iframe id="kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+				$iframe_id = uniqid();
+				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
 			
 			// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.

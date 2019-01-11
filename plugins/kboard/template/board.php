@@ -21,22 +21,24 @@
 	do_action('kboard_iframe_head');
 	?>
 </head>
-<body class="kboard">
+<body class="kboard board-<?php echo $board_id?>">
 	<div id="kboard" style="float:left;width:100%;min-height:250px">
 		<?php echo kboard_builder(array('id'=>$board_id))?>
 	</div>
 	
+	<?php if(kboard_iframe_id()):?>
 	<script>
 	function kboard_iframe_resize(){
 		var kboard = document.getElementById('kboard');
-		if(kboard.offsetHeight != 0 && parent.document.getElementById("kboard-iframe-<?php echo $board_id?>")){
-			parent.document.getElementById("kboard-iframe-<?php echo $board_id?>").style.height = kboard.offsetHeight + "px";
+		if(kboard.offsetHeight != 0 && parent.document.getElementById("kboard-iframe-<?php echo kboard_iframe_id()?>")){
+			parent.document.getElementById("kboard-iframe-<?php echo kboard_iframe_id()?>").style.height = kboard.offsetHeight + "px";
 		}
 	}
 	setInterval(function(){
 		kboard_iframe_resize();
 	}, 100);
 	</script>
+	<?php endif?>
 	
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/html5.js"></script><![endif]-->
 	<!--[if lt IE 9]><script src="<?php echo KBOARD_URL_PATH?>/template/js/respond.js"></script><![endif]-->

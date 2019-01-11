@@ -780,4 +780,16 @@ function kboard_view_iframe(){
 	}
 	return apply_filters('kboard_view_iframe', $view_iframe);
 }
+
+/**
+ * iframe_id 값을 반환한다.
+ * @kboard_iframe_id string
+ */
+function kboard_iframe_id(){
+	static $iframe_id;
+	if($iframe_id === null){
+		$iframe_id = isset($_REQUEST['iframe_id'])?sanitize_text_field($_REQUEST['iframe_id']):'';
+	}
+	return apply_filters('kboard_iframe_id', $iframe_id);
+}
 ?>
