@@ -9,11 +9,13 @@
   2. kboard_content_filter_message 필터 추가
   3. kboard_allowed_board_id 필터 추가 (게시판 모아보기 기능에 활용)
   4. kboard_skin_file_path 필터 추가
-  5. 금지단어가 있는 게시글 차단 메시지 설정 추가
-  6. 검색엔진최적화(SEO) 관련 개선
-  7. 스킨 스타일 개선
-  8. 검색 필드 이스케이프 추가
-  9. 버그 수정
+  5. kboard_router_board_url 필터 추가
+  6. kboard_router_content_url 필터 추가
+  7. 금지단어가 있는 게시글 차단 메시지 설정 추가
+  8. 검색엔진최적화(SEO) 관련 개선
+  9. 스킨 스타일 개선
+  10. 검색 필드 이스케이프 추가
+  11. 버그 수정
 
 5.3.11
 ----------------------------------

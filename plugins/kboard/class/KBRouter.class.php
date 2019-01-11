@@ -80,7 +80,7 @@ class KBRouter {
 			else if($meta->auto_page){
 				$page_id = $meta->auto_page;
 			}
-			else {
+			else{
 				$page_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_content` LIKE '%[kboard id={$board_id}]%' AND `post_type`='page'");
 			}
 			
@@ -91,6 +91,9 @@ class KBRouter {
 			else{
 				$board_url = home_url("?kboard_id={$board_id}&mod=document&uid={$content->uid}");
 			}
+			
+			$board_url = apply_filters('kboard_router_content_url', $board_url, $page_id, $board_id, $content_uid);
+			
 			return $board_url;
 		}
 		return '';
@@ -121,7 +124,7 @@ class KBRouter {
 		$board_id = intval($board_id);
 		$board = new KBoard($board_id);
 		
-		if($board->uid){
+		if($board->id){
 			if($board->meta->auto_page){
 				$page_id = $board->meta->auto_page;
 			}
@@ -139,6 +142,9 @@ class KBRouter {
 			else{
 				$board_url = home_url("?kboard_id={$board_id}");
 			}
+			
+			$board_url = apply_filters('kboard_router_board_url', $board_url, $page_id, $board_id);
+			
 			return $board_url;
 		}
 		return '';

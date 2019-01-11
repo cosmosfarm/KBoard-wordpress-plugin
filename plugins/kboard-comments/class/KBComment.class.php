@@ -196,7 +196,7 @@ class KBComment {
 			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET ".implode(',', $update)." WHERE `uid`='{$this->uid}'");
 			
 			// 댓글 수정 액션 훅 실행
-			do_action('kboard_comments_update', $this->uid, $this->content_uid, $board);
+			do_action('kboard_comments_update', $this->uid, $this->content_uid, $this->getBoard());
 		}
 	}
 	
