@@ -369,8 +369,11 @@ class KBoardBuilder {
 		}
 		
 		if($this->isNotAllowed($content->board_id)){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
+			$message = __('This post has been moved.', 'kboard');
+			if($message){
+				echo '<script>alert("'.$message.'");</script>';
+			}
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		
@@ -542,8 +545,11 @@ class KBoardBuilder {
 			}
 			
 			if($this->isNotAllowed($content->board_id)){
-				echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-				echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
+				$message = __('This post has been moved.', 'kboard');
+				if($message){
+					echo '<script>alert("'.$message.'");</script>';
+				}
+				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 				exit;
 			}
 		}
@@ -697,8 +703,11 @@ class KBoardBuilder {
 		}
 		
 		if($this->isNotAllowed($content->board_id)){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
+			$message = __('This post has been moved.', 'kboard');
+			if($message){
+				echo '<script>alert("'.$message.'");</script>';
+			}
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		
@@ -784,8 +793,11 @@ class KBoardBuilder {
 		}
 		
 		if($this->isNotAllowed($content->board_id)){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
+			$message = __('This post has been moved.', 'kboard');
+			if($message){
+				echo '<script>alert("'.$message.'");</script>';
+			}
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		
@@ -913,8 +925,11 @@ class KBoardBuilder {
 		}
 		
 		if($this->isNotAllowed($content->board_id)){
-			echo '<script>alert("'.__('This post has been moved.', 'kboard').'");</script>';
-			echo '<script>top.window.location.href="' . $url->getDocumentRedirect($content->uid) . '";</script>';
+			$message = __('This post has been moved.', 'kboard');
+			if($message){
+				echo '<script>alert("'.$message.'");</script>';
+			}
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		

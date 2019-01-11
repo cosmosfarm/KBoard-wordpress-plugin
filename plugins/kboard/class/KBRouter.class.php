@@ -86,15 +86,15 @@ class KBRouter {
 			
 			if($page_id){
 				$url = new KBUrl();
-				$board_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath(get_permalink($page_id));
+				$content_url = $url->set('kboard_content_redirect', '')->set('kboard_redirect', '')->set('uid', $content->uid)->set('mod', 'document')->toStringWithPath(get_permalink($page_id));
 			}
 			else{
-				$board_url = home_url("?kboard_id={$board_id}&mod=document&uid={$content->uid}");
+				$content_url = home_url("?kboard_id={$board_id}&mod=document&uid={$content->uid}");
 			}
 			
-			$board_url = apply_filters('kboard_router_content_url', $board_url, $page_id, $board_id, $content_uid);
+			$content_url = apply_filters('kboard_router_content_url', $content_url, $page_id, $board_id, $content_uid);
 			
-			return $board_url;
+			return $content_url;
 		}
 		return '';
 	}
