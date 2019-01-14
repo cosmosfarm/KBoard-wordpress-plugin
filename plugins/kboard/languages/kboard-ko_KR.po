@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2019-01-09 15:04+0900\n"
-"PO-Revision-Date: 2019-01-09 15:05+0900\n"
+"POT-Creation-Date: 2019-01-14 17:17+0900\n"
+"PO-Revision-Date: 2019-01-14 17:17+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -49,12 +49,12 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBController.class.php:1020 class/KBController.class.php:1042
 #: class/KBTemplate.class.php:114 class/KBTemplate.class.php:121
 #: class/KBTemplate.class.php:129 class/KBTemplate.class.php:133
-#: class/KBTemplate.class.php:138 class/KBoardBuilder.class.php:572
-#: class/KBoardBuilder.class.php:577 class/KBoardBuilder.class.php:590
-#: class/KBoardBuilder.class.php:595 class/KBoardBuilder.class.php:611
-#: class/KBoardBuilder.class.php:713 class/KBoardBuilder.class.php:716
-#: class/KBoardBuilder.class.php:1052 class/KBoardBuilder.class.php:1057
-#: index.php:917 index.php:1140 index.php:1173
+#: class/KBTemplate.class.php:138 class/KBoardBuilder.class.php:579
+#: class/KBoardBuilder.class.php:584 class/KBoardBuilder.class.php:597
+#: class/KBoardBuilder.class.php:602 class/KBoardBuilder.class.php:618
+#: class/KBoardBuilder.class.php:723 class/KBoardBuilder.class.php:726
+#: class/KBoardBuilder.class.php:1070 class/KBoardBuilder.class.php:1075
+#: index.php:917 index.php:1141 index.php:1174
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
@@ -289,8 +289,8 @@ msgstr "비밀번호를 입력해주세요."
 msgid "%s is not available."
 msgstr "%s는 사용할 수 없습니다."
 
-#: class/KBController.class.php:158 class/KBoardBuilder.class.php:618
-#: index.php:1151 index.php:1184
+#: class/KBController.class.php:158 class/KBoardBuilder.class.php:625
+#: index.php:1152 index.php:1185
 msgid "You have not enough points."
 msgstr "포인트가 부족합니다."
 
@@ -303,7 +303,7 @@ msgid "Writing increase points"
 msgstr "글쓰기 증가 포인트"
 
 #: class/KBController.class.php:267 class/KBController.class.php:330
-#: class/KBoardBuilder.class.php:683
+#: class/KBoardBuilder.class.php:690
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
@@ -350,7 +350,7 @@ msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
 #: class/KBController.class.php:978 class/KBController.class.php:1016
-#: class/KBoardBuilder.class.php:242 index.php:1129 index.php:1162
+#: class/KBoardBuilder.class.php:242 index.php:1130 index.php:1163
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -413,15 +413,15 @@ msgstr "구매 적립"
 msgid "Cancel rewards points"
 msgstr "구매 적립 취소"
 
-#: class/KBRouter.class.php:151
+#: class/KBRouter.class.php:157
 msgid "Go home"
 msgstr "홈으로"
 
-#: class/KBRouter.class.php:152
+#: class/KBRouter.class.php:158
 msgid "Go back"
 msgstr "뒤로가기"
 
-#: class/KBRouter.class.php:153
+#: class/KBRouter.class.php:159
 msgid "It is an invalid access."
 msgstr "잘못된 접근입니다."
 
@@ -439,33 +439,33 @@ msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계�
 msgid "No document."
 msgstr "글이 없습니다."
 
-#: class/KBoardBuilder.class.php:359 class/KBoardBuilder.class.php:693
-#: class/KBoardBuilder.class.php:774 class/KBoardBuilder.class.php:903
+#: class/KBoardBuilder.class.php:360 class/KBoardBuilder.class.php:700
+#: class/KBoardBuilder.class.php:784 class/KBoardBuilder.class.php:916
 msgid "Invalid URL address."
 msgstr "잘못된 URL 주소입니다."
 
-#: class/KBoardBuilder.class.php:365 class/KBoardBuilder.class.php:538
-#: class/KBoardBuilder.class.php:780 class/KBoardBuilder.class.php:909
+#: class/KBoardBuilder.class.php:366 class/KBoardBuilder.class.php:542
+#: class/KBoardBuilder.class.php:790 class/KBoardBuilder.class.php:922
 msgid "This post has been removed."
 msgstr "이 게시글은 삭제되었습니다."
 
-#: class/KBoardBuilder.class.php:371 class/KBoardBuilder.class.php:544
-#: class/KBoardBuilder.class.php:699 class/KBoardBuilder.class.php:786
-#: class/KBoardBuilder.class.php:915
+#: class/KBoardBuilder.class.php:372 class/KBoardBuilder.class.php:548
+#: class/KBoardBuilder.class.php:706 class/KBoardBuilder.class.php:796
+#: class/KBoardBuilder.class.php:928
 msgid "This post has been moved."
 msgstr "이 게시글은 이동되었습니다."
 
-#: class/KBoardBuilder.class.php:379 class/KBoardBuilder.class.php:385
-#: class/KBoardBuilder.class.php:794 class/KBoardBuilder.class.php:800
-#: class/KBoardBuilder.class.php:923 class/KBoardBuilder.class.php:929
+#: class/KBoardBuilder.class.php:383 class/KBoardBuilder.class.php:389
+#: class/KBoardBuilder.class.php:807 class/KBoardBuilder.class.php:813
+#: class/KBoardBuilder.class.php:939 class/KBoardBuilder.class.php:945
 msgid "This post can only be read by the owner."
 msgstr "이 게시글은 본인만 읽을 수 있습니다."
 
-#: class/KBoardBuilder.class.php:476 pages/kboard_setting.php:1466
+#: class/KBoardBuilder.class.php:480 pages/kboard_setting.php:1466
 msgid "Reading decrease points"
 msgstr "글읽기 감소 포인트"
 
-#: class/KBoardBuilder.class.php:527
+#: class/KBoardBuilder.class.php:531
 msgid "Please enter your password."
 msgstr "비밀번호를 입력해주세요."
 
@@ -1040,7 +1040,11 @@ msgstr "주문일"
 msgid "PayPal"
 msgstr "페이팔"
 
-#: index.php:1200
+#: index.php:1108
+msgid "Point"
+msgstr "포인트"
+
+#: index.php:1201
 msgid "KBoard Forum Settings"
 msgstr "KBoard 게시판 관리"
 
