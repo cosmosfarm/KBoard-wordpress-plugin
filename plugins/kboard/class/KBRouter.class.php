@@ -154,9 +154,9 @@ class KBRouter {
 	 * 오류 화면을 출력한다.
 	 */
 	private function error(){
-		if(!wp_get_referer()) $next = '<a href="'.home_url().'">'.__('Go home', 'kboard').'</a>';
-		else $next = '<a href="javascript:history.go(-1);">'.__('Go back', 'kboard').'</a>';
-		wp_die(__('It is an invalid access.', 'kboard').'<br>'.$next);
+		if(!wp_get_referer()) $next = '<a href="'.home_url().'">« '.__('Go home', 'kboard').'</a>';
+		else $next = '<a href="javascript:history.go(-1);">« '.__('Go back', 'kboard').'</a>';
+		wp_die(__('It is an invalid access.', 'kboard').'<br>'.$next, '', array('response'=>410));
 	}
 }
 ?>

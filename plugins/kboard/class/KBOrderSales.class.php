@@ -15,6 +15,8 @@ class KBOrderSales {
 	var $search_option = array();
 	var $start_date;
 	var $end_date;
+	var $category1;
+	var $category2;
 	var $rpp = 10;
 	var $page = 1;
 	var $resource;
@@ -48,11 +50,31 @@ class KBOrderSales {
 					// 기간 검색
 					if($this->start_date && $this->end_date){
 						$start_date = esc_sql($this->start_date);
-						$end_date= esc_sql($this->end_date);
+						$end_date = esc_sql($this->end_date);
 						
 						$this->multiple_option_keys['datetime'] = 'datetime';
 						
 						$where[] = "(`meta_datetime`.`meta_key`='datetime' AND `meta_datetime`.`meta_value` BETWEEN '{$start_date}' AND '{$end_date}')";
+					}
+					
+					// 카테고리 검색
+					if($this->category1 || $this->category2){
+						$category1 = esc_sql($this->category1);
+						$category2 = esc_sql($this->category2);
+						
+						$this->multiple_option_keys['content_category'] = 'content_category';
+						
+						if($category1 && $category2){
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND (`category1` LIKE '%{$category1}%' OR `category2` LIKE '%{$category2}%')";
+						}
+						else if($category1){
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND `category1` LIKE '%{$category1}%'";
+						}
+						else if($category2){
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND `category2` LIKE '%{$category2}%'";
+						}
+						
+						$where[] = "(`meta_content_category`.`meta_key`='uid' AND `meta_content_category`.`meta_value` IN ({$sub_query}))";
 					}
 					
 					if(is_array($this->multiple_option_keys) && $this->multiple_option_keys){
@@ -129,6 +151,26 @@ class KBOrderSales {
 						
 						$where[] = "(`meta_datetime`.`meta_key`='datetime' AND `meta_datetime`.`meta_value` BETWEEN '{$start_date}' AND '{$end_date}')";
 						$where[] = "(`meta_total`.`meta_key`='total')";
+					}
+					
+					// 카테고리 검색
+					if($this->category1 || $this->category2){
+						$category1 = esc_sql($this->category1);
+						$category2 = esc_sql($this->category2);
+						
+						$this->multiple_option_keys['content_category'] = 'content_category';
+						
+						if($category1 && $category2){
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND (`category1` LIKE '%{$category1}%' OR `category2` LIKE '%{$category2}%')";
+						}
+						else if($category1){
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND `category1` LIKE '%{$category1}%'";
+						}
+						else if($category2){
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND `category2` LIKE '%{$category2}%'";
+						}
+						
+						$where[] = "(`meta_content_category`.`meta_key`='uid' AND `meta_content_category`.`meta_value` IN ({$sub_query}))";
 					}
 					
 					if(is_array($this->multiple_option_keys) && $this->multiple_option_keys){
@@ -296,6 +338,22 @@ class KBOrderSales {
 		if($end_date){
 			$this->end_date = date('Ymd', strtotime($end_date)) . '235959';
 		}
+	}
+	
+	/**
+	 * 상품 카테고리1을 설정한다.
+	 * @param string $category
+	 */
+	public function setContentCategory1($category){
+		$this->category1 = sanitize_text_field($category);
+	}
+	
+	/**
+	 * 상품 카테고리2를 설정한다.
+	 * @param string $category
+	 */
+	public function setContentCategory2($category){
+		$this->category2 = sanitize_text_field($category);
 	}
 	
 	/**

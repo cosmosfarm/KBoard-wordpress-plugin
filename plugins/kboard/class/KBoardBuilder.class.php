@@ -1036,6 +1036,7 @@ class KBoardBuilder {
 			$list->board_id = $this->board_id;
 			$list->rpp = $this->rpp;
 			$list->page = kboard_pageid();
+			$list->setSearchOption(kboard_search_option());
 			if(kboard_start_date() && kboard_end_date()){
 				$list->setDateRange(kboard_start_date(), kboard_end_date());
 			}
@@ -1044,7 +1045,8 @@ class KBoardBuilder {
 				$last_month = date('Ymd', strtotime("{$today} -1 month"));
 				$list->setDateRange($last_month, $today);
 			}
-			$list->setSearchOption(kboard_search_option());
+			$list->setContentCategory1(kboard_sales_category1());
+			$list->setContentCategory2(kboard_sales_category2());
 			$list->init(get_current_user_id());
 			
 			$order = new KBOrder();

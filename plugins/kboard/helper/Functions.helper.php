@@ -554,6 +554,30 @@ function kboard_category2(){
 }
 
 /**
+ * sales_category1 값을 반환한다.
+ * @return string
+ */
+function kboard_sales_category1(){
+	static $sales_category1;
+	if($sales_category1 === null){
+		$sales_category1 = isset($_GET['sales_category1'])?sanitize_text_field($_GET['sales_category1']):'';
+	}
+	return apply_filters('kboard_sales_category1', $sales_category1);
+}
+
+/**
+ * sales_category2 값을 반환한다.
+ * @return string
+ */
+function kboard_sales_category2(){
+	static $sales_category2;
+	if($sales_category2 === null){
+		$sales_category2 = isset($_GET['sales_category2'])?sanitize_text_field($_GET['sales_category2']):'';
+	}
+	return apply_filters('kboard_sales_category2', $sales_category2);
+}
+
+/**
  * uid 값을 반환한다.
  * @return string
  */
