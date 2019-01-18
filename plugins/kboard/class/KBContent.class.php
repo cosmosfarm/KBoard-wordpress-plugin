@@ -323,11 +323,11 @@ class KBContent {
 		
 		if($data['board_id'] && $data['title']){
 			foreach($data as $key=>$value){
+				$this->{$key} = $value;
+				
 				$value = esc_sql($value);
 				$insert_key[] = "`$key`";
 				$insert_data[] = "'$value'";
-				
-				$this->{$key} = $value;
 			}
 			
 			$board = $this->getBoard();
@@ -435,10 +435,10 @@ class KBContent {
 			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
 			
 			foreach($data as $key=>$value){
+				$this->{$key} = $value;
+				
 				$value = esc_sql($value);
 				$update[] = "`$key`='$value'";
-				
-				$this->{$key} = $value;
 			}
 			
 			if(isset($data['status']) && $this->previous_status != $data['status']){

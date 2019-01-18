@@ -29,7 +29,11 @@ class KBMail {
 		add_filter('wp_mail_content_type', array($this, 'getHtmlContentType'));
 		add_filter('wp_mail', array($this, 'message_template'));
 		
-		$message = $this->content;
+		$content_dir_name = basename(WP_CONTENT_DIR);
+		$kboard_attched_dir = "/{$content_dir_name}/uploads/kboard_attached";
+		
+		$message = nl2br($this->content);
+		$message = str_replace($kboard_attched_dir, site_url($kboard_attched_dir), $message);
 		
 		if($this->url){
 			$message .= '<table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
@@ -63,7 +67,7 @@ class KBMail {
 	
 	public function message_template($args){
 		$subject = $args['subject'];
-		$message = wpautop($args['message']);
+		$message = $args['message'];
 		
 		ob_start();
 		include_once KBOARD_DIR_PATH . '/assets/email/template.php';
