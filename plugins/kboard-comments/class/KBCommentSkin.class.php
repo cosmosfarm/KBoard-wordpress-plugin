@@ -23,8 +23,11 @@ class KBCommentSkin {
 				$this->list[$name] = $skin;
 			}
 		}
-		$this->list = apply_filters('kboard_comments_skin_list', $this->list);
 		closedir($dh);
+		
+		$this->list = apply_filters('kboard_comments_skin_list', $this->list);
+		
+		ksort($this->list);
 	}
 	
 	/**

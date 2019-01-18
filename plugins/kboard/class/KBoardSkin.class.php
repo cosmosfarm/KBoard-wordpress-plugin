@@ -25,10 +25,15 @@ class KBoardSkin {
 				$this->list[$name] = $skin;
 			}
 		}
+		closedir($dh);
+		
 		$this->list = apply_filters('kboard_skin_list', $this->list);
 		$this->latestview_list = apply_filters('kboard_skin_latestview_list', $this->list);
 		$this->merged_list = array_merge($this->list, $this->latestview_list);
-		closedir($dh);
+		
+		ksort($this->list);
+		ksort($this->latestview_list);
+		ksort($this->merged_list);
 	}
 	
 	/**
