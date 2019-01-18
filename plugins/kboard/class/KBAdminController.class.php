@@ -598,7 +598,7 @@ class KBAdminController {
 	public function tree_category_sortable(){
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		
-		$tree_category_serialize = isset($_POST['tree_category_serialize'])?$_POST['tree_category_serialize']:'';
+		$tree_category_serialize = isset($_POST['tree_category_serialize'])?json_decode($_POST['tree_category_serialize']):'';
 		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
 		
 		$board = new KBoard($board_id);
@@ -608,10 +608,10 @@ class KBAdminController {
 		$sortable_category = array();
 		
 		foreach($tree_category_serialize as $item){
-			if(isset($item['id']) && $item['id']){
+			if(isset($item->id) && $item->id){
 				foreach($category->tree_category as $key=>$value){
-					if($item['id'] == $value['id']){
-						$value['parent_id'] = $item['parent_id'];
+					if($item->id == $value['id']){
+						$value['parent_id'] = $item->parent_id;
 						$sortable_category[] = $value;
 					}
 				}

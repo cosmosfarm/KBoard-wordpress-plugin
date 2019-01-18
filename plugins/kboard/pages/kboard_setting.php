@@ -1823,6 +1823,9 @@ function kboard_fields_permission_roles_view(element){
 }
 function kboard_tree_category_sortable(tree_category_serialize){
 	var board_id = jQuery('input[name=board_id]').val();
+
+	tree_category_serialize = JSON.stringify(tree_category_serialize);
+	
 	jQuery.post(ajaxurl, {action:'kboard_tree_category_sortable', board_id:board_id, tree_category_serialize:tree_category_serialize}, function(data){
 		jQuery('.sortable li').remove();
 		jQuery('.sortable').append(data.table_body);
