@@ -598,6 +598,8 @@ class KBAdminController {
 	public function tree_category_sortable(){
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		
+		$_POST = stripslashes_deep($_POST);
+		
 		$tree_category_serialize = isset($_POST['tree_category_serialize'])?json_decode($_POST['tree_category_serialize']):'';
 		$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
 		
