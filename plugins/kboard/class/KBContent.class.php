@@ -36,6 +36,7 @@ class KBContent {
 	}
 	
 	public function __get($name){
+		$value = '';
 		if(isset($this->row->{$name})){
 			if(in_array($name, array('title', 'content'))){
 				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
@@ -53,9 +54,9 @@ class KBContent {
 					}
 				}
 			}
-			return $this->row->{$name};
+			$value = $this->row->{$name};
 		}
-		return '';
+		return apply_filters('kboard_content_value', $value, $name, $this);
 	}
 	
 	public function __set($name, $value){

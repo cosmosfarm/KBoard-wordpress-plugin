@@ -1106,6 +1106,7 @@ function kboard_scripts(){
 		'cancel_point_payment' => __('Cancel point payment', 'kboard'),
 		'paypal' => __('PayPal', 'kboard'),
 		'point' => __('Point', 'kboard'),
+		'zipcode' => __('Zip Code', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }

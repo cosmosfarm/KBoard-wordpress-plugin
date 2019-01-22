@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2019-01-14 17:17+0900\n"
-"PO-Revision-Date: 2019-01-14 17:17+0900\n"
+"POT-Creation-Date: 2019-01-22 21:47+0900\n"
+"PO-Revision-Date: 2019-01-22 21:47+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -41,12 +41,12 @@ msgstr "Manage comments KBoard point."
 #: class/KBController.class.php:62 class/KBController.class.php:69
 #: class/KBController.class.php:81 class/KBController.class.php:153
 #: class/KBController.class.php:272 class/KBController.class.php:278
-#: class/KBController.class.php:282 class/KBController.class.php:527
-#: class/KBController.class.php:530 class/KBController.class.php:568
-#: class/KBController.class.php:571 class/KBController.class.php:585
-#: class/KBController.class.php:588 class/KBController.class.php:747
-#: class/KBController.class.php:829 class/KBController.class.php:982
-#: class/KBController.class.php:1020 class/KBController.class.php:1042
+#: class/KBController.class.php:282 class/KBController.class.php:528
+#: class/KBController.class.php:531 class/KBController.class.php:569
+#: class/KBController.class.php:572 class/KBController.class.php:586
+#: class/KBController.class.php:589 class/KBController.class.php:748
+#: class/KBController.class.php:830 class/KBController.class.php:983
+#: class/KBController.class.php:1021 class/KBController.class.php:1043
 #: class/KBTemplate.class.php:114 class/KBTemplate.class.php:121
 #: class/KBTemplate.class.php:129 class/KBTemplate.class.php:133
 #: class/KBTemplate.class.php:138 class/KBoardBuilder.class.php:579
@@ -54,7 +54,7 @@ msgstr "Manage comments KBoard point."
 #: class/KBoardBuilder.class.php:602 class/KBoardBuilder.class.php:618
 #: class/KBoardBuilder.class.php:723 class/KBoardBuilder.class.php:726
 #: class/KBoardBuilder.class.php:1070 class/KBoardBuilder.class.php:1075
-#: index.php:917 index.php:1141 index.php:1174
+#: index.php:917 index.php:1142 index.php:1175
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
@@ -70,50 +70,50 @@ msgstr "This is not a valid backup file."
 msgid "파일 업로드에 실패 했습니다."
 msgstr "File upload failed."
 
-#: class/KBContent.class.php:44
+#: class/KBContent.class.php:45
 #, php-format
 msgid "&#91;Pending&#93; %s"
 msgstr "&#91;Pending&#93; %s"
 
-#: class/KBContent.class.php:45
+#: class/KBContent.class.php:46
 #, php-format
 msgid "<p>&#91;Waiting for administrator Approval.&#93;</p>%s"
 msgstr "<p>&#91;Waiting for administrator Approval.&#93;</p>%s"
 
-#: class/KBContent.class.php:50
+#: class/KBContent.class.php:51
 msgid "&#91;Pending&#93; Waiting for administrator Approval."
 msgstr "&#91;Pending&#93; Waiting for administrator Approval."
 
-#: class/KBContent.class.php:51
+#: class/KBContent.class.php:52
 msgid "&#91;Waiting for administrator Approval.&#93;"
 msgstr "&#91;Waiting for administrator Approval.&#93;"
 
-#: class/KBContent.class.php:194
+#: class/KBContent.class.php:195
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHA is invalid."
 
-#: class/KBContent.class.php:228
+#: class/KBContent.class.php:229
 msgid "KBoard new document"
 msgstr "KBoard new document"
 
-#: class/KBContent.class.php:231
+#: class/KBContent.class.php:232
 msgid "Go to Homepage"
 msgstr "Go to Homepage"
 
-#: class/KBContent.class.php:309 class/KBContent.class.php:418
+#: class/KBContent.class.php:310 class/KBContent.class.php:419
 msgid "Anonymous"
 msgstr "Anonymous"
 
-#: class/KBContent.class.php:634 class/KBContent.class.php:675
-#: class/KBContent.class.php:781
+#: class/KBContent.class.php:635 class/KBContent.class.php:676
+#: class/KBContent.class.php:782
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "No upload path. Please enter board ID and initialize."
 
-#: class/KBContent.class.php:885 pages/kboard_setting.php:1450
+#: class/KBContent.class.php:886 pages/kboard_setting.php:1450
 msgid "Deleted increment points"
 msgstr "Deleted increment points"
 
-#: class/KBContent.class.php:897 pages/kboard_setting.php:1458
+#: class/KBContent.class.php:898 pages/kboard_setting.php:1458
 msgid "Deleted decrease points"
 msgstr "Deleted decrease points"
 
@@ -290,7 +290,7 @@ msgid "%s is not available."
 msgstr "%s is not available."
 
 #: class/KBController.class.php:158 class/KBoardBuilder.class.php:625
-#: index.php:1152 index.php:1185
+#: index.php:1153 index.php:1186
 msgid "You have not enough points."
 msgstr "You have not enough points."
 
@@ -307,50 +307,50 @@ msgstr "Writing increase points"
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBController.class.php:402 class/KBController.class.php:414
+#: class/KBController.class.php:403 class/KBController.class.php:415
 msgid "File does not exist."
 msgstr "File does not exist."
 
-#: class/KBController.class.php:445 pages/kboard_setting.php:1476
+#: class/KBController.class.php:446 pages/kboard_setting.php:1476
 msgid "Attachment download decrease points"
 msgstr "Attachment download decrease points"
 
-#: class/KBController.class.php:596 class/KBController.class.php:706
-#: class/KBController.class.php:790 class/KBController.class.php:850
+#: class/KBController.class.php:597 class/KBController.class.php:707
+#: class/KBController.class.php:791 class/KBController.class.php:851
 #: index.php:1105
 msgid "Point payment"
 msgstr "Point payment"
 
-#: class/KBController.class.php:600 class/KBController.class.php:603
-#: class/KBController.class.php:793
+#: class/KBController.class.php:601 class/KBController.class.php:604
+#: class/KBController.class.php:794
 msgid "Your point is not enough."
 msgstr "Your point is not enough."
 
-#: class/KBController.class.php:854
+#: class/KBController.class.php:855
 msgid "Not enough points."
 msgstr "Not enough points."
 
-#: class/KBController.class.php:865 index.php:1103
+#: class/KBController.class.php:866 index.php:1103
 msgid "Order information has been changed."
 msgstr "Order information has been changed."
 
-#: class/KBController.class.php:872 class/KBController.class.php:907
-#: class/KBController.class.php:926 index.php:1106
+#: class/KBController.class.php:873 class/KBController.class.php:908
+#: class/KBController.class.php:927 index.php:1106
 msgid "Cancel point payment"
 msgstr "Cancel point payment"
 
-#: class/KBController.class.php:881 class/KBController.class.php:916
-#: class/KBController.class.php:935 index.php:1102
+#: class/KBController.class.php:882 class/KBController.class.php:917
+#: class/KBController.class.php:936 index.php:1102
 msgid "Your order has been cancelled."
 msgstr "Your order has been cancelled."
 
-#: class/KBController.class.php:974 class/KBController.class.php:1012
+#: class/KBController.class.php:975 class/KBController.class.php:1013
 #: index.php:1020
 msgid "You have already voted."
 msgstr "You have already voted."
 
-#: class/KBController.class.php:978 class/KBController.class.php:1016
-#: class/KBoardBuilder.class.php:242 index.php:1130 index.php:1163
+#: class/KBController.class.php:979 class/KBController.class.php:1017
+#: class/KBoardBuilder.class.php:242 index.php:1131 index.php:1164
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
@@ -588,7 +588,7 @@ msgstr "Open page"
 msgid "페이지 연결 없음"
 msgstr "Not installed"
 
-#: class/KBoardSkin.class.php:100
+#: class/KBoardSkin.class.php:105
 #, php-format
 msgid "%s file does not exist."
 msgstr "%s file does not exist."
@@ -1047,7 +1047,11 @@ msgstr "PayPal"
 msgid "Point"
 msgstr "Point"
 
-#: index.php:1201
+#: index.php:1109
+msgid "Zip Code"
+msgstr "Zip Code"
+
+#: index.php:1202
 msgid "KBoard Forum Settings"
 msgstr "KBoard Forum Settings"
 
