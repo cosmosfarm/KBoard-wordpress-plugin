@@ -108,7 +108,6 @@ class KBAdminController {
 				$board->meta->latest_alerts                  = isset($_POST['latest_alerts'])                  ? implode(',', array_map('sanitize_text_field', explode(',', $_POST['latest_alerts']))) : '';
 				$board->meta->comment_skin                   = ($use_comment && isset($_POST['comment_skin'])) ? $_POST['comment_skin']                    : '';
 				$board->meta->use_tree_category              = isset($_POST['use_tree_category'])              ? $_POST['use_tree_category']               : '';
-				$board->meta->tree_category                  = isset($_POST['tree_category'])                  ? serialize($_POST['tree_category'])        : '';
 				$board->meta->default_content                = isset($_POST['default_content'])                ? $_POST['default_content']                 : '';
 				$board->meta->pass_autop                     = isset($_POST['pass_autop'])                     ? $_POST['pass_autop']                      : '';
 				$board->meta->shortcode_execute              = isset($_POST['shortcode_execute'])              ? $_POST['shortcode_execute']               : '';
