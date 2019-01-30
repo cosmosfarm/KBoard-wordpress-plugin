@@ -17,7 +17,8 @@ class KBoardMeta {
 	}
 
 	public function __get($name){
-		$name = sanitize_key($name);
+		$name = strtolower($name);
+		$name = preg_replace('/[^a-z0-9_\-]/', '', $name);
 		if(isset($this->meta->{$name})){
 			return $this->meta->{$name};
 		}
@@ -27,7 +28,8 @@ class KBoardMeta {
 	public function __set($name, $value){
 		global $wpdb;
 		if($this->board_id){
-			$name = sanitize_key($name);
+			$name = strtolower($name);
+			$name = preg_replace('/[^a-z0-9_\-]/', '', $name);
 			$value = esc_sql($value);
 			if($value){
 				$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_meta` (`board_id`, `key`, `value`) VALUES ('$this->board_id', '$name', '$value') ON DUPLICATE KEY UPDATE `value`='$value'");
