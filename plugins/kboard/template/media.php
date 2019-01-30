@@ -41,6 +41,7 @@
 		.kboard-media-header { line-height: normal; }
 		.kboard-media-header .title { float: none; padding-right: 0; text-align: center; }
 		.kboard-media-header .controller { float: none; line-height: 30px; text-align: center; }
+		.kboard-media-header .controller input[type="file"] { display: block; }
 		.media-wrap .media-item { float: none; }
 		.media-wrap .media-item .media-image-wrap { width: auto; }
 		.media-wrap .media-item .media-image-wrap .media-image { height: 200px; }
@@ -191,7 +192,7 @@ jQuery(document).ready(function($){
 		var button = jQuery(this);
 		var allow = jQuery('form').attr('data-allow');
 		var input = function(){
-			var obj = jQuery('<input type="file" accept="image/*" multiple>').attr('name', jQuery(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).hide().change(function(){
+			var obj = jQuery('<input type="file" accept="image/*" multiple>').attr('name', jQuery(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).change(function(){
 				var extension = "\.("+allow+")$";
 				var files = jQuery(this).get(0).files;
 				if(files){

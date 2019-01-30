@@ -34,7 +34,7 @@
 			parent.document.getElementById("kboard-iframe-<?php echo kboard_iframe_id()?>").style.height = kboard.offsetHeight + "px";
 		}
 	}
-	setInterval(function(){
+	var kboard_iframe_resize_interval = setInterval(function(){
 		kboard_iframe_resize();
 	}, 100);
 	</script>
