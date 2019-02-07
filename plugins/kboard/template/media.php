@@ -77,16 +77,16 @@
 </form>
 
 <div class="media-wrap">
-	<?php $index=0; foreach($media->getList() as $key=>$row): $index++;?>
-	<label class="media-item" data-media-uid="<?php echo $row->uid?>">
+	<?php $index=0; foreach($media->getList() as $key=>$item): $index++;?>
+	<label class="media-item" data-media-uid="<?php echo $item->uid?>">
 		<img class="selected-media" src="<?php echo KBOARD_URL_PATH?>/images/selected-media.png" alt="<?php echo __('선택됨', 'kboard')?>">
 		<div class="media-image-wrap">
-			<div class="media-image" style="background-image:url(<?php echo site_url($row->file_path)?>)"></div>
+			<div class="media-image" style="background-image:url(<?php echo $item->thumbnail_url?>)"></div>
 		</div>
 		<div class="media-control">
-			<input type="checkbox" name="media_src" value="<?php echo site_url($row->file_path, 'relative')?>" data-media-uid="<?php echo $row->uid?>" onchange="kboard_media_select()">
-			<button type="button" onclick="kboard_media_insert('<?php echo site_url($row->file_path, 'relative')?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
-			<button type="button" onclick="kboard_media_delete('<?php echo $row->uid?>');" title="<?php echo __('삭제', 'kboard')?>"><?php echo __('삭제', 'kboard')?></button>
+			<input type="checkbox" name="media_src" value="<?php echo $item->file_url?>" data-media-uid="<?php echo $item->uid?>" onchange="kboard_media_select()">
+			<button type="button" onclick="kboard_media_insert('<?php echo $item->file_url?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
+			<button type="button" onclick="kboard_media_delete('<?php echo $item->uid?>');" title="<?php echo __('삭제', 'kboard')?>"><?php echo __('삭제', 'kboard')?></button>
 		</div>
 	</label>
 	<?php endforeach?>
@@ -97,7 +97,7 @@
 		<?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D', 'kboard')?><br>
 		
 		<?php if($board->contribution()):?>
-		<a href="http://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
+		<a href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 		<?php endif?>
 	</div>
 	<?php endif?>

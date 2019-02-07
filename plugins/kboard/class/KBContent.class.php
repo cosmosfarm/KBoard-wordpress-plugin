@@ -9,6 +9,7 @@ class KBContent {
 	
 	private $upload_attach_files;
 	private $filter_keys;
+	private $abspath;
 	
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
 	static $SKIN_ATTACH_PREFIX = 'kboard_attach_';
@@ -30,6 +31,7 @@ class KBContent {
 	var $new_password;
 	
 	public function __construct($board_id=''){
+		$this->abspath = untrailingslashit(ABSPATH);
 		$this->row = new stdClass();
 		$this->execute_action = 'insert';
 		if($board_id) $this->setBoardID($board_id);
@@ -73,8 +75,8 @@ class KBContent {
 		
 		// 첨부파일 업로드 경로를 만든다.
 		$upload_dir = wp_upload_dir();
-		$this->attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
-		$this->thumbnail_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_thumbnails/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
+		$this->attach_store_path = str_replace($this->abspath, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
+		$this->thumbnail_store_path = str_replace($this->abspath, '', $upload_dir['basedir']) . "/kboard_thumbnails/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
 	}
 	
 	/**
@@ -544,7 +546,7 @@ class KBContent {
 			$thumbnail = $wpdb->get_row("SELECT `thumbnail_file`, `thumbnail_name` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$uid}'");
 			
 			if($thumbnail->thumbnail_file){
-				$file = file_get_contents(KBOARD_WORDPRESS_ROOT . $thumbnail->thumbnail_file);
+				$file = file_get_contents($this->abspath . $thumbnail->thumbnail_file);
 				
 				if($file){
 					$file_type = wp_check_filetype(basename($thumbnail->thumbnail_file), null);
@@ -621,7 +623,23 @@ class KBContent {
 			$url = new KBUrl();
 			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}'");
 			foreach($result as $row){
-				$this->attach->{$row->file_key} = array($row->file_path, $row->file_name, $url->getDownloadURLWithAttach($this->uid, $row->file_key), intval($row->file_size), intval($row->download_count), $row->metadata);
+				$file_info = array(
+					0 => $row->file_path,
+					1 => $row->file_name,
+					2 => $url->getDownloadURLWithAttach($this->uid, $row->file_key),
+					3 => intval($row->file_size),
+					4 => intval($row->download_count),
+					'file_path' => $row->file_path,
+					'file_name' => $row->file_name,
+					'file_size' => intval($row->file_size),
+					'download_url' => $url->getDownloadURLWithAttach($this->uid, $row->file_key),
+					'download_count' => intval($row->download_count),
+					'metadata' => json_decode($row->metadata)
+				);
+				
+				$file_info = apply_filters('kboard_content_file_info', $file_info, $row, $this);
+				
+				$this->attach->{$row->file_key} = $file_info;
 			}
 		}
 		return $this->attach;
@@ -654,14 +672,16 @@ class KBContent {
 				$key = sanitize_key($key);
 				
 				$upload = $file->upload(KBContent::$SKIN_ATTACH_PREFIX . $key);
-				$original_name = $upload['original_name'];
 				$file_path = $upload['path'] . $upload['stored_name'];
+				$file_name = $upload['original_name'];
+				$metadata = $upload['metadata'];
 				
-				if($original_name){
+				if($file_name){
 					$attach_file = new stdClass();
 					$attach_file->key = $key;
 					$attach_file->path = $file_path;
-					$attach_file->name = $original_name;
+					$attach_file->name = $file_name;
+					$attach_file->metadata = $metadata;
 					$this->upload_attach_files[] = $attach_file;
 				}
 			}
@@ -676,27 +696,31 @@ class KBContent {
 		if(!$this->attach_store_path) die(__('No upload path. Please enter board ID and initialize.', 'kboard'));
 		
 		if($this->uid && $this->upload_attach_files && is_array($this->upload_attach_files)){
-			foreach($this->upload_attach_files as $attach_file){
-				$file_key = esc_sql($attach_file->key);
-				$file_path = esc_sql($attach_file->path);
-				$file_name = esc_sql($attach_file->name);
-				$file_size = intval(filesize(KBOARD_WORDPRESS_ROOT . $file_path));
+			foreach($this->upload_attach_files as $file){
+				$file_key = esc_sql($file->key);
+				$file_path = esc_sql($file->path);
+				$file_name = esc_sql($file->name);
+				$file_size = intval(filesize($this->abspath . $file_path));
+				
+				$metadata = apply_filters('kboard_content_file_metadata', $file->metadata, $file, $this);
+				$metadata = json_encode($metadata);
+				$metadata = esc_sql($metadata);
 				
 				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				if($present_file){
-					@unlink(KBOARD_WORDPRESS_ROOT . $present_file);
-					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name', `file_size`='$file_size' WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
+					@unlink($this->abspath . $present_file);
+					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name', `file_size`='$file_size', `metadata`='$metadata' WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");
 				}
 				else{
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `comment_uid`, `file_key`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('$this->uid', '0', '$file_key', '$date', '$file_path', '$file_name', '$file_size', '0', '')");
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `comment_uid`, `file_key`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('$this->uid', '0', '$file_key', '$date', '$file_path', '$file_name', '$file_size', '0', '$metadata')");
 				}
 			}
 		}
 		else if($this->upload_attach_files && is_array($this->upload_attach_files)){
-			foreach($this->upload_attach_files as $attach_file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $attach_file->path);
-				@unlink(KBOARD_WORDPRESS_ROOT . $attach_file->path);
+			foreach($this->upload_attach_files as $file){
+				kbaord_delete_resize($this->abspath . $file->path);
+				@unlink($this->abspath . $file->path);
 			}
 		}
 	}
@@ -709,8 +733,8 @@ class KBContent {
 		if($this->uid){
 			$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid'");
 			foreach($result as $file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file->file_path);
-				@unlink(KBOARD_WORDPRESS_ROOT . $file->file_path);
+				kbaord_delete_resize($this->abspath . $file->file_path);
+				@unlink($this->abspath . $file->file_path);
 			}
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid'");
 		}
@@ -727,8 +751,8 @@ class KBContent {
 			$key = esc_sql($key);
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 			if($file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file);
-				@unlink(KBOARD_WORDPRESS_ROOT . $file);
+				kbaord_delete_resize($this->abspath . $file);
+				@unlink($this->abspath . $file);
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$key'");
 			}
 		}
@@ -805,7 +829,7 @@ class KBContent {
 			}
 		}
 	}
-
+	
 	/**
 	 * 썸네일 주소를 반환한다.
 	 * @param int $width
@@ -951,8 +975,8 @@ class KBContent {
 	public function removeThumbnail($update=true){
 		global $wpdb;
 		if($this->uid && $this->thumbnail_file){
-			kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $this->thumbnail_file);
-			@unlink(KBOARD_WORDPRESS_ROOT . $this->thumbnail_file);
+			kbaord_delete_resize($this->abspath . $this->thumbnail_file);
+			@unlink($this->abspath . $this->thumbnail_file);
 			
 			if($update){
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='{$this->uid}'");
@@ -1161,6 +1185,7 @@ class KBContent {
 	public function addMediaRelationships(){
 		if($this->uid){
 			$media = new KBContentMedia();
+			$media->board_id = $this->board_id;
 			$media->content_uid = $this->uid;
 			$media->media_group = isset($_POST['media_group']) ? sanitize_key($_POST['media_group']) : '';
 			$media->createRelationships();
@@ -1175,10 +1200,11 @@ class KBContent {
 		$media_list = array();
 		if($this->uid){
 			$media = new KBContentMedia();
+			$media->board_id = $this->board_id;
 			$media->content_uid = $this->uid;
 			$media_list = $media->getList();
 		}
-		return apply_filters('kboard_content_media_list', $media_list, $this);
+		return $media_list;
 	}
 	
 	/**
@@ -1574,7 +1600,7 @@ class KBContent {
 			}
 			
 			foreach($this->attach as $key=>$attach){
-				$source = KBOARD_WORDPRESS_ROOT . $attach[0];
+				$source = $this->abspath . $attach[0];
 				$dest = $kboard_mail_attached_dir.$attach[1];
 				copy($source, $dest);
 				$attachments[] = $dest;

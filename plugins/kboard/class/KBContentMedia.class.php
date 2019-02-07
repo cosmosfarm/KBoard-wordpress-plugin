@@ -7,9 +7,15 @@
  */
 class KBContentMedia {
 	
+	private $abspath;
+	
 	var $board_id;
 	var $content_uid;
 	var $media_group;
+	
+	public function __construct(){
+		$this->abspath = untrailingslashit(ABSPATH);
+	}
 	
 	/**
 	 * 미디어 리스트를 반환한다.
@@ -17,22 +23,32 @@ class KBContentMedia {
 	public function getList(){
 		global $wpdb;
 		
-		$results = array();
+		$media_list = array();
 		
+		$this->board_id = intval($this->board_id);
 		$this->content_uid = intval($this->content_uid);
 		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->content_uid && $this->media_group){
-			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' OR `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
+			$media_list = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' OR `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
 		}
 		else if($this->content_uid){
-			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
+			$media_list = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida_relationships`.`content_uid`='{$this->content_uid}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
 		}
 		else if($this->media_group){
-			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
+			$media_list = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`media_group`='{$this->media_group}' ORDER BY `{$wpdb->prefix}kboard_meida`.`uid` DESC");
 		}
 		
-		return $results;
+		foreach($media_list as $key=>$media){
+			$media->file_url = site_url($media->file_path, 'relative');
+			$media->thumbnail_url = site_url($media->file_path);
+			$media->metadata = json_decode($media->metadata);
+			$media_list[$key] = $media;
+		}
+		
+		$media_list = apply_filters('kboard_content_media_list', $media_list, $this);
+		
+		return $media_list;
 	}
 	
 	/**
@@ -42,11 +58,12 @@ class KBContentMedia {
 		global $wpdb;
 		
 		$this->board_id = intval($this->board_id);
+		$this->content_uid = intval($this->content_uid);
 		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->board_id && $this->media_group){
 			$upload_dir = wp_upload_dir();
-			$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
+			$attach_store_path = str_replace($this->abspath, '', $upload_dir['basedir']) . "/kboard_attached/{$this->board_id}/" . date('Ym', current_time('timestamp')) . '/';
 			
 			$file = new KBFileHandler();
 			$file->setPath($attach_store_path);
@@ -60,12 +77,22 @@ class KBContentMedia {
 			foreach($upload_results as $upload){
 				$file_name = esc_sql($upload['original_name']);
 				$file_path = esc_sql($upload['path'] . $upload['stored_name']);
-				$file_size = intval(filesize(KBOARD_WORDPRESS_ROOT . $upload['path'] . $upload['stored_name']));
+				$file_size = intval(filesize($this->abspath . $upload['path'] . $upload['stored_name']));
+				
+				$attach_file = new stdClass();
+				$attach_file->key = '';
+				$attach_file->path = $file_path;
+				$attach_file->name = $file_name;
+				$attach_file->metadata = $upload['metadata'];
+				
+				$metadata = apply_filters('kboard_content_media_metadata', $upload['metadata'], $attach_file, $this);
+				$metadata = json_encode($metadata);
+				$metadata = esc_sql($metadata);
 				
 				if($file_name){
 					$date = date('YmdHis', current_time('timestamp'));
-					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('{$this->media_group}', '$date', '$file_path', '$file_name', '$file_size', '0', '')");
-				}	
+					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('{$this->media_group}', '$date', '$file_path', '$file_name', '$file_size', '0', '$metadata')");
+				}
 			}
 		}
 	}
@@ -76,6 +103,7 @@ class KBContentMedia {
 	public function createRelationships(){
 		global $wpdb;
 		
+		$this->board_id = intval($this->board_id);
 		$this->content_uid = intval($this->content_uid);
 		$this->media_group = esc_sql($this->media_group);
 		
@@ -122,8 +150,8 @@ class KBContentMedia {
 	public function deleteWithMedia($media){
 		global $wpdb;
 		if($media->uid){
-			kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . stripslashes($media->file_path));
-			@unlink(KBOARD_WORDPRESS_ROOT . stripslashes($media->file_path));
+			kbaord_delete_resize($this->abspath . stripslashes($media->file_path));
+			@unlink($this->abspath . stripslashes($media->file_path));
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_meida` WHERE `uid`='$media->uid'");
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_meida_relationships` WHERE `media_uid`='$media->uid'");
 		}

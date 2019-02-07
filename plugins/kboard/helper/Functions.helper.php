@@ -160,8 +160,10 @@ function kboard_mime_type($file){
 		finfo_close($finfo);
 	}
 
-	if($mime_type) return $mime_type;
-	else return 'application/octet-stream';
+	if($mime_type){
+		return $mime_type;
+	}
+	return 'application/octet-stream';
 }
 
 /**

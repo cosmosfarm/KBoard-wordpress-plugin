@@ -13,12 +13,14 @@ class KBFileHandler {
 	private $extension;
 	private $limit_file_size;
 	private $uploaded_file;
+	private $abspath;
 	
 	/**
 	 * 파일 조작 클래스
 	 * @param string $path
 	 */
 	function __construct($path=''){
+		$this->abspath = untrailingslashit(ABSPATH);
 		if($path) $this->setPath($path);
 	}
 	
@@ -52,7 +54,7 @@ class KBFileHandler {
 	 * @param boolean $mk
 	 */
 	function checkPath($path, $mk=true){
-		$path = KBOARD_WORDPRESS_ROOT . $this->addFirstSlash($path);
+		$path = $this->abspath . $this->addFirstSlash($path);
 		if($mk) wp_mkdir_p($path);
 		if(!file_exists($path)){
 			return false;
@@ -70,8 +72,8 @@ class KBFileHandler {
 	 * @param int $permission
 	 */
 	function mkPath($path, $permission=0777){
-		$path = str_replace(KBOARD_WORDPRESS_ROOT . '/', '', $path);
-		$growing_path = KBOARD_WORDPRESS_ROOT;
+		$path = str_replace($this->abspath . '/', '', $path);
+		$growing_path = $this->abspath;
 		$path = explode('/', $path);
 		for($i=0, $cnt=count($path); $i < $cnt; $i++){
 			$growing_path = "{$growing_path}/{$path[$i]}";
@@ -186,13 +188,14 @@ class KBFileHandler {
 		
 		if(!isset($_FILES[$this->name])){
 			return array(
-					'stored_name' => '',
-					'original_name' => '',
-					'temp_name' => '',
-					'error' => '',
-					'type' => '',
-					'size' => '',
-					'path' => ''
+				'stored_name' => '',
+				'original_name' => '',
+				'temp_name' => '',
+				'error' => '',
+				'type' => '',
+				'size' => '',
+				'path' => '',
+				'metadata' => ''
 			);
 		}
 		
@@ -224,7 +227,7 @@ class KBFileHandler {
 	
 	/**
 	 * 단독 파일 업로드
-	 * @param File $file
+	 * @param array $file
 	 */
 	private function singleUpload($file){
 		if($file['size']){
@@ -263,42 +266,51 @@ class KBFileHandler {
 			
 			$file_unique_name = $this->getUniqueName($file['name']);
 			
-			if(!@move_uploaded_file($file['tmp_name'], KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}")){
-				$this->uploaded_file[] = KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}";
+			if(!@move_uploaded_file($file['tmp_name'], "{$this->abspath}{$this->path}/{$file_unique_name}")){
+				$this->uploaded_file[] = "{$this->abspath}{$this->path}/{$file_unique_name}";
 				$this->rollback();
 				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name']);
 				echo "<script>alert('{$message}');history.go(-1);</script>";
 				exit;
 			}
 			
-			$this->imageOrientation(KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}");
+			// 사진 메타데이터 추출
+			require_once(ABSPATH . 'wp-admin/includes/image.php');
+			$metadata = wp_read_image_metadata("{$this->abspath}{$this->path}/{$file_unique_name}");
+			if(!$metadata){
+				$metadata = array();
+			}
+			
+			$this->imageOrientation("{$this->abspath}{$this->path}/{$file_unique_name}");
 			
 			return apply_filters('kboard_uploaded_file', array(
-					'stored_name' => $file_unique_name,
-					'original_name' => sanitize_file_name($file['name']),
-					'temp_name' => $file['tmp_name'],
-					'error' => $file['error'],
-					'type' => $file['type'],
-					'size' => $file['size'],
-					'path' => $this->path
+				'stored_name' => $file_unique_name,
+				'original_name' => sanitize_file_name($file['name']),
+				'temp_name' => $file['tmp_name'],
+				'error' => $file['error'],
+				'type' => $file['type'],
+				'size' => $file['size'],
+				'path' => $this->path,
+				'metadata' => $metadata
 			), $this->name);
 		}
 		else{
 			return array(
-					'stored_name' => '',
-					'original_name' => '',
-					'temp_name' => '',
-					'error' => '',
-					'type' => '',
-					'size' => '',
-					'path' => ''
+				'stored_name' => '',
+				'original_name' => '',
+				'temp_name' => '',
+				'error' => '',
+				'type' => '',
+				'size' => '',
+				'path' => '',
+				'metadata' => array()
 			);
 		}
 	}
 	
 	/**
 	 * 다중 파일 업로드
-	 * @param Files $file
+	 * @param array $file
 	 */
 	private function multipleUpload($file){
 		
@@ -346,24 +358,32 @@ class KBFileHandler {
 			if($file['size'][$key]){
 				$file_unique_name = $this->getUniqueName($file['name'][$key]);
 					
-				if(!@move_uploaded_file($file['tmp_name'][$key], KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}")){
-					$this->uploaded_file[] = KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}";
+				if(!@move_uploaded_file($file['tmp_name'][$key], "{$this->abspath}{$this->path}/{$file_unique_name}")){
+					$this->uploaded_file[] = "{$this->abspath}{$this->path}/{$file_unique_name}";
 					$this->rollback();
 					$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name'][$key]);
 					echo "<script>alert('{$message}');history.go(-1);</script>";
 					exit;
 				}
 				
-				$this->imageOrientation(KBOARD_WORDPRESS_ROOT . "{$this->path}/{$file_unique_name}");
+				// 사진 메타데이터 추출
+				require_once(ABSPATH . 'wp-admin/includes/image.php');
+				$metadata = wp_read_image_metadata("{$this->abspath}{$this->path}/{$file_unique_name}");
+				if(!$metadata){
+					$metadata = array();
+				}
+				
+				$this->imageOrientation("{$this->abspath}{$this->path}/{$file_unique_name}");
 					
 				$files[] = array(
-						'stored_name' => $file_unique_name,
-						'original_name' => sanitize_file_name($file['name'][$key]),
-						'temp_name' => $file['tmp_name'][$key],
-						'error' => $file['error'][$key],
-						'type' => $file['type'][$key],
-						'size' => $file['size'][$key],
-						'path' => $this->path
+					'stored_name' => $file_unique_name,
+					'original_name' => sanitize_file_name($file['name'][$key]),
+					'temp_name' => $file['tmp_name'][$key],
+					'error' => $file['error'][$key],
+					'type' => $file['type'][$key],
+					'size' => $file['size'][$key],
+					'path' => $this->path,
+					'metadata' => $metadata
 				);
 			}
 		}
@@ -385,7 +405,7 @@ class KBFileHandler {
 	 */
 	function remove($file){
 		if(!$this->path) die('KBFileHandler->delete() :: 디렉토리 경로가 없습니다.');
-		return @unlink(KBOARD_WORDPRESS_ROOT . $this->path . $this->addFirstSlash($file));
+		return @unlink($this->abspath . $this->path . $this->addFirstSlash($file));
 	}
 	
 	/**
@@ -394,7 +414,7 @@ class KBFileHandler {
 	 * @param boolean $format
 	 */
 	function getSize($path, $format=true){
-		$path = KBOARD_WORDPRESS_ROOT . $this->addFirstSlash($path);
+		$path = $this->abspath . $this->addFirstSlash($path);
 		if(is_file($path)) $size = filesize($path);
 		else $size = $this->dirsize($path);
 		
