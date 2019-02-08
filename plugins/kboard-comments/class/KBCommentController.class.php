@@ -7,12 +7,15 @@
  */
 class KBCommentController {
 	
+	private $abspath;
+	
 	// 스킨에서 사용 할 첨부파일 input[type=file] 이름의 prefix를 정의한다.
 	var $skin_attach_prefix = 'comment_attach_';
 	// 스킨에서 사용 할 사용자 정의 옵션 input, textarea, select 이름의 prefix를 정의한다.
 	var $skin_option_prefix = 'comment_option_';
 	
 	public function __construct(){
+		$this->abspath = untrailingslashit(ABSPATH);
 		$action = isset($_GET['action'])?$_GET['action']:'';
 		switch($action){
 			case 'kboard_comment_insert': add_action('wp_loaded', array($this, 'insert')); break;
@@ -191,7 +194,7 @@ class KBCommentController {
 			$upload_attach_files = array();
 			if($upload_checker){
 				$upload_dir = wp_upload_dir();
-				$attach_store_path = str_replace(KBOARD_WORDPRESS_ROOT, '', $upload_dir['basedir']) . "/kboard_attached/{$board->id}/" . date('Ym', current_time('timestamp')) . '/';
+				$attach_store_path = str_replace($this->abspath, '', $upload_dir['basedir']) . "/kboard_attached/{$board->id}/" . date('Ym', current_time('timestamp')) . '/';
 				
 				$file = new KBFileHandler();
 				$file->setPath($attach_store_path);
@@ -202,14 +205,16 @@ class KBCommentController {
 					$key = sanitize_key($key);
 					
 					$upload = $file->upload($this->skin_attach_prefix . $key);
-					$original_name = $upload['original_name'];
 					$file_path = $upload['path'] . $upload['stored_name'];
+					$file_name = $upload['original_name'];
+					$metadata = $upload['metadata'];
 					
-					if($original_name){
+					if($file_name){
 						$attach_file = new stdClass();
 						$attach_file->key = $key;
 						$attach_file->path = $file_path;
-						$attach_file->name = $original_name;
+						$attach_file->name = $file_name;
+						$attach_file->metadata = $metadata;
 						$upload_attach_files[] = $attach_file;
 					}
 				}
@@ -224,28 +229,33 @@ class KBCommentController {
 					$file_key = esc_sql($attach_file->key);
 					$file_path = esc_sql($attach_file->path);
 					$file_name = esc_sql($attach_file->name);
-					$file_size = intval(filesize(KBOARD_WORDPRESS_ROOT . $file_path));
+					$file_size = intval(filesize($this->abspath . $file_path));
+					
+					$metadata = apply_filters('kboard_comments_file_metadata', $attach_file->metadata, $attach_file, $this);
+					$metadata = json_encode($metadata);
+					$metadata = esc_sql($metadata);
 					
 					$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid' AND `file_key`='$file_key'");
 					if($present_file){
-						@unlink(KBOARD_WORDPRESS_ROOT . $present_file);
-						$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name', `file_size`='$file_size' WHERE `comment_uid`='$comment_uid' AND `file_key`='$file_key'");
+						@unlink($this->abspath . $present_file);
+						$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_attached` SET `file_path`='$file_path', `file_name`='$file_name', `file_size`='$file_size', `metadata`='$metadata' WHERE `comment_uid`='$comment_uid' AND `file_key`='$file_key'");
 					}
 					else{
 						$date = date('YmdHis', current_time('timestamp'));
-						$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `comment_uid`, `file_key`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('0', '$comment_uid', '$file_key', '$date', '$file_path', '$file_name', '$file_size', '0', '')");
+						$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_attached` (`content_uid`, `comment_uid`, `file_key`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('0', '$comment_uid', '$file_key', '$date', '$file_path', '$file_name', '$file_size', '0', '$metadata')");
 					}
 				}
 			}
 			else if($upload_attach_files && is_array($upload_attach_files)){
 				foreach($upload_attach_files as $attach_file){
-					kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $attach_file->path);
-					@unlink(KBOARD_WORDPRESS_ROOT . $attach_file->path);
+					kbaord_delete_resize($this->abspath . $attach_file->path);
+					@unlink($this->abspath . $attach_file->path);
 				}
 			}
 			
 			// 댓글과 미디어의 관계를 입력한다.
 			$media = new KBCommentMedia();
+			$media->board_id = $board->id;
 			$media->comment_uid = $comment_uid;
 			$media->media_group = isset($_POST['media_group']) ? sanitize_key($_POST['media_group']) : '';
 			$media->createRelationships();

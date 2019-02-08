@@ -7,6 +7,8 @@
  */
 class KBComment {
 	
+	private $abspath;
+	
 	var $board;
 	var $row;
 	var $option;
@@ -16,6 +18,7 @@ class KBComment {
 	var $remaining_time_for_reading;
 	
 	public function __construct(){
+		$this->abspath = untrailingslashit(ABSPATH);
 		$this->board = new KBoard();
 		$this->row = new stdClass();
 		$this->option = new KBCommentOption();
@@ -348,8 +351,8 @@ class KBComment {
 		if($comment_uid){
 			$result = $wpdb->get_results("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid'");
 			foreach($result as $file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file->file_path);
-				@unlink(KBOARD_WORDPRESS_ROOT . $file->file_path);
+				kbaord_delete_resize($this->abspath . $file->file_path);
+				@unlink($this->abspath . $file->file_path);
 			}
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid'");
 		}
@@ -366,8 +369,8 @@ class KBComment {
 			$key = esc_sql($key);
 			$file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$this->uid' AND `file_key`='$key'");
 			if($file){
-				kbaord_delete_resize(KBOARD_WORDPRESS_ROOT . $file);
-				@unlink(KBOARD_WORDPRESS_ROOT . $file);
+				kbaord_delete_resize($this->abspath . $file);
+				@unlink($this->abspath . $file);
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$this->uid' AND `file_key`='$key'");
 			}
 		}

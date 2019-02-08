@@ -7,6 +7,9 @@
 
   1. kboard_comments_name_filter_message 필터 추가
   2. kboard_comments_content_filter_message 필터 추가
+  3. kboard_comments_file_metadata 필터 추가
+  4. kboard_comments_media_list 필터 추가
+  5. 버그 수정
 
 
 4.4.6
