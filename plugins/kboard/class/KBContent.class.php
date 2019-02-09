@@ -622,24 +622,24 @@ class KBContent {
 		if($this->uid){
 			$url = new KBUrl();
 			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}'");
-			foreach($result as $row){
+			foreach($result as $file){
 				$file_info = array(
-					0 => $row->file_path,
-					1 => $row->file_name,
-					2 => $url->getDownloadURLWithAttach($this->uid, $row->file_key),
-					3 => intval($row->file_size),
-					4 => intval($row->download_count),
-					'file_path' => $row->file_path,
-					'file_name' => $row->file_name,
-					'file_size' => intval($row->file_size),
-					'download_url' => $url->getDownloadURLWithAttach($this->uid, $row->file_key),
-					'download_count' => intval($row->download_count),
-					'metadata' => json_decode($row->metadata)
+					0 => $file->file_path,
+					1 => $file->file_name,
+					2 => $url->getDownloadURLWithAttach($this->uid, $file->file_key),
+					3 => intval($file->file_size),
+					4 => intval($file->download_count),
+					'file_path' => $file->file_path,
+					'file_name' => $file->file_name,
+					'file_size' => intval($file->file_size),
+					'download_url' => $url->getDownloadURLWithAttach($this->uid, $file->file_key),
+					'download_count' => intval($file->download_count),
+					'metadata' => ($file->metadata ? unserialize($file->metadata) : array())
 				);
 				
-				$file_info = apply_filters('kboard_content_file_info', $file_info, $row, $this);
+				$file_info = apply_filters('kboard_content_file_info', $file_info, $file, $this);
 				
-				$this->attach->{$row->file_key} = $file_info;
+				$this->attach->{$file->file_key} = $file_info;
 			}
 		}
 		return $this->attach;
@@ -703,7 +703,7 @@ class KBContent {
 				$file_size = intval(filesize($this->abspath . $file_path));
 				
 				$metadata = apply_filters('kboard_content_file_metadata', $file->metadata, $file, $this);
-				$metadata = json_encode($metadata);
+				$metadata = serialize($metadata);
 				$metadata = esc_sql($metadata);
 				
 				$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='$this->uid' AND `file_key`='$file_key'");

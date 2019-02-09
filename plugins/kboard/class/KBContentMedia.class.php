@@ -42,7 +42,7 @@ class KBContentMedia {
 		foreach($media_list as $key=>$media){
 			$media->file_url = site_url($media->file_path, 'relative');
 			$media->thumbnail_url = site_url($media->file_path);
-			$media->metadata = json_decode($media->metadata);
+			$media->metadata = ($media->metadata ? unserialize($media->metadata) : array());
 			$media_list[$key] = $media;
 		}
 		
@@ -86,7 +86,7 @@ class KBContentMedia {
 				$attach_file->metadata = $upload['metadata'];
 				
 				$metadata = apply_filters('kboard_content_media_metadata', $upload['metadata'], $attach_file, $this);
-				$metadata = json_encode($metadata);
+				$metadata = serialize($metadata);
 				$metadata = esc_sql($metadata);
 				
 				if($file_name){

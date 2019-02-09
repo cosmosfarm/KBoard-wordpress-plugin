@@ -1086,6 +1086,8 @@ function kboard_scripts(){
 		'checkout' => __('Checkout', 'kboard'),
 		'buyer_information' => __('Buyer information', 'kboard'),
 		'applying_cash_receipts' => __('Applying cash receipts', 'kboard'),
+		'applying_cash_receipt' => __('Applying cash receipt', 'kboard'),
+		'cash_receipt' => __('Cash receipt', 'kboard'),
 		'privacy_policy' => __('Privacy policy', 'kboard'),
 		'i_agree_to_the_privacy_policy' => __('I agree to the privacy policy.', 'kboard'),
 		'i_confirm_the_terms_of_the_transaction_and_agree_to_the_payment_process' => __('I confirm the terms of the transaction and agree to the payment process.', 'kboard'),

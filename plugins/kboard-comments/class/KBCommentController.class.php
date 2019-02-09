@@ -232,7 +232,7 @@ class KBCommentController {
 					$file_size = intval(filesize($this->abspath . $file_path));
 					
 					$metadata = apply_filters('kboard_comments_file_metadata', $attach_file->metadata, $attach_file, $this);
-					$metadata = json_encode($metadata);
+					$metadata = serialize($metadata);
 					$metadata = esc_sql($metadata);
 					
 					$present_file = $wpdb->get_var("SELECT `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `comment_uid`='$comment_uid' AND `file_key`='$file_key'");
