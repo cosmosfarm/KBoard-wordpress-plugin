@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2019-02-09 11:41+0900\n"
-"PO-Revision-Date: 2019-02-09 11:42+0900\n"
+"POT-Creation-Date: 2019-02-28 18:07+0900\n"
+"PO-Revision-Date: 2019-02-28 18:07+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -54,7 +54,7 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBoardBuilder.class.php:602 class/KBoardBuilder.class.php:618
 #: class/KBoardBuilder.class.php:723 class/KBoardBuilder.class.php:726
 #: class/KBoardBuilder.class.php:1070 class/KBoardBuilder.class.php:1075
-#: index.php:917 index.php:1144 index.php:1177
+#: index.php:917 index.php:1148 index.php:1181
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
@@ -290,7 +290,7 @@ msgid "%s is not available."
 msgstr "%s는 사용할 수 없습니다."
 
 #: class/KBController.class.php:158 class/KBoardBuilder.class.php:625
-#: index.php:1155 index.php:1188
+#: index.php:1159 index.php:1192
 msgid "You have not enough points."
 msgstr "포인트가 부족합니다."
 
@@ -350,7 +350,7 @@ msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
 #: class/KBController.class.php:979 class/KBController.class.php:1017
-#: class/KBoardBuilder.class.php:242 index.php:1133 index.php:1166
+#: class/KBoardBuilder.class.php:242 index.php:1137 index.php:1170
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -1056,7 +1056,23 @@ msgstr "포인트"
 msgid "Zip Code"
 msgstr "우편번호"
 
-#: index.php:1204
+#: index.php:1112
+msgid "This year"
+msgstr "올해"
+
+#: index.php:1113
+msgid "Last year"
+msgstr "작년"
+
+#: index.php:1114
+msgid "Period total"
+msgstr "기간 합계"
+
+#: index.php:1115
+msgid "Total revenue"
+msgstr "전체 수익"
+
+#: index.php:1208
 msgid "KBoard Forum Settings"
 msgstr "KBoard 게시판 관리"
 

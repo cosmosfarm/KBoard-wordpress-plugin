@@ -21,6 +21,7 @@ class KBOrderSales {
 	var $page = 1;
 	var $resource;
 	var $item;
+	var $queries = array();
 	
 	/**
 	 * 게시판 리스트를 초기화한다.
@@ -95,8 +96,12 @@ class KBOrderSales {
 			
 			$offset = ($this->page-1)*$this->rpp;
 			
-			$this->resource = $wpdb->get_results("SELECT `{$wpdb->prefix}kboard_order_item`.`order_item_id` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->prefix}kboard_order_item`.`order_item_id` DESC LIMIT {$offset},{$this->rpp}");
-			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
+			$this->queries = array();
+			$this->queries['results'] = "SELECT `{$wpdb->prefix}kboard_order_item`.`order_item_id` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." ORDER BY `{$wpdb->prefix}kboard_order_item`.`order_item_id` DESC LIMIT {$offset},{$this->rpp}";
+			$this->queries['total'] = "SELECT COUNT(*) FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where);
+			
+			$this->resource = $wpdb->get_results($this->queries['results']);
+			$this->total = $wpdb->get_var($this->queries['total']);
 			
 			$wpdb->flush();
 		}
@@ -109,6 +114,7 @@ class KBOrderSales {
 	public function getAnalytics($args){
 		global $wpdb;
 		
+		$this->queries = array();
 		$results = array();
 		
 		if(isset($args['user_id'])){
@@ -191,16 +197,20 @@ class KBOrderSales {
 			
 			if(isset($this->multiple_option_keys['datetime'])){
 				if($collection == 'daily'){
-					$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 8) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC");
+					$this->queries['results'] = "SELECT LEFT(`meta_datetime`.`meta_value`, 8) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC";
+					$results = $wpdb->get_results($this->queries['results']);
 				}
 				else if($collection == 'monthly'){
-					$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 6) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC");
+					$this->queries['results'] = "SELECT LEFT(`meta_datetime`.`meta_value`, 6) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC";
+					$results = $wpdb->get_results($this->queries['results']);
 				}
 				else if($collection == 'yearly'){
-					$results = $wpdb->get_results("SELECT LEFT(`meta_datetime`.`meta_value`, 4) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC");
+					$this->queries['results'] = "SELECT LEFT(`meta_datetime`.`meta_value`, 4) AS `data_key`, SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where)." GROUP BY `data_key` ORDER BY `data_key` ASC";
+					$results = $wpdb->get_results($this->queries['results']);
 				}
 				else if($collection == 'total_sum'){
-					$results = $wpdb->get_row("SELECT SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where));
+					$this->queries['results'] = "SELECT SUM(`meta_total`.`meta_value`) AS `total`, COUNT(*) AS `count` FROM ".implode(' ', $from)." WHERE ".implode(' AND ', $where);
+					$results = $wpdb->get_row($this->queries['results']);
 				}
 				$wpdb->flush();
 			}

@@ -902,7 +902,7 @@ class KBoardBuilder {
 	}
 	
 	/**
-	 * 주문 완료 페이지를 생성한다.
+	 * 주문완료 페이지를 생성한다.
 	 */
 	public function builderComplete(){
 		$url = new KBUrl();
@@ -971,7 +971,7 @@ class KBoardBuilder {
 	}
 	
 	/**
-	 * 주문 내역 페이지를 생성한다.
+	 * 주문조회 페이지를 생성한다.
 	 */
 	public function builderHistory(){
 		$list = new KBOrderHistory();
@@ -1023,7 +1023,7 @@ class KBoardBuilder {
 	}
 	
 	/**
-	 * 판매 내역 페이지를 생성한다.
+	 * 판매조회 페이지를 생성한다.
 	 */
 	public function builderSales(){
 		$url = new KBUrl();
@@ -1037,14 +1037,19 @@ class KBoardBuilder {
 			$list->rpp = $this->rpp;
 			$list->page = kboard_pageid();
 			$list->setSearchOption(kboard_search_option());
+			
 			if(kboard_start_date() && kboard_end_date()){
 				$list->setDateRange(kboard_start_date(), kboard_end_date());
 			}
 			else{
-				$today = date('Ymd', current_time('timestamp'));
-				$last_month = date('Ymd', strtotime("{$today} -1 month"));
-				$list->setDateRange($last_month, $today);
+				$start_date = date('Ymd', strtotime('-1 month', current_time('timestamp')));
+				$end_date = date('Ymd', current_time('timestamp'));
+				
+				$date_range = apply_filters('kboard_sales_default_date_range', array('start_date'=>$start_date, 'end_date'=>$end_date));
+				
+				$list->setDateRange($date_range['start_date'], $date_range['end_date']);
 			}
+			
 			$list->setContentCategory1(kboard_sales_category1());
 			$list->setContentCategory2(kboard_sales_category2());
 			$list->init(get_current_user_id());
