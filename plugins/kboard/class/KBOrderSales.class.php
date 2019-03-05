@@ -66,7 +66,7 @@ class KBOrderSales {
 						$this->multiple_option_keys['content_category'] = 'content_category';
 						
 						if($category1 && $category2){
-							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND (`category1` LIKE '%{$category1}%' OR `category2` LIKE '%{$category2}%')";
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND (`category1` LIKE '%{$category1}%' AND `category2` LIKE '%{$category2}%')";
 						}
 						else if($category1){
 							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND `category1` LIKE '%{$category1}%'";
@@ -167,7 +167,7 @@ class KBOrderSales {
 						$this->multiple_option_keys['content_category'] = 'content_category';
 						
 						if($category1 && $category2){
-							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND (`category1` LIKE '%{$category1}%' OR `category2` LIKE '%{$category2}%')";
+							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND (`category1` LIKE '%{$category1}%' AND `category2` LIKE '%{$category2}%')";
 						}
 						else if($category1){
 							$sub_query = "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='{$this->board_id}' AND `category1` LIKE '%{$category1}%'";
