@@ -12,22 +12,24 @@
   5. kboard_router_board_url 필터 추가
   6. kboard_router_content_url 필터 추가
   7. kboard_content_value 필터 추가
-  8. kboard_content_file_info 필터 추가
-  9. kboard_content_file_metadata 필터 추가
-  10. kboard_content_media_metadata 필터 추가
-  11. kboard_comments_media_list 필터 추가
-  12. kboard_sales_default_date_range 필터 추가
-  13. 금지단어가 있는 게시글 차단 메시지 설정 추가
-  14. 검색엔진최적화(SEO) 관련 개선
-  15. 스킨 스타일 개선
-  16. 검색 필드 이스케이프 추가
-  17. 아이프레임으로 보기 기능 개선
-  18. 판매조회 관련 기능 개선
-  19. 첨부파일 다운로드 코드 개선
-  20. 이메일 알림 내용에 본문 이미지 추가
-  21. 계층형 카테고리 코드 개선
-  22. KBoard 미디어 추가 업로드 버튼 개선
-  23. 버그 수정
+  8. kboard_content_get_thumbnail_size 필터 추가
+  9. kboard_content_get_thumbnail 필터 추가
+  10. kboard_content_file_info 필터 추가
+  11. kboard_content_file_metadata 필터 추가
+  12. kboard_content_media_metadata 필터 추가
+  13. kboard_comments_media_list 필터 추가
+  14. kboard_sales_default_date_range 필터 추가
+  15. 금지단어가 있는 게시글 차단 메시지 설정 추가
+  16. 검색엔진최적화(SEO) 관련 개선
+  17. 스킨 스타일 개선
+  18. 검색 필드 이스케이프 추가
+  19. 아이프레임으로 보기 기능 개선
+  20. 판매조회 관련 기능 개선
+  21. 첨부파일 다운로드 코드 개선
+  22. 이메일 알림 내용에 본문 이미지 추가
+  23. 계층형 카테고리 코드 개선
+  24. KBoard 미디어 추가 업로드 버튼 개선
+  25. 버그 수정
 
 
 5.3.11

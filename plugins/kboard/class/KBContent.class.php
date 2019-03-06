@@ -837,8 +837,14 @@ class KBContent {
 	 * @return string
 	 */
 	public function getThumbnail($width='', $height=''){
+		$size = array('width'=>$width, 'height'=>$height);
+		$size = apply_filters('kboard_content_get_thumbnail_size', $size, $this);
+		$width = isset($size['width']) ? intval($size['width']) : '';
+		$height = isset($size['height']) ? intval($size['height']) : '';
+		
+		$thumbnail_url = '';
 		if(isset($this->thumbnail["{$width}x{$height}"]) && $this->thumbnail["{$width}x{$height}"]){
-			return $this->thumbnail["{$width}x{$height}"];
+			$thumbnail_url = $this->thumbnail["{$width}x{$height}"];
 		}
 		else if($this->thumbnail_file){
 			if($width && $height){
@@ -847,12 +853,13 @@ class KBContent {
 			else{
 				$this->thumbnail["{$width}x{$height}"] = site_url($this->thumbnail_file);
 			}
-			return $this->thumbnail["{$width}x{$height}"];
+			$thumbnail_url = $this->thumbnail["{$width}x{$height}"];
 		}
 		else if($this->uid){
 			$media = new KBContentMedia();
 			$media->content_uid = $this->uid;
 			foreach($media->getList() as $media_item){
+				if($thumbnail_url) break;
 				if(isset($media_item->file_path) && $media_item->file_path){
 					if($width && $height){
 						$this->thumbnail["{$width}x{$height}"] = kboard_resize($media_item->file_path, $width, $height);
@@ -860,23 +867,26 @@ class KBContent {
 					else{
 						$this->thumbnail["{$width}x{$height}"] = site_url($media_item->file_path);
 					}
-					return $this->thumbnail["{$width}x{$height}"];
+					$thumbnail_url = $this->thumbnail["{$width}x{$height}"];
 				}
 			}
-			foreach($this->attach as $attach){
-				$extension = strtolower(pathinfo($attach[0], PATHINFO_EXTENSION));
-				if(in_array($extension, array('gif','jpg','jpeg','png'))){
-					if($width && $height){
-						$this->thumbnail["{$width}x{$height}"] = kboard_resize($attach[0], $width, $height);
+			if(!$thumbnail_url){
+				foreach($this->attach as $attach){
+					if($thumbnail_url) break;
+					$extension = strtolower(pathinfo($attach[0], PATHINFO_EXTENSION));
+					if(in_array($extension, array('gif','jpg','jpeg','png'))){
+						if($width && $height){
+							$this->thumbnail["{$width}x{$height}"] = kboard_resize($attach[0], $width, $height);
+						}
+						else{
+							$this->thumbnail["{$width}x{$height}"] = site_url($attach[0]);
+						}
+						$thumbnail_url = $this->thumbnail["{$width}x{$height}"];
 					}
-					else{
-						$this->thumbnail["{$width}x{$height}"] = site_url($attach[0]);
-					}
-					return $this->thumbnail["{$width}x{$height}"];
 				}
 			}
 		}
-		return '';
+		return apply_filters('kboard_content_get_thumbnail', $thumbnail_url, $width, $height, $this);
 	}
 	
 	/**
