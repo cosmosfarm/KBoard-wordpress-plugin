@@ -858,7 +858,8 @@ class KBController {
 					
 					if($is_success){
 						$item->update(array(
-							'order_status' => $order_status
+							'order_status' => $order_status,
+							'datetime' => date('YmdHis', current_time('timestamp'))
 						));
 						
 						$item->addUserRewardPoint();
@@ -874,7 +875,8 @@ class KBController {
 						}
 						
 						$item->update(array(
-							'order_status' => $order_status
+							'order_status' => $order_status,
+							'datetime' => date('YmdHis', current_time('timestamp'))
 						));
 						
 						$item->cancelUserRewardPoint();
@@ -909,7 +911,8 @@ class KBController {
 								}
 								
 								$item->update(array(
-									'order_status' => $order_status
+									'order_status' => $order_status,
+									'datetime' => date('YmdHis', current_time('timestamp'))
 								));
 								
 								$item->cancelUserRewardPoint();
@@ -928,7 +931,8 @@ class KBController {
 						}
 						
 						$item->update(array(
-							'order_status' => $order_status
+							'order_status' => $order_status,
+							'datetime' => date('YmdHis', current_time('timestamp'))
 						));
 						
 						$item->cancelUserRewardPoint();
