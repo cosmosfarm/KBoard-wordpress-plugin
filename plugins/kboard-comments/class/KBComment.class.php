@@ -25,17 +25,20 @@ class KBComment {
 	}
 	
 	public function __get($name){
+		$value = '';
 		if(isset($this->row->{$name})){
 			if($name == 'content'){
 				$content = $this->row->{$name};
 				$content = apply_filters('kboard_comments_content', $content, $this->row->uid, $this->row->content_uid);
 				$content = str_replace('[', '&#91;', $content);
 				$content = str_replace(']', '&#93;', $content);
-				return $content;
+				$value = $content;
 			}
-			return $this->row->{$name};
+			else{
+				$value = $this->row->{$name};
+			}
 		}
-		return '';
+		return apply_filters('kboard_comments_value', $value, $name, $this);
 	}
 	
 	public function __set($name, $value){
@@ -262,6 +265,17 @@ class KBComment {
 			
 			$wpdb->flush();
 		}
+	}
+	
+	/**
+	 * 내용을 반환한다.
+	 * @return string
+	 */
+	public function getContent(){
+		if(isset($this->row->content)){
+			return $this->row->content;
+		}
+		return '';
 	}
 	
 	/**

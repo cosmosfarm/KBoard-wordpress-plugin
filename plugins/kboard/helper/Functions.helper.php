@@ -518,6 +518,21 @@ function kboard_iamport(){
 }
 
 /**
+ * 유튜브, 비메오 동영상 URL을 iframe 코드로 변환한다.
+ * @param string $content
+ * @return mixed
+ */
+function kboard_video_url_to_iframe($content){
+	// 유튜브
+	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
+	
+	// 비메오
+	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*vimeo.com\/(\d+)/i", '<iframe src="https://player.vimeo.com/video/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
+	
+	return $content;
+}
+
+/**
  * media_group 값을 반환한다.
  * @return string
  */

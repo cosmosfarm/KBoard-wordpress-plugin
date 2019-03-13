@@ -27,4 +27,3 @@ function kboard_autolink_prependHTTP($m){
 		return "<a href=\"".$http.$m[3]."\" target=\"_blank\">".$m[1].$m[2].$m[3]."</a>";
 	}
 }
-?>
