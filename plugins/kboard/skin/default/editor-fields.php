@@ -128,9 +128,9 @@
 		</div>
 	</div>
 	<?php if(!$board->viewUsernameField()):?>
-	<div style="overflow:none;width:0;height:0px;">
-		<input style="width:0;height:0px;background:transparent;color:transparent;border:none;" type="text" name="fake-autofill-fields">
-		<input style="width:0;height:0px;background:transparent;color:transparent;border:none;" type="password" name="fake-autofill-fields">
+	<div style="overflow:hidden;width:0;height:0;">
+		<input style="width:0;height:0;background:transparent;color:transparent;border:none;" type="text" name="fake-autofill-fields">
+		<input style="width:0;height:0;background:transparent;color:transparent;border:none;" type="password" name="fake-autofill-fields">
 	</div>
 	<!-- 비밀글 비밀번호 필드 시작 -->
 	<div class="kboard-attr-row kboard-attr-password secret-password-row"<?php if(!$content->secret):?> style="display:none"<?php endif?>>
