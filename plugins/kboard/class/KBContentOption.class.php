@@ -27,6 +27,7 @@ class KBContentOption {
 		global $wpdb;
 		if($this->content_uid){
 			$key = sanitize_key($key);
+			$this->row->{$key} = $value;
 			$value = esc_sql($value);
 			if($value){
 				$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
@@ -50,7 +51,6 @@ class KBContentOption {
 			else{
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
 			}
-			$this->row->{$key} = $value;
 		}
 	}
 	
