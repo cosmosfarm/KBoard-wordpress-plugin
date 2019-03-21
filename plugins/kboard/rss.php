@@ -6,7 +6,7 @@ $board_id = isset($_GET['board_id']) ? intval($_GET['board_id']) : '';
 
 $url = new KBUrl();
 $list = new KBContentList();
-$list->rpp = 20;
+$list->rpp = apply_filters('kboard_per_rss', 20, $board_id);
 $list->initWithRSS($board_id);
 
 header('Content-Type: application/xml');
@@ -20,7 +20,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 		
 		<?php while($content = $list->hasNext()): $board = new KBoard($content->board_id);?>
 		<item>
-			<title><![CDATA[<?php echo $content->title?>]]></title>
+			<title><![CDATA[<?php echo wp_strip_all_tags($content->title)?>]]></title>
 			<link><![CDATA[<?php echo $url->getDocumentRedirect($content->uid)?>]]></link>
 			<description><![CDATA[<?php echo $content->content?>]]></description>
 			<author><![CDATA[<?php echo $content->member_display?>]]></author>
