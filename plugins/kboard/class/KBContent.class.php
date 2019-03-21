@@ -484,7 +484,7 @@ class KBContent {
 	 */
 	public function insertPost($content_uid, $member_uid){
 		if($content_uid && $this->search>0 && $this->search<3){
-			$kboard_post = array(
+			$args = array(
 					'post_author'   => $member_uid,
 					'post_title'    => $this->title,
 					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
@@ -495,8 +495,17 @@ class KBContent {
 					'post_parent'   => $this->board_id,
 					'post_type'     => 'kboard'
 			);
-			wp_insert_post($kboard_post);
+			wp_insert_post($args);
 			add_action('kboard_document_insert', array($this, 'setPostThumbnail'), 10, 4);
+		}
+	}
+	
+	/**
+	 * 게시글 수정시 Yoast SEO 플러그인 관련 버그 해결
+	 */
+	public function preUpdatePost(){
+		if(defined('WPSEO_VERSION')){
+			remove_all_actions('save_post');
 		}
 	}
 	
@@ -507,14 +516,15 @@ class KBContent {
 	 */
 	public function updatePost($post_id, $member_uid){
 		if($post_id && $this->search>0 && $this->search<3){
-			$kboard_post = array(
+			add_action('save_post_kboard', array($this, 'preUpdatePost'));
+			$args = array(
 					'ID'            => $post_id,
 					'post_author'   => $member_uid,
 					'post_title'    => $this->title,
 					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
 					'post_parent'   => $this->board_id
 			);
-			wp_update_post($kboard_post);
+			wp_update_post($args);
 			add_action('kboard_document_update', array($this, 'setPostThumbnail'), 10, 4);
 		}
 	}

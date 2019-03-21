@@ -124,10 +124,10 @@ class KBOrderHistory {
 			
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
 			$where[] = '1=1';
-			$search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
-			$search_option[] = array('key'=>'order_user_id', 'compare'=>'=', 'value'=>$user_id);
+			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id);
+			$this->search_option[] = array('key'=>'order_user_id', 'compare'=>'=', 'value'=>$user_id);
 			
-			$search_option = apply_filters('kboard_history_search_option', $search_option, $this);
+			$search_option = apply_filters('kboard_history_search_option', $this->search_option, $this);
 			if($search_option){
 				$search_query = $this->getSearchQuery($search_option);
 				if($search_query){
