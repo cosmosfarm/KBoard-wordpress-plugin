@@ -283,6 +283,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="latest_alerts_attachments_size"></label></th>
+						<td>
+							<select name="latest_alerts_attachments_size" id="latest_alerts_attachments_size">
+								<option value="">첨부파일 제외</option>
+								<?php for($i=1; $i<=100; $i++):?>
+									<option value="<?php echo $i?>"<?php if($i == $meta->latest_alerts_attachments_size):?> selected<?php endif?>><?php echo $i?> MB 이하 첨부파일 포함</option>
+								<?php endfor?>
+							</select>
+							<p class="description"><label for="latest_alerts" style="font-weight:bold">최신글 이메일 알림</label>에 첨부파일을 포함해서 전송할 수 있습니다.</p>
+							<p class="description">안전한 전송을 위해서 설정한 용량보다 작은 파일만 포함해서 이메일을 전송합니다.</p>
+							<p class="description">이메일을 보내는 쪽 서버 또는 받는 쪽 서버에서 첨부파일 허용 용량에 제한이 있다면 에러가 날 수도 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="always_view_list">리스트 항상 보기</label></th>
 						<td>
 							<select name="always_view_list" id="always_view_list">

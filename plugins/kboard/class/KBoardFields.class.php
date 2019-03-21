@@ -559,6 +559,11 @@ class KBoardFields {
 	 * @return boolean
 	 */
 	public function isUseFields($permission, $roles){
+		$board = $this->board;
+		if($board->isAdmin()){
+			return true;
+		}
+		
 		switch($permission){
 			case 'all': return true;
 			case 'author': return is_user_logged_in() ? true : false;

@@ -234,6 +234,7 @@ class KBContent {
 					$mail->url_name = __('Go to Homepage', 'kboard');
 					$mail->attachments = apply_filters('kboard_latest_alerts_attachments', $this->getMailAttachments(), $this);
 					$mail->send();
+					
 					$this->deleteMailAttachments();
 				}
 				
@@ -1604,14 +1605,27 @@ class KBContent {
 		$attachments = array();
 		
 		if(count((array)$this->attach) > 0){
+			$board = $this->getBoard();
+			$max_size = $board->meta->latest_alerts_attachments_size;
+			
+			if(!$max_size){
+				return $attachments;
+			}
+			
 			$kboard_mail_attached_dir = WP_CONTENT_DIR.'/uploads/kboard_mail_attached/';
 			if(!is_dir($kboard_mail_attached_dir)){
 				wp_mkdir_p($kboard_mail_attached_dir);
 			}
 			
+			$sum_size = 0;
 			foreach($this->attach as $key=>$attach){
+				$sum_size += $attach['file_size'] / (1024 * 1024); // MB
+				
+				// 설정된 최대 용량만큼 전송하고 나머지 파일은 제외한다.
+				if($sum_size > $max_size) break;
+				
 				$source = $this->abspath . $attach[0];
-				$dest = $kboard_mail_attached_dir.$attach[1];
+				$dest = $kboard_mail_attached_dir . $attach[1];
 				copy($source, $dest);
 				$attachments[] = $dest;
 			}

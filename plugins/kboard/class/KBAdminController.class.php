@@ -106,6 +106,7 @@ class KBAdminController {
 				$board->meta->latest_target_page             = isset($_POST['latest_target_page'])             ? $_POST['latest_target_page']              : '';
 				$board->meta->use_direct_url                 = isset($_POST['use_direct_url'])                 ? $_POST['use_direct_url']                  : '';
 				$board->meta->latest_alerts                  = isset($_POST['latest_alerts'])                  ? implode(',', array_map('sanitize_text_field', explode(',', $_POST['latest_alerts']))) : '';
+				$board->meta->latest_alerts_attachments_size      = isset($_POST['latest_alerts_attachments_size'])      ? $_POST['latest_alerts_attachments_size']       : '';
 				$board->meta->comment_skin                   = ($use_comment && isset($_POST['comment_skin'])) ? $_POST['comment_skin']                    : '';
 				$board->meta->use_tree_category              = isset($_POST['use_tree_category'])              ? $_POST['use_tree_category']               : '';
 				$board->meta->default_content                = isset($_POST['default_content'])                ? $_POST['default_content']                 : '';
