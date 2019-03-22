@@ -2,7 +2,7 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
-4.4.7
+4.5
 ----------------------------------
 
   1. kboard_comments_name_filter_message 필터 추가
