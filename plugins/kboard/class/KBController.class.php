@@ -499,6 +499,8 @@ class KBController {
 		
 		$display = isset($_REQUEST['display'])?$_REQUEST['display']:'pc';
 		$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
+		$imp_success = isset($_REQUEST['imp_success'])?sanitize_text_field($_REQUEST['imp_success']):'';
+		$error_msg = isset($_REQUEST['error_msg'])?sanitize_text_field($_REQUEST['error_msg']):'';
 		
 		if($imp_uid){
 			header('Content-Type: text/html; charset=UTF-8');
@@ -537,6 +539,29 @@ class KBController {
 				}
 				else{
 					wp_send_json(array('result'=>'error', 'message'=>$payment->message));
+				}
+			}
+			if($imp_success == 'false'){
+				if($error_msg == 'User cancelled payment process.'){
+					$error_msg = __('Payment has been cancelled.', 'kboard');
+				}
+				
+				$board_id = (isset($_POST['board_id'])&&$_POST['board_id']) ? intval($_POST['board_id']) : 0;
+				if(isset($_POST['kboard_order_item'][$board_id])){
+					$item = reset($_POST['kboard_order_item'][$board_id]);
+					
+					$url = new KBUrl($next_page_url);
+					$url->clear()->set('uid', $item['uid'])->set('mod', 'document');
+					$next_page_url = $url->toString();
+				}
+				
+				$error_msg = apply_filters('kboard_iamport_endpoint_error_msg', $error_msg, $payment);
+				
+				if($display == 'mobile'){
+					die('<script>alert("'.esc_js($error_msg).'");window.location.href="'.$next_page_url.'";</script>');
+				}
+				else{
+					wp_send_json(array('result'=>'error', 'message'=>$error_msg));
 				}
 			}
 			if($payment->data->status != 'paid'){
