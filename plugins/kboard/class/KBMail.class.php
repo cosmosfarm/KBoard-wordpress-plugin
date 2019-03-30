@@ -32,7 +32,7 @@ class KBMail {
 		$content_dir_name = basename(WP_CONTENT_DIR);
 		$kboard_attched_dir = "/{$content_dir_name}/uploads/kboard_attached";
 		
-		$message = nl2br($this->content);
+		$message = kboard_content_paragraph_breaks($this->content);
 		$message = str_replace($kboard_attched_dir, site_url($kboard_attched_dir), $message);
 		
 		if($this->url){
