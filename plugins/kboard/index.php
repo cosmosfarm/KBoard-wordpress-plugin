@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: https://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.4.1
+Version: 5.4.2
 Author: 코스모스팜 - Cosmosfarm
 Author URI: https://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: https://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.4.1');
+define('KBOARD_VERSION', '5.4.2');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -1233,7 +1233,7 @@ function kboard_head(){
  * 게시글 내용의 문단을 나눈다.
  */
 add_filter('kboard_content_paragraph_breaks', 'kboard_content_paragraph_breaks', 10, 2);
-function kboard_content_paragraph_breaks($content, $builder){
+function kboard_content_paragraph_breaks($content, $builder=''){
 	$content = nl2br($content);
 	$content = preg_replace("/(<(|\/)(table|thead|tfoot|tbody|th|tr|td|ul|ol|li|h1|h2|h3|h4|h5|h6|hr|p).*>)(<br \/>)/", "\$1", $content);
 	return $content;
