@@ -59,32 +59,40 @@ function kboard_comments_open_edit(url){
 	return false;
 }
 
-function kboard_comments_reply(obj, form_id, cancel_id){
+function kboard_comments_reply(obj, form_id, cancel_id, content_uid){
+	var parents = jQuery(obj).parents('#kboard-comments-'+content_uid);
 	if(jQuery(obj).hasClass('kboard-reply-active')){
-		jQuery(cancel_id).append(jQuery('.kboard-comments-form'));
-		jQuery('.kboard-reply').text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
+		jQuery(cancel_id).append(jQuery('.kboard-comments-form', parents));
+		jQuery('.kboard-reply', parents).text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
 	}
 	else{
-		jQuery(form_id).append(jQuery('.kboard-comments-form'));
-		jQuery('textarea[name=comment_content]').focus();
-		jQuery('.kboard-reply').text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
+		jQuery(form_id).append(jQuery('.kboard-comments-form', parents));
+		jQuery('textarea[name=comment_content]', parents).focus();
+		jQuery('.kboard-reply', parents).text(kboard_comments_localize_strings.reply).removeClass('kboard-reply-active');
 		jQuery(obj).text(kboard_comments_localize_strings.cancel).addClass('kboard-reply-active');
 	}
-	if(typeof tinyMCE != 'undefined' && tinyMCE.activeEditor){
-		tinyMCE.EditorManager.execCommand('mceFocus', false, 'comment_content');      
-		tinyMCE.EditorManager.execCommand('mceRemoveEditor', true, 'comment_content');
-		tinyMCE.EditorManager.execCommand('mceAddEditor', true, 'comment_content');
+	if(typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor){
+		tinyMCE.EditorManager.execCommand('mceFocus', false, 'comment_content_'+content_uid);      
+		tinyMCE.EditorManager.execCommand('mceRemoveEditor', true, 'comment_content_'+content_uid);
+		tinyMCE.EditorManager.execCommand('mceAddEditor', true, 'comment_content_'+content_uid);
 	}
 	return false;
 }
 
-function kboard_comments_field_show(){
-	jQuery('.comments-field-wrap').show();
-	jQuery('.comments-submit-button').show();
+function kboard_comments_field_show(form){
+	if(typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor){
+		form = jQuery(form.target.formElement);
+	}
+
+	jQuery('.comments-field-wrap').hide();
+	jQuery('.comments-submit-button').hide();
+	
+	jQuery('.comments-field-wrap', form).show();
+	jQuery('.comments-submit-button', form).show();
 }
 
 jQuery(document).ready(function(){
-	jQuery('textarea[name=comment_content]').focus(function(){
-		kboard_comments_field_show();
+	jQuery(document).on('focus', 'textarea[name=comment_content]', function(){
+		kboard_comments_field_show(jQuery(this).parents('.kboard-comments-form'));
 	});
 });

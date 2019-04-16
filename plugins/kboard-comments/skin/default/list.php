@@ -37,7 +37,7 @@
 				
 				<div class="comments-field field-content">
 					<?php if(defined('KBOARD_COMMENTS_WP_EDITOR') && KBOARD_COMMENTS_WP_EDITOR):?>
-						<?php wp_editor($temporary->content, 'comment_content', array('media_buttons'=>$board->isAdmin(), 'tinymce'=>array('init_instance_callback' => 'function(editor){editor.on(\'focus\', kboard_comments_field_show)}')))?>
+						<?php wp_editor($temporary->content, 'comment_content_'.$content_uid, array('media_buttons'=>$board->isAdmin(), 'textarea_name'=>'comment_content', 'tinymce'=>array('init_instance_callback' => 'function(editor){editor.on(\'focus\', kboard_comments_field_show)}')))?>
 					<?php else:?>
 						<textarea name="comment_content" placeholder="<?php echo __('Add a comment', 'kboard-comments')?>..." required><?php echo $temporary->content?></textarea>
 					<?php endif?>
