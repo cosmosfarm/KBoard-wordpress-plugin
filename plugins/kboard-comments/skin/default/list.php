@@ -32,7 +32,7 @@
 			<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
 			
 			<div class="kboard-comments-form">
-				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce')?>
+				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce', !wp_doing_ajax())?>
 				<input type="hidden" name="media_group" value="<?php echo kboard_media_group()?>">
 				
 				<div class="comments-field field-content">
