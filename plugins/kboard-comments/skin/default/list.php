@@ -32,7 +32,7 @@
 			<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">
 			
 			<div class="kboard-comments-form">
-				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce', !wp_doing_ajax())?>
+				<?php wp_nonce_field('kboard-comments-execute', 'kboard-comments-execute-nonce-'.$content_uid, !wp_doing_ajax())?>
 				<input type="hidden" name="media_group" value="<?php echo kboard_media_group()?>">
 				
 				<div class="comments-field field-content">
@@ -53,23 +53,23 @@
 					<input type="hidden" name="member_display" value="<?php echo $member_display?>">
 					<?php else:?>
 					<div class="comments-field field-member-display">
-						<label class="comments-field-label" for="comment_member_display"><?php echo __('Author', 'kboard-comments')?></label>
-						<input type="text" id="comment_member_display" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>..." required>
+						<label class="comments-field-label" for="comment_member_display_<?php echo $content_uid?>"><?php echo __('Author', 'kboard-comments')?></label>
+						<input type="text" id="comment_member_display_<?php echo $content_uid?>" name="member_display" value="<?php echo $temporary->member_display?>" placeholder="<?php echo __('Author', 'kboard-comments')?>..." required>
 					</div>
 					<div class="comments-field field-password">
-						<label class="comments-field-label" for="comment_password"><?php echo __('Password', 'kboard-comments')?></label>
-						<input type="password" id="comment_password" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>..." required>
+						<label class="comments-field-label" for="comment_password_<?php echo $content_uid?>"><?php echo __('Password', 'kboard-comments')?></label>
+						<input type="password" id="comment_password_<?php echo $content_uid?>" name="password" value="" placeholder="<?php echo __('Password', 'kboard-comments')?>..." required>
 					</div>
 					<?php endif?>
 					
 					<div class="comments-field field-image1">
-						<label class="comments-field-label" for="comment_image1">사진</label>
-						<input type="file" id="comment_image1" name="comment_attach_image1" accept="image/*">
+						<label class="comments-field-label" for="comment_image1_<?php echo $content_uid?>">사진</label>
+						<input type="file" id="comment_image1_<?php echo $content_uid?>" name="comment_attach_image1" accept="image/*">
 					</div>
 					
 					<div class="comments-field field-file1">
-						<label class="comments-field-label" for="comment_file1">첨부파일</label>
-						<input type="file" id="comment_file1" name="comment_attach_file1">
+						<label class="comments-field-label" for="comment_file1_<?php echo $content_uid?>">첨부파일</label>
+						<input type="file" id="comment_file1_<?php echo $content_uid?>" name="comment_attach_file1">
 					</div>
 					
 					<?php if($board->useCAPTCHA()):?>

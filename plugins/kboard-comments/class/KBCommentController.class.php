@@ -34,7 +34,10 @@ class KBCommentController {
 	 */
 	public function insert(){
 		global $wpdb;
-		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], 'kboard-comments-execute')){
+		
+		$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
+		
+		if(isset($_POST["kboard-comments-execute-nonce-{$content_uid}"]) && wp_verify_nonce($_POST["kboard-comments-execute-nonce-{$content_uid}"], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
 			
 			if(!wp_get_referer()){
@@ -47,7 +50,6 @@ class KBCommentController {
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
 			$content = $content?$content:$comment_content;
 			
-			$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
 			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
 			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
 			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
