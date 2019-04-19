@@ -391,5 +391,16 @@ class KBUrl {
 		}
 		return apply_filters('kboard_url_content_editor', $url, $content_uid, $this->board);
 	}
+	
+	/**
+	 * 게시글 목록 주소를 반환한다.
+	 * @return string
+	 */
+	public function getBoardList(){
+		$this->data['mod'] = 'list';
+		$url = $this->toString();
+		
+		return apply_filters('kboard_url_board_list', $url, $this->board);
+	}
 }
 ?>

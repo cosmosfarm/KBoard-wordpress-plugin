@@ -10,9 +10,9 @@
 			<div class="left">
 				<?php if($content->uid):?>
 				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-default-button-small"><?php echo __('Back', 'kboard')?></a>
-				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-default-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo $url->getBoardList()?>" class="kboard-default-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php else:?>
-				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-default-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo $url->getBoardList()?>" class="kboard-default-button-small"><?php echo __('Back', 'kboard')?></a>
 				<?php endif?>
 			</div>
 			<div class="right">

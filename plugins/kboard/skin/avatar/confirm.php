@@ -22,7 +22,7 @@ else{
 				<?php if($content->uid):?>
 				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-avatar-button-small"><?php echo __('Document', 'kboard')?></a>
 				<?php endif?>
-				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-avatar-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo $url->getBoardList()?>" class="kboard-avatar-button-small"><?php echo __('List', 'kboard')?></a>
 			</div>
 			<div class="right">
 				<button type="submit" class="kboard-avatar-button-small"><?php echo __('Password confirm', 'kboard')?></button>

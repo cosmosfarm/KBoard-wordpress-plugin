@@ -13,7 +13,7 @@
 			<div class="left">
 				<?php if($content->uid):?>
 				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-contact-form-button-small"><?php echo __('Back', 'kboard')?></a>
-				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-contact-form-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo $url->getBoardList()?>" class="kboard-contact-form-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php elseif($board->isWriter()):?>
 				<button type="submit" class="kboard-contact-form-button-large"><?php echo __('Send', 'kboard')?></button>
 				<?php endif?>

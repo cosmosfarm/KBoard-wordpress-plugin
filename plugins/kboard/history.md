@@ -2,6 +2,12 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+5.4.3
+----------------------------------
+
+  1. kboard_url_board_list 필터 추가
+
+
 5.4.2
 ----------------------------------
 

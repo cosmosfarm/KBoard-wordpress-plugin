@@ -99,7 +99,7 @@
 		
 		<div class="kboard-control">
 			<div class="left">
-				<a href="<?php echo $url->set('mod', 'list')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo $url->getBoardList()?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php if($board->isReply() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
 			</div>
 			<?php if($content->isEditor() || $board->permission_write=='all'):?>
