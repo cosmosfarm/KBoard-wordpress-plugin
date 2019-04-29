@@ -33,10 +33,11 @@
 				<div class="left">
 					<?php if($comment->isEditor()):?>
 					<button type="button" class="comments-button-action comments-button-delete" onclick="kboard_comments_delete('<?php echo $commentURL->getDeleteURL()?>');" title="<?php echo __('Delete', 'kboard-comments')?>"><?php echo __('Delete', 'kboard-comments')?></button>
-					<?php else:?>
-					<button type="button" class="comments-button-action comments-button-delete" onclick="kboard_comments_open_confirm('<?php echo $commentURL->getConfirmURL()?>');" title="<?php echo __('Delete', 'kboard-comments')?>"><?php echo __('Delete', 'kboard-comments')?></button>
-					<?php endif?>
 					<button type="button" class="comments-button-action comments-button-edit" onclick="kboard_comments_open_edit('<?php echo $commentURL->getEditURL()?>');" title="<?php echo __('Edit', 'kboard-comments')?>"><?php echo __('Edit', 'kboard-comments')?></button>
+					<?php elseif($comment->password && !is_user_logged_in()):?>
+					<button type="button" class="comments-button-action comments-button-delete" onclick="kboard_comments_open_confirm('<?php echo $commentURL->getConfirmURL()?>');" title="<?php echo __('Delete', 'kboard-comments')?>"><?php echo __('Delete', 'kboard-comments')?></button>
+					<button type="button" class="comments-button-action comments-button-edit" onclick="kboard_comments_open_edit('<?php echo $commentURL->getEditURL()?>');" title="<?php echo __('Edit', 'kboard-comments')?>"><?php echo __('Edit', 'kboard-comments')?></button>
+					<?php endif?>
 					<button type="button" class="comments-button-action comments-button-reply kboard-reply" onclick="kboard_comments_reply(this, '#kboard-comment-reply-form-<?php echo $comment->uid?>', '#kboard-comments-form-<?php echo $content_uid?>', '<?php echo $content_uid?>');" title="<?php echo __('Reply', 'kboard-comments')?>"><?php echo __('Reply', 'kboard-comments')?></button>
 				</div>
 				<?php endif?>

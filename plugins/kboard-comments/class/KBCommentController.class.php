@@ -317,6 +317,21 @@ class KBCommentController {
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
+		if(!isset($_REQUEST['kboard-comments-delete-nonce'])){
+			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		
+		if($password){
+			if(!wp_verify_nonce($_REQUEST['kboard-comments-delete-nonce'], "kboard-comments-delete-{$comment->password}")){
+				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+		}
+		else{
+			if(!wp_verify_nonce($_REQUEST['kboard-comments-delete-nonce'], "kboard-comments-delete-{$comment->uid}")){
+				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+		}
+		
 		do_action('kboard_comments_pre_delete', $comment->uid, $comment->content_uid, $board);
 		
 		$comment->delete();
@@ -370,6 +385,21 @@ class KBCommentController {
 
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		
+		if(!isset($_REQUEST['kboard-comments-update-nonce'])){
+			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+		}
+		
+		if($password){
+			if(!wp_verify_nonce($_REQUEST['kboard-comments-update-nonce'], "kboard-comments-update-{$comment->password}")){
+				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+			}
+		}
+		else{
+			if(!wp_verify_nonce($_REQUEST['kboard-comments-update-nonce'], "kboard-comments-update-{$comment->uid}")){
+				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
+			}
 		}
 		
 		do_action('kboard_comments_pre_update', $comment->uid, $comment->content_uid, $board);

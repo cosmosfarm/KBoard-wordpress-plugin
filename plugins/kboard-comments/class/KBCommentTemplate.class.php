@@ -30,18 +30,45 @@ class KBCommentTemplate {
 		if(!$comment->uid){
 			die("<script>alert('".__('Comment does not exist.', 'kboard-comments')."');window.close();</script>");
 		}
-		if(!$comment->password && !is_user_logged_in()){
+		if(!$comment->password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');window.close();</script>");
 		}
 		
 		$commentURL = new KBCommentUrl();
 		$commentURL->setCommentUID($comment->uid);
-		$submit_action_url = $commentURL->getDeleteURL();
+		
+		$password = isset($_POST['password'])?$_POST['password']:'';
+		
+		if($password){
+			if($comment->password && $comment->password == $password){
+				$delete_url = $commentURL->getDeleteURL();
+				
+				// 비밀번호 nonce 추가
+				$delete_url = add_query_arg('kboard-comments-delete-nonce', wp_create_nonce("kboard-comments-delete-{$comment->password}"), $delete_url);
+				?>
+				<!DOCTYPE html>
+				<html <?php language_attributes()?>>
+				<head>
+					<meta charset="UTF-8">
+					<meta name="robots" content="noindex,nofollow">
+				</head>
+				<body onload="document.kboard_comments_delete.submit()">
+					<form method="post" action="<?php echo esc_attr($delete_url)?>" name="kboard_comments_delete">
+						<input type="hidden" name="password" value="<?php echo esc_attr($password)?>">
+					</form>
+				</body>
+				</html>
+				<?php
+				exit;
+			}
+		}
+		
+		$submit_action_url = $commentURL->getConfirmURL();
+		
 		include_once KBOARD_COMMENTS_DIR_PATH . '/template/confirm.php';
 		exit;
 	}
-
-
+	
 	/**
 	 * 댓글의 편집창을 출력한다.
 	 */
@@ -67,6 +94,12 @@ class KBCommentTemplate {
 			$commentURL = new KBCommentUrl();
 			$commentURL->setCommentUID($comment->uid);
 			$submit_action_url = $commentURL->getUpdateURL();
+			
+			if($comment->password){
+				// 비밀번호 nonce 추가
+				$submit_action_url = add_query_arg('kboard-comments-update-nonce', wp_create_nonce("kboard-comments-update-{$comment->password}"), $submit_action_url);
+			}
+			
 			include_once KBOARD_COMMENTS_DIR_PATH . '/template/edit.php';
 		}
 		else{

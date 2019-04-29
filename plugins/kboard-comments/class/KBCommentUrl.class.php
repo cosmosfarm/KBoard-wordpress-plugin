@@ -50,7 +50,8 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getDeleteURL(){
-		return apply_filters('kboard_comments_url_delete', site_url("?action=kboard_comment_delete&uid={$this->comment_uid}"), $this->comment_uid, $this->board);
+		$url = add_query_arg('kboard-comments-delete-nonce', wp_create_nonce("kboard-comments-delete-{$this->comment_uid}"), site_url("?action=kboard_comment_delete&uid={$this->comment_uid}"));
+		return apply_filters('kboard_comments_url_delete', $url, $this->comment_uid, $this->board);
 	}
 	
 	/**
@@ -74,7 +75,8 @@ class KBCommentUrl {
 	 * @return string
 	 */
 	public function getUpdateURL(){
-		return apply_filters('kboard_comments_url_update', site_url("?action=kboard_comment_update&uid={$this->comment_uid}"), $this->comment_uid, $this->board);
+		$url = add_query_arg('kboard-comments-update-nonce', wp_create_nonce("kboard-comments-update-{$this->comment_uid}"), site_url("?action=kboard_comment_update&uid={$this->comment_uid}"));
+		return apply_filters('kboard_comments_url_update', $url, $this->comment_uid, $this->board);
 	}
 	
 	/**
