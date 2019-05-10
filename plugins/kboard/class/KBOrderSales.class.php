@@ -37,6 +37,7 @@ class KBOrderSales {
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
 			$where[] = '1=1';
 			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
+			$this->search_option[] = array('key'=>'order_status', 'compare'=>'!=', 'value'=>'hide', 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
 			
 			if(!$this->board->isAdmin()){
 				$this->search_option[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
@@ -136,6 +137,7 @@ class KBOrderSales {
 			$from[] = "`{$wpdb->prefix}kboard_order_item`";
 			$where[] = '1=1';
 			$this->search_option[] = array('key'=>'board_id', 'compare'=>'=', 'value'=>$this->board_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
+			$this->search_option[] = array('key'=>'order_status', 'compare'=>'!=', 'value'=>'hide', 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
 			
 			if(!$this->board->isAdmin()){
 				$this->search_option[] = array('key'=>'item_user_id', 'compare'=>'=', 'value'=>$user_id, 'table'=>"{$wpdb->prefix}kboard_order_item_meta");
