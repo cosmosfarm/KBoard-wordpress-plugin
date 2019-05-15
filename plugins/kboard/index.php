@@ -1113,6 +1113,8 @@ function kboard_scripts(){
 		'last_year' => __('Last year', 'kboard'),
 		'period_total' => __('Period total', 'kboard'),
 		'total_revenue' => __('Total revenue', 'kboard'),
+		'terms_of_service' => __('Terms of service', 'kboard'),
+		'i_agree_to_the_terms_of_service' => __('I agree to the terms of service.', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
