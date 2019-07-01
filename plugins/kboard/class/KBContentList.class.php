@@ -2,7 +2,7 @@
 /**
  * KBoard 게시글 리스트
  * @link www.cosmosfarm.com
- * @copyright Copyright 2013 Cosmosfarm. All rights reserved.
+ * @copyright Copyright 2019 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBContentList {
