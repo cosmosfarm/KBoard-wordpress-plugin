@@ -721,7 +721,6 @@ function kboard_builder($args){
 		return $kboard;
 	}
 	else{
-		
 		if(isset($args['blog']) && $args['blog']){
 			do_action('kboard_restore_current_blog', $args);
 		}
@@ -804,7 +803,6 @@ function kboard_latest_shortcode($args){
 		return $latest;
 	}
 	else{
-		
 		if(isset($args['blog']) && $args['blog']){
 			do_action('kboard_restore_current_blog', $args);
 		}
@@ -814,11 +812,15 @@ function kboard_latest_shortcode($args){
 }
 
 /*
- * 최신글 뷰 생성 숏코드
+ * 최신글 모아보기 생성 숏코드
  */
 add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
 function kboard_latestview_shortcode($args){
 	if(!isset($args['id']) || !$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
+	
+	if(isset($args['blog']) && $args['blog']){
+		do_action('kboard_switch_to_blog', $args);
+	}
 	
 	$latestview = new KBLatestview($args['id']);
 	if($latestview->uid){
@@ -837,9 +839,18 @@ function kboard_latestview_shortcode($args){
 		
 		$args['type'] = 'latestview';
 		$latest = $builder->createLatest($with_notice, $args);
+		
+		if(isset($args['blog']) && $args['blog']){
+			do_action('kboard_restore_current_blog', $args);
+		}
+		
 		return $latest;
 	}
 	else{
+		if(isset($args['blog']) && $args['blog']){
+			do_action('kboard_restore_current_blog', $args);
+		}
+		
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 최신글 뷰 입니다.';
 	}
 }

@@ -6,6 +6,8 @@
 ----------------------------------
 
   1. kboard_url_board_list 필터 추가
+  2. kboard_latestview 숏코드에 멀티사이트용 blog 옵션 추가
+  3. 버그 수정
 
 
 5.4.2
