@@ -61,6 +61,14 @@ class KBoardSkin {
 	}
 	
 	/**
+	 * 모든 스킨과 최신글 모아보기 스킨의 합쳐진 리스트를 반환한다.
+	 * @return array
+	 */
+	public function getMergedList(){
+		return $this->merged_list ? $this->merged_list : array();
+	}
+	
+	/**
 	 * 스킨 레이아웃을 불러온다.
 	 * @param string $skin_name
 	 * @param string $file
@@ -197,4 +205,3 @@ class KBoardSkin {
 		
 	}
 }
-?>
