@@ -2,6 +2,14 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+4.6
+----------------------------------
+
+  1. kboard_comments_skin_header 액션 추가
+  2. kboard_comments_skin_footer 액션 추가
+  3. 버그 수정
+
+
 4.5
 ----------------------------------
 

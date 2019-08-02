@@ -59,7 +59,11 @@ class KBCommentsBuilder {
 				'commentBuilder' => $this,
 		);
 		
+		do_action('kboard_comments_skin_header', $this);
+		
 		echo $this->skin->load($this->skin_name, 'list.php', $vars);
+		
+		do_action('kboard_comments_skin_footer', $this);
 	}
 	
 	/**
