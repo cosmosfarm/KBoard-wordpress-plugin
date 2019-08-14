@@ -1103,7 +1103,6 @@ class KBContent {
 	 */
 	public function getReplyCount($format='(%s)'){
 		global $wpdb;
-		$count = '';
 		if($this->uid){
 			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$this->uid'");
 			if($count){
