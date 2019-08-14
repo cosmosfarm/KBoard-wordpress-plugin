@@ -1097,6 +1097,23 @@ class KBContent {
 	}
 	
 	/**
+	 * 게시글의 답글 개수를 반환하나.
+	 * @param string $format
+	 * @return string
+	 */
+	public function getReplyCount($format='(%s)'){
+		global $wpdb;
+		$count = '';
+		if($this->uid){
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$this->uid'");
+			if($count){
+				return sprintf($format, $count);
+			}
+		}
+		return '';
+	}
+	
+	/**
 	 * posts 테이블에 등록된 게시글의 ID 값을 가져온다.
 	 */
 	public function getPostID(){
