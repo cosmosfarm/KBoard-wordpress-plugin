@@ -1232,16 +1232,15 @@ class KBContent {
 	 * 게시글에서 댓글을 보여줄지 확인한다.
 	 */
 	public function visibleComments(){
-		if(isset($this->board->id) && $this->board->id){
-			$visible = $this->board->isComment();
-		}
-		else if($this->board_id){
-			$this->board = new KBoard($this->board_id);
-			$visible = $this->board->isComment();
-		}
-		else{
+		$visible = false;
+		
+		$board = $this->getBoard();
+		$visible = $board->isComment();
+		
+		if($this->notice && $board->meta->notice_invisible_comments){
 			$visible = false;
 		}
+		
 		return apply_filters('kboard_visible_comments', $visible, $this);
 	}
 	

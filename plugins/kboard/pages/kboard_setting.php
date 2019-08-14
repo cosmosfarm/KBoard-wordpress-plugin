@@ -182,8 +182,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
 								<select name="use_comment" id="use_comment">
-										<option value="">비활성화</option>
-										<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>활성화</option>
+									<option value="">비활성화</option>
+									<option value="yes"<?php if($board->use_comment == 'yes'):?> selected<?php endif?>>활성화</option>
 								</select>
 								<p class="description">게시글에 댓글 쓰기를 활성화 합니다. (KBoard 댓글 플러그인 사용)</p>
 							<?php else:?>
@@ -195,6 +195,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<?php if(defined('KBOARD_COMMNETS_VERSION')):?>
+					<tr valign="top">
+						<th scope="row"><label for="notice_invisible_comments">공지사항 글에 댓글 사용</label></th>
+						<td>
+							<select name="notice_invisible_comments" id="notice_invisible_comments">
+								<option value="">활성화</option>
+								<option value="1"<?php if($meta->notice_invisible_comments):?> selected<?php endif?>>비활성화</option>
+							</select>
+							<p class="description">공지사항 글에서 댓글을 사용할지 선택합니다. (KBoard 댓글 플러그인 사용)</p>
+						</td>
+					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="comment_skin">댓글 스킨 선택</label></th>
 						<td>

@@ -104,9 +104,11 @@ class KBAdminController {
 			if($board->id){
 				$board->meta->auto_page = $auto_page;
 				$board->meta->latest_target_page             = isset($_POST['latest_target_page'])             ? $_POST['latest_target_page']              : '';
+				$board->meta->add_menu_page                  = isset($_POST['add_menu_page'])                  ? $_POST['add_menu_page']                   : '';
+				$board->meta->notice_invisible_comments      = isset($_POST['notice_invisible_comments'])      ? $_POST['notice_invisible_comments']       : '';
 				$board->meta->use_direct_url                 = isset($_POST['use_direct_url'])                 ? $_POST['use_direct_url']                  : '';
 				$board->meta->latest_alerts                  = isset($_POST['latest_alerts'])                  ? implode(',', array_map('sanitize_text_field', explode(',', $_POST['latest_alerts']))) : '';
-				$board->meta->latest_alerts_attachments_size      = isset($_POST['latest_alerts_attachments_size'])      ? $_POST['latest_alerts_attachments_size']       : '';
+				$board->meta->latest_alerts_attachments_size = isset($_POST['latest_alerts_attachments_size']) ? $_POST['latest_alerts_attachments_size']  : '';
 				$board->meta->comment_skin                   = ($use_comment && isset($_POST['comment_skin'])) ? $_POST['comment_skin']                    : '';
 				$board->meta->use_tree_category              = isset($_POST['use_tree_category'])              ? $_POST['use_tree_category']               : '';
 				$board->meta->default_content                = isset($_POST['default_content'])                ? $_POST['default_content']                 : '';
@@ -136,7 +138,6 @@ class KBAdminController {
 				$board->meta->secret_checked_default         = isset($_POST['secret_checked_default'])         ? $_POST['secret_checked_default']          : '';
 				$board->meta->default_build_mod              = isset($_POST['default_build_mod'])              ? $_POST['default_build_mod']               : '';
 				$board->meta->after_executing_mod            = isset($_POST['after_executing_mod'])            ? $_POST['after_executing_mod']             : '';
-				$board->meta->add_menu_page                  = isset($_POST['add_menu_page'])                  ? $_POST['add_menu_page']                   : '';
 				
 				if(isset($_POST['permission_read_roles'])){
 					$board->meta->permission_read_roles = serialize($_POST['permission_read_roles']);
