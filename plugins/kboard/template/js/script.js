@@ -309,7 +309,7 @@ function kboard_fields_validation(form, callback){
 			
 			return false;
 		}
-		else if(jQuery(required).length > 1 && jQuery(element).find('.required:checked').length == 0){
+		else if((jQuery(required).is(':radio') || jQuery(required).is(':checkbox')) && jQuery(element).find('.required:checked').length == 0){
 			alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
 			callback(jQuery(required).eq(0));
 			
