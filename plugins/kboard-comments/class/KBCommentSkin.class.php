@@ -57,20 +57,22 @@ class KBCommentSkin {
 	public function load($skin_name, $file, $vars=array()){
 		ob_start();
 		
-		extract($vars, EXTR_SKIP);
-		
-		$is_admin = false;
-		if(is_admin()){
-			if(file_exists("{$this->list[$skin_name]->dir}/admin-{$file}")){
-				$is_admin = true;
+		if(isset($this->list[$skin_name])){
+			extract($vars, EXTR_SKIP);
+			
+			$is_admin = false;
+			if(is_admin()){
+				if(file_exists("{$this->list[$skin_name]->dir}/admin-{$file}")){
+					$is_admin = true;
+				}
 			}
-		}
-		
-		if($is_admin){
-			include "{$this->list[$skin_name]->dir}/admin-{$file}";
-		}
-		else{
-			include "{$this->list[$skin_name]->dir}/{$file}";
+			
+			if($is_admin){
+				include "{$this->list[$skin_name]->dir}/admin-{$file}";
+			}
+			else{
+				include "{$this->list[$skin_name]->dir}/{$file}";
+			}
 		}
 		
 		return ob_get_clean();
@@ -81,7 +83,7 @@ class KBCommentSkin {
 	 * @param string $skin_name
 	 */
 	public function loadFunctions($skin_name){
-		if(file_exists("{$this->list[$skin_name]->dir}/functions.php")){
+		if(isset($this->list[$skin_name]) && file_exists("{$this->list[$skin_name]->dir}/functions.php")){
 			include_once "{$this->list[$skin_name]->dir}/functions.php";
 		}
 	}
@@ -93,7 +95,10 @@ class KBCommentSkin {
 	 * @return string
 	 */
 	public function url($skin_name, $file=''){
-		return "{$this->list[$skin_name]->url}" . ($file ? "/{$file}" : '');
+		if(isset($this->list[$skin_name])){
+			return "{$this->list[$skin_name]->url}" . ($file ? "/{$file}" : '');
+		}
+		return '';
 	}
 	
 	/**
@@ -103,7 +108,10 @@ class KBCommentSkin {
 	 * @return string
 	 */
 	public function dir($skin_name, $file=''){
-		return "{$this->list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
+		if(isset($this->list[$skin_name])){
+			return "{$this->list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
+		}
+		return '';
 	}
 	
 	/**
