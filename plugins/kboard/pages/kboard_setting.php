@@ -6,13 +6,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 ?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
-	<h1>
-		<?php echo __('KBoard : 게시판 관리', 'kboard')?>
-		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
-	</h1>
+	<h1 class="wp-heading-inline"><?php echo __('KBoard : 게시판 관리', 'kboard')?></h1>
+	<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+	<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+	
+	<hr class="wp-header-end">
+	
 	<form id="kboard-setting-form" action="<?php echo admin_url('admin-post.php')?>" method="post" enctype="multipart/form-data">
 		<?php wp_nonce_field('kboard-setting-execute', 'kboard-setting-execute-nonce');?>
 		<input type="hidden" name="action" value="kboard_update_execute">

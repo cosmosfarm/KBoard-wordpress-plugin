@@ -1,13 +1,14 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
-	<h1>
-		<?php echo __('KBoard : 게시판 목록', 'kboard')?>
-		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
-	</h1>
+	<h1 class="wp-heading-inline"><?php echo __('KBoard : 게시판 목록', 'kboard')?></h1>
+	<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+	<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+	
+	<hr class="wp-header-end">
+	
 	<form method="get">
 		<input type="hidden" name="page" value="kboard_list">
 		<?php $table->search_box(__('Search', 'kboard'), 'kboard_list_search')?>
