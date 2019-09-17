@@ -135,7 +135,7 @@
 						<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
 							<tr>
 								<td class="content-block" style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
-									Copyright &copy; <a href="<?php echo home_url()?>" target="_blank" style="color: #999999; text-decoration: none; font-weight: bold;"><?php echo get_option('blogname')?></a>. All Rights Reserved.
+									Copyright &copy; <a href="<?php echo esc_url(home_url())?>" target="_blank" style="color: #999999; text-decoration: none; font-weight: bold;"><?php echo esc_html(get_option('blogname'))?></a>. All rights reserved.
 								</td>
 							</tr>
 						</table>
