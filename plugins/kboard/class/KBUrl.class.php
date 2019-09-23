@@ -402,5 +402,22 @@ class KBUrl {
 		
 		return apply_filters('kboard_url_board_list', $url, $this->board);
 	}
+	
+	/**
+	 * 게시글의 비밀번호를 다시 확인하는 주소를 반환한다.
+	 * @param int $content_uid
+	 * @return string
+	 */
+	public function getConfirmExecute($content_uid){
+		$content_uid = intval($content_uid);
+		if(isset($_GET['kboard-content-remove-nonce']) && $_GET['kboard-content-remove-nonce']){
+			$url = $this->getContentRemove($content_uid);
+		}
+		else{
+			$this->data['mod'] = kboard_mod();
+			$this->data['uid'] = $content_uid;
+			$url = $this->toString();
+		}
+		return apply_filters('kboard_url_content_editor', $url, $content_uid, $this->board);
+	}
 }
-?>
