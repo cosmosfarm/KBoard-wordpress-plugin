@@ -66,7 +66,7 @@ foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
 /*
  * KBoard 게시판 시작
  */
-add_action('init', 'kboard_init', 0);
+add_action('init', 'kboard_init', 5);
 function kboard_init(){
 	
 	// 언어 파일 추가

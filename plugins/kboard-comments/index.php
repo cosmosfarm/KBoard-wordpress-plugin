@@ -30,7 +30,7 @@ include_once 'class/KBCommentUrl.class.php';
 /*
  * KBoard 댓글 시작
  */
-add_action('init', 'kboard_comments_init', 0);
+add_action('init', 'kboard_comments_init', 5);
 function kboard_comments_init(){
 	
 	// 언어 파일 추가
