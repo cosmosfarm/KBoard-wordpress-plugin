@@ -232,6 +232,7 @@ function cf_get_a_install(action, download, version){
 	a_install.innerHTML = '설치하기';
 	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
 	a_install.onclick = function(){
+		<?php if(KBOARD_STORE_AUTH):?>
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
 				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
@@ -248,6 +249,11 @@ function cf_get_a_install(action, download, version){
 				window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
+		<?php else:?>
+		if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
+			window.location.href = '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+		}
+		<?php endif?>
 		return false;
 	}
 	return a_install;
