@@ -127,7 +127,9 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="<?php echo $skin_item->name?>"<?php if($board->skin == $skin_item->name):?> selected<?php endif?>><?php echo $skin_item->name?></option>
 								<?php endforeach?>
 							</select>
+							<?php if(KBOARD_CONNECT_COSMOSFARM):?>
 							<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_store&kbstore_category=kboard')?>" onclick="window.open(this.href);return false;">스킨 더보기</a>
+							<?php endif?>
 							<p class="description">게시판 스킨에 따라 모양과 기능이 변합니다.</p>
 							<p class="description"><a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220885880601" onclick="window.open(this.href);return false;">contact-form 스킨 설정 방법 알아보기</a></p>
 						</td>
