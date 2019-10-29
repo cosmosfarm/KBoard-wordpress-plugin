@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: https://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.4.3
+Version: 5.4.2
 Author: 코스모스팜 - Cosmosfarm
 Author URI: https://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: https://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.4.3');
+define('KBOARD_VERSION', '5.4.2');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -181,7 +181,9 @@ function kboard_register_media_button($buttons){
  * 글쓰기 에디터에 미디어 버튼을 추가한다.
  */
 function kboard_add_media_button($plugin_array){
-	$plugin_array['kboard_media_button_script'] = plugins_url('/template/js/editor_media_button.js', __FILE__);
+	if(!is_admin() || kboard_view_iframe()){
+		$plugin_array['kboard_media_button_script'] = plugins_url('/template/js/editor_media_button.js', __FILE__);
+	}
 	return $plugin_array;
 }
 
