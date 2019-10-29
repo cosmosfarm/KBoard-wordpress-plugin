@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="robots" content="noindex,follow">
-	<title><?php echo __('KBoard 미디어 추가', 'kboard')?></title>
+	<title><?php echo __('KBoard Add Media', 'kboard')?></title>
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<style>
@@ -66,7 +66,7 @@
 	<input type="hidden" name="media_uid" value="">
 	
 	<div class="kboard-media-header">
-		<div class="title"><?php echo __('KBoard 미디어 추가', 'kboard')?></div>
+		<div class="title"><?php echo __('KBoard Add Media', 'kboard')?></div>
 		<div class="controller">
 			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> <?php echo __('업로드', 'kboard')?></a>
 			<a href="javascript:void(0)" class="header-button" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>
@@ -97,7 +97,7 @@
 		<?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D', 'kboard')?><br>
 		
 		<?php if($board->contribution()):?>
-		<a href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
+		<a class="kboard-media-poweredby" href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
 		<?php endif?>
 	</div>
 	<?php endif?>
@@ -187,63 +187,103 @@ function kboard_media_form_execute(form){
 function kboard_media_close(){
 	parent.kboard_media_close();
 }
-jQuery(document).ready(function($){
-	jQuery('.upload-button').each(function(){
-		var button = jQuery(this);
-		var allow = jQuery('form').attr('data-allow');
-		var input = function(){
-			var obj = jQuery('<input type="file" accept="image/*" multiple>').attr('name', jQuery(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).change(function(){
-				var extension = "\.("+allow+")$";
-				var files = jQuery(this).get(0).files;
-				if(files){
-					var total = files.length;
-					var index = 0;
-					jQuery.each(files, function(i, file){
-						if(!(new RegExp(extension, "i")).test(file.name)){
-							alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
-							jQuery(input).remove();
-							event(input());
-							return false;
-						}
-						else{
-							index++;
-						}
-						if(index == total){
-							jQuery('#kboard-media-form').submit();
-						}
-					});
-				}
-				else{
-					if(!(new RegExp(extension, "i")).test(jQuery(this).val())){
+function kboard_media_upload_button(button){
+	jQuery('input[type=file]', button).remove();
+	
+	var allow = jQuery('form').attr('data-allow');
+	var extension = "\.("+allow+")$";
+	
+	var input = function(){
+		var obj = jQuery('<input type="file" accept="image/*" multiple>').attr('name', jQuery(button).attr('data-name')).css({'position':'absolute', 'cursor':'pointer', 'opacity':0, 'outline':0}).change(function(){
+			var files = jQuery(this).get(0).files;
+			
+			if(files){
+				var total = files.length;
+				var index = 0;
+				
+				jQuery.each(files, function(i, file){
+					if(!(new RegExp(extension, "i")).test(file.name)){
 						alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
-						jQuery(input).remove();
-						event(input());
+
+						kboard_media_upload_button(button);
 						return false;
 					}
 					else{
+						index++;
+					}
+					if(index == total){
 						jQuery('#kboard-media-form').submit();
 					}
+				});
+			}
+			else{
+				if(!(new RegExp(extension, "i")).test(jQuery(this).val())){
+					alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
+
+					kboard_media_upload_button(button);
+					return false;
+				}
+				else{
+					jQuery('#kboard-media-form').submit();
+				}
+			}
+		});
+		return obj;
+	}
+	
+	var event = function(event_input){
+		jQuery(button).css({'position':'relative', 'overflow':'hidden'}).append(event_input).on('mousemove', function(event){
+			var left = event.pageX - jQuery(this).offset().left - jQuery(event_input).width() + 10;
+			var top = event.pageY - jQuery(this).offset().top - 10;
+			event_input.css({'left':left, 'top':top});
+		}).hover(function(){
+			event_input.show();
+		}, function(){
+			event_input.hide();
+		}).keydown(function(e){
+			if(e.keyCode == 13){
+				e.preventDefault();
+				jQuery('input[type=file]', button)[0].click();
+			}
+		});
+	}
+	event(input());
+}
+jQuery(document).ready(function($){
+	var allow = jQuery('form').attr('data-allow');
+	var extension = "\.("+allow+")$";
+	
+	jQuery('.upload-button').each(function(){
+		kboard_media_upload_button(this);
+	});
+	
+	jQuery(document).on('dragover drop', function(e){
+		e.preventDefault();
+		e.stopPropagation();
+	}).on('drop', function(e){
+		if(e.originalEvent && e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files){
+			jQuery('input[type=file]').prop('files', e.originalEvent.dataTransfer.files);
+			
+			var total = e.originalEvent.dataTransfer.files.length;
+			var index = 0;
+			
+			jQuery.each(e.originalEvent.dataTransfer.files, function(i, file){
+				if(!(new RegExp(extension, "i")).test(file.name)){
+					alert('<?php echo __('이미지 파일만 업로드 가능합니다.', 'kboard')?>');
+					
+					jQuery('.upload-button').each(function(){
+						kboard_media_upload_button(this);
+					});
+					return false;
+				}
+				else{
+					index++;
+				}
+				if(index == total){
+					jQuery('#kboard-media-form').submit();
 				}
 			});
-			return obj;
 		}
-		var event = function(event_input){
-			jQuery(button).css({'position':'relative', 'overflow':'hidden'}).append(event_input).on('mousemove', function(event){
-				var left = event.pageX - jQuery(this).offset().left - jQuery(event_input).width() + 10;
-				var top = event.pageY - jQuery(this).offset().top - 10;
-				event_input.css({'left':left, 'top':top});
-			}).hover(function(){
-				event_input.show();
-			}, function(){
-				event_input.hide();
-			}).keydown(function(e){
-				if(e.keyCode == 13){
-					e.preventDefault();
-					jQuery('input[type=file]', button)[0].click();
-				}
-			});
-		}
-		event(input());
 	});
 });
 </script>
