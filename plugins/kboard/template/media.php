@@ -84,8 +84,8 @@
 			<div class="media-image" style="background-image:url(<?php echo $item->thumbnail_url?>)"></div>
 		</div>
 		<div class="media-control">
-			<input type="checkbox" name="media_src" value="<?php echo $item->file_url?>" data-media-uid="<?php echo $item->uid?>" onchange="kboard_media_select()">
-			<button type="button" onclick="kboard_media_insert('<?php echo $item->file_url?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
+			<input type="checkbox" name="media_src" value="<?php echo $item->thumbnail_url?>" data-media-uid="<?php echo $item->uid?>" onchange="kboard_media_select()">
+			<button type="button" onclick="kboard_media_insert('<?php echo $item->thumbnail_url?>');" title="<?php echo __('삽입', 'kboard')?>"><?php echo __('삽입', 'kboard')?></button>
 			<button type="button" onclick="kboard_media_delete('<?php echo $item->uid?>');" title="<?php echo __('삭제', 'kboard')?>"><?php echo __('삭제', 'kboard')?></button>
 		</div>
 	</label>
