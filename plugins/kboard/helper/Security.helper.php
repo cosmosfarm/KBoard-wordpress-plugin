@@ -115,6 +115,7 @@ function kboard_iframe_whitelist($to_array=false){
 	$whitelist .= 'maps.google.com' . PHP_EOL;
 	$whitelist .= 'maps.google.co.kr' . PHP_EOL;
 	$whitelist .= 'docs.google.com' . PHP_EOL;
+	$whitelist .= 'tv.naver.com' . PHP_EOL;
 	$whitelist .= 'serviceapi.nmv.naver.com' . PHP_EOL;
 	$whitelist .= 'serviceapi.rmcnmv.naver.com' . PHP_EOL;
 	$whitelist .= 'videofarm.daum.net' . PHP_EOL;
