@@ -58,7 +58,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="auto_page">게시판 자동설치</label></th>
+						<th scope="row"><label for="auto_page">게시판 자동설치</label> <span style="font-size:12px;color:gray;">(선택)</span></th>
 						<td>
 							<select name="auto_page" id="auto_page">
 								<option value="">— 선택하기 —</option>
@@ -72,7 +72,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="latest_target_page">최신글 이동 페이지</label></th>
+						<th scope="row"><label for="latest_target_page">최신글 이동 페이지</label> <span style="font-size:12px;color:red;">(필수)</span></th>
 						<td>
 							<select name="latest_target_page" id="latest_target_page">
 								<option value="">— 선택하기 —</option>
@@ -98,10 +98,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<textarea style="width:600px;max-width:100%;" id="latest_shortcode">[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5"]</textarea>
 							<p class="description">최신글 리스트를 생성합니다. <span style="font-weight:bold">url</span> 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
-							<p class="description">카테고리 추가 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" category1="유머" category2="동영상"]</code></p>
-							<p class="description">정렬순서 변경 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" sort="newest|best|viewed|updated"]</code></p>
-							<p class="description">공지글 제외 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" with_notice="false"]</code></p>
-							<p class="description">며칠 이내 글만 보기 예제: <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" within_days="7"]</code></p>
+							<p class="description">카테고리 추가 예제 : <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" category1="유머" category2="동영상"]</code></p>
+							<p class="description">정렬순서 변경 예제 : <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" sort="newest|best|viewed|updated"]</code></p>
+							<p class="description">공지글 제외 예제 :  <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" with_notice="false"]</code></p>
+							<p class="description">며칠 이내 글만 보기 예제 : <code>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5" within_days="7"]</code></p>
 							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>" onclick="window.open(this.href);return false;">최신글 모아보기</a> 기능을 사용하세요.</p>
 						</td>
 					</tr>
@@ -293,6 +293,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
 							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다.</p>
 							<p class="description">이메일 전송에 문제가 있다면 <a href="https://blog.cosmosfarm.com/?p=720" onclick="window.open(this.href);return false;">워드프레스 이메일 전송 문제 해결 방법</a>을 참고해주세요.</p>
+							<p class="description"><a href="https://www.cosmosfarm.com/wpstore/product/cosmosfarm-telebot" onclick="window.open(this.href);return false;">코스모스팜 텔레봇</a> 플러그인을 사용하시면 최신글 알림을 <span style="font-weight:bold">텔레그램</span> 메신저로 받아보실 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -362,6 +363,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">리스트에서 게시글 번호를 내림차순 또는 오름차순으로 표시할 수 있습니다.</p>
 							<p class="description">실제 게시글 정렬과는 무관하게 번호 표시만 바뀝니다.</p>
 							<p class="description">번호 표시가 없는 스킨은 적용되지 않습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							<ul class="cosmosfarm-news-list">
+								<?php
+								$upgrader = KBUpgrader::getInstance();
+								foreach($upgrader->getLatestNews() as $news_item):?>
+								<li>
+									<a href="<?php echo esc_url($news_item->url)?>" target="<?php echo esc_attr($news_item->target)?>" style="text-decoration:none"><?php echo esc_html($news_item->title)?></a>
+								</li>
+								<?php endforeach?>
+							</ul>
 						</td>
 					</tr>
 				</tbody>

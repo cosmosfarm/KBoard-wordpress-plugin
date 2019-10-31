@@ -9,6 +9,16 @@
 	</div>
 	<div class="welcome-panel-column-container">
 		<div class="welcome-panel-column" style="overflow:hidden">
+			<h4><?php echo __('Events and News', 'kboard')?></h4>
+			<ul>
+				<?php
+				$upgrader = KBUpgrader::getInstance();
+				foreach($upgrader->getLatestNews() as $row):?>
+				<li>
+					<a href="<?php echo esc_url($row->url)?>" target="<?php echo esc_attr($row->target)?>" style="text-decoration:none"><?php echo esc_html($row->title)?></a>
+				</li>
+				<?php endforeach?>
+			</ul>
 			<h4><?php echo __('KBoard 버전', 'kboard')?> <!--<a class="button button-small" href="<?php echo admin_url('admin.php?page=kboard_updates')?>" style="font-weight:normal">최신버전 확인</a>--></h4>
 			<ul>
 				<li>
@@ -21,16 +31,6 @@
 						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates')?>">KBoard 댓글 플러그인 설치하기</a>
 					<?php endif?>
 				</li>
-			</ul>
-			<h4><?php echo __('Events and News', 'kboard')?></h4>
-			<ul>
-				<?php
-				$upgrader = KBUpgrader::getInstance();
-				foreach($upgrader->getLatestNews() as $row):?>
-				<li>
-					<a href="<?php echo esc_url($row->url)?>" target="<?php echo esc_attr($row->target)?>"><?php echo esc_html($row->title)?></a>
-				</li>
-				<?php endforeach?>
 			</ul>
 		</div>
 		<div class="welcome-panel-column">
