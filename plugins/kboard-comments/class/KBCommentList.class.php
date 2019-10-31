@@ -301,7 +301,7 @@ class KBCommentList {
 			return $kboard_comments_sort;
 		}
 		
-		$kboard_comments_sort = isset($_COOKIE['kboard_comments_sort'])?$_COOKIE['kboard_comments_sort']:'best';
+		$kboard_comments_sort = isset($_COOKIE['kboard_comments_sort']) ? $_COOKIE['kboard_comments_sort'] : 'best';
 		
 		if(!in_array($kboard_comments_sort, array('best', 'oldest', 'newest'))){
 			$kboard_comments_sort = 'best';
@@ -310,4 +310,3 @@ class KBCommentList {
 		return $kboard_comments_sort;
 	}
 }
-?>

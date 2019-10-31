@@ -6,10 +6,13 @@
 ----------------------------------
 
   1. kboard_url_board_list 필터 추가
-  2. kboard_latestview 숏코드에 멀티사이트용 blog 옵션 추가
-  3. 공지사항 글에 댓글 사용 설정 추가
-  4. KBoard 미디어 추가 기능 개선 (드래그 앤 드롭으로 이미지 추가하기)
-  5. 버그 수정
+  2. kboard_skin_contact_form_list_switch 필터 추가
+  3. kboard_skin_contact_form_document_switch 필터 추가
+  4. kboard_latestview 숏코드에 멀티사이트용 blog 옵션 추가
+  5. 공지사항 글에 댓글 사용 설정 추가
+  6. KBoard 미디어 추가 기능 개선 (드래그 앤 드롭으로 이미지 추가하기)
+  7. 스킨 기능 개선
+  8. 버그 수정
 
 
 5.4.2

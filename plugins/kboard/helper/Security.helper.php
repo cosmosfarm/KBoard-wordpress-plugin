@@ -199,4 +199,3 @@ function kboard_hash($text, $salt, $length=0){
 	}
 	return '$kboard$v1$' . hash_pbkdf2('sha256', $text, $salt, 100000, $length);
 }
-?>

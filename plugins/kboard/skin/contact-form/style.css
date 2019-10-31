@@ -5,7 +5,7 @@
 
 a.kboard-contact-form-button-small,
 input.kboard-contact-form-button-small,
-button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; width: auto; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; width: auto; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; letter-spacing: normal; color: #545861 !important; background: #eaeaea !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
 a.kboard-contact-form-button-small:hover,
 a.kboard-contact-form-button-small:focus,
 a.kboard-contact-form-button-small:active,
@@ -18,7 +18,7 @@ button.kboard-contact-form-button-small:active { opacity: 0.7; }
 
 a.kboard-contact-form-button-large,
 input.kboard-contact-form-button-large,
-button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 50px; width: auto; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 24px; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 50px; width: auto; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: #545861 !important; background: #eaeaea !important; border: none; border-radius: 24px; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
 a.kboard-contact-form-button-large:hover,
 a.kboard-contact-form-button-large:focus,
 a.kboard-contact-form-button-large:active,
@@ -29,7 +29,7 @@ button.kboard-contact-form-button-large:hover,
 button.kboard-contact-form-button-large:focus,
 button.kboard-contact-form-button-large:active { opacity: 0.7; }
 
-.kboard-contact-form-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; }
+.kboard-contact-form-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; text-align: right; }
 .kboard-contact-form-new-notify { display: inline-block; *display: inline; zoom: 1; padding: 2px 2px; line-height: 10px; font-size: 10px; color: white; background-color: #f61b5d; font-weight: normal; }
 .kboard-contact-form-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
@@ -91,7 +91,7 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li a { display: block; margin: 0; padding: 0 11px; height: 28px; line-height: 28px; font-size: 13px; color: #999999; text-decoration: none; border: 0; background-color: #f9f9f9; box-shadow: none; transition-duration: 0.3s; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:hover a,
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: white; background-color: #00a8e7; }
+#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: #545861; background-color: #eaeaea; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-contact-form-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }

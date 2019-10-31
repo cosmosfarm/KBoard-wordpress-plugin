@@ -164,4 +164,3 @@ function kboard_comments_mycred_load_hook(){
 		}
 	}
 }
-?>

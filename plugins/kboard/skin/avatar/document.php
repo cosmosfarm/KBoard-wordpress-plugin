@@ -25,7 +25,7 @@
 				<?php endif?>
 				<div class="detail-attr detail-writer">
 					<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
-					<div class="detail-value"><?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).' '.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></div>
+					<div class="detail-value"><?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?></div>
 				</div>
 				<div class="detail-attr detail-date">
 					<div class="detail-name"><?php echo __('Date', 'kboard')?></div>

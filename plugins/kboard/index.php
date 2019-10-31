@@ -91,11 +91,21 @@ function kboard_init(){
 	$template = new KBTemplate();
 	$template->route();
 	
-	$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:'';
-	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember'])?intval($_GET['kboard_list_sort_remember']):'';
+	$kboard_list_sort = isset($_GET['kboard_list_sort']) ? sanitize_text_field($_GET['kboard_list_sort']) : '';
+	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember']) ? intval($_GET['kboard_list_sort_remember']) : '';
 	if($kboard_list_sort && $kboard_list_sort_remember){
-		$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
-		setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		if(!in_array($kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
+			$kboard_list_sort = '';
+		}
+		
+		if($kboard_list_sort){
+			$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
+			setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
+		else{
+			$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = '';
+			setcookie("kboard_list_sort_{$kboard_list_sort_remember}", '', strtotime('-1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
 	}
 	
 	// 스킨의 functions.php 파일을 실행한다.
@@ -192,7 +202,7 @@ function kboard_add_media_button($plugin_array){
  */
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'kboard_settings_link');
 function kboard_settings_link($links){
-	return array_merge($links, array('settings'=>'<a href="'.admin_url('admin.php?page=kboard_new').'">'.__('New Forum', 'kboard').'</a>'));
+	return array_merge($links, array('kboard-new'=>'<a href="'.admin_url('admin.php?page=kboard_new').'">'.__('New Forum', 'kboard').'</a>'));
 }
 
 /*
@@ -200,7 +210,7 @@ function kboard_settings_link($links){
  */
 add_action('welcome_panel', 'kboard_welcome_panel');
 function kboard_welcome_panel(){
-	echo '<script>jQuery(document).ready(function($){jQuery("div.welcome-panel-content").eq(0).hide();});</script>';
+	echo '<script>jQuery(document).ready(function(){jQuery("div.welcome-panel-content").eq(0).hide();});</script>';
 	include_once 'pages/welcome.php';
 }
 

@@ -24,6 +24,9 @@ class KBoardBuilder {
 	var $is_ajax = false;
 	
 	public function __construct($board_id='', $is_latest=false){
+		global $kboard_builder;
+		$kboard_builder = $this;
+		
 		$this->category1 = kboard_category1();
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
@@ -31,7 +34,9 @@ class KBoardBuilder {
 		
 		$this->setSkin('default');
 		
-		if($board_id) $this->setBoardID($board_id, $is_latest);
+		if($board_id){
+			$this->setBoardID($board_id, $is_latest);
+		}
 	}
 	
 	/**

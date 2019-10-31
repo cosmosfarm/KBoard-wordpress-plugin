@@ -11,7 +11,7 @@ class KBTemplate {
 	 * 템플릿 페이지를 표시한다.
 	 */
 	public function route(){
-		$action = isset($_GET['action'])?$_GET['action']:'';
+		$action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : '';
 		switch($action){
 			case 'kboard_media': add_action('wp_loaded', array($this, 'media')); break;
 			case 'kboard_document_print': add_action('wp_loaded', array($this, 'documentPrint')); break;
@@ -92,9 +92,9 @@ class KBTemplate {
 		$media = new KBContentMedia();
 		$media->truncate();
 		
-		$media->board_id = intval(isset($_GET['board_id'])?$_GET['board_id']:'');
-		$media->content_uid = intval(isset($_GET['content_uid'])?$_GET['content_uid']:'');
-		$media->media_group = kboard_htmlclear(isset($_GET['media_group'])?$_GET['media_group']:'');
+		$media->board_id = intval(isset($_GET['board_id']) ? $_GET['board_id'] : '');
+		$media->content_uid = intval(isset($_GET['content_uid']) ? $_GET['content_uid'] : '');
+		$media->media_group = kboard_htmlclear(isset($_GET['media_group']) ? $_GET['media_group'] : '');
 		
 		$board = new KBoard($media->board_id);
 		
@@ -144,4 +144,3 @@ class KBTemplate {
 		exit;
 	}
 }
-?>

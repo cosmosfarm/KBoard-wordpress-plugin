@@ -66,7 +66,7 @@
 						</a>
 						<div class="kboard-mobile-contents">
 							<span class="contents-item kboard-user">
-								<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).' '.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+								<?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 							</span>
 							<span class="contents-separator kboard-date">|</span>
 							<span class="contents-item kboard-date"><?php echo $content->getDate()?></span>
@@ -77,7 +77,7 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).'<br>'.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+						<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -98,7 +98,7 @@
 						</a>
 						<div class="kboard-mobile-contents">
 							<span class="contents-item kboard-user">
-								<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).' '.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+								<?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 							</span>
 							<span class="contents-separator kboard-date">|</span>
 							<span class="contents-item kboard-date"><?php echo $content->getDate()?></span>
@@ -109,7 +109,7 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).'<br>'.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+						<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>

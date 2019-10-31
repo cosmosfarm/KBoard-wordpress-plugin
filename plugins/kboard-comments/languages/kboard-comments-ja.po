@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2018-12-12 09:56+0900\n"
-"PO-Revision-Date: 2018-12-12 09:56+0900\n"
+"POT-Creation-Date: 2019-10-31 14:27+0900\n"
+"PO-Revision-Date: 2019-10-31 14:27+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Basepath: ..\n"
@@ -17,87 +17,93 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../kboard\n"
 
-#: class/KBComment.class.php:223
+#: class/KBComment.class.php:229
 msgid "Deleted comment increment points"
 msgstr "書き込み削除の増加ポイント"
 
-#: class/KBComment.class.php:235
+#: class/KBComment.class.php:241
 msgid "Deleted comment decrease points"
 msgstr "書き込み削除の減少ポイント"
 
-#: class/KBCommentController.class.php:38
-#: class/KBCommentController.class.php:287
-#: class/KBCommentController.class.php:333
+#: class/KBCommentController.class.php:44
+#: class/KBCommentController.class.php:299
+#: class/KBCommentController.class.php:360
 msgid "This page is restricted from external access."
 msgstr "このページは、外部アクセスから制限されています。"
 
-#: class/KBCommentController.class.php:80
-#: class/KBCommentController.class.php:83
-#: class/KBCommentController.class.php:86
-#: class/KBCommentController.class.php:162
-#: class/KBCommentController.class.php:277
-#: class/KBCommentController.class.php:305
-#: class/KBCommentController.class.php:360
-#: class/KBCommentController.class.php:419
-#: class/KBCommentController.class.php:457 class/KBCommentTemplate.class.php:34
-#: class/KBCommentTemplate.class.php:61 class/KBCommentTemplate.class.php:74
+#: class/KBCommentController.class.php:85
+#: class/KBCommentController.class.php:88
+#: class/KBCommentController.class.php:91
+#: class/KBCommentController.class.php:167
+#: class/KBCommentController.class.php:289
+#: class/KBCommentController.class.php:317
+#: class/KBCommentController.class.php:321
+#: class/KBCommentController.class.php:326
+#: class/KBCommentController.class.php:331
+#: class/KBCommentController.class.php:387
+#: class/KBCommentController.class.php:391
+#: class/KBCommentController.class.php:396
+#: class/KBCommentController.class.php:401
+#: class/KBCommentController.class.php:461
+#: class/KBCommentController.class.php:499 class/KBCommentTemplate.class.php:34
+#: class/KBCommentTemplate.class.php:88 class/KBCommentTemplate.class.php:107
 msgid "You do not have permission."
 msgstr "あなたが権限を持っていません。"
 
-#: class/KBCommentController.class.php:89 index.php:127
+#: class/KBCommentController.class.php:94 index.php:137
 msgid "Please enter the author."
 msgstr "著者を入力してください。"
 
-#: class/KBCommentController.class.php:92 index.php:128 template/confirm.php:36
+#: class/KBCommentController.class.php:97 index.php:138 template/confirm.php:36
 msgid "Please enter the password."
 msgstr "パスワードを入力してください。"
 
-#: class/KBCommentController.class.php:95
-#: class/KBCommentController.class.php:349 index.php:130 template/edit.php:37
+#: class/KBCommentController.class.php:100
+#: class/KBCommentController.class.php:376 index.php:140 template/edit.php:37
 msgid "Please enter the content."
 msgstr "内容を入力してください。"
 
-#: class/KBCommentController.class.php:98
+#: class/KBCommentController.class.php:103
 msgid "content_uid is required."
 msgstr "content_uidのが必要です。"
 
-#: class/KBCommentController.class.php:117
-#: class/KBCommentController.class.php:137
+#: class/KBCommentController.class.php:122
+#: class/KBCommentController.class.php:142
 #, php-format
 msgid "%s is not available."
 msgstr "%sは使用できません。"
 
-#: class/KBCommentController.class.php:154
+#: class/KBCommentController.class.php:159
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHAが正しくありません。"
 
-#: class/KBCommentController.class.php:167
+#: class/KBCommentController.class.php:172
 msgid "You have not enough points."
 msgstr "ポイントが足りません。"
 
-#: class/KBCommentController.class.php:173
+#: class/KBCommentController.class.php:178
 msgid "Writing comment decrease points"
 msgstr "コメントを書くことの減少ポイント"
 
-#: class/KBCommentController.class.php:265
+#: class/KBCommentController.class.php:277
 msgid "Writing comment increase points"
 msgstr "コメントを書くことの増加ポイント"
 
-#: class/KBCommentController.class.php:294
-#: class/KBCommentController.class.php:346 class/KBCommentTemplate.class.php:24
-#: class/KBCommentTemplate.class.php:51
+#: class/KBCommentController.class.php:306
+#: class/KBCommentController.class.php:373 class/KBCommentTemplate.class.php:24
+#: class/KBCommentTemplate.class.php:78
 msgid "uid is required."
 msgstr "uidが必要です。"
 
-#: class/KBCommentController.class.php:297
-#: class/KBCommentController.class.php:352
-#: class/KBCommentController.class.php:415
-#: class/KBCommentController.class.php:453
+#: class/KBCommentController.class.php:309
+#: class/KBCommentController.class.php:379
+#: class/KBCommentController.class.php:457
+#: class/KBCommentController.class.php:495
 msgid "Please log in to continue."
 msgstr "続行するにはログインしてください。"
 
-#: class/KBCommentController.class.php:411
-#: class/KBCommentController.class.php:449
+#: class/KBCommentController.class.php:453
+#: class/KBCommentController.class.php:491
 msgid "You have already voted."
 msgstr "すでに投票しました。"
 
@@ -109,7 +115,7 @@ msgstr "書き込みがありません。"
 msgid "Forum"
 msgstr "Forum"
 
-#: class/KBCommentListTable.class.php:51 index.php:133
+#: class/KBCommentListTable.class.php:51 index.php:143
 msgid "Name"
 msgstr "名前"
 
@@ -122,11 +128,12 @@ msgid "Date"
 msgstr "作成日"
 
 #: class/KBCommentListTable.class.php:59 skin/default/list-template.php:35
-#: skin/default/list-template.php:37
+#: skin/default/list-template.php:38
 msgid "Delete"
 msgstr "削除"
 
-#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:39
+#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:36
+#: skin/default/list-template.php:39
 msgid "Edit"
 msgstr "編集"
 
@@ -134,7 +141,7 @@ msgstr "編集"
 msgid "Open"
 msgstr "ページの熱気"
 
-#: class/KBCommentTemplate.class.php:31 class/KBCommentTemplate.class.php:58
+#: class/KBCommentTemplate.class.php:31 class/KBCommentTemplate.class.php:85
 msgid "Comment does not exist."
 msgstr "コメントは存在しません。"
 
@@ -142,108 +149,108 @@ msgstr "コメントは存在しません。"
 msgid "KBoard : 댓글"
 msgstr "KBoard : Comments"
 
-#: index.php:62
+#: index.php:72
 msgid "전체 댓글"
 msgstr "全体コメント"
 
-#: index.php:125 skin/default/list-template.php:40
+#: index.php:135 skin/default/list-template.php:41
 msgid "Reply"
 msgstr "応答"
 
-#: index.php:126
+#: index.php:136
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: index.php:129
+#: index.php:139
 msgid "Please enter the CAPTCHA."
 msgstr "CAPTCHAを入力してください。"
 
-#: index.php:131
+#: index.php:141
 msgid "Are you sure you want to delete?"
 msgstr "あなたが削除してもよろしいですか？"
 
-#: index.php:132
+#: index.php:142
 msgid "Please wait."
 msgstr "待ってください。"
 
-#: index.php:134
+#: index.php:144
 msgid "Email"
 msgstr "Eメール"
 
-#: index.php:135
+#: index.php:145
 msgid "Address"
 msgstr "住所"
 
-#: index.php:136
+#: index.php:146
 msgid "Postcode"
 msgstr "郵便番号"
 
-#: index.php:137
+#: index.php:147
 msgid "Phone number"
 msgstr "連絡先"
 
-#: index.php:138
+#: index.php:148
 msgid "Find"
 msgstr "検索"
 
-#: index.php:139
+#: index.php:149
 msgid "Rate"
 msgstr "評価"
 
-#: index.php:140
+#: index.php:150
 msgid "Ratings"
 msgstr "評価"
 
-#: index.php:141
+#: index.php:151
 msgid "Waiting"
 msgstr "待機"
 
-#: index.php:142
+#: index.php:152
 msgid "Complete"
 msgstr "完了"
 
-#: index.php:143
+#: index.php:153
 msgid "Question"
 msgstr "質問"
 
-#: index.php:144
+#: index.php:154
 msgid "Answer"
 msgstr "回答"
 
-#: index.php:145
+#: index.php:155
 msgid "Notify me of new comments via email"
 msgstr "電子メールで新しいコメントの通知を受け取る"
 
-#: index.php:146
+#: index.php:156
 msgid "Comment"
 msgstr "コメント"
 
-#: index.php:147
+#: index.php:157
 msgid "Comments"
 msgstr "コメント"
 
-#: index.php:157
+#: index.php:167
 #, php-format
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
 msgstr "書き込みを残すには、<a href=\"%s\">ログイン</a>してください。"
 
-#: pages/comments_list.php:5
+#: pages/comments_list.php:4
 msgid "Home"
 msgstr "ホームページ"
 
-#: pages/comments_list.php:6
+#: pages/comments_list.php:5
 msgid "Community"
 msgstr "フォーラム"
 
-#: pages/comments_list.php:7
+#: pages/comments_list.php:6
 msgid "Support"
 msgstr "顧客支援"
 
-#: pages/comments_list.php:8
+#: pages/comments_list.php:7
 msgid "Blog"
 msgstr "ブログ"
 
-#: pages/comments_list.php:13
+#: pages/comments_list.php:14
 msgid "Search"
 msgstr "検索"
 
@@ -277,11 +284,11 @@ msgstr ""
 msgid "You do not have permission to read this comment."
 msgstr "この書き込みを読む権限がありません。"
 
-#: skin/default/list-template.php:45
+#: skin/default/list-template.php:46
 msgid "Like"
 msgstr "いいね"
 
-#: skin/default/list-template.php:46
+#: skin/default/list-template.php:47
 msgid "Unlike"
 msgstr "いやだ"
 

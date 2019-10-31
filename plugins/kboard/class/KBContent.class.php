@@ -1512,6 +1512,29 @@ class KBContent {
 	}
 	
 	/**
+	 * 작성자 이름을 반환한다.
+	 * @param string $user_display
+	 * @return string
+	 */
+	public function getUserDisplay($user_display=''){
+		global $kboard_builder;
+		
+		if($this->uid){
+			if(!$user_display){
+				$user_display = $this->getUserName();
+			}
+			
+			$user_id = $this->getUserID();
+			$user_name = $this->getUserName();
+			$type = 'kboard';
+			$builder = $kboard_builder;
+			
+			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
+		}
+		return $user_display;
+	}
+	
+	/**
 	 * 작성자 이름을 읽을 수 없도록 만든다.
 	 * @param string $replace
 	 * @return string
@@ -1775,4 +1798,3 @@ class KBContent {
 		return preg_replace($pattern, $replacement, $contents, -1);
 	}
 }
-?>
