@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2019-10-31 14:28+0900\n"
-"PO-Revision-Date: 2019-10-31 14:28+0900\n"
+"POT-Creation-Date: 2019-11-01 18:13+0900\n"
+"PO-Revision-Date: 2019-11-01 18:13+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -40,13 +40,13 @@ msgstr "KBoard コメントポイントを管理します。"
 #: class/KBController.class.php:53 class/KBController.class.php:58
 #: class/KBController.class.php:62 class/KBController.class.php:69
 #: class/KBController.class.php:81 class/KBController.class.php:153
-#: class/KBController.class.php:272 class/KBController.class.php:278
-#: class/KBController.class.php:282 class/KBController.class.php:530
-#: class/KBController.class.php:533 class/KBController.class.php:594
-#: class/KBController.class.php:597 class/KBController.class.php:611
-#: class/KBController.class.php:614 class/KBController.class.php:773
-#: class/KBController.class.php:855 class/KBController.class.php:1012
-#: class/KBController.class.php:1050 class/KBController.class.php:1072
+#: class/KBController.class.php:276 class/KBController.class.php:282
+#: class/KBController.class.php:286 class/KBController.class.php:534
+#: class/KBController.class.php:537 class/KBController.class.php:598
+#: class/KBController.class.php:601 class/KBController.class.php:615
+#: class/KBController.class.php:618 class/KBController.class.php:777
+#: class/KBController.class.php:859 class/KBController.class.php:1016
+#: class/KBController.class.php:1054 class/KBController.class.php:1076
 #: class/KBTemplate.class.php:115 class/KBTemplate.class.php:122
 #: class/KBTemplate.class.php:130 class/KBTemplate.class.php:134
 #: class/KBTemplate.class.php:139 class/KBoardBuilder.class.php:592
@@ -109,11 +109,11 @@ msgstr "匿名"
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "アップロード経路がありません。IDを入力した後、初期化してください。"
 
-#: class/KBContent.class.php:931 pages/kboard_setting.php:1477
+#: class/KBContent.class.php:931 pages/kboard_setting.php:1492
 msgid "Deleted increment points"
 msgstr "記事の削除の増加ポイント"
 
-#: class/KBContent.class.php:943 pages/kboard_setting.php:1485
+#: class/KBContent.class.php:943 pages/kboard_setting.php:1500
 msgid "Deleted decrease points"
 msgstr "記事の削除の減少ポイント"
 
@@ -294,66 +294,70 @@ msgstr "%sは使用できません。"
 msgid "You have not enough points."
 msgstr "ポイントが足りません。"
 
-#: class/KBController.class.php:164 pages/kboard_setting.php:1468
+#: class/KBController.class.php:164 pages/kboard_setting.php:1483
 msgid "Writing decrease points"
 msgstr "作文の減少ポイント"
 
-#: class/KBController.class.php:182 pages/kboard_setting.php:1460
+#: class/KBController.class.php:174
+msgid "An unexpected problem has occurred."
+msgstr "予想できなかった問題が発生しました。"
+
+#: class/KBController.class.php:186 pages/kboard_setting.php:1475
 msgid "Writing increase points"
 msgstr "作文の増加ポイント"
 
-#: class/KBController.class.php:267 class/KBController.class.php:330
+#: class/KBController.class.php:271 class/KBController.class.php:334
 #: class/KBoardBuilder.class.php:703
 msgid "This page is restricted from external access."
 msgstr "このページは外部からのアクセスを制限しています。"
 
-#: class/KBController.class.php:403 class/KBController.class.php:415
+#: class/KBController.class.php:407 class/KBController.class.php:419
 msgid "File does not exist."
 msgstr "ファイルがありません。"
 
-#: class/KBController.class.php:446 pages/kboard_setting.php:1503
+#: class/KBController.class.php:450 pages/kboard_setting.php:1518
 msgid "Attachment download decrease points"
 msgstr "添付ファイルのダウンロードの減少ポイント"
 
-#: class/KBController.class.php:546
+#: class/KBController.class.php:550
 msgid "Payment has been cancelled."
 msgstr "決済が取り消されました。"
 
-#: class/KBController.class.php:622 class/KBController.class.php:732
-#: class/KBController.class.php:816 class/KBController.class.php:876
+#: class/KBController.class.php:626 class/KBController.class.php:736
+#: class/KBController.class.php:820 class/KBController.class.php:880
 #: index.php:1147
 msgid "Point payment"
 msgstr "ポイント決済"
 
-#: class/KBController.class.php:626 class/KBController.class.php:629
-#: class/KBController.class.php:819
+#: class/KBController.class.php:630 class/KBController.class.php:633
+#: class/KBController.class.php:823
 msgid "Your point is not enough."
 msgstr "あなたのポイントが足りません。"
 
-#: class/KBController.class.php:880
+#: class/KBController.class.php:884
 msgid "Not enough points."
 msgstr "ポイントが足りません。"
 
-#: class/KBController.class.php:892 index.php:1145
+#: class/KBController.class.php:896 index.php:1145
 msgid "Order information has been changed."
 msgstr "注文情報が変更されました。"
 
-#: class/KBController.class.php:899 class/KBController.class.php:935
-#: class/KBController.class.php:955 index.php:1148
+#: class/KBController.class.php:903 class/KBController.class.php:939
+#: class/KBController.class.php:959 index.php:1148
 msgid "Cancel point payment"
 msgstr "ポイント決済キャンセル"
 
-#: class/KBController.class.php:909 class/KBController.class.php:945
-#: class/KBController.class.php:965 index.php:1144
+#: class/KBController.class.php:913 class/KBController.class.php:949
+#: class/KBController.class.php:969 index.php:1144
 msgid "Your order has been cancelled."
 msgstr "注文がキャンセルになりました。"
 
-#: class/KBController.class.php:1004 class/KBController.class.php:1042
+#: class/KBController.class.php:1008 class/KBController.class.php:1046
 #: index.php:1060
 msgid "You have already voted."
 msgstr "すでに投票しました。"
 
-#: class/KBController.class.php:1008 class/KBController.class.php:1046
+#: class/KBController.class.php:1012 class/KBController.class.php:1050
 #: class/KBoardBuilder.class.php:247 index.php:1179 index.php:1212
 msgid "Please Log in to continue."
 msgstr "続行するにはログインしてください。"
@@ -467,7 +471,7 @@ msgstr "この掲示文は移動されました。"
 msgid "This post can only be read by the owner."
 msgstr "この掲示文は主人のみ読むことができます。"
 
-#: class/KBoardBuilder.class.php:485 pages/kboard_setting.php:1493
+#: class/KBoardBuilder.class.php:485 pages/kboard_setting.php:1508
 msgid "Reading decrease points"
 msgstr "文読むことの減少ポイント"
 
@@ -480,8 +484,8 @@ msgid "Options"
 msgstr "オプション"
 
 #: class/KBoardFields.class.php:61 class/KBoardFields.class.php:74
-#: pages/kboard_setting.php:753 pages/kboard_setting.php:762
-#: pages/kboard_setting.php:1144 pages/kboard_setting.php:1153
+#: pages/kboard_setting.php:768 pages/kboard_setting.php:777
+#: pages/kboard_setting.php:1159 pages/kboard_setting.php:1168
 #: skin/avatar/editor-fields.php:67 skin/avatar/editor-fields.php:84
 #: skin/contact-form/editor-fields.php:64
 #: skin/contact-form/editor-fields.php:81 skin/default/editor-fields.php:67
@@ -1198,7 +1202,7 @@ msgstr "KBoard : Latestview"
 msgid "KBoard : 최신글 뷰 관리"
 msgstr "KBoard : Latestview管理"
 
-#: pages/kboard_latestview_setting.php:131 pages/kboard_setting.php:1603
+#: pages/kboard_latestview_setting.php:131 pages/kboard_setting.php:1618
 msgid "변경 사항 저장"
 msgstr "変更事項保存"
 
@@ -1246,13 +1250,13 @@ msgstr "大量管理"
 msgid "확장설정"
 msgstr "拡張設定"
 
-#: pages/kboard_setting.php:674 pages/kboard_setting.php:838
-#: pages/kboard_setting.php:968
+#: pages/kboard_setting.php:689 pages/kboard_setting.php:853
+#: pages/kboard_setting.php:983
 msgid "Remove"
 msgstr "削除"
 
-#: pages/kboard_setting.php:753 pages/kboard_setting.php:762
-#: pages/kboard_setting.php:1144 pages/kboard_setting.php:1153
+#: pages/kboard_setting.php:768 pages/kboard_setting.php:777
+#: pages/kboard_setting.php:1159 pages/kboard_setting.php:1168
 #: skin/avatar/editor-fields.php:67 skin/avatar/editor-fields.php:84
 #: skin/avatar/editor-fields.php:192 skin/contact-form/editor-fields.php:64
 #: skin/contact-form/editor-fields.php:81
@@ -1263,41 +1267,41 @@ msgstr "削除"
 msgid "Select"
 msgstr "選択"
 
-#: pages/kboard_setting.php:875 pages/kboard_setting.php:1042
+#: pages/kboard_setting.php:890 pages/kboard_setting.php:1057
 #: skin/avatar/editor-fields.php:221 skin/contact-form/editor-fields.php:167
 #: skin/default/editor-fields.php:221 skin/thumbnail/editor-fields.php:221
 msgid "Reset"
 msgstr "初期化"
 
-#: pages/kboard_setting.php:1462 pages/kboard_setting.php:1470
-#: pages/kboard_setting.php:1479 pages/kboard_setting.php:1487
-#: pages/kboard_setting.php:1495 pages/kboard_setting.php:1505
-#: pages/kboard_setting.php:1514 pages/kboard_setting.php:1522
-#: pages/kboard_setting.php:1531 pages/kboard_setting.php:1539
+#: pages/kboard_setting.php:1477 pages/kboard_setting.php:1485
+#: pages/kboard_setting.php:1494 pages/kboard_setting.php:1502
+#: pages/kboard_setting.php:1510 pages/kboard_setting.php:1520
+#: pages/kboard_setting.php:1529 pages/kboard_setting.php:1537
+#: pages/kboard_setting.php:1546 pages/kboard_setting.php:1554
 msgid "Please enter only numbers"
 msgstr "数字だけ入力してください"
 
-#: pages/kboard_setting.php:1512
+#: pages/kboard_setting.php:1527
 msgid "Writing comment increase points"
 msgstr "コメントを書くことの増加ポイント"
 
-#: pages/kboard_setting.php:1520
+#: pages/kboard_setting.php:1535
 msgid "Writing comment decrease points"
 msgstr "コメントを書くことの減少ポイント"
 
-#: pages/kboard_setting.php:1529
+#: pages/kboard_setting.php:1544
 msgid "Deleted comment increment points"
 msgstr "書き込み削除の増加ポイント"
 
-#: pages/kboard_setting.php:1537
+#: pages/kboard_setting.php:1552
 msgid "Deleted comment decrease points"
 msgstr "書き込み削除の減少ポイント"
 
-#: pages/kboard_setting.php:1558
+#: pages/kboard_setting.php:1573
 msgid "Download"
 msgstr "ダウンロード"
 
-#: pages/kboard_setting.php:1575
+#: pages/kboard_setting.php:1590
 msgid "Upload"
 msgstr "アップロード"
 
@@ -1323,12 +1327,12 @@ msgid "최신버전 확인 및 운영관련 기능을 사용할 수 있습니다
 msgstr "最新バージョンの確認と操作に関連する機能を使用することができます。"
 
 #: pages/welcome.php:12
-msgid "KBoard 버전"
-msgstr "KBoardバージョン"
-
-#: pages/welcome.php:25
 msgid "Events and News"
 msgstr "イベントとニュース"
+
+#: pages/welcome.php:22
+msgid "KBoard 버전"
+msgstr "KBoardバージョン"
 
 #: pages/welcome.php:39
 msgid "등록된 상품이 없습니다."

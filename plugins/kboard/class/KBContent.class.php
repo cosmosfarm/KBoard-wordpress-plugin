@@ -240,10 +240,10 @@ class KBContent {
 				
 				// 게시글 입력 액션 훅 실행
 				do_action('kboard_document_insert', $this->uid, $this->board_id, $this, $board);
+				
+				// 임시저장 데이터 삭제
+				$this->cleanTemporary();
 			}
-			
-			// 임시저장 데이터 삭제
-			$this->cleanTemporary();
 			
 			return $this->uid;
 		}
