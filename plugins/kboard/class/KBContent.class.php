@@ -1638,11 +1638,12 @@ class KBContent {
 	 * @return object
 	 */
 	public function getAttachmentList(){
+		$attachment_list = new stdClass();
 		if($this->uid){
 			$board = $this->getBoard();
-			return $board->fields()->getAttachmentList($this);
+			$attachment_list = $board->fields()->getAttachmentList($this);
 		}
-		return new stdClass();
+		return apply_filters('kboard_content_get_attachment_list', $attachment_list, $this, $this->getBoard());
 	}
 	
 	/**
