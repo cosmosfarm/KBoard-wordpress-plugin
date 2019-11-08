@@ -169,12 +169,19 @@ class KBOrderHistory {
 				$where[] = $this->getSearchQuery($condition);
 			}
 			else if(is_array($condition)){
-				if(is_array($condition['value'])){
-					$condition['value'] = implode(',', $condition['value']);
+				if(isset($condition['value']) && is_array($condition['value'])){
+					$condition_value = array();
+					foreach($condition['value'] as $value){
+						$condition_value[] = esc_sql(sanitize_text_field($value));
+					}
+					
+					$condition_value = "'".implode("','", $condition_value)."'";
+				}
+				else{
+					$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
 				}
 				
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
-				$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
 				$condition_compare = isset($condition['compare']) ? esc_sql($condition['compare']) : '';
 				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				

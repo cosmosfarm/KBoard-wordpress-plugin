@@ -538,12 +538,19 @@ class KBContentList {
 				$where[] = $this->multipleOptionQuery($option);
 			}
 			else if(is_array($option)){
-				if(is_array($option['value'])){
-					$option['value'] = implode(',', $option['value']);
+				if(isset($option['value']) && is_array($option['value'])){
+					$option_value = array();
+					foreach($option['value'] as $value){
+						$option_value[] = esc_sql(sanitize_text_field($value));
+					}
+					
+					$option_value = "'".implode("','", $option_value)."'";
+				}
+				else{
+					$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
 				}
 				
 				$option_key = isset($option['key']) ? esc_sql(sanitize_key($option['key'])) : '';
-				$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
 				$option_compare = isset($option['compare']) ? esc_sql($option['compare']) : '';
 				$option_wildcard = isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
 				
