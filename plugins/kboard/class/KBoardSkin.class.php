@@ -69,6 +69,50 @@ class KBoardSkin {
 	}
 	
 	/**
+	 * 스킨 파일이 있는지 확인한다.
+	 * @param string $skin_name
+	 * @param string $file
+	 * @return boolean
+	 */
+	public function fileExists($skin_name, $file){
+		$file_exists = false;
+		$current_file_path = '';
+		
+		if(isset($this->merged_list[$skin_name])){
+			extract($vars, EXTR_SKIP);
+			
+			$is_ajax = false;
+			if(defined('DOING_AJAX') && DOING_AJAX){
+				if(file_exists("{$this->merged_list[$skin_name]->dir}/ajax-{$file}")){
+					$is_ajax = true;
+				}
+			}
+			
+			$is_admin = false;
+			if(is_admin()){
+				if(file_exists("{$this->merged_list[$skin_name]->dir}/admin-{$file}")){
+					$is_admin = true;
+				}
+			}
+			
+			if($is_ajax){
+				$current_file_path = "{$this->merged_list[$skin_name]->dir}/ajax-{$file}";
+			}
+			else if($is_admin){
+				$current_file_path = "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
+			}
+			else{
+				$current_file_path = "{$this->merged_list[$skin_name]->dir}/{$file}";
+			}
+		}
+		
+		if($current_file_path && file_exists($current_file_path)){
+			$file_exists = true;
+		}
+		return $file_exists;
+	}
+	
+	/**
 	 * 스킨 레이아웃을 불러온다.
 	 * @param string $skin_name
 	 * @param string $file

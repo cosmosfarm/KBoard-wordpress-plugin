@@ -481,7 +481,14 @@ class KBoardFields {
 			do_action('kboard_skin_field_before', $field, $content, $this->board);
 			do_action("kboard_skin_field_before_{$meta_key}", $field, $content, $this->board);
 			
-			echo apply_filters('kboard_get_template_field_html', $skin->load($this->board->skin, 'editor-fields.php', $vars), $field, $content, $this->board);
+			if($skin->fileExists($this->board->skin, "editor-field-{$meta_key}.php")){
+				$field_html = $skin->load($this->board->skin, "editor-field-{$meta_key}.php", $vars);
+			}
+			else{
+				$field_html = $skin->load($this->board->skin, 'editor-fields.php', $vars);
+			}
+			
+			echo apply_filters('kboard_get_template_field_html', $field_html, $field, $content, $this->board);
 			
 			do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);
 			do_action('kboard_skin_field_after', $field, $content, $this->board);
