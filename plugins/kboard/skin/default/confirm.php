@@ -1,13 +1,5 @@
-<?php
-if(isset($_GET['kboard-content-remove-nonce']) && $_GET['kboard-content-remove-nonce']){
-	$confirm_url = $url->getContentRemove(kboard_uid());
-}
-else{
-	$confirm_url = $url->set('mod', kboard_mod())->set('uid', kboard_uid())->toString();
-}
-?>
-<div id="kboard-default-editor">
-	<form method="post" action="<?php echo $confirm_url?>">
+<div id="kboard-default-editor" class="confirm">
+	<form method="post" action="<?php echo esc_url($url->getConfirmExecute($content->uid))?>">
 		<div class="kboard-attr-row kboard-confirm-row">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
 			<div class="attr-value">
@@ -19,10 +11,10 @@ else{
 		</div>
 		<div class="kboard-control">
 			<div class="left">
-				<?php if($content->uid):?>
-				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-default-button-small"><?php echo __('Document', 'kboard')?></a>
+				<?php if($content->uid && kboard_mod() != 'document'):?>
+				<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>" class="kboard-default-button-small"><?php echo __('Document', 'kboard')?></a>
 				<?php endif?>
-				<a href="<?php echo $url->getBoardList()?>" class="kboard-default-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getBoardList())?>" class="kboard-default-button-small"><?php echo __('List', 'kboard')?></a>
 			</div>
 			<div class="right">
 				<button type="submit" class="kboard-default-button-small"><?php echo __('Password confirm', 'kboard')?></button>

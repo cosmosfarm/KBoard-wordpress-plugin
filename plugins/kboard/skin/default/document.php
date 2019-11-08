@@ -25,7 +25,7 @@
 				<?php endif?>
 				<div class="detail-attr detail-writer">
 					<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
-					<div class="detail-value"><?php echo apply_filters('kboard_user_display', $content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?></div>
+					<div class="detail-value"><?php echo $content->getUserDisplay()?></div>
 				</div>
 				<div class="detail-attr detail-date">
 					<div class="detail-name"><?php echo __('Date', 'kboard')?></div>

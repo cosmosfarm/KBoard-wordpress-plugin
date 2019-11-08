@@ -196,7 +196,7 @@ class KBAdminController {
 	public function backup(){
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-backup-download-nonce']) && wp_verify_nonce($_POST['kboard-backup-download-nonce'], 'kboard-backup-download')){
-			set_time_limit(0);
+			set_time_limit(3600);
 			ini_set('memory_limit', '-1');
 			
 			header('Content-Type: text/html; charset=UTF-8');
@@ -223,7 +223,7 @@ class KBAdminController {
 	public function restore(){
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-restore-execute-nonce']) && wp_verify_nonce($_POST['kboard-restore-execute-nonce'], 'kboard-restore-execute')){
-			set_time_limit(0);
+			set_time_limit(3600);
 			ini_set('memory_limit', '-1');
 			
 			header('Content-Type: text/html; charset=UTF-8');
@@ -302,7 +302,7 @@ class KBAdminController {
 		global $wpdb;
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_GET['kboard-csv-download-execute-nonce']) && wp_verify_nonce($_GET['kboard-csv-download-execute-nonce'], 'kboard-csv-download-execute')){
-			set_time_limit(0);
+			set_time_limit(3600);
 			ini_set('memory_limit', '-1');
 			
 			header('Content-Type: text/html; charset=UTF-8');
@@ -374,7 +374,7 @@ class KBAdminController {
 		global $wpdb;
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
-			set_time_limit(0);
+			set_time_limit(3600);
 			ini_set('memory_limit', '-1');
 			
 			header('Content-Type: text/html; charset=UTF-8');

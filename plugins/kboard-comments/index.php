@@ -30,7 +30,7 @@ include_once 'class/KBCommentUrl.class.php';
 /*
  * KBoard 댓글 시작
  */
-add_action('init', 'kboard_comments_init', 0);
+add_action('init', 'kboard_comments_init', 5);
 function kboard_comments_init(){
 	
 	// 언어 파일 추가
@@ -42,10 +42,20 @@ function kboard_comments_init(){
 	// 템플릿 시작
 	$comment_template = new KBCommentTemplate();
 	
-	$kboard_comments_sort = isset($_GET['kboard_comments_sort'])?$_GET['kboard_comments_sort']:'';
+	$kboard_comments_sort = isset($_GET['kboard_comments_sort']) ? sanitize_text_field($_GET['kboard_comments_sort']) : '';
 	if($kboard_comments_sort){
-		$_COOKIE['kboard_comments_sort'] = $kboard_comments_sort;
-		setcookie('kboard_comments_sort', $kboard_comments_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		if(!in_array($kboard_comments_sort, array('best', 'oldest', 'newest'))){
+			$kboard_comments_sort = '';
+		}
+		
+		if($kboard_comments_sort){
+			$_COOKIE['kboard_comments_sort'] = $kboard_comments_sort;
+			setcookie('kboard_comments_sort', $kboard_comments_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
+		else{
+			$_COOKIE['kboard_comments_sort'] = '';
+			setcookie('kboard_comments_sort', '', strtotime('-1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
 	}
 	
 	// 스킨의 functions.php 파일을 실행한다.

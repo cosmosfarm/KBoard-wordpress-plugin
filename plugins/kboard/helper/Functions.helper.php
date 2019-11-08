@@ -833,4 +833,3 @@ function kboard_iframe_id(){
 	}
 	return apply_filters('kboard_iframe_id', $iframe_id);
 }
-?>

@@ -35,4 +35,3 @@ class KBAdminNotices {
 		return '<div class="notice notice-info"><p>KBoard 댓글 : ' . $version . ' 버전으로 업데이트 가능합니다. - <a href="'.admin_url('/admin.php?page=kboard_updates').'">업데이트</a> 또는 <a href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;">홈페이지 열기</a></p></div>';
 	}
 }
-?>

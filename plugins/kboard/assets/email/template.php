@@ -2,251 +2,16 @@
 <!doctype html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><?php echo $subject?></title>
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title><?php echo esc_html($subject)?></title>
 <style>
 /* -------------------------------------
-          GLOBAL RESETS
-      ------------------------------------- */
-img {
-	border: none;
-	-ms-interpolation-mode: bicubic;
-	max-width: 100%;
-}
-
-body {
-	background-color: #f6f6f6;
-	font-family: Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,arial,Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif;
-	-webkit-font-smoothing: antialiased;
-	font-size: 14px;
-	line-height: 1.4;
-	margin: 0;
-	padding: 0;
-	-ms-text-size-adjust: 100%;
-	-webkit-text-size-adjust: 100%;
-}
-
-table {
-	border-collapse: collapse;
-	mso-table-lspace: 0pt;
-	mso-table-rspace: 0pt;
-	width: 100%;
-}
-
-table td {
-	font-family: Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif;
-	font-size: 14px;
-	vertical-align: top;
-}
-
-table.receipt th,
-table.receipt td {
-	text-align: left;
-	color: #737373;
-	border: 2px solid #e4e4e4;
-	padding: 12px;
-}
-table.receipt td.bold {
-	font-weight: bold;
-}
-
+        INLINED WITH htmlemail.io/inline
+    ------------------------------------- */
 /* -------------------------------------
-          BODY & CONTAINER
-      ------------------------------------- */
-.body {
-	background-color: #f6f6f6;
-	width: 100%;
-}
-
-/* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
-.container {
-	display: block;
-	margin: 0 auto !important;
-	/* makes it centered */
-	max-width: 580px;
-	padding: 10px;
-	width: 580px;
-}
-
-/* This should also be a block element, so that it will fill 100% of the .container */
-.content {
-	box-sizing: border-box;
-	display: block;
-	margin: 0 auto;
-	max-width: 580px;
-	padding: 10px;
-}
-
-/* -------------------------------------
-          HEADER, FOOTER, MAIN
-      ------------------------------------- */
-.main {
-	background: #fff;
-	border-radius: 3px;
-	width: 100%;
-}
-
-.wrapper {
-	box-sizing: border-box;
-	padding: 20px;
-}
-
-.footer {
-	clear: both;
-	padding-top: 10px;
-	text-align: center;
-	width: 100%;
-}
-
-.footer td, .footer p, .footer span, .footer a {
-	color: #999999;
-	font-size: 12px;
-	text-align: center;
-}
-
-/* -------------------------------------
-          TYPOGRAPHY
-      ------------------------------------- */
-h1, h2, h3, h4 {
-	color: #000000;
-	font-family: Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif;
-	font-weight: 400;
-	line-height: 1.4;
-	margin: 0;
-	margin-bottom: 30px;
-}
-
-h1 {
-	font-size: 35px;
-	font-weight: 300;
-	text-align: center;
-	text-transform: capitalize;
-}
-
-p, ul, ol {
-	font-family: Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif;
-	font-size: 14px;
-	font-weight: normal;
-	margin: 0;
-	margin-bottom: 15px;
-}
-
-p li, ul li, ol li {
-	list-style-position: inside;
-	margin-left: 5px;
-}
-
-a {
-	color: #3498db;
-	text-decoration: underline;
-}
-
-/* -------------------------------------
-          BUTTONS
-      ------------------------------------- */
-.btn {
-	box-sizing: border-box;
-	width: 100%;
-}
-
-.btn>tbody>tr>td {
-	padding-bottom: 15px;
-}
-
-.btn table {
-	width: auto;
-}
-
-.btn table td {
-	background-color: #ffffff;
-	border-radius: 5px;
-	text-align: center;
-}
-
-.btn a {
-	background-color: #ffffff;
-	border: solid 1px #3498db;
-	border-radius: 5px;
-	box-sizing: border-box;
-	color: #3498db;
-	cursor: pointer;
-	display: inline-block;
-	font-size: 14px;
-	font-weight: bold;
-	margin: 0;
-	padding: 12px 25px;
-	text-decoration: none;
-	text-transform: capitalize;
-}
-
-.btn-primary table td {
-	background-color: #3498db;
-}
-
-.btn-primary a {
-	background-color: #3498db;
-	border-color: #3498db;
-	color: #ffffff;
-}
-
-/* -------------------------------------
-          OTHER STYLES THAT MIGHT BE USEFUL
-      ------------------------------------- */
-.last {
-	margin-bottom: 0;
-}
-
-.first {
-	margin-top: 0;
-}
-
-.align-center {
-	text-align: center;
-}
-
-.align-right {
-	text-align: right;
-}
-
-.align-left {
-	text-align: left;
-}
-
-.clear {
-	clear: both;
-}
-
-.mt0 {
-	margin-top: 0;
-}
-
-.mb0 {
-	margin-bottom: 0;
-}
-
-.preheader {
-	color: transparent;
-	display: none;
-	height: 0;
-	max-height: 0;
-	max-width: 0;
-	opacity: 0;
-	overflow: hidden;
-	mso-hide: all;
-	visibility: hidden;
-	width: 0;
-}
-
-hr {
-	border: 0;
-	border-bottom: 1px solid #f6f6f6;
-	margin: 20px 0;
-}
-
-/* -------------------------------------
-          RESPONSIVE AND MOBILE FRIENDLY STYLES
-      ------------------------------------- */
+        RESPONSIVE AND MOBILE FRIENDLY STYLES
+    ------------------------------------- */
 @media only screen and (max-width: 620px) {
 	table[class=body] h1 {
 		font-size: 28px !important;
@@ -282,10 +47,9 @@ hr {
 		width: auto !important;
 	}
 }
-
 /* -------------------------------------
-          PRESERVE THESE STYLES IN THE HEAD
-      ------------------------------------- */
+        PRESERVE THESE STYLES IN THE HEAD
+    ------------------------------------- */
 @media all {
 	.ExternalClass {
 		width: 100%;
@@ -301,6 +65,14 @@ hr {
 		line-height: inherit !important;
 		text-decoration: none !important;
 	}
+	#MessageViewBody a {
+		color: inherit;
+		text-decoration: none;
+		font-size: inherit;
+		font-family: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+	}
 	.btn-primary table td:hover {
 		background-color: #34495e !important;
 	}
@@ -311,45 +83,69 @@ hr {
 }
 </style>
 </head>
-<body class="">
-	<table border="0" cellpadding="0" cellspacing="0" class="body">
+<body class="" style="background-color: #f6f6f6; font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+	<table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
 		<tr>
-			<td>&nbsp;</td>
-			<td class="container">
-				<div class="content">
-
+			<td style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+			<td class="container" style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+				<div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+					
 					<!-- START CENTERED WHITE CONTAINER -->
-					<table class="main">
-
+					<!--<span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">This is preheader text. Some clients will show this text as a preview.</span>-->
+					
+					<table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+						
 						<!-- START MAIN CONTENT AREA -->
 						<tr>
-							<td class="wrapper">
-								<table border="0" cellpadding="0" cellspacing="0">
+							<td class="wrapper" style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+								<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
 									<tr>
-										<td><?php echo $message?></td>
+										<td style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top;">
+											<?php echo $message?>
+											
+											<?php foreach($call_to_actions as $name=>$url):?>
+											<table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="margin: 15px 0; border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+												<tbody>
+													<tr>
+														<td align="left" style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top;">
+															<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+																<tbody>
+																	<tr>
+																		<td style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;">
+																			<a href="<?php echo esc_attr($url)?>" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 5px 10px;; text-transform: capitalize; border-color: #3498db;"><?php echo esc_html($name)?></a>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+											<?php endforeach?>
+										</td>
 									</tr>
 								</table>
 							</td>
 						</tr>
-
 						<!-- END MAIN CONTENT AREA -->
 					</table>
-
+					
 					<!-- START FOOTER -->
-					<div class="footer">
-						<table border="0" cellpadding="0" cellspacing="0">
+					<div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
+						<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
 							<tr>
-								<td class="content-block">Copyright &copy; <a href="<?php echo home_url()?>" target="_blank"><?php echo get_option('blogname')?></a>. All Rights Reserved.</td>
+								<td class="content-block" style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+									Copyright &copy; <a href="<?php echo esc_url(home_url())?>" target="_blank" style="color: #999999; text-decoration: none; font-weight: bold;"><?php echo esc_html(get_option('blogname'))?></a>. All rights reserved.
+								</td>
 							</tr>
 						</table>
 					</div>
-
 					<!-- END FOOTER -->
-
+					
 					<!-- END CENTERED WHITE CONTAINER -->
 				</div>
 			</td>
-			<td>&nbsp;</td>
+			<td style="font-family: 'Apple SD Gothic Neo','Malgun Gothic',arial,sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
 		</tr>
 	</table>
 </body>

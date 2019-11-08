@@ -170,6 +170,10 @@ class KBController {
 			// 실행
 			$execute_uid = $content->execute();
 			
+			if(!$execute_uid){
+				die('<script>alert("'.__('An unexpected problem has occurred.', 'kboard').'");history.go(-1);</script>');
+			}
+			
 			do_action('kboard_content_execute', $content, $board);
 			
 			// 글쓰기 증가 포인트

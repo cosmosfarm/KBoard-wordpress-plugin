@@ -78,35 +78,39 @@ class KBoardSkin {
 	public function load($skin_name, $file, $vars=array()){
 		ob_start();
 		
-		extract($vars, EXTR_SKIP);
+		$current_file_path = '';
 		
-		$is_ajax = false;
-		if(defined('DOING_AJAX') && DOING_AJAX){
-			if(file_exists("{$this->merged_list[$skin_name]->dir}/ajax-{$file}")){
-				$is_ajax = true;
+		if(isset($this->merged_list[$skin_name])){
+			extract($vars, EXTR_SKIP);
+			
+			$is_ajax = false;
+			if(defined('DOING_AJAX') && DOING_AJAX){
+				if(file_exists("{$this->merged_list[$skin_name]->dir}/ajax-{$file}")){
+					$is_ajax = true;
+				}
 			}
-		}
-		
-		$is_admin = false;
-		if(is_admin()){
-			if(file_exists("{$this->merged_list[$skin_name]->dir}/admin-{$file}")){
-				$is_admin = true;
+			
+			$is_admin = false;
+			if(is_admin()){
+				if(file_exists("{$this->merged_list[$skin_name]->dir}/admin-{$file}")){
+					$is_admin = true;
+				}
 			}
+			
+			if($is_ajax){
+				$current_file_path = "{$this->merged_list[$skin_name]->dir}/ajax-{$file}";
+			}
+			else if($is_admin){
+				$current_file_path = "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
+			}
+			else{
+				$current_file_path = "{$this->merged_list[$skin_name]->dir}/{$file}";
+			}
+			
+			$current_file_path = apply_filters('kboard_skin_file_path', $current_file_path, $skin_name, $file, $vars, $this);
 		}
 		
-		if($is_ajax){
-			$current_file_path = "{$this->merged_list[$skin_name]->dir}/ajax-{$file}";
-		}
-		else if($is_admin){
-			$current_file_path = "{$this->merged_list[$skin_name]->dir}/admin-{$file}";
-		}
-		else{
-			$current_file_path = "{$this->merged_list[$skin_name]->dir}/{$file}";
-		}
-		
-		$current_file_path = apply_filters('kboard_skin_file_path', $current_file_path, $skin_name, $file, $vars, $this);
-		
-		if(file_exists($current_file_path)){
+		if($current_file_path && file_exists($current_file_path)){
 			include $current_file_path;
 		}
 		else{
@@ -121,7 +125,7 @@ class KBoardSkin {
 	 * @param string $skin_name
 	 */
 	public function loadFunctions($skin_name){
-		if(file_exists("{$this->merged_list[$skin_name]->dir}/functions.php")){
+		if(isset($this->merged_list[$skin_name]) && file_exists("{$this->merged_list[$skin_name]->dir}/functions.php")){
 			include_once "{$this->merged_list[$skin_name]->dir}/functions.php";
 		}
 	}
@@ -133,7 +137,10 @@ class KBoardSkin {
 	 * @return string
 	 */
 	public function url($skin_name, $file=''){
-		return "{$this->merged_list[$skin_name]->url}" . ($file ? "/{$file}" : '');
+		if(isset($this->merged_list[$skin_name])){
+			return "{$this->merged_list[$skin_name]->url}" . ($file ? "/{$file}" : '');
+		}
+		return '';
 	}
 	
 	/**
@@ -143,7 +150,10 @@ class KBoardSkin {
 	 * @return string
 	 */
 	public function dir($skin_name, $file=''){
-		return "{$this->merged_list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
+		if(isset($this->merged_list[$skin_name])){
+			return "{$this->merged_list[$skin_name]->dir}" . ($file ? "/{$file}" : '');
+		}
+		return '';
 	}
 	
 	/**

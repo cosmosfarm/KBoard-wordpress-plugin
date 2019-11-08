@@ -3,7 +3,7 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: https://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 5.4.3
+Version: 5.4.2
 Author: 코스모스팜 - Cosmosfarm
 Author URI: https://www.cosmosfarm.com/
 */
@@ -11,7 +11,7 @@ Author URI: https://www.cosmosfarm.com/
 if(!defined('ABSPATH')) exit;
 if(!session_id()) session_start();
 
-define('KBOARD_VERSION', '5.4.3');
+define('KBOARD_VERSION', '5.4.2');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -25,6 +25,14 @@ define('KBOARD_LATESTVIEW_PAGE', admin_url('admin.php?page=kboard_latestview'));
 define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('admin.php?page=kboard_latestview_new'));
 define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
+
+if(!defined('KBOARD_STORE_AUTH')){
+	define('KBOARD_STORE_AUTH', true);
+}
+
+if(!defined('KBOARD_CONNECT_COSMOSFARM')){
+	define('KBOARD_CONNECT_COSMOSFARM', true);
+}
 
 include_once 'class/KBContent.class.php';
 include_once 'class/KBContentList.class.php';
@@ -66,7 +74,7 @@ foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
 /*
  * KBoard 게시판 시작
  */
-add_action('init', 'kboard_init', 0);
+add_action('init', 'kboard_init', 5);
 function kboard_init(){
 	
 	// 언어 파일 추가
@@ -83,11 +91,21 @@ function kboard_init(){
 	$template = new KBTemplate();
 	$template->route();
 	
-	$kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:'';
-	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember'])?intval($_GET['kboard_list_sort_remember']):'';
+	$kboard_list_sort = isset($_GET['kboard_list_sort']) ? sanitize_text_field($_GET['kboard_list_sort']) : '';
+	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember']) ? intval($_GET['kboard_list_sort_remember']) : '';
 	if($kboard_list_sort && $kboard_list_sort_remember){
-		$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
-		setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		if(!in_array($kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
+			$kboard_list_sort = '';
+		}
+		
+		if($kboard_list_sort){
+			$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = $kboard_list_sort;
+			setcookie("kboard_list_sort_{$kboard_list_sort_remember}", $kboard_list_sort, strtotime('+1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
+		else{
+			$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = '';
+			setcookie("kboard_list_sort_{$kboard_list_sort_remember}", '', strtotime('-1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+		}
 	}
 	
 	// 스킨의 functions.php 파일을 실행한다.
@@ -173,7 +191,9 @@ function kboard_register_media_button($buttons){
  * 글쓰기 에디터에 미디어 버튼을 추가한다.
  */
 function kboard_add_media_button($plugin_array){
-	$plugin_array['kboard_media_button_script'] = plugins_url('/template/js/editor_media_button.js', __FILE__);
+	if(!is_admin() || kboard_view_iframe()){
+		$plugin_array['kboard_media_button_script'] = plugins_url('/template/js/editor_media_button.js', __FILE__);
+	}
 	return $plugin_array;
 }
 
@@ -182,7 +202,7 @@ function kboard_add_media_button($plugin_array){
  */
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'kboard_settings_link');
 function kboard_settings_link($links){
-	return array_merge($links, array('settings'=>'<a href="'.admin_url('admin.php?page=kboard_new').'">'.__('New Forum', 'kboard').'</a>'));
+	return array_merge($links, array('kboard-new'=>'<a href="'.admin_url('admin.php?page=kboard_new').'">'.__('New Forum', 'kboard').'</a>'));
 }
 
 /*
@@ -190,7 +210,7 @@ function kboard_settings_link($links){
  */
 add_action('welcome_panel', 'kboard_welcome_panel');
 function kboard_welcome_panel(){
-	echo '<script>jQuery(document).ready(function($){jQuery("div.welcome-panel-content").eq(0).hide();});</script>';
+	echo '<script>jQuery(document).ready(function(){jQuery("div.welcome-panel-content").eq(0).hide();});</script>';
 	include_once 'pages/welcome.php';
 }
 
@@ -210,25 +230,33 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'manage_options', 'kboard_latestview', 'kboard_latestview');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'manage_options', 'kboard_latestview_new', 'kboard_latestview_new');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'manage_options', 'kboard_backup', 'kboard_backup');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'manage_options', 'kboard_updates', 'kboard_updates');
+	
+	if(KBOARD_CONNECT_COSMOSFARM){
+		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'manage_options', 'kboard_updates', 'kboard_updates');
+		
+		// 스토어 메뉴 등록
+		$_wp_last_object_menu++;
+		add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+		add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store');
+	}
+	
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'manage_options', 'kboard_content_list', 'kboard_content_list');
 	
-	// 스토어 메뉴 등록
-	$_wp_last_object_menu++;
-	add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-	add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store');
-	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
-	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3') add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
-	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3') kboard_comments_settings_menu();
+	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3'){
+		add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
+	}
+	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3'){
+		kboard_comments_settings_menu();
+	}
+	
+	// 메뉴 액션 실행
+	do_action('kboard_admin_menu');
 	
 	$result = $wpdb->get_results("SELECT `meta`.`board_id`, `setting`.`board_name` FROM `{$wpdb->prefix}kboard_board_meta` AS `meta` LEFT JOIN `{$wpdb->prefix}kboard_board_setting` AS `setting` ON `meta`.`board_id`=`setting`.`uid` WHERE `meta`.`key`='add_menu_page'");
 	foreach($result as $row){
 		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'manage_options', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
 	}
-	
-	// 메뉴 액션 실행
-	do_action('kboard_admin_menu');
 }
 
 /*
@@ -933,7 +961,7 @@ function kboard_ajax_builder(){
  */
 add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
-	if(current_user_can('manage_options')){
+	if(KBOARD_CONNECT_COSMOSFARM && current_user_can('manage_options')){
 		
 		// 관리자 알림 시작
 		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
@@ -945,6 +973,7 @@ function kboard_admin_notices(){
 		if(!get_option('kboard_updates_notify_disabled')){
 			$upgrader = KBUpgrader::getInstance();
 			$vsersion = $upgrader->getLatestVersion()->kboard;
+			
 			if(version_compare(KBOARD_VERSION, $vsersion, '<')){
 				echo KBAdminNotices::get_kboard_update_notice_message_message($vsersion);
 			}
@@ -1257,7 +1286,6 @@ function kboard_content_paragraph_breaks($content, $builder=''){
  */
 add_action('plugins_loaded', 'kboard_update_check');
 function kboard_update_check(){
-	
 	// 시스템 업데이트를 이미 진행 했다면 중단한다.
 	if(version_compare(KBOARD_VERSION, get_option('kboard_version'), '<=')) return;
 	

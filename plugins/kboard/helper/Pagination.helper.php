@@ -66,4 +66,3 @@ function kboard_pagination($current_page, $total, $limit, $args=array()){
 	
 	return $total?$paging:'<li class="active"><a href="#" onclick="return false">1</a></li>';
 }
-?>

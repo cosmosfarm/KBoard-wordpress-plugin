@@ -5,7 +5,7 @@
 
 a.kboard-contact-form-button-small,
 input.kboard-contact-form-button-small,
-button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; width: auto; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; width: auto; height: 28px; line-height: 28px; font-size: 13px; font-weight: normal; letter-spacing: normal; color: #545861 !important; background: #eaeaea !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
 a.kboard-contact-form-button-small:hover,
 a.kboard-contact-form-button-small:focus,
 a.kboard-contact-form-button-small:active,
@@ -18,7 +18,7 @@ button.kboard-contact-form-button-small:active { opacity: 0.7; }
 
 a.kboard-contact-form-button-large,
 input.kboard-contact-form-button-large,
-button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 50px; width: auto; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: white !important; background: #00a8e7 !important; border: none; border-radius: 24px; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 50px; width: auto; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: #545861 !important; background: #eaeaea !important; border: none; border-radius: 24px; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
 a.kboard-contact-form-button-large:hover,
 a.kboard-contact-form-button-large:focus,
 a.kboard-contact-form-button-large:active,
@@ -29,7 +29,7 @@ button.kboard-contact-form-button-large:hover,
 button.kboard-contact-form-button-large:focus,
 button.kboard-contact-form-button-large:active { opacity: 0.7; }
 
-.kboard-contact-form-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; }
+.kboard-contact-form-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 13px; text-align: right; }
 .kboard-contact-form-new-notify { display: inline-block; *display: inline; zoom: 1; padding: 2px 2px; line-height: 10px; font-size: 10px; color: white; background-color: #f61b5d; font-weight: normal; }
 .kboard-contact-form-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
 
@@ -91,7 +91,7 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li a { display: block; margin: 0; padding: 0 11px; height: 28px; line-height: 28px; font-size: 13px; color: #999999; text-decoration: none; border: 0; background-color: #f9f9f9; box-shadow: none; transition-duration: 0.3s; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:hover a,
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: white; background-color: #00a8e7; }
+#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: #545861; background-color: #eaeaea; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
 #kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
 #kboard-contact-form-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
@@ -99,7 +99,7 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px; height: 26px; min-height: 0; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
 #kboard-contact-form-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
 
-#kboard-contact-form-editor { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
+#kboard-contact-form-editor { overflow: hidden; }
 #kboard-contact-form-editor form { margin: 0; padding: 0; }
 #kboard-contact-form-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 16px; width: 30%; height: 32px; line-height: 32px; color: #666666; border-radius: 4px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: white; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-contact-form-editor textarea { display: inline; margin: 0; padding: 5px; font-size: 16px; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; color: #666666; border-radius: 4px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: white; box-sizing: border-box; vertical-align: top; text-indent: 0; }
@@ -140,10 +140,11 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap { float: left; width: 100%; }
 #kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { clear: both; float: left; margin-bottom: 5px; width: 30%; }
-#kboard-contact-form-editor .kboard-confirm-row { padding: 100px 0; }
 #kboard-contact-form-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
 #kboard-contact-form-editor .kboard-control .left { position: static; float: left; }
 #kboard-contact-form-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
+#kboard-contact-form-editor.confirm { margin: 100px auto; max-width: 590px; }
+#kboard-contact-form-editor.confirm input[type=password] { width: 96%; }
 
 #kboard-contact-form-document { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-contact-form-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
@@ -236,9 +237,10 @@ button.kboard-contact-form-button-large:active { opacity: 0.7; }
 	#kboard-contact-form-editor input[type=number],
 	#kboard-contact-form-editor input[type=date],
 	#kboard-contact-form-editor input[type=password],
-	#kboard-contact-form-editor input[type=file] { width: 100%; box-sizing: border-box; }
+	#kboard-contact-form-editor input[type=file] { width: 100% !important; box-sizing: border-box; }
 	#kboard-contact-form-editor .kboard-attr-row { padding: 10px 0; }
 	#kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 10px; width: 100%; }
+	#kboard-contact-form-editor.confirm { max-width: none; }
 	
 	#kboard-contact-form-document .kboard-title h1 { padding: 10px 5px; font-size: 18px; }
 	#kboard-contact-form-document .kboard-content .content-view { padding: 10px 5px; }

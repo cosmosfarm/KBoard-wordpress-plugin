@@ -1,15 +1,15 @@
 <?php if(!defined('ABSPATH')) exit;?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
-	<h1>
-		<?php echo __('KBoard : 스토어', 'kboard')?>
-		<a href="#" class="page-title-action kbstore-login-button"></a>
-		<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
-		<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
-		<a href="https://www.cosmosfarm.com/wpstore/manage/license" class="page-title-action" onclick="window.open(this.href);return false;">라이센스 도메인 등록 및 관리</a>
-	</h1>
+	<h1 class="wp-heading-inline"><?php echo __('KBoard : 스토어', 'kboard')?></h1>
+	<a href="#" class="page-title-action kbstore-login-button"></a>
+	<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard')?></a>
+	<a href="https://blog.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Blog', 'kboard')?></a>
+	<a href="https://www.cosmosfarm.com/wpstore/manage/license" class="page-title-action" onclick="window.open(this.href);return false;">라이센스 도메인 등록 및 관리</a>
+	
+	<hr class="wp-header-end">
 	
 	<div class="wp-filter">
 		<ul class="filter-links">
@@ -232,6 +232,7 @@ function cf_get_a_install(action, download, version){
 	a_install.innerHTML = '설치하기';
 	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
 	a_install.onclick = function(){
+		<?php if(KBOARD_STORE_AUTH):?>
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
 				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
@@ -248,6 +249,11 @@ function cf_get_a_install(action, download, version){
 				window.location.href = cosmosfarm.getLoginUrl('<?php echo admin_url('admin.php?page=kboard_store')?>');
 			}
 		});
+		<?php else:?>
+		if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
+			window.location.href = '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+		}
+		<?php endif?>
 		return false;
 	}
 	return a_install;

@@ -26,9 +26,8 @@ class KBStore {
 	 */
 	public static function getAccessToken(){
 		if(isset($_SESSION['kboard_access_token'])){
-			return $_SESSION['kboard_access_token'];
+			return sanitize_text_field($_SESSION['kboard_access_token']);
 		}
 		return '';
 	}
 }
-?>

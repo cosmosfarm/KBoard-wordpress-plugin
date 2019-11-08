@@ -848,9 +848,9 @@ class KBContentList {
 			return $this->kboard_list_sort;
 		}
 
-		$this->kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"])?$_COOKIE["kboard_list_sort_{$this->board_id}"]:$this->getDefaultSorting();
-		$this->kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"])?$_SESSION["kboard_list_sort_{$this->board_id}"]:$this->kboard_list_sort;
-		$this->kboard_list_sort = isset($_GET['kboard_list_sort'])?$_GET['kboard_list_sort']:$this->kboard_list_sort;
+		$this->kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"]) ? $_COOKIE["kboard_list_sort_{$this->board_id}"] : $this->getDefaultSorting();
+		$this->kboard_list_sort = isset($_SESSION["kboard_list_sort_{$this->board_id}"]) ? $_SESSION["kboard_list_sort_{$this->board_id}"] : $this->kboard_list_sort;
+		$this->kboard_list_sort = isset($_GET['kboard_list_sort']) ? $_GET['kboard_list_sort'] : $this->kboard_list_sort;
 
 		if(!in_array($this->kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
 			$this->kboard_list_sort = $this->getDefaultSorting();
@@ -914,4 +914,3 @@ class KBContentList {
 		return $this;
 	}
 }
-?>

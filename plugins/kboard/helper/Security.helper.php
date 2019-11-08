@@ -36,10 +36,11 @@ function kboard_xssfilter($data){
 			$HTMLPurifier_Config->set('HTML.TidyLevel', 'light');
 			$HTMLPurifier_Config->set('HTML.FlashAllowFullScreen', true);
 			$HTMLPurifier_Config->set('HTML.AllowedElements','img,div,a,strong,font,span,em,del,ins,br,p,u,i,b,sup,sub,small,table,thead,tbody,tfoot,tr,td,th,caption,pre,code,ul,ol,li,big,code,blockquote,center,hr,h1,h2,h3,h4,h5,h6,iframe,dl,dt,dd');
-			$HTMLPurifier_Config->set('HTML.AllowedAttributes', 'a.href,a.target,img.src,iframe.src,iframe.frameborder,*.id,*.alt,*.style,*.class,*.title,*.width,*.height,*.border,*.colspan,*.rowspan');
+			$HTMLPurifier_Config->set('HTML.AllowedAttributes', 'a.rel,a.href,a.target,img.src,iframe.src,iframe.frameborder,*.id,*.alt,*.style,*.class,*.title,*.width,*.height,*.border,*.colspan,*.rowspan');
 			$HTMLPurifier_Config->set('HTML.TargetNoreferrer', false);
 			$HTMLPurifier_Config->set('Attr.AllowedFrameTargets', array('_blank'));
 			$HTMLPurifier_Config->set('Attr.EnableID', true);
+			$HTMLPurifier_Config->set('Attr.AllowedRel', 'nofollow,noopener,noreferrer');
 			$HTMLPurifier_Config->set('Output.FlashCompat', true);
 			$HTMLPurifier_Config->set('Core.RemoveInvalidImg', true);
 			$HTMLPurifier_Config->set('Core.LexerImpl', 'DirectLex');
@@ -114,6 +115,7 @@ function kboard_iframe_whitelist($to_array=false){
 	$whitelist .= 'maps.google.com' . PHP_EOL;
 	$whitelist .= 'maps.google.co.kr' . PHP_EOL;
 	$whitelist .= 'docs.google.com' . PHP_EOL;
+	$whitelist .= 'tv.naver.com' . PHP_EOL;
 	$whitelist .= 'serviceapi.nmv.naver.com' . PHP_EOL;
 	$whitelist .= 'serviceapi.rmcnmv.naver.com' . PHP_EOL;
 	$whitelist .= 'videofarm.daum.net' . PHP_EOL;
@@ -198,4 +200,3 @@ function kboard_hash($text, $salt, $length=0){
 	}
 	return '$kboard$v1$' . hash_pbkdf2('sha256', $text, $salt, 100000, $length);
 }
-?>
