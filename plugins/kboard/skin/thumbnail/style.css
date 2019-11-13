@@ -120,7 +120,7 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-name .attr-required-text { color: red; font-weight: normal; font-size: 12px; }
 #kboard-thumbnail-editor .kboard-attr-row.kboard-attr-content .attr-name { display: none; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value { margin: 0 0 0 140px; padding: 0; line-height: 32px; font-size: 13px; }
-#kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; cursor: pointer; }
+#kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; font-size: 13px; cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-option input { cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-label { display: inline; padding-right: 10px; width: auto; cursor: pointer; }
 #kboard-thumbnail-editor .kboard-attr-row .attr-value .attr-value-label input { cursor: pointer; }
