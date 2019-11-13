@@ -1027,6 +1027,12 @@ function kboard_scripts(){
 	// 구글 리캡차 등록
 	wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
 	
+	// Summernot 등록
+	wp_register_style('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.css', array(), '0.8.12');
+	wp_register_script('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.js', array('jquery'), '0.8.12');
+	wp_register_script('summernote-ko-KR', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ko-KR.js', array('summernote'), '0.8.12');
+	wp_register_script('summernote-ja-JP', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ja-JP.js', array('summernote'), '0.8.12');
+	
 	// 설정 등록
 	$localize = array(
 		'version' => KBOARD_VERSION,
@@ -1037,6 +1043,7 @@ function kboard_scripts(){
 		'plugin_url' => KBOARD_URL_PATH,
 		'media_group' => kboard_media_group(),
 		'view_iframe' => kboard_view_iframe(),
+		'locale' => get_locale(),
 		'ajax_security' => wp_create_nonce('kboard_ajax_security'),
 	);
 	$kboard_iamport_id = get_option('kboard_iamport_id');

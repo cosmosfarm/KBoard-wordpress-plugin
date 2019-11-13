@@ -64,7 +64,8 @@ class KBoardBuilder {
 		static $check_kboard_comments_plugin_once;
 		
 		$this->board_id = $board_id;
-		$this->meta = new KBoardMeta($this->board_id);
+		$this->board = new KBoard($this->board_id);
+		$this->meta = $this->board->meta;
 		
 		// 코스모스팜 소셜댓글 스크립트 추가
 		if(!$check_kboard_comments_plugin_once){
@@ -98,6 +99,7 @@ class KBoardBuilder {
 					'media_group' => kboard_media_group(),
 					'content_uid' => ($this->mod=='editor' ? $this->uid : '')
 				), home_url('/', 'relative'))),
+				'use_editor' => $this->board->use_editor,
 			));
 			
 			// KBoard 미디어 추가
@@ -683,6 +685,18 @@ class KBoardBuilder {
 			// 숏코드(Shortcode)를 실행하지 못하게 변경한다.
 			$content->content = str_replace('[', '&#91;', $content->getContent());
 			$content->content = str_replace(']', '&#93;', $content->getContent());
+			
+			if($board->use_editor == 'snote'){ // summernote
+				wp_enqueue_style('summernote');
+				wp_enqueue_script('summernote');
+				
+				if(get_locale() == 'ko_KR'){
+					wp_enqueue_script('summernote-ko-KR');
+				}
+				else if(get_locale() == 'ja'){
+					wp_enqueue_script('summernote-ja-JP');
+				}
+			}
 			
 			$vars['parent'] = isset($parent) ? $parent : new KBContent();
 			

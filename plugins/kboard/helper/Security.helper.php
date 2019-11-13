@@ -28,7 +28,7 @@ function kboard_xssfilter($data){
 	if($kboard_xssfilter_active){
 		if(!isset($GLOBALS['KBOARD']) || !isset($GLOBALS['KBOARD']['HTMLPurifier']) || !$GLOBALS['KBOARD']['HTMLPurifier'] || !isset($GLOBALS['KBOARD']['HTMLPurifier_Config']) || !$GLOBALS['KBOARD']['HTMLPurifier_Config']){
 			$HTMLPurifier_Config = HTMLPurifier_Config::createDefault();
-			$HTMLPurifier_Config->set('URI.AllowedSchemes', array('http'=>true,'https'=>true,'mailto'=>true,'tel'=>true));
+			$HTMLPurifier_Config->set('URI.AllowedSchemes', array('http'=>true,'https'=>true,'mailto'=>true,'tel'=>true,'data'=>true));
 			$HTMLPurifier_Config->set('URI.SafeIframeRegexp', '(.*)');
 			$HTMLPurifier_Config->set('HTML.SafeIframe', true);
 			$HTMLPurifier_Config->set('HTML.SafeObject', true);

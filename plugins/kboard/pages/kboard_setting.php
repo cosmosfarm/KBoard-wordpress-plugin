@@ -229,6 +229,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<select name="use_editor" id="use_editor">
 								<option value="">textarea 사용</option>
 								<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>워드프레스 내장 에디터 사용</option>
+								<option value="snote"<?php if($board->use_editor == 'snote'):?> selected<?php endif?>>썸머노트 에디터 사용</option>
 							</select>
 							<p class="description">에디터를 사용해 게시글을 작성할 수 있습니다.</p>
 							<p class="description">워드프레스에 내장된 에디터를 사용하며 다른 에디터 플러그인을 설치하면 호환 됩니다.</p>

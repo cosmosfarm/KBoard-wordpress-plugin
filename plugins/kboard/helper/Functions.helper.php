@@ -533,6 +533,41 @@ function kboard_video_url_to_iframe($content){
 }
 
 /**
+ * 게시글 본문 에디터 코드를 반환한다.
+ * @param array $vars
+ * @return string
+ */
+function kboard_content_editor($vars=array()){
+	$vars = array_merge(array(
+		'board' => new KBoard(),
+		'content' => new KBContent(),
+		'required' => '',
+		'placeholder' => '',
+		'editor_height' => '400',
+	), $vars);
+	
+	$vars = apply_filters('kboard_content_editor_vars', $vars);
+	
+	extract($vars, EXTR_SKIP);
+	
+	ob_start();
+	
+	if($board->use_editor == 'yes'){
+		wp_editor($content->content, 'kboard_content', array('media_buttons'=>$board->isAdmin(), 'editor_height'=>$editor_height));
+	}
+	else if($board->use_editor == 'snote'){ // summernote
+		echo sprintf('<textarea id="kboard_content" class="summernote" name="kboard_content" style="height:%dpx;" placeholder="%s">%s</textarea>', $editor_height, esc_attr($placeholder), esc_html($content->content));
+	}
+	else{
+		echo sprintf('<textarea id="kboard_content" class="editor-textarea %s" name="kboard_content" placeholder="%s">%s</textarea>', esc_attr($required), esc_attr($placeholder), esc_textarea($content->content));
+	}
+	
+	$editor = ob_get_clean();
+	
+	return apply_filters('kboard_content_editor', $editor);
+}
+
+/**
  * media_group 값을 반환한다.
  * @return string
  */

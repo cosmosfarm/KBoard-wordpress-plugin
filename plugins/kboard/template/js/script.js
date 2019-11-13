@@ -25,8 +25,49 @@ var kboard_ajax_lock = false;
 
 jQuery(document).ready(function(){
 	var kboard_mod = jQuery('input[name=mod]', '.kboard-form').val();
-	if(kboard_mod == 'editor' && kboard_current.use_tree_category == 'yes'){
-		kboard_tree_category_parents();
+	if(kboard_mod == 'editor'){
+		if(kboard_current.use_tree_category == 'yes'){
+			kboard_tree_category_parents();
+		}
+		
+		if(kboard_current.use_editor == 'snote'){ // summernote
+			jQuery('.summernote').each(function(){
+				var height = parseInt(jQuery(this).height());
+				var placeholder = jQuery(this).attr('placeholder');
+				var lang = 'en-US';
+				
+				if(kboard_settings.locale == 'ko_KR'){
+					lang = 'ko-KR';
+				}
+				else if(kboard_settings.locale == 'ja'){
+					lang = 'ja-JP';
+				}
+				
+				jQuery(this).summernote({
+					toolbar: [
+						['style', ['style']],
+						['fontsize', ['fontsize']],
+						['font', ['bold', 'italic', 'underline', 'clear']],
+						['fontname', ['fontname']],
+						['color', ['color']],
+						['para', ['ul', 'ol', 'paragraph']],
+						['height', ['height']],
+						['table', ['table']],
+						['insert', ['link', 'picture', 'hr']],
+						['view', ['fullscreen', 'codeview']],
+						['help', ['help']]
+					],
+					
+					
+					fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana', 'Nanum Gothic', 'Malgun Gothic', 'Noto Sans KR', 'Apple SD Gothic Neo'],
+					fontNamesIgnoreCheck: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana', 'Nanum Gothic', 'Malgun Gothic', 'Noto Sans KR', 'Apple SD Gothic Neo'],
+					fontSizes: ['8','9','10','11','12','13','14','15','16','17','18','19','20','24','30','36','48','64','82','150'],
+					lang: lang,
+					height: height,
+					placeholder: placeholder
+				});
+			});
+		}
 	}
 });
 
@@ -179,7 +220,13 @@ function kboard_editor_open_media(){
 }
 
 function kboard_editor_insert_media(url){
-	if(typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()){
+	if(kboard_current.use_editor == 'snote'){ // summernote
+		jQuery('#kboard_content').summernote('editor.saveRange');
+		jQuery('#kboard_content').summernote('editor.restoreRange');
+		jQuery('#kboard_content').summernote('editor.focus');
+		jQuery('#kboard_content').summernote('editor.pasteHTML', "<img src=\""+url+"\" alt=\"\">");
+	}
+	else if(typeof tinyMCE != 'undefined' && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()){
 		tinyMCE.activeEditor.execCommand('mceInsertContent', false, "<img id=\"last_kboard_media_content\" src=\""+url+"\" alt=\"\">");
 		tinyMCE.activeEditor.focus();
 		tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('#last_kboard_media_content')[0], true);
