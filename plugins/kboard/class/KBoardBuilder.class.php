@@ -710,7 +710,7 @@ class KBoardBuilder {
 				.wp-editor-tools { overflow: hidden; margin: 10px 0; }
 				.wp-editor-tools .wp-media-buttons { float: left; }
 				.wp-editor-tools .wp-editor-tabs { float: right; }
-				.wp-editor-tools .wp-editor-tabs button { margin: 0; padding: 0 10px; font-size: 13px; line-height: 2; min-height: 28px; color: #545861 !important; background: #eaeaea !important; border-color: none; display: inline-block; }
+				.wp-editor-tools .wp-editor-tabs button { margin: 0; padding: 0 10px; font-size: 13px; line-height: 2; min-height: 28px; color: #545861 !important; background: #eaeaea !important; border: none; display: inline-block; }
 				</style>
 				<?php
 			}
