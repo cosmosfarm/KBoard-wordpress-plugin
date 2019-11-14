@@ -227,14 +227,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="use_editor">글 작성 에디터</label></th>
 						<td>
 							<select name="use_editor" id="use_editor">
-								<option value="">textarea 사용</option>
-								<option value="yes"<?php if($board->use_editor == 'yes'):?> selected<?php endif?>>워드프레스 내장 에디터 사용</option>
-								<option value="snote"<?php if($board->use_editor == 'snote'):?> selected<?php endif?>>썸머노트 에디터 사용</option>
+								<?php foreach(kboard_content_editor_list() as $key=>$value):?>
+								<option value="<?php echo esc_attr($key)?>"<?php if($board->use_editor == $key):?> selected<?php endif?>><?php echo esc_html($value)?></option>
+								<?php endforeach?>
 							</select>
-							<p class="description">에디터를 사용해 게시글을 작성할 수 있습니다.</p>
-							<p class="description">워드프레스에 내장된 에디터를 사용하며 다른 에디터 플러그인을 설치하면 호환 됩니다.</p>
-							<p class="description">워드프레스 내장 에디터가 제대로 동작하지 않는다면 사용하고 있는 테마를 바꾸거나 플러그인들을 비활성화한 다음 점검해보세요.</p>
-							<p class="description">워드프레스 내장 에디터가 깨질 때 고급설정 » <label for="editor_view_iframe" style="font-weight:bold" onclick="kboard_setting_tab_chnage(4);">글쓰기 아이프레임으로 보기</label> 기능을 사용해보세요.</p>
+							<p class="description">에디터를 사용하시면 내용에 이미지를 삽입, 링크 걸기 등 편리하게 게시글을 작성할 수 있습니다.</p>
+							<p class="description">에디터가 제대로 동작하지 않는다면 사용하고 있는 테마를 바꾸거나 플러그인들을 비활성화한 다음 점검해보세요.</p>
+							<p class="description">에디터가 깨질 때 고급설정 » <label for="editor_view_iframe" style="font-weight:bold" onclick="kboard_setting_tab_chnage(4);">글쓰기 아이프레임으로 보기</label> 기능을 사용해보세요.</p>
 						</td>
 					</tr>
 					<?php if(!$board->use_editor):?>
@@ -389,7 +388,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<a href="https://codex.wordpress.org/Roles_and_Capabilities" onclick="window.open(this.href);return false;">워드프레스 사용자 역할과 권한 알아보기</a>
+							<a href="https://blog.cosmosfarm.com/?p=1141" onclick="window.open(this.href);return false;">워드프레스 사용자 역할과 권한 알아보기</a>
 						</td>
 					</tr>
 					<tr valign="top">

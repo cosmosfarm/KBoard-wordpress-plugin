@@ -533,6 +533,19 @@ function kboard_video_url_to_iframe($content){
 }
 
 /**
+ * 게시글 본문 에디터 목록을 반환한다.
+ * @return array
+ */
+function kboard_content_editor_list(){
+	$editor_list = array(
+		'' => 'textarea 사용',
+		'yes' => '워드프레스 내장 에디터 사용',
+		'snote' => '썸머노트 에디터 사용',
+	);
+	return apply_filters('kboard_content_editor_list', $editor_list);
+}
+
+/**
  * 게시글 본문 에디터 코드를 반환한다.
  * @param array $vars
  * @return string
@@ -564,7 +577,7 @@ function kboard_content_editor($vars=array()){
 	
 	$editor = ob_get_clean();
 	
-	return apply_filters('kboard_content_editor', $editor);
+	return apply_filters('kboard_content_editor', $editor, $vars);
 }
 
 /**

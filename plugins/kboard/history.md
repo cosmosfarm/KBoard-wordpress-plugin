@@ -9,14 +9,15 @@
   2. kboard_skin_contact_form_list_switch 필터 추가
   3. kboard_skin_contact_form_document_switch 필터 추가
   4. kboard_content_get_attachment_list 필터 추가
-  5. kboard_content_editor_vars 필터 추가
-  6. kboard_content_editor 필터 추가
-  7. kboard_latestview 숏코드에 멀티사이트용 blog 옵션 추가
-  8. 공지사항 글에 댓글 사용 설정 추가
-  9. KBoard 미디어 추가 기능 개선 (드래그 앤 드롭으로 이미지 추가하기)
-  10. 스킨 기능 개선
-  11. 썸머노트(Summernote) 에디터 추가
-  11. 버그 수정
+  5. kboard_content_editor_list 필터 추가
+  6. kboard_content_editor_vars 필터 추가
+  7. kboard_content_editor 필터 추가
+  8. kboard_latestview 숏코드에 멀티사이트용 blog 옵션 추가
+  9. 공지사항 글에 댓글 사용 설정 추가
+  10. KBoard 미디어 추가 기능 개선 (드래그 앤 드롭으로 이미지 추가하기)
+  11. 스킨 기능 개선
+  12. 썸머노트(Summernote) 에디터 추가
+  13. 버그 수정
 
 
 5.4.2
