@@ -38,6 +38,7 @@ class KBContentList {
 	var $is_first;
 	var $is_rss = false;
 	var $is_latest = false;
+	var $dayofweek;
 	var $within_days = 0;
 	var $latest = array();
 	
@@ -229,6 +230,19 @@ class KBContentList {
 		}
 		if($end_date){
 			$this->end_date = date('Ymd', strtotime($end_date)) . '235959';
+		}
+	}
+	
+	/**
+	 * 최근 특정 요일의 게시글만 가져오도록 설정한다.
+	 * @return string $dayofweek
+	 */
+	public function setDayOfWeek($dayofweek){
+		if($dayofweek && in_array($dayofweek, array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'))){
+			$timestamp = strtotime(sprintf('last %s', $dayofweek), strtotime('tomorrow', current_time('timestamp')));
+			$ymd = date('Y-m-d', $timestamp);
+			$this->setDateRange($ymd, $ymd);
+			$this->dayofweek = $dayofweek;
 		}
 	}
 	

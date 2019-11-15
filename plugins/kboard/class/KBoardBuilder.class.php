@@ -19,6 +19,7 @@ class KBoardBuilder {
 	var $rpp;
 	var $sort;
 	var $url;
+	var $dayofweek;
 	var $within_days;
 	var $view_iframe;
 	var $is_ajax = false;
@@ -130,7 +131,7 @@ class KBoardBuilder {
 	 * @param string $sort
 	 */
 	public function setSorting($sort){
-		$this->sort = $sort;
+		$this->sort = sanitize_text_field($sort);
 	}
 	
 	/**
@@ -138,7 +139,15 @@ class KBoardBuilder {
 	 * @param string $url
 	 */
 	public function setURL($url){
-		$this->url = $url;
+		$this->url = esc_url_raw($url);
+	}
+	
+	/**
+	 * 최신글 숏코드 최근 특정 요일을 설정한다.
+	 * @param int $within_days
+	 */
+	public function setDayOfWeek($dayofweek){
+		$this->dayofweek = sanitize_text_field($dayofweek);
 	}
 	
 	/**
@@ -1125,7 +1134,7 @@ class KBoardBuilder {
 	}
 	
 	/**
-	 * 최신 게시물 리스트를 생성한다.
+	 * 최신글 리스트를 생성한다.
 	 * @param boolean $with_notice
 	 * @param array $args
 	 * @return string
@@ -1150,6 +1159,7 @@ class KBoardBuilder {
 		$list->category2($this->category2);
 		$list->setSorting($this->sort);
 		$list->rpp($this->rpp);
+		$list->setDayOfWeek($this->dayofweek);
 		$list->setWithinDays($this->within_days);
 		$list->getList('', '', $with_notice);
 		
@@ -1190,4 +1200,3 @@ class KBoardBuilder {
 		return $not_allowed;
 	}
 }
-?>

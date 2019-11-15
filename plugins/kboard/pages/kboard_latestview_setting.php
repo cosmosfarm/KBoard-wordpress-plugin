@@ -17,9 +17,9 @@
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
-					<th scope="row"><label for="name">최신글 뷰 이름</label></th>
+					<th scope="row"><label for="name">최신글 모아보기 이름</label></th>
 					<td>
-						<input type="text" id="name" name="name" class="regular-text" value="<?php if(!$latestview->name):?>무명 최신글 뷰 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
+						<input type="text" id="name" name="name" class="regular-text" value="<?php if(!$latestview->name):?>무명 최신글 모아보기 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
 					</td>
 				</tr>
 				<tr valign="top">
@@ -79,7 +79,7 @@
 							<option value="viewed"<?php if($latestview->sort == 'viewed'):?> selected<?php endif?>><?php echo __('Viewed', 'kboard')?></option>
 							<option value="updated"<?php if($latestview->sort == 'updated'):?> selected<?php endif?>><?php echo __('Updated', 'kboard')?></option>
 						</select>
-						<p class="description">최신글 뷰에 표시되는 게시글 정렬순서를 정합니다.</p>
+						<p class="description">최신글 모아보기에 표시되는 게시글 정렬순서를 정합니다.</p>
 					</td>
 				</tr>
 				<tr valign="top">
@@ -97,10 +97,10 @@
 								</select>
 							</div>
 							<div class="link-control-area-center">
-								<button type="button" class="button" onclick="return push_board();">&lt;-</button>
+								<button type="button" class="button" onclick="return push_board();">◀</button>
 								<br>
 								<br>
-								<button type="button" class="button" onclick="return pop_board();">-&gt;</button>
+								<button type="button" class="button" onclick="return pop_board();">▶</button>
 							</div>
 							<div class="link-control-area-right">
 								<p>제외된 게시판</p>
@@ -118,10 +118,11 @@
 				</tr>
 				<?php if($latestview->uid):?>
 				<tr valign="top">
-					<th scope="row"><label for="shortcode">최신글 뷰 숏코드(Shortcode)</label></th>
+					<th scope="row"><label for="shortcode">최신글 모아보기 숏코드(Shortcode)</label></th>
 					<td>
-						<textarea style="width: 350px" id="shortcode">[kboard_latestview id=<?php echo $latestview->uid?>]</textarea>
-						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 뷰를 출력합니다.</p>
+						<textarea style="width: 350px" id="shortcode">[kboard_latestview id="<?php echo $latestview->uid?>"]</textarea>
+						<p class="description">이 코드를 메인페이지 또는 사이드바에 입력하세요. 최신글 모아보기를 출력합니다.</p>
+						<p class="description"><a href="https://blog.cosmosfarm.com/?p=1145" onclick="window.open(this.href);return false;">최신글 숏코드 사용 예제 알아보기</a></p>
 					</td>
 				</tr>
 				<?php endif?>

@@ -794,6 +794,10 @@ function kboard_latest_shortcode($args){
 		$builder->setURL($args['url']);
 		
 		if(isset($args['sort']) && $args['sort']){
+			if(strpos($args['sort'], '|') !== false){
+				$sort = explode('|', $args['sort']);
+				$args['sort'] = reset($sort);
+			}
 			$builder->setSorting($args['sort']);
 		}
 		
@@ -814,6 +818,14 @@ function kboard_latest_shortcode($args){
 		$with_notice = true;
 		if(isset($args['with_notice']) && $args['with_notice'] == 'false'){
 			$with_notice = false;
+		}
+		
+		if(isset($args['dayofweek']) && $args['dayofweek']){
+			if(strpos($args['dayofweek'], '|') !== false){
+				$dayofweek = explode('|', $args['dayofweek']);
+				$args['dayofweek'] = reset($dayofweek);
+			}
+			$builder->setDayOfWeek($args['dayofweek']);
 		}
 		
 		if(isset($args['within_days']) && $args['within_days']){
@@ -854,15 +866,40 @@ function kboard_latestview_shortcode($args){
 	if($latestview->uid){
 		$builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
 		$builder->board = new KBoard();
-		$builder->category1 = '';
-		$builder->category2 = '';
 		$builder->setSkin($latestview->skin);
 		$builder->setRpp($latestview->rpp);
 		$builder->setSorting($latestview->sort);
 		
+		if(isset($args['category1']) && $args['category1']){
+			$builder->category1 = $args['category1'];
+		}
+		else{
+			$builder->category1 = '';
+		}
+		
+		if(isset($args['category2']) && $args['category2']){
+			$builder->category2 = $args['category2'];
+		}
+		else{
+			$builder->category2 = '';
+		}
+		
 		$with_notice = true;
 		if(isset($args['with_notice']) && $args['with_notice'] == 'false'){
 			$with_notice = false;
+		}
+		
+		if(isset($args['dayofweek']) && $args['dayofweek']){
+			if(strpos($args['dayofweek'], '|') !== false){
+				$dayofweek = explode('|', $args['dayofweek']);
+				$args['dayofweek'] = reset($dayofweek);
+			}
+			$builder->setDayOfWeek($args['dayofweek']);
+		}
+		
+		if(isset($args['within_days']) && $args['within_days']){
+			$within_days = intval($args['within_days']);
+			$builder->setWithinDays($within_days);
 		}
 		
 		$args['type'] = 'latestview';
