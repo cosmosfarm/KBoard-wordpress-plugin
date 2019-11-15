@@ -79,8 +79,6 @@ class KBoardSkin {
 		$current_file_path = '';
 		
 		if(isset($this->merged_list[$skin_name])){
-			extract($vars, EXTR_SKIP);
-			
 			$is_ajax = false;
 			if(defined('DOING_AJAX') && DOING_AJAX){
 				if(file_exists("{$this->merged_list[$skin_name]->dir}/ajax-{$file}")){
