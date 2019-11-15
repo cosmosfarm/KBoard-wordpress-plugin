@@ -1249,8 +1249,13 @@ function kboard_not_enough_points_download_file_go_back($action, $url, $content,
 add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);
 function kboard_add_toolbar_link($wp_admin_bar){
 	global $post, $wpdb;
-	if(!is_admin() && current_user_can('manage_options') && isset($post->ID) && $post->ID){
+	if(!is_admin() && current_user_can('manage_options') && $post && $post->ID){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='{$post->ID}'");
+		
+		if(!$board_id){
+			$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='latest_target_page' AND `value`='{$post->ID}'");
+		}
+		
 		if($board_id){
 			$args = array(
 				'id'    => 'kboard-setting-page',
