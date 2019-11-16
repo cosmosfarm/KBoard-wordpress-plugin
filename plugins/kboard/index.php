@@ -833,6 +833,10 @@ function kboard_latest_shortcode($args){
 			$builder->setWithinDays($within_days);
 		}
 		
+		if(isset($args['random']) && $args['random'] == 'true'){
+			$builder->setRandom(true);
+		}
+		
 		$args['type'] = 'latest';
 		$latest = $builder->createLatest($with_notice, $args);
 		
@@ -900,6 +904,10 @@ function kboard_latestview_shortcode($args){
 		if(isset($args['within_days']) && $args['within_days']){
 			$within_days = intval($args['within_days']);
 			$builder->setWithinDays($within_days);
+		}
+		
+		if(isset($args['random']) && $args['random'] == 'true'){
+			$builder->setRandom(true);
 		}
 		
 		$args['type'] = 'latestview';

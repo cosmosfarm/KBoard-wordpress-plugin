@@ -40,6 +40,7 @@ class KBContentList {
 	var $is_latest = false;
 	var $dayofweek;
 	var $within_days = 0;
+	var $random = false;
 	var $latest = array();
 	
 	public function __construct($board_id=''){
@@ -252,6 +253,14 @@ class KBContentList {
 	 */
 	public function setWithinDays($within_days){
 		$this->within_days = intval($within_days);
+	}
+	
+	/**
+	 * 결과를 랜점하게 정렬할지 설정한다.
+	 * @param boolean $random
+	 */
+	public function setRandom($random){
+		$this->random = $random ? true : false;
 	}
 	
 	/**
@@ -485,8 +494,10 @@ class KBContentList {
 		// 휴지통에 없는 게시글만 불러온다.
 		$this->where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 		
-		// kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
+		// 게시글의 uid 정보만 가져온다.
 		$default_select = "`{$wpdb->prefix}kboard_board_content`.`uid`";
+		
+		// kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
 		$select = apply_filters('kboard_list_select', $default_select, $this->board_id, $this);
 		$from = apply_filters('kboard_list_from', implode(' ', $this->from), $this->board_id, $this);
 		$where = apply_filters('kboard_list_where', implode(' AND ', $this->where), $this->board_id, $this);
@@ -514,6 +525,11 @@ class KBContentList {
 				$this->total = $wpdb->get_var("SELECT COUNT(*) FROM {$from} WHERE {$where}");
 				$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY FIELD(`uid`,".implode(',', $select_uid).")");
 			}
+		}
+		
+		// 결과를 랜덤하게 정렬한다.
+		if($this->random){
+			shuffle($this->resource);
 		}
 		
 		$wpdb->flush();
