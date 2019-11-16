@@ -12,7 +12,7 @@
   5. kboard_content_editor_list 필터 추가
   6. kboard_content_editor_vars 필터 추가
   7. kboard_content_editor 필터 추가
-  8. kboard_latestview 숏코드에 멀티사이트용 blog 옵션 추가
+  8. kboard_notice_list_orderby 필터 추가
   9. 공지사항 글에 댓글 사용 설정 추가
   10. KBoard 미디어 추가 기능 개선 (드래그 앤 드롭으로 이미지 추가하기)
   11. 스킨 기능 개선

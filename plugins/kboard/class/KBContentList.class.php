@@ -795,7 +795,9 @@ class KBContentList {
 		// 휴지통에 없는 게시글만 불러온다.
 		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 		
-		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC");
+		$orderby = apply_filters('kboard_notice_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
+		
+		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY {$orderby}");
 		$wpdb->flush();
 		
 		return $this->resource_notice;
