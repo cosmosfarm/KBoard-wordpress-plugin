@@ -718,21 +718,6 @@ class KBoardBuilder {
 			
 			$vars['parent'] = isset($parent) ? $parent : new KBContent();
 			
-			global $wp_version;
-			if(version_compare($wp_version, '5.3', '>=')){
-				?>
-				<style>
-				.kboard-attr-row .kboard-content { text-align: left !important; }
-				.tmce-active .quicktags-toolbar { display: none !important; }
-				.wp-editor-wrap { margin-right: 3px; }
-				.wp-editor-tools { overflow: hidden; margin: 10px 0; }
-				.wp-editor-tools .wp-media-buttons { float: left; }
-				.wp-editor-tools .wp-editor-tabs { float: right; }
-				.wp-editor-tools .wp-editor-tabs button { margin: 0; padding: 0 10px; font-size: 13px; line-height: 2; min-height: 28px; color: #545861 !important; background: #eaeaea !important; border: none; display: inline-block; }
-				</style>
-				<?php
-			}
-			
 			echo $this->skin->load($this->skin_name, 'editor.php', $vars);
 		}
 	}
