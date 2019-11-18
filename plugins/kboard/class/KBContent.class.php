@@ -775,7 +775,7 @@ class KBContent {
 	 * @return string|array
 	 */
 	public function getOptionValue($option_name){
-		return $this->option->{$key};
+		return $this->option->{$option_name};
 	}
 	
 	/**
