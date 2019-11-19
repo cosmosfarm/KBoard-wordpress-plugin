@@ -2,6 +2,15 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+5.5.1
+----------------------------------
+
+  1. kboard_reply_list_select 필터 추가
+  2. kboard_reply_list_from 필터 추가
+  3. kboard_reply_list_where 필터 추가
+  4. kboard_reply_list_orderby 필터 추가
+  5. 버그 수정
+
 5.5
 ----------------------------------
 

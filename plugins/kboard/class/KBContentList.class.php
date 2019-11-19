@@ -840,12 +840,19 @@ class KBContentList {
 	public function getReplyList($parent_uid){
 		global $wpdb;
 		
+		$from[] = "`{$wpdb->prefix}kboard_board_content`";
+		
 		$where[] = "`parent_uid`='$parent_uid'";
 		
 		// 휴지통에 없는 게시글만 불러온다.
 		$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
 		
-		$this->resource_reply = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` ASC");
+		$select = apply_filters('kboard_reply_list_select', '*', $this->board_id, $this);
+		$from = apply_filters('kboard_reply_list_from', implode(' ', $from), $this->board_id, $this);
+		$where = apply_filters('kboard_reply_list_where', implode(' AND ', $where), $this->board_id, $this);
+		$orderby = apply_filters('kboard_reply_list_orderby', "`date` ASC", $this->board_id, $this);
+		
+		$this->resource_reply = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby}");
 		$wpdb->flush();
 		
 		return $this->resource_reply;

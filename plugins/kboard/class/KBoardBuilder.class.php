@@ -344,7 +344,7 @@ class KBoardBuilder {
 	 * @param int $parent_uid
 	 */
 	public function builderReply($parent_uid, $depth=0){
-		$list = new KBContentList();
+		$list = new KBContentList($this->board_id);
 		$list->getReplyList($parent_uid);
 		
 		$order = new KBOrder();
