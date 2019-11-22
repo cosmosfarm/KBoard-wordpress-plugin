@@ -1,4 +1,4 @@
-<div id="kboard-contact-form-editor confirm">
+<div id="kboard-contact-form-editor" class="confirm">
 	<form method="post" action="<?php echo esc_url($url->getConfirmExecute($content->uid))?>">
 		<div class="kboard-attr-row kboard-confirm-row">
 			<label class="attr-name"><?php echo __('Password', 'kboard')?></label>
