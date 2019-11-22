@@ -147,6 +147,7 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 #kboard-avatar-document .kboard-content .content-view img { display: inline; margin: 0; vertical-align: middle; max-width: 100%; }
 #kboard-avatar-document .kboard-content .content-view hr { margin: 10px 0; padding: 0; height: 1px; border: 0; background-color: #f1f1f1; }
 #kboard-avatar-document .kboard-content .content-view ul { margin: 0.75em 0; }
+#kboard-avatar-document .kboard-content .content-view ol { margin: 0.75em 0; }
 #kboard-avatar-document .kboard-content .content-view p { margin: 0 0 0.75em; }
 #kboard-avatar-document .kboard-content .content-view p:last-child { margin: 0; }
 #kboard-avatar-document .kboard-content .content-view .thumbnail-area { text-align: center; }
