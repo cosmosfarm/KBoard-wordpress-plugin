@@ -102,7 +102,7 @@ class KBUrl {
 		$query_string = array();
 		foreach($this->data as $key=>$value){
 			if($value){
-				$query_string[$key] = $value;
+				$query_string[$key] = urlencode($value);
 			}
 		}
 		return $query_string;
