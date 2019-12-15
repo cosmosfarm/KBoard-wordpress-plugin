@@ -2,7 +2,7 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
-5.5.1
+5.6
 ----------------------------------
 
   1. kboard_reply_list_select 필터 추가

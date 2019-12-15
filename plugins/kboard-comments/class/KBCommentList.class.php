@@ -252,6 +252,7 @@ class KBCommentList {
 	 * @param string $user_display
 	 * @param string $content
 	 * @param string $password
+	 * @return $comment_uid
 	 */
 	public function add($parent_uid, $user_uid, $user_display, $content, $password=''){
 		global $wpdb;
@@ -268,25 +269,25 @@ class KBCommentList {
 		$password = esc_sql(sanitize_text_field($password));
 		
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUES ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$like', '$unlike', '$vote', '$created', '$password')");
-		$insert_id = $wpdb->insert_id;
+		$comment_uid = $wpdb->insert_id;
 		
 		// 댓글 숫자를 게시물에 등록한다.
 		$update = date('YmdHis', current_time('timestamp'));
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1, `update`='{$update}' WHERE `uid`='{$content_uid}'");
 		
 		// 댓글 입력 액션 훅 실행
-		do_action('kboard_comments_insert', $insert_id, $content_uid, $this->getBoard());
+		do_action('kboard_comments_insert', $comment_uid, $content_uid, $this->getBoard());
 		
-		return $insert_id;
+		return $comment_uid;
 	}
 	
 	/**
 	 * 댓글을 삭제한다.
-	 * @param int $uid
+	 * @param int $comment_uid
 	 */
-	public function delete($uid){
+	public function delete($comment_uid){
 		$comment = new KBComment();
-		$comment->initWithUID($uid);
+		$comment->initWithUID($comment_uid);
 		$comment->delete();
 	}
 	
