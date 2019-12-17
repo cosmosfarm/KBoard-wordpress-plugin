@@ -698,6 +698,14 @@ class KBoardBuilder {
 				else{
 					$content->content = '';
 				}
+				
+				// 부모의 카테고리를 이어받는다.
+				if($parent->category1){
+					$content->category1 = $parent->category1;
+				}
+				if($parent->category2){
+					$content->category2 = $parent->category2;
+				}
 			}
 			
 			// 숏코드(Shortcode)를 실행하지 못하게 변경한다.

@@ -456,6 +456,9 @@ class KBoardFields {
 				$boardBuilder->board = $this->board;
 			}
 			
+			$parent = new KBContent();
+			$parent->initWithUID($content->parent_uid);
+			
 			$vars = array(
 				'field' => $field,
 				'meta_key' => $meta_key,
@@ -467,6 +470,7 @@ class KBoardFields {
 				'default_value' => $default_value,
 				'board' => $this->board,
 				'content' => $content,
+				'parent' => $parent,
 				'fields' => $this,
 				'order' => $order,
 				'url' => $url,
