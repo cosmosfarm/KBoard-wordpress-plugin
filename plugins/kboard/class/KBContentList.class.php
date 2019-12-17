@@ -468,14 +468,38 @@ class KBContentList {
 			}
 		}
 		
+		// 카테고리1 검색
 		if($this->category1){
-			$category1 = esc_sql($this->category1);
-			$this->where[] = "`category1`='{$category1}'";
+			$category = explode(',', $this->category1); // 여러 카테고리의 경우 콤마로 구분한다.
+			
+			if(count($category) > 1){
+				foreach($category as $index=>$item){
+					$category[$index] = sprintf("'%s'", esc_sql($item));
+				}
+				$category1 = implode(',', $category);
+				$this->where[] = "`category1` IN ({$category1})";
+			}
+			else{
+				$category1 = esc_sql($this->category1);
+				$this->where[] = "`category1`='{$category1}'";
+			}
 		}
 		
+		// 카테고리2 검색
 		if($this->category2){
-			$category2 = esc_sql($this->category2);
-			$this->where[] = "`category2`='{$category2}'";
+			$category = explode(',', $this->category2); // 여러 카테고리의 경우 콤마로 구분한다.
+			
+			if(count($category) > 1){
+				foreach($category as $index=>$item){
+					$category[$index] = sprintf("'%s'", esc_sql($item));
+				}
+				$category2 = implode(',', $category);
+				$this->where[] = "`category2` IN ({$category2})";
+			}
+			else{
+				$category2 = esc_sql($this->category2);
+				$this->where[] = "`category2`='{$category2}'";
+			}
 		}
 		
 		if($this->member_uid){
