@@ -212,7 +212,7 @@ class KBController {
 			if($content->execute_action == 'insert'){
 				if($board->meta->conversion_tracking_code){
 					echo $board->meta->conversion_tracking_code;
-					echo "<script>window.location.href='{$next_page_url}';</script>";
+					echo sprintf('<meta http-equiv="refresh" content="0; url=%s">', esc_url($next_page_url));
 					exit;
 				}
 			}
