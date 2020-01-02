@@ -15,7 +15,7 @@ class KBCommentSkin {
 		$dir = KBOARD_COMMENTS_DIR_PATH . '/skin';
 		if($dh = @opendir($dir)){
 			while(($name = readdir($dh)) !== false){
-				if($name == '.' || $name == '..' || $name == 'readme.txt' || $name == '__MACOSX') continue;
+				if($name == '.' || $name == '..' || $name == 'readme.txt' || $name == '__MACOSX' || $name == '.git') continue;
 				$skin = new stdClass();
 				$skin->name = $name;
 				$skin->dir = KBOARD_COMMENTS_DIR_PATH . "/skin/{$name}";
@@ -132,4 +132,3 @@ class KBCommentSkin {
 		return $this->active ? $this->active : array();
 	}
 }
-?>
