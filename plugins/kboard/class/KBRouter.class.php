@@ -53,6 +53,8 @@ class KBRouter {
 	public function getContentURL($content_uid){
 		global $wpdb;
 		
+		$content_url = '';
+		
 		$content_uid = intval($content_uid);
 		$content = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$content_uid}'");
 		
@@ -91,12 +93,9 @@ class KBRouter {
 			else{
 				$content_url = home_url("?kboard_id={$board_id}&mod=document&uid={$content->uid}");
 			}
-			
-			$content_url = apply_filters('kboard_router_content_url', $content_url, $page_id, $board_id, $content_uid);
-			
-			return $content_url;
 		}
-		return '';
+		
+		return apply_filters('kboard_router_content_url', $content_url, $page_id, $board_id, $content_uid);
 	}
 	
 	/**
@@ -121,6 +120,8 @@ class KBRouter {
 	public function getBoardURL($board_id){
 		global $wpdb;
 		
+		$board_url = '';
+		
 		$board_id = intval($board_id);
 		$board = new KBoard($board_id);
 		
@@ -142,12 +143,8 @@ class KBRouter {
 			else{
 				$board_url = home_url("?kboard_id={$board_id}");
 			}
-			
-			$board_url = apply_filters('kboard_router_board_url', $board_url, $page_id, $board_id);
-			
-			return $board_url;
 		}
-		return '';
+		return apply_filters('kboard_router_board_url', $board_url, $page_id, $board_id);
 	}
 	
 	/**

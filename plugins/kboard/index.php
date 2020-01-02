@@ -80,6 +80,12 @@ function kboard_init(){
 	// 언어 파일 추가
 	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	
+	// 스킨의 functions.php 파일을 실행한다.
+	$skin = KBoardSkin::getInstance();
+	foreach($skin->getActiveList() as $skin_name){
+		$skin->loadFunctions($skin_name);
+	}
+	
 	// 게시판 페이지 이동
 	$router = new KBRouter();
 	$router->process();
@@ -106,12 +112,6 @@ function kboard_init(){
 			$_COOKIE["kboard_list_sort_{$kboard_list_sort_remember}"] = '';
 			setcookie("kboard_list_sort_{$kboard_list_sort_remember}", '', strtotime('-1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 		}
-	}
-	
-	// 스킨의 functions.php 파일을 실행한다.
-	$skin = KBoardSkin::getInstance();
-	foreach($skin->getActiveList() as $skin_name){
-		$skin->loadFunctions($skin_name);
 	}
 }
 

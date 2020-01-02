@@ -36,6 +36,12 @@ function kboard_comments_init(){
 	// 언어 파일 추가
 	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	
+	// 스킨의 functions.php 파일을 실행한다.
+	$skin = KBCommentSkin::getInstance();
+	foreach($skin->getActiveList() as $skin_name){
+		$skin->loadFunctions($skin_name);
+	}
+	
 	// 컨트롤러 시작
 	$comment_controller = new KBCommentController();
 	
@@ -56,12 +62,6 @@ function kboard_comments_init(){
 			$_COOKIE['kboard_comments_sort'] = '';
 			setcookie('kboard_comments_sort', '', strtotime('-1 year'), COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
 		}
-	}
-	
-	// 스킨의 functions.php 파일을 실행한다.
-	$skin = KBCommentSkin::getInstance();
-	foreach($skin->getActiveList() as $skin_name){
-		$skin->loadFunctions($skin_name);
 	}
 }
 
