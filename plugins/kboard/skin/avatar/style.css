@@ -129,7 +129,7 @@ button.kboard-avatar-button-small:active { opacity: 0.7; }
 #kboard-avatar-editor .kboard-control .left { position: static; float: left; }
 #kboard-avatar-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
 #kboard-avatar-editor.confirm { margin: 100px auto; max-width: 590px; }
-#kboard-avatar-editor.confirm input[type=password] { width: 96%; }
+#kboard-avatar-editor.confirm input[type=password] { width: 100%; box-sizing: border-box; }
 
 #kboard-avatar-document { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-avatar-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }

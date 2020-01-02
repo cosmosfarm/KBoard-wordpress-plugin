@@ -133,7 +133,7 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 #kboard-thumbnail-editor .kboard-control .left { position: static; float: left; }
 #kboard-thumbnail-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
 #kboard-thumbnail-editor.confirm { margin: 100px auto; max-width: 590px; }
-#kboard-thumbnail-editor.confirm input[type=password] { width: 96%; }
+#kboard-thumbnail-editor.confirm input[type=password] { width: 100%; box-sizing: border-box; }
 
 #kboard-thumbnail-document { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-thumbnail-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }

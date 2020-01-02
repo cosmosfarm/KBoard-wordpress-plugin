@@ -129,7 +129,7 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-editor .kboard-control .left { position: static; float: left; }
 #kboard-default-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
 #kboard-default-editor.confirm { margin: 100px auto; max-width: 590px; }
-#kboard-default-editor.confirm input[type=password] { width: 96%; }
+#kboard-default-editor.confirm input[type=password] { width: 100%; box-sizing: border-box; }
 
 #kboard-default-document { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
 #kboard-default-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
