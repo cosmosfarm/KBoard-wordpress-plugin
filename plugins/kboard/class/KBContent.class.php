@@ -1133,6 +1133,9 @@ class KBContent {
 			$category1 = kboard_category1();
 			$category2 = kboard_category2();
 			
+			$category1 = apply_filters('kboard_content_next_uid_category1', $category1, $this);
+			$category2 = apply_filters('kboard_content_next_uid_category2', $category2, $this);
+			
 			$where[] = "`board_id`='{$this->board_id}'";
 			$where[] = "`uid`>'{$this->uid}'";
 			
@@ -1165,6 +1168,9 @@ class KBContent {
 		if($this->uid){
 			$category1 = kboard_category1();
 			$category2 = kboard_category2();
+			
+			$category1 = apply_filters('kboard_content_prev_uid_category1', $category1, $this);
+			$category2 = apply_filters('kboard_content_prev_uid_category2', $category2, $this);
 			
 			$where[] = "`board_id`='{$this->board_id}'";
 			$where[] = "`uid`<'{$this->uid}'";

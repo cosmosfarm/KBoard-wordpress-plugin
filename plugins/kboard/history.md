@@ -9,9 +9,14 @@
   2. kboard_reply_list_from 필터 추가
   3. kboard_reply_list_where 필터 추가
   4. kboard_reply_list_orderby 필터 추가
-  5. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
-  6. 관리자 페이지 스킨 목록에서 .git 폴더 제외
-  7. 버그 수정
+  5. kboard_content_next_uid_category1 필터 추가
+  6. kboard_content_next_uid_category2 필터 추가
+  7. kboard_content_prev_uid_category1 필터 추가
+  8. kboard_content_prev_uid_category2 필터 추가
+  9. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
+  10. 관리자 페이지 스킨 목록에서 .git 폴더 제외
+  11. 버그 수정
+
 
 5.5
 ----------------------------------
