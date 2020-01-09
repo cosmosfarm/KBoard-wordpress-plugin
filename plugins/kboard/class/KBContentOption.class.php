@@ -11,14 +11,14 @@ class KBContentOption {
 	private $row;
 	
 	public function __construct($content_uid=''){
-		$this->row = new stdClass();
+		$this->row = array();
 		if($content_uid) $this->initWithContentUID($content_uid);
 	}
 	
 	public function __get($key){
 		$key = sanitize_key($key);
-		if(isset($this->row->{$key})){
-			return $this->row->{$key};
+		if(isset($this->row[$key])){
+			return $this->row[$key];
 		}
 		return '';
 	}
@@ -27,7 +27,7 @@ class KBContentOption {
 		global $wpdb;
 		if($this->content_uid){
 			$key = sanitize_key($key);
-			$this->row->{$key} = $value;
+			$this->row[$key] = $value;
 			$value = esc_sql($value);
 			if($value){
 				$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
@@ -56,7 +56,7 @@ class KBContentOption {
 	
 	public function initWithContentUID($content_uid){
 		global $wpdb;
-		$this->row = new stdClass();
+		$this->row = array();
 		$this->content_uid = intval($content_uid);
 		$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' ORDER BY `uid` ASC");
 		$wpdb->flush();
@@ -69,19 +69,18 @@ class KBContentOption {
 		
 		foreach($option_list as $option_key=>$option_value){
 			if(count($option_value) > 1){
-				$this->row->{$option_key} = $option_value;
+				$this->row[$option_key] = $option_value;
 			}
 			else{
-				$this->row->{$option_key} = $option_value[0];
+				$this->row[$option_key] = $option_value[0];
 			}
 		}
 	}
 	
 	public function toArray(){
 		if($this->content_uid){
-			return get_object_vars($this->row);
+			return $this->row;
 		}
 		return array();
 	}
 }
-?>

@@ -1376,17 +1376,19 @@ class KBContent {
 			$this->member_display = $current_user->display_name;
 		}
 		
-		$option = new stdClass();
+		$option = array();
 		foreach($_POST as $key=>$value){
 			if(strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== false){
 				$key = sanitize_key(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key));
-				$value = kboard_safeiframe(kboard_xssfilter($value));
-				$option->{$key} = $value;
+				if($key){
+					$value = kboard_safeiframe(kboard_xssfilter($value));
+					$option[$key] = $value;
+				}
 			}
 		}
 		
 		$temporary = $this->row;
-		$temporary->option = $option;
+		$temporary->option = (object) $option;
 		$_SESSION['kboard_temporary_content'] = $temporary;
 		
 		$this->setExecuteAction();
