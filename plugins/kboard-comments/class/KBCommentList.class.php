@@ -257,18 +257,38 @@ class KBCommentList {
 	public function add($parent_uid, $user_uid, $user_display, $content, $password=''){
 		global $wpdb;
 		
-		$content_uid = $this->content_uid;
-		$parent_uid = intval($parent_uid);
-		$user_uid = intval($user_uid);
-		$user_display = esc_sql(sanitize_text_field($user_display));
-		$content = esc_sql(kboard_safeiframe(kboard_xssfilter($content)));
-		$like = 0;
-		$unlike = 0;
-		$vote = 0;
-		$created = date('YmdHis', current_time('timestamp'));
-		$password = esc_sql(sanitize_text_field($password));
+		$data = array();
+		$data['content_uid'] = $this->content_uid;
+		$data['parent_uid'] = $parent_uid;
+		$data['user_uid'] = $user_uid;
+		$data['user_display'] = sanitize_text_field($user_display);
+		$data['content'] = kboard_safeiframe(kboard_xssfilter($content));
+		$data['like'] = 0;
+		$data['unlike'] = 0;
+		$data['vote'] = 0;
+		$data['created'] = date('YmdHis', current_time('timestamp'));
+		$data['password'] = sanitize_text_field($password);
 		
-		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUES ('$content_uid', '$parent_uid', '$user_uid', '$user_display', '$content', '$like', '$unlike', '$vote', '$created', '$password')");
+		$board = $this->getBoard();
+		
+		// 입력할 데이터 필터
+		$data = apply_filters('kboard_comments_insert_data', $data, $board->id);
+		
+		// 댓글 입력 전에 액션 훅 실행
+		do_action('kboard_pre_comments_insert', 0, $data['content_uid'], $board);
+		
+		$data['content_uid'] = isset($data['content_uid'])?intval($data['content_uid']):0;
+		$data['parent_uid'] = isset($data['parent_uid'])?intval($data['parent_uid']):0;
+		$data['user_uid'] = isset($data['user_uid'])?intval($data['user_uid']):get_current_user_id();
+		$data['user_display'] = isset($data['user_display'])?esc_sql(sanitize_text_field($data['user_display'])):0;
+		$data['content'] = isset($data['content'])?esc_sql(kboard_safeiframe(kboard_xssfilter($data['content']))):0;
+		$data['like'] = isset($data['like'])?intval($data['like']):0;
+		$data['unlike'] = isset($data['unlike'])?intval($data['unlike']):0;
+		$data['vote'] = isset($data['vote'])?intval($data['vote']):0;
+		$data['created'] = isset($data['created'])?esc_sql($data['created']):date('YmdHis', current_time('timestamp'));
+		$data['password'] = isset($data['password'])?esc_sql(sanitize_text_field($data['password'])):'';
+		
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUES ('{$data['content_uid']}', '{$data['parent_uid']}', '{$data['user_uid']}', '{$data['user_display']}', '{$data['content']}', '{$data['like']}', '{$data['unlike']}', '{$data['vote']}', '{$data['created']}', '{$data['password']}')");
 		$comment_uid = $wpdb->insert_id;
 		
 		// 댓글 숫자를 게시물에 등록한다.
@@ -276,7 +296,7 @@ class KBCommentList {
 		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1, `update`='{$update}' WHERE `uid`='{$content_uid}'");
 		
 		// 댓글 입력 액션 훅 실행
-		do_action('kboard_comments_insert', $comment_uid, $content_uid, $this->getBoard());
+		do_action('kboard_comments_insert', $comment_uid, $content_uid, $board);
 		
 		return $comment_uid;
 	}

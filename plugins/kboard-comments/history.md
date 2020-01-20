@@ -6,6 +6,8 @@
 ----------------------------------
 
   1. 버그 수정
+  2. kboard_comments_insert_data 필터 추가
+  3. kboard_pre_comments_insert 액션 추가
 
 
 4.6
