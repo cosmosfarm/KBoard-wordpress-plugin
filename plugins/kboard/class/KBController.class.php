@@ -1063,6 +1063,9 @@ class KBController {
 			$content = new KBContent();
 			$content->initWithUID($_POST['content_uid']);
 			if($content->isEditor() || $content->isConfirm()){
+				// 게시글 수정 전에 액션 훅 실행
+				do_action('kboard_pre_document_update', $this->uid, $this->board_id, $this, $board);
+				
 				$content->updateContent($_POST['data']);
 				$content->updateOptions($_POST['data']);
 				
