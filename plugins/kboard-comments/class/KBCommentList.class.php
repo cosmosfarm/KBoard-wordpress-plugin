@@ -280,8 +280,8 @@ class KBCommentList {
 		$data['content_uid'] = isset($data['content_uid'])?intval($data['content_uid']):0;
 		$data['parent_uid'] = isset($data['parent_uid'])?intval($data['parent_uid']):0;
 		$data['user_uid'] = isset($data['user_uid'])?intval($data['user_uid']):get_current_user_id();
-		$data['user_display'] = isset($data['user_display'])?esc_sql(sanitize_text_field($data['user_display'])):0;
-		$data['content'] = isset($data['content'])?esc_sql(kboard_safeiframe(kboard_xssfilter($data['content']))):0;
+		$data['user_display'] = isset($data['user_display'])?esc_sql(sanitize_text_field($data['user_display'])):'';
+		$data['content'] = isset($data['content'])?esc_sql(kboard_safeiframe(kboard_xssfilter($data['content']))):'';
 		$data['like'] = isset($data['like'])?intval($data['like']):0;
 		$data['unlike'] = isset($data['unlike'])?intval($data['unlike']):0;
 		$data['vote'] = isset($data['vote'])?intval($data['vote']):0;
