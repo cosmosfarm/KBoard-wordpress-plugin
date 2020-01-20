@@ -261,13 +261,13 @@ class KBCommentList {
 		$data['content_uid'] = $this->content_uid;
 		$data['parent_uid'] = $parent_uid;
 		$data['user_uid'] = $user_uid;
-		$data['user_display'] = sanitize_text_field($user_display);
-		$data['content'] = kboard_safeiframe(kboard_xssfilter($content));
+		$data['user_display'] = $user_display;
+		$data['content'] = $content;
 		$data['like'] = 0;
 		$data['unlike'] = 0;
 		$data['vote'] = 0;
 		$data['created'] = date('YmdHis', current_time('timestamp'));
-		$data['password'] = sanitize_text_field($password);
+		$data['password'] = $password;
 		
 		$board = $this->getBoard();
 		
