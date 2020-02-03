@@ -9,7 +9,6 @@ Author URI: https://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
-if(!session_id()) session_start();
 
 define('KBOARD_VERSION', '5.5');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
@@ -69,6 +68,13 @@ include_once 'helper/Functions.helper.php';
  */
 foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
 	include_once $filename;
+}
+
+add_action('plugins_loaded', 'kboard_plugins_loaded');
+function kboard_plugins_loaded(){
+	if(!session_id() && (!is_admin() || kboard_id())){
+		session_start();
+	}
 }
 
 /*
