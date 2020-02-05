@@ -11,7 +11,7 @@
 					<?php echo wpautop($comment->content)?>
 					
 					<?php if(isset($comment->attach->image1)):?>
-						<p class="comments-list-image1"><img src="<?php echo esc_attr($comment->attach->image1[0])?>" alt="<?php echo esc_attr($comment->attach->image1[1])?>"></p>
+						<p class="comments-list-image1"><img src="<?php echo esc_url(site_url($comment->attach->image1[0]))?>" alt="<?php echo esc_attr($comment->attach->image1[1])?>"></p>
 					<?php endif?>
 					
 					<?php if(isset($comment->attach->file1)):?>
