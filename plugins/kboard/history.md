@@ -13,11 +13,13 @@
   6. kboard_content_next_uid_category2 필터 추가
   7. kboard_content_prev_uid_category1 필터 추가
   8. kboard_content_prev_uid_category2 필터 추가
-  9. contentUpdate 함수에 kboard_pre_document_update 액션 추가
-  9. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
-  10. session start 관련 개선
-  11. 관리자 페이지 스킨 목록에서 .git 폴더 제외
-  12. 버그 수정
+  9. kboard_pagination_sliding_size 필터 추가
+  10. kboard_pagination_text 필터 추가
+  11. contentUpdate 함수에 kboard_pre_document_update 액션 추가
+  12. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
+  13. session start 관련 개선
+  14. 관리자 페이지 스킨 목록에서 .git 폴더 제외
+  15. 버그 수정
 
 
 5.5
