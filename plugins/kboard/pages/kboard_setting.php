@@ -650,6 +650,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">새로운 글 작성 시 비밀글 체크박스를 기본적으로 체크해 보여줍니다.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="use_prevent_modify_delete">본인 수정 제한</label></th>
+						<td>
+							<select name="use_prevent_modify_delete" id="use_prevent_modify_delete">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->use_prevent_modify_delete):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">작성자 본인의 수정/삭제를 막을 때 사용해주세요.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -1346,16 +1356,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">일반 사용자는 자동설치 또는 숏코드(Shortcode)를 사용해 게시판을 생성하세요.</p>
 							<p class="description"><label for="editor_view_iframe" style="font-weight:bold">글쓰기 아이프레임으로 보기</label> 기능과 충돌할 수 있으니 해당 기능을 비활성화 해주세요.</p>
 						</td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row"><label for="use_prevent_modify_delete">본인수정막기</label></th>
-                        <td>
-                            <select name="use_prevent_modify_delete" id="use_prevent_modify_delete">
-                                <option value="">비활성화</option>
-                                <option value="1"<?php if($meta->use_prevent_modify_delete):?> selected<?php endif?>>활성화</option>
-                            </select>
-                            <p class="description">작성자 본인의 수정/삭제를 막을 때 사용해주세요.</p>
-                        </td>
                     </tr>
 					<tr valign="top">
 						<th scope="row"><label for="pass_autop">특정 테마 레이아웃 깨짐 방지</label></th>

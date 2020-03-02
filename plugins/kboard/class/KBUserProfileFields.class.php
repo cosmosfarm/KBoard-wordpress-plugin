@@ -64,7 +64,7 @@ class KBUserProfileFields {
 			<tr>
 				<th>※ 관리자 메시지</th>
 				<td>
-					<p class="description"><a href="http://www.cosmosfarm.com/wpstore/product/cosmosfarm-members" onclick="window.open(this.href);return false;">코스모스팜 회원관리</a> 플러그인을 사용하시면 자동 등업 기능과 사용자 아바타 이미지 변경 등 커뮤니티 기능을 강화할 수 있습니다.</p>
+					<p class="description"><a href="https://www.cosmosfarm.com/wpstore/product/cosmosfarm-members" onclick="window.open(this.href);return false;">코스모스팜 회원관리</a> 플러그인을 사용하시면 자동 등업 기능과 사용자 아바타 이미지 변경 등 커뮤니티 기능을 강화할 수 있습니다.</p>
 				</td>
 			</tr>
 			<?php endif?>

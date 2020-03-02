@@ -25,7 +25,7 @@ class KBAdminController {
 	 */
 	public function update(){
 		global $wpdb;
-		if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttp://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
+		if(!defined('KBOARD_COMMNETS_VERSION')) die('<script>alert("게시판 생성 실패!\nKBoard 댓글 플러그인을 설치해주세요.\nhttps://www.cosmosfarm.com/ 에서 다운로드 가능합니다.");history.go(-1);</script>');
 		if(!current_user_can('manage_options')) wp_die(__('You do not have permission.', 'kboard'));
 		if(isset($_POST['kboard-setting-execute-nonce']) && wp_verify_nonce($_POST['kboard-setting-execute-nonce'], 'kboard-setting-execute')){
 			
@@ -116,8 +116,7 @@ class KBAdminController {
 				$board->meta->shortcode_execute              = isset($_POST['shortcode_execute'])              ? $_POST['shortcode_execute']               : '';
 				$board->meta->autolink                       = isset($_POST['autolink'])                       ? $_POST['autolink']                        : '';
 				$board->meta->reply_copy_content             = isset($_POST['reply_copy_content'])             ? $_POST['reply_copy_content']              : '';
-                $board->meta->view_iframe                    = isset($_POST['view_iframe'])                    ? $_POST['view_iframe']                     : '';
-                $board->meta->use_prevent_modify_delete      = isset($_POST['use_prevent_modify_delete'])      ? $_POST['use_prevent_modify_delete']       : '';
+				$board->meta->view_iframe                    = isset($_POST['view_iframe'])                    ? $_POST['view_iframe']                     : '';
 				$board->meta->editor_view_iframe             = isset($_POST['editor_view_iframe'])             ? $_POST['editor_view_iframe']              : '';
 				$board->meta->permission_list                = isset($_POST['permission_list'])                ? $_POST['permission_list']                 : '';
 				$board->meta->permission_access              = isset($_POST['permission_access'])              ? $_POST['permission_access']               : '';
@@ -137,6 +136,7 @@ class KBAdminController {
 				$board->meta->list_sort_numbers              = isset($_POST['list_sort_numbers'])              ? $_POST['list_sort_numbers']               : '';
 				$board->meta->permit                         = isset($_POST['permit'])                         ? $_POST['permit']                          : '';
 				$board->meta->secret_checked_default         = isset($_POST['secret_checked_default'])         ? $_POST['secret_checked_default']          : '';
+				$board->meta->use_prevent_modify_delete      = isset($_POST['use_prevent_modify_delete'])      ? $_POST['use_prevent_modify_delete']       : '';
 				$board->meta->default_build_mod              = isset($_POST['default_build_mod'])              ? $_POST['default_build_mod']               : '';
 				$board->meta->after_executing_mod            = isset($_POST['after_executing_mod'])            ? $_POST['after_executing_mod']             : '';
 				

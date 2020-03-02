@@ -865,11 +865,11 @@ function kboard_with_notice(){
  * @return boolean
  */
 function kboard_use_prevent_modify_delete(){
-    static $use_prevent_modify_delete;
-    if($use_prevent_modify_delete=== null){
-        $use_prevent_modify_delete = (isset($_REQUEST['use_prevent_modify_delete'])&&intval($_REQUEST['use_prevent_modify_delete']))?true:false;
-    }
-    return apply_filters('kboard_use_prevent_modify_delete', $use_prevent_modify_delete);
+	static $use_prevent_modify_delete;
+	if($use_prevent_modify_delete === null){
+		$use_prevent_modify_delete = (isset($_REQUEST['use_prevent_modify_delete'])&&intval($_REQUEST['use_prevent_modify_delete']))?true:false;
+	}
+	return apply_filters('kboard_use_prevent_modify_delete', $use_prevent_modify_delete);
 }
 
 /**

@@ -49,7 +49,7 @@ KBoard(케이보드)는 세계에서 가장 많이 사용하는 CMS인 워드프
 ## 비전문가도 가능한 커스터마이징
 KBoard는 전문가가 아니어도 코드 추가나 편집 없이 새로운 양식 필드를 쉽게 추가할 수 있는 기능이 무료로 포함되어 있습니다. 또한 전문가를 위해서 세세한 기능까지 모두 커스터마이징 가능하도록 준비되어 있습니다.
 - [입력필드 추가](https://blog.cosmosfarm.com/?p=214)
-- [액션과 필터](http://www.cosmosfarm.com/products/kboard/hooks)
+- [액션과 필터](https://www.cosmosfarm.com/products/kboard/hooks)
 
 ## 모든 기능을 무제한으로
 코스모스팜이 제공하는 전체 기능을 경제적인 가격으로 이용하세요.

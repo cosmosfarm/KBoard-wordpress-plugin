@@ -1,5 +1,5 @@
 /**
- * @author http://www.cosmosfarm.com/
+ * @author https://www.cosmosfarm.com/
  */
 
 function kboard_comments_execute(form){

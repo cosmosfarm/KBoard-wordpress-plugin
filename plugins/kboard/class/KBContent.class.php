@@ -222,7 +222,7 @@ class KBContent {
 					$this->initAttachedFiles();
 					
 					/*
-					 * http://www.cosmosfarm.com/threads/document/3025
+					 * https://www.cosmosfarm.com/threads/document/3025
 					 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
 					 */
 					$url = new KBUrl();
