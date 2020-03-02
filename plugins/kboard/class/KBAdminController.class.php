@@ -116,7 +116,8 @@ class KBAdminController {
 				$board->meta->shortcode_execute              = isset($_POST['shortcode_execute'])              ? $_POST['shortcode_execute']               : '';
 				$board->meta->autolink                       = isset($_POST['autolink'])                       ? $_POST['autolink']                        : '';
 				$board->meta->reply_copy_content             = isset($_POST['reply_copy_content'])             ? $_POST['reply_copy_content']              : '';
-				$board->meta->view_iframe                    = isset($_POST['view_iframe'])                    ? $_POST['view_iframe']                     : '';
+                $board->meta->view_iframe                    = isset($_POST['view_iframe'])                    ? $_POST['view_iframe']                     : '';
+                $board->meta->use_prevent_modify_delete      = isset($_POST['use_prevent_modify_delete'])      ? $_POST['use_prevent_modify_delete']       : '';
 				$board->meta->editor_view_iframe             = isset($_POST['editor_view_iframe'])             ? $_POST['editor_view_iframe']              : '';
 				$board->meta->permission_list                = isset($_POST['permission_list'])                ? $_POST['permission_list']                 : '';
 				$board->meta->permission_access              = isset($_POST['permission_access'])              ? $_POST['permission_access']               : '';

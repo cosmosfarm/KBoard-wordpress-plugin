@@ -253,8 +253,9 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isEditor($user_id){
-		if(is_user_logged_in()){
-			if($user_id == get_current_user_id()){
+        if(is_user_logged_in()){
+            $is_enabled_prevent_modify = $this->meta->use_prevent_modify_delete;
+			if(!$is_enabled_prevent_modify && $user_id == get_current_user_id()){
 				// 본인 허용
 				return true;
 			}
