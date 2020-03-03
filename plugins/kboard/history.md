@@ -18,9 +18,10 @@
   11. contentUpdate 함수에 kboard_pre_document_update 액션 추가
   12. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
   13. session start 관련 개선
-  14. 관리자 페이지 스킨 목록에서 .git 폴더 제외
-  15. 본인 수정/삭제를 막을 수 있는 게시판 옵션 추가 (Alghost, https://github.com/Alghost)
-  16. 버그 수정
+  14. KBoard 메일 메시지 템플릿 코드 개선
+  15. 관리자 페이지 스킨 목록에서 .git 폴더 제외
+  16. 본인 수정/삭제를 막을 수 있는 게시판 옵션 추가 (Alghost, https://github.com/Alghost)
+  17. 버그 수정
 
 
 5.5

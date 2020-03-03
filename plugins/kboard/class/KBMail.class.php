@@ -60,7 +60,7 @@ class KBMail {
 		}
 		
 		ob_start();
-		include_once KBOARD_DIR_PATH . '/assets/email/template.php';
+		include KBOARD_DIR_PATH . '/assets/email/template.php';
 		$args['message'] = ob_get_clean();
 		
 		return $args;
