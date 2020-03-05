@@ -2,7 +2,7 @@
 /**
  * KBoard 워드프레스 게시판 댓글
  * @link www.cosmosfarm.com
- * @copyright Copyright 2019 Cosmosfarm. All rights reserved.
+ * @copyright Copyright 2020 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBComment {

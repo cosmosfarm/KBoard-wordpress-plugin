@@ -3,7 +3,7 @@ if(!defined('ABSPATH')) exit;
 /**
  * KBoard 워드프레스 게시판 페이지 출력 함수
  * @link www.cosmosfarm.com
- * @copyright Copyright 2019 Cosmosfarm. All rights reserved.
+ * @copyright Copyright 2020 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
 function kboard_pagination($current_page, $total, $limit, $args=array(), $text=array()){
