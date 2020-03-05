@@ -783,4 +783,3 @@ class KBoard {
 		return $this->fields;
 	}
 }
-?>
