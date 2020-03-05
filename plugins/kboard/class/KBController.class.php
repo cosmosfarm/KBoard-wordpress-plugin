@@ -471,11 +471,15 @@ class KBController {
 		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
+			$edge = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Edge') !== false);
 			if($ie){
 				$file_info->file_name = iconv('UTF-8', 'EUC-KR//IGNORE', $file_info->file_name);
 				
 				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 				header('Pragma: public');
+			}
+			else if($edge){
+				$file_info->file_name = urlencode($file_info->file_name);
 			}
 			else{
 				header('Pragma: no-cache');
