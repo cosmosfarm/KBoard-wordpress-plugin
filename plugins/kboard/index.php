@@ -180,9 +180,8 @@ function kboard_admin_init(){
 /*
  * 글쓰기 에디터에 미디어 추가하기 버튼을 추가한다.
  */
-function kboard_editor_button($context){
-	$context .= ' <button type="button" class="button" onclick="kboard_editor_open_media()">'.__('KBoard Add Media', 'kboard').'</button> ';
-	return $context;
+function kboard_editor_button($editor_id){
+	echo ' <button type="button" class="button" onclick="kboard_editor_open_media()">'.__('KBoard Add Media', 'kboard').'</button> ';
 }
 
 /*

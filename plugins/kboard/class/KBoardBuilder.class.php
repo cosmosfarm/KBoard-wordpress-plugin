@@ -105,7 +105,7 @@ class KBoardBuilder {
 			));
 			
 			// KBoard 미디어 추가
-			add_action('media_buttons_context', 'kboard_editor_button');
+			add_action('media_buttons', 'kboard_editor_button');
 			add_filter('mce_buttons', 'kboard_register_media_button');
 			add_filter('mce_external_plugins', 'kboard_add_media_button');
 			
