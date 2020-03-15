@@ -7,6 +7,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<title><?php wp_title('')?></title>
 	
+	<?php
+	// 고유주소 또는 아이프레임으로 접근시 실행
+	do_action('kboard_pre_iframe_head');
+	?>
+	
 	<style>
 	html, body { margin: 0; padding: 0; width: 1px; min-width: 100%; *width: 100%; }
 	a { color: #545861; }

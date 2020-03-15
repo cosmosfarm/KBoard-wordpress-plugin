@@ -15,13 +15,14 @@
   8. kboard_content_prev_uid_category2 필터 추가
   9. kboard_pagination_sliding_size 필터 추가
   10. kboard_pagination_text 필터 추가
-  11. contentUpdate 함수에 kboard_pre_document_update 액션 추가
-  12. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
-  13. session start 관련 개선
-  14. KBoard 메일 메시지 템플릿 코드 개선
-  15. 관리자 페이지 스킨 목록에서 .git 폴더 제외
-  16. 본인 수정/삭제를 막을 수 있는 게시판 옵션 추가 (Alghost, https://github.com/Alghost)
-  17. 버그 수정
+  11. kboard_pre_iframe_head 필터 추가
+  12. contentUpdate 함수에 kboard_pre_document_update 액션 추가
+  13. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
+  14. session start 관련 개선
+  15. KBoard 메일 메시지 템플릿 코드 개선
+  16. 관리자 페이지 스킨 목록에서 .git 폴더 제외
+  17. 본인 수정/삭제를 막을 수 있는 게시판 옵션 추가 (Alghost, https://github.com/Alghost)
+  18. 버그 수정
 
 
 5.5

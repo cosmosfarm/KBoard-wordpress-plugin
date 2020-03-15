@@ -148,7 +148,7 @@ function kboard_mime_type($file){
 	$temp = array_pop($temp);
 	$ext = strtolower($temp);
 
-	if(array_key_exists($ext, $mime_types)){
+	if(isset($mime_types[$ext])){
 		$mime_type = $mime_types[$ext];
 	}
 	else if(function_exists('mime_content_type') && file_exists($file)){

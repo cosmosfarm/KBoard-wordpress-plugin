@@ -688,7 +688,7 @@ class KBoardFields {
 		
 		foreach($skin_fields as $key=>$field){
 			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
-			if(array_key_exists($meta_key, $attach_list)){
+			if(property_exists($attach_list, $meta_key)){
 				unset($attach_list->$meta_key);
 			}
 		}
@@ -696,4 +696,3 @@ class KBoardFields {
 		return $attach_list ? $attach_list : new stdClass();
 	}
 }
-?>
