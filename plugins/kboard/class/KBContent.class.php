@@ -522,6 +522,7 @@ class KBContent {
 					'post_author'   => $member_uid,
 					'post_title'    => $this->title,
 					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
+					'post_status'	=> $this->status == 'trash' ? 'trash' : 'publish',
 					'post_parent'   => $this->board_id
 			);
 			wp_update_post($args);
@@ -1119,6 +1120,9 @@ class KBContent {
 		global $wpdb;
 		if($this->uid){
 			$post_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_name`='$this->uid' AND `post_type`='kboard'");
+			if(!$post_id){
+				$post_id = $wpdb->get_var("SELECT `ID` FROM `{$wpdb->prefix}posts` WHERE `post_name`='{$this->uid}__trashed' AND `post_type`='kboard'");
+			}
 			return intval($post_id);
 		}
 		return 0;
