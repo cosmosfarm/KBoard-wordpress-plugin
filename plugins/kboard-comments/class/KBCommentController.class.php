@@ -52,8 +52,9 @@ class KBCommentController {
 			
 			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
 			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
-			$member_display = isset($_POST['member_display'])?$_POST['member_display']:'';
-			$password = isset($_POST['password'])?$_POST['password']:'';
+			$member_display = isset($_POST['member_display'])?sanitize_text_field($_POST['member_display']):'';
+			$status = isset($_POST['status'])?sanitize_key($_POST['status']):'';
+			$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
 			
 			if(is_user_logged_in()){
 				$current_user = wp_get_current_user();
@@ -224,7 +225,7 @@ class KBCommentController {
 			
 			$comment_list = new KBCommentList($content_uid);
 			$comment_list->board = $board;
-			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, '', $password);
+			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $status, $password);
 			
 			if($comment_uid && $upload_attach_files && is_array($upload_attach_files)){
 				foreach($upload_attach_files as $attach_file){

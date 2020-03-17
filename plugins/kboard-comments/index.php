@@ -27,14 +27,18 @@ include_once 'class/KBCommentSkin.class.php';
 include_once 'class/KBCommentTemplate.class.php';
 include_once 'class/KBCommentUrl.class.php';
 
+add_action('plugins_loaded', 'kboard_comments_plugins_loaded');
+function kboard_comments_plugins_loaded(){
+	
+	// 언어 파일 추가
+	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+
 /*
  * KBoard 댓글 시작
  */
 add_action('init', 'kboard_comments_init', 5);
 function kboard_comments_init(){
-	
-	// 언어 파일 추가
-	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	
 	// 스킨의 functions.php 파일을 실행한다.
 	$skin = KBCommentSkin::getInstance();
@@ -278,7 +282,8 @@ function kboard_comments_activation_execute(){
 	`password` varchar(127) NOT NULL,
 	PRIMARY KEY (`uid`),
 	KEY `content_uid` (`content_uid`),
-	KEY `parent_uid` (`parent_uid`)
+	KEY `parent_uid` (`parent_uid`),
+	KEY `status` (`status`)
 	) {$charset_collate};");
 	
 	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_comments_option` (

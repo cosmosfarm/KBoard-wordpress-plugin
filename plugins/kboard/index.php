@@ -75,6 +75,9 @@ function kboard_plugins_loaded(){
 	if(!session_id() && (!is_admin() || kboard_id())){
 		session_start();
 	}
+	
+	// 언어 파일 추가
+	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
 /*
@@ -82,9 +85,6 @@ function kboard_plugins_loaded(){
  */
 add_action('init', 'kboard_init', 5);
 function kboard_init(){
-	
-	// 언어 파일 추가
-	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	
 	// 스킨의 functions.php 파일을 실행한다.
 	$skin = KBoardSkin::getInstance();
