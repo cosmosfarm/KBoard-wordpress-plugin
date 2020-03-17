@@ -313,7 +313,8 @@ class KBContent {
 			$data['member_display'] = __('Anonymous', 'kboard');
 		}
 		
-		if(!in_array($data['status'], array('trash', 'pending_approval'))){
+		$status_list = kboard_content_status_list();
+		if(!in_array($data['status'], array_keys($status_list))){
 			$data['status'] = '';
 		}
 		
@@ -422,7 +423,8 @@ class KBContent {
 				$data['member_display'] = __('Anonymous', 'kboard');
 			}
 			
-			if(isset($data['status']) && !in_array($data['status'], array('trash', 'pending_approval'))){
+			$status_list = kboard_content_status_list();
+			if(isset($data['status']) && !in_array($data['status'], array_keys($status_list))){
 				$data['status'] = '';
 			}
 			
@@ -1144,7 +1146,10 @@ class KBContent {
 			$where[] = "`uid`>'{$this->uid}'";
 			
 			// 휴지통에 없는 게시글만 불러온다.
-			$where[] = "(`status`='' OR `status`='pending_approval')";
+			$get_list_status_query = kboard_get_list_status_query($this->board_id);
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
 			
 			if($category1){
 				$category1 = esc_sql($category1);
@@ -1180,7 +1185,10 @@ class KBContent {
 			$where[] = "`uid`<'{$this->uid}'";
 			
 			// 휴지통에 없는 게시글만 불러온다.
-			$where[] = "(`status`='' OR `status`='pending_approval')";
+			$get_list_status_query = kboard_get_list_status_query($this->board_id);
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
 			
 			if($category1){
 				$category1 = esc_sql($category1);

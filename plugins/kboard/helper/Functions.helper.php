@@ -535,6 +535,38 @@ function kboard_video_url_to_iframe($content){
 }
 
 /**
+ * 게시판 목록에서 보여줄 게시글 상태를 반환한다.
+ * @param int $board_id
+ * @return array
+ */
+function kboard_get_list_status($board_id=''){
+	$get_list_status = array('', 'pending_approval');
+	return apply_filters('kboard_get_list_status', $get_list_status, $board_id);
+}
+
+/**
+ * 게시판 목록에서 보여줄 게시글 상태를 쿼리문 형태로 반환한다.
+ * @param int $board_id
+ * @return array
+ */
+function kboard_get_list_status_query($board_id=''){
+	$query = '';
+	$get_list_status = array();
+	
+	foreach(kboard_get_list_status($board_id) as $status){
+		$status = esc_sql($status);
+		$get_list_status[] = "`status`='{$status}'";
+	}
+	
+	if($get_list_status){
+		$get_list_status = implode(' OR ', $get_list_status);
+		$query = "({$get_list_status})";
+	}
+	
+	return $query;
+}
+
+/**
  * 게시글 상태 목록을 반환한다.
  * @return array
  */

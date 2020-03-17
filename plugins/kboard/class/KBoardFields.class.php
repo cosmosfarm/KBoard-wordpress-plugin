@@ -388,7 +388,7 @@ class KBoardFields {
 		$template = '';
 		$permission = (isset($field['permission']) && $field['permission']) ? $field['permission'] : '';
 		$roles = (isset($field['roles']) && $field['roles']) ? $field['roles'] : '';
-		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : '';
+		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? sanitize_key($field['meta_key']) : '';
 		
 		if($this->isUseFields($permission, $roles) && $meta_key){
 			if(!$content){

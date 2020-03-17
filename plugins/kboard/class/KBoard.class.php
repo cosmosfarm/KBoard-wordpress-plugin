@@ -754,7 +754,10 @@ class KBoard {
 			}
 			
 			// 휴지통에 없는 게시글만 불러온다.
-			$where[] = "(`status`='' OR `status`='pending_approval')";
+			$get_list_status_query = kboard_get_list_status_query($this->id);
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
 			
 			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
 			$wpdb->flush();

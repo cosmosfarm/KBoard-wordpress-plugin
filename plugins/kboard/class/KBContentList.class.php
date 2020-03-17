@@ -516,7 +516,10 @@ class KBContentList {
 		if(!$with_notice) $this->where[] = "`notice`=''";
 		
 		// 휴지통에 없는 게시글만 불러온다.
-		$this->where[] = "(`status`='' OR `status`='pending_approval')";
+		$get_list_status_query = kboard_get_list_status_query($this->board_id);
+		if($get_list_status_query){
+			$this->where[] = $get_list_status_query;
+		}
 		
 		// 게시글의 uid 정보만 가져온다.
 		$default_select = "`{$wpdb->prefix}kboard_board_content`.`uid`";
@@ -817,7 +820,10 @@ class KBContentList {
 		$where[] = "`notice`!=''";
 		
 		// 휴지통에 없는 게시글만 불러온다.
-		$where[] = "(`status`='' OR `status`='pending_approval')";
+		$get_list_status_query = kboard_get_list_status_query($this->board_id);
+		if($get_list_status_query){
+			$where[] = $get_list_status_query;
+		}
 		
 		$orderby = apply_filters('kboard_notice_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		
@@ -869,7 +875,10 @@ class KBContentList {
 		$where[] = "`parent_uid`='$parent_uid'";
 		
 		// 휴지통에 없는 게시글만 불러온다.
-		$where[] = "(`status`='' OR `status`='pending_approval')";
+		$get_list_status_query = kboard_get_list_status_query($this->board_id);
+		if($get_list_status_query){
+			$where[] = $get_list_status_query;
+		}
 		
 		$select = apply_filters('kboard_reply_list_select', '*', $this->board_id, $this);
 		$from = apply_filters('kboard_reply_list_from', implode(' ', $from), $this->board_id, $this);
