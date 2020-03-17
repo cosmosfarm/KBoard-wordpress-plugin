@@ -535,13 +535,26 @@ function kboard_video_url_to_iframe($content){
 }
 
 /**
+ * 게시글 상태 목록을 반환한다.
+ * @return array
+ */
+function kboard_content_status_list(){
+	$status_list = array(
+		''                 => __('Published', 'kboard'),
+		'pending_approval' => __('Pending approval', 'kboard'),
+		'trash'            => __('Trash', 'kboard'),
+	);
+	return apply_filters('kboard_content_status_list', $status_list);
+}
+
+/**
  * 게시글 본문 에디터 목록을 반환한다.
  * @return array
  */
 function kboard_content_editor_list(){
 	$editor_list = array(
-		'' => 'textarea 사용',
-		'yes' => '워드프레스 내장 에디터 사용',
+		''      => 'textarea 사용',
+		'yes'   => '워드프레스 내장 에디터 사용',
 		'snote' => '썸머노트 에디터 사용',
 	);
 	return apply_filters('kboard_content_editor_list', $editor_list);

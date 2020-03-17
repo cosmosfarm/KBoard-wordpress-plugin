@@ -1144,7 +1144,7 @@ class KBContent {
 			$where[] = "`uid`>'{$this->uid}'";
 			
 			// 휴지통에 없는 게시글만 불러온다.
-			$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+			$where[] = "(`status`='' OR `status`='pending_approval')";
 			
 			if($category1){
 				$category1 = esc_sql($category1);
@@ -1180,7 +1180,7 @@ class KBContent {
 			$where[] = "`uid`<'{$this->uid}'";
 			
 			// 휴지통에 없는 게시글만 불러온다.
-			$where[] = "(`status`='' OR `status` IS NULL OR `status`='pending_approval')";
+			$where[] = "(`status`='' OR `status`='pending_approval')";
 			
 			if($category1){
 				$category1 = esc_sql($category1);

@@ -57,7 +57,7 @@ class KBContentListTable extends WP_List_Table {
 		$class = !$this->filter_view ? ' class="current"' : '';
 		$views['all'] = '<a href="' . add_query_arg(array('filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='' OR `status` IS NULL");
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`=''");
 		$class = $this->filter_view == 'published' ? ' class="current"' : '';
 		$views['published'] = '<a href="' . add_query_arg(array('filter_view'=>'published', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Published', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
@@ -185,12 +185,14 @@ class KBContentListTable extends WP_List_Table {
 		echo '<input type="text" name="time['.$item->uid.']" class="kboard-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->date)).'">';
 		echo '<button type="button" class="button button-small" onclick="kboard_content_list_update()">'.__('Update', 'kboard').'</button>';
 		echo '</td>';
+		
 		echo '<td>';
 		echo '<select name="status['.$item->uid.']" onchange="kboard_content_list_update()">';
-		echo '<option value="">'.__('Published', 'kboard').'</option>';
-		echo '<option value="pending_approval"'.($item->status=='pending_approval'?' selected':'').'>'.__('Pending approval', 'kboard').'</option>';
-		echo '<option value="trash"'.($item->status=='trash'?' selected':'').'>'.__('Trash', 'kboard').'</option>';
-		echo '</select>';
+		$status_list = kboard_content_status_list();
+		foreach($status_list as $key=>$value){
+			$selected = ($item->status==$key) ? ' selected' : '';
+			echo '<option value="'.esc_attr($key).'"'.$selected.'>'.esc_html($value).'</option>';
+		}
 		echo '</td>';
 		
 		echo '</tr>';

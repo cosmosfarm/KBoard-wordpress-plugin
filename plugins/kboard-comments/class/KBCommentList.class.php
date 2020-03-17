@@ -251,10 +251,11 @@ class KBCommentList {
 	 * @param int $user_uid
 	 * @param string $user_display
 	 * @param string $content
+	 * @param string $status
 	 * @param string $password
-	 * @return $comment_uid
+	 * @return int
 	 */
-	public function add($parent_uid, $user_uid, $user_display, $content, $password=''){
+	public function add($parent_uid, $user_uid, $user_display, $content, $status='', $password=''){
 		global $wpdb;
 		
 		$data = array();
@@ -267,6 +268,7 @@ class KBCommentList {
 		$data['unlike'] = 0;
 		$data['vote'] = 0;
 		$data['created'] = date('YmdHis', current_time('timestamp'));
+		$data['status'] = $status;
 		$data['password'] = $password;
 		
 		$board = $this->getBoard();
@@ -286,17 +288,18 @@ class KBCommentList {
 		$data['unlike'] = isset($data['unlike'])?intval($data['unlike']):0;
 		$data['vote'] = isset($data['vote'])?intval($data['vote']):0;
 		$data['created'] = isset($data['created'])?esc_sql($data['created']):date('YmdHis', current_time('timestamp'));
+		$data['status'] = isset($data['status'])?esc_sql(sanitize_text_field($data['status'])):'';
 		$data['password'] = isset($data['password'])?esc_sql(sanitize_text_field($data['password'])):'';
 		
-		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `password`) VALUES ('{$data['content_uid']}', '{$data['parent_uid']}', '{$data['user_uid']}', '{$data['user_display']}', '{$data['content']}', '{$data['like']}', '{$data['unlike']}', '{$data['vote']}', '{$data['created']}', '{$data['password']}')");
+		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `status`, `password`) VALUES ('{$data['content_uid']}', '{$data['parent_uid']}', '{$data['user_uid']}', '{$data['user_display']}', '{$data['content']}', '{$data['like']}', '{$data['unlike']}', '{$data['vote']}', '{$data['created']}', '{$data['status']}', '{$data['password']}')");
 		$comment_uid = $wpdb->insert_id;
 		
 		// 댓글 숫자를 게시물에 등록한다.
 		$update = date('YmdHis', current_time('timestamp'));
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1, `update`='{$update}' WHERE `uid`='{$content_uid}'");
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `comment`=`comment`+1, `update`='{$update}' WHERE `uid`='{$this->content_uid}'");
 		
 		// 댓글 입력 액션 훅 실행
-		do_action('kboard_comments_insert', $comment_uid, $content_uid, $board);
+		do_action('kboard_comments_insert', $comment_uid, $this->content_uid, $board);
 		
 		return $comment_uid;
 	}

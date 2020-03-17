@@ -224,7 +224,7 @@ class KBCommentController {
 			
 			$comment_list = new KBCommentList($content_uid);
 			$comment_list->board = $board;
-			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $password);
+			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, '', $password);
 			
 			if($comment_uid && $upload_attach_files && is_array($upload_attach_files)){
 				foreach($upload_attach_files as $attach_file){
