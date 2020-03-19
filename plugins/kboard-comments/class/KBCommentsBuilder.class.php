@@ -49,17 +49,17 @@ class KBCommentsBuilder {
 		$comment_url->setBoard($this->board);
 		
 		$vars = array(
-				'content_uid' => $this->content_uid,
-				'commentList' => $commentList,
-				'temporary' => kboard_comments_get_temporary(),
-				'url' => $url,
-				'commentURL' => $comment_url,
-				'member_uid' => $current_user->ID,
-				'member_display' => $current_user->display_name,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'commentBuilder' => $this,
+			'content_uid' => $this->content_uid,
+			'commentList' => $commentList,
+			'temporary' => kboard_comments_get_temporary(),
+			'url' => $url,
+			'commentURL' => $comment_url,
+			'member_uid' => $current_user->ID,
+			'member_display' => $current_user->display_name,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $this->board,
+			'commentBuilder' => $this,
 		);
 		
 		do_action('kboard_comments_skin_header', $this);
@@ -94,17 +94,17 @@ class KBCommentsBuilder {
 		$comment_url->setBoard($this->board);
 		
 		$vars = array(
-				'content_uid' => $this->content_uid,
-				'commentList' => $commentList,
-				'depth' => $depth,
-				'url' => $url,
-				'commentURL' => $comment_url,
-				'member_uid' => $current_user->ID,
-				'member_display' => $current_user->display_name,
-				'skin_path' => $this->skin->url($this->skin_name),
-				'skin_dir' => $this->skin->dir($this->skin_name),
-				'board' => $this->board,
-				'commentBuilder' => $this,
+			'content_uid' => $this->content_uid,
+			'commentList' => $commentList,
+			'depth' => $depth,
+			'url' => $url,
+			'commentURL' => $comment_url,
+			'member_uid' => $current_user->ID,
+			'member_display' => $current_user->display_name,
+			'skin_path' => $this->skin->url($this->skin_name),
+			'skin_dir' => $this->skin->dir($this->skin_name),
+			'board' => $this->board,
+			'commentBuilder' => $this,
 		);
 		
 		echo $this->skin->load($this->skin_name, $template, $vars);
@@ -131,4 +131,3 @@ class KBCommentsBuilder {
 		return false;
 	}
 }
-?>

@@ -119,13 +119,21 @@ function kboard_comments_list(){
  */
 add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
-	$comment_builder = new KBCommentsBuilder();
-	$comment_builder->board = $atts['board'];
-	$comment_builder->board_id = $atts['board_id'];
-	$comment_builder->content_uid = $atts['content_uid'];
-	$comment_builder->permission_comment_write = $atts['permission_comment_write'];
-	$comment_builder->setSkin($atts['skin']);
-	return $comment_builder->create();
+	$atts = shortcode_atts(array(
+		'board' => new KBoard(),
+		'board_id' => '',
+		'content_uid' => '',
+		'permission_comment_write' => '',
+		'skin' => '',
+	), $atts, 'kboard_comments');
+	
+	$builder = new KBCommentsBuilder();
+	$builder->board = $atts['board'];
+	$builder->board_id = $atts['board_id'];
+	$builder->content_uid = $atts['content_uid'];
+	$builder->permission_comment_write = $atts['permission_comment_write'];
+	$builder->setSkin($atts['skin']);
+	return $builder->create();
 }
 
 /*
@@ -292,9 +300,19 @@ function kboard_comments_activation_execute(){
 	`option_key` varchar(127) NOT NULL,
 	`option_value` text NOT NULL,
 	PRIMARY KEY (`uid`),
-	UNIQUE KEY `comment_uid` (`comment_uid`,`option_key`),
+	KEY `comment_uid_2` (`comment_uid`),
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
+	
+	/*
+	 * KBoard 댓글 4.7
+	 * kboard_comments_option 테이블에 comment_uid 인덱스 삭제
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_comments_option` WHERE `Key_name`='comment_uid'");
+	if(count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_comments_option` DROP INDEX `comment_uid`");
+	}
+	unset($index);
 }
 
 /*
