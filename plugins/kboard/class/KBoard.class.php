@@ -194,30 +194,32 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isReader($user_id, $secret=''){
+		$is_reader = false;
+		
 		if($this->permission_read == 'all' && !$secret){
-			return true;
+			$is_reader = true;
 		}
 		else if(is_user_logged_in()){
 			if($user_id == get_current_user_id()){
 				// 본인 허용
-				return true;
+				$is_reader = true;
 			}
 			else if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_reader = true;
 			}
 			else if($this->permission_read == 'author' && !$secret){
 				// 로그인 사용자 허용
-				return true;
+				$is_reader = true;
 			}
 			else if($this->permission_read == 'roles' && !$secret){
 				// 선택된 역할의 사용자 허용
 				if(array_intersect($this->getReadRoles(), kboard_current_user_roles())){
-					return true;
+					$is_reader = true;
 				}
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_reader', $is_reader, $user_id, $secret, $this);
 	}
 	
 	/**
@@ -225,26 +227,28 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isWriter(){
+		$is_writer = false;
+		
 		if($this->permission_write == 'all'){
-			return true;
+			$is_writer = true;
 		}
 		else if(is_user_logged_in()){
 			if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_writer = true;
 			}
 			else if($this->permission_write == 'author'){
 				// 로그인 사용자 허용
-				return true;
+				$is_writer = true;
 			}
 			else if($this->permission_write == 'roles'){
 				// 선택된 역할의 사용자 허용
 				if(array_intersect($this->getWriteRoles(), kboard_current_user_roles())){
-					return true;
+					$is_writer = true;
 				}
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_writer', $is_writer, $this);
 	}
 	
 	/**
@@ -253,18 +257,20 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isEditor($user_id){
+		$is_editor = false;
+		
 		if(is_user_logged_in()){
-			$is_enabled_prevent_modify = $this->meta->use_prevent_modify_delete;
-			if(!$is_enabled_prevent_modify && $user_id == get_current_user_id()){
+			$use_prevent_modify_delete = $this->meta->use_prevent_modify_delete;
+			if(!$use_prevent_modify_delete && $user_id == get_current_user_id()){
 				// 본인 허용
-				return true;
+				$is_editor = true;
 			}
 			else if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_editor = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_editor', $is_editor, $user_id, $use_prevent_modify_delete, $this);
 	}
 	
 	/**
@@ -272,26 +278,28 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isOrder(){
+		$is_order = false;
+		
 		if(!$this->meta->permission_order){
-			return true;
+			$is_order = true;
 		}
 		else if(is_user_logged_in()){
 			if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_order = true;
 			}
 			else if($this->meta->permission_order == 'roles'){
 				// 선택된 역할의 사용자 허용
 				if(array_intersect($this->getOrderRoles(), kboard_current_user_roles())){
-					return true;
+					$is_order = true;
 				}
 			}
 			else{
 				// 로그인 사용자 허용
-				return true;
+				$is_order = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_order', $is_order, $this);
 	}
 	
 	/**
@@ -299,40 +307,44 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isReply(){
+		$is_reply = false;
+		
 		if(!$this->meta->permission_reply){
-			return true;
+			$is_reply = true;
 		}
 		else if(is_user_logged_in()){
 			if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_reply = true;
 			}
 			else if($this->meta->permission_reply == 'roles'){
 				// 선택된 역할의 사용자 허용
 				if(array_intersect($this->getReplyRoles(), kboard_current_user_roles())){
-					return true;
+					$is_reply = true;
 				}
 			}
 			else{
 				// 로그인 사용자 허용
-				return true;
+				$is_reply = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_reply', $is_reply, $this);
 	}
 	
 	public function isBuyer($user_id){
+		$is_buyer = false;
+		
 		if(is_user_logged_in()){
 			if($user_id == get_current_user_id()){
 				// 본인 허용
-				return true;
+				$is_buyer = true;
 			}
 			else if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_buyer = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_buyer', $is_buyer, $this);
 	}
 	
 	/**
@@ -340,26 +352,28 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isAttachmentDownload(){
+		$is_attachment_download = false;
+		
 		if(!$this->meta->permission_attachment_download){
-			return true;
+			$is_attachment_download = true;
 		}
 		else if(is_user_logged_in()){
 			if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_attachment_download = true;
 			}
 			else if($this->meta->permission_attachment_download == 'roles'){
 				// 선택된 역할의 사용자 허용
 				if(array_intersect($this->getAttachmentDownloadRoles(), kboard_current_user_roles())){
-					return true;
+					$is_attachment_download = true;
 				}
 			}
 			else{
 				// 로그인 사용자 허용
-				return true;
+				$is_attachment_download = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_attachment_download', $is_attachment_download, $this);
 	}
 	
 	/**
@@ -367,26 +381,28 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isVote(){
+		$is_vote = false;
+		
 		if(!$this->meta->permission_vote){
-			return true;
+			$is_vote = true;
 		}
 		else if(is_user_logged_in()){
 			if($this->isAdmin()){
 				// 게시판 관리자 허용
-				return true;
+				$is_vote = true;
 			}
 			else if($this->meta->permission_vote == 'roles'){
 				// 선택된 역할의 사용자 허용
 				if(array_intersect($this->getVoteRoles(), kboard_current_user_roles())){
-					return true;
+					$is_vote = true;
 				}
 			}
 			else{
 				// 로그인 사용자 허용
-				return true;
+				$is_vote = true;
 			}
 		}
-		return false;
+		return apply_filters('kboard_is_vote', $is_vote, $this);
 	}
 	
 	/**

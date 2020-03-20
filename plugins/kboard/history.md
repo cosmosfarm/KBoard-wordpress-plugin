@@ -18,14 +18,22 @@
   11. kboard_pre_iframe_head 필터 추가
   12. kboard_content_status_list 필터 추가
   13. kboard_get_list_status 필터 추가
-  14. contentUpdate 함수에 kboard_pre_document_update 액션 추가
-  15. 워드프레스 통합검색 관련 개선 (게시글 상태 휴지통일 때 Post 상태도 휴지통으로 적용)
-  16. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
-  17. session start 관련 개선
-  18. KBoard 메일 메시지 템플릿 코드 개선
-  19. 관리자 페이지 스킨 목록에서 .git 폴더 제외
-  20. 본인 수정/삭제를 막을 수 있는 게시판 옵션 추가 (Alghost, https://github.com/Alghost)
-  21. 버그 수정
+  14. kboard_is_reader 필터 추가
+  15. kboard_is_writer 필터 추가
+  16. kboard_is_editor 필터 추가
+  17. kboard_is_order 필터 추가
+  18. kboard_is_reply 필터 추가
+  19. kboard_is_buyer 필터 추가
+  20. kboard_is_attachment_download 필터 추가
+  21. kboard_is_vote 필터 추가
+  22. contentUpdate 함수에 kboard_pre_document_update 액션 추가
+  23. 워드프레스 통합검색 관련 개선 (게시글 상태 휴지통일 때 Post 상태도 휴지통으로 적용)
+  24. 유튜브, 비메오 동영상 URL을 iframe 코드로 변환하는 코드 개선
+  25. session start 관련 개선
+  26. KBoard 메일 메시지 템플릿 코드 개선
+  27. 관리자 페이지 스킨 목록에서 .git 폴더 제외
+  28. 본인 수정/삭제를 막을 수 있는 게시판 옵션 추가 (Alghost, https://github.com/Alghost)
+  29. 버그 수정
 
 
 5.5
