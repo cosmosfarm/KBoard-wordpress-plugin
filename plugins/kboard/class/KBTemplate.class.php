@@ -35,7 +35,7 @@ class KBTemplate {
 		$board_id = kboard_id();
 		if($board_id){
 			$meta = new KBoardMeta($board_id);
-			if($meta->use_direct_url || isset($_SESSION['kboard_board_id'])){
+			if($meta->use_direct_url || isset($_SESSION['kboard_board_id']) || is_admin()){
 				
 				// SEO 정보
 				include_once KBOARD_DIR_PATH . '/class/KBSeo.class.php';
