@@ -11,12 +11,7 @@ class KBStore {
 	 * 상품 리스트 페이지
 	 */
 	public static function productsList(){
-		if(isset($_GET['access_token']) && $_GET['access_token']){
-			$_SESSION['kboard_access_token'] = sanitize_text_field($_GET['access_token']);
-		}
-		
 		$category = isset($_GET['kbstore_category']) ? sanitize_text_field($_GET['kbstore_category']) : ''; 
-		
 		include KBOARD_DIR_PATH . '/pages/kboard_store.php';
 	}
 	
@@ -25,8 +20,8 @@ class KBStore {
 	 * @return string
 	 */
 	public static function getAccessToken(){
-		if(isset($_SESSION['kboard_access_token'])){
-			return sanitize_text_field($_SESSION['kboard_access_token']);
+		if(isset($_COOKIE['kboard_access_token'])){
+			return sanitize_text_field($_COOKIE['kboard_access_token']);
 		}
 		return '';
 	}

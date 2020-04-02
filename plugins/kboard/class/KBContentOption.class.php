@@ -24,13 +24,19 @@ class KBContentOption {
 	}
 	
 	public function __set($key, $value){
-		global $wpdb;
+		global $wpdb, $cosmosfarm_migration_in_progress;
 		if($this->content_uid){
+			
 			$key = sanitize_key($key);
 			$this->row[$key] = $value;
 			$value = esc_sql($value);
+			
 			if($value){
-				$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
+				$count = 0;
+				if(!$cosmosfarm_migration_in_progress){
+					$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
+				}
+				
 				if(is_array($value)){
 					if($count){
 						$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
@@ -48,7 +54,7 @@ class KBContentOption {
 					}
 				}
 			}
-			else{
+			else if(!$cosmosfarm_migration_in_progress){
 				$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
 			}
 		}

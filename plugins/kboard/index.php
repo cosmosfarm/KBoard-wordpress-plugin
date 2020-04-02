@@ -137,9 +137,9 @@ function kboard_get_header(){
  */
 add_action('admin_init', 'kboard_admin_init');
 function kboard_admin_init(){
+	$page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
 	
 	// 게시판 관리
-	$page = isset($_GET['page'])?$_GET['page']:'';
 	if($page == 'kboard_list' && (!isset($_GET['board_id']) || !$_GET['board_id'])){
 		$wp_list_table = _get_list_table('WP_Posts_List_Table');
 		if(isset($_POST['board_id']) && $wp_list_table->current_action() == 'reset_total'){
@@ -170,11 +170,17 @@ function kboard_admin_init(){
 	
 	// 관리자 컨트롤러 시작
 	include_once KBOARD_DIR_PATH . '/class/KBAdminController.class.php';
-	$admin_controller = new KBAdminController();
+	new KBAdminController();
 	
 	// 사용자 프로필 필드 추가
 	include_once KBOARD_DIR_PATH . '/class/KBUserProfileFields.class.php';
-	$user_profile_fields = new KBUserProfileFields();
+	new KBUserProfileFields();
+	
+	// 스토어 연동 액세스 토큰 설정
+	if($page == 'kboard_store' && isset($_GET['access_token']) && $_GET['access_token']){
+		$_COOKIE['kboard_access_token'] = sanitize_text_field($_GET['access_token']);
+		setcookie('kboard_access_token', $_COOKIE['kboard_access_token'], 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+	}
 }
 
 /*
