@@ -17,13 +17,13 @@ KBoard(케이보드)는 다년간의 업데이트로 안정성이 뛰어나며 �
 KBoard(케이보드)는 세계에서 가장 많이 사용하는 CMS인 워드프레스(WordPress)의 플러그인으로 제공되고 동작합니다. 플러그인 파일을 업로드하고 활성화시켜주는 것 만으로 설치는 완료됩니다.
 - [KBoard 다운로드](https://www.cosmosfarm.com/products/kboard)
 
+## 정기배송, 정기구독, 유료회원제 운영
+코스모스팜 회원관리 플러그인에 포함된 정기결제 기능을 사용해 정기배송, 정기구독, 유료회원제 홈페이지를 운영할 수 있습니다.
+- [더 알아보기](https://www.cosmosfarm.com/wpstore/product/cosmosfarm-members)
+
 ## 재능마켓 직접 운영
 나의 재능이 돈이 됩니다. 수수료 0% 재능마켓을 누구나 직접 구축할 수 있습니다. 필요한 기능만 포함된 솔루션으로 투잡 쉽게 시작하세요.
 - [더 알아보기](https://www.cosmosfarm.com/wpstore/product/kboard-first-contents-mall-skin)
-
-## 정기결제 유료회원제 운영
-코스모스팜 회원관리 플러그인에 포함된 정기결제, 자동결제 기능과 결합하면 유료회원제 홈페이지를 운영할 수 있으며 허가된 사용자에게만 권한을 부여할 수 있습니다.
-- [더 알아보기](https://www.cosmosfarm.com/wpstore/product/cosmosfarm-members)
 
 ## 소셜 공유 및 네이버 메인에 추가
 여러분의 사이트로 방문자가 늘어나도록 페이스북, 네이버, 카카오톡, 트위터 등 SNS에 콘텐츠를 공유할 수 있습니다. 또한 새롭게 추가된 네이버 오픈메인 기능으로 여러분의 사이트를 네이버 메인에 쉽게 추가할 수 있게 되었습니다.
