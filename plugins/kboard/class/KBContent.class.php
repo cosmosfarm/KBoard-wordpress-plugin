@@ -632,7 +632,7 @@ class KBContent {
 	 */
 	public function initAttachedFiles(){
 		global $wpdb;
-		$this->attach = new stdClass();
+		$this->attach = array();
 		if($this->uid){
 			$url = new KBUrl();
 			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}'");
@@ -653,9 +653,10 @@ class KBContent {
 				
 				$file_info = apply_filters('kboard_content_file_info', $file_info, $file, $this);
 				
-				$this->attach->{$file->file_key} = $file_info;
+				$this->attach[$file->file_key] = $file_info;
 			}
 		}
+		$this->attach = (object) $this->attach;
 		return $this->attach;
 	}
 	
