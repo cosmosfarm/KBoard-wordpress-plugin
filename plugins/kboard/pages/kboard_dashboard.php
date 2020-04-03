@@ -305,6 +305,26 @@
 				</p>
 			</form>
 		</li>
+		<li id="kboard_iamport">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>이미지 최적화</h4>
+				<p>
+					KBoard(케이보드)에서 업로드되는 이미지를 최적화해 서버의 저장공간을 절약할 수 있습니다.<br>
+					KBoard 미디어 추가 기능과 게시판 첨부파일로 업로드되는 이미지에 적용됩니다.<br>
+					jpg, png 계열의 이미지 파일에 적용되며 gif 파일에는 적용되지 않습니다.<br>
+					필드가 빈 값일 경우 동작하지 않고 업로드 원본 그대로 저장합니다.<br>
+					사진의 메타데이터가 삭제될 수 있습니다.<br>
+					일부 서버 환경에서는 동작하지 않을 수 있습니다.
+				</p>
+				<p>
+					최대 이미지 사이즈 <input type="text" name="option[kboard_image_optimize_width]" value="<?php echo get_option('kboard_image_optimize_width')?>" placeholder="width">x<input type="text" name="option[kboard_image_optimize_height]" value="<?php echo get_option('kboard_image_optimize_height')?>" placeholder="height">px<br>
+					이미지 퀄러티 변경 <input type="text" name="option[kboard_image_optimize_quality]" value="<?php echo get_option('kboard_image_optimize_quality')?>" placeholder="1-100">% (1-100 사이의 숫자만 입력하세요)<br>
+					<button type="submit" class="button">이미지 최적화 업데이트</button>
+				</p>
+			</form>
+		</li>
 	</ul>
 </div>
 <script>

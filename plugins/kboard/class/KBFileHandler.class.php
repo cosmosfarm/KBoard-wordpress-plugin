@@ -7,13 +7,13 @@
  */
 class KBFileHandler {
 	
-	private $name;
-	private $path;
-	private $file_extension;
-	private $extension;
-	private $limit_file_size;
-	private $uploaded_file;
-	private $abspath;
+	var $name;
+	var $path;
+	var $file_extension;
+	var $extension;
+	var $limit_file_size;
+	var $uploaded_file;
+	var $abspath;
 	
 	/**
 	 * 파일 조작 클래스

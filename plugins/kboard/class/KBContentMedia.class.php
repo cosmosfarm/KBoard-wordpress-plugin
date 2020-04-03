@@ -79,17 +79,42 @@ class KBContentMedia {
 				$file_path = esc_sql($upload['path'] . $upload['stored_name']);
 				$file_size = intval(filesize($this->abspath . $upload['path'] . $upload['stored_name']));
 				
-				$attach_file = new stdClass();
-				$attach_file->key = '';
-				$attach_file->path = $file_path;
-				$attach_file->name = $file_name;
-				$attach_file->metadata = $upload['metadata'];
-				
-				$metadata = apply_filters('kboard_content_media_metadata', $upload['metadata'], $attach_file, $this);
-				$metadata = serialize($metadata);
-				$metadata = esc_sql($metadata);
-				
 				if($file_name){
+					$filetype = wp_check_filetype($file->abspath . $file_path, array('jpg|jpeg|jpe'=>'image/jpeg', 'png'=>'image/png'));
+					
+					if(in_array($filetype['type'], array('image/jpeg', 'image/png'))){
+						$image_optimize_width = intval(get_option('kboard_image_optimize_width'));
+						$image_optimize_height = intval(get_option('kboard_image_optimize_height'));
+						$image_optimize_quality = intval(get_option('kboard_image_optimize_quality'));
+						
+						$image_editor = wp_get_image_editor($file->abspath . $file_path);
+						if(!is_wp_error($image_editor)){
+							$is_save = false;
+							
+							if($image_optimize_width && $image_optimize_height){
+								$image_editor->resize($image_optimize_width, $image_optimize_height);
+								$is_save = true;
+							}
+							if(0 < $image_optimize_quality && $image_optimize_quality < 100){
+								$image_editor->set_quality($image_optimize_quality);
+								$is_save = true;
+							}
+							if($is_save){
+								$image_editor->save($file->abspath . $file_path);
+							}
+						}
+					}
+					
+					$attach_file = new stdClass();
+					$attach_file->key = '';
+					$attach_file->path = $file_path;
+					$attach_file->name = $file_name;
+					$attach_file->metadata = $upload['metadata'];
+					
+					$metadata = apply_filters('kboard_content_media_metadata', $upload['metadata'], $attach_file, $this);
+					$metadata = serialize($metadata);
+					$metadata = esc_sql($metadata);
+					
 					$date = date('YmdHis', current_time('timestamp'));
 					$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_meida` (`media_group`, `date`, `file_path`, `file_name`, `file_size`, `download_count`, `metadata`) VALUES ('{$this->media_group}', '$date', '$file_path', '$file_name', '$file_size', '0', '$metadata')");
 				}
