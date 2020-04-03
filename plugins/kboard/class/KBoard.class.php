@@ -258,9 +258,9 @@ class KBoard {
 	 */
 	public function isEditor($user_id){
 		$is_editor = false;
+		$use_prevent_modify_delete = $this->meta->use_prevent_modify_delete;
 		
 		if(is_user_logged_in()){
-			$use_prevent_modify_delete = $this->meta->use_prevent_modify_delete;
 			if(!$use_prevent_modify_delete && $user_id == get_current_user_id()){
 				// 본인 허용
 				$is_editor = true;
