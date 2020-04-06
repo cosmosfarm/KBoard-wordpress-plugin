@@ -40,8 +40,8 @@ final class KBUpgrader {
 	 * 캐시를 비운다.
 	 */
 	public static function flush(){
-		set_transient('kboard_latest_news', array(), 60*60);
-		set_transient('kboard_latest_version', array(), 60*60);
+		delete_transient('kboard_latest_news');
+		delete_transient('kboard_latest_version');
 		
 		self::$latest_version = '';
 		self::$latest_news = '';
