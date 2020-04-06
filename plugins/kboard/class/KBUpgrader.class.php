@@ -40,8 +40,8 @@ final class KBUpgrader {
 	 * 캐시를 비운다.
 	 */
 	public static function flush(){
-		unset($_SESSION['kboard_latest_version']);
-		unset($_SESSION['kboard_latest_news']);
+		set_transient('kboard_latest_news', array(), 60*60);
+		set_transient('kboard_latest_version', array(), 60*60);
 		
 		self::$latest_version = '';
 		self::$latest_news = '';
@@ -70,19 +70,13 @@ final class KBUpgrader {
 	 * @return object
 	 */
 	public static function getLatestVersion(){
-		$version = self::connect(self::$CONNECT_VERSION);
-		if(!$version){
-			$version = new stdClass();
-			$version->kboard = '';
-			$version->comments = '';
-		}
-		self::$latest_version = $version;
+		$version = get_transient('kboard_latest_version');
 		
 		if(self::$latest_version){
 			return self::$latest_version;
 		}
-		else if(isset($_SESSION['kboard_latest_version']) && is_object($_SESSION['kboard_latest_version']) && $_SESSION['kboard_latest_version']){
-			self::$latest_version = $_SESSION['kboard_latest_version'];
+		else if($version && isset($version->kboard)&&$version->kboard && isset($version->comments)&&$version->comments){
+			self::$latest_version = $version;
 		}
 		else if(!self::$latest_version){
 			$version = self::connect(self::$CONNECT_VERSION);
@@ -92,8 +86,9 @@ final class KBUpgrader {
 				$version->comments = '';
 			}
 			self::$latest_version = $version;
+			set_transient('kboard_latest_version', $version, 60*60);
 		}
-		$_SESSION['kboard_latest_version'] = self::$latest_version;
+		
 		return self::$latest_version;
 	}
 	
@@ -102,11 +97,13 @@ final class KBUpgrader {
 	 * @return object
 	 */
 	public static function getLatestNews(){
+		$news = get_transient('kboard_latest_news');
+		
 		if(self::$latest_news){
 			return self::$latest_news;
 		}
-		else if(isset($_SESSION['kboard_latest_news']) && is_array($_SESSION['kboard_latest_news']) && $_SESSION['kboard_latest_news']){
-			self::$latest_news = $_SESSION['kboard_latest_news'];
+		else if($news){
+			self::$latest_news = $news;
 		}
 		else if(!self::$latest_news){
 			$news = self::connect(self::$CONNECT_NEWS);
@@ -114,8 +111,9 @@ final class KBUpgrader {
 				$news = array();
 			}
 			self::$latest_news = $news;
+			set_transient('kboard_latest_news', $news, 60*60);
 		}
-		$_SESSION['kboard_latest_news'] = self::$latest_news;
+		
 		return self::$latest_news;
 	}
 	
