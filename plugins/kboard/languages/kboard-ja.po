@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2020-04-07 10:59+0900\n"
-"PO-Revision-Date: 2020-04-07 11:10+0900\n"
+"POT-Creation-Date: 2020-04-07 13:39+0900\n"
+"PO-Revision-Date: 2020-04-07 13:39+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -154,32 +154,15 @@ msgstr "記事の削除の減少ポイント"
 msgid "All"
 msgstr "全体"
 
-#: class/KBContentListTable.class.php:63 helper/Functions.helper.php:575
-msgid "Published"
-msgstr "公開済み"
-
-#: class/KBContentListTable.class.php:67 helper/Functions.helper.php:576
-msgid "Pending approval"
-msgstr "承認待機中"
-
-#: class/KBContentListTable.class.php:71 helper/Functions.helper.php:577
-msgid "Trash"
-msgstr "紙屑かご"
-
-#: class/KBContentListTable.class.php:75 class/KBContentListTable.class.php:170
-#: index.php:1354 index.php:1386 index.php:1407
-msgid "Temporary save"
-msgstr "一時保存"
-
-#: class/KBContentListTable.class.php:81
+#: class/KBContentListTable.class.php:73
 msgid "No documents found."
 msgstr "書き込みがありません。"
 
-#: class/KBContentListTable.class.php:87
+#: class/KBContentListTable.class.php:79
 msgid "Forum"
 msgstr "Forum"
 
-#: class/KBContentListTable.class.php:88 class/KBoardFields.class.php:23
+#: class/KBContentListTable.class.php:80 class/KBoardFields.class.php:23
 #: skin/avatar/latest.php:5 skin/avatar/list.php:47 skin/avatar/list.php:140
 #: skin/contact-form/admin-list.php:47 skin/contact-form/admin-list.php:131
 #: skin/contact-form/latest.php:5 skin/default/latest.php:5
@@ -189,7 +172,7 @@ msgstr "Forum"
 msgid "Title"
 msgstr "タイトル"
 
-#: class/KBContentListTable.class.php:89 class/KBoardFields.class.php:49
+#: class/KBContentListTable.class.php:81 class/KBoardFields.class.php:49
 #: skin/avatar/document.php:27 skin/avatar/list.php:48 skin/avatar/list.php:142
 #: skin/contact-form/admin-document.php:27 skin/contact-form/admin-list.php:48
 #: skin/contact-form/admin-list.php:133 skin/default/document.php:27
@@ -199,7 +182,7 @@ msgstr "タイトル"
 msgid "Author"
 msgstr "投稿者"
 
-#: class/KBContentListTable.class.php:90 skin/avatar/document.php:35
+#: class/KBContentListTable.class.php:82 skin/avatar/document.php:35
 #: skin/avatar/list.php:51 skin/avatar/list.php:76 skin/avatar/list.php:108
 #: skin/avatar/reply-template.php:23 skin/contact-form/admin-document.php:35
 #: skin/contact-form/admin-list.php:51 skin/contact-form/admin-list.php:74
@@ -211,7 +194,7 @@ msgstr "投稿者"
 msgid "Views"
 msgstr "閲覧数"
 
-#: class/KBContentListTable.class.php:91 skin/avatar/editor-fields.php:125
+#: class/KBContentListTable.class.php:83 skin/avatar/editor-fields.php:125
 #: skin/avatar/latest.php:16 skin/avatar/list.php:62 skin/avatar/list.php:94
 #: skin/avatar/reply-template.php:9 skin/contact-form/admin-list.php:62
 #: skin/contact-form/admin-list.php:90 skin/contact-form/latest.php:16
@@ -223,14 +206,14 @@ msgstr "閲覧数"
 msgid "Secret"
 msgstr "非公開"
 
-#: class/KBContentListTable.class.php:92 skin/avatar/editor-fields.php:128
+#: class/KBContentListTable.class.php:84 skin/avatar/editor-fields.php:128
 #: skin/avatar/list.php:57 skin/contact-form/admin-list.php:57
 #: skin/default/editor-fields.php:128 skin/default/list.php:57
 #: skin/thumbnail/editor-fields.php:128 skin/thumbnail/list.php:58
 msgid "Notice"
 msgstr "お知らせ"
 
-#: class/KBContentListTable.class.php:93 skin/avatar/document.php:31
+#: class/KBContentListTable.class.php:85 skin/avatar/document.php:31
 #: skin/avatar/latest.php:6 skin/avatar/list.php:49
 #: skin/contact-form/admin-document.php:31 skin/contact-form/admin-list.php:49
 #: skin/contact-form/latest.php:6 skin/default/document.php:31
@@ -240,42 +223,42 @@ msgstr "お知らせ"
 msgid "Date"
 msgstr "投稿日"
 
-#: class/KBContentListTable.class.php:94
+#: class/KBContentListTable.class.php:86
 msgid "Status"
 msgstr "状態"
 
-#: class/KBContentListTable.class.php:101
+#: class/KBContentListTable.class.php:93
 msgid "Restore"
 msgstr "復元"
 
-#: class/KBContentListTable.class.php:102
+#: class/KBContentListTable.class.php:94
 #: class/KBLatestviewListTable.class.php:60 class/KBoardListTable.class.php:65
 msgid "Delete Permanently"
 msgstr "完全に削除する"
 
-#: class/KBContentListTable.class.php:106
+#: class/KBContentListTable.class.php:98
 msgid "Move to Trash"
 msgstr "ゴミ箱へ移動"
 
-#: class/KBContentListTable.class.php:123
+#: class/KBContentListTable.class.php:115
 msgid "Filter"
 msgstr "絞り込み検索"
 
-#: class/KBContentListTable.class.php:164
+#: class/KBContentListTable.class.php:156
 msgid "The reply."
 msgstr "コメントの作成"
 
-#: class/KBContentListTable.class.php:188
-#: class/KBContentListTable.class.php:191 index.php:1129
+#: class/KBContentListTable.class.php:175
+#: class/KBContentListTable.class.php:178 index.php:1129
 msgid "Yes"
 msgstr "はい"
 
-#: class/KBContentListTable.class.php:188
-#: class/KBContentListTable.class.php:191 index.php:1130
+#: class/KBContentListTable.class.php:175
+#: class/KBContentListTable.class.php:178 index.php:1130
 msgid "No"
 msgstr "いいえ"
 
-#: class/KBContentListTable.class.php:196
+#: class/KBContentListTable.class.php:183
 msgid "Update"
 msgstr "アップデート"
 
@@ -629,6 +612,18 @@ msgstr "所有コメントのみを表示"
 #: helper/Functions.helper.php:191
 msgid "직접선택"
 msgstr "直接選択"
+
+#: helper/Functions.helper.php:575
+msgid "Published"
+msgstr "公開済み"
+
+#: helper/Functions.helper.php:576
+msgid "Pending approval"
+msgstr "承認待機中"
+
+#: helper/Functions.helper.php:577
+msgid "Trash"
+msgstr "紙屑かご"
 
 #: helper/Pagination.helper.php:71
 msgid "First"
@@ -1573,6 +1568,9 @@ msgstr ""
 #: template/media.php:206 template/media.php:221 template/media.php:272
 msgid "이미지 파일만 업로드 가능합니다."
 msgstr "イメージファイルのみアップロード可能です。"
+
+#~ msgid "Temporary save"
+#~ msgstr "一時保存"
 
 #~ msgid "KBoard 미디어 추가"
 #~ msgstr "KBoard メディアを追加"

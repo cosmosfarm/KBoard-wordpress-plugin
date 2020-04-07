@@ -58,17 +58,13 @@ class KBContentListTable extends WP_List_Table {
 		$class = !$this->filter_view ? ' class="current"' : '';
 		$views['all'] = '<a href="' . add_query_arg(array('filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`=''");
-		$class = $this->filter_view == 'published' ? ' class="current"' : '';
-		$views['published'] = '<a href="' . add_query_arg(array('filter_view'=>'published', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Published', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='pending_approval'");
-		$class = $this->filter_view == 'pending_approval' ? ' class="current"' : '';
-		$views['pending_approval'] = '<a href="' . add_query_arg(array('filter_view'=>'pending_approval', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Pending approval', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='trash'");
-		$class = $this->filter_view == 'trash' ? ' class="current"' : '';
-		$views['trash'] = '<a href="' . add_query_arg(array('filter_view'=>'trash', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Trash', 'kboard') . " <span class=\"count\">({$count})</span></a>";
+		$status_list = kboard_content_status_list();
+		foreach($status_list as $status=>$status_name){
+			$filter_view = $status ? $status : 'published';
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='{$status}'");
+			$class = $this->filter_view == $filter_view ? ' class="current"' : '';
+			$views[$filter_view] = '<a href="' . add_query_arg(array('filter_view'=>$filter_view, 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . $status_name . " <span class=\"count\">({$count})</span></a>";
+		}
 		
 		return $views;
 	}
