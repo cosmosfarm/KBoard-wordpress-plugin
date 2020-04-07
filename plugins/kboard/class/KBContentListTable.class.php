@@ -65,14 +65,10 @@ class KBContentListTable extends WP_List_Table {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='pending_approval'");
 		$class = $this->filter_view == 'pending_approval' ? ' class="current"' : '';
 		$views['pending_approval'] = '<a href="' . add_query_arg(array('filter_view'=>'pending_approval', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Pending approval', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-
+		
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='trash'");
 		$class = $this->filter_view == 'trash' ? ' class="current"' : '';
 		$views['trash'] = '<a href="' . add_query_arg(array('filter_view'=>'trash', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Trash', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='hide'");
-		$class = $this->filter_view == 'hide' ? ' class="current"' : '';
-		$views['hide'] = '<a href="' . add_query_arg(array('filter_view'=>'hide', 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('Temporary save', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		
 		return $views;
 	}
@@ -166,12 +162,7 @@ class KBContentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td class="kboard-content-list-title">';
-		if($item->status == 'hide'){
-			echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">[' . __('Temporary save', 'kboard') . '] ' . mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
-		}
-		else{
-			echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
-		}
+		echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
 		echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
 		echo '</td>';
 		
