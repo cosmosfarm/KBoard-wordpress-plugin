@@ -284,7 +284,16 @@ class KBCommentController {
 				unset($_SESSION['kboard_temporary_comments']);
 			}
 			
-			wp_redirect(wp_get_referer() . "#kboard-comments-{$content_uid}");
+			$next_page_url = wp_get_referer() . "#kboard-comments-{$content_uid}";
+			$next_page_url = apply_filters('kboard_comments_after_executing_url', $next_page_url, $comment_uid, $content_uid);
+			
+			
+			$comment = new KBComment();
+			$comment->initWithUID($comment_uid);
+			
+			do_action('kboard_comments_execute_pre_redirect', $next_page_url, $comment, $content, $board);
+			
+			wp_redirect($next_page_url);
 			exit;
 		}
 		wp_die(__('You do not have permission.', 'kboard-comments'));

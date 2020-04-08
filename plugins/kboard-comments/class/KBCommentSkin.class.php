@@ -8,7 +8,7 @@
 class KBCommentSkin {
 	
 	static private $instance;
-	private $active;
+	private $active = array();
 	private $list;
 	
 	private function __construct(){
@@ -120,15 +120,17 @@ class KBCommentSkin {
 	 */
 	public function getActiveList(){
 		global $wpdb;
-		if($this->active){
-			return $this->active;
-		}
-		$results = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
-		foreach($results as $row){
-			if(!empty($row->value)){
-				$this->active[] = $row->value;
+		
+		if(!$this->active){
+			$results = $wpdb->get_results("SELECT DISTINCT `value` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='comment_skin'");
+			
+			foreach($results as $row){
+				if(!empty($row->value)){
+					$this->active[] = $row->value;
+				}
 			}
 		}
-		return $this->active ? $this->active : array();
+		
+		return apply_filters('kboard_comments_skin_active_list', $this->active);
 	}
 }

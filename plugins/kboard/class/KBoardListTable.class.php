@@ -76,24 +76,25 @@ class KBoardListTable extends WP_List_Table {
 	public function single_row($item){
 		$edit_url = admin_url("admin.php?page=kboard_list&board_id={$item->uid}");
 		
-		echo '<tr data-board-id="'.$item->uid.'">';
+		echo '<tr data-board-id="' . $item->uid . '">';
 		
 		echo '<th scope="row" class="check-column">';
 		echo '<input type="checkbox" name="board_id[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
 		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
-		echo '<img src="'.KBOARD_URL_PATH."/skin/{$item->skin}/thumbnail.png".'" style="width:100px;height:100px;" alt="">';
+		echo '<img src="' . KBoardSkin::getInstance()->url($item->skin, 'thumbnail.png') . '" style="width:100px;height:100px;" alt="">';
 		echo '</a></td>';
 		
-		echo '<td><a href="'.$edit_url.'" title="'.__('편집', 'kboard').'" style="display:block">';
+		echo '<td><a href="' . $edit_url . '" title="'.__('편집', 'kboard').'" style="display:block">';
 		echo $item->board_name;
 		echo '</a></td>';
 		
 		echo '<td>';
-		if($item->meta->auto_page){
-			$post = get_post($item->meta->auto_page);
-			echo '<a href="'.get_permalink($post).'" title="'.__('페이지 보기', 'kboard').'" style="display:block">';
+		if($item->meta->auto_page || $item->meta->latest_target_page){
+			$page_id = $item->meta->auto_page ? $item->meta->auto_page : $item->meta->latest_target_page;
+			$post = get_post($page_id);
+			echo '<a href="' . get_permalink($post) . '" title="'.__('페이지 보기', 'kboard').'" style="display:block">';
 			echo $post->post_title;
 			echo '</a>';
 		}

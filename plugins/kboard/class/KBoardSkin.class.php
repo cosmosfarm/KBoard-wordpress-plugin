@@ -8,7 +8,7 @@
 class KBoardSkin {
 	
 	private static $instance;
-	private $active;
+	private $active = array();
 	private $list;
 	private $latestview_list;
 	private $merged_list;
@@ -204,15 +204,18 @@ class KBoardSkin {
 	 */
 	public function getActiveList(){
 		global $wpdb;
+		
 		$blog_id = get_current_blog_id();
-		if(isset($this->active[$blog_id]) && $this->active[$blog_id]){
-			return $this->active[$blog_id];
+		if(!isset($this->active[$blog_id]) || !$this->active[$blog_id]){
+			$this->active[$blog_id] = array();
+			$results = $wpdb->get_results("SELECT `skin` FROM `{$wpdb->prefix}kboard_board_setting` UNION SELECT `skin` FROM `{$wpdb->prefix}kboard_board_latestview`");
+			
+			foreach($results as $row){
+				$this->active[$blog_id][] = $row->skin;
+			}
 		}
-		$results = $wpdb->get_results("SELECT `skin` FROM `{$wpdb->prefix}kboard_board_setting` UNION SELECT `skin` FROM `{$wpdb->prefix}kboard_board_latestview`");
-		foreach($results as $row){
-			$this->active[$blog_id][] = $row->skin;
-		}
-		return (isset($this->active[$blog_id]) && $this->active[$blog_id]) ? $this->active[$blog_id] : array();
+		
+		return apply_filters('kboard_skin_active_list', $this->active[$blog_id]);
 	}
 	
 	/**

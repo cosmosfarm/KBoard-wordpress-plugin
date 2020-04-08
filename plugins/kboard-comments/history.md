@@ -2,6 +2,15 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+4.8
+----------------------------------
+
+  1. kboard_comments_after_executing_url 필터 추가
+  2. kboard_comments_skin_active_list 필터 추가
+  3. kboard_comments_execute_pre_redirect 액션 추가
+  4. 버그 수정
+
+
 4.7
 ----------------------------------
 
