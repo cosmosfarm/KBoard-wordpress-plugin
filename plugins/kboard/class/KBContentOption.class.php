@@ -12,7 +12,9 @@ class KBContentOption {
 	
 	public function __construct($content_uid=''){
 		$this->row = array();
-		if($content_uid) $this->initWithContentUID($content_uid);
+		if($content_uid){
+			$this->initWithContentUID($content_uid);
+		}
 	}
 	
 	public function __get($key){

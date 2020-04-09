@@ -631,4 +631,3 @@ class KBAdminController {
 		wp_send_json(array('table_body'=>$table_body));
 	}
 }
-?>
