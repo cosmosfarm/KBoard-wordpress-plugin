@@ -8,7 +8,8 @@
   1. kboard_skin_active_list 필터 추가
   2. kboard_list_select_count 필터 추가
   3. 전체 게시글 메뉴 기능 개선
-  4. 버그 수정
+  4. 발행된 게시글만 첨부파일 다운로드 가능하도록 개선
+  5. 버그 수정
 
 
 5.6

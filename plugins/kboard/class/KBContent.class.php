@@ -1340,7 +1340,7 @@ class KBContent {
 	 */
 	public function isAttached(){
 		$is_attached = false;
-		if($this->uid){
+		if($this->uid && !$this->status){
 			if(count((array)$this->getAttachmentList()) > 0){
 				$is_attached = true;
 			}

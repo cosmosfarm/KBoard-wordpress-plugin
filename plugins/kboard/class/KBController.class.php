@@ -340,7 +340,7 @@ class KBController {
 			exit;
 		}
 		
-		if(!$content->uid){
+		if(!$content->uid || $content->status){
 			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 			exit;
 		}
