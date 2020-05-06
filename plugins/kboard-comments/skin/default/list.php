@@ -63,12 +63,12 @@
 					<?php endif?>
 					
 					<div class="comments-field field-image1">
-						<label class="comments-field-label" for="comment_image1_<?php echo $content_uid?>">사진</label>
+						<label class="comments-field-label" for="comment_image1_<?php echo $content_uid?>"><?php echo __('Photos', 'kboard-comments')?></label>
 						<input type="file" id="comment_image1_<?php echo $content_uid?>" name="comment_attach_image1" accept="image/*">
 					</div>
 					
 					<div class="comments-field field-file1">
-						<label class="comments-field-label" for="comment_file1_<?php echo $content_uid?>">첨부파일</label>
+						<label class="comments-field-label" for="comment_file1_<?php echo $content_uid?>"><?php echo __('Attachment', 'kboard-comments')?></label>
 						<input type="file" id="comment_file1_<?php echo $content_uid?>" name="comment_attach_file1">
 					</div>
 					
