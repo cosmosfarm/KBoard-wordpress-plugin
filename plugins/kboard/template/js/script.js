@@ -346,19 +346,28 @@ function kboard_comment_unlike(button, callback){
 
 function kboard_fields_validation(form, callback){
 	jQuery('.kboard-attr-row.required', form).each(function(index, element){
-		var required = jQuery(element).find('.required');
+		var required;
 		
-		if(jQuery(required).length == 1 && jQuery(required).val() == 'default' || !jQuery(required).val()){
-			alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
-			callback(required);
-			
-			return false;
+		if(jQuery(element).hasClass('kboard-attr-content')){
+			required = jQuery('#kboard_content');
 		}
-		else if((jQuery(required).is(':radio') || jQuery(required).is(':checkbox')) && jQuery(element).find('.required:checked').length == 0){
-			alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
-			callback(jQuery(required).eq(0));
-			
-			return false;
+		else{
+			required = jQuery(element).find('.required');
+		}
+		
+		if(jQuery(required).is(':checkbox') || jQuery(required).is(':radio')){
+		    if(jQuery(element).find('.required:checked').length == 0){
+		        alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
+		        callback(jQuery(required).eq(0));
+		        
+		        return false;
+		    }
+		}
+		else if(jQuery(required).val() == 'default' || !jQuery(required).val()){
+		    alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
+		    callback(required);
+		    
+		    return false;
 		}
 	});
 }
