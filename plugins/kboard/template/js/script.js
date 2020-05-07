@@ -350,7 +350,9 @@ function kboard_fields_validation(form, callback){
 		
 		if(jQuery(element).hasClass('kboard-attr-content')){
 			if(kboard_current.use_editor == 'yes'){
-				jQuery('#kboard_content').val(tinymce.get('kboard_content').getContent());
+				if(jQuery('#wp-kboard_content-wrap').hasClass('tmce-active')){
+					jQuery('#kboard_content').val(tinymce.get('kboard_content').getContent());
+				}
 			}
 			required = jQuery('#kboard_content');
 		}
