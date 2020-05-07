@@ -318,7 +318,7 @@ function kboard_parse_size($size){
  * @param boolean $to_array
  */
 function kboard_allow_file_extensions($to_array=false){
-	$file_extensions = get_option('kboard_allow_file_extensions', 'jpg, jpeg, gif, png, bmp, pjp, pjpeg, jfif, svg, bmp, webp, ico, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4, mp3');
+	$file_extensions = get_option('kboard_allow_file_extensions', 'jpg, jpeg, gif, png, bmp, pjp, pjpeg, jfif, svg, webp, ico, zip, 7z, hwp, ppt, xls, doc, txt, pdf, xlsx, pptx, docx, torrent, smi, mp4, mp3');
 	$file_extensions = trim($file_extensions);
 	
 	if($to_array){
