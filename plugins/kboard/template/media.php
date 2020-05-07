@@ -57,7 +57,7 @@
 	?>
 </head>
 <body>
-<form id="kboard-media-form" enctype="multipart/form-data" method="post" onsubmit="return kboard_media_form_execute(this)" data-allow="gif|jpg|jpeg|png">
+<form id="kboard-media-form" enctype="multipart/form-data" method="post" onsubmit="return kboard_media_form_execute(this)" data-allow="gif|jpg|jpeg|png|pjp|pjpeg|jfif|svg|bmp|webp|ico">
 	<?php wp_nonce_field('kboard-media-upload', 'kboard-media-upload-nonce');?>
 	<input type="hidden" name="action" value="kboard_media_upload">
 	<input type="hidden" name="board_id" value="<?php echo $media->board_id?>">
