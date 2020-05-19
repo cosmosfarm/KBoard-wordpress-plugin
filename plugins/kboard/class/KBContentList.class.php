@@ -64,11 +64,17 @@ class KBContentList {
 	 * 모든 게시판의 내용을 반환한다.
 	 * @return KBContentList
 	 */
-	public function initWithKeyword($keyword=''){
+	public function initWithKeyword($keyword='', $search=''){
 		global $wpdb;
 		if($keyword){
 			$keyword = esc_sql($keyword);
-			$where[] = "(`title` LIKE '%{$keyword}%' OR `content` LIKE '%{$keyword}%')";
+			if($search){
+				$search = esc_sql($search);
+				$where[] = "(`{$search}` LIKE '%{$keyword}%')";
+			}
+			else{
+				$where[] = "(`title` LIKE '%{$keyword}%' OR `content` LIKE '%{$keyword}%')";
+			}
 		}
 		if($this->board_id) $where[] = "`board_id`='{$this->board_id}'";
 		if($this->status){

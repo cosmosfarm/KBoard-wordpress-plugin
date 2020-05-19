@@ -10,15 +10,28 @@
 	<hr class="wp-header-end">
 	
 	<?php $table->views()?>
-	<form method="get">
-		<input type="hidden" name="page" value="kboard_content_list">
-		<input type="hidden" name="filter_view" value="<?php echo $table->filter_view?>">
-		<input type="hidden" name="filter_board_id" value="<?php echo $table->filter_board_id?>">
-		<?php $table->search_box(__('Search', 'kboard'), 'kboard_content_list_search')?>
-	</form>
-	<form id="kboard-content-list" method="post">
-		<?php $table->display()?>
-	</form>
+	
+	<div class="kboard-content-list-search">
+		<form method="get">
+			<input type="hidden" name="page" value="kboard_content_list">
+			<input type="hidden" name="filter_view" value="<?php echo $table->filter_view?>">
+			<input type="hidden" name="filter_board_id" value="<?php echo $table->filter_board_id?>">
+			
+			<select name="target">
+				<option value=""><?php echo __('All', 'kboard')?></option>
+				<option value="title"<?php if(kboard_target() == 'title'):?> selected<?php endif?>><?php echo __('Title', 'kboard')?></option>
+				<option value="content"<?php if(kboard_target() == 'content'):?> selected<?php endif?>><?php echo __('Content', 'kboard')?></option>
+				<option value="member_display"<?php if(kboard_target() == 'member_display'):?> selected<?php endif?>><?php echo __('Author', 'kboard')?></option>
+			</select>
+				
+			<?php $table->search_box(__('Search', 'kboard'), 'kboard_content_list_search')?>
+		</form>
+	</div>
+	<div class="kboard-content-list">
+		<form id="kboard-content-list" method="post">
+			<?php $table->display()?>
+		</form>
+	</div>
 </div>
 
 <script>

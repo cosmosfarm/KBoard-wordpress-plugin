@@ -29,12 +29,13 @@ class KBContentListTable extends WP_List_Table {
 		$this->active_admin_board = $this->board_list->getActiveAdmin();
 		
 		$keyword = isset($_GET['s'])?sanitize_text_field($_GET['s']):'';
+		$target = kboard_target();
 		
 		$list = new KBContentList($this->filter_board_id);
 		$list->rpp = 20;
 		$list->page = $this->get_pagenum();
 		$list->status = $this->filter_view;
-		$list->initWithKeyword($keyword);
+		$list->initWithKeyword($keyword, $target);
 		
 		$this->items = $list->resource;
 		
