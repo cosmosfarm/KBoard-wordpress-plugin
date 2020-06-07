@@ -34,6 +34,7 @@
 #kboard-dashboard-options li:hover { border: 1px solid #00aeef; }
 #kboard-dashboard-options li h4 { font-weight: bold; }
 #kboard-dashboard-options li textarea { width: 100%; }
+#kboard-dashboard-options li label { display: inline-block; width: 150px; }
 
 .tab-kboard-setting { display: none; }
 .tab-kboard-setting-active { display: block; }

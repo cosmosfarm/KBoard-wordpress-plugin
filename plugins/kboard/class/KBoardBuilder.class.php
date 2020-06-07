@@ -881,6 +881,7 @@ class KBoardBuilder {
 		
 		$vars = array(
 			'merchant_uid' => 'merchant_' . uniqid(),
+			'active_method' => kboard_builtin_pg_active_method(),
 			'content' => $content,
 			'order' => $order,
 			'url' => $url,

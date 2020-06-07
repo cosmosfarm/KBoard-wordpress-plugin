@@ -7,12 +7,14 @@
 
   1. kboard_skin_active_list 필터 추가
   2. kboard_list_select_count 필터 추가
-  3. KBoard 미디어 추가 업로드 확장자 추가(pjp,pjpeg,jfif,svg,bmp,webp,ico)
-  4. 필수 입력필드 유효성 검사 코드 개선
-  5. 전체 게시글 메뉴 기능 개선
-  6. 전체 게시글 검색 기능 개선
-  7. 발행된 게시글만 첨부파일 다운로드 가능하도록 개선
-  8. 버그 수정
+  3. kboard_builtin_pg_list 필터 추가
+  4. kboard_builtin_pg_init 액션 추가
+  5. KBoard 미디어 추가 업로드 확장자 추가 (pjp,pjpeg,jfif,svg,bmp,webp,ico)
+  6. 필수 입력필드 유효성 검사 코드 개선
+  7. 전체 게시글 메뉴 기능 개선
+  8. 전체 게시글 검색 기능 개선
+  9. 발행된 게시글만 첨부파일 다운로드 가능하도록 개선
+  10. 버그 수정
 
 
 5.6

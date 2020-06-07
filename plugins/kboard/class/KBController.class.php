@@ -15,6 +15,9 @@ class KBController {
 			case 'kboard_media_delete': add_action('wp_loaded', array($this, 'mediaDelete'), 0); break;
 			case 'kboard_file_delete': add_action('wp_loaded', array($this, 'fileDelete'), 0); break;
 			case 'kboard_file_download': add_action('wp_loaded', array($this, 'fileDownload'), 0); break;
+			case 'kboard_builtin_pg_request_pay_dialog_open': add_action('wp_loaded', array($this, 'requestPayDialogOpen'), 0); break;
+			case 'kboard_builtin_pg_request_pay_dialog_close': add_action('wp_loaded', array($this, 'requestPayDialogClose'), 0); break;
+			case 'kboard_builtin_pg_request_pay_callback': add_action('wp_loaded', array($this, 'requestPayCallback'), 0); break;
 			case 'kboard_iamport_endpoint': add_action('wp_loaded', array($this, 'iamportEndpoint'), 0); break;
 			case 'kboard_iamport_notification': add_action('wp_loaded', array($this, 'iamportNotification'), 0); break;
 			case 'kboard_order_execute': add_action('wp_loaded', array($this, 'orderExecute'), 0); break;
@@ -500,6 +503,70 @@ class KBController {
 	}
 	
 	/**
+	 * PG 결제창을 띄운다.
+	 */
+	public function requestPayDialogOpen(){
+		kboard_switch_to_blog();
+		check_ajax_referer('kboard_ajax_security', 'security');
+		
+		$pg_instance = false;
+		$payment_method = isset($_POST['payment_method']) ? sanitize_text_field($_POST['payment_method']) : '';
+		
+		$pg_list = kboard_builtin_pg_list();
+		if(class_exists($pg_list[$payment_method]['class_name'])){
+			$pg_instance = new $pg_list[$payment_method]['class_name']();
+		}
+		else{
+			exit;
+		}
+		
+		$pg_instance->dialog_open();
+		exit;
+	}
+	
+	/**
+	 * PG 결제창을 닫는다.
+	 */
+	public function requestPayDialogClose(){
+		kboard_switch_to_blog();
+		
+		$pg_instance = false;
+		$payment_method = isset($_REQUEST['payment_method']) ? sanitize_text_field($_REQUEST['payment_method']) : '';
+		
+		$pg_list = kboard_builtin_pg_list();
+		if(class_exists($pg_list[$payment_method]['class_name'])){
+			$pg_instance = new $pg_list[$payment_method]['class_name']();
+		}
+		else{
+			exit;
+		}
+		
+		$pg_instance->dialog_close();
+		exit;
+	}
+	
+	/**
+	 * PG 결제 결과를 저장한다.
+	 */
+	public function requestPayCallback(){
+		kboard_switch_to_blog();
+		
+		$pg_instance = false;
+		$payment_method = isset($_REQUEST['payment_method']) ? sanitize_text_field($_REQUEST['payment_method']) : '';
+		
+		$pg_list = kboard_builtin_pg_list();
+		if(class_exists($pg_list[$payment_method]['class_name'])){
+			$pg_instance = new $pg_list[$payment_method]['class_name']();
+		}
+		else{
+			exit;
+		}
+		
+		$pg_instance->callback();
+		exit;
+	}
+	
+	/**
 	 * 아임포트 결제후 데이터 검증 및 저장
 	 */
 	public function iamportEndpoint(){
@@ -796,7 +863,7 @@ class KBController {
 					$iamport = kboard_iamport();
 					
 					if($iamport->imp_key && $iamport->imp_secret){
-						$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
+						$imp_uid = isset($_REQUEST['imp_uid'])?sanitize_text_field($_REQUEST['imp_uid']):'';
 						$payment = $iamport->payments($imp_uid);
 						// 아임포트에서 보내주는 timestamp는 한국시간 기준으로 생성됐기 때문에 timezone을 변경해준다.
 						date_default_timezone_set('Asia/Seoul');
@@ -901,6 +968,8 @@ class KBController {
 					}
 				}
 				else if($order_status == 'cancel' && $item->order_status != 'cancel'){
+					$item->order->initOrderItems();
+					
 					if($item->order->getAmount() <= 0){
 						// 포인트 결제 취소
 						if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
@@ -915,6 +984,32 @@ class KBController {
 						$item->cancelUserRewardPoint();
 						
 						$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
+					}
+					else if($item->order->pg_tid){
+						$pg_list = kboard_builtin_pg_list();
+						if(class_exists($pg_list[$item->order->payment_method]['class_name'])){
+							$pg_instance = new $pg_list[$item->order->payment_method]['class_name']();
+						}
+						
+						$result = $pg_instance->cancel($item->order->pg_tid);
+						if($result->status == 'cancelled'){
+							// 포인트 결제 취소
+							if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
+								mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+							}
+							
+							$item->update(array(
+								'order_status' => $order_status,
+								'datetime' => date('YmdHis', current_time('timestamp'))
+							));
+							
+							$item->cancelUserRewardPoint();
+							
+							$result = array('result'=>'success', 'message'=>__('Your order has been cancelled.', 'kboard'));
+						}
+						else{
+							$result = array('result'=>'error', 'message'=>'error');
+						}
 					}
 					else if($item->order->imp_uid){
 						$iamport = kboard_iamport();

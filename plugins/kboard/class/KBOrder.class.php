@@ -11,7 +11,10 @@ class KBOrder {
 	var $board;
 	var $title;
 	var $row;
+	var $amount;
 	var $items;
+	var $items_count;
+	var $use_points;
 	
 	public function __construct($order_id=''){
 		$this->row = new stdClass();

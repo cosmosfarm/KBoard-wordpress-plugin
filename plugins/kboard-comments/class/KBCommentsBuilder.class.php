@@ -115,19 +115,24 @@ class KBCommentsBuilder {
 	 * @return boolean
 	 */
 	public function isWriter(){
+		$is_writer = false;
+		
 		if(!$this->permission_comment_write){
-			return true;
+			$is_writer = true;
 		}
 		else if(is_user_logged_in()){
 			if($this->permission_comment_write == '1'){
-				return true;
+				$is_writer = true;
+			}
+			else if($this->board->isAdmin()){
+				$is_writer = true;
 			}
 			else if($this->permission_comment_write == 'roles'){
 				if(array_intersect($this->board->getCommentRoles(), kboard_current_user_roles())){
-					return true;
+					$is_writer = true;
 				}
 			}
 		}
-		return false;
+		return apply_filters('kboard_comments_is_writer', $is_writer, $this);
 	}
 }

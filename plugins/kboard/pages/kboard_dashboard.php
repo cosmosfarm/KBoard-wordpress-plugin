@@ -285,12 +285,31 @@
 				</p>
 			</form>
 		</li>
+		<li id="kboard_builtin_pg_inicis">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>KG이니시스 PG 설정</h4>
+				<p>
+					정보를 입력하지 않아도 테스트 결제는 가능합니다.<br>
+					실제 결제 기능을 사용하기 위해서 PG사 가입이 필요합니다.<br>
+					<a href="https://www.funnelmoa.com/pg/?ref=kboard_to_funnelmoa_pg&utm_campaign=kboard_to_funnelmoa_pg&utm_source=wordpress&utm_medium=referral" class="button" target="_blank">PG 가입하기</a><br>
+				</p>
+				<p>
+					<label for="kboard_builtin_pg_inicis_general_mid">상점아이디(MID)</label> <input type="text" class="regular-text" id="kboard_builtin_pg_inicis_general_mid" name="option[kboard_builtin_pg_inicis_general_mid]" value="<?php echo get_option('kboard_builtin_pg_inicis_general_mid')?>" placeholder="상점아이디(MID)"><br>
+					<label for="kboard_builtin_pg_inicis_general_sign_key">Sign Key</label> <input type="text" class="regular-text" id="kboard_builtin_pg_inicis_general_sign_key" name="option[kboard_builtin_pg_inicis_general_sign_key]" value="<?php echo get_option('kboard_builtin_pg_inicis_general_sign_key')?>" placeholder="Sign Key"><br>
+					<label for="kboard_builtin_pg_inicis_general_api_key">API Key</label> <input type="text" class="regular-text" id="kboard_builtin_pg_inicis_general_api_key" name="option[kboard_builtin_pg_inicis_general_api_key]" value="<?php echo get_option('kboard_builtin_pg_inicis_general_api_key')?>" placeholder="API Key"><br>
+					<button type="submit" class="button">이니시스 PG 정보 업데이트</button>
+				</p>
+			</form>
+		</li>
 		<li id="kboard_iamport">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				
 				<h4>아임포트</h4>
 				<p>
+					※ 코스모스팜의 기술지원을 받기 위해서는 아임포트 대신 이니시스를 사용해주세요.<br>
 					아임포트는 국내외 주요 PG사와의 연동을 지원합니다.<br>
 					KBoard에서는 아임포트 서비스와 연동해 쉽고 편리하게 결제 기능을 제공합니다.<br>
 					실제 결제 기능을 사용하기 위해서 아임포트와 PG사 가입이 필요합니다.<br>
@@ -305,7 +324,7 @@
 				</p>
 			</form>
 		</li>
-		<li id="kboard_iamport">
+		<li id="kboard_image_optimize">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				

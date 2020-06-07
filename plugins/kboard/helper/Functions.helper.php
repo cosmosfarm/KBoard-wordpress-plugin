@@ -518,6 +518,75 @@ function kboard_iamport(){
 }
 
 /**
+ * 사용 가능한 PG 결제 수단을 반환한다.
+ * @return array
+ */
+function kboard_builtin_pg_list(){
+	/* 예제
+	$builtin_pg_list = array(
+		'name' => array(
+			'admin_display' => '[PG이름] 신용카드',
+			'front_display' => '신용카드',
+			'class_name' => 'Class_Name',
+		),
+	);
+	*/
+	$builtin_pg_list = array();
+	return apply_filters('kboard_builtin_pg_list', $builtin_pg_list);
+}
+
+/**
+ * 활성화된 PG 결제 수단을 반환한다.
+ * @return array()
+ */
+function kboard_builtin_pg_active_method(){
+	$active_method = array();
+	if(defined('COSMOSFARM_PAY_KB_VERSION')){
+		$active_method = get_option('kboard_builtin_pg_active_method', array());
+		if(!$active_method || !is_array($active_method)){
+			$active_method = array();
+		}
+	}
+	return $active_method;
+}
+
+/**
+ * 주문 페이지에서 PG 관련 기능을 초기화한다.
+ * @param string|array $pg
+ * @param array $args
+ */
+function kboard_builtin_pg_init($pg, $args=array()){
+	if(!is_array($pg) && $pg == 'iamport'){
+		wp_enqueue_script('iamport-payment');
+	}
+	else if(is_array($pg)){
+		$pg_list = kboard_builtin_pg_list();
+		
+		foreach($pg as $pg_name){
+			if(class_exists($pg_list[$pg_name]['class_name'])){
+				$pg_instance = new $pg_list[$pg_name]['class_name']();
+				$pg_instance->payment_scripts();
+			}
+		}
+		
+		$args = array_merge(array(
+			'builtin_pg' => $pg,
+			'pay_success_url' => '',
+			'merchant_uid' => '',
+			'product_title' => '',
+			'product_price' => '',
+			'm_redirect_url' => '',
+			'app_scheme' => '',
+			'button_display_text' => '',
+		), $args);
+		
+		wp_localize_script('kboard-builtin-pg', 'kboard_builtin_pg_checkout_settings', $args);
+	}
+	
+	do_action('kboard_builtin_pg_init', $pg, $args);
+}
+
+/**
  * 유튜브, 비메오 동영상 URL을 iframe 코드로 변환한다.
  * @param string $content
  * @return mixed
