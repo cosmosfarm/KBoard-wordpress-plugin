@@ -112,12 +112,18 @@ class KBCommentList {
 	 * @param string $keyword
 	 * @return KBCommentList
 	 */
-	public function initWithKeyword($keyword=''){
+	public function initWithKeyword($keyword='', $search){
 		global $wpdb;
 		
 		if($keyword){
 			$keyword = esc_sql($keyword);
-			$where = "`content` LIKE '%$keyword%'";
+			if($search){
+				$search = esc_sql($search);
+				$where = "(`{$search}` LIKE '%{$keyword}%')";
+			}
+			else{
+				$where = "`content` LIKE '%$keyword%'";
+			}
 		}
 		else{
 			$where = '1=1';

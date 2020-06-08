@@ -9,6 +9,7 @@
 .kboard-content-list-search { float: right; }
 .kboard-content-list { float: left; width: 100%; }
 .kboard-content-list .column-title { width: 40%; }
+.kboard-comments-list-search { float: right; }
 .kboard-comments-list .column-board_name { width: 150px; }
 .kboard-comments-list .column-user_display { width: 100px; }
 .kboard-comments-list .column-content { width: 40%; }

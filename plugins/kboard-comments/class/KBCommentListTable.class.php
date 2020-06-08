@@ -24,10 +24,11 @@ class KBCommentListTable extends WP_List_Table {
 		$this->_column_headers = array($columns, $hidden, $sortable);
 		
 		$keyword = isset($_GET['s'])?esc_attr($_GET['s']):'';
+		$target = kboard_target();
 		
 		$this->list->rpp = 20;
 		$this->list->page = $this->get_pagenum();
-		$this->list->initWithKeyword($keyword);
+		$this->list->initWithKeyword($keyword, $target);
 		$this->items = $this->list->resource;
 		
 		$this->set_pagination_args(array('total_items'=>$this->list->total, 'per_page'=>$this->list->rpp));
@@ -78,11 +79,12 @@ class KBCommentListTable extends WP_List_Table {
 		echo '<input type="checkbox" name="comment_uid[]" value="'.$item->uid.'">';
 		echo '</th>';
 		
-		echo '<td><a href="'.$edit_url.'" title="'.__('Edit', 'kboard-comments').'" style="display:block">';
+		echo '<td class="kboard-comments-list-edit column-primary"><a href="'.$edit_url.'" title="'.__('Edit', 'kboard-comments').'" style="display:block">';
 		echo $board->board_name;
-		echo '</a></td>';
+		echo '</a>';
+		echo '<button type="button" class="toggle-row"><span class="screen-reader-text">상세보기</span></button></td>';
 		
-		echo '<td>';
+		echo '<td class="kboard-comments-list-user" data-colname="'.__('Name', 'kboard-comments').'">';
 		if($item->user_uid){
 			echo '<a href="'.admin_url('user-edit.php?user_id='.$item->user_uid).'">'.$item->user_display.'</a>';
 		}
@@ -91,11 +93,11 @@ class KBCommentListTable extends WP_List_Table {
 		}
 		echo '</td>';
 		
-		echo '<td>';
+		echo '<td class="kboard-comments-list-content" data-colname="'.__('Content', 'kboard-comments').'">';
 		echo $item->content.'<div class="kboard-comments-open"><a href="'.$this->url->getDocumentRedirect($item->content_uid).'" class="button button-small" titlt="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a></div>';
 		echo '</td>';
 		
-		echo '<td>';
+		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';
 		echo date('Y-m-d H:i:s', strtotime($item->created));
 		echo '</td>';
 		
