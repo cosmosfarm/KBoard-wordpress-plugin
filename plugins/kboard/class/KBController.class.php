@@ -101,7 +101,10 @@ class KBController {
 					
 					foreach($name_filter as $filter){
 						if($filter && strpos($subject, $filter) !== false){
-							if(!$name_filter_message){
+							if($name_filter_message){
+								$name_filter_message = sprintf($name_filter_message, $filter);
+							}
+							else{
 								$name_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
 							}
 							$name_filter_message = apply_filters('kboard_name_filter_message', $name_filter_message, $filter, $subject, $board);
@@ -121,7 +124,10 @@ class KBController {
 					
 					foreach($content_filter as $filter){
 						if($filter && strpos($subject, $filter) !== false){
-							if(!$content_filter_message){
+							if($content_filter_message){
+								$content_filter_message = sprintf($content_filter_message, $filter);
+							}
+							else{
 								$content_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
 							}
 							$content_filter_message = apply_filters('kboard_content_filter_message', $content_filter_message, $filter, $subject, $board);
@@ -137,7 +143,10 @@ class KBController {
 					
 					foreach($content_filter as $filter){
 						if($filter && strpos($subject, $filter) !== false){
-							if(!$content_filter_message){
+							if($content_filter_message){
+								$content_filter_message = sprintf($content_filter_message, $filter);
+							}
+							else{
 								$content_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
 							}
 							$content_filter_message = apply_filters('kboard_content_filter_message', $content_filter_message, $filter, $subject, $board);
