@@ -581,8 +581,8 @@ class KBController {
 	public function iamportEndpoint(){
 		kboard_switch_to_blog();
 		
-		$display = isset($_REQUEST['display'])?$_REQUEST['display']:'pc';
-		$imp_uid = isset($_REQUEST['imp_uid'])?$_REQUEST['imp_uid']:'';
+		$display = isset($_REQUEST['display'])?sanitize_text_field($_REQUEST['display']):'pc';
+		$imp_uid = isset($_REQUEST['imp_uid'])?sanitize_text_field($_REQUEST['imp_uid']):'';
 		$imp_success = isset($_REQUEST['imp_success'])?sanitize_text_field($_REQUEST['imp_success']):'';
 		$error_msg = isset($_REQUEST['error_msg'])?sanitize_text_field($_REQUEST['error_msg']):'';
 		

@@ -184,6 +184,23 @@ function kboard_admin_init(){
 }
 
 /*
+ * 비서(Bswer) 웹사이트로 이동
+ */
+add_action('admin_init', 'kboard_admin_init_redirect');
+function kboard_admin_init_redirect(){
+	global $pagenow;
+	if($pagenow == 'index.php'){
+		if(isset($_GET['goto']) && $_GET['goto'] == 'bswer-home'){
+			wp_redirect('https://www.bswer.com/?ref=wp_admin_to_bswer_home&utm_campaign=wp_admin_to_bswer_home&utm_source=wordpress&utm_medium=referral');
+			exit;
+		}
+	}
+	
+	add_submenu_page('themes.php', __('Find theme', 'kboard'), __('Find theme', 'kboard'), 'manage_options', 'index.php?goto=bswer-home');
+	add_submenu_page('plugins.php', __('Find plugin', 'kboard'), __('Find plugin', 'kboard'), 'manage_options', 'index.php?goto=bswer-home');
+}
+
+/*
  * 글쓰기 에디터에 미디어 추가하기 버튼을 추가한다.
  */
 function kboard_editor_button($editor_id){
@@ -1221,6 +1238,7 @@ function kboard_scripts(){
 		'total_revenue' => __('Total revenue', 'kboard'),
 		'terms_of_service' => __('Terms of service', 'kboard'),
 		'i_agree_to_the_terms_of_service' => __('I agree to the terms of service.', 'kboard'),
+		'your_shopping_cart_is_empty' => __('Your Shopping Cart Is Empty!', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
 }
