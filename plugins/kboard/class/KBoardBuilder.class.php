@@ -190,6 +190,9 @@ class KBoardBuilder {
 		$list->setCompare(kboard_compare());
 		$list->setDateRange(kboard_start_date(), kboard_end_date());
 		$list->setSearchOption(kboard_search_option());
+		
+		$list = apply_filters('kboard_builder_get_list', $list, $this);
+		
 		$list->getList(kboard_keyword(), kboard_target(), kboard_with_notice());
 		return $list;
 	}
