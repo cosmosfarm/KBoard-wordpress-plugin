@@ -1169,7 +1169,6 @@ class KBContent {
 			$category2 = apply_filters('kboard_content_next_uid_category2', $category2, $this);
 			
 			$where[] = "`board_id`='{$this->board_id}'";
-			$where[] = "`uid`>'{$this->uid}'";
 			
 			// 휴지통에 없는 게시글만 불러온다.
 			$get_list_status_query = kboard_get_list_status_query($this->board_id);
@@ -1186,8 +1185,32 @@ class KBContent {
 				$where[] = "`category2`='{$category2}'";
 			}
 			
+			$list = new KBContentList($this->board_id);
+			$sorting = $list->getSorting();
+			
+			if($sorting == 'newest'){
+				// 최신순서
+				$order_by_sort = 'date';
+				$where[] = "`date`>'{$this->date}'";
+			}
+			else if($sorting == 'best'){
+				// 추천순서
+				$order_by_sort = 'uid';
+				$where[] = "`uid`>'{$this->uid}'";
+			}
+			else if($sorting == 'viewed'){
+				// 조회순서
+				$order_by_sort = 'uid';
+				$where[] = "`uid`>'{$this->uid}'";
+			}
+			else if($sorting == 'updated'){
+				// 업데이트순서
+				$order_by_sort = 'update';
+				$where[] = "`update`>'{$this->update}'";
+			}
+			
 			$where = implode(' AND ', $where);
-			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `uid` ASC LIMIT 1");
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` ASC LIMIT 1");
 			$wpdb->flush();
 			
 			return intval($uid);
@@ -1208,7 +1231,6 @@ class KBContent {
 			$category2 = apply_filters('kboard_content_prev_uid_category2', $category2, $this);
 			
 			$where[] = "`board_id`='{$this->board_id}'";
-			$where[] = "`uid`<'{$this->uid}'";
 			
 			// 휴지통에 없는 게시글만 불러온다.
 			$get_list_status_query = kboard_get_list_status_query($this->board_id);
@@ -1225,8 +1247,32 @@ class KBContent {
 				$where[] = "`category2`='{$category2}'";
 			}
 			
+			$list = new KBContentList($this->board_id);
+			$sorting = $list->getSorting();
+			
+			if($sorting == 'newest'){
+				// 최신순서
+				$order_by_sort = 'date';
+				$where[] = "`date`<'{$this->date}'";
+			}
+			else if($sorting == 'best'){
+				// 추천순서
+				$order_by_sort = 'uid';
+				$where[] = "`uid`<'{$this->uid}'";
+			}
+			else if($sorting == 'viewed'){
+				// 조회순서
+				$order_by_sort = 'uid';
+				$where[] = "`uid`<'{$this->uid}'";
+			}
+			else if($sorting == 'updated'){
+				// 업데이트순서
+				$order_by_sort = 'update';
+				$where[] = "`update`<'{$this->update}'";
+			}
+			
 			$where = implode(' AND ', $where);
-			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `uid` DESC LIMIT 1");
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1");
 			$wpdb->flush();
 			
 			return intval($uid);
