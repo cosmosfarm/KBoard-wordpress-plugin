@@ -443,7 +443,7 @@ class KBAdminController {
 									if(!isset($row['parent_uid']) || !intval($row['parent_uid'])){
 										$row['board_id'] = $board->id;
 										$insert_id = $content->insertContent($row);
-										if(isset($row['﻿uid']) ) $new_uids[] = $insert_id;
+										if(isset($row['﻿uid'])) $new_uids[] = $insert_id;
 										$content->updateOptions($row);
 										unset($rows[$key]);
 										@ob_flush();
@@ -462,9 +462,10 @@ class KBAdminController {
 							}
 							else if($option == 'update'){ // update
 								foreach($rows as $key=>$row){
-									if(isset($row['﻿uid'])){
+									$uid = isset($row['uid']) ? $row['uid'] : '';
+									if($uid){
 										$row['board_id'] = $board->id;
-										$content->initWithUID($row['﻿uid']);
+										$content->initWithUID($uid);
 										$content->updateContent($row);
 										$content->updateOptions($row);
 										unset($rows[$key]);
@@ -479,7 +480,7 @@ class KBAdminController {
 									if(!isset($row['parent_uid']) || !intval($row['parent_uid'])){
 										$row['board_id'] = $board->id;
 										$insert_id = $content->insertContent($row);
-										if(isset($row['﻿uid']) ) $new_uids[] = $insert_id;
+										if(isset($row['﻿uid'])) $new_uids[] = $insert_id;
 										$content->updateOptions($row);
 										unset($rows[$key]);
 										@ob_flush();
