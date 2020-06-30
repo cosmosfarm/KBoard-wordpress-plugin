@@ -1000,7 +1000,7 @@ class KBController {
 							$pg_instance = new $pg_list[$item->order->payment_method]['class_name']();
 						}
 						
-						$result = $pg_instance->cancel($item->order->pg_tid);
+						$result = $pg_instance->cancel($item->order);
 						if($result->status == 'cancelled'){
 							// 포인트 결제 취소
 							if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
