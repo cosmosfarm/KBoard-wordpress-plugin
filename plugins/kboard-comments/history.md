@@ -8,7 +8,7 @@
   1. kboard_comments_after_executing_url 필터 추가
   2. kboard_comments_skin_active_list 필터 추가
   3. kboard_comments_is_writer 필터 추가
-  4. kboard_comments_execute_pre_redirect 액션 추가 
+  4. kboard_comments_execute_pre_redirect 액션 추가
   5. 사진, 첨부파일 필드에 번역 추가
   6. 버그 수정
 
