@@ -563,6 +563,8 @@ function kboard_builtin_pg_init($pg, $args=array()){
 		$pg_list = kboard_builtin_pg_list();
 		
 		foreach($pg as $pg_name){
+			if(!isset($pg_list[$pg_name])) continue;
+			
 			if(class_exists($pg_list[$pg_name]['class_name'])){
 				$pg_instance = new $pg_list[$pg_name]['class_name']();
 				$pg_instance->payment_scripts();
