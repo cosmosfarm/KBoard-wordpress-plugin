@@ -751,6 +751,7 @@ class KBoard {
 	public function getCategoryCount($category){
 		global $wpdb;
 		if($this->id && $category){
+			$where = array();
 			$where[] = "`board_id`='{$this->id}'";
 			
 			if(is_array($category)){
@@ -781,6 +782,96 @@ class KBoard {
 			return intval($count);
 		}
 		return 0;
+	}
+	
+	/**
+	 * 사용자가 작성한 개시글 숫자를 반환한다.
+	 * @param int $user_id
+	 * @return int
+	 */
+	public function getUserCount($user_id){
+		global $wpdb;
+		$user_id = intval($user_id);
+		if($this->id && $user_id){
+			$where = array();
+			$where[] = "`board_id`='{$this->id}'";
+			$where[] = "`member_uid`='{$user_id}'";
+			
+			// 휴지통에 없는 게시글만 불러온다.
+			$get_list_status_query = kboard_get_list_status_query($this->id);
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
+			
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
+			$wpdb->flush();
+			
+			return intval($count);
+		}
+		return 0;
+	}
+	
+	/**
+	 * 사용자가 작성한 마지막 글을 반환한다.
+	 * @param int $user_id
+	 * @return KBContent
+	 */
+	public function getLastContentByUser($user_id){
+		global $wpdb;
+		$content = new KBContent();
+		$user_id = intval($user_id);
+		
+		if($this->id && $user_id){
+			$where = array();
+			$where[] = "`board_id`='{$this->id}'";
+			$where[] = "`member_uid`='{$user_id}'";
+			
+			// 휴지통에 없는 게시글만 불러온다.
+			$get_list_status_query = kboard_get_list_status_query($this->id);
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
+			
+			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY `date` DESC LIMIT 1");
+			$wpdb->flush();
+			
+			if($uid){
+				$content->initWithUID($uid);
+			}
+		}
+		return $content;
+	}
+	
+	/**
+	 * 동일한 아이피로 작성된 마지막 글을 반환한다.
+	 * @param string $ip
+	 * @return KBContent
+	 */
+	public function getLastContentByIP($ip){
+		global $wpdb;
+		$content = new KBContent();
+		$ip = esc_sql(sanitize_text_field($ip));
+		
+		if($this->id && $ip){
+			$where = array();
+			$where[] = "`content`.`board_id`='{$this->id}'";
+			$where[] = "`option`.`option_key`='ip'";
+			$where[] = "`option`.`option_value`='{$ip}'";
+			
+			// 휴지통에 없는 게시글만 불러온다.
+			$get_list_status_query = kboard_get_list_status_query($this->id, 'content');
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
+			
+			$uid = $wpdb->get_var("SELECT `content`.`uid` FROM `{$wpdb->prefix}kboard_board_content` AS `content` LEFT JOIN `{$wpdb->prefix}kboard_board_option` AS `option` ON `content`.`uid`=`option`.`content_uid` WHERE " . implode(' AND ', $where) . " ORDER BY `content`.`date` DESC LIMIT 1");
+			$wpdb->flush();
+			
+			if($uid){
+				$content->initWithUID($uid);
+			}
+		}
+		return $content;
 	}
 	
 	/**

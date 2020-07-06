@@ -86,6 +86,42 @@ class KBController {
 				}
 			}
 			
+			if($content->execute_action == 'insert' && !$board->isAdmin()){
+				if($board->meta->max_document_limit && is_user_logged_in()){
+					$user_count = $board->getUserCount(get_current_user_id());
+					
+					if($user_count >= $board->meta->max_document_limit){
+						if($board->meta->max_document_limit == 1){
+							die('<script>alert("'.__('You cannot create more than one post.', 'kboard').'");history.go(-1);</script>');
+						}
+						else{
+							die('<script>alert("'.sprintf(__('You cannot create more than %d posts.', 'kboard'), $board->meta->max_document_limit).'");history.go(-1);</script>');
+						}
+					}
+				}
+				
+				if($board->meta->new_document_delay){
+					if(is_user_logged_in()){
+						$last_content = $board->getLastContentByUser(get_current_user_id());
+					}
+					else{
+						$last_content = $board->getLastContentByIP(kboard_user_ip());
+					}
+					
+					if($last_content && $last_content->uid){
+						$ago = current_time('timestamp') - strtotime($last_content->date);
+						$remaining = ($board->meta->new_document_delay * 60) - $ago;
+						
+						if($remaining > 60){
+							die('<script>alert("'.sprintf(__('You can create a new post after %d minutes.', 'kboard'), round($remaining/60)).'");history.go(-1);</script>');
+						}
+						else if($remaining > 0){
+							die('<script>alert("'.sprintf(__('You can create a new post after %d seconds.', 'kboard'), $remaining).'");history.go(-1);</script>');
+						}
+					}
+				}
+			}
+			
 			// 금지단어 체크
 			if(!$board->isAdmin()){
 				$replace = array(' ', '「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ', '$', '*', '♣', '♧', '☞');

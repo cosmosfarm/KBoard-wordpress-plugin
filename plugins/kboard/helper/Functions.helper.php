@@ -618,15 +618,17 @@ function kboard_get_list_status($board_id=''){
 /**
  * 게시판 목록에서 보여줄 게시글 상태를 쿼리문 형태로 반환한다.
  * @param int $board_id
+ * @param string $table
  * @return array
  */
-function kboard_get_list_status_query($board_id=''){
+function kboard_get_list_status_query($board_id='', $table=''){
 	$query = '';
+	$table = esc_sql(sanitize_text_field($table));
 	$get_list_status = array();
 	
 	foreach(kboard_get_list_status($board_id) as $status){
 		$status = esc_sql($status);
-		$get_list_status[] = "`status`='{$status}'";
+		$get_list_status[] = $table ? "`{$table}`.`status`='{$status}'" : "`status`='{$status}'";
 	}
 	
 	if($get_list_status){

@@ -660,6 +660,30 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">작성자 본인의 수정/삭제를 막을 때 사용해주세요.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="max_document_limit">최대 게시글 작성 제한</label></th>
+						<td>
+							<input type="number" name="max_document_limit" id="max_document_limit" value="<?php echo esc_attr($meta->max_document_limit)?>" placeholder="숫자만 입력 가능">개
+							<p class="description">0 또는 공란 시 동작하지 않습니다.</p>
+							<p class="description">게시판에서 동일 사용자가 작성 가능한 게시글 수를 제한합니다.</p>
+							<p class="description">로그인 사용자에게만 적용되며 <label for="permission_write" style="font-weight:bold">쓰기권한</label>을 로그인 사용자 이상으로 해주세요.</p>
+							<p class="description">비회원의 경우 적용되지 않기 때문의 주의가 필요합니다.</p>
+							<p class="description">관리자의 경우 적용되지 않습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="new_document_delay">최소 시간 간격</label></th>
+						<td>
+							<input type="number" name="new_document_delay" id="new_document_delay" value="<?php echo esc_attr($meta->new_document_delay)?>" placeholder="숫자만 입력 가능">분
+							<p class="description">0 또는 공란 시 동작하지 않습니다.</p>
+							<p class="description">게시판에서 동일 사용자가 연속적으로 게시글을 작성하는 것을 방지하기 위해서 입력된 시간 이내로 새로운 게시글 작성을 제한합니다.</p>
+							<p class="description">1분 단위로 숫자를 입력할 수 있으며 큰 값을 설정하면 그만큼 동일 사용자가 오랫동안 글을 남길 수 없게 됩니다.</p>
+							<p class="description">로그인 사용자에게 적용하려면 <label for="permission_write" style="font-weight:bold">쓰기권한</label>을 로그인 사용자 이상으로 해주세요.</p>
+							<p class="description">비회원에게 적용하려면 입력필드 설정에서 IP 주소 필드를 추가해주세요.</p>
+							<p class="description">비회원의 경우 IP 주소 필드가 없다면 적용되지 않습니다.</p>
+							<p class="description">관리자의 경우 적용되지 않습니다.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

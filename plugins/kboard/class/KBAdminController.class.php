@@ -137,6 +137,8 @@ class KBAdminController {
 				$board->meta->permit                         = isset($_POST['permit'])                         ? $_POST['permit']                          : '';
 				$board->meta->secret_checked_default         = isset($_POST['secret_checked_default'])         ? $_POST['secret_checked_default']          : '';
 				$board->meta->use_prevent_modify_delete      = isset($_POST['use_prevent_modify_delete'])      ? $_POST['use_prevent_modify_delete']       : '';
+				$board->meta->max_document_limit             = isset($_POST['max_document_limit'])             ? $_POST['max_document_limit']              : '';
+				$board->meta->new_document_delay             = isset($_POST['new_document_delay'])             ? $_POST['new_document_delay']              : '';
 				$board->meta->default_build_mod              = isset($_POST['default_build_mod'])              ? $_POST['default_build_mod']               : '';
 				$board->meta->after_executing_mod            = isset($_POST['after_executing_mod'])            ? $_POST['after_executing_mod']             : '';
 				

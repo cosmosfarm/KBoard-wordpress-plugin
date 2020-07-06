@@ -820,9 +820,21 @@ class KBContent {
 				if(strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== false){
 					$key = str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key);
 					$key = sanitize_key($key);
-					$value = kboard_xssfilter($value);
-					$value = kboard_safeiframe($value);
-					$this->option->{$key} = $value;
+					
+					if($key == 'ip'){
+						/*
+						 * IP 주소는 게시글 작성 시에만 입력되고 수정되지 않는다.
+						 */
+						if($this->execute_action == 'insert'){
+							$value = kboard_user_ip();
+							$this->option->{$key} = $value;
+						}
+					}
+					else{
+						$value = kboard_xssfilter($value);
+						$value = kboard_safeiframe($value);
+						$this->option->{$key} = $value;
+					}
 				}
 			}
 		}
