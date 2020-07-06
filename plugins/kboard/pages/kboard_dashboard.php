@@ -289,11 +289,13 @@
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				
-				<h4>KG이니시스 PG 설정</h4>
+				<h4>[PG 설정] KG이니시스</h4>
 				<p>
 					정보를 입력하지 않아도 테스트 결제는 가능합니다.<br>
 					실제 결제 기능을 사용하기 위해서 PG사 가입이 필요합니다.<br>
-					<a href="https://www.funnelmoa.com/pg/?ref=kboard_to_funnelmoa_pg&utm_campaign=kboard_to_funnelmoa_pg&utm_source=wordpress&utm_medium=referral" class="button" target="_blank">PG 가입하기</a><br>
+					<a href="https://www.funnelmoa.com/pg/?ref=kboard_to_funnelmoa_pg&utm_campaign=kboard_to_funnelmoa_pg&utm_source=wordpress&utm_medium=referral" class="button" target="_blank">PG 가입하기</a>
+					<a href="https://blog.cosmosfarm.com/?p=1209" class="button" target="_blank">키(Key) 정보 조회 방법</a>
+					<br>
 				</p>
 				<p>
 					<label for="kboard_builtin_pg_inicis_general_mid">상점아이디(MID)</label> <input type="text" class="regular-text" id="kboard_builtin_pg_inicis_general_mid" name="option[kboard_builtin_pg_inicis_general_mid]" value="<?php echo get_option('kboard_builtin_pg_inicis_general_mid')?>" placeholder="상점아이디(MID)"><br>
@@ -307,7 +309,7 @@
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				
-				<h4>나이스페이 PG 설정</h4>
+				<h4>[PG 설정] 나이스페이</h4>
 				<p>
 					정보를 입력하지 않아도 테스트 결제는 가능합니다.<br>
 					실제 결제 기능을 사용하기 위해서 PG사 가입이 필요합니다.<br>
@@ -324,13 +326,9 @@
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				
-				<h4>아임포트</h4>
+				<h4>[PG 설정] 아임포트</h4>
 				<p>
-					※ 코스모스팜의 기술지원을 받기 위해서는 아임포트 대신 위쪽 KG이니시스 혹은 나이스페이를 사용해주세요.<br>
-					아임포트는 국내외 주요 PG사와의 연동을 지원합니다.<br>
-					KBoard에서는 아임포트 서비스와 연동해 쉽고 편리하게 결제 기능을 제공합니다.<br>
-					실제 결제 기능을 사용하기 위해서 아임포트와 PG사 가입이 필요합니다.<br>
-					PG사 가입은 아임포트에 문의해주세요. <a href="https://www.iamport.kr" onclick="window.open(this.href);return false;">https://www.iamport.kr</a><br>
+					※ 코스모스팜의 기술지원을 받기 위해서는 아임포트 대신 KG이니시스 혹은 나이스페이를 사용해주세요.<br>
 					아임포트에 로그인 후 <a href="https://admin.iamport.kr/settings" onclick="window.open(this.href);return false;">시스템설정</a>에 있는 정보를 입력하시면 테스트 결제 또는 실제 결제 기능을 사용할 수 있습니다.<br>
 				</p>
 				<p>
