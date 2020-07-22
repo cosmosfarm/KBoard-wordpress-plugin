@@ -101,6 +101,9 @@ class KBUrl {
 	public function getCleanQueryString(){
 		$query_string = array();
 		foreach($this->data as $key=>$value){
+			if($key == 'page_id' && $this->is_latest){
+				continue;
+			}
 			if($value){
 				$query_string[$key] = map_deep($value, 'urlencode');
 			}
