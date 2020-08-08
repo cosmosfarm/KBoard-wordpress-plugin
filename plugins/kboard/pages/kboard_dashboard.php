@@ -243,11 +243,11 @@
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				<input type="hidden" name="option[kboard_content_delete_immediately]" value="<?php echo get_option('kboard_content_delete_immediately')?'':'1'?>">
 				
-				<h4>게시글 바로 삭제</h4>
+				<h4>게시글 바로 삭제 : <?php echo get_option('kboard_content_delete_immediately')?'바로 삭제':'휴지통으로 이동'?></h4>
 				<p>
 					기본적으로 게시글을 지우면 해당 게시글은 휴지통으로 이동합니다.<br>
 					경우에 따라서 이 휴지통 기능이 필요 없을 수 있으며 휴지통 기능이 필요 없다면 이 기능을 활성화해주세요.<br>
-					현재상태 : <strong><?php echo get_option('kboard_content_delete_immediately')?'바로 삭제':'휴지통으로 이동'?></strong>
+					휴지통으로 이동시에는 게시글 포인트 미적용 및 첨부파일이 삭제되지 않으며 영구적으로 삭제시에만 실행됩니다.
 				</p>
 				<p><button type="submit" class="button">게시글 바로 삭제 <?php echo get_option('kboard_content_delete_immediately')?'비활성화':'활성화'?></button></p>
 			</form>
