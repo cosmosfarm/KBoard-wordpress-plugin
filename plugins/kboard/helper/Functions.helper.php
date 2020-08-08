@@ -701,6 +701,15 @@ function kboard_content_editor($vars=array()){
 }
 
 /**
+ * 게시판 목록의 정렬 타입을 반환한다.
+ * @return array
+ */
+function kboard_list_sorting_types(){
+	$sorting_types = array('newest', 'best', 'viewed', 'updated');
+	return apply_filters('kboard_list_sorting_types', $sorting_types);
+}
+
+/**
  * media_group 값을 반환한다.
  * @return string
  */
