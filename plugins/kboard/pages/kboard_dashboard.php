@@ -58,6 +58,20 @@
 				<p><button type="submit" class="button">첨부파일 다운로드 깨짐 방지 <?php echo get_option('kboard_attached_copy_download')?'비활성화':'활성화'?></button></p>
 			</form>
 		</li>
+		<li id="kboard_attached_open_browser">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				<input type="hidden" name="option[kboard_attached_open_browser]" value="<?php echo get_option('kboard_attached_open_browser')?'':'1'?>">
+				
+				<h4>다운로드 방식 : <?php echo get_option('kboard_attached_open_browser')?'가능한 경우 브라우저에서 읽기':'PC에 저장하기'?></h4>
+				<p>
+					첨부파일을 다운로드 방식을 변경할 수 있습니다.<br>
+					기본적으로는 파일을 PC에 저장하도록 다운로드합니다.<br>
+					또는 가능한 경우 브라우저에서 즉시 내용을 읽을 수 있습니다.
+				</p>
+				<p><button type="submit" class="button">다운로드 방식 변경</button></p>
+			</form>
+		</li>
 		<li id="kboard_limit_file_size">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">

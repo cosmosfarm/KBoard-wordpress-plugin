@@ -106,7 +106,7 @@ function kboard_init(){
 	$kboard_list_sort = isset($_GET['kboard_list_sort']) ? sanitize_text_field($_GET['kboard_list_sort']) : '';
 	$kboard_list_sort_remember = isset($_GET['kboard_list_sort_remember']) ? intval($_GET['kboard_list_sort_remember']) : '';
 	if($kboard_list_sort && $kboard_list_sort_remember){
-		if(!in_array($kboard_list_sort, array('newest', 'best', 'viewed', 'updated'))){
+		if(!in_array($kboard_list_sort, kboard_list_sorting_types())){
 			$kboard_list_sort = '';
 		}
 		

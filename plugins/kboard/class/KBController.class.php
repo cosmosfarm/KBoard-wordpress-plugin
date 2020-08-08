@@ -517,9 +517,30 @@ class KBController {
 			copy($file_info->full_path, "{$temp_path}{$ds}{$unique_dir}{$ds}{$file_info->file_name}");
 			header('Location: ' . $upload_dir['baseurl'] . "{$ds}kboard_temp{$ds}{$unique_dir}{$ds}{$file_info->file_name}");
 		}
+		else if(get_option('kboard_attached_open_browser')){
+			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
+			
+			if($ie){
+				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+				header('Pragma: public');
+			}
+			else{
+				header('Pragma: no-cache');
+			}
+			
+			header('Content-type: ' . $file_info->mime_type);
+			header('Content-length: ' . $file_info->size);
+			header('Expires: 0');
+			
+			@ob_clean();
+			@flush();
+			
+			readfile($file_info->full_path);
+		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
 			$edge = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Edge') !== false);
+			
 			if($ie){
 				$file_info->file_name = iconv('UTF-8', 'EUC-KR//IGNORE', $file_info->file_name);
 				
