@@ -168,6 +168,7 @@ class KBOrder {
 				$item->uid = intval($item->uid);
 				$item->title = wp_strip_all_tags($item->title);
 				$item->price = floatval($item->price);
+				$item->use_points = floatval($this->use_points);
 				$item->reward_point = floatval($item->reward_point);
 				$item->order_status = $item->price > 0 ? 'pay_waiting' : 'paid';
 				$item->quantity = intval($item->quantity);
