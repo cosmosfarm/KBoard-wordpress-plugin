@@ -122,6 +122,10 @@ function cf_get_kbstore_list(page){
 function cf_add_kbstore_product(thumbnail, title, link, download, formatted_category, category, version, description, price, purchased){
 	var row_id = encodeURIComponent(title);
 	
+	<?php if(!KBOARD_STORE_AUTH):?>
+	purchased = 1;
+	<?php endif?>
+	
 	var td1 = document.createElement('td');
 	var img = document.createElement('img');
 	img.setAttribute('class', 'kbstore-thumbnail-img');
