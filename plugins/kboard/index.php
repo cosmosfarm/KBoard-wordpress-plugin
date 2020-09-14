@@ -1126,7 +1126,7 @@ function kboard_scripts(){
 	if($kboard_iamport_id){
 		$localize['iamport_id'] = $kboard_iamport_id;
 	}
-	wp_localize_script('kboard-script', 'kboard_settings', $localize);
+	wp_localize_script('kboard-script', 'kboard_settings', apply_filters('kboard_settings', $localize));
 	
 	// 번역 등록
 	$localize = array(
@@ -1239,8 +1239,10 @@ function kboard_scripts(){
 		'terms_of_service' => __('Terms of service', 'kboard'),
 		'i_agree_to_the_terms_of_service' => __('I agree to the terms of service.', 'kboard'),
 		'your_shopping_cart_is_empty' => __('Your Shopping Cart Is Empty!', 'kboard'),
+		'category' => __('Category', 'kboard'),
+		'select' => __('Select', 'kboard')
 	);
-	wp_localize_script('kboard-script', 'kboard_localize_strings', $localize);
+	wp_localize_script('kboard-script', 'kboard_localize_strings', apply_filters('kboard_localize_strings', $localize));
 }
 
 /*

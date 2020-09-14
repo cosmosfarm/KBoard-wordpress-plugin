@@ -97,7 +97,7 @@ function kboard_tree_category_parents(){
 		tree_category_name = 'kboard_option_tree_category_';
 		
 		jQuery('.kboard-tree-category-wrap').prepend('<select id="kboard-tree-category-'+tree_category_index+'" class="kboard-tree-category kboard-tree-category-'+tree_category_index+'"></select>');
-		jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="">카테고리 선택</option>');
+		jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="">'+kboard_localize_strings.category+' '+kboard_localize_strings.select+'</option>');
 		jQuery('#kboard-tree-category-'+tree_category_index).after('<input type="hidden" id="'+tree_category_name+tree_category_index+'" name="'+tree_category_name+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
 		
 		jQuery('#kboard-tree-category-'+tree_category_index).change(function(){
@@ -136,7 +136,7 @@ function kboard_tree_category_children(category_id, tree_category_index, tree_ca
 			if(category_id === element.parent_id){
 				if(check==0){
 					jQuery('#kboard-tree-category-'+tree_category_index).after('<select id="kboard-tree-category-'+(tree_category_index+1)+'" class="kboard-tree-category kboard-tree-category-'+(tree_category_index+1)+'"></select>');
-					jQuery('#kboard-tree-category-'+(tree_category_index+1)).append('<option value="">카테고리 선택</option>');
+					jQuery('#kboard-tree-category-'+(tree_category_index+1)).append('<option value="">'+kboard_localize_strings.category+' '+kboard_localize_strings.select+'</option>');
 					
 					jQuery('#kboard-tree-category-'+(tree_category_index+1)).after('<input type="hidden" id="'+tree_category_name+(tree_category_index+1)+'" name="'+tree_category_name+(tree_category_index+1)+'" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'">');
 					
