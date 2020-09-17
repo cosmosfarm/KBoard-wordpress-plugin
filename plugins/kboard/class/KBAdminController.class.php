@@ -534,10 +534,17 @@ class KBAdminController {
 			$content = new KBContent();
 			foreach($_POST['board_id'] as $uid=>$value){
 				$content->initWithUID($uid);
+
+				// 게시글 수정 전에 액션 훅 실행
+				do_action('kboard_pre_content_list_update', $content);
+				
 				$content->board_id = $_POST['board_id'][$uid];
 				$content->status = $_POST['status'][$uid];
 				$content->date = date('YmdHis', strtotime($_POST['date'][$uid] . ' ' . $_POST['time'][$uid]));
 				$content->updateContent();
+				
+				// 게시글 수정 액션 훅 실행
+				do_action('kboard_content_list_update', $content);
 			}
 		}
 		exit;

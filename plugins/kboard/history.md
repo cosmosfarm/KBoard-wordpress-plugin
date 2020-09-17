@@ -7,10 +7,12 @@
 
   1. kboard_settings 필터 추가
   2. kboard_localize_strings 필터 추가
-  3. kboard_list_sorting_types 필터 추가
-  4. 대시보드에 다운로드 방식 변경 기능 추가 (PC에 저장하기 또는 가능한 경우 브라우저에서 읽기)
-  5. 글쓰기 페이지에서 계층형 카테고리 선택 번역 추가
-  6. 버그 수정
+  3. kboard_pre_content_list_update 액션 추가
+  4. kboard_content_list_update 액션 추가
+  5. kboard_list_sorting_types 필터 추가
+  6. 대시보드에 다운로드 방식 변경 기능 추가 (PC에 저장하기 또는 가능한 경우 브라우저에서 읽기)
+  7. 글쓰기 페이지에서 계층형 카테고리 선택 번역 추가
+  8. 버그 수정
 
 
 5.7
