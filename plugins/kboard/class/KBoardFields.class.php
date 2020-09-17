@@ -684,7 +684,7 @@ class KBoardFields {
 	 */
 	public function getAttachmentList($content){
 		$skin_fields = $this->getSkinFields();
-		$attach_list = $content->attach;
+		$attach_list = clone $content->attach;
 		
 		foreach($skin_fields as $key=>$field){
 			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
