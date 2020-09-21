@@ -1240,7 +1240,8 @@ function kboard_scripts(){
 		'i_agree_to_the_terms_of_service' => __('I agree to the terms of service.', 'kboard'),
 		'your_shopping_cart_is_empty' => __('Your Shopping Cart Is Empty!', 'kboard'),
 		'category' => __('Category', 'kboard'),
-		'select' => __('Select', 'kboard')
+		'select' => __('Select', 'kboard'),
+		'category_select' => __('Category select', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', apply_filters('kboard_localize_strings', $localize));
 }
