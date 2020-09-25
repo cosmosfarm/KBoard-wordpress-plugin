@@ -409,6 +409,60 @@ class KBContentList {
 				}
 			}
 		}
+		else if(strpos($search, 'wp_') !== false && $keyword){
+			$wp_search_list = array();
+			
+			if($search == 'wp_user_login'){
+				$user = get_user_by('login', kboard_keyword());
+				if($user){
+					$wp_search_list[] = $user->ID;
+				}
+			}
+			else if($search == 'wp_first_name'){
+				$wp_user_query = new WP_User_Query(array(
+					'meta_query' => array(
+						array(
+							'key' => 'first_name',
+							'value' => kboard_keyword(),
+							'compare' => 'LIKE'
+						),
+					)
+				));
+				
+				$users = $wp_user_query->get_results();
+				if($users){
+					foreach($users as $user){
+						$wp_search_list[] = $user->ID;
+					}
+				}
+			}
+			else if($search == 'wp_last_name'){
+				$wp_user_query = new WP_User_Query(array(
+					'meta_query' => array(
+						array(
+							'key' => 'last_name',
+							'value' => kboard_keyword(),
+							'compare' => 'LIKE'
+						),
+					)
+				));
+				
+				$users = $wp_user_query->get_results();
+				if($users){
+					foreach($users as $user){
+						$wp_search_list[] = $user->ID;
+					}
+				}
+			}
+			
+			if($wp_search_list){
+				$wp_search_list = implode(',', $wp_search_list);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`member_uid` IN ({$wp_search_list})";
+			}
+			else{
+				$this->where[] = "1=0";
+			}
+		}
 		else if($keyword){
 			// 일반적인 검색후 게시글을 불러온다.
 			$search = esc_sql($search);
