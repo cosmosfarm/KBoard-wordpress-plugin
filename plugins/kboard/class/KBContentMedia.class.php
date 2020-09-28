@@ -77,7 +77,6 @@ class KBContentMedia {
 			foreach($upload_results as $upload){
 				$file_name = esc_sql($upload['original_name']);
 				$file_path = esc_sql($upload['path'] . $upload['stored_name']);
-				$file_size = intval(filesize($this->abspath . $upload['path'] . $upload['stored_name']));
 				
 				if($file_name){
 					$filetype = wp_check_filetype($file->abspath . $file_path, array('jpg|jpeg|jpe'=>'image/jpeg', 'png'=>'image/png'));
@@ -104,6 +103,8 @@ class KBContentMedia {
 							}
 						}
 					}
+					
+					$file_size = intval(filesize($this->abspath . $upload['path'] . $upload['stored_name']));
 					
 					$attach_file = new stdClass();
 					$attach_file->key = '';
