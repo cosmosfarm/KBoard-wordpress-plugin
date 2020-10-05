@@ -186,7 +186,7 @@ function kboard_admin_init(){
 /*
  * 비서(Bswer) 웹사이트로 이동
  */
-add_action('admin_init', 'kboard_admin_init_redirect');
+//add_action('admin_init', 'kboard_admin_init_redirect');
 function kboard_admin_init_redirect(){
 	global $pagenow;
 	if($pagenow == 'index.php'){
