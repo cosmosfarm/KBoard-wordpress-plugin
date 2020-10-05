@@ -453,22 +453,30 @@ class KBoard {
 	
 	/**
 	 * 관리자인지 확인한다.
+	 * @param int $user_id
 	 * @return boolean
 	 */
-	public function isAdmin(){
-		if($this->id && is_user_logged_in()){
+	public function isAdmin($user_id=''){
+		if($this->id && (is_user_logged_in() || $user_id)){
 			$admin_user = explode(',', $this->admin_user);
 			$admin_user = array_map('sanitize_text_field', $admin_user);
 			
-			if(in_array('administrator', kboard_current_user_roles())){
+			if($user_id){
+				$user = get_userdata($user_id);
+			}
+			else{
+				$user = $this->current_user;
+			}
+			
+			if(in_array('administrator', kboard_current_user_roles($user_id))){
 				// 최고관리자 허용
 				return true;
 			}
-			else if(is_array($admin_user) && in_array($this->current_user->user_login, $admin_user)){
+			else if(is_array($admin_user) && in_array($user->user_login, $admin_user)){
 				// 선택된 관리자 허용
 				return true;
 			}
-			else if(array_intersect($this->getAdminRoles(), kboard_current_user_roles())){
+			else if(array_intersect($this->getAdminRoles(), kboard_current_user_roles($user_id))){
 				// 선택된 역할의 사용자 허용
 				return true;
 			}

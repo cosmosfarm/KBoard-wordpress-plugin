@@ -441,17 +441,25 @@ function kboard_recaptcha_secret_key(){
 
 /**
  * 현재 사용자의 역할을 반환한다.
+ * @param int $user_id
  * @return array
  */
-function kboard_current_user_roles(){
+function kboard_current_user_roles($user_id=''){
 	$roles = array();
-	if(is_user_logged_in()){
-		$user = wp_get_current_user();
+	if(is_user_logged_in() || $user_id){
+		
+		if($user_id){
+			$user = get_userdata($user_id);
+		}
+		else{
+			$user = wp_get_current_user();
+		}
+		
 		if($user->roles){
 			$roles = (array) $user->roles;
 		}
 		else{
-			$user = new WP_User(get_current_user_id(), '', get_current_blog_id());
+			$user = new WP_User($user->ID, '', get_current_blog_id());
 			if($user->roles){
 				$roles = (array) $user->roles;
 			}

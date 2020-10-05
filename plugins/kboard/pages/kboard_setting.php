@@ -1341,7 +1341,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->shortcode_execute):?> selected<?php endif?>>활성화</option>
 							</select>
+							<div>
+								<label><input type="checkbox" name="shortcode_execute_only_admin" value="1"<?php if($meta->shortcode_execute_only_admin):?> checked<?php endif?>> 게시판 관리자의 글에만 실행</label>
+							</div>
 							<p class="description">게시글 본문에 글쓴이가 입력한 워드프레스 숏코드를 실행합니다.</p>
+							<p class="description"><a href="https://wordpress.org/support/article/audio-shortcode/" onclick="window.open(this.href);return false;">audio</a>, <a href="https://wordpress.org/support/article/video-shortcode/" onclick="window.open(this.href);return false;">video</a> 등의 숏코드를 사용할 수 있습니다.</p>
 							<p class="description">관리자가 아닌 사용자가 워드프레스 내장 기능을 사용할 수 있어 보안에 주의해야 합니다. <a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=50179426321" onclick="window.open(this.href);return false;">알아보기</a></p>
 						</td>
 					</tr>

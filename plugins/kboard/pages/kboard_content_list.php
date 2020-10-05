@@ -74,6 +74,6 @@ jQuery(document).ready(function(){
 		showMonthAfterYear : true,
 		yearSuffix : '년'
 	});
-	jQuery('.kboard-content-timepicker').timepicker({'timeFormat': 'H:i:s'});
+	jQuery('.kboard-content-timepicker').timepicker({'timeFormat': 'HH:mm:ss'});
 });
 </script>

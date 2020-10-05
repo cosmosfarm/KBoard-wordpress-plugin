@@ -114,6 +114,7 @@ class KBAdminController {
 				$board->meta->default_content                = isset($_POST['default_content'])                ? $_POST['default_content']                 : '';
 				$board->meta->pass_autop                     = isset($_POST['pass_autop'])                     ? $_POST['pass_autop']                      : '';
 				$board->meta->shortcode_execute              = isset($_POST['shortcode_execute'])              ? $_POST['shortcode_execute']               : '';
+				$board->meta->shortcode_execute_only_admin   = isset($_POST['shortcode_execute_only_admin'])   ? $_POST['shortcode_execute_only_admin']    : '';
 				$board->meta->autolink                       = isset($_POST['autolink'])                       ? $_POST['autolink']                        : '';
 				$board->meta->reply_copy_content             = isset($_POST['reply_copy_content'])             ? $_POST['reply_copy_content']              : '';
 				$board->meta->view_iframe                    = isset($_POST['view_iframe'])                    ? $_POST['view_iframe']                     : '';

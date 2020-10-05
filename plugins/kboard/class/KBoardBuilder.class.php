@@ -537,7 +537,14 @@ class KBoardBuilder {
 			
 			// 게시글 숏코드(Shortcode) 실행
 			if($this->meta->shortcode_execute == 1){
-				$content->content = do_shortcode($content->getContent());
+				if($this->meta->shortcode_execute_only_admin){ // 게시판 관리자의 글에만 실행
+					if($content->member_uid && $board->isAdmin($content->member_uid)){
+						$content->content = do_shortcode($content->getContent());
+					}
+				}
+				else{
+					$content->content = do_shortcode($content->getContent());
+				}
 			}
 			else{
 				$content->content = str_replace('[', '&#91;', $content->getContent());
