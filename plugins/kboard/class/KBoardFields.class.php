@@ -492,6 +492,10 @@ class KBoardFields {
 				$field_html = $skin->load($this->board->skin, 'editor-fields.php', $vars);
 			}
 			
+			if(!$field_html){
+				$field_html = $skin->loadTemplate('editor-fields.php', $vars);
+			}
+			
 			echo apply_filters('kboard_get_template_field_html', $field_html, $field, $content, $this->board);
 			
 			do_action("kboard_skin_field_after_{$meta_key}", $field, $content, $this->board);

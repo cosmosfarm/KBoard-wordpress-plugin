@@ -173,6 +173,29 @@ class KBoardSkin {
 	}
 	
 	/**
+	 * 템플릿 파일을 불러온다.
+	 * @param string $file
+	 * @param array $vars
+	 * @return string
+	 */
+	public function loadTemplate($file, $vars=array()){
+		ob_start();
+		
+		$template_file_path = KBOARD_DIR_PATH . '/template/skin/' . $file;
+		
+		if(file_exists($template_file_path)){
+			extract($vars, EXTR_SKIP);
+			
+			include $template_file_path;
+		}
+		else{
+			echo sprintf(__('%s file does not exist.', 'kboard'), $file);
+		}
+		
+		return ob_get_clean();
+	}
+	
+	/**
 	 * 스킨 URL 주소를 반환한다.
 	 * @param string $skin_name
 	 * @param string $file
