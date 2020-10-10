@@ -266,6 +266,7 @@ function kboard_settings_menu(){
 		$_wp_last_object_menu++;
 		add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
 		add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store');
+		add_submenu_page('kboard_store', __('Partners', 'kboard'), __('Partners', 'kboard'), 'manage_options', 'kboard_store_partners', 'kboard_store_partners');
 	}
 	
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'manage_options', 'kboard_content_list', 'kboard_content_list');
@@ -292,6 +293,28 @@ function kboard_settings_menu(){
  */
 function kboard_store(){
 	KBStore::productsList();
+}
+
+/*
+ * 파트너 페이지
+ */
+function kboard_store_partners(){
+	$store_partners_list = get_transient('kboard_store_partners_list');
+	
+	if(!$store_partners_list){
+		$response = wp_remote_get('http://updates.wp-kboard.com/v1/AUTH_3529e134-c9d7-4172-8338-f64309faa5e5/kboard/partners.json');
+		
+		if(!is_wp_error($response) && isset($response['body']) && $response['body']){
+			$store_partners_list = json_decode($response['body']);
+		}
+		else{
+			$store_partners_list = array();
+		}
+		
+		set_transient('kboard_store_partners_list', $store_partners_list, 60*60);
+	}
+	
+	include_once 'pages/kboard_store_partners.php';
 }
 
 /*

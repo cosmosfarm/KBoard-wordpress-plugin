@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2020-07-06 20:47+0900\n"
-"PO-Revision-Date: 2020-07-06 20:47+0900\n"
+"POT-Creation-Date: 2020-10-10 13:40+0900\n"
+"PO-Revision-Date: 2020-10-10 13:40+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -33,40 +33,40 @@ msgstr "KBoard Comments points"
 msgid "KBoard 댓글 포인트를 관리합니다."
 msgstr "Manage comments KBoard point."
 
-#: class/KBAdminController.class.php:29 class/KBAdminController.class.php:200
-#: class/KBAdminController.class.php:227 class/KBAdminController.class.php:264
-#: class/KBAdminController.class.php:306 class/KBAdminController.class.php:378
-#: class/KBAdminController.class.php:577 class/KBAdminController.class.php:604
+#: class/KBAdminController.class.php:29 class/KBAdminController.class.php:201
+#: class/KBAdminController.class.php:228 class/KBAdminController.class.php:265
+#: class/KBAdminController.class.php:307 class/KBAdminController.class.php:379
+#: class/KBAdminController.class.php:585 class/KBAdminController.class.php:612
 #: class/KBController.class.php:56 class/KBController.class.php:61
 #: class/KBController.class.php:65 class/KBController.class.php:72
-#: class/KBController.class.php:84 class/KBController.class.php:202
-#: class/KBController.class.php:325 class/KBController.class.php:331
-#: class/KBController.class.php:335 class/KBController.class.php:651
-#: class/KBController.class.php:654 class/KBController.class.php:715
-#: class/KBController.class.php:718 class/KBController.class.php:732
-#: class/KBController.class.php:735 class/KBController.class.php:894
-#: class/KBController.class.php:976 class/KBController.class.php:1161
-#: class/KBController.class.php:1199 class/KBController.class.php:1224
+#: class/KBController.class.php:84 class/KBController.class.php:201
+#: class/KBController.class.php:324 class/KBController.class.php:330
+#: class/KBController.class.php:334 class/KBController.class.php:671
+#: class/KBController.class.php:674 class/KBController.class.php:735
+#: class/KBController.class.php:738 class/KBController.class.php:752
+#: class/KBController.class.php:755 class/KBController.class.php:914
+#: class/KBController.class.php:996 class/KBController.class.php:1181
+#: class/KBController.class.php:1219 class/KBController.class.php:1244
 #: class/KBTemplate.class.php:115 class/KBTemplate.class.php:122
 #: class/KBTemplate.class.php:130 class/KBTemplate.class.php:134
-#: class/KBTemplate.class.php:139 class/KBoardBuilder.class.php:615
-#: class/KBoardBuilder.class.php:620 class/KBoardBuilder.class.php:633
-#: class/KBoardBuilder.class.php:638 class/KBoardBuilder.class.php:654
-#: class/KBoardBuilder.class.php:779 class/KBoardBuilder.class.php:782
-#: class/KBoardBuilder.class.php:1132 class/KBoardBuilder.class.php:1137
-#: index.php:1029 index.php:1276 index.php:1309
+#: class/KBTemplate.class.php:139 class/KBoardBuilder.class.php:622
+#: class/KBoardBuilder.class.php:627 class/KBoardBuilder.class.php:640
+#: class/KBoardBuilder.class.php:645 class/KBoardBuilder.class.php:661
+#: class/KBoardBuilder.class.php:786 class/KBoardBuilder.class.php:789
+#: class/KBoardBuilder.class.php:1139 class/KBoardBuilder.class.php:1144
+#: index.php:1052 index.php:1302 index.php:1335
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
-#: class/KBAdminController.class.php:243
+#: class/KBAdminController.class.php:244
 msgid "복원파일의 데이터로 복구 되었습니다."
 msgstr "Restored using backup file."
 
-#: class/KBAdminController.class.php:246
+#: class/KBAdminController.class.php:247
 msgid "올바른 복원파일이 아닙니다."
 msgstr "This is not a valid backup file."
 
-#: class/KBAdminController.class.php:250
+#: class/KBAdminController.class.php:251
 msgid "파일 업로드에 실패 했습니다."
 msgstr "File upload failed."
 
@@ -109,11 +109,11 @@ msgstr "Anonymous"
 msgid "No upload path. Please enter board ID and initialize."
 msgstr "No upload path. Please enter board ID and initialize."
 
-#: class/KBContent.class.php:972 pages/kboard_setting.php:1523
+#: class/KBContent.class.php:972 pages/kboard_setting.php:1528
 msgid "Deleted increment points"
 msgstr "Deleted increment points"
 
-#: class/KBContent.class.php:984 pages/kboard_setting.php:1531
+#: class/KBContent.class.php:984 pages/kboard_setting.php:1536
 msgid "Deleted decrease points"
 msgstr "Deleted decrease points"
 
@@ -207,6 +207,7 @@ msgstr "Views"
 #: skin/default/reply-template.php:9 skin/thumbnail/editor-fields.php:125
 #: skin/thumbnail/latest.php:16 skin/thumbnail/list.php:73
 #: skin/thumbnail/list.php:111 skin/thumbnail/reply-template.php:17
+#: template/skin/editor-fields.php:125
 msgid "Secret"
 msgstr "Secret"
 
@@ -214,7 +215,7 @@ msgstr "Secret"
 #: skin/avatar/editor-fields.php:128 skin/avatar/list.php:57
 #: skin/contact-form/admin-list.php:57 skin/default/editor-fields.php:128
 #: skin/default/list.php:57 skin/thumbnail/editor-fields.php:128
-#: skin/thumbnail/list.php:58
+#: skin/thumbnail/list.php:58 template/skin/editor-fields.php:128
 msgid "Notice"
 msgstr "Notice"
 
@@ -254,12 +255,12 @@ msgid "The reply."
 msgstr "The reply."
 
 #: class/KBContentListTable.class.php:182
-#: class/KBContentListTable.class.php:185 index.php:1149
+#: class/KBContentListTable.class.php:185 index.php:1172
 msgid "Yes"
 msgstr "Yes"
 
 #: class/KBContentListTable.class.php:182
-#: class/KBContentListTable.class.php:185 index.php:1150
+#: class/KBContentListTable.class.php:185 index.php:1173
 msgid "No"
 msgstr "No"
 
@@ -267,11 +268,11 @@ msgstr "No"
 msgid "Update"
 msgstr "Update"
 
-#: class/KBController.class.php:75 index.php:1137
+#: class/KBController.class.php:75 index.php:1160
 msgid "Please enter the title."
 msgstr "Please enter the title."
 
-#: class/KBController.class.php:78 index.php:1139
+#: class/KBController.class.php:78 index.php:1162
 msgid "Please enter the password."
 msgstr "Please enter the password."
 
@@ -294,85 +295,85 @@ msgstr "You can create a new post after %d minutes."
 msgid "You can create a new post after %d seconds."
 msgstr "You can create a new post after %d seconds."
 
-#: class/KBController.class.php:145 class/KBController.class.php:168
-#: class/KBController.class.php:187 pages/kboard_dashboard.php:202
-#: pages/kboard_dashboard.php:222
+#: class/KBController.class.php:144 class/KBController.class.php:167
+#: class/KBController.class.php:186 pages/kboard_dashboard.php:216
+#: pages/kboard_dashboard.php:236
 #, php-format
 msgid "%s is not available."
 msgstr "%s is not available."
 
-#: class/KBController.class.php:207 class/KBoardBuilder.class.php:661
-#: index.php:1287 index.php:1320
+#: class/KBController.class.php:206 class/KBoardBuilder.class.php:668
+#: index.php:1313 index.php:1346
 msgid "You have not enough points."
 msgstr "You have not enough points."
 
-#: class/KBController.class.php:213 pages/kboard_setting.php:1514
+#: class/KBController.class.php:212 pages/kboard_setting.php:1519
 msgid "Writing decrease points"
 msgstr "Writing decrease points"
 
-#: class/KBController.class.php:223
+#: class/KBController.class.php:222
 msgid "An unexpected problem has occurred."
 msgstr "An unexpected problem has occurred."
 
-#: class/KBController.class.php:235 pages/kboard_setting.php:1506
+#: class/KBController.class.php:234 pages/kboard_setting.php:1511
 msgid "Writing increase points"
 msgstr "Writing increase points"
 
-#: class/KBController.class.php:320 class/KBController.class.php:383
-#: class/KBoardBuilder.class.php:746
+#: class/KBController.class.php:319 class/KBController.class.php:382
+#: class/KBoardBuilder.class.php:753
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
-#: class/KBController.class.php:456 class/KBController.class.php:468
+#: class/KBController.class.php:455 class/KBController.class.php:467
 msgid "File does not exist."
 msgstr "File does not exist."
 
-#: class/KBController.class.php:499 pages/kboard_setting.php:1549
+#: class/KBController.class.php:498 pages/kboard_setting.php:1554
 msgid "Attachment download decrease points"
 msgstr "Attachment download decrease points"
 
-#: class/KBController.class.php:667
+#: class/KBController.class.php:687
 msgid "Payment has been cancelled."
 msgstr "Payment has been cancelled."
 
-#: class/KBController.class.php:743 class/KBController.class.php:853
-#: class/KBController.class.php:937 class/KBController.class.php:997
-#: index.php:1230
+#: class/KBController.class.php:763 class/KBController.class.php:873
+#: class/KBController.class.php:957 class/KBController.class.php:1017
+#: index.php:1253
 msgid "Point payment"
 msgstr "Point payment"
 
-#: class/KBController.class.php:747 class/KBController.class.php:750
-#: class/KBController.class.php:940
+#: class/KBController.class.php:767 class/KBController.class.php:770
+#: class/KBController.class.php:960
 msgid "Your point is not enough."
 msgstr "Your point is not enough."
 
-#: class/KBController.class.php:1001
+#: class/KBController.class.php:1021
 msgid "Not enough points."
 msgstr "Not enough points."
 
-#: class/KBController.class.php:1013 index.php:1228
+#: class/KBController.class.php:1033 index.php:1251
 msgid "Order information has been changed."
 msgstr "Order information has been changed."
 
-#: class/KBController.class.php:1022 class/KBController.class.php:1044
-#: class/KBController.class.php:1084 class/KBController.class.php:1104
-#: index.php:1231
+#: class/KBController.class.php:1042 class/KBController.class.php:1064
+#: class/KBController.class.php:1104 class/KBController.class.php:1124
+#: index.php:1254
 msgid "Cancel point payment"
 msgstr "Cancel point payment"
 
-#: class/KBController.class.php:1032 class/KBController.class.php:1054
-#: class/KBController.class.php:1094 class/KBController.class.php:1114
-#: index.php:1227
+#: class/KBController.class.php:1052 class/KBController.class.php:1074
+#: class/KBController.class.php:1114 class/KBController.class.php:1134
+#: index.php:1250
 msgid "Your order has been cancelled."
 msgstr "Your order has been cancelled."
 
-#: class/KBController.class.php:1153 class/KBController.class.php:1191
-#: index.php:1143
+#: class/KBController.class.php:1173 class/KBController.class.php:1211
+#: index.php:1166
 msgid "You have already voted."
 msgstr "You have already voted."
 
-#: class/KBController.class.php:1157 class/KBController.class.php:1195
-#: class/KBoardBuilder.class.php:270 index.php:1265 index.php:1298
+#: class/KBController.class.php:1177 class/KBController.class.php:1215
+#: class/KBoardBuilder.class.php:270 index.php:1291 index.php:1324
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
@@ -459,37 +460,37 @@ msgstr ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
 
-#: class/KBUrl.class.php:243
+#: class/KBUrl.class.php:246
 msgid "No document."
 msgstr "No document."
 
-#: class/KBoardBuilder.class.php:388 class/KBoardBuilder.class.php:756
-#: class/KBoardBuilder.class.php:840 class/KBoardBuilder.class.php:973
+#: class/KBoardBuilder.class.php:388 class/KBoardBuilder.class.php:763
+#: class/KBoardBuilder.class.php:847 class/KBoardBuilder.class.php:980
 msgid "Invalid URL address."
 msgstr "Invalid URL address."
 
-#: class/KBoardBuilder.class.php:394 class/KBoardBuilder.class.php:578
-#: class/KBoardBuilder.class.php:846 class/KBoardBuilder.class.php:979
+#: class/KBoardBuilder.class.php:394 class/KBoardBuilder.class.php:585
+#: class/KBoardBuilder.class.php:853 class/KBoardBuilder.class.php:986
 msgid "This post has been removed."
 msgstr "This post has been removed."
 
-#: class/KBoardBuilder.class.php:400 class/KBoardBuilder.class.php:584
-#: class/KBoardBuilder.class.php:762 class/KBoardBuilder.class.php:852
-#: class/KBoardBuilder.class.php:985
+#: class/KBoardBuilder.class.php:400 class/KBoardBuilder.class.php:591
+#: class/KBoardBuilder.class.php:769 class/KBoardBuilder.class.php:859
+#: class/KBoardBuilder.class.php:992
 msgid "This post has been moved."
 msgstr "This post has been moved."
 
 #: class/KBoardBuilder.class.php:411 class/KBoardBuilder.class.php:417
-#: class/KBoardBuilder.class.php:863 class/KBoardBuilder.class.php:869
-#: class/KBoardBuilder.class.php:996 class/KBoardBuilder.class.php:1002
+#: class/KBoardBuilder.class.php:870 class/KBoardBuilder.class.php:876
+#: class/KBoardBuilder.class.php:1003 class/KBoardBuilder.class.php:1009
 msgid "This post can only be read by the owner."
 msgstr "This post can only be read by the owner."
 
-#: class/KBoardBuilder.class.php:508 pages/kboard_setting.php:1539
+#: class/KBoardBuilder.class.php:508 pages/kboard_setting.php:1544
 msgid "Reading decrease points"
 msgstr "Reading decrease points"
 
-#: class/KBoardBuilder.class.php:567
+#: class/KBoardBuilder.class.php:574
 msgid "Please enter your password."
 msgstr "Please enter your password."
 
@@ -498,13 +499,14 @@ msgid "Options"
 msgstr "Options"
 
 #: class/KBoardFields.class.php:61 class/KBoardFields.class.php:74
-#: pages/kboard_setting.php:799 pages/kboard_setting.php:808
-#: pages/kboard_setting.php:1190 pages/kboard_setting.php:1199
+#: index.php:1265 pages/kboard_setting.php:800 pages/kboard_setting.php:809
+#: pages/kboard_setting.php:1191 pages/kboard_setting.php:1200
 #: skin/avatar/editor-fields.php:71 skin/avatar/editor-fields.php:88
 #: skin/contact-form/editor-fields.php:68
 #: skin/contact-form/editor-fields.php:85 skin/default/editor-fields.php:71
 #: skin/default/editor-fields.php:88 skin/thumbnail/editor-fields.php:71
-#: skin/thumbnail/editor-fields.php:88
+#: skin/thumbnail/editor-fields.php:88 template/skin/editor-fields.php:71
+#: template/skin/editor-fields.php:88
 msgid "Category"
 msgstr "Category"
 
@@ -610,7 +612,7 @@ msgstr "Open page"
 msgid "페이지 연결 없음"
 msgstr "Not installed"
 
-#: class/KBoardSkin.class.php:159
+#: class/KBoardSkin.class.php:159 class/KBoardSkin.class.php:192
 #, php-format
 msgid "%s file does not exist."
 msgstr "%s file does not exist."
@@ -639,15 +641,15 @@ msgstr "View only owned comments"
 msgid "직접선택"
 msgstr "Select Role"
 
-#: helper/Functions.helper.php:648
+#: helper/Functions.helper.php:656
 msgid "Published"
 msgstr "Published"
 
-#: helper/Functions.helper.php:649
+#: helper/Functions.helper.php:657
 msgid "Pending approval"
 msgstr "Pending approval"
 
-#: helper/Functions.helper.php:650
+#: helper/Functions.helper.php:658
 msgid "Trash"
 msgstr "Trash"
 
@@ -671,10 +673,10 @@ msgstr "Find theme"
 msgid "Find plugin"
 msgstr "Find plugin"
 
-#: index.php:207 index.php:1133 skin/avatar/editor-fields.php:150
+#: index.php:207 index.php:1156 skin/avatar/editor-fields.php:150
 #: skin/contact-form/editor-fields.php:121 skin/default/editor-fields.php:150
 #: skin/thumbnail/editor-fields.php:150 template/media.php:9
-#: template/media.php:69
+#: template/media.php:69 template/skin/editor-fields.php:150
 msgid "KBoard Add Media"
 msgstr "KBoard Add Media"
 
@@ -714,423 +716,446 @@ msgstr "Update"
 msgid "스토어"
 msgstr "Store"
 
-#: index.php:271
+#: index.php:269 pages/kboard_store_partners.php:4
+msgid "Partners"
+msgstr "Partners"
+
+#: index.php:272
 msgid "전체 게시글"
 msgstr "All Documents"
 
-#: index.php:275
+#: index.php:276
 msgid "전체 댓글"
 msgstr "All Comments"
 
-#: index.php:1134
+#: index.php:1157
 msgid "Next"
 msgstr "Next"
 
-#: index.php:1135
+#: index.php:1158
 msgid "Prev"
 msgstr "Prev"
 
-#: index.php:1136
+#: index.php:1159
 #, php-format
 msgid "%s is required."
 msgstr "%s is required."
 
-#: index.php:1138
+#: index.php:1161
 msgid "Please enter the author."
 msgstr "Please enter the author."
 
-#: index.php:1140
+#: index.php:1163
 msgid "Please enter the CAPTCHA."
 msgstr "Please enter the CAPTCHA."
 
-#: index.php:1141
+#: index.php:1164
 msgid "Please enter the name."
 msgstr "Please enter the name."
 
-#: index.php:1142
+#: index.php:1165
 msgid "Please enter the email."
 msgstr "Please enter the email."
 
-#: index.php:1144
+#: index.php:1167
 msgid "Please wait."
 msgstr "Please wait."
 
-#: index.php:1145 pages/kboard_latestview_setting.php:77
+#: index.php:1168 pages/kboard_latestview_setting.php:77
 #: skin/avatar/list.php:16 skin/contact-form/admin-list.php:16
 #: skin/default/list.php:16 skin/thumbnail/list.php:16
 msgid "Newest"
 msgstr "Newest"
 
-#: index.php:1146 pages/kboard_latestview_setting.php:78
+#: index.php:1169 pages/kboard_latestview_setting.php:78
 #: skin/avatar/list.php:17 skin/contact-form/admin-list.php:17
 #: skin/default/list.php:17 skin/thumbnail/list.php:17
 msgid "Best"
 msgstr "Best"
 
-#: index.php:1147 pages/kboard_latestview_setting.php:80
+#: index.php:1170 pages/kboard_latestview_setting.php:80
 #: skin/avatar/list.php:19 skin/contact-form/admin-list.php:19
 #: skin/default/list.php:19 skin/thumbnail/list.php:19
 msgid "Updated"
 msgstr "Updated"
 
-#: index.php:1148 pages/kboard_latestview_setting.php:79
+#: index.php:1171 pages/kboard_latestview_setting.php:79
 #: skin/avatar/list.php:18 skin/contact-form/admin-list.php:18
 #: skin/default/list.php:18 skin/thumbnail/list.php:18
 msgid "Viewed"
 msgstr "Viewed"
 
-#: index.php:1151
+#: index.php:1174
 msgid "Did it help?"
 msgstr "Did it help?"
 
-#: index.php:1152
+#: index.php:1175
 msgid "Hashtag"
 msgstr "Hashtag"
 
-#: index.php:1153
+#: index.php:1176
 msgid "Tag"
 msgstr "Tag"
 
-#: index.php:1154
+#: index.php:1177
 msgid "Add a Tag"
 msgstr "Add a Tag"
 
-#: index.php:1155
+#: index.php:1178
 msgid "Removing tag"
 msgstr "Removing tag"
 
-#: index.php:1156
+#: index.php:1179
 msgid "Changes you made may not be saved."
 msgstr "Changes you made may not be saved."
 
-#: index.php:1157
+#: index.php:1180
 msgid "Name"
 msgstr "Name"
 
-#: index.php:1158
+#: index.php:1181
 msgid "Email"
 msgstr "Email"
 
-#: index.php:1159
+#: index.php:1182
 msgid "Address"
 msgstr "Address"
 
-#: index.php:1160
+#: index.php:1183
 msgid "Postcode"
 msgstr "Postcode"
 
-#: index.php:1161
+#: index.php:1184
 msgid "Phone number"
 msgstr "Phone number"
 
-#: index.php:1162
+#: index.php:1185
 msgid "Mobile phone"
 msgstr "Mobile phone"
 
-#: index.php:1163
+#: index.php:1186
 msgid "Phone"
 msgstr "Phone"
 
-#: index.php:1164
+#: index.php:1187
 msgid "Company name"
 msgstr "Company name"
 
-#: index.php:1165
+#: index.php:1188
 msgid "VAT number"
 msgstr "VAT number"
 
-#: index.php:1166
+#: index.php:1189
 msgid "Bank account"
 msgstr "Bank account"
 
-#: index.php:1167
+#: index.php:1190
 msgid "Name of deposit"
 msgstr "Name of deposit"
 
-#: index.php:1168
+#: index.php:1191
 msgid "Find"
 msgstr "Find"
 
-#: index.php:1169
+#: index.php:1192
 msgid "Rate"
 msgstr "Rate"
 
-#: index.php:1170
+#: index.php:1193
 msgid "Ratings"
 msgstr "Ratings"
 
-#: index.php:1171
+#: index.php:1194
 msgid "Waiting"
 msgstr "Waiting"
 
-#: index.php:1172
+#: index.php:1195
 msgid "Complete"
 msgstr "Complete"
 
-#: index.php:1173
+#: index.php:1196
 msgid "Question"
 msgstr "Question"
 
-#: index.php:1174
+#: index.php:1197
 msgid "Answer"
 msgstr "Answer"
 
-#: index.php:1175
+#: index.php:1198
 msgid "Notify me of new comments via email"
 msgstr "Notify me of new comments via email"
 
-#: index.php:1176
+#: index.php:1199
 msgid "Ask Question"
 msgstr "Ask Question"
 
-#: index.php:1177
+#: index.php:1200
 msgid "Categories"
 msgstr "Categories"
 
-#: index.php:1178
+#: index.php:1201
 msgid "Pages"
 msgstr "Pages"
 
-#: index.php:1179
+#: index.php:1202
 msgid "All Products"
 msgstr "All Products"
 
-#: index.php:1180
+#: index.php:1203
 msgid "Your Orders"
 msgstr "Your Orders"
 
-#: index.php:1181
+#: index.php:1204
 msgid "Your Sales"
 msgstr "Your Sales"
 
-#: index.php:1182
+#: index.php:1205
 msgid "My Orders"
 msgstr "My Orders"
 
-#: index.php:1183
+#: index.php:1206
 msgid "My Sales"
 msgstr "My Sales"
 
-#: index.php:1184
+#: index.php:1207
 msgid "New Product"
 msgstr "New Product"
 
-#: index.php:1185
+#: index.php:1208
 msgid "Edit Product"
 msgstr "Edit Product"
 
-#: index.php:1186
+#: index.php:1209
 msgid "Delete Product"
 msgstr "Delete Product"
 
-#: index.php:1187
+#: index.php:1210
 msgid "Seller"
 msgstr "Seller"
 
-#: index.php:1188
+#: index.php:1211
 msgid "Period"
 msgstr "Period"
 
-#: index.php:1189
+#: index.php:1212
 msgid "Period of use"
 msgstr "Period of use"
 
-#: index.php:1190
+#: index.php:1213
 msgid "Last updated"
 msgstr "Last updated"
 
-#: index.php:1191
+#: index.php:1214
 msgid "List price"
 msgstr "List price"
 
-#: index.php:1192
+#: index.php:1215
 msgid "Price"
 msgstr "Price"
 
-#: index.php:1193
+#: index.php:1216
 msgid "Total price"
 msgstr "Total price"
 
-#: index.php:1194
+#: index.php:1217
 msgid "Amount"
 msgstr "Amount"
 
-#: index.php:1195
+#: index.php:1218
 msgid "Quantity"
 msgstr "Quantity"
 
-#: index.php:1196
+#: index.php:1219
 msgid "Use points"
 msgstr "Use points"
 
-#: index.php:1197
+#: index.php:1220
 msgid "My points"
 msgstr "My points"
 
-#: index.php:1198
+#: index.php:1221
 msgid "Available points"
 msgstr "Available points"
 
-#: index.php:1199
+#: index.php:1222
 msgid "Apply points"
 msgstr "Apply points"
 
-#: index.php:1200
+#: index.php:1223
 msgid "Buy It Now"
 msgstr "Buy It Now"
 
-#: index.php:1201
+#: index.php:1224
 msgid "Sold Out"
 msgstr "Sold Out"
 
-#: index.php:1202
+#: index.php:1225
 msgid "For free"
 msgstr "Free"
 
-#: index.php:1203
+#: index.php:1226
 #, php-format
 msgid "Pay %s"
 msgstr "Pay %s"
 
-#: index.php:1204
+#: index.php:1227
 msgid "Payment method"
 msgstr "Payment method"
 
-#: index.php:1205
+#: index.php:1228
 msgid "Credit card"
 msgstr "Credit card"
 
-#: index.php:1206
+#: index.php:1229
 msgid "Make a deposit"
 msgstr "Make a deposit"
 
-#: index.php:1207
+#: index.php:1230
 msgid "Reward point"
 msgstr "Reward point"
 
-#: index.php:1208
+#: index.php:1231
 msgid "Download expiry"
 msgstr "Download expiry"
 
-#: index.php:1209
+#: index.php:1232
 msgid "Checkout"
 msgstr "Checkout"
 
-#: index.php:1210
+#: index.php:1233
 msgid "Buyer information"
 msgstr "Buyer information"
 
-#: index.php:1211
+#: index.php:1234
 msgid "Applying cash receipts"
 msgstr "Applying cash receipts"
 
-#: index.php:1212
+#: index.php:1235
 msgid "Applying cash receipt"
 msgstr "Applying cash receipt"
 
-#: index.php:1213
+#: index.php:1236
 msgid "Cash receipt"
 msgstr "Cash receipt"
 
-#: index.php:1214
+#: index.php:1237
 msgid "Privacy policy"
 msgstr "Privacy policy"
 
-#: index.php:1215
+#: index.php:1238
 msgid "I agree to the privacy policy."
 msgstr "I agree to the privacy policy."
 
-#: index.php:1216
+#: index.php:1239
 msgid ""
 "I confirm the terms of the transaction and agree to the payment process."
 msgstr ""
 "I confirm the terms of the transaction and agree to the payment process."
 
-#: index.php:1217
+#: index.php:1240
 msgid "Today"
 msgstr "Today"
 
-#: index.php:1218
+#: index.php:1241
 msgid "Yesterday"
 msgstr "Yesterday"
 
-#: index.php:1219
+#: index.php:1242
 msgid "This month"
 msgstr "This month"
 
-#: index.php:1220
+#: index.php:1243
 msgid "Last month"
 msgstr "Last month"
 
-#: index.php:1221
+#: index.php:1244
 msgid "Last 30 days"
 msgstr "Last 30 days"
 
-#: index.php:1222
+#: index.php:1245
 msgid "Agree"
 msgstr "Agree"
 
-#: index.php:1223
+#: index.php:1246
 msgid "Disagree"
 msgstr "Disagree"
 
-#: index.php:1224
+#: index.php:1247
 msgid "Opinion"
 msgstr "Opinion"
 
-#: index.php:1225
+#: index.php:1248
 msgid "Comment"
 msgstr "Comment"
 
-#: index.php:1226
+#: index.php:1249
 msgid "Comments"
 msgstr "Comments"
 
-#: index.php:1229
+#: index.php:1252
 msgid "Order date"
 msgstr "Order date"
 
-#: index.php:1232
+#: index.php:1255
 msgid "PayPal"
 msgstr "PayPal"
 
-#: index.php:1233
+#: index.php:1256
 msgid "Point"
 msgstr "Point"
 
-#: index.php:1234
+#: index.php:1257
 msgid "Zip Code"
 msgstr "Zip Code"
 
-#: index.php:1235
+#: index.php:1258
 msgid "This year"
 msgstr "This year"
 
-#: index.php:1236
+#: index.php:1259
 msgid "Last year"
 msgstr "Last year"
 
-#: index.php:1237
+#: index.php:1260
 msgid "Period total"
 msgstr "Period total"
 
-#: index.php:1238
+#: index.php:1261
 msgid "Total revenue"
 msgstr "Total revenue"
 
-#: index.php:1239
+#: index.php:1262
 msgid "Terms of service"
 msgstr "Terms of service"
 
-#: index.php:1240
+#: index.php:1263
 msgid "I agree to the terms of service."
 msgstr "I agree to the terms of service."
 
-#: index.php:1241
+#: index.php:1264
 msgid "Your Shopping Cart Is Empty!"
 msgstr "Your Shopping Cart Is Empty!"
 
-#: index.php:1341
+#: index.php:1266 pages/kboard_setting.php:800 pages/kboard_setting.php:809
+#: pages/kboard_setting.php:1191 pages/kboard_setting.php:1200
+#: skin/avatar/editor-fields.php:71 skin/avatar/editor-fields.php:88
+#: skin/avatar/editor-fields.php:196 skin/contact-form/editor-fields.php:68
+#: skin/contact-form/editor-fields.php:85
+#: skin/contact-form/editor-fields.php:142 skin/default/editor-fields.php:71
+#: skin/default/editor-fields.php:88 skin/default/editor-fields.php:196
+#: skin/thumbnail/editor-fields.php:71 skin/thumbnail/editor-fields.php:88
+#: skin/thumbnail/editor-fields.php:196 template/skin/editor-fields.php:71
+#: template/skin/editor-fields.php:88 template/skin/editor-fields.php:196
+msgid "Select"
+msgstr "Select"
+
+#: index.php:1267
+#, fuzzy
+#| msgid "Category"
+msgid "Category select"
+msgstr "Category"
+
+#: index.php:1367
 msgid "KBoard Forum Settings"
 msgstr "KBoard Forum Settings"
 
@@ -1138,7 +1163,7 @@ msgstr "KBoard Forum Settings"
 #: pages/kboard_content_list.php:5 pages/kboard_dashboard.php:5
 #: pages/kboard_latestview.php:5 pages/kboard_latestview_setting.php:5
 #: pages/kboard_list.php:5 pages/kboard_setting.php:10 pages/kboard_store.php:6
-#: pages/kboard_updates.php:5
+#: pages/kboard_store_partners.php:5 pages/kboard_updates.php:5
 msgid "Home"
 msgstr "Home"
 
@@ -1146,7 +1171,7 @@ msgstr "Home"
 #: pages/kboard_content_list.php:6 pages/kboard_dashboard.php:6
 #: pages/kboard_latestview.php:6 pages/kboard_latestview_setting.php:6
 #: pages/kboard_list.php:6 pages/kboard_setting.php:11 pages/kboard_store.php:7
-#: pages/kboard_updates.php:6
+#: pages/kboard_store_partners.php:6 pages/kboard_updates.php:6
 msgid "Community"
 msgstr "Community"
 
@@ -1154,7 +1179,7 @@ msgstr "Community"
 #: pages/kboard_content_list.php:7 pages/kboard_dashboard.php:7
 #: pages/kboard_latestview.php:7 pages/kboard_latestview_setting.php:7
 #: pages/kboard_list.php:7 pages/kboard_setting.php:12 pages/kboard_store.php:8
-#: pages/kboard_updates.php:7
+#: pages/kboard_store_partners.php:7 pages/kboard_updates.php:7
 msgid "Support"
 msgstr "Support"
 
@@ -1162,7 +1187,7 @@ msgstr "Support"
 #: pages/kboard_content_list.php:8 pages/kboard_dashboard.php:8
 #: pages/kboard_latestview.php:8 pages/kboard_latestview_setting.php:8
 #: pages/kboard_list.php:8 pages/kboard_setting.php:13 pages/kboard_store.php:9
-#: pages/kboard_updates.php:8
+#: pages/kboard_store_partners.php:8 pages/kboard_updates.php:8
 msgid "Blog"
 msgstr "Blog"
 
@@ -1227,7 +1252,7 @@ msgstr "KBoard : Dashboard"
 msgid "시스템 설정"
 msgstr "System Settings"
 
-#: pages/kboard_dashboard.php:164
+#: pages/kboard_dashboard.php:178
 msgid "커뮤니티로 이동"
 msgstr "Go to the Community"
 
@@ -1239,7 +1264,7 @@ msgstr "KBoard : Latestview"
 msgid "KBoard : 최신글 뷰 관리"
 msgstr "KBoard : Latestview Settings"
 
-#: pages/kboard_latestview_setting.php:132 pages/kboard_setting.php:1649
+#: pages/kboard_latestview_setting.php:132 pages/kboard_setting.php:1654
 msgid "변경 사항 저장"
 msgstr "Save changes"
 
@@ -1287,58 +1312,47 @@ msgstr "Bulk manage"
 msgid "확장설정"
 msgstr "Extended"
 
-#: pages/kboard_setting.php:720 pages/kboard_setting.php:884
-#: pages/kboard_setting.php:1014
+#: pages/kboard_setting.php:721 pages/kboard_setting.php:885
+#: pages/kboard_setting.php:1015
 msgid "Remove"
 msgstr "Remove"
 
-#: pages/kboard_setting.php:799 pages/kboard_setting.php:808
-#: pages/kboard_setting.php:1190 pages/kboard_setting.php:1199
-#: skin/avatar/editor-fields.php:71 skin/avatar/editor-fields.php:88
-#: skin/avatar/editor-fields.php:196 skin/contact-form/editor-fields.php:68
-#: skin/contact-form/editor-fields.php:85
-#: skin/contact-form/editor-fields.php:142 skin/default/editor-fields.php:71
-#: skin/default/editor-fields.php:88 skin/default/editor-fields.php:196
-#: skin/thumbnail/editor-fields.php:71 skin/thumbnail/editor-fields.php:88
-#: skin/thumbnail/editor-fields.php:196
-msgid "Select"
-msgstr "Select"
-
-#: pages/kboard_setting.php:921 pages/kboard_setting.php:1088
+#: pages/kboard_setting.php:922 pages/kboard_setting.php:1089
 #: skin/avatar/editor-fields.php:225 skin/contact-form/editor-fields.php:171
 #: skin/default/editor-fields.php:225 skin/thumbnail/editor-fields.php:225
+#: template/skin/editor-fields.php:225
 msgid "Reset"
 msgstr "Reset"
 
-#: pages/kboard_setting.php:1508 pages/kboard_setting.php:1516
-#: pages/kboard_setting.php:1525 pages/kboard_setting.php:1533
-#: pages/kboard_setting.php:1541 pages/kboard_setting.php:1551
-#: pages/kboard_setting.php:1560 pages/kboard_setting.php:1568
-#: pages/kboard_setting.php:1577 pages/kboard_setting.php:1585
+#: pages/kboard_setting.php:1513 pages/kboard_setting.php:1521
+#: pages/kboard_setting.php:1530 pages/kboard_setting.php:1538
+#: pages/kboard_setting.php:1546 pages/kboard_setting.php:1556
+#: pages/kboard_setting.php:1565 pages/kboard_setting.php:1573
+#: pages/kboard_setting.php:1582 pages/kboard_setting.php:1590
 msgid "Please enter only numbers"
 msgstr "Please enter only numbers"
 
-#: pages/kboard_setting.php:1558
+#: pages/kboard_setting.php:1563
 msgid "Writing comment increase points"
 msgstr "Writing comment increase points"
 
-#: pages/kboard_setting.php:1566
+#: pages/kboard_setting.php:1571
 msgid "Writing comment decrease points"
 msgstr "Writing comment decrease points"
 
-#: pages/kboard_setting.php:1575
+#: pages/kboard_setting.php:1580
 msgid "Deleted comment increment points"
 msgstr "Deleted comment increment points"
 
-#: pages/kboard_setting.php:1583
+#: pages/kboard_setting.php:1588
 msgid "Deleted comment decrease points"
 msgstr "Deleted comment decrease points"
 
-#: pages/kboard_setting.php:1604
+#: pages/kboard_setting.php:1609
 msgid "Download"
 msgstr "Download"
 
-#: pages/kboard_setting.php:1621
+#: pages/kboard_setting.php:1626
 msgid "Upload"
 msgstr "Upload"
 
@@ -1386,6 +1400,8 @@ msgstr "No product."
 #: skin/thumbnail/confirm.php:4 skin/thumbnail/confirm.php:6
 #: skin/thumbnail/editor-fields.php:29 skin/thumbnail/editor-fields.php:30
 #: skin/thumbnail/editor-fields.php:141 skin/thumbnail/editor-fields.php:142
+#: template/skin/editor-fields.php:29 template/skin/editor-fields.php:30
+#: template/skin/editor-fields.php:141 template/skin/editor-fields.php:142
 msgid "Password"
 msgstr "Password"
 
@@ -1448,6 +1464,8 @@ msgstr "Reply"
 #: skin/default/editor-fields.php:261 skin/thumbnail/document.php:108
 #: skin/thumbnail/editor-fields.php:56 skin/thumbnail/editor-fields.php:158
 #: skin/thumbnail/editor-fields.php:261 template/media.php:172
+#: template/skin/editor-fields.php:56 template/skin/editor-fields.php:158
+#: template/skin/editor-fields.php:261
 msgid "Are you sure you want to delete?"
 msgstr "Are you sure you want to delete?"
 
@@ -1467,6 +1485,7 @@ msgstr "KBoard is the best community software available for WordPress"
 
 #: skin/avatar/editor-fields.php:44 skin/contact-form/editor-fields.php:41
 #: skin/default/editor-fields.php:44 skin/thumbnail/editor-fields.php:44
+#: template/skin/editor-fields.php:44
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
@@ -1475,22 +1494,23 @@ msgstr "CAPTCHA"
 #: skin/contact-form/editor-fields.php:207 skin/default/editor-fields.php:56
 #: skin/default/editor-fields.php:158 skin/default/editor-fields.php:261
 #: skin/thumbnail/editor-fields.php:56 skin/thumbnail/editor-fields.php:158
-#: skin/thumbnail/editor-fields.php:261
+#: skin/thumbnail/editor-fields.php:261 template/skin/editor-fields.php:56
+#: template/skin/editor-fields.php:158 template/skin/editor-fields.php:261
 msgid "Delete file"
 msgstr "Delete file"
 
 #: skin/avatar/editor-fields.php:171 skin/default/editor-fields.php:171
-#: skin/thumbnail/editor-fields.php:171
+#: skin/thumbnail/editor-fields.php:171 template/skin/editor-fields.php:171
 msgid "Public"
 msgstr "Public"
 
 #: skin/avatar/editor-fields.php:172 skin/default/editor-fields.php:172
-#: skin/thumbnail/editor-fields.php:172
+#: skin/thumbnail/editor-fields.php:172 template/skin/editor-fields.php:172
 msgid "Only title (secret document)"
 msgstr "Only title (secret document)"
 
 #: skin/avatar/editor-fields.php:173 skin/default/editor-fields.php:173
-#: skin/thumbnail/editor-fields.php:173
+#: skin/thumbnail/editor-fields.php:173 template/skin/editor-fields.php:173
 msgid "Exclusion"
 msgstr "Exclusion"
 
