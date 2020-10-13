@@ -7,17 +7,19 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="robots" content="noindex,follow">
 	<title><?php echo esc_html(wp_strip_all_tags($content->title))?></title>
+	
+	<style>
+	img { max-width: 100%; height: auto; }
+	</style>
+	
+	<?php
+	do_action('kboard_document_print_head');
+	?>
 </head>
-<body>
+<body onload="window.print()">
 <h1><?php echo esc_html(wp_strip_all_tags($content->title))?></h1>
-<p>작성자:<?php echo esc_html($content->member_display)?> / 날짜:<?php echo date('Y-m-d H:i:s', strtotime($content->date))?> / 조회수:<?php echo number_format($content->view)?></p>
+<p><?php echo __('Author', 'kboard')?>:<?php echo esc_html($content->member_display)?> / <?php echo __('Date', 'kboard')?>:<?php echo date('Y-m-d H:i:s', strtotime($content->date))?> / <?php echo __('Views', 'kboard')?>:<?php echo number_format($content->view)?></p>
 <?php echo $content->getDocumentOptionsHTML()?>
 <?php echo kboard_content_paragraph_breaks($content->content)?>
-
-<script>
-window.onload = function(){
-	window.print();
-};
-</script>
 </body>
 </html>
