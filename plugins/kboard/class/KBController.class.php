@@ -447,8 +447,9 @@ class KBController {
 		
 		$ds = DIRECTORY_SEPARATOR;
 		
-		$content_dir_name = basename(WP_CONTENT_DIR);
-		list($path) = explode("{$ds}{$content_dir_name}", dirname(__FILE__));
+		$upload_dir = wp_upload_dir();
+		$basedir = explode('wp-content', $upload_dir['basedir']);
+		$path = untrailingslashit($basedir[0]);
 		$file_info->full_path = $path . str_replace('/', $ds, $file_info->file_path);
 		
 		if(!$file_info->file_path || !file_exists($file_info->full_path)){

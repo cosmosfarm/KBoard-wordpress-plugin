@@ -31,7 +31,9 @@ class KBContent {
 	var $new_password;
 	
 	public function __construct($board_id=''){
-		$this->abspath = untrailingslashit(ABSPATH);
+		$upload_dir = wp_upload_dir();
+		$basedir = explode('wp-content', $upload_dir['basedir']);
+		$this->abspath = untrailingslashit($basedir[0]);
 		$this->row = new stdClass();
 		$this->execute_action = 'insert';
 		if($board_id) $this->setBoardID($board_id);
@@ -866,10 +868,7 @@ class KBContent {
 				$thumbnail_size = apply_filters('kboard_thumbnail_size', array(1200, 1200));
 				if($thumbnail_size){
 					// 업로드된 원본 이미지 크기를 줄인다.
-					$upload_dir = wp_upload_dir();
-					$basedir = str_replace(ABSPATH, '', $upload_dir['basedir']);
-					$file_path = explode("/{$basedir}", $upload['path'] . $upload['stored_name']);
-					$file_path = strtolower($upload_dir['basedir'] . end($file_path));
+					$file_path = strtolower($this->abspath . $upload['path'] . $upload['stored_name']);
 					$image_editor = wp_get_image_editor($file_path);
 					if(!is_wp_error($image_editor)){
 						$image_editor->resize($thumbnail_size[0], $thumbnail_size[1]);

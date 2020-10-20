@@ -20,7 +20,9 @@ class KBFileHandler {
 	 * @param string $path
 	 */
 	function __construct($path=''){
-		$this->abspath = untrailingslashit(ABSPATH);
+		$upload_dir = wp_upload_dir();
+		$basedir = explode('wp-content', $upload_dir['basedir']);
+		$this->abspath = untrailingslashit($basedir[0]);
 		if($path) $this->setPath($path);
 	}
 	
