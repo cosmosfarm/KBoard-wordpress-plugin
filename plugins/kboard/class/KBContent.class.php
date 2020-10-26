@@ -1220,8 +1220,16 @@ class KBContent {
 				$where[] = "`update`>'{$this->update}'";
 			}
 			
+			$board = $this->getBoard();
+			if($board->isPrivate()){
+				if(is_user_logged_in()){
+					$user_id = get_current_user_id();
+					$where[] = "`member_uid`='{$user_id}'";
+				}
+			}
+			
 			$where = implode(' AND ', $where);
-			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` ASC LIMIT 1");
+			$uid = $wpdb->get_var(apply_filters('kboard_content_next_uid_query', "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1", $this, $where, $sorting, $category1, $category2));
 			$wpdb->flush();
 			
 			return intval($uid);
@@ -1282,8 +1290,16 @@ class KBContent {
 				$where[] = "`update`<'{$this->update}'";
 			}
 			
+			$board = $this->getBoard();
+			if($board->isPrivate()){
+				if(is_user_logged_in()){
+					$user_id = get_current_user_id();
+					$where[] = "`member_uid`='{$user_id}'";
+				}
+			}
+			
 			$where = implode(' AND ', $where);
-			$uid = $wpdb->get_var("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1");
+			$uid = $wpdb->get_var(apply_filters('kboard_content_prev_uid_query', "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1", $this, $where, $sorting, $category1, $category2));
 			$wpdb->flush();
 			
 			return intval($uid);
