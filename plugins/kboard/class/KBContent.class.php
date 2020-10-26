@@ -1229,7 +1229,7 @@ class KBContent {
 			}
 			
 			$where = implode(' AND ', $where);
-			$uid = $wpdb->get_var(apply_filters('kboard_content_next_uid_query', "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1", $this, $where, $sorting, $category1, $category2));
+			$uid = $wpdb->get_var(apply_filters('kboard_content_next_uid_query', "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1", $this, $where, $sorting, $order_by_sort, $category1, $category2));
 			$wpdb->flush();
 			
 			return intval($uid);
@@ -1299,7 +1299,7 @@ class KBContent {
 			}
 			
 			$where = implode(' AND ', $where);
-			$uid = $wpdb->get_var(apply_filters('kboard_content_prev_uid_query', "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1", $this, $where, $sorting, $category1, $category2));
+			$uid = $wpdb->get_var(apply_filters('kboard_content_prev_uid_query', "SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `{$order_by_sort}` DESC LIMIT 1", $this, $where, $sorting, $order_by_sort, $category1, $category2));
 			$wpdb->flush();
 			
 			return intval($uid);
