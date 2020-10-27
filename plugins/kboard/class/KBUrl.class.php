@@ -187,7 +187,12 @@ class KBUrl {
 	public function getDownloadURLWithAttach($content_uid, $file_key){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			$url = add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}"));
+			$this->data['kboard-file-download-nonce'] = wp_create_nonce('kboard-file-download');
+			$this->data['action'] = 'kboard_file_download';
+			$this->data['uid'] = $content_uid;
+			$this->data['file'] = $file_key;
+			
+			$url = $this->toString();
 		}
 		else{
 			$url = '';
@@ -204,7 +209,12 @@ class KBUrl {
 	public function getDeleteURLWithAttach($content_uid, $file_key='thumbnail'){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			$url = add_query_arg('kboard-file-delete-nonce', wp_create_nonce('kboard-file-delete'), site_url("?action=kboard_file_delete&uid={$content_uid}&file={$file_key}"));
+			$this->data['kboard-file-delete-nonce'] = wp_create_nonce('kboard-file-delete');
+			$this->data['action'] = 'kboard_file_delete';
+			$this->data['uid'] = $content_uid;
+			$this->data['file'] = $file_key;
+			
+			$url = $this->toString();
 		}
 		else{
 			$url = '';
@@ -222,7 +232,13 @@ class KBUrl {
 	public function getDownloadURLWithAttachAndOderItemID($content_uid, $file_key, $order_item_id){
 		$content_uid = intval($content_uid);
 		if($content_uid){
-			$url = add_query_arg('kboard-file-download-nonce', wp_create_nonce('kboard-file-download'), site_url("?action=kboard_file_download&uid={$content_uid}&file={$file_key}&order_item_id={$order_item_id}"));
+			$this->data['kboard-file-download-nonce'] = wp_create_nonce('kboard-file-download');
+			$this->data['action'] = 'kboard_file_download';
+			$this->data['uid'] = $content_uid;
+			$this->data['file'] = $file_key;
+			$this->data['order_item_id'] = $order_item_id;
+			
+			$url = $this->toString();
 		}
 		else{
 			$url = '';
