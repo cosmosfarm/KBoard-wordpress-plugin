@@ -352,6 +352,9 @@ class KBController {
 	public function fileDownload(){
 		global $wpdb;
 		
+		set_time_limit(3600);
+		ini_set('memory_limit', '-1');
+		
 		header('X-Robots-Tag: noindex, nofollow'); // 검색엔진 수집 금지
 		header('Content-Type: text/html; charset=UTF-8');
 		
@@ -512,7 +515,7 @@ class KBController {
 			$temp_path = $upload_dir['basedir'] . "{$ds}kboard_temp";
 			
 			$file_handler = new KBFileHandler();
-			$file_handler->deleteWithOvertime($temp_path, 60);
+			$file_handler->deleteWithOvertime($temp_path, 10);
 			$file_handler->mkPath("{$temp_path}{$ds}{$unique_dir}");
 			
 			copy($file_info->full_path, "{$temp_path}{$ds}{$unique_dir}{$ds}{$file_info->file_name}");
@@ -536,7 +539,12 @@ class KBController {
 			@ob_clean();
 			@flush();
 			
-			readfile($file_info->full_path);
+			if($fd = fopen($file_info->full_path, 'r')){
+				while(!feof($fd)){
+					echo fread($fd, 4096);
+					flush();
+				}
+			}
 		}
 		else{
 			$ie = isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false);
@@ -564,7 +572,12 @@ class KBController {
 			@ob_clean();
 			@flush();
 			
-			readfile($file_info->full_path);
+			if($fd = fopen($file_info->full_path, 'r')){
+				while(!feof($fd)){
+					echo fread($fd, 4096);
+					flush();
+				}
+			}
 		}
 		exit;
 	}
