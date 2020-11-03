@@ -1486,7 +1486,7 @@ function kboard_activation_execute(){
 	`comment_uid` bigint(20) unsigned NOT NULL,
 	`file_key` varchar(127) NOT NULL,
 	`date` char(14) NOT NULL,
-	`file_path` varchar(127) NOT NULL,
+	`file_path` varchar(255) NOT NULL,
 	`file_name` varchar(127) NOT NULL,
 	`file_size` bigint(20) unsigned NOT NULL,
 	`download_count` int(10) unsigned NOT NULL,
