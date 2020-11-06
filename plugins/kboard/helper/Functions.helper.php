@@ -632,7 +632,7 @@ function kboard_get_list_status($board_id=''){
 function kboard_get_list_status_query($board_id='', $table=''){
 	$query = '';
 	$table = esc_sql(sanitize_text_field($table));
-	$get_list_status = array();
+	$get_list_status = array($table ? "`{$table}`.`status` IS NULL" : "`status` IS NULL");
 	
 	foreach(kboard_get_list_status($board_id) as $status){
 		$status = esc_sql($status);
