@@ -1137,14 +1137,25 @@ class KBContent {
 	}
 	
 	/**
-	 * 게시글의 답글 개수를 반환하나.
+	 * 게시글의 답글 개수를 반환한다.
 	 * @param string $format
 	 * @return string
 	 */
 	public function getReplyCount($format='(%s)'){
 		global $wpdb;
 		if($this->uid){
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `parent_uid`='$this->uid'");
+			$where = array();
+			$where[] = "`parent_uid`='{$this->uid}'";
+			
+			// 휴지통에 없는 게시글만 불러온다.
+			$get_list_status_query = kboard_get_list_status_query($this->board_id, "{$wpdb->prefix}kboard_board_content");
+			if($get_list_status_query){
+				$where[] = $get_list_status_query;
+			}
+			
+			$where = implode(' AND ', $where);
+			
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where}");
 			if($count){
 				return sprintf($format, $count);
 			}
