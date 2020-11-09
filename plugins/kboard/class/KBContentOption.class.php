@@ -7,8 +7,8 @@
  */
 class KBContentOption {
 	
-	private $content_uid;
-	private $row;
+	var $content_uid;
+	var $row;
 	
 	public function __construct($content_uid=''){
 		$this->row = array();
@@ -18,11 +18,12 @@ class KBContentOption {
 	}
 	
 	public function __get($key){
+		$value = '';
 		$key = sanitize_key($key);
 		if(isset($this->row[$key])){
-			return $this->row[$key];
+			$value = $this->row[$key];
 		}
-		return '';
+		return apply_filters('kboard_content_option_value', $value, $key, $this);
 	}
 	
 	public function __set($key, $value){
