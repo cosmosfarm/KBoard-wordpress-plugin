@@ -24,18 +24,36 @@ var cosmosfarm = {
 		document.getElementsByTagName('head')[0].appendChild(js);
 	},
 	oauthStatus:function(callback, error){
-		this.api('/oauth_status', '', callback, error);
+		if(cf_profile.username){
+			callback({status:'valid'});
+		}
+		else{
+			//this.api('/oauth_status', '', callback, error);
+			callback({status:'expired'});
+		}
 	},
 	loginStatus:function(callback, error){
-		this.api('/login_status', '', callback, error);
+		if(cf_profile.username){
+			callback({status:'connected'});
+		}
+		else{
+			//this.api('/login_status', '', callback, error);
+			callback({status:''});
+		}
 	},
 	getProfile:function(callback, error){
-		this.api('/me', '', callback, error);
+		if(cf_profile.username){
+			callback({profile:cf_profile});
+		}
+		else{
+			//this.api('/me', '', callback, error);
+			callback({profile:cf_profile});
+		}
 	},
 	getLoginUrl:function(redirect_url){
 		return this.api_url + '/request_access_token?app_id=' + this.app_id + '&redirect_url=' + redirect_url;
 	},
 	getWpstoreProducts:function(category, page, rpp, callback, error){
-		this.api('/wpstore_products/'+category, 'page='+page+'&rpp='+rpp, callback, error);
+		this.api('/wpstore_products/'+category, 'page='+page+'&rpp='+rpp+'&app_id='+this.app_id+'&access_token='+this.access_token, callback, error);
 	}
 }

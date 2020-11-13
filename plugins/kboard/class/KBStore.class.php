@@ -25,4 +25,34 @@ class KBStore {
 		}
 		return '';
 	}
+	
+	/**
+	 * 로그인된 회원 정보를 반환한다.
+	 * @return object
+	 */
+	public static function getMyProfile(){
+		$profile = (object) array('uid'=>'', 'created'=>'', 'email'=>'', 'username'=>'');
+		$access_token = self::getAccessToken();
+		
+		if($access_token){
+			$args = array();
+			$args['method'] = 'POST';
+			$args['timeout'] = '15';
+			$args['body'] = array(
+				'app_id' => KBOARD_WORDPRESS_APP_ID,
+				'access_token' => $access_token,
+				'ip' => kboard_user_ip(),
+			);
+			
+			$response = wp_remote_request('https://www.cosmosfarm.com/apis/v2_me', $args);
+			
+			if(is_wp_error($response) || !isset($response['body']) || !$response['body']){
+				echo $response->get_error_message();
+			}
+			else{
+				$profile = json_decode($response['body'])->profile;
+			}
+		}
+		return $profile;
+	}
 }

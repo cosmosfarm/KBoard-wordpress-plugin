@@ -73,6 +73,8 @@ var cf_login_status;
 var cf_list_page = 1;
 var cf_list_continue = true;
 var cf_list_lock = false;
+var cf_profile = <?php echo json_encode(KBStore::getMyProfile())?>;
+
 jQuery(document).ready(function(){
 	cosmosfarm.init('<?php echo KBOARD_WORDPRESS_APP_ID?>', '<?php echo KBStore::getAccessToken()?>');
 	cosmosfarm.oauthStatus(function(res){
@@ -167,7 +169,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 	a_download.onclick = function(){
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
-				window.location.href = download+'?app_id='+cosmosfarm.app_id+'&access_token='+cosmosfarm.access_token;
+				window.open(download);
 			}
 			else{
 				if(confirm('코스모스팜에 로그인해야 합니다. 코스모스팜 홈페이지로 이동합니다.')){
