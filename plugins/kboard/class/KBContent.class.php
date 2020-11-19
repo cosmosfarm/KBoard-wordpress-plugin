@@ -510,6 +510,7 @@ class KBContent {
 	public function preUpdatePost(){
 		if(defined('WPSEO_VERSION')){
 			remove_all_actions('save_post');
+			remove_all_actions('wp_insert_post');
 		}
 	}
 	
