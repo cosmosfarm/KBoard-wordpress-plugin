@@ -696,7 +696,7 @@ class KBoardFields {
 		}
 		
 		foreach($attach_list as $key=>$attach){
-			if(!in_array($key, $meta_key_list)){
+			if(!in_array($key, $meta_key_list) && substr($key, 0, 4) != 'file'){
 				unset($attach_list->$key);
 			}
 		}
