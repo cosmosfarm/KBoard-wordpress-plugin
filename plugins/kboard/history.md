@@ -2,6 +2,28 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+5.9.1
+----------------------------------
+
+  1. 첨부파일 관련 버그 수정
+
+
+5.9
+----------------------------------
+
+  1. kboard_content_next_uid_query 필터 추가
+  2. kboard_content_prev_uid_query 필터 추가
+  3. kboard_content_option_value 필터 추가
+  4. 이전 다음 게시글 가져오기 관련 코드 개선
+  5. 첨부파일 경로 관련 코드 개선
+  6. 첨부파일 다운로드, 삭제 주소 개선
+  7. 대용량 첨부파일 다운로드 관련 개선
+  8. kboard_board_attached 테이블 file_path 데이터형 varchar(255)로 변경
+  9. 게시글의 답글 개수를 반환하는 코드 개선
+  10. 스토어 로그인 관련 개선
+  11. 버그 수정
+
+
 5.9
 ----------------------------------
 
