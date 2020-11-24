@@ -2,6 +2,12 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+5.9.2
+----------------------------------
+
+  1. KBContent 클래스에 getNextUID() 메소드 버그 수정
+
+
 5.9.1
 ----------------------------------
 
