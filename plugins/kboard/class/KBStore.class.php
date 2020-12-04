@@ -36,7 +36,7 @@ class KBStore {
 		
 		if($access_token){
 			$args = array();
-			$args['method'] = 'POST';
+			$args['method'] = 'GET';
 			$args['timeout'] = '15';
 			$args['body'] = array(
 				'app_id' => KBOARD_WORDPRESS_APP_ID,
