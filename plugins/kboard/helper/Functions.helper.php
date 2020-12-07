@@ -697,7 +697,7 @@ function kboard_content_editor($vars=array()){
 		wp_editor($content->content, 'kboard_content', array('media_buttons'=>$board->isAdmin(), 'editor_height'=>$editor_height));
 	}
 	else if($board->use_editor == 'snote'){ // summernote
-		echo sprintf('<textarea id="kboard_content" class="summernote" name="kboard_content" style="height:%dpx;" placeholder="%s">%s</textarea>', $editor_height, esc_attr($placeholder), esc_html($content->content));
+		echo sprintf('<textarea id="kboard_content" class="summernote" name="kboard_content" style="height:%dpx;" placeholder="%s">%s</textarea>', $editor_height, esc_attr($placeholder), esc_html(kboard_content_paragraph_breaks($content->content)));
 	}
 	else{
 		echo sprintf('<textarea id="kboard_content" class="editor-textarea %s" name="kboard_content" placeholder="%s">%s</textarea>', esc_attr($required), esc_attr($placeholder), esc_textarea($content->content));
