@@ -242,6 +242,15 @@ class KBContent {
 				
 				// 게시글 입력 액션 훅 실행
 				do_action('kboard_document_insert', $this->uid, $this->board_id, $this, $board);
+				do_action("kboard_document_insert_{$this->board_id}", $this->uid, $this->board_id, $this, $board);
+				
+				if($this->parent_uid){
+					$parent = new KBContent();
+					$parent->initWithUID($this->parent_uid);
+					
+					do_action('kboard_reply_insert', $this, $parent, $board);
+					do_action("kboard_reply_insert_{$this->board_id}", $this, $parent, $board);
+				}
 				
 				// 임시저장 데이터 삭제
 				$this->cleanTemporary();

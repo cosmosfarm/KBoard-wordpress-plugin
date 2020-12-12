@@ -2,6 +2,15 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+6.0
+----------------------------------
+
+  1. kboard_document_insert_{$board_id} 액션 추가
+  2. kboard_reply_insert 액션 추가
+  3. kboard_reply_insert_{$board_id} 액션 추가
+  4. 버그 수정
+
+
 5.9.2
 ----------------------------------
 
