@@ -306,6 +306,18 @@ class KBCommentList {
 		
 		// 댓글 입력 액션 훅 실행
 		do_action('kboard_comments_insert', $comment_uid, $this->content_uid, $board);
+		do_action("kboard_comments_insert_{$board->id}", $comment_uid, $this->content_uid, $board);
+		
+		if($data['parent_uid']){
+			$comment = new KBComment();
+			$comment->initWithUID($comment_uid);
+			
+			$parent = new KBComment();
+			$parent->initWithUID($data['parent_uid']);
+			
+			do_action('kboard_comments_reply_insert', $comment, $parent, $board);
+			do_action("kboard_comments_reply_insert_{$board->id}", $comment, $parent, $board);
+		}
 		
 		return $comment_uid;
 	}
