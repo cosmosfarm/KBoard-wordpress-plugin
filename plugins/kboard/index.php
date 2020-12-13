@@ -1091,6 +1091,8 @@ function kboard_style(){
 	foreach($skin->getActiveList() as $skin_name){
 		wp_enqueue_style("kboard-skin-{$skin_name}", $skin->url($skin_name, 'style.css'), array(), KBOARD_VERSION);
 	}
+	
+	wp_register_style('kboard-jquery-flick-style', KBOARD_URL_PATH . '/template/css/jquery-ui.css', array(), '1.12.1');
 }
 
 /*
@@ -1265,6 +1267,8 @@ function kboard_scripts(){
 		'category' => __('Category', 'kboard'),
 		'select' => __('Select', 'kboard'),
 		'category_select' => __('Category select', 'kboard'),
+		'information' => __('Information', 'kboard'),
+		'telephone' => __('Telephone', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', apply_filters('kboard_localize_strings', $localize));
 }
