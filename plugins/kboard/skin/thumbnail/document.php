@@ -75,7 +75,7 @@
 				$bottom_content = new KBContent();
 				$bottom_content->initWithUID($bottom_content_uid);
 				?>
-				<a href="<?php echo $url->getDocumentURLWithUID($bottom_content_uid)?>" title="<?php echo esc_attr(wp_strip_all_tags($bottom_content->title))?>">
+				<a href="<?php echo esc_url($url->getDocumentURLWithUID($bottom_content_uid))?>" title="<?php echo esc_attr(wp_strip_all_tags($bottom_content->title))?>">
 					<span class="navi-arrow">«</span>
 					<span class="navi-document-title kboard-thumbnail-cut-strings"><?php echo wp_strip_all_tags($bottom_content->title)?></span>
 				</a>
@@ -89,7 +89,7 @@
 				$top_content = new KBContent();
 				$top_content->initWithUID($top_content_uid);
 				?>
-				<a href="<?php echo $url->getDocumentURLWithUID($top_content_uid)?>" title="<?php echo esc_attr(wp_strip_all_tags($top_content->title))?>">
+				<a href="<?php echo esc_url($url->getDocumentURLWithUID($top_content_uid))?>" title="<?php echo esc_attr(wp_strip_all_tags($top_content->title))?>">
 					<span class="navi-document-title kboard-thumbnail-cut-strings"><?php echo wp_strip_all_tags($top_content->title)?></span>
 					<span class="navi-arrow">»</span>
 				</a>
@@ -99,13 +99,13 @@
 		
 		<div class="kboard-control">
 			<div class="left">
-				<a href="<?php echo $url->getBoardList()?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getBoardList())?>" class="kboard-thumbnail-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php if($board->isReply() && !$content->notice):?><a href="<?php echo $url->set('parent_uid', $content->uid)->set('mod', 'editor')->toString()?>" class="kboard-thumbnail-button-small"><?php echo __('Reply', 'kboard')?></a><?php endif?>
 			</div>
 			<?php if($content->isEditor() || $board->permission_write=='all'):?>
 			<div class="right">
-				<a href="<?php echo $url->getContentEditor($content->uid)?>" class="kboard-thumbnail-button-small"><?php echo __('Edit', 'kboard')?></a>
-				<a href="<?php echo $url->getContentRemove($content->uid)?>" class="kboard-thumbnail-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getContentEditor($content->uid))?>" class="kboard-thumbnail-button-small"><?php echo __('Edit', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getContentRemove($content->uid))?>" class="kboard-thumbnail-button-small" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete', 'kboard')?></a>
 			</div>
 			<?php endif?>
 		</div>

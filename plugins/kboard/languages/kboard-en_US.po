@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2020-12-13 22:02+0900\n"
-"PO-Revision-Date: 2020-12-13 22:02+0900\n"
+"POT-Creation-Date: 2020-12-14 20:59+0900\n"
+"PO-Revision-Date: 2020-12-14 20:59+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -54,7 +54,7 @@ msgstr "Manage comments KBoard point."
 #: class/KBoardBuilder.class.php:645 class/KBoardBuilder.class.php:661
 #: class/KBoardBuilder.class.php:786 class/KBoardBuilder.class.php:789
 #: class/KBoardBuilder.class.php:1139 class/KBoardBuilder.class.php:1144
-#: index.php:1052 index.php:1306 index.php:1339
+#: index.php:1052 index.php:1310 index.php:1343
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
@@ -304,7 +304,7 @@ msgid "%s is not available."
 msgstr "%s is not available."
 
 #: class/KBController.class.php:206 class/KBoardBuilder.class.php:668
-#: index.php:1317 index.php:1350
+#: index.php:1321 index.php:1354
 msgid "You have not enough points."
 msgstr "You have not enough points."
 
@@ -374,7 +374,7 @@ msgid "You have already voted."
 msgstr "You have already voted."
 
 #: class/KBController.class.php:1191 class/KBController.class.php:1229
-#: class/KBoardBuilder.class.php:270 index.php:1295 index.php:1328
+#: class/KBoardBuilder.class.php:270 index.php:1299 index.php:1332
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
@@ -1162,7 +1162,23 @@ msgstr "Information"
 msgid "Telephone"
 msgstr "Telephone"
 
-#: index.php:1371
+#: index.php:1272
+msgid "Items"
+msgstr "Items"
+
+#: index.php:1273
+msgid "Total amount"
+msgstr "Total amount"
+
+#: index.php:1274
+msgid "Total quantity"
+msgstr "Total quantity"
+
+#: index.php:1275
+msgid "Make Payment"
+msgstr "Make Payment"
+
+#: index.php:1375
 msgid "KBoard Forum Settings"
 msgstr "KBoard Forum Settings"
 

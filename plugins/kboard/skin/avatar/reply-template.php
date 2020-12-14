@@ -2,7 +2,7 @@
 <tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 	<td class="kboard-list-uid"></td>
 	<td class="kboard-list-title" style="padding-left:<?php echo ($depth+1)*5?>px">
-		<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+		<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 			<div class="kboard-avatar-cut-strings">
 				<img src="<?php echo $skin_path?>/images/icon-reply.png" alt="">
 				<?php if($content->isNew()):?><span class="kboard-avatar-new-notify">New</span><?php endif?>
@@ -13,7 +13,7 @@
 		</a>
 		<div class="kboard-mobile-contents">
 			<span class="contents-item kboard-user">
-				<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).' '.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+				<?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 			</span>
 			<span class="contents-separator kboard-date">|</span>
 			<span class="contents-item kboard-date"><?php echo $content->getDate()?></span>
@@ -24,7 +24,7 @@
 		</div>
 	</td>
 	<td class="kboard-list-user">
-		<?php echo apply_filters('kboard_user_display', get_avatar($content->member_uid, 24, '', $content->member_display).'<br>'.$content->member_display, $content->member_uid, $content->member_display, 'kboard', $boardBuilder)?>
+		<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 	</td>
 	<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 	<td class="kboard-list-vote"><?php echo $content->vote?></td>

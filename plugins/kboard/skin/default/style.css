@@ -88,12 +88,12 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 
 #kboard-default-editor { overflow: hidden; }
 #kboard-default-editor form { margin: 0; padding: 0; }
-#kboard-default-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 14px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-default-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 14px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: middle; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-default-editor input[type=text],
 #kboard-default-editor input[type=email],
 #kboard-default-editor input[type=number],
 #kboard-default-editor input[type=date],
-#kboard-default-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 14px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
+#kboard-default-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 14px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: middle; }
 #kboard-default-editor input[type=checkbox] { width: auto; -webkit-appearance: checkbox; -moz-appearance: checkbox; appearance: checkbox; }
 #kboard-default-editor input[type=radio] { width: auto; -webkit-appearance: radio; -moz-appearance: radio; appearance: radio; }
 #kboard-default-editor select:hover,

@@ -9,7 +9,7 @@
 		<?php endif?>
 		
 		<div class="kboard-sort">
-			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
+			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo esc_url($url->toString())?>">
 				<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->set('kboard_list_sort_remember', $board->id)->toInput()?>
 				
 				<select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-<?php echo $board->id?>').submit();">
@@ -57,12 +57,12 @@
 				<tr class="kboard-list-notice<?php if($content->uid == kboard_uid()):?> kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-thumbnail">
-						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
-						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->getThumbnail(96, 70)):?>
 								<div class="kboard-mobile-contents">
@@ -95,12 +95,12 @@
 				<tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-thumbnail">
-						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 						<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
-						<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 							<div class="kboard-thumbnail-cut-strings">
 								<?php if($content->getThumbnail(96, 70)):?>
 								<div class="kboard-mobile-contents">
@@ -145,7 +145,7 @@
 	
 	<!-- 검색폼 시작 -->
 	<div class="kboard-search">
-		<form id="kboard-search-form-<?php echo $board->id?>" method="get" action="<?php echo $url->toString()?>">
+		<form id="kboard-search-form-<?php echo $board->id?>" method="get" action="<?php echo esc_url($url->toString())?>">
 			<?php echo $url->set('pageid', '1')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
 			
 			<select name="target">
@@ -163,7 +163,7 @@
 	<?php if($board->isWriter()):?>
 	<!-- 버튼 시작 -->
 	<div class="kboard-control">
-		<a href="<?php echo $url->getContentEditor()?>" class="kboard-thumbnail-button-small"><?php echo __('New', 'kboard')?></a>
+		<a href="<?php echo esc_url($url->getContentEditor())?>" class="kboard-thumbnail-button-small"><?php echo __('New', 'kboard')?></a>
 	</div>
 	<!-- 버튼 끝 -->
 	<?php endif?>

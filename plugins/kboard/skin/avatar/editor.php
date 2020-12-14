@@ -1,5 +1,5 @@
 <div id="kboard-avatar-editor">
-	<form class="kboard-form" method="post" action="<?php echo $url->getContentEditorExecute()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
+	<form class="kboard-form" method="post" action="<?php echo esc_url($url->getContentEditorExecute())?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
 		<?php $skin->editorHeader($content, $board)?>
 		
 		<?php foreach($board->fields()->getSkinFields() as $key=>$field):?>
@@ -9,10 +9,10 @@
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-avatar-button-small"><?php echo __('Back', 'kboard')?></a>
-				<a href="<?php echo $url->getBoardList()?>" class="kboard-avatar-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>" class="kboard-avatar-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getBoardList())?>" class="kboard-avatar-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php else:?>
-				<a href="<?php echo $url->getBoardList()?>" class="kboard-avatar-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getBoardList())?>" class="kboard-avatar-button-small"><?php echo __('Back', 'kboard')?></a>
 				<?php endif?>
 			</div>
 			<div class="right">

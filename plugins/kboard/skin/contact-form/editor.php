@@ -1,5 +1,5 @@
 <div id="kboard-contact-form-editor">
-	<form class="kboard-form" method="post" action="<?php echo $url->getContentEditorExecute()?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
+	<form class="kboard-form" method="post" action="<?php echo esc_url($url->getContentEditorExecute())?>" enctype="multipart/form-data" onsubmit="return kboard_editor_execute(this);">
 		<?php $skin->editorHeader($content, $board)?>
 		
 		<input type="hidden" name="secret" value="true">
@@ -12,8 +12,8 @@
 		<div class="kboard-control">
 			<div class="left">
 				<?php if($content->uid):?>
-				<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>" class="kboard-contact-form-button-small"><?php echo __('Back', 'kboard')?></a>
-				<a href="<?php echo $url->getBoardList()?>" class="kboard-contact-form-button-small"><?php echo __('List', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>" class="kboard-contact-form-button-small"><?php echo __('Back', 'kboard')?></a>
+				<a href="<?php echo esc_url($url->getBoardList())?>" class="kboard-contact-form-button-small"><?php echo __('List', 'kboard')?></a>
 				<?php elseif($board->isWriter()):?>
 				<button type="submit" class="kboard-contact-form-button-large"><?php echo __('Send', 'kboard')?></button>
 				<?php endif?>

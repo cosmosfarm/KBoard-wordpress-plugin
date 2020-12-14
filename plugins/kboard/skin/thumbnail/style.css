@@ -92,12 +92,12 @@ button.kboard-thumbnail-button-small:active { opacity: 0.7; }
 
 #kboard-thumbnail-editor { overflow: hidden; }
 #kboard-thumbnail-editor form { margin: 0; padding: 0; }
-#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 14px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
+#kboard-thumbnail-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 14px; width: 30%; height: 28px; line-height: 28px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: middle; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
 #kboard-thumbnail-editor input[type=text],
 #kboard-thumbnail-editor input[type=email],
 #kboard-thumbnail-editor input[type=number],
 #kboard-thumbnail-editor input[type=date],
-#kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 14px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: top; }
+#kboard-thumbnail-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 30%; height: 28px; line-height: 28px; font-size: 14px; color: #666666; border-radius: 0; border: 0; border-bottom: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: transparent; box-sizing: content-box; vertical-align: middle; }
 #kboard-thumbnail-editor input[type=checkbox] { width: auto; -webkit-appearance: checkbox; -moz-appearance: checkbox; appearance: checkbox; }
 #kboard-thumbnail-editor input[type=radio] { width: auto; -webkit-appearance: radio; -moz-appearance: radio; appearance: radio; }
 #kboard-thumbnail-editor select:hover,

@@ -171,7 +171,9 @@ class KBUrl {
 				
 			}
 			else if($value){
-				$input[] = '<input type="hidden" name="' . sanitize_key($key) .'" value="' . sanitize_text_field($value) . '">';
+				$key = sanitize_text_field($key);
+				$value = sanitize_text_field($value);
+				$input[] = '<input type="hidden" name="' . esc_attr($key) .'" value="' . esc_attr($value) . '">';
 			}
 		}
 		$this->init();

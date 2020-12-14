@@ -1269,6 +1269,10 @@ function kboard_scripts(){
 		'category_select' => __('Category select', 'kboard'),
 		'information' => __('Information', 'kboard'),
 		'telephone' => __('Telephone', 'kboard'),
+		'items' => __('Items', 'kboard'),
+		'total_amount' => __('Total amount', 'kboard'),
+		'total_quantity' => __('Total quantity', 'kboard'),
+		'make_payment' => __('Make Payment', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', apply_filters('kboard_localize_strings', $localize));
 }

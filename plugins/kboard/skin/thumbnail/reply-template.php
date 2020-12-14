@@ -2,12 +2,12 @@
 <tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
 	<td class="kboard-list-uid"></td>
 	<td class="kboard-list-thumbnail">
-		<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+		<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 		<?php if($content->getThumbnail(120, 90)):?><img src="<?php echo $content->getThumbnail(120, 90)?>" alt=""><?php else:?><i class="icon-picture"></i><?php endif?>
 		</a>
 	</td>
 	<td class="kboard-list-title" style="padding-left:<?php echo ($depth+1)*5?>px">
-		<a href="<?php echo $url->getDocumentURLWithUID($content->uid)?>">
+		<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 			<div class="kboard-mobile-contents">
 				<?php if($content->getThumbnail(96, 70)):?><img src="<?php echo $content->getThumbnail(96, 70)?>" alt="" class="contents-thumbnail"><?php endif?>
 			</div>
