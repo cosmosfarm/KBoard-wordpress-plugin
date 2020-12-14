@@ -512,6 +512,14 @@ function kboard_mail(){
 }
 
 /**
+ * KBUrl 인스턴스를 반환한다.
+ * @return KBUrl
+ */
+function kboard_url(){
+	return new KBUrl();
+}
+
+/**
  * 아임포트 클래스를 반환한다.
  */
 function kboard_iamport(){

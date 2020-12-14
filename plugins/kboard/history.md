@@ -8,7 +8,8 @@
   1. kboard_document_insert_{$board_id} 액션 추가
   2. kboard_reply_insert 액션 추가
   3. kboard_reply_insert_{$board_id} 액션 추가
-  4. 버그 수정
+  4. kboard_url() 함수 추가
+  5. 버그 수정
 
 
 5.9.2

@@ -239,7 +239,7 @@ class KBController {
 			// 비밀번호가 입력되면 즉시 인증과정을 거친다.
 			if($content->password) $board->isConfirm($content->password, $execute_uid);
 			
-			$url = new KBUrl();
+			$url = kboard_url();
 			
 			if($content->execute_action == 'insert'){
 				if(!$board->meta->after_executing_mod){
