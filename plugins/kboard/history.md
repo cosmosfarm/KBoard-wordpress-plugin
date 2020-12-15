@@ -9,7 +9,8 @@
   2. kboard_reply_insert 액션 추가
   3. kboard_reply_insert_{$board_id} 액션 추가
   4. kboard_url() 함수 추가
-  5. 버그 수정
+  5. 썸머노트(Summernote) 에디터 최신 버전 적용
+  6. 버그 수정
 
 
 5.9.2

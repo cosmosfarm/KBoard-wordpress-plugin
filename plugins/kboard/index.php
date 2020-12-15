@@ -1126,10 +1126,10 @@ function kboard_scripts(){
 	wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js');
 	
 	// Summernot 등록
-	wp_register_style('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.css', array(), '0.8.12');
-	wp_register_script('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.js', array('jquery'), '0.8.12');
-	wp_register_script('summernote-ko-KR', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ko-KR.js', array('summernote'), '0.8.12');
-	wp_register_script('summernote-ja-JP', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ja-JP.js', array('summernote'), '0.8.12');
+	wp_register_style('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.css', array(), '0.8.18');
+	wp_register_script('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.js', array('jquery'), '0.8.18');
+	wp_register_script('summernote-ko-KR', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ko-KR.js', array('summernote'), '0.8.18');
+	wp_register_script('summernote-ja-JP', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ja-JP.js', array('summernote'), '0.8.18');
 	
 	// PG 등록
 	wp_register_script('kboard-builtin-pg', KBOARD_URL_PATH . '/template/js/pg.js', array(), KBOARD_VERSION, true);
