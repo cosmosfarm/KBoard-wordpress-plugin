@@ -213,6 +213,31 @@ class KBCommentController {
 					$metadata = $upload['metadata'];
 					
 					if($file_name){
+						$filetype = wp_check_filetype($this->abspath . $file_path, array('jpg|jpeg|jpe'=>'image/jpeg', 'png'=>'image/png'));
+						
+						if(in_array($filetype['type'], array('image/jpeg', 'image/png'))){
+							$image_optimize_width = intval(get_option('kboard_image_optimize_width'));
+							$image_optimize_height = intval(get_option('kboard_image_optimize_height'));
+							$image_optimize_quality = intval(get_option('kboard_image_optimize_quality'));
+							
+							$image_editor = wp_get_image_editor($this->abspath . $file_path);
+							if(!is_wp_error($image_editor)){
+								$is_save = false;
+								
+								if($image_optimize_width && $image_optimize_height){
+									$image_editor->resize($image_optimize_width, $image_optimize_height);
+									$is_save = true;
+								}
+								if(0 < $image_optimize_quality && $image_optimize_quality < 100){
+									$image_editor->set_quality($image_optimize_quality);
+									$is_save = true;
+								}
+								if($is_save){
+									$image_editor->save($this->abspath . $file_path);
+								}
+							}
+						}
+						
 						$attach_file = new stdClass();
 						$attach_file->key = $key;
 						$attach_file->path = $file_path;

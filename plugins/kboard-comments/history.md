@@ -8,7 +8,8 @@
   1. kboard_comments_insert_{$board_id} 액션 추가
   2. kboard_comments_reply_insert 액션 추가
   3. kboard_comments_reply_insert_{$board_id} 액션 추가
-  4. 버그 수정
+  4. 서버의 저장공간을 절약할 수 있도록 이미지 최적화 기능 추가
+  5. 버그 수정
 
 
 4.9
