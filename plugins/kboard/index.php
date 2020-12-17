@@ -72,7 +72,7 @@ foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
 
 add_action('plugins_loaded', 'kboard_plugins_loaded');
 function kboard_plugins_loaded(){
-	if(!session_id() && (!is_admin() || kboard_id())){
+	if(!session_id() && (!is_admin() || kboard_id()) && !wp_is_json_request()){
 		session_start();
 	}
 	
