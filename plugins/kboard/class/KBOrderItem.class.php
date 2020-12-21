@@ -36,7 +36,7 @@ class KBOrderItem {
 		
 		$this->order_item_id = intval($order_item_id);
 		if($this->order_item_id){
-			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_order_item_meta` WHERE `order_item_id`='$this->order_item_id'");
+			$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_order_item_meta` WHERE `order_item_id`='{$this->order_item_id}'");
 			if($results){
 				foreach($results as $row){
 					$this->{$row->meta_key} = $row->meta_value;
@@ -55,6 +55,18 @@ class KBOrderItem {
 		$this->order = new KBOrder();
 		if($this->order_id){
 			$this->order->initWithID($this->order_id);
+		}
+	}
+	
+	public function initWithContentUID($content_uid){
+		global $wpdb;
+		
+		$content_uid = intval($content_uid);
+		if($content_uid){
+			$row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_order_item_meta` WHERE `meta_key`='uid' AND `meta_value`='{$content_uid}'");
+			if($row && isset($row->order_item_id) && $row->order_item_id){
+				$this->initWithID($row->order_item_id);
+			}
 		}
 	}
 	
@@ -126,4 +138,3 @@ class KBOrderItem {
 		}
 	}
 }
-?>
