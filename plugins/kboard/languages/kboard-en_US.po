@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2020-12-14 20:59+0900\n"
-"PO-Revision-Date: 2020-12-14 20:59+0900\n"
+"POT-Creation-Date: 2020-12-15 17:45+0900\n"
+"PO-Revision-Date: 2020-12-15 17:45+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -54,7 +54,7 @@ msgstr "Manage comments KBoard point."
 #: class/KBoardBuilder.class.php:645 class/KBoardBuilder.class.php:661
 #: class/KBoardBuilder.class.php:786 class/KBoardBuilder.class.php:789
 #: class/KBoardBuilder.class.php:1139 class/KBoardBuilder.class.php:1144
-#: index.php:1052 index.php:1310 index.php:1343
+#: index.php:1052 index.php:1311 index.php:1344
 msgid "You do not have permission."
 msgstr "You do not have permission."
 
@@ -304,7 +304,7 @@ msgid "%s is not available."
 msgstr "%s is not available."
 
 #: class/KBController.class.php:206 class/KBoardBuilder.class.php:668
-#: index.php:1321 index.php:1354
+#: index.php:1322 index.php:1355
 msgid "You have not enough points."
 msgstr "You have not enough points."
 
@@ -374,7 +374,7 @@ msgid "You have already voted."
 msgstr "You have already voted."
 
 #: class/KBController.class.php:1191 class/KBController.class.php:1229
-#: class/KBoardBuilder.class.php:270 index.php:1299 index.php:1332
+#: class/KBoardBuilder.class.php:270 index.php:1300 index.php:1333
 msgid "Please Log in to continue."
 msgstr "Please Log in to continue."
 
@@ -461,7 +461,7 @@ msgstr ""
 "Unable to connect to the update server, Cosmosfarm account please connect "
 "again."
 
-#: class/KBUrl.class.php:262
+#: class/KBUrl.class.php:264
 msgid "No document."
 msgstr "No document."
 
@@ -642,15 +642,15 @@ msgstr "View only owned comments"
 msgid "직접선택"
 msgstr "Select Role"
 
-#: helper/Functions.helper.php:656
+#: helper/Functions.helper.php:664
 msgid "Published"
 msgstr "Published"
 
-#: helper/Functions.helper.php:657
+#: helper/Functions.helper.php:665
 msgid "Pending approval"
 msgstr "Pending approval"
 
-#: helper/Functions.helper.php:658
+#: helper/Functions.helper.php:666
 msgid "Trash"
 msgstr "Trash"
 
@@ -1178,7 +1178,11 @@ msgstr "Total quantity"
 msgid "Make Payment"
 msgstr "Make Payment"
 
-#: index.php:1375
+#: index.php:1276
+msgid "Add"
+msgstr "Add"
+
+#: index.php:1376
 msgid "KBoard Forum Settings"
 msgstr "KBoard Forum Settings"
 

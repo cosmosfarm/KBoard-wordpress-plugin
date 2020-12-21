@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard\n"
-"POT-Creation-Date: 2020-12-14 20:58+0900\n"
-"PO-Revision-Date: 2020-12-14 20:59+0900\n"
+"POT-Creation-Date: 2020-12-15 17:36+0900\n"
+"PO-Revision-Date: 2020-12-15 17:36+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -54,7 +54,7 @@ msgstr "KBoard 댓글 포인트를 관리합니다."
 #: class/KBoardBuilder.class.php:645 class/KBoardBuilder.class.php:661
 #: class/KBoardBuilder.class.php:786 class/KBoardBuilder.class.php:789
 #: class/KBoardBuilder.class.php:1139 class/KBoardBuilder.class.php:1144
-#: index.php:1052 index.php:1310 index.php:1343
+#: index.php:1052 index.php:1311 index.php:1344
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
@@ -304,7 +304,7 @@ msgid "%s is not available."
 msgstr "%s는 사용할 수 없습니다."
 
 #: class/KBController.class.php:206 class/KBoardBuilder.class.php:668
-#: index.php:1321 index.php:1354
+#: index.php:1322 index.php:1355
 msgid "You have not enough points."
 msgstr "포인트가 부족합니다."
 
@@ -374,7 +374,7 @@ msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
 #: class/KBController.class.php:1191 class/KBController.class.php:1229
-#: class/KBoardBuilder.class.php:270 index.php:1299 index.php:1332
+#: class/KBoardBuilder.class.php:270 index.php:1300 index.php:1333
 msgid "Please Log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
@@ -459,7 +459,7 @@ msgid ""
 "again."
 msgstr "업데이트 서버에 연결할 수 없습니다, 코스모스팜 계정에 다시 연결하세요."
 
-#: class/KBUrl.class.php:262
+#: class/KBUrl.class.php:264
 msgid "No document."
 msgstr "글이 없습니다."
 
@@ -640,15 +640,15 @@ msgstr "본인의 댓글만 보기"
 msgid "직접선택"
 msgstr "직접선택"
 
-#: helper/Functions.helper.php:656
+#: helper/Functions.helper.php:664
 msgid "Published"
 msgstr "발행됨"
 
-#: helper/Functions.helper.php:657
+#: helper/Functions.helper.php:665
 msgid "Pending approval"
 msgstr "승인 대기중"
 
-#: helper/Functions.helper.php:658
+#: helper/Functions.helper.php:666
 msgid "Trash"
 msgstr "휴지통"
 
@@ -1175,7 +1175,11 @@ msgstr "총수량"
 msgid "Make Payment"
 msgstr "결제하기"
 
-#: index.php:1375
+#: index.php:1276
+msgid "Add"
+msgstr "추가"
+
+#: index.php:1376
 msgid "KBoard Forum Settings"
 msgstr "KBoard 게시판 관리"
 

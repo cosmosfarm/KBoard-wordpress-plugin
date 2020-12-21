@@ -1273,6 +1273,7 @@ function kboard_scripts(){
 		'total_amount' => __('Total amount', 'kboard'),
 		'total_quantity' => __('Total quantity', 'kboard'),
 		'make_payment' => __('Make Payment', 'kboard'),
+		'add' => __('Add', 'kboard'),
 	);
 	wp_localize_script('kboard-script', 'kboard_localize_strings', apply_filters('kboard_localize_strings', $localize));
 }

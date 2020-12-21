@@ -1056,11 +1056,16 @@ class KBoardBuilder {
 			}
 			
 			$buyer_name = isset($_POST['buyer_name'])?sanitize_text_field($_POST['buyer_name']):'';
-			$buyer_eamil = isset($_POST['buyer_eamil'])?sanitize_email($_POST['buyer_eamil']):'';
+			$buyer_email = isset($_POST['buyer_email'])?sanitize_email($_POST['buyer_email']):'';
 			$buyer_password = isset($_POST['buyer_password'])?sanitize_text_field($_POST['buyer_password']):'';
 			
-			if($buyer_name && $buyer_eamil && $buyer_password){
-				$nonmember_key = kboard_hash($buyer_eamil, $buyer_name . $buyer_password);
+			$nonmember_key_1 = $buyer_email;
+			$nonmember_key_2 = $buyer_name . $buyer_password;
+			
+			list($nonmember_key_1, $nonmember_key_2) = apply_filters('kboard_order_nonmember_key', array($nonmember_key_1, $nonmember_key_2), $this->board);
+			
+			if($nonmember_key_1 && $nonmember_key_2){
+				$nonmember_key = kboard_hash($nonmember_key_1, $nonmember_key_2);
 			}
 			
 			if($nonmember_key){

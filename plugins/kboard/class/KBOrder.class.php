@@ -264,7 +264,7 @@ class KBOrder {
 	 */
 	public function create(){
 		if($this->items_count > 0){
-			$post_password = isset($_POST['kboard_order_password'])?$_POST['kboard_order_password']:'';
+			$post_password = isset($_POST[$this->getPasswordFieldName()]) ? $_POST[$this->getPasswordFieldName()] : '';
 			
 			if(is_user_logged_in()){
 				$order_user = wp_get_current_user();
@@ -272,7 +272,14 @@ class KBOrder {
 				$this->user_name = $order_user->display_name;
 			}
 			else{
-				$this->nonmember_key = kboard_hash($this->email, $this->name . $post_password);
+				$nonmember_key_1 = $this->email;
+				$nonmember_key_2 = $this->name . $post_password;
+				
+				list($nonmember_key_1, $nonmember_key_2) = apply_filters('kboard_order_nonmember_key', array($nonmember_key_1, $nonmember_key_2), $this->board);
+				
+				$this->nonmember_key = kboard_hash($nonmember_key_1, $nonmember_key_2);
+				
+				$post_password = $nonmember_key_2;
 			}
 			
 			$order_id = wp_insert_post(array(

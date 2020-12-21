@@ -8,9 +8,10 @@
   1. kboard_document_insert_{$board_id} 액션 추가
   2. kboard_reply_insert 액션 추가
   3. kboard_reply_insert_{$board_id} 액션 추가
-  4. kboard_url() 함수 추가
-  5. 썸머노트(Summernote) 에디터 최신 버전 적용
-  6. 버그 수정
+  4. kboard_order_nonmember_key 필터 추가
+  5. kboard_url() 함수 추가
+  6. 썸머노트(Summernote) 에디터 최신 버전 적용
+  7. 버그 수정
 
 
 5.9.2

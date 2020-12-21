@@ -21,7 +21,13 @@ class KBContentOption {
 		$value = '';
 		$key = sanitize_key($key);
 		if(isset($this->row[$key])){
-			$value = $this->row[$key];
+			$object = @unserialize($this->row[$key]);
+			if($object !== false){
+				$value = $object;
+			}
+			else{
+				$value = $this->row[$key];
+			}
 		}
 		return apply_filters('kboard_content_option_value', $value, $key, $this);
 	}
@@ -45,6 +51,10 @@ class KBContentOption {
 						$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
 					}
 					foreach($value as $option){
+						if(is_array($option)){
+							$option = serialize($option);
+						}
+						
 						$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_board_option` (`content_uid`, `option_key`, `option_value`) VALUES ('$this->content_uid', '$key', '$option')");
 					}
 				}
