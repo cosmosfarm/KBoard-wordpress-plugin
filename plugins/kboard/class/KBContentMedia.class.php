@@ -14,7 +14,9 @@ class KBContentMedia {
 	var $media_group;
 	
 	public function __construct(){
-		$this->abspath = untrailingslashit(ABSPATH);
+		$upload_dir = wp_upload_dir();
+		$basedir = explode('wp-content', $upload_dir['basedir']);
+		$this->abspath = untrailingslashit($basedir[0]);
 	}
 	
 	/**

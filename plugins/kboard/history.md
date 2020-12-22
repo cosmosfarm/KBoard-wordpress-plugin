@@ -11,7 +11,8 @@
   4. kboard_order_nonmember_key 필터 추가
   5. kboard_url() 함수 추가
   6. 썸머노트(Summernote) 에디터 최신 버전 적용
-  7. 버그 수정
+  7. KBoard 미디어 추가 경로 관련 코드 개선
+  8. 버그 수정
 
 
 5.9.2
