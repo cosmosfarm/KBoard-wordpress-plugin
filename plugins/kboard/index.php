@@ -784,6 +784,12 @@ function kboard_builder($args){
 		$builder->setSkin($board->skin);
 		$builder->setRpp($board->page_rpp);
 		
+		if(isset($args['mod']) && $args['mod']){
+			if(!kboard_mod()){
+				$builder->setMOD($args['mod']);
+			}
+		}
+		
 		if(isset($args['category1']) && $args['category1']){
 			$builder->category1 = $args['category1'];
 		}

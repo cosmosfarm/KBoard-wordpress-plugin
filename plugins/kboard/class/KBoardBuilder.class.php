@@ -46,7 +46,7 @@ class KBoardBuilder {
 	 * @param string $mod
 	 */
 	public function setMOD($mod){
-		$this->mod = $mod;
+		$this->mod = strtolower($mod);
 	}
 	
 	/**
