@@ -95,7 +95,9 @@ class KBoardListTable extends WP_List_Table {
 			$page_id = $item->meta->auto_page ? $item->meta->auto_page : $item->meta->latest_target_page;
 			$post = get_post($page_id);
 			echo '<a href="' . get_permalink($post) . '" title="'.__('페이지 보기', 'kboard').'" style="display:block">';
-			echo $post->post_title;
+			if(isset($post->post_title)){
+				echo $post->post_title;
+			}
 			echo '</a>';
 		}
 		else{
