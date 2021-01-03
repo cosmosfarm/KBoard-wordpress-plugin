@@ -142,6 +142,8 @@ class KBAdminController {
 				$board->meta->new_document_delay             = isset($_POST['new_document_delay'])             ? $_POST['new_document_delay']              : '';
 				$board->meta->default_build_mod              = isset($_POST['default_build_mod'])              ? $_POST['default_build_mod']               : '';
 				$board->meta->after_executing_mod            = isset($_POST['after_executing_mod'])            ? $_POST['after_executing_mod']             : '';
+				$board->meta->woocommerce_product_tabs_add   = isset($_POST['woocommerce_product_tabs_add'])   ? $_POST['woocommerce_product_tabs_add']    : '';
+				$board->meta->woocommerce_product_tabs_priority = isset($_POST['woocommerce_product_tabs_priority']) ? $_POST['woocommerce_product_tabs_priority'] : '';
 				
 				if(isset($_POST['permission_read_roles'])){
 					$board->meta->permission_read_roles = serialize($_POST['permission_read_roles']);

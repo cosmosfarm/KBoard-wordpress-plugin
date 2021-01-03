@@ -1451,6 +1451,22 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">보통의 경우라면 작성된 글 화면으로 이동해주세요.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="woocommerce_product_tabs_add">우커머스 상품 탭에 표시</label></th>
+						<td>
+							<select name="woocommerce_product_tabs_add" id="woocommerce_product_tabs_add">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->woocommerce_product_tabs_add):?> selected<?php endif?>>활성화</option>
+							</select>
+							<div>
+								<label>탭 표시 순서 <input type="number" name="woocommerce_product_tabs_priority" value="<?php echo intval($meta->woocommerce_product_tabs_priority)?>"></label>
+							</div>
+							<p class="description">우커머스 상품 탭에 게시판을 표시합니다.</p>
+							<p class="description">탭 표시 순서 값을 변경해서 표시 위치를 조절할 수 있습니다. (0~1000 숫자 입력)</p>
+							<p class="description">일부 스킨에서는 적용되지 않습니다.</p>
+							<p class="description">직접 코드를 작성해서 우커머스와 연결하시려면 <a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220986923814" onclick="window.open(this.href);return false;">우커머스 상품에 KBoard 게시판 연결하기</a>를 참고해주세요.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

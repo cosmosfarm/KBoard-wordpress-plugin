@@ -1415,6 +1415,40 @@ function kboard_content_paragraph_breaks($content, $builder=''){
 }
 
 /*
+ * 우커머스 상품 탭에 표시
+ */
+add_filter('woocommerce_product_tabs', 'kboard_woocommerce_product_tabs_add');
+function kboard_woocommerce_product_tabs_add($tabs){
+	$board_list = new KBoardList();
+	foreach($board_list->getWoocommerceProductTabsAdd() as $list){
+		$tabs['kboard_woocommerce_product_tabs_' . $list->board_id]['title'] = $list->board_name;
+		$tabs['kboard_woocommerce_product_tabs_' . $list->board_id]['priority'] = $list->priority;
+		$tabs['kboard_woocommerce_product_tabs_' . $list->board_id]['callback'] = function() use ($list){
+			global $product;
+			
+			echo '<h2>' . esc_html($list->board_name) . '</h2>';
+			
+			$board_id = $list->board_id;
+			$iframe_id = uniqid();
+			$product_id = $product->get_id();
+			
+			$url = new KBUrl();
+			$_SESSION['kboard_board_id'] = $board_id;
+			
+			echo '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $board_id . '" src="' . $url->set('kboard_id', $board_id)->set('category1', $product_id)->set('iframe_id', $iframe_id)->set('woocommerce_product_tabs_inside', $product_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+		};
+	}
+	return $tabs;
+}
+
+/*
+add_filter('kboard_content', 'kboard_woocommerce_product_tabs_add_content', 10, 3);
+function kboard_woocommerce_product_tabs_add_content($content, $content_uid, $board_id){
+	return $content;
+}
+*/
+
+/*
  * 시스템 업데이트
  */
 add_action('plugins_loaded', 'kboard_update_check');

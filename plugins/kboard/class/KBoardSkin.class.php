@@ -266,10 +266,16 @@ class KBoardSkin {
 		$header['date'] = sprintf('<input type="hidden" name="date" value="%s">', $content->date);
 		$header['user_id'] = sprintf('<input type="hidden" name="user_id" value="%d">', get_current_user_id());
 		
+		$product_id = isset($_GET['woocommerce_product_tabs_inside']) ? intval($_GET['woocommerce_product_tabs_inside']) : '';
+		if($product_id){
+			$header['category1'] = sprintf('<input type="hidden" name="category1" value="%d">', $product_id);
+			$header['kboard_option_woocommerce_product_id'] = sprintf('<input type="hidden" name="kboard_option_woocommerce_product_id" value="%d">', $product_id);
+		}
+		
 		$header = apply_filters('kboard_skin_editor_header', $header, $content, $board);
 		
 		foreach($header as $input){
-			echo $input;
+			echo $input . "\n";
 		}
 		
 		do_action('kboard_skin_editor_header_after', $content, $board);
