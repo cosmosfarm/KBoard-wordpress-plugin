@@ -271,6 +271,71 @@ class KBoardFields {
 				'description' => '',
 				'show_document' => '',
 				'close_button' => 'yes'
+			),
+			'html' => array(
+				'field_type' => 'html',
+				'field_label' => __('HTML', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-html',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'show_document' => '',
+				'close_button' => 'yes'
+			),
+			'shortcode' => array(
+				'field_type' => 'shortcode',
+				'field_label' => __('Shortcode', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-shortcode',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'show_document' => '',
+				'close_button' => 'yes'
+			),
+			'date' => array(
+				'field_type' => 'date',
+				'field_label' => __('Date Select', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-date',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'show_document' => '',
+				'close_button' => 'yes'
+			),
+			'time' => array(
+				'field_type' => 'time',
+				'field_label' => __('Time Select', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-time',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'show_document' => '',
+				'close_button' => 'yes'
+			),
+			'color' => array(
+				'field_type' => 'color',
+				'field_label' => __('Color Select', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-color',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'show_document' => '',
+				'close_button' => 'yes'
 			)
 		);
 	}
@@ -375,6 +440,21 @@ class KBoardFields {
 			return 'default';
 		}
 		return 'extends';
+	}
+
+	/**
+	 * 입력 필드에 여러 줄을 입력하는 필드인지 확인한다.
+	 * @param string $fields_type
+	 * @return string
+	 */
+	public function isMultiLineFields($fields_type){
+		$multi_line_fields = apply_filters('kboard_multi_line_fields_fields', array('html', 'shortcode'), $this->board);
+		
+		if(in_array($fields_type, $multi_line_fields)){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**

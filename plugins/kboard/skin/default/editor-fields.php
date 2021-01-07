@@ -271,4 +271,18 @@
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
+<?php elseif($field['field_type'] == 'html'):?>
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+		<div class="attr-value">
+			<?php echo $default_value?>
+		</div>
+	</div>
+<?php elseif($field['field_type'] == 'shortcode'):?>
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+		<div class="attr-value">
+			<?php echo do_shortcode($default_value)?>
+		</div>
+	</div>
 <?php endif?>

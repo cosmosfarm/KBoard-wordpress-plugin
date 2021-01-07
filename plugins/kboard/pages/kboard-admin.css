@@ -106,6 +106,7 @@
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value input,
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value select,
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value textarea { margin: 0; font-weight: normal; outline: none; }
+.kboard-fields-wrap .kboard-fields .attr-row .attr-value textarea { width: 100%; }
 .kboard-fields-wrap .kboard-fields .attr-row .attr-value .auto-meta-key { float: none; padding: 0; }
 .kboard-fields-wrap .kboard-fields .attr-name.option label { float: left; }
 .kboard-fields-wrap .kboard-fields .attr-name.option input { width: 80px; }

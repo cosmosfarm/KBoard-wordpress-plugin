@@ -888,94 +888,118 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<div class="kboard-fields-content">
 										<input type="hidden" class="field_data field_type" value="<?php echo esc_attr($item['field_type'])?>">
 										<input type="hidden" class="field_data field_label" value="<?php echo esc_attr($item['field_label'])?>">
-										<div class="attr-row">
-											<label class="attr-name">필드 레이블</label>
-											<div class="attr-value"><input type="text" class="field_data field_name" placeholder="<?php echo esc_attr($item['field_label'])?>"></div>
-										</div>
-										<?php if(isset($item['meta_key'])):?>
-										<div class="attr-row">
-											<label class="attr-name">메타키</label>
-											<div class="attr-value"><input type="text" class="field_data meta_key" placeholder="meta_key"></div>
-											<div class="description">※ 입력하지 않으면 자동으로 설정되며 저장 이후에는 값을 변경할 수 없습니다.</div>
-										</div>
-										<?php endif?>
-										<?php if(isset($item['row'])):?>
-											<?php $uniq_id = uniqid()?>
-											<div class="kboard-radio-reset">
-												<div class="attr-row option-wrap">
-													<div class="attr-name option">
-														<label for="<?php echo $uniq_id?>">라벨</label>
-													</div>
-													<div class="attr-value">
-														<input type="text" id="<?php echo $uniq_id?>" class="field_data option_label">
-														<button type="button" class="<?php echo $item['field_type']?>" onclick="add_option(this)">+</button>
-														<button type="button" class="<?php echo $item['field_type']?>" onclick="remove_option(this)">-</button>
-														<label>
-															<?php if($item['field_type'] == 'checkbox'):?>
-															<input type="checkbox" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
-															<?php else:?>
-															<input type="radio" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
-															<?php endif?>
-															기본값
-														</label>
-														<?php if($item['field_type'] == 'radio' || $item['field_type'] == 'select'):?>
-															<span style="vertical-align:middle;cursor:pointer;" onclick="kboard_radio_reset(this)">· <?php echo __('Reset', 'kboard')?></span>
-														<?php endif?>
-													</div>
-												</div>
+										<?php if($board->fields()->isMultiLineFields($item['field_type'])):?>
+											<div class="attr-row">
+												<label class="attr-name">필드 레이블</label>
+												<div class="attr-value"><input type="text" class="field_data field_name" placeholder="<?php echo esc_attr($item['field_label'])?>"></div>
 											</div>
-										<?php endif?>
-										<?php if(isset($item['roles'])):?>
-										<div class="attr-row">
-											<label class="attr-name">표시할 권한</label>
-											<div class="attr-value">
-												<select class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
-													<option value="all" selected>제한없음</option>
-													<option value="author">로그인 사용자</option>
-													<option value="roles">직접선택</option>
-												</select>
-												<div class="kboard-permission-read-roles-view kboard-hide">
-													<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-														<label><input type="checkbox" class="field_data roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false" checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
-													<?php endforeach?>
-												</div>
+											<?php if(isset($item['meta_key'])):?>
+											<div class="attr-row">
+												<label class="attr-name">메타키</label>
+												<div class="attr-value"><input type="text" class="field_data meta_key" placeholder="meta_key"></div>
+												<div class="description">※ 입력하지 않으면 자동으로 설정되며 저장 이후에는 값을 변경할 수 없습니다.</div>
 											</div>
-										</div>
-										<?php endif?>
-										<?php if(isset($item['default_value']) && !isset($item['row'])):?>
-										<div class="attr-row">
-											<label class="attr-name">기본값</label>
-											<div class="attr-value"><input type="text" class="field_data default_value"></div>
-										</div>
-										<?php endif?>
-										<?php if(isset($item['placeholder'])):?>
-										<div class="attr-row">
-											<label class="attr-name">Placeholder</label>
-											<div class="attr-value"><input type="text" class="field_data placeholder"></div>
-										</div>
-										<?php endif?>
-										<?php if(isset($item['description'])):?>
-										<div class="attr-row">
-											<label class="attr-name">설명</label>
-											<div class="attr-value">
-												<input type="text" class="field_data field_description" value="<?php echo $item['description']?>">
-											</div>
-										</div>
-										<?php endif?>
-										<div class="attr-row">
-											<?php if(isset($item['required'])):?>
-											<input type="hidden" class="field_data required" value="">
-											<label><input type="checkbox" class="field_data required" value="1">필수</label>
 											<?php endif?>
+											<div class="attr-row">
+												<label class="attr-name"><?php echo $item['field_label']?></label>
+												<div class="attr-value">
+													<textarea class="field_data default_value" rows="5"></textarea>
+												</div>
+											</div>
 											<?php if(isset($item['show_document'])):?>
 											<input type="hidden" class="field_data show_document" value="">
 											<label><input type="checkbox" class="field_data show_document" value="1">게시글 본문에 표시</label>
 											<?php endif?>
-											<?php if(isset($item['hidden'])):?>
-											<input type="hidden" class="field_data hidden" value="">
-											<label><input type="checkbox" class="field_data hidden" value="1">숨김<?php if($item['field_type'] == 'text'):?>(hidden)<?php endif?></label>
+										<?php else:?>
+											<div class="attr-row">
+												<label class="attr-name">필드 레이블</label>
+												<div class="attr-value"><input type="text" class="field_data field_name" placeholder="<?php echo esc_attr($item['field_label'])?>"></div>
+											</div>
+											<?php if(isset($item['meta_key'])):?>
+											<div class="attr-row">
+												<label class="attr-name">메타키</label>
+												<div class="attr-value"><input type="text" class="field_data meta_key" placeholder="meta_key"></div>
+												<div class="description">※ 입력하지 않으면 자동으로 설정되며 저장 이후에는 값을 변경할 수 없습니다.</div>
+											</div>
 											<?php endif?>
-										</div>
+											<?php if(isset($item['row'])):?>
+												<?php $uniq_id = uniqid()?>
+												<div class="kboard-radio-reset">
+													<div class="attr-row option-wrap">
+														<div class="attr-name option">
+															<label for="<?php echo $uniq_id?>">라벨</label>
+														</div>
+														<div class="attr-value">
+															<input type="text" id="<?php echo $uniq_id?>" class="field_data option_label">
+															<button type="button" class="<?php echo $item['field_type']?>" onclick="add_option(this)">+</button>
+															<button type="button" class="<?php echo $item['field_type']?>" onclick="remove_option(this)">-</button>
+															<label>
+																<?php if($item['field_type'] == 'checkbox'):?>
+																<input type="checkbox" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
+																<?php else:?>
+																<input type="radio" name="<?php echo $item['field_type']?>" class="field_data default_value" value="1">
+																<?php endif?>
+																기본값
+															</label>
+															<?php if($item['field_type'] == 'radio' || $item['field_type'] == 'select'):?>
+																<span style="vertical-align:middle;cursor:pointer;" onclick="kboard_radio_reset(this)">· <?php echo __('Reset', 'kboard')?></span>
+															<?php endif?>
+														</div>
+													</div>
+												</div>
+											<?php endif?>
+											<?php if(isset($item['roles'])):?>
+											<div class="attr-row">
+												<label class="attr-name">표시할 권한</label>
+												<div class="attr-value">
+													<select class="field_data roles" onchange="kboard_fields_permission_roles_view(this)">
+														<option value="all" selected>제한없음</option>
+														<option value="author">로그인 사용자</option>
+														<option value="roles">직접선택</option>
+													</select>
+													<div class="kboard-permission-read-roles-view kboard-hide">
+														<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
+															<label><input type="checkbox" class="field_data roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false" checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
+														<?php endforeach?>
+													</div>
+												</div>
+											</div>
+											<?php endif?>
+											<?php if(isset($item['default_value']) && !isset($item['row'])):?>
+											<div class="attr-row">
+												<label class="attr-name">기본값</label>
+												<div class="attr-value"><input type="text" class="field_data default_value"></div>
+											</div>
+											<?php endif?>
+											<?php if(isset($item['placeholder'])):?>
+											<div class="attr-row">
+												<label class="attr-name">Placeholder</label>
+												<div class="attr-value"><input type="text" class="field_data placeholder"></div>
+											</div>
+											<?php endif?>
+											<?php if(isset($item['description'])):?>
+											<div class="attr-row">
+												<label class="attr-name">설명</label>
+												<div class="attr-value">
+													<input type="text" class="field_data field_description" value="<?php echo $item['description']?>">
+												</div>
+											</div>
+											<?php endif?>
+											<div class="attr-row">
+												<?php if(isset($item['required'])):?>
+												<input type="hidden" class="field_data required" value="">
+												<label><input type="checkbox" class="field_data required" value="1">필수</label>
+												<?php endif?>
+												<?php if(isset($item['show_document'])):?>
+												<input type="hidden" class="field_data show_document" value="">
+												<label><input type="checkbox" class="field_data show_document" value="1">게시글 본문에 표시</label>
+												<?php endif?>
+												<?php if(isset($item['hidden'])):?>
+												<input type="hidden" class="field_data hidden" value="">
+												<label><input type="checkbox" class="field_data hidden" value="1">숨김<?php if($item['field_type'] == 'text'):?>(hidden)<?php endif?></label>
+												<?php endif?>
+											</div>
+										<?php endif?>
 									</div>
 								</li>
 								<?php endforeach?>
@@ -1177,36 +1201,43 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<?php endif?>
 									<?php if(isset($item['default_value']) && $item['field_type'] != 'checkbox' && $item['field_type'] != 'radio' && $item['field_type'] != 'select' && $item['field_type'] != 'ip'):?>
 										<div class="attr-row">
-											<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_default_value">기본값</label>
-											<div class="attr-value">
-											<?php if($item['field_type'] == 'search'):?>
-												<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[search][default_value]" class="field_data default_value">
-													<option value="1"<?php if($item['default_value'] == '1'):?> selected<?php endif?>>제목과 내용 검색허용</option>
-													<option value="2"<?php if($item['default_value'] == '2'):?> selected<?php endif?>>제목만 검색허용 (비밀글)</option>
-													<option value="3"<?php if($item['default_value'] == '3'):?> selected<?php endif?>>통합검색 제외</option>
-												</select>
-											<?php elseif($item['field_type'] == 'category1'):?>
-												<?php if($board->initCategory1()):?>
-													<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category1][default_value]" class="field_data default_value">
-														<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
-														<?php while($board->hasNextCategory()):?>
-														<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
-														<?php endwhile?>
-													</select>
-												<?php endif?>
-											<?php elseif($item['field_type'] == 'category2'):?>
-												<?php if($board->initCategory2()):?>
-													<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category2][default_value]" class="field_data default_value">
-														<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
-														<?php while($board->hasNextCategory()):?>
-														<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
-														<?php endwhile?>
-													</select>
-												<?php endif?>
+											<?php if($board->fields()->isMultiLineFields($item['field_type'])):?>
+												<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_default_value"><?php echo $item['field_label']?></label>
+												<div class="attr-value">
+													<textarea id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" rows="5"><?php echo $item['default_value']?></textarea>
+												</div>
 											<?php else:?>
-												<input type="text" id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" value="<?php echo $item['default_value']?>">
+												<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_default_value">기본값</label>
+												<div class="attr-value">
+												<?php if($item['field_type'] == 'search'):?>
+													<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[search][default_value]" class="field_data default_value">
+														<option value="1"<?php if($item['default_value'] == '1'):?> selected<?php endif?>>제목과 내용 검색허용</option>
+														<option value="2"<?php if($item['default_value'] == '2'):?> selected<?php endif?>>제목만 검색허용 (비밀글)</option>
+														<option value="3"<?php if($item['default_value'] == '3'):?> selected<?php endif?>>통합검색 제외</option>
+													</select>
+												<?php elseif($item['field_type'] == 'category1'):?>
+													<?php if($board->initCategory1()):?>
+														<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category1][default_value]" class="field_data default_value">
+															<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
+															<?php while($board->hasNextCategory()):?>
+															<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+															<?php endwhile?>
+														</select>
+													<?php endif?>
+												<?php elseif($item['field_type'] == 'category2'):?>
+													<?php if($board->initCategory2()):?>
+														<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category2][default_value]" class="field_data default_value">
+															<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
+															<?php while($board->hasNextCategory()):?>
+															<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+															<?php endwhile?>
+														</select>
+													<?php endif?>
+												<?php else:?>
+													<input type="text" id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" value="<?php echo $item['default_value']?>">
+												<?php endif?>
+												</div>
 											<?php endif?>
-											</div>
 										</div>
 									<?php endif?>
 									<?php if(isset($item['placeholder'])):?>
