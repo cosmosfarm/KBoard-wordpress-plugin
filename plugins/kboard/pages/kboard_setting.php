@@ -1019,7 +1019,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							$meta_key = isset($item['meta_key']) && $item['meta_key'] ? $item['meta_key'] : $key;
 							$field_label = $board->fields()->getFieldLabel($item);
 							?>
-							<li class="<?php echo $board->fields()->isDefaultFields($item['field_type'])?> <?php echo esc_attr($meta_key)?>">
+							<li class="<?php echo $board->fields()->isDefaultFields($item['field_type'])?> <?php echo esc_attr($meta_key)?> <?php echo esc_attr($item['field_type'])?>">
 								<input type="hidden" class="parent_id" value="<?php echo esc_attr($meta_key)?>">
 								<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][class]" class="field_data class" value="<?php echo $item['class']?>"> 
 								<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][close_button]" class="field_data close_button" value="<?php echo isset($item['close_button'])?$item['close_button']:''?>">
@@ -1828,7 +1828,35 @@ jQuery(document).ready(function(){
 			event.preventDefault();
 		}
 	});
+
+	jQuery(document).on('focus', '.extends.date .default_value', function(){
+		jQuery(this).datepicker({
+			closeText : '닫기',
+			prevText : '이전달',
+			nextText : '다음달',
+			currentText : '오늘',
+			monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
+			monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
+			dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+			dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+			dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+			weekHeader : 'Wk',
+			dateFormat : 'yy-mm-dd',
+			firstDay : 0,
+			isRTL : false,
+			duration : 0,
+			showAnim : 'show',
+			showMonthAfterYear : true,
+			yearSuffix : '년',
+			changeYear:true,
+			changeMonth:true
+		});
+	});
+	jQuery(document).on('focus', '.extends.time .default_value', function(){
+		jQuery(this).timepicker({'timeFormat': 'HH:mm:ss'});
+	});
 });
+
 function kboard_radio_reset(obj){
 	jQuery(obj).parents('.kboard-radio-reset').find('input[type=radio]').each(function(){
 		jQuery(this).prop('checked', false);
