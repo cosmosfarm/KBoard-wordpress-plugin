@@ -511,7 +511,7 @@ class KBoardFields {
 			}
 			
 			// 게시글 수정시에는 기본값을 제거하고 저장된 상태를 표시하도록 한다.
-			if($content->uid){
+			if($content->uid && !$this->isMultiLineFields($field['field_type'])){
 				if(is_array($default_value)){
 					$default_value = array();
 				}
@@ -689,9 +689,13 @@ class KBoardFields {
 			
 			$meta_key = (isset($field['meta_key'])&&$field['meta_key']) ? $field['meta_key'] : $key;
 			$field_type = (isset($field['field_type'])&&$field['field_type']) ? $field['field_type'] : '';
+			$default_value = (isset($field['default_value'])&&$field['default_value']) ? $field['default_value'] : '';
 			
 			if($field_type == 'file'){
 				$option_value = isset($content->attach->{$meta_key}) ? $content->attach->{$meta_key} : array();
+			}
+			else if($this->isMultiLineFields($field_type)){
+				$option_value = $default_value;
 			}
 			else{
 				$option_value = $content->option->{$meta_key};

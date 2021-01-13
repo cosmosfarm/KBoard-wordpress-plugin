@@ -1254,7 +1254,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										</div>
 									</div>
 									<?php endif?>
-									<?php if(isset($item['show_document'])):?>
+									<?php if(isset($item['show_document']) && !$board->fields()->isMultiLineFields($item['field_type'])):?>
 									<div class="attr-row">
 										<label class="attr-name">스킨 출력 예제</label>
 										<div class="attr-value">
