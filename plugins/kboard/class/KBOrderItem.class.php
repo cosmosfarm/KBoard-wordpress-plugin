@@ -15,6 +15,8 @@ class KBOrderItem {
 	
 	public function __construct(){
 		$this->row = new stdClass();
+		$this->content = new KBContent();
+		$this->order = new KBOrder();
 	}
 	
 	public function __get($key){

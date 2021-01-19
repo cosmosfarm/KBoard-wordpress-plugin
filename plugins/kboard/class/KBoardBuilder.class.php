@@ -1114,7 +1114,7 @@ class KBoardBuilder {
 				$start_date = date('Ymd', strtotime('-1 month', current_time('timestamp')));
 				$end_date = date('Ymd', current_time('timestamp'));
 				
-				$date_range = apply_filters('kboard_sales_default_date_range', array('start_date'=>$start_date, 'end_date'=>$end_date));
+				$date_range = apply_filters('kboard_sales_default_date_range', array('start_date'=>$start_date, 'end_date'=>$end_date), $this->board);
 				
 				$list->setDateRange($date_range['start_date'], $date_range['end_date']);
 			}
