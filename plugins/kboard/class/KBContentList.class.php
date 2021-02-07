@@ -324,6 +324,9 @@ class KBContentList {
 			return $this->resource;
 		}
 		
+		$this->from = array();
+		$this->where = array();
+		
 		// 정렬 초기화
 		if($this->sort == 'date'){
 			$this->sort = "`{$wpdb->prefix}kboard_board_content`.`date`";
