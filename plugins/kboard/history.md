@@ -11,10 +11,12 @@
   4. kboard_order_nonmember_key 필터 추가
   5. kboard_multi_line_fields_fields 필터 추가
   6. kboard_url() 함수 추가
-  7. 썸머노트(Summernote) 에디터 최신 버전 적용
-  8. KBoard 미디어 추가 경로 관련 코드 개선
-  9. 고급설정에 우커머스 상품 탭에 표시 기능 추가
-  10. 버그 수정
+  7. kboard_get_user_total_count() 함수 추가
+  8. kboard_comments_get_user_total_count() 함수 추가
+  9. 썸머노트(Summernote) 에디터 최신 버전 적용
+  10. KBoard 미디어 추가 경로 관련 코드 개선
+  11. 고급설정에 우커머스 상품 탭에 표시 기능 추가
+  11. 버그 수정
 
 
 5.9.2

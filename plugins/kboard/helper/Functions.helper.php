@@ -622,6 +622,52 @@ function kboard_video_url_to_iframe($content){
 }
 
 /**
+ * 사용자가 작성한 모든 게시글의 개수를 반환한다.
+ * @param int $user_id
+ * @return int
+ */
+function kboard_get_user_total_count($user_id){
+	global $wpdb;
+	$user_id = intval($user_id);
+	if($user_id){
+		$where = array();
+		$where[] = "`member_uid`='{$user_id}'";
+		
+		// 휴지통에 없는 게시글만 불러온다.
+		$get_list_status_query = kboard_get_list_status_query();
+		if($get_list_status_query){
+			$where[] = $get_list_status_query;
+		}
+		
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
+		$wpdb->flush();
+		
+		return intval($count);
+	}
+	return 0;
+}
+
+/**
+ * 사용자가 작성한 모든 댓글의 개수를 반환한다.
+ * @param int $user_id
+ * @return int
+ */
+function kboard_comments_get_user_total_count($user_id){
+	global $wpdb;
+	$user_id = intval($user_id);
+	if($user_id && defined('KBOARD_COMMNETS_VERSION')){
+		$where = array();
+		$where[] = "`user_uid`='{$user_id}'";
+		
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE " . implode(' AND ', $where));
+		$wpdb->flush();
+		
+		return intval($count);
+	}
+	return 0;
+}
+
+/**
  * 게시판 목록에서 보여줄 게시글 상태를 반환한다.
  * @param int $board_id
  * @return array
