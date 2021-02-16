@@ -273,17 +273,11 @@
 	</div>
 <?php elseif($field['field_type'] == 'html'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
-		<div class="attr-value">
-			<?php echo $default_value?>
-		</div>
+		<?php echo $default_value?>
 	</div>
 <?php elseif($field['field_type'] == 'shortcode'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
-		<div class="attr-value">
-			<?php echo do_shortcode($default_value)?>
-		</div>
+		<?php echo do_shortcode($default_value)?>
 	</div>
 <?php elseif($field['field_type'] == 'date'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">

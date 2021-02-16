@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2020-05-06 11:22+0900\n"
-"PO-Revision-Date: 2020-05-06 11:22+0900\n"
+"POT-Creation-Date: 2021-02-16 19:17+0900\n"
+"PO-Revision-Date: 2021-02-16 19:17+0900\n"
 "Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
@@ -26,8 +26,8 @@ msgid "Deleted comment decrease points"
 msgstr "Deleted comment decrease points"
 
 #: class/KBCommentController.class.php:44
-#: class/KBCommentController.class.php:309
-#: class/KBCommentController.class.php:370
+#: class/KBCommentController.class.php:334
+#: class/KBCommentController.class.php:395
 msgid "This page is restricted from external access."
 msgstr "This page is restricted from external access."
 
@@ -35,17 +35,17 @@ msgstr "This page is restricted from external access."
 #: class/KBCommentController.class.php:89
 #: class/KBCommentController.class.php:92
 #: class/KBCommentController.class.php:168
-#: class/KBCommentController.class.php:299
-#: class/KBCommentController.class.php:327
-#: class/KBCommentController.class.php:331
-#: class/KBCommentController.class.php:336
-#: class/KBCommentController.class.php:341
-#: class/KBCommentController.class.php:397
-#: class/KBCommentController.class.php:401
-#: class/KBCommentController.class.php:406
-#: class/KBCommentController.class.php:411
-#: class/KBCommentController.class.php:471
-#: class/KBCommentController.class.php:509 class/KBCommentTemplate.class.php:34
+#: class/KBCommentController.class.php:324
+#: class/KBCommentController.class.php:352
+#: class/KBCommentController.class.php:356
+#: class/KBCommentController.class.php:361
+#: class/KBCommentController.class.php:366
+#: class/KBCommentController.class.php:422
+#: class/KBCommentController.class.php:426
+#: class/KBCommentController.class.php:431
+#: class/KBCommentController.class.php:436
+#: class/KBCommentController.class.php:496
+#: class/KBCommentController.class.php:534 class/KBCommentTemplate.class.php:34
 #: class/KBCommentTemplate.class.php:88 class/KBCommentTemplate.class.php:107
 msgid "You do not have permission."
 msgstr "You do not have permission."
@@ -59,7 +59,7 @@ msgid "Please enter the password."
 msgstr "Please enter the password."
 
 #: class/KBCommentController.class.php:101
-#: class/KBCommentController.class.php:386 index.php:152 template/edit.php:37
+#: class/KBCommentController.class.php:411 index.php:152 template/edit.php:37
 msgid "Please enter the content."
 msgstr "Please enter the content."
 
@@ -85,59 +85,61 @@ msgstr "You have not enough points."
 msgid "Writing comment decrease points"
 msgstr "Writing comment decrease points"
 
-#: class/KBCommentController.class.php:278
+#: class/KBCommentController.class.php:303
 msgid "Writing comment increase points"
 msgstr "Writing comment increase points"
 
-#: class/KBCommentController.class.php:316
-#: class/KBCommentController.class.php:383 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:341
+#: class/KBCommentController.class.php:408 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:78
 msgid "uid is required."
 msgstr "uid is required."
 
-#: class/KBCommentController.class.php:319
-#: class/KBCommentController.class.php:389
-#: class/KBCommentController.class.php:467
-#: class/KBCommentController.class.php:505
+#: class/KBCommentController.class.php:344
+#: class/KBCommentController.class.php:414
+#: class/KBCommentController.class.php:492
+#: class/KBCommentController.class.php:530
 msgid "Please log in to continue."
 msgstr "Please log in to continue."
 
-#: class/KBCommentController.class.php:463
-#: class/KBCommentController.class.php:501
+#: class/KBCommentController.class.php:488
+#: class/KBCommentController.class.php:526
 msgid "You have already voted."
 msgstr "You have already voted."
 
-#: class/KBCommentListTable.class.php:44
+#: class/KBCommentListTable.class.php:45
 msgid "No comment found."
 msgstr "No comment found."
 
-#: class/KBCommentListTable.class.php:50
+#: class/KBCommentListTable.class.php:51
 msgid "Forum"
 msgstr "Forum"
 
-#: class/KBCommentListTable.class.php:51 index.php:155
+#: class/KBCommentListTable.class.php:52 class/KBCommentListTable.class.php:87
+#: index.php:155
 msgid "Name"
 msgstr "Name"
 
-#: class/KBCommentListTable.class.php:52
+#: class/KBCommentListTable.class.php:53 class/KBCommentListTable.class.php:96
+#: pages/comments_list.php:17
 msgid "Content"
 msgstr "Content"
 
-#: class/KBCommentListTable.class.php:53
+#: class/KBCommentListTable.class.php:54 class/KBCommentListTable.class.php:100
 msgid "Date"
 msgstr "Date"
 
-#: class/KBCommentListTable.class.php:59 skin/default/list-template.php:35
+#: class/KBCommentListTable.class.php:60 skin/default/list-template.php:35
 #: skin/default/list-template.php:38
 msgid "Delete"
 msgstr "Delete"
 
-#: class/KBCommentListTable.class.php:81 skin/default/list-template.php:36
+#: class/KBCommentListTable.class.php:82 skin/default/list-template.php:36
 #: skin/default/list-template.php:39
 msgid "Edit"
 msgstr "Edit"
 
-#: class/KBCommentListTable.class.php:95
+#: class/KBCommentListTable.class.php:97
 msgid "Open"
 msgstr "Open"
 
@@ -250,7 +252,11 @@ msgstr "Support"
 msgid "Blog"
 msgstr "Blog"
 
-#: pages/comments_list.php:14
+#: pages/comments_list.php:18 skin/default/list.php:56 skin/default/list.php:57
+msgid "Author"
+msgstr "Author"
+
+#: pages/comments_list.php:21
 msgid "Search"
 msgstr "Search"
 
@@ -311,10 +317,6 @@ msgstr "Newest"
 #: skin/default/list.php:42
 msgid "Add a comment"
 msgstr "Add a comment"
-
-#: skin/default/list.php:56 skin/default/list.php:57
-msgid "Author"
-msgstr "Author"
 
 #: skin/default/list.php:60 skin/default/list.php:61 template/confirm.php:26
 msgid "Password"
