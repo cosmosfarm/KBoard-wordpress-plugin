@@ -283,7 +283,8 @@ class KBoardFields {
 				'default_value' => '',
 				'description' => '',
 				'show_document' => '',
-				'close_button' => 'yes'
+				'close_button' => 'yes',
+				'html' => ''
 			),
 			'shortcode' => array(
 				'field_type' => 'shortcode',
@@ -296,7 +297,8 @@ class KBoardFields {
 				'default_value' => '',
 				'description' => '',
 				'show_document' => '',
-				'close_button' => 'yes'
+				'close_button' => 'yes',
+				'shortcode' => ''
 			),
 			'date' => array(
 				'field_type' => 'date',
@@ -482,6 +484,8 @@ class KBoardFields {
 			$placeholder = (isset($field['placeholder']) && $field['placeholder']) ? $field['placeholder'] : '';
 			$wordpress_search = '';
 			$default_value = (isset($field['default_value']) && $field['default_value']) ? $field['default_value'] : '';
+			$html = (isset($field['html']) && $field['html']) ? $field['html'] : '';
+			$shortcode = (isset($field['shortcode']) && $field['shortcode']) ? $field['shortcode'] : '';
 			$row = false;
 
 			$default_value_list = array();
@@ -548,6 +552,8 @@ class KBoardFields {
 				'row' => $row,
 				'wordpress_search' => $wordpress_search,
 				'default_value' => $default_value,
+				'html' => $html,
+				'shortcode' => $shortcode,
 				'board' => $this->board,
 				'content' => $content,
 				'parent' => $parent,

@@ -903,7 +903,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											<div class="attr-row">
 												<label class="attr-name"><?php echo $item['field_label']?></label>
 												<div class="attr-value">
-													<textarea class="field_data default_value" rows="5"></textarea>
+													<?php if($item['field_type'] == 'html'):?>
+														<textarea class="field_data html" rows="5"></textarea>
+													<?php elseif($item['field_type'] == 'shortcode'):?>
+														<textarea class="field_data shortcode" rows="5"></textarea>
+													<?php endif?>
 												</div>
 											</div>
 											<?php if(isset($item['show_document'])):?>
@@ -1201,43 +1205,51 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<?php endif?>
 									<?php if(isset($item['default_value']) && $item['field_type'] != 'checkbox' && $item['field_type'] != 'radio' && $item['field_type'] != 'select' && $item['field_type'] != 'ip'):?>
 										<div class="attr-row">
-											<?php if($board->fields()->isMultiLineFields($item['field_type'])):?>
-												<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_default_value"><?php echo $item['field_label']?></label>
-												<div class="attr-value">
-													<textarea id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" rows="5"><?php echo $item['default_value']?></textarea>
-												</div>
-											<?php else:?>
-												<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_default_value">기본값</label>
-												<div class="attr-value">
-												<?php if($item['field_type'] == 'search'):?>
-													<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[search][default_value]" class="field_data default_value">
-														<option value="1"<?php if($item['default_value'] == '1'):?> selected<?php endif?>>제목과 내용 검색허용</option>
-														<option value="2"<?php if($item['default_value'] == '2'):?> selected<?php endif?>>제목만 검색허용 (비밀글)</option>
-														<option value="3"<?php if($item['default_value'] == '3'):?> selected<?php endif?>>통합검색 제외</option>
+											<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_default_value">기본값</label>
+											<div class="attr-value">
+											<?php if($item['field_type'] == 'search'):?>
+												<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[search][default_value]" class="field_data default_value">
+													<option value="1"<?php if($item['default_value'] == '1'):?> selected<?php endif?>>제목과 내용 검색허용</option>
+													<option value="2"<?php if($item['default_value'] == '2'):?> selected<?php endif?>>제목만 검색허용 (비밀글)</option>
+													<option value="3"<?php if($item['default_value'] == '3'):?> selected<?php endif?>>통합검색 제외</option>
+												</select>
+											<?php elseif($item['field_type'] == 'category1'):?>
+												<?php if($board->initCategory1()):?>
+													<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category1][default_value]" class="field_data default_value">
+														<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
+														<?php while($board->hasNextCategory()):?>
+														<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+														<?php endwhile?>
 													</select>
-												<?php elseif($item['field_type'] == 'category1'):?>
-													<?php if($board->initCategory1()):?>
-														<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category1][default_value]" class="field_data default_value">
-															<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
-															<?php while($board->hasNextCategory()):?>
-															<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
-															<?php endwhile?>
-														</select>
-													<?php endif?>
-												<?php elseif($item['field_type'] == 'category2'):?>
-													<?php if($board->initCategory2()):?>
-														<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category2][default_value]" class="field_data default_value">
-															<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
-															<?php while($board->hasNextCategory()):?>
-															<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
-															<?php endwhile?>
-														</select>
-													<?php endif?>
-												<?php else:?>
-													<input type="text" id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" value="<?php echo $item['default_value']?>">
 												<?php endif?>
-												</div>
+											<?php elseif($item['field_type'] == 'category2'):?>
+												<?php if($board->initCategory2()):?>
+													<select id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[category2][default_value]" class="field_data default_value">
+														<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
+														<?php while($board->hasNextCategory()):?>
+														<option value="<?php echo $board->currentCategory()?>"<?php if($item['default_value'] == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+														<?php endwhile?>
+													</select>
+												<?php endif?>
+											<?php else:?>
+												<input type="text" id="<?php echo esc_attr($meta_key)?>_default_value" name="fields[<?php echo esc_attr($meta_key)?>][default_value]" class="field_data default_value" value="<?php echo $item['default_value']?>">
 											<?php endif?>
+											</div>
+										</div>
+									<?php endif?>
+									<?php if($board->fields()->isMultiLineFields($item['field_type'])):?>
+										<div class="attr-row">
+										<?php if($item['field_type'] == 'html'):?>
+											<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_html"><?php echo $item['field_label']?></label>
+											<div class="attr-value">
+												<textarea id="<?php echo esc_attr($meta_key)?>_html" name="fields[<?php echo esc_attr($meta_key)?>][html]" class="field_data html" rows="5"><?php echo $item['html']?></textarea>
+											</div>
+										<?php elseif($item['field_type'] == 'shortcode'):?>
+											<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_shortcode"><?php echo $item['field_label']?></label>
+											<div class="attr-value">
+												<textarea id="<?php echo esc_attr($meta_key)?>_shortcode" name="fields[<?php echo esc_attr($meta_key)?>][shortcode]" class="field_data shortcode" rows="5"><?php echo $item['shortcode']?></textarea>
+											</div>
+										<?php endif?>
 										</div>
 									<?php endif?>
 									<?php if(isset($item['placeholder'])):?>
@@ -1751,6 +1763,8 @@ jQuery(document).ready(function(){
 			jQuery(li.item).find('.field_label').attr('name', 'fields['+uniq_id+'][field_label]');
 			jQuery(li.item).find('.class').attr('name', 'fields['+uniq_id+'][class]');
 			jQuery(li.item).find('.default_value').attr('name', 'fields['+uniq_id+'][default_value]');
+			jQuery(li.item).find('.html').attr('name', 'fields['+uniq_id+'][html]');
+			jQuery(li.item).find('.shortcode').attr('name', 'fields['+uniq_id+'][shortcode]');
 			jQuery(li.item).find('.hidden').attr('name', 'fields['+uniq_id+'][hidden]');
 			jQuery(li.item).find('.option_field').attr('name', 'fields['+uniq_id+'][option_field]');
 			jQuery(li.item).find('.field_description').attr('name', 'fields['+uniq_id+'][description]');
