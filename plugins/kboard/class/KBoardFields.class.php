@@ -326,19 +326,19 @@ class KBoardFields {
 				'show_document' => '',
 				'close_button' => 'yes'
 			),
-			'color' => array(
-				'field_type' => 'color',
-				'field_label' => __('Color Select', 'kboard'),
-				'field_name' => '',
-				'class' => 'kboard-attr-color',
-				'meta_key' => '',
-				'permission' => '',
-				'roles' => array(),
-				'default_value' => '',
-				'description' => '',
-				'show_document' => '',
-				'close_button' => 'yes'
-			)
+// 			'color' => array(
+// 				'field_type' => 'color',
+// 				'field_label' => __('Color Select', 'kboard'),
+// 				'field_name' => '',
+// 				'class' => 'kboard-attr-color',
+// 				'meta_key' => '',
+// 				'permission' => '',
+// 				'roles' => array(),
+// 				'default_value' => '',
+// 				'description' => '',
+// 				'show_document' => '',
+// 				'close_button' => 'yes'
+// 			)
 		);
 	}
 	
