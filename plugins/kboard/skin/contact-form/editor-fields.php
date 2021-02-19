@@ -219,11 +219,11 @@
 	</div>
 <?php elseif($field['field_type'] == 'html'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?>">
-		<?php echo $default_value?>
+		<?php echo $html?>
 	</div>
 <?php elseif($field['field_type'] == 'shortcode'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?>">
-		<?php echo do_shortcode($default_value)?>
+		<?php echo do_shortcode($shortcode)?>
 	</div>
 <?php elseif($field['field_type'] == 'date'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">

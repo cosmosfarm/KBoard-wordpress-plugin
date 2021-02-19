@@ -443,7 +443,7 @@ class KBoardFields {
 		}
 		return 'extends';
 	}
-
+	
 	/**
 	 * 입력 필드에 여러 줄을 입력하는 필드인지 확인한다.
 	 * @param string $fields_type
@@ -487,7 +487,7 @@ class KBoardFields {
 			$html = (isset($field['html']) && $field['html']) ? $field['html'] : '';
 			$shortcode = (isset($field['shortcode']) && $field['shortcode']) ? $field['shortcode'] : '';
 			$row = false;
-
+			
 			$default_value_list = array();
 			if(isset($field['row']) && $field['row']){
 				foreach($field['row'] as $item){
@@ -514,16 +514,6 @@ class KBoardFields {
 				}
 			}
 			
-			// 게시글 수정시에는 기본값을 제거하고 저장된 상태를 표시하도록 한다.
-			if($content->uid && !$this->isMultiLineFields($field['field_type'])){
-				if(is_array($default_value)){
-					$default_value = array();
-				}
-				else{
-					$default_value = '';
-				}
-			}
-			
 			$order = new KBOrder();
 			$order->board = $this->board;
 			$order->board_id = $this->board->id;
@@ -538,6 +528,19 @@ class KBoardFields {
 				$boardBuilder->setSkin($this->board->skin);
 				$boardBuilder->setRpp($this->board->page_rpp);
 				$boardBuilder->board = $this->board;
+			}
+			
+			if(strpos($html, '#{ESC_ATTR_VALUE}') !== false){
+				$value = $content->option->{$meta_key} ? esc_attr($content->option->{$meta_key}) : esc_attr($default_value);
+				$html = str_replace('#{ESC_ATTR_VALUE}', $value, $html);
+			}
+			if(strpos($html, '#{ESC_TEXTAREA_VALUE}') !== false){
+				$value = $content->option->{$meta_key} ? esc_textarea($content->option->{$meta_key}) : esc_textarea($default_value);
+				$html = str_replace('#{ESC_TEXTAREA_VALUE}', $value, $html);
+			}
+			if(strpos($html, '#{ESC_HTML_VALUE}') !== false){
+				$value = $content->option->{$meta_key} ? esc_html($content->option->{$meta_key}) : esc_html($default_value);
+				$html = str_replace('#{ESC_HTML_VALUE}', $value, $html);
 			}
 			
 			$parent = new KBContent();
@@ -699,9 +702,6 @@ class KBoardFields {
 			
 			if($field_type == 'file'){
 				$option_value = isset($content->attach->{$meta_key}) ? $content->attach->{$meta_key} : array();
-			}
-			else if($this->isMultiLineFields($field_type)){
-				$option_value = $default_value;
 			}
 			else{
 				$option_value = $content->option->{$meta_key};
