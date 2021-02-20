@@ -1145,8 +1145,16 @@ function kboard_scripts(){
 	wp_register_script('summernote-ko-KR', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ko-KR.js', array('summernote'), '0.8.18');
 	wp_register_script('summernote-ja-JP', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ja-JP.js', array('summernote'), '0.8.18');
 	
+	// jQuery Timepicker 등록
+	wp_register_style('jquery-timepicker', KBOARD_URL_PATH . '/template/css/jquery.timepicker.css', array(), '1.3.5');
+	wp_register_script('jquery-timepicker', KBOARD_URL_PATH . '/template/js/jquery.timepicker.js', array('jquery'), '1.3.5');
+	
 	// PG 등록
 	wp_register_script('kboard-builtin-pg', KBOARD_URL_PATH . '/template/js/pg.js', array(), KBOARD_VERSION, true);
+	
+	// 필드 관련 스크립트 등록
+	wp_register_script('kboard-field-date', KBOARD_URL_PATH . '/template/js/field-date.js', array('jquery'), KBOARD_VERSION, true);
+	wp_register_script('kboard-field-time', KBOARD_URL_PATH . '/template/js/field-time.js', array('jquery'), KBOARD_VERSION, true);
 	
 	// 설정 등록
 	$localize = array(

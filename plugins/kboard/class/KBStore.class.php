@@ -2,7 +2,7 @@
 /**
  * KBoard 스토어
  * @link www.cosmosfarm.com
- * @copyright Copyright 2020 Cosmosfarm. All rights reserved.
+ * @copyright Copyright 2021 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
 class KBStore {

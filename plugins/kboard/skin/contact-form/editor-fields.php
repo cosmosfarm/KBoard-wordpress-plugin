@@ -226,6 +226,11 @@
 		<?php echo do_shortcode($shortcode)?>
 	</div>
 <?php elseif($field['field_type'] == 'date'):?>
+	<?php
+	wp_enqueue_style('kboard-jquery-flick-style');
+	wp_enqueue_script('jquery-ui-datepicker');
+	wp_enqueue_script('kboard-field-date');
+	?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
@@ -234,6 +239,11 @@
 		</div>
 	</div>
 <?php elseif($field['field_type'] == 'time'):?>
+	<?php
+	wp_enqueue_style('jquery-timepicker');
+	wp_enqueue_script('jquery-timepicker');
+	wp_enqueue_script('kboard-field-time');
+	?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">

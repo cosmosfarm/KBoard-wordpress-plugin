@@ -3,7 +3,7 @@ if(!defined('ABSPATH')) exit;
 /**
  * KBoard 게시글 본문 자동링크
  * @link www.cosmosfarm.com
- * @copyright Copyright 2020 Cosmosfarm. All rights reserved.
+ * @copyright Copyright 2021 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
 function kboard_autolink($text){
