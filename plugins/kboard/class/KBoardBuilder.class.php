@@ -478,7 +478,7 @@ class KBoardBuilder {
 		}
 		
 		// 글읽기 감소 포인트
-		if($allow_document && $board->meta->document_read_down_point){
+		if($allow_document && $board->meta->document_read_down_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 			if(function_exists('mycred_add')){
 				if(!is_user_logged_in()){
 					if($this->meta->view_iframe){

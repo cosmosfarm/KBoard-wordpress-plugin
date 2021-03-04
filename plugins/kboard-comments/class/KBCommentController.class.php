@@ -162,7 +162,7 @@ class KBCommentController {
 			}
 			
 			// 댓글쓰기 감소 포인트
-			if($board->meta->comment_insert_down_point){
+			if($board->meta->comment_insert_down_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 				if(function_exists('mycred_add')){
 					if(!is_user_logged_in()){
 						die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
@@ -294,7 +294,7 @@ class KBCommentController {
 			}
 			
 			// 댓글쓰기 증가 포인트
-			if($board->meta->comment_insert_up_point){
+			if($board->meta->comment_insert_up_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 				if(function_exists('mycred_add')){
 					if(is_user_logged_in()){
 						$point = intval(get_user_meta(get_current_user_id(), 'kboard_comments_mycred_point', true));

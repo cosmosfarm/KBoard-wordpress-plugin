@@ -220,7 +220,7 @@ class KBComment {
 				do_action('kboard_comments_delete', $this->uid, $this->content_uid, $board);
 					
 				// 댓글삭제 증가 포인트
-				if($board->meta->comment_delete_up_point){
+				if($board->meta->comment_delete_up_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 					if($this->user_uid){
 						if(function_exists('mycred_add')){
 							$point = intval(get_user_meta($this->user_uid, 'kboard_comments_mycred_point', true));
@@ -232,7 +232,7 @@ class KBComment {
 				}
 					
 				// 댓글삭제 감소 포인트
-				if($board->meta->comment_delete_down_point){
+				if($board->meta->comment_delete_down_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 					if($this->user_uid){
 						if(function_exists('mycred_add')){
 							$point = intval(get_user_meta($this->user_uid, 'kboard_comments_mycred_point', true));

@@ -972,7 +972,7 @@ class KBContent {
 				do_action('kboard_pre_document_delete', $this->uid, $this->board_id, $this, $board);
 				
 				// 글삭제 증가 포인트
-				if($board->meta->document_delete_up_point){
+				if($board->meta->document_delete_up_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 					if($this->member_uid){
 						if(function_exists('mycred_add')){
 							$point = intval(get_user_meta($this->member_uid, 'kboard_document_mycred_point', true));
@@ -984,7 +984,7 @@ class KBContent {
 				}
 				
 				// 글쓰기 감소 포인트
-				if($board->meta->document_delete_down_point){
+				if($board->meta->document_delete_down_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 					if($this->member_uid){
 						if(function_exists('mycred_add')){
 							$point = intval(get_user_meta($this->member_uid, 'kboard_document_mycred_point', true));

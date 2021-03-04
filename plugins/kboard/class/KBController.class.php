@@ -195,7 +195,7 @@ class KBController {
 			do_action('kboard_pre_content_execute', $content, $board);
 			
 			// 글쓰기 감소 포인트
-			if($content->execute_action == 'insert' && $board->meta->document_insert_down_point){
+			if($content->execute_action == 'insert' && $board->meta->document_insert_down_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 				if(function_exists('mycred_add')){
 					if(!is_user_logged_in()){
 						die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
@@ -225,7 +225,7 @@ class KBController {
 			do_action('kboard_content_execute', $content, $board);
 			
 			// 글쓰기 증가 포인트
-			if($content->execute_action == 'insert' && $board->meta->document_insert_up_point){
+			if($content->execute_action == 'insert' && $board->meta->document_insert_up_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 				if(function_exists('mycred_add')){
 					if(is_user_logged_in()){
 						$point = intval(get_user_meta($content->member_uid, 'kboard_document_mycred_point', true));
@@ -477,7 +477,7 @@ class KBController {
 		do_action("kboard_{$board->skin}_file_download", $file_info, $content, $board, $comment);
 		
 		// 첨부파일 다운로드 감소 포인트
-		if($board->meta->attachment_download_down_point){
+		if($board->meta->attachment_download_down_point && (!$board->meta->point_applied_to || !$board->isAdmin())){
 			if(function_exists('mycred_add')){
 				if(!is_user_logged_in()){
 					do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);

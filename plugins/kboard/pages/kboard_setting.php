@@ -1565,6 +1565,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							KBoard의 포인트는 <a href="https://ko.wordpress.org/plugins/mycred/" onclick="window.open(this.href);return false;">myCRED</a> 플러그인의 기반으로 동작하기 때문에 포인트 기능을 사용하시려면 반드시 <a href="https://ko.wordpress.org/plugins/mycred/" onclick="window.open(this.href);return false;">myCRED</a> 플러그인을 설치해주세요.
 						</td>
 					</tr>
+					<!-- 포인트 적용 대상 -->
+					<tr valign="top">
+						<th scope="row"><label for="point_applied_to">포인트 적용 대상</label></th>
+						<td>
+							<select name="point_applied_to" id="point_applied_to">
+								<option value="">관리자 포함 모든 사용자</option>
+								<option value="1"<?php if($meta->point_applied_to):?> selected<?php endif?>>관리자 제외한 모든 사용자</option>
+							</select>
+						</td>
+					</tr>
 					<!-- 글쓰기 증가 포인트 -->
 					<tr valign="top">
 						<th scope="row"><label for="document_insert_up_point"><?php echo __('Writing increase points', 'kboard')?></label></th>
