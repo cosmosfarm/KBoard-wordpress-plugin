@@ -1084,3 +1084,36 @@ function kboard_iframe_id(){
 	}
 	return apply_filters('kboard_iframe_id', $iframe_id);
 }
+
+/**
+ * 문자열에 특수문자(*)를 추가해서 알아볼 수 없도록 변경한다.
+ */
+function kboard_text_masking($value){
+	if($value){
+		if(strpos($value, '@') !== false){
+			$value2 = explode('@', $value);
+			$value = kboard_text_masking($value2[0]) . '@' . $value2[1];
+		}
+		else{
+			$strlen = mb_strlen($value, 'utf-8');
+			
+			if($strlen > 4){
+				$showlen = 3;
+				$value = mb_substr($value, 0, $showlen, 'utf-8') . str_repeat('*', $strlen-$showlen);
+			}
+			else if($strlen > 3){
+				$showlen = 2;
+				$value = mb_substr($value, 0, $showlen, 'utf-8') . str_repeat('*', $strlen-$showlen);
+			}
+			else if($strlen > 2){
+				$value = preg_split('//u', $value, null, PREG_SPLIT_NO_EMPTY);
+				$value = $value[0] . '*' . $value[2];
+			}
+			else if($strlen > 1){
+				$value = preg_split('//u', $value, null, PREG_SPLIT_NO_EMPTY);
+				$value = $value[0] . '*';
+			}
+		}
+	}
+	return $value;
+}

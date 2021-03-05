@@ -1510,6 +1510,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">직접 코드를 작성해서 우커머스와 연결하시려면 <a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220986923814" onclick="window.open(this.href);return false;">우커머스 상품에 KBoard 게시판 연결하기</a>를 참고해주세요.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="display_name_masking">작성자명 마스킹</label></th>
+						<td>
+							<select name="display_name_masking" id="display_name_masking">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->display_name_masking):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">작성자명의 일부만 표시할 때 활성화해주세요.</p>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

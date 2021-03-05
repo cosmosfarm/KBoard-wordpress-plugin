@@ -1646,6 +1646,12 @@ class KBContent {
 	 */
 	public function getUserName(){
 		if($this->uid && $this->member_display){
+			// 작성자명 마스킹
+			$board = $this->getBoard();
+			if($board->meta->display_name_masking){
+				return kboard_text_masking($this->member_display);
+			}
+			
 			return $this->member_display;
 		}
 		return '';

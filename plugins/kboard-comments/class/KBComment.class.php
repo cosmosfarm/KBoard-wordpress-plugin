@@ -329,6 +329,12 @@ class KBComment {
 	 */
 	public function getUserName(){
 		if($this->uid && $this->user_display){
+			// 작성자명 마스킹
+			$board = $this->getBoard();
+			if($board->meta->display_name_masking){
+				return kboard_text_masking($this->user_display);
+			}
+			
 			return $this->user_display;
 		}
 		return '';
