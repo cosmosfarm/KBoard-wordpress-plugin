@@ -196,8 +196,8 @@ function kboard_admin_init_redirect(){
 		}
 	}
 	
-	add_submenu_page('themes.php', __('Find theme', 'kboard'), __('Find theme', 'kboard'), 'manage_options', 'index.php?goto=bswer-home');
-	add_submenu_page('plugins.php', __('Find plugin', 'kboard'), __('Find plugin', 'kboard'), 'manage_options', 'index.php?goto=bswer-home');
+	add_submenu_page('themes.php', __('Find theme', 'kboard'), __('Find theme', 'kboard'), 'manage_kboard', 'index.php?goto=bswer-home');
+	add_submenu_page('plugins.php', __('Find plugin', 'kboard'), __('Find plugin', 'kboard'), 'manage_kboard', 'index.php?goto=bswer-home');
 }
 
 /*
@@ -251,25 +251,25 @@ function kboard_settings_menu(){
 	
 	// KBoard 메뉴 등록
 	$_wp_last_object_menu++;
-	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'manage_options', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'manage_options', 'kboard_dashboard');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록 및 관리', 'kboard'), 'manage_options', 'kboard_list', 'kboard_list');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'manage_options', 'kboard_new', 'kboard_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'manage_options', 'kboard_latestview', 'kboard_latestview');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'manage_options', 'kboard_latestview_new', 'kboard_latestview_new');
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'manage_options', 'kboard_backup', 'kboard_backup');
+	add_menu_page(KBOARD_PAGE_TITLE, 'KBoard', 'manage_kboard', 'kboard_dashboard', 'kboard_dashboard', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('대시보드', 'kboard'), 'manage_kboard', 'kboard_dashboard');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 목록 및 관리', 'kboard'), 'manage_kboard', 'kboard_list', 'kboard_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('게시판 생성', 'kboard'), 'manage_kboard', 'kboard_new', 'kboard_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'manage_kboard', 'kboard_latestview', 'kboard_latestview');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'manage_kboard', 'kboard_latestview_new', 'kboard_latestview_new');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'manage_kboard', 'kboard_backup', 'kboard_backup');
 	
 	if(KBOARD_CONNECT_COSMOSFARM){
-		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'manage_options', 'kboard_updates', 'kboard_updates');
+		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'manage_kboard', 'kboard_updates', 'kboard_updates');
 		
 		// 스토어 메뉴 등록
 		$_wp_last_object_menu++;
-		add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
-		add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_options', 'kboard_store');
-		add_submenu_page('kboard_store', __('Partners', 'kboard'), __('Partners', 'kboard'), 'manage_options', 'kboard_store_partners', 'kboard_store_partners');
+		add_menu_page(__('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_kboard', 'kboard_store', 'kboard_store', plugins_url('kboard/images/icon.png'), $_wp_last_object_menu);
+		add_submenu_page('kboard_store', __('스토어', 'kboard'), __('스토어', 'kboard'), 'manage_kboard', 'kboard_store');
+		add_submenu_page('kboard_store', __('Partners', 'kboard'), __('Partners', 'kboard'), 'manage_kboard', 'kboard_store_partners', 'kboard_store_partners');
 	}
 	
-	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'manage_options', 'kboard_content_list', 'kboard_content_list');
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('전체 게시글', 'kboard'), 'manage_kboard', 'kboard_content_list', 'kboard_content_list');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
 	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3'){
@@ -284,7 +284,7 @@ function kboard_settings_menu(){
 	
 	$result = $wpdb->get_results("SELECT `meta`.`board_id`, `setting`.`board_name` FROM `{$wpdb->prefix}kboard_board_meta` AS `meta` LEFT JOIN `{$wpdb->prefix}kboard_board_setting` AS `setting` ON `meta`.`board_id`=`setting`.`uid` WHERE `meta`.`key`='add_menu_page'");
 	foreach($result as $row){
-		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'manage_options', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
+		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, $row->board_name, 'manage_kboard', "kboard_admin_view_{$row->board_id}", 'kboard_admin_view');
 	}
 }
 
@@ -1071,7 +1071,7 @@ function kboard_ajax_builder(){
  */
 add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
-	if(KBOARD_CONNECT_COSMOSFARM && current_user_can('manage_options')){
+	if(KBOARD_CONNECT_COSMOSFARM && current_user_can('manage_kboard')){
 		
 		// 관리자 알림 시작
 		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
@@ -1386,7 +1386,7 @@ function kboard_not_enough_points_download_file_go_back($action, $url, $content,
 add_action('admin_bar_menu', 'kboard_add_toolbar_link', 999);
 function kboard_add_toolbar_link($wp_admin_bar){
 	global $post, $wpdb;
-	if(!is_admin() && current_user_can('manage_options') && $post && $post->ID){
+	if(!is_admin() && current_user_can('manage_kboard') && $post && $post->ID){
 		$board_id = $wpdb->get_var("SELECT `board_id` FROM `{$wpdb->prefix}kboard_board_meta` WHERE `key`='auto_page' AND `value`='{$post->ID}'");
 		
 		if(!$board_id){
@@ -1939,6 +1939,12 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_meida_relationships` DROP INDEX `content_uid`");
 	}
 	unset($index);
+	
+	// 관리자에게 manage_kboard 권한 추가
+	$admin_role = get_role('administrator');
+	if(!$admin_role->has_cap('manage_kboard')){
+		$admin_role->add_cap('manage_kboard', true);
+	}
 }
 
 /*

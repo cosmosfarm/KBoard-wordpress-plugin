@@ -73,7 +73,7 @@ function kboard_comments_init(){
  * 관리자메뉴에 추가
  */
 function kboard_comments_settings_menu(){
-	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard-comments'), 'manage_options', 'kboard_comments_list', 'kboard_comments_list');
+	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard-comments'), 'manage_kboard', 'kboard_comments_list', 'kboard_comments_list');
 }
 
 /*
@@ -192,7 +192,7 @@ function kboard_comments_field($field_html, $board, $content_uid, $comment_build
  */
 add_action('admin_notices', 'kboard_comments_admin_notices');
 function kboard_comments_admin_notices(){
-	if(current_user_can('manage_options')){
+	if(current_user_can('manage_kboard')){
 		
 		if(!get_option('kboard_updates_notify_disabled')){
 			// 관리자 알림 시작

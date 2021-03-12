@@ -9,7 +9,7 @@ class KBUserProfileFields {
 	
 	public function __construct(){
 		if(class_exists('myCRED_Core')){
-			if(current_user_can('manage_options')){
+			if(current_user_can('manage_kboard')){
 				add_action('show_user_profile', array($this, 'edit_point_fields'));
 				add_action('edit_user_profile', array($this, 'edit_point_fields'));
 				
@@ -72,7 +72,7 @@ class KBUserProfileFields {
 	<?php }
 	
 	public function save_point_fields($user_id){
-		if(!current_user_can('manage_options')) return false;
+		if(!current_user_can('manage_kboard')) return false;
 		
 		update_user_meta($user_id, 'kboard_document_mycred_point', $_POST['kboard_document_mycred_point']);
 		update_user_meta($user_id, 'kboard_comments_mycred_point', $_POST['kboard_comments_mycred_point']);
