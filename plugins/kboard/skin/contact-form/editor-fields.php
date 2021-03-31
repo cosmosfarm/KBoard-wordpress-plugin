@@ -61,13 +61,14 @@
 <?php elseif($field['field_type'] == 'category1'):?>
 	<?php if(!$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory1()):?>
+			<?php $category1 = $content->category1 ? $content->category1 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 				<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 				<div class="attr-value">
 					<select id="<?php echo esc_attr($meta_key)?>" name="category1" class="<?php echo esc_attr($required)?>">
 						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category1 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if($category1 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 					<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
@@ -78,13 +79,14 @@
 <?php elseif($field['field_type'] == 'category2'):?>
 	<?php if(!$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory2()):?>
+			<?php $category2 = $content->category2 ? $content->category2 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 				<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 				<div class="attr-value">
 					<select id="<?php echo esc_attr($meta_key)?>" name="category2" class="<?php echo esc_attr($required)?>">
 						<option value=""><?php echo __('Category', 'kboard')?> <?php echo __('Select', 'kboard')?></option>
 						<?php while($board->hasNextCategory()):?>
-						<option value="<?php echo $board->currentCategory()?>"<?php if($content->category2 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
+						<option value="<?php echo $board->currentCategory()?>"<?php if($category2 == $board->currentCategory()):?> selected<?php endif?>><?php echo $board->currentCategory()?></option>
 						<?php endwhile?>
 					</select>
 					<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
