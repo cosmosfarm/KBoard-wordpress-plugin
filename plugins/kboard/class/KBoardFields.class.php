@@ -719,7 +719,7 @@ class KBoardFields {
 					$field['field_name'] = $this->getFieldLabel($field);
 				}
 				
-				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span> : ';
+				$html = '<div class="kboard-document-add-option-value meta-key-' . esc_attr($meta_key) . '"><span class="option-name">' . $field['field_name'] . '</span><span class="option-separator"> : </span>';
 				
 				if($field_type == 'file'){
 					if($content->execute_action == 'insert'){
@@ -729,10 +729,10 @@ class KBoardFields {
 						$url = new KBUrl();
 						$download_button = "<button type=\"button\" class=\"kboard-button-action kboard-button-download\" onclick=\"window.location.href='{$url->getDownloadURLWithAttach($content->uid, $meta_key)}'\" title=\"\">{$option_value[1]}</button>";
 					}
-					$html .= $download_button . '</div><hr>';
+					$html .= '<span class="option-value">' . $download_button . '</span></div><hr>';
 				}
 				else{
-					$html .= nl2br($option_value) . '</div><hr>';
+					$html .= '<span class="option-value">' . nl2br($option_value) . '</span></div><hr>';
 				}
 				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $content, $board);
 			}
