@@ -307,4 +307,12 @@
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
+<?php elseif($field['field_type'] == 'email'):?>
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
+		<div class="attr-value">
+			<input type="email" id="<?php echo esc_attr($meta_key)?>" class="<?php echo esc_attr($required)?>" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>" value="<?php echo $content->option->{$meta_key}?esc_attr($content->option->{$meta_key}):esc_attr($default_value)?>"<?php if($placeholder):?> placeholder="<?php echo esc_attr($placeholder)?>"<?php endif?>>
+			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
+		</div>
+	</div>
 <?php endif?>

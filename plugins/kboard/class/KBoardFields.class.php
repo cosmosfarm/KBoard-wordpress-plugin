@@ -326,6 +326,22 @@ class KBoardFields {
 				'show_document' => '',
 				'close_button' => 'yes'
 			),
+			'email' => array(
+				'field_type' => 'email',
+				'field_label' => __('Email', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-email',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'placeholder' => '',
+				'description' => '',
+				'required' => '',
+				'show_document' => '',
+				'hidden' => '',
+				'close_button' => 'yes'
+			),
 			/*
 			'color' => array(
 				'field_type' => 'color',
