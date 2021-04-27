@@ -342,6 +342,19 @@ class KBoardFields {
 				'hidden' => '',
 				'close_button' => 'yes'
 			),
+			'address' => array(
+				'field_type' => 'address',
+				'field_label' => __('Address', 'kboard'),
+				'field_name' => '',
+				'class' => 'kboard-attr-address',
+				'meta_key' => '',
+				'permission' => '',
+				'roles' => array(),
+				'description' => '',
+				'required' => '',
+				'show_document' => '',
+				'close_button' => 'yes'
+			),
 			/*
 			'color' => array(
 				'field_type' => 'color',
@@ -746,6 +759,9 @@ class KBoardFields {
 						$download_button = "<button type=\"button\" class=\"kboard-button-action kboard-button-download\" onclick=\"window.location.href='{$url->getDownloadURLWithAttach($content->uid, $meta_key)}'\" title=\"\">{$option_value[1]}</button>";
 					}
 					$html .= '<span class="option-value">' . $download_button . '</span></div><hr>';
+				}
+				else if($field_type == 'address'){
+					$html .= '<span class="option-value">('.$content->option->{$meta_key.'_postcode'}.') '.$content->option->{$meta_key}. ' ' .$content->option->{$meta_key.'_address2'}.'</span></div><hr>';
 				}
 				else{
 					$html .= '<span class="option-value">' . nl2br($option_value) . '</span></div><hr>';

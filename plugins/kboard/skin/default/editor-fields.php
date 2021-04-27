@@ -315,4 +315,16 @@
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
+<?php elseif($field['field_type'] == 'address'):?>
+	<?php wp_enqueue_script('daum-postcode', '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js', array(), NULL, true)?>     
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><?php echo esc_html($field_name)?></label>
+		<div class="attr-value">
+			<input type="text" id="<?php echo esc_attr($meta_key)?>_postcode" class="kboard-postcode" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>_postcode" value="<?php echo esc_attr($content->option->{$meta_key.'_postcode'})?>">
+			<input type="text" id="<?php echo esc_attr($meta_key)?>" class="kboard-address" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>" value="<?php echo esc_attr($content->option->{$meta_key})?>">
+			<input type="text" id="<?php echo esc_attr($meta_key)?>_address2" class="kboard-address2" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>_address2" value="<?php echo esc_attr($content->option->{$meta_key.'_address2'})?>">
+			<button type="button" class="kboard-default-button-small" onclick="kboard_postcode_address_search('<?php echo $meta_key?>', '<?php echo $meta_key?>_postcode')"><?php echo __('Search', 'kboard')?></button>
+			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
+		</div>
+	</div>
 <?php endif?>
