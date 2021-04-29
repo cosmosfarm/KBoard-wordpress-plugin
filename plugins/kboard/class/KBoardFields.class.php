@@ -734,6 +734,9 @@ class KBoardFields {
 			if($field_type == 'file'){
 				$option_value = isset($content->attach->{$meta_key}) ? $content->attach->{$meta_key} : array();
 			}
+			else if($field_type == 'address'){
+				$option_value = $content->option->{$meta_key.'_address_1'};
+			}
 			else{
 				$option_value = $content->option->{$meta_key};
 			}
@@ -761,11 +764,12 @@ class KBoardFields {
 					$html .= '<span class="option-value">' . $download_button . '</span></div><hr>';
 				}
 				else if($field_type == 'address'){
-					$html .= '<span class="option-value">('.$content->option->{$meta_key.'_postcode'}.') '.$content->option->{$meta_key}. ' ' .$content->option->{$meta_key.'_address2'}.'</span></div><hr>';
+					$html .= '<span class="option-value">(' . $content->option->{$meta_key.'_postcode'} . ') ' . $content->option->{$meta_key.'_address_1'} . ' ' . $content->option->{$meta_key.'_address_2'} . '</span></div><hr>';
 				}
 				else{
 					$html .= '<span class="option-value">' . nl2br($option_value) . '</span></div><hr>';
 				}
+				
 				$option_value_list[$meta_key] = apply_filters('kboard_document_add_option_value_field_html', $html, $field, $content, $board);
 			}
 		}

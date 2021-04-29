@@ -1152,9 +1152,13 @@ function kboard_scripts(){
 	// PG 등록
 	wp_register_script('kboard-builtin-pg', KBOARD_URL_PATH . '/template/js/pg.js', array(), KBOARD_VERSION, true);
 	
+	// 우편번호 주소 검색
+	wp_enqueue_script('daum-postcode', '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js', array(), NULL, true);
+	
 	// 필드 관련 스크립트 등록
 	wp_register_script('kboard-field-date', KBOARD_URL_PATH . '/template/js/field-date.js', array('jquery'), KBOARD_VERSION, true);
 	wp_register_script('kboard-field-time', KBOARD_URL_PATH . '/template/js/field-time.js', array('jquery'), KBOARD_VERSION, true);
+	wp_register_script('kboard-field-address', KBOARD_URL_PATH . '/template/js/field-address.js', array('jquery', 'daum-postcode'), KBOARD_VERSION, true);
 	
 	// 설정 등록
 	$localize = array(
@@ -1204,6 +1208,7 @@ function kboard_scripts(){
 		'name' => __('Name', 'kboard'),
 		'email' => __('Email', 'kboard'),
 		'address' => __('Address', 'kboard'),
+		'address_2' => __('Address 2', 'kboard'),
 		'postcode' => __('Postcode', 'kboard'),
 		'phone_number' => __('Phone number', 'kboard'),
 		'mobile_phone' => __('Mobile phone', 'kboard'),

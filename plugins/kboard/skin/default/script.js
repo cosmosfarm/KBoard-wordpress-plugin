@@ -83,26 +83,6 @@ function kboard_radio_reset(obj){
 	});
 }
 
-function kboard_postcode_address_search(address, postcode){
-	var width = 500;
-	var height = 600;
-	new daum.Postcode({
-		width: width,
-		height: height,
-		oncomplete: function(data){
-			jQuery('#'+postcode).val(data.zonecode);
-			jQuery('#'+address).val(data.roadAddress);
-			
-			setTimeout(function(){
-				jQuery('#'+address).focus();
-			});
-		}
-	}).open({
-		left: (screen.availWidth-width)*0.5,
-		top: (screen.availHeight-height)*0.5
-	});
-}
-
 jQuery(window).bind('beforeunload',function(e){
 	e = e || window.event;
 	if(jQuery('.kboard-form').data('submitted') != 'submitted'){
