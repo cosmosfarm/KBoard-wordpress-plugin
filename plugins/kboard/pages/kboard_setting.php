@@ -132,49 +132,18 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="page_rpp">게시글 표시 수</label></th>
+						<th scope="row"><label for="page_rpp">게시글 표시 수(PC)</label></th>
 						<td>
-							<select name="page_rpp" id="page_rpp">
-								<?php if(!$board->page_rpp) $board->page_rpp=10;?>
-								<option value="1"<?php if($board->page_rpp == 1):?> selected<?php endif?>>1개</option>
-								<option value="2"<?php if($board->page_rpp == 2):?> selected<?php endif?>>2개</option>
-								<option value="3"<?php if($board->page_rpp == 3):?> selected<?php endif?>>3개</option>
-								<option value="4"<?php if($board->page_rpp == 4):?> selected<?php endif?>>4개</option>
-								<option value="5"<?php if($board->page_rpp == 5):?> selected<?php endif?>>5개</option>
-								<option value="6"<?php if($board->page_rpp == 6):?> selected<?php endif?>>6개</option>
-								<option value="7"<?php if($board->page_rpp == 7):?> selected<?php endif?>>7개</option>
-								<option value="8"<?php if($board->page_rpp == 8):?> selected<?php endif?>>8개</option>
-								<option value="9"<?php if($board->page_rpp == 9):?> selected<?php endif?>>9개</option>
-								<option value="10"<?php if($board->page_rpp == 10):?> selected<?php endif?>>10개</option>
-								<option value="11"<?php if($board->page_rpp == 11):?> selected<?php endif?>>11개</option>
-								<option value="12"<?php if($board->page_rpp == 12):?> selected<?php endif?>>12개</option>
-								<option value="13"<?php if($board->page_rpp == 13):?> selected<?php endif?>>13개</option>
-								<option value="14"<?php if($board->page_rpp == 14):?> selected<?php endif?>>14개</option>
-								<option value="15"<?php if($board->page_rpp == 15):?> selected<?php endif?>>15개</option>
-								<option value="16"<?php if($board->page_rpp == 16):?> selected<?php endif?>>16개</option>
-								<option value="17"<?php if($board->page_rpp == 17):?> selected<?php endif?>>17개</option>
-								<option value="18"<?php if($board->page_rpp == 18):?> selected<?php endif?>>18개</option>
-								<option value="19"<?php if($board->page_rpp == 19):?> selected<?php endif?>>19개</option>
-								<option value="20"<?php if($board->page_rpp == 20):?> selected<?php endif?>>20개</option>
-								<option value="21"<?php if($board->page_rpp == 21):?> selected<?php endif?>>21개</option>
-								<option value="22"<?php if($board->page_rpp == 22):?> selected<?php endif?>>22개</option>
-								<option value="23"<?php if($board->page_rpp == 23):?> selected<?php endif?>>23개</option>
-								<option value="24"<?php if($board->page_rpp == 24):?> selected<?php endif?>>24개</option>
-								<option value="25"<?php if($board->page_rpp == 25):?> selected<?php endif?>>25개</option>
-								<option value="26"<?php if($board->page_rpp == 26):?> selected<?php endif?>>26개</option>
-								<option value="27"<?php if($board->page_rpp == 27):?> selected<?php endif?>>27개</option>
-								<option value="28"<?php if($board->page_rpp == 28):?> selected<?php endif?>>28개</option>
-								<option value="29"<?php if($board->page_rpp == 29):?> selected<?php endif?>>29개</option>
-								<option value="30"<?php if($board->page_rpp == 30):?> selected<?php endif?>>30개</option>
-								<option value="40"<?php if($board->page_rpp == 40):?> selected<?php endif?>>40개</option>
-								<option value="50"<?php if($board->page_rpp == 50):?> selected<?php endif?>>50개</option>
-								<option value="60"<?php if($board->page_rpp == 60):?> selected<?php endif?>>60개</option>
-								<option value="70"<?php if($board->page_rpp == 70):?> selected<?php endif?>>70개</option>
-								<option value="80"<?php if($board->page_rpp == 80):?> selected<?php endif?>>80개</option>
-								<option value="90"<?php if($board->page_rpp == 90):?> selected<?php endif?>>90개</option>
-								<option value="100"<?php if($board->page_rpp == 100):?> selected<?php endif?>>100개</option>
-							</select>
-							<p class="description">한 페이지에 보여지는 게시글 개수를 정합니다.</p>
+							<?php if(!$board->page_rpp) $board->page_rpp=10;?>
+							<input type="number" name="page_rpp" id="page_rpp" value="<?php echo $board->page_rpp?>">
+							<p class="description">PC 화면에서 한 페이지에 보여지는 게시글 개수를 정합니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="mobile_page_rpp">게시글 표시 수(모바일)</label></th>
+						<td>
+							<input type="number" name="mobile_page_rpp" id="mobile_page_rpp" value="<?php echo $meta->mobile_page_rpp ? $meta->mobile_page_rpp : $board->page_rpp?>">
+							<p class="description">모바일 화면에서 한 페이지에 보여지는 게시글 개수를 정합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

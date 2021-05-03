@@ -105,6 +105,7 @@ class KBAdminController {
 				$board->meta->auto_page = $auto_page;
 				$board->meta->latest_target_page                = isset($_POST['latest_target_page'])                ? $_POST['latest_target_page']                : '';
 				$board->meta->add_menu_page                     = isset($_POST['add_menu_page'])                     ? $_POST['add_menu_page']                     : '';
+				$board->meta->mobile_page_rpp                   = isset($_POST['mobile_page_rpp'])                   ? $_POST['mobile_page_rpp']                   : '';
 				$board->meta->notice_invisible_comments         = isset($_POST['notice_invisible_comments'])         ? $_POST['notice_invisible_comments']         : '';
 				$board->meta->use_direct_url                    = isset($_POST['use_direct_url'])                    ? $_POST['use_direct_url']                    : '';
 				$board->meta->latest_alerts                     = isset($_POST['latest_alerts'])                     ? implode(',', array_map('sanitize_text_field', explode(',', $_POST['latest_alerts']))) : '';
@@ -274,6 +275,7 @@ class KBAdminController {
 		$name = $_POST['name'];
 		$skin = $_POST['skin'];
 		$rpp = $_POST['rpp'];
+		$mobile_rpp = $_POST['mobile_rpp'];
 		$sort = $_POST['sort'];
 		
 		$latestview = new KBLatestview();
@@ -283,6 +285,7 @@ class KBAdminController {
 		$latestview->name = $name;
 		$latestview->skin = $skin;
 		$latestview->rpp = $rpp;
+		$latestview->mobile_rpp = $mobile_rpp;
 		$latestview->sort = $sort;
 		$latestview->update();
 		

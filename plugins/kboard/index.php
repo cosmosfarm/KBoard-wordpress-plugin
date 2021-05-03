@@ -790,7 +790,12 @@ function kboard_builder($args){
 		$builder = new KBoardBuilder($board->id);
 		$builder->board = $board;
 		$builder->setSkin($board->skin);
-		$builder->setRpp($board->page_rpp);
+		if(wp_is_mobile() && $board->meta->mobile_page_rpp){
+			$builder->setRpp($board->meta->mobile_page_rpp);
+		}
+		else{
+			$builder->setRpp($board->page_rpp);
+		}
 		
 		if(isset($args['mod']) && $args['mod']){
 			if(!kboard_mod()){
@@ -843,6 +848,7 @@ function kboard_latest_shortcode($args){
 	if(!isset($args['id']) || !$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	if(!isset($args['url']) || !$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수입니다.';
 	if(!isset($args['rpp']) || !$args['rpp']) $args['rpp'] = 5;
+	if(!isset($args['mobile_rpp']) || !$args['mobile_rpp']) $args['mobile_rpp'] = $args['rpp'];
 	
 	if(isset($args['blog']) && $args['blog']){
 		do_action('kboard_switch_to_blog', $args);
@@ -855,7 +861,12 @@ function kboard_latest_shortcode($args){
 		$builder = new KBoardBuilder($board->id, true);
 		$builder->board = $board;
 		$builder->setSkin($board->skin);
-		$builder->setRpp($args['rpp']);
+		if(wp_is_mobile()){
+			$builder->setRpp($args['mobile_rpp']);
+		}
+		else{
+			$builder->setRpp($args['rpp']);
+		}
 		$builder->setURL($args['url']);
 		
 		if(isset($args['sort']) && $args['sort']){
@@ -936,7 +947,12 @@ function kboard_latestview_shortcode($args){
 		$builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
 		$builder->board = new KBoard();
 		$builder->setSkin($latestview->skin);
-		$builder->setRpp($latestview->rpp);
+		if(wp_is_mobile()){
+			$builder->setRpp($latestview->mobile_rpp);
+		}
+		else{
+			$builder->setRpp($latestview->rpp);
+		}
 		$builder->setSorting($latestview->sort);
 		
 		if(isset($args['category1']) && $args['category1']){
@@ -1025,6 +1041,9 @@ function kboard_ajax_builder(){
 		
 		if(isset($_REQUEST['rpp']) && $_REQUEST['rpp']){
 			$builder->setRpp($_REQUEST['rpp']);
+		}
+		else if(wp_is_mobile() && $board->meta->mobile_page_rpp){
+			$builder->setRpp($board->meta->mobile_page_rpp);
 		}
 		else{
 			$builder->setRpp($board->page_rpp);
@@ -1622,11 +1641,12 @@ function kboard_activation_execute(){
 	UNIQUE KEY `meta_index` (`board_id`,`key`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_latestview` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(127) NOT NULL,
 	`skin` varchar(127) NOT NULL,
 	`rpp` int(10) unsigned NOT NULL,
+	`mobile_rpp` int(10) unsigned NOT NULL,
 	`sort` varchar(20) NOT NULL,
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)

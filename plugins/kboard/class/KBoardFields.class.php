@@ -557,7 +557,12 @@ class KBoardFields {
 			if(!$boardBuilder){
 				$boardBuilder = new KBoardBuilder($this->board->id);
 				$boardBuilder->setSkin($this->board->skin);
-				$boardBuilder->setRpp($this->board->page_rpp);
+				if(wp_is_mobile() && $this->board->meta->mobile_page_rpp){
+					$builder->setRpp($this->board->meta->mobile_page_rpp);
+				}
+				else{
+					$boardBuilder->setRpp($this->board->page_rpp);
+				}
 				$boardBuilder->board = $this->board;
 			}
 			

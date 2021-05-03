@@ -38,35 +38,18 @@
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="rpp">게시글 표시 수</label></th>
+					<th scope="row"><label for="rpp">게시글 표시 수(PC)</label></th>
 					<td>
-						<select name="rpp" id="rpp">
-							<?php if(!$latestview->rpp) $latestview->rpp=10;?>
-							<option value="1"<?php if($latestview->rpp == 1):?> selected<?php endif?>>1개</option>
-							<option value="2"<?php if($latestview->rpp == 2):?> selected<?php endif?>>2개</option>
-							<option value="3"<?php if($latestview->rpp == 3):?> selected<?php endif?>>3개</option>
-							<option value="4"<?php if($latestview->rpp == 4):?> selected<?php endif?>>4개</option>
-							<option value="5"<?php if($latestview->rpp == 5):?> selected<?php endif?>>5개</option>
-							<option value="6"<?php if($latestview->rpp == 6):?> selected<?php endif?>>6개</option>
-							<option value="7"<?php if($latestview->rpp == 7):?> selected<?php endif?>>7개</option>
-							<option value="8"<?php if($latestview->rpp == 8):?> selected<?php endif?>>8개</option>
-							<option value="9"<?php if($latestview->rpp == 9):?> selected<?php endif?>>9개</option>
-							<option value="10"<?php if($latestview->rpp == 10):?> selected<?php endif?>>10개</option>
-							<option value="11"<?php if($latestview->rpp == 11):?> selected<?php endif?>>11개</option>
-							<option value="12"<?php if($latestview->rpp == 12):?> selected<?php endif?>>12개</option>
-							<option value="13"<?php if($latestview->rpp == 13):?> selected<?php endif?>>13개</option>
-							<option value="14"<?php if($latestview->rpp == 14):?> selected<?php endif?>>14개</option>
-							<option value="15"<?php if($latestview->rpp == 15):?> selected<?php endif?>>15개</option>
-							<option value="16"<?php if($latestview->rpp == 16):?> selected<?php endif?>>16개</option>
-							<option value="17"<?php if($latestview->rpp == 17):?> selected<?php endif?>>17개</option>
-							<option value="18"<?php if($latestview->rpp == 18):?> selected<?php endif?>>18개</option>
-							<option value="19"<?php if($latestview->rpp == 19):?> selected<?php endif?>>19개</option>
-							<option value="20"<?php if($latestview->rpp == 20):?> selected<?php endif?>>20개</option>
-							<option value="25"<?php if($latestview->rpp == 25):?> selected<?php endif?>>25개</option>
-							<option value="30"<?php if($latestview->rpp == 30):?> selected<?php endif?>>30개</option>
-							<option value="50"<?php if($latestview->rpp == 50):?> selected<?php endif?>>50개</option>
-							<option value="100"<?php if($latestview->rpp == 100):?> selected<?php endif?>>100개</option>
-						</select>
+						<?php if(!$latestview->rpp) $latestview->rpp=10;?>
+						<input type="number" name="rpp" id="rpp" value="<?php echo $latestview->rpp?>">
+						<p class="description">최신글 리스트에 보여지는 게시글 개수를 정합니다.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="mobile_rpp">게시글 표시 수(모바일)</label></th>
+					<td>
+						<?php if(!$latestview->mobile_rpp) $latestview->mobile_rpp=$latestview->rpp;?>
+						<input type="number" name="mobile_rpp" id="mobile_rpp" value="<?php echo $latestview->mobile_rpp?>">
 						<p class="description">최신글 리스트에 보여지는 게시글 개수를 정합니다.</p>
 					</td>
 				</tr>
