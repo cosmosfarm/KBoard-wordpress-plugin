@@ -175,16 +175,16 @@ class KBAdminController {
 				$board->meta->skin_fields                    = isset($_POST['fields'])                         ? serialize($_POST['fields'])                     : '';
 				
 				$board->meta->point_applied_to               = isset($_POST['point_applied_to'])               ? sanitize_text_field($_POST['point_applied_to']) : '';
-				$board->meta->document_insert_up_point       = isset($_POST['document_insert_up_point'])       ? abs($_POST['document_insert_up_point'])         : '';
-				$board->meta->document_insert_down_point     = isset($_POST['document_insert_down_point'])     ? abs($_POST['document_insert_down_point'])       : '';
-				$board->meta->document_delete_up_point       = isset($_POST['document_delete_up_point'])       ? abs($_POST['document_delete_up_point'])         : '';
-				$board->meta->document_delete_down_point     = isset($_POST['document_delete_down_point'])     ? abs($_POST['document_delete_down_point'])       : '';
-				$board->meta->document_read_down_point       = isset($_POST['document_read_down_point'])       ? abs($_POST['document_read_down_point'])         : '';
-				$board->meta->attachment_download_down_point = isset($_POST['attachment_download_down_point']) ? abs($_POST['attachment_download_down_point'])   : '';
-				$board->meta->comment_insert_up_point        = isset($_POST['comment_insert_up_point'])        ? abs($_POST['comment_insert_up_point'])          : '';
-				$board->meta->comment_insert_down_point      = isset($_POST['comment_insert_down_point'])      ? abs($_POST['comment_insert_down_point'])        : '';
-				$board->meta->comment_delete_up_point        = isset($_POST['comment_delete_up_point'])        ? abs($_POST['comment_delete_up_point'])          : '';
-				$board->meta->comment_delete_down_point      = isset($_POST['comment_delete_down_point'])      ? abs($_POST['comment_delete_down_point'])        : '';
+				$board->meta->document_insert_up_point       = isset($_POST['document_insert_up_point'])       ? abs(intval($_POST['document_insert_up_point']))       : '';
+				$board->meta->document_insert_down_point     = isset($_POST['document_insert_down_point'])     ? abs(intval($_POST['document_insert_down_point']))     : '';
+				$board->meta->document_delete_up_point       = isset($_POST['document_delete_up_point'])       ? abs(intval($_POST['document_delete_up_point']))       : '';
+				$board->meta->document_delete_down_point     = isset($_POST['document_delete_down_point'])     ? abs(intval($_POST['document_delete_down_point']))     : '';
+				$board->meta->document_read_down_point       = isset($_POST['document_read_down_point'])       ? abs(intval($_POST['document_read_down_point']))       : '';
+				$board->meta->attachment_download_down_point = isset($_POST['attachment_download_down_point']) ? abs(intval($_POST['attachment_download_down_point'])) : '';
+				$board->meta->comment_insert_up_point        = isset($_POST['comment_insert_up_point'])        ? abs(intval($_POST['comment_insert_up_point']))        : '';
+				$board->meta->comment_insert_down_point      = isset($_POST['comment_insert_down_point'])      ? abs(intval($_POST['comment_insert_down_point']))      : '';
+				$board->meta->comment_delete_up_point        = isset($_POST['comment_delete_up_point'])        ? abs(intval($_POST['comment_delete_up_point']))        : '';
+				$board->meta->comment_delete_down_point      = isset($_POST['comment_delete_down_point'])      ? abs(intval($_POST['comment_delete_down_point']))      : '';
 				
 				// kboard_extends_setting_update 액션 실행
 				do_action('kboard_extends_setting_update', $board->meta, $board_id);
