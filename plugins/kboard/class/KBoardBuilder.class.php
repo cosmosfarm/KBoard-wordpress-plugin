@@ -47,6 +47,7 @@ class KBoardBuilder {
 	 */
 	public function setMOD($mod){
 		$this->mod = strtolower($mod);
+		$_GET['mod'] = $this->mod;
 	}
 	
 	/**
