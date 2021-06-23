@@ -11,7 +11,9 @@
   4. 입력필드 게시글 본문에 표시 코드 개선
   5. 입력필드 설정에 새로운 확장 필드 추가 (이메일, 주소)
   6. 게시글 표시 수 관련 개선
-  7. 버그 수정
+  7. kboard_admin_content_list_table_columns 필터 추가
+  8. kboard_admin_content_list_table_custom_column 액션 추가
+  9. 버그 수정
 
 
 6.0

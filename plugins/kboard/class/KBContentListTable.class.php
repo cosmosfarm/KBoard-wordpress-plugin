@@ -75,7 +75,7 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	public function get_columns(){
-		return array(
+		$columns = array(
 			'cb' => '<input type="checkbox">',
 			'board' => __('Forum', 'kboard'),
 			'title' => __('Title', 'kboard'),
@@ -84,8 +84,10 @@ class KBContentListTable extends WP_List_Table {
 			'secret' => __('Secret', 'kboard'),
 			'notice' => __('Notice', 'kboard'),
 			'date' => __('Date', 'kboard'),
-			'status' => __('Status', 'kboard')
+			'status' => __('Status', 'kboard'),
 		);
+		
+		return apply_filters('kboard_admin_content_list_table_columns', $columns);
 	}
 	
 	public function get_bulk_actions(){
@@ -141,63 +143,82 @@ class KBContentListTable extends WP_List_Table {
 	public function single_row($item){
 		echo '<tr data-uid="'.$item->uid.'">';
 		
-		echo '<th scope="row" class="check-column">';
-		echo '<input type="checkbox" name="uid[]" value="'.$item->uid.'">';
-		echo '</th>';
-		
-		echo '<td class="kboard-content-list-board column-primary">';
-		if($item->board_id){
-			echo '<select name="board_id['.$item->uid.']" onchange="kboard_content_list_update()">';
-			foreach($this->board_list->resource as $board){
-				echo '<option value="'.$board->uid.'"'.($item->board_id==$board->uid?' selected':'').'>'.$board->board_name.'</option>';
+		foreach($this->get_columns() as $key=>$value){
+			if($key == 'cb'){
+				echo '<th scope="row" class="check-column">';
+				echo '<input type="checkbox" name="uid[]" value="'.$item->uid.'">';
+				echo '</th>';
 			}
-			echo '</select>';
+			else if($key == 'board'){
+				echo '<td class="kboard-content-list-board column-primary">';
+				if($item->board_id){
+					echo '<select name="board_id['.$item->uid.']" onchange="kboard_content_list_update()">';
+					foreach($this->board_list->resource as $board){
+						echo '<option value="'.$board->uid.'"'.($item->board_id==$board->uid?' selected':'').'>'.$board->board_name.'</option>';
+					}
+					echo '</select>';
+				}
+				else{
+					echo __('The reply.', 'kboard');
+				}
+				echo '<button type="button" class="toggle-row"><span class="screen-reader-text">상세보기</span></button>';
+				echo '</td>';
+			}
+			else if($key == 'title'){
+				echo '<td class="kboard-content-list-title" data-colname="'.__('Title', 'kboard').'">';
+				if($item->comment){
+					echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').' ('.$item->comment.')</a></h4>';
+				}
+				else{
+					echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
+				}
+				echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
+				echo '</td>';
+			}
+			else if($key == 'member'){
+				echo '<td class="kboard-content-list-author" data-colname="'.__('Author', 'kboard').'">';
+				if($item->member_uid) echo '<a href="'.admin_url('user-edit.php?user_id='.$item->member_uid).'">';
+				echo $item->member_display;
+				if($item->member_uid) echo '</a>';
+				echo '</td>';
+			}
+			else if($key == 'view'){
+				echo '<td class="kboard-content-list-view" data-colname="'.__('Views', 'kboard').'">';
+				echo $item->view;
+				echo '</td>';
+			}
+			else if($key == 'secret'){
+				echo '<td class="kboard-content-list-secret" data-colname="'.__('Secret', 'kboard').'">';
+				echo $item->secret?__('Yes', 'kboard'):__('No', 'kboard');
+				echo '</td>';
+			}
+			else if($key == 'notice'){
+				echo '<td class="kboard-content-list-notice" data-colname="'.__('Notice', 'kboard').'">';
+				echo $item->notice?__('Yes', 'kboard'):__('No', 'kboard');
+				echo '</td>';
+			}
+			else if($key == 'date'){
+				echo '<td class="kboard-content-list-date">';
+				echo '<input type="text" name="date['.$item->uid.']" class="kboard-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->date)).'">';
+				echo '<input type="text" name="time['.$item->uid.']" class="kboard-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->date)).'">';
+				echo '<button type="button" class="button button-small" onclick="kboard_content_list_update()">'.__('Update', 'kboard').'</button>';
+				echo '</td>';
+			}
+			else if($key == 'status'){
+				echo '<td class="kboard-content-list-status" data-colname="'.__('Status', 'kboard').'">';
+				echo '<select name="status['.$item->uid.']" onchange="kboard_content_list_update()">';
+				$status_list = kboard_content_status_list();
+				foreach($status_list as $key=>$value){
+					$selected = ($item->status==$key) ? ' selected' : '';
+					echo '<option value="'.esc_attr($key).'"'.$selected.'>'.esc_html($value).'</option>';
+				}
+				echo '</td>';
+			}
+			else{
+				$content_uid = $item->uid;
+				do_action('kboard_admin_content_list_table_custom_column', $key, $content_uid);
+			}
 		}
-		else{
-			echo __('The reply.', 'kboard');
-		}
-		echo '<button type="button" class="toggle-row"><span class="screen-reader-text">상세보기</span></button>';
-		echo '</td>';
-		
-		echo '<td class="kboard-content-list-title" data-colname="'.__('Title', 'kboard').'">';
-		if($item->comment){
-			echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').' ('.$item->comment.')</a></h4>';
-		}
-		else{
-			echo '<h4><a href="'.$item->url.'" onclick="window.open(this.href);return false;">'.mb_strimwidth(strip_tags($item->title), 0, 300, '...', 'UTF-8').'</a></h4>';
-		}
-		echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
-		echo '</td>';
-		
-		echo '<td class="kboard-content-list-author" data-colname="'.__('Author', 'kboard').'">';
-		if($item->member_uid) echo '<a href="'.admin_url('user-edit.php?user_id='.$item->member_uid).'">';
-		echo $item->member_display;
-		if($item->member_uid) echo '</a>';
-		echo '</td>';
-		
-		echo '<td class="kboard-content-list-view" data-colname="'.__('Views', 'kboard').'">';
-		echo $item->view;
-		echo '</td>';
-		echo '<td class="kboard-content-list-secret" data-colname="'.__('Secret', 'kboard').'">';
-		echo $item->secret?__('Yes', 'kboard'):__('No', 'kboard');
-		echo '</td>';
-		echo '<td class="kboard-content-list-notice" data-colname="'.__('Notice', 'kboard').'">';
-		echo $item->notice?__('Yes', 'kboard'):__('No', 'kboard');
-		echo '</td>';
-		echo '<td class="kboard-content-list-date">';
-		echo '<input type="text" name="date['.$item->uid.']" class="kboard-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->date)).'">';
-		echo '<input type="text" name="time['.$item->uid.']" class="kboard-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->date)).'">';
-		echo '<button type="button" class="button button-small" onclick="kboard_content_list_update()">'.__('Update', 'kboard').'</button>';
-		echo '</td>';
-		
-		echo '<td class="kboard-content-list-status" data-colname="'.__('Status', 'kboard').'">';
-		echo '<select name="status['.$item->uid.']" onchange="kboard_content_list_update()">';
-		$status_list = kboard_content_status_list();
-		foreach($status_list as $key=>$value){
-			$selected = ($item->status==$key) ? ' selected' : '';
-			echo '<option value="'.esc_attr($key).'"'.$selected.'>'.esc_html($value).'</option>';
-		}
-		echo '</td>';
 		
 		echo '</tr>';
 	}
@@ -209,4 +230,3 @@ class KBContentListTable extends WP_List_Table {
 	</p>
 	<?php }
 }
-?>
