@@ -1339,6 +1339,14 @@ function kboard_admin_style($hook_suffix){
 }
 
 /*
+ * 관리자 페이지 스크립트 파일을 출력한다.
+ */
+add_action('admin_enqueue_scripts', 'kboard_admin_script', 999, 1);
+function kboard_admin_script(){
+  wp_enqueue_script('kboard-setting_script', KBOARD_URL_PATH . '/pages/kboard-setting_script.js', array(), KBOARD_VERSION, false);
+}
+
+/*
  * 읽기권한이 없어서 로그인 페이지로 이동한다.
  */
 add_action('kboard_cannot_read_document', 'kboard_cannot_read_document_go_login', 10, 5);
