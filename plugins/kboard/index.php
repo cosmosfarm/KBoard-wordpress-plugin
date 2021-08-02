@@ -1343,7 +1343,7 @@ function kboard_admin_style($hook_suffix){
  */
 add_action('admin_enqueue_scripts', 'kboard_admin_script', 999, 1);
 function kboard_admin_script(){
-  wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
+	wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
 }
 
 /*
