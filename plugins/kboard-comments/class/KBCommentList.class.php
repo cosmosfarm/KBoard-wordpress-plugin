@@ -264,6 +264,9 @@ class KBCommentList {
 	public function add($parent_uid, $user_uid, $user_display, $content, $status='', $password=''){
 		global $wpdb;
 		
+		// WordPress calculates offsets from UTC.
+		date_default_timezone_set('UTC');
+		
 		$data = array();
 		$data['content_uid'] = $this->content_uid;
 		$data['parent_uid'] = $parent_uid;

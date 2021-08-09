@@ -268,6 +268,9 @@ class KBContent {
 	public function insertContent($data = array()){
 		global $wpdb;
 		
+		// WordPress calculates offsets from UTC.
+		date_default_timezone_set('UTC');
+		
 		if(!$data){
 			$data['board_id'] = $this->board_id;
 			$data['parent_uid'] = $this->parent_uid;
@@ -376,6 +379,9 @@ class KBContent {
 	 */
 	public function updateContent($data = array()){
 		global $wpdb;
+		
+		// WordPress calculates offsets from UTC.
+		date_default_timezone_set('UTC');
 		
 		if($this->uid){
 			if(!$data){

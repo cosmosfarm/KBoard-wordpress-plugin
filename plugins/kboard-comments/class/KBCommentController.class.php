@@ -40,6 +40,9 @@ class KBCommentController {
 		if(isset($_POST["kboard-comments-execute-nonce-{$content_uid}"]) && wp_verify_nonce($_POST["kboard-comments-execute-nonce-{$content_uid}"], 'kboard-comments-execute')){
 			header("Content-Type: text/html; charset=UTF-8");
 			
+			// 되돌아오는 페이지 주소 깨지는 버그 해결
+			$_SERVER['HTTP_REFERER'] = preg_replace('/\{[^}]*\}/', '%', wp_get_raw_referer());
+			
 			if(!wp_get_referer()){
 				wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 			}
@@ -330,6 +333,9 @@ class KBCommentController {
 	public function delete(){
 		header("Content-Type: text/html; charset=UTF-8");
 		
+		// 되돌아오는 페이지 주소 깨지는 버그 해결
+		$_SERVER['HTTP_REFERER'] = preg_replace('/\{[^}]*\}/', '%', wp_get_raw_referer());
+		
 		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
 		}
@@ -390,6 +396,9 @@ class KBCommentController {
 	 */
 	public function update(){
 		header("Content-Type: text/html; charset=UTF-8");
+		
+		// 되돌아오는 페이지 주소 깨지는 버그 해결
+		$_SERVER['HTTP_REFERER'] = preg_replace('/\{[^}]*\}/', '%', wp_get_raw_referer());
 		
 		if(!wp_get_referer()){
 			wp_die(__('This page is restricted from external access.', 'kboard-comments'));
