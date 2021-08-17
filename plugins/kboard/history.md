@@ -13,8 +13,10 @@
   6. 게시글 표시 수 관련 개선
   7. kboard_admin_content_list_table_columns 필터 추가
   8. kboard_admin_content_list_table_custom_column 액션 추가
-  9. kboard_xssfilter 설정 변경(font 태그 color 속성 추가)
-  10. 버그 수정
+  9. kboard_init_category1_list 필터 추가
+  10. kboard_init_category2_list 필터 추가
+  11. kboard_xssfilter 설정 변경(font 태그 color 속성 추가)
+  12. 버그 수정
 
 
 6.0

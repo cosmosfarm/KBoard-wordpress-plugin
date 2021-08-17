@@ -131,16 +131,18 @@ class KBoard {
 	 * 카테고리 정보를 초기화 한다.
 	 */
 	public function initCategory1(){
-		$this->category = explode(',', $this->category1_list);
-		return $this->category1_list;
+		$category1_list = apply_filters('kboard_init_category1_list', $this->category1_list, $this);
+		$this->category = explode(',', $category1_list);
+		return $category1_list;
 	}
 	
 	/**
 	 * 두번째 카테코리 정보를 초기화 한다.
 	 */
 	public function initCategory2(){
-		$this->category = explode(',', $this->category2_list);
-		return $this->category2_list;
+		$category2_list = apply_filters('kboard_init_category2_list', $this->category2_list, $this);
+		$this->category = explode(',', $category2_list);
+		return $category2_list;
 	}
 	
 	/**
