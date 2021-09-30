@@ -1788,15 +1788,29 @@ class KBContent {
 	
 	/**
 	 * 게시글에 표시할 첨부파일을 반환한다.
+	 * @param string $key_filter
 	 * @return object
 	 */
-	public function getAttachmentList(){
+	public function getAttachmentList($key_filter=''){
 		$attachment_list = new stdClass();
 		if($this->uid){
 			$board = $this->getBoard();
 			$attachment_list = $board->fields()->getAttachmentList($this);
 		}
-		return apply_filters('kboard_content_get_attachment_list', $attachment_list, $this, $this->getBoard());
+		
+		if($key_filter){
+			$new_attachment_list = array();
+			
+			foreach($attachment_list as $key=>$attachment){
+				if(strpos($key, $key_filter) !== false){
+					$new_attachment_list[$key] = $attachment;
+				}
+			}
+			
+			$attachment_list = (object)$new_attachment_list;
+		}
+		
+		return apply_filters('kboard_content_get_attachment_list', $attachment_list, $key_filter, $this, $this->getBoard());
 	}
 	
 	/**
