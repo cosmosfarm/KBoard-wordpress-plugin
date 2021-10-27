@@ -16,7 +16,10 @@
   9. kboard_init_category1_list 필터 추가
   10. kboard_init_category2_list 필터 추가
   11. kboard_xssfilter 설정 변경(font 태그 color 속성 추가)
-  12. 버그 수정
+  12. kboard_notice_list_select 필터 추가
+  13. kboard_notice_list_from 필터 추가
+  14. kboard_notice_list_where 필터 추가
+  15. 버그 수정
 
 
 6.0

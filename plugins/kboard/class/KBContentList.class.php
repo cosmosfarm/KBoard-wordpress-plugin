@@ -898,9 +898,12 @@ class KBContentList {
 			$where[] = $get_list_status_query;
 		}
 		
+		$select = apply_filters('kboard_notice_list_select', '*', $this->board_id, $this);
+		$from = apply_filters('kboard_notice_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
+		$where = apply_filters('kboard_notice_list_where', implode(' AND ', $where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_notice_list_orderby', "`{$this->sort}` {$this->order}", $this->board_id, $this);
 		
-		$this->resource_notice = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where) . " ORDER BY {$orderby}");
+		$this->resource_notice = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby}");
 		$wpdb->flush();
 		
 		return $this->resource_notice;
