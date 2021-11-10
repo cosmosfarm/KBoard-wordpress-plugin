@@ -1452,6 +1452,32 @@ function kboard_head(){
 	}
 }
 
+/**
+ * skin footer 사이에 내용을 출력한다.
+ */
+add_action('kboard_skin_footer', 'kboard_footer');
+function kboard_footer(){
+	if(kboard_prevent_copy() && !current_user_can('manage_kboard')){
+		$script = '<script>';
+		switch(kboard_prevent_copy()){
+			case 1: // 복사 방지
+				$script .= kboard_prevent_copy_script();
+				break;
+			case 2: // 드래그, 우클릭 방지
+				$script .= kboard_prevent_drag_right_script();
+				$script .= kboard_prevent_f12_script();
+				break;
+			case 3: // 드래그, 우클릭, 복사 방지
+				$script .= kboard_prevent_copy_script();
+				$script .= kboard_prevent_drag_right_script();
+				$script .= kboard_prevent_f12_script();
+				break;
+		}
+		$script .= '</script>';
+		echo $script;
+	}
+}
+
 /*
  * 게시글 내용의 문단을 나눈다.
  */
