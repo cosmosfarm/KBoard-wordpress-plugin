@@ -19,7 +19,9 @@
   12. kboard_notice_list_select 필터 추가
   13. kboard_notice_list_from 필터 추가
   14. kboard_notice_list_where 필터 추가
-  15. 버그 수정
+	15. KBoardPreventCopy 클래스 추가
+	16. kboard_prevent_copy_text 필터 추가
+  17. 버그 수정
 
 
 6.0

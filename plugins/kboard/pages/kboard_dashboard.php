@@ -389,9 +389,9 @@
 				<p>
 					<select name="option[kboard_prevent_copy]">
 						<option value="">비활성화</option>
-						<option value="1"<?php if(kboard_prevent_copy() == '1'):?> selected<?php endif?>>복사 방지</option>
-						<option value="2"<?php if(kboard_prevent_copy() == '2'):?> selected<?php endif?>>드래그, 우클릭 방지</option>
-						<option value="2"<?php if(kboard_prevent_copy() == '3'):?> selected<?php endif?>>드래그, 우클릭, 복사 방지</option>
+						<option value="1"<?php if(get_option('kboard_prevent_copy') == '1'):?> selected<?php endif?>>복사 방지</option>
+						<option value="2"<?php if(get_option('kboard_prevent_copy') == '2'):?> selected<?php endif?>>드래그, 우클릭 방지</option>
+						<option value="2"<?php if(get_option('kboard_prevent_copy') == '3'):?> selected<?php endif?>>드래그, 우클릭, 복사 방지</option>
 					</select>
 					<button type="submit" class="button">적용</button>
 				</p>

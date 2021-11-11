@@ -44,6 +44,7 @@ include_once 'class/KBoardBuilder.class.php';
 include_once 'class/KBoardFields.class.php';
 include_once 'class/KBoardList.class.php';
 include_once 'class/KBoardMeta.class.php';
+include_once 'class/KBoardPreventCopy.class.php';
 include_once 'class/KBoardSkin.class.php';
 include_once 'class/KBoardTreeCategory.class.php';
 include_once 'class/KBOrder.class.php';
@@ -1449,32 +1450,6 @@ function kboard_head(){
 	$custom_css = get_option('kboard_custom_css');
 	if($custom_css){
 		echo "<style type=\"text/css\">{$custom_css}</style>";
-	}
-}
-
-/**
- * skin footer 사이에 내용을 출력한다.
- */
-add_action('kboard_skin_footer', 'kboard_footer');
-function kboard_footer(){
-	if(kboard_prevent_copy() && !current_user_can('manage_kboard')){
-		$script = '<script>';
-		switch(kboard_prevent_copy()){
-			case 1: // 복사 방지
-				$script .= kboard_prevent_copy_script();
-				break;
-			case 2: // 드래그, 우클릭 방지
-				$script .= kboard_prevent_drag_right_script();
-				$script .= kboard_prevent_f12_script();
-				break;
-			case 3: // 드래그, 우클릭, 복사 방지
-				$script .= kboard_prevent_copy_script();
-				$script .= kboard_prevent_drag_right_script();
-				$script .= kboard_prevent_f12_script();
-				break;
-		}
-		$script .= '</script>';
-		echo $script;
 	}
 }
 

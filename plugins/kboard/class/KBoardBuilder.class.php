@@ -261,6 +261,33 @@ class KBoardBuilder {
 		$this->builderList();
 		return ob_get_clean();
 	}
+
+	/**
+	 * 복사 방지 스크립트를 출력한다.
+	 * @param KBoardBuilder $board_builder
+	 */
+	public function printPreventCopy($board_builder=''){
+		if($this->board->isUsePreventCopy() && !current_user_can('manage_kboard')){
+			$prevent_copy = new KBoardPreventCopy();
+			$script = '<script>';
+			switch($this->board->isUsePreventCopy()){
+				case 1:
+					$script .= $prevent_copy->getCopyScript();
+					break;
+				case 2:
+					$script .= $prevent_copy->getDragRightScript();
+					$script .= $prevent_copy->getKeyboardScript();
+					break;
+				case 3:
+					$script .= $prevent_copy->getCopyScript();
+					$script .= $prevent_copy->getDragRightScript();
+					$script .= $prevent_copy->getKeyboardScript();
+					break;
+			}
+			$script .= '</script>';
+			echo $script;
+		}
+	}
 	
 	/**
 	 * 게시판 페이지를 생성하고 반환한다.
@@ -300,6 +327,10 @@ class KBoardBuilder {
 			
 			// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
 			kboard_builder_mod($this->mod);
+			
+			if($this->mod == 'document'){
+				$this->printPreventCopy();
+			}
 			
 			if($this->meta->pass_autop == 'enable'){
 				do_action('kboard_skin_header', $this);

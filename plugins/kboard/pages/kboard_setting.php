@@ -1509,6 +1509,21 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">일부 스킨에서는 적용되지 않습니다.</p>
 							<p class="description">직접 코드를 작성해서 우커머스와 연결하시려면 <a href="https://blog.naver.com/PostView.nhn?blogId=chan2rrj&logNo=220986923814" onclick="window.open(this.href);return false;">우커머스 상품에 KBoard 게시판 연결하기</a>를 참고해주세요.</p>
 						</td>
+						<tr valign="top">
+							<th scope="row"><label for="prevent_copy">복사 방지 스크립트 실행</label></th>
+							<td>
+								<select name="prevent_copy" id="prevent_copy">
+									<option value="">전체 설정에 따라 적용</option>
+									<option value="1"<?php if($meta->prevent_copy == '1'):?> selected<?php endif?>>복사 방지</option>
+									<option value="2"<?php if($meta->prevent_copy == '2'):?> selected<?php endif?>>드래그, 우클릭 방지</option>
+									<option value="3"<?php if($meta->prevent_copy == '3'):?> selected<?php endif?>>드래그, 우클릭, 복사 방지</option>
+								</select>
+								<p class="description">Kboard가 있는 페이지에서 복사 방지 스크립트를 실행합니다.</p>
+								<p class="description">Kboard 동작하는 페이지 전체에 적용됩니다.</p>
+								<p class="description">관리자를 제외한 나머지 모두에게 적용됩니다.</p>
+								<p class="description">일부 서버 환경에서는 동작하지 않을 수 있습니다.</p>
+							</td>
+						</tr>
 					</tr>
 				</tbody>
 			</table>

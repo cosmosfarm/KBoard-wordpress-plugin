@@ -601,6 +601,20 @@ class KBoard {
 		}
 		return array();
 	}
+
+	/**
+	 * 복사 방지 스크립트를 사용하는지 반환한다.
+	 * @return int
+	 */
+	public function isUsePreventCopy(){
+		if($this->meta->prevent_copy){
+			return $this->meta->prevent_copy;
+		}
+		else{
+			return get_option('kboard_prevent_copy', '');
+		}
+		return '';
+	}
 	
 	/**
 	 * 게시판을 삭제한다.

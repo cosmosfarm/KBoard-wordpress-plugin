@@ -145,6 +145,7 @@ class KBAdminController {
 				$board->meta->after_executing_mod               = isset($_POST['after_executing_mod'])               ? $_POST['after_executing_mod']               : '';
 				$board->meta->woocommerce_product_tabs_add      = isset($_POST['woocommerce_product_tabs_add'])      ? $_POST['woocommerce_product_tabs_add']      : '';
 				$board->meta->woocommerce_product_tabs_priority = isset($_POST['woocommerce_product_tabs_priority']) ? $_POST['woocommerce_product_tabs_priority'] : '';
+				$board->meta->prevent_copy                      = isset($_POST['prevent_copy'])                      ? $_POST['prevent_copy']                      : '';
 				$board->meta->display_name_masking              = isset($_POST['display_name_masking'])              ? $_POST['display_name_masking']              : '';
 				
 				if(isset($_POST['permission_read_roles'])){
