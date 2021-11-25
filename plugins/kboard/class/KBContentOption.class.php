@@ -21,7 +21,10 @@ class KBContentOption {
 		$value = '';
 		$key = sanitize_key($key);
 		if(isset($this->row[$key])){
-			$object = @unserialize($this->row[$key]);
+			$object = $this->row[$key];
+			if(is_string($this->row[$key])){
+				$object = @unserialize($this->row[$key]);
+			}
 			if($object !== false){
 				$value = $object;
 			}
