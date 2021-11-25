@@ -396,7 +396,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<?php foreach(get_editable_roles() as $key=>$value):?>
 								<label><input type="checkbox" name="permission_admin_roles[]" value="<?php echo $key?>"<?php if($key=='administrator'):?> onclick="return false"<?php endif?><?php if($key=='administrator' || in_array($key, $admin_roles)):?> checked<?php endif?>><?php echo _x($value['name'], 'User role')?></label>
 							<?php endforeach?>
-							<p class="description"><code>작성자</code>는 실제 글쓴이를 지칭하는게 아니라 워드프레스 역할(Role) 명칭입니다.</p>
+							<p class="description"><code>글쓴이</code>는 실제 글쓴이를 지칭하는게 아니라 워드프레스 역할(Role) 명칭입니다.</p>
 							<p class="description">역할(Role)은 레벨 혹은 등급이라고 말할 수 있습니다.</p>
 						</td>
 					</tr>
@@ -404,7 +404,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="admin_user">선택된 관리자</label></th>
 						<td>
 							<input type="text" name="admin_user" id="admin_user" class="regular-text" value="<?php echo $board->admin_user?>">
-							<p class="description">사용자 아이디를 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
+							<p class="description">사용자명(아이디)을 입력하세요. 여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
