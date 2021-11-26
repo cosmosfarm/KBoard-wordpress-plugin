@@ -363,6 +363,7 @@ function kboard_new(){
 	wp_enqueue_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
 	wp_enqueue_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
 	wp_enqueue_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-sortable'), '2.1a');
+	wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -383,6 +384,7 @@ function kboard_setting(){
 	wp_enqueue_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
 	wp_enqueue_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
 	wp_enqueue_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-sortable'), '2.1a');
+	wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -1337,14 +1339,6 @@ function kboard_admin_style($hook_suffix){
 	}
 	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH . '/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
 	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH . '/pages/kboard-admin.css', array(), KBOARD_VERSION);
-}
-
-/*
- * 관리자 페이지 스크립트 파일을 출력한다.
- */
-add_action('admin_enqueue_scripts', 'kboard_admin_script', 999, 1);
-function kboard_admin_script(){
-	wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
 }
 
 /*
