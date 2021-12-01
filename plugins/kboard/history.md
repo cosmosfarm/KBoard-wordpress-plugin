@@ -5,22 +5,22 @@
 6.1
 ----------------------------------
 
-  1. 포인트 적용 대상 설정 추가
-  2. 작성자명 마스킹 설정 추가
-  3. administrator 역할(role)에 manage_kboard 권한 추가
-  4. 입력필드 게시글 본문에 표시 코드 개선
-  5. 입력필드 설정에 새로운 확장 필드 추가 (이메일, 주소)
-  6. 게시글 표시 수 관련 개선
-  7. kboard_admin_content_list_table_columns 필터 추가
-  8. kboard_admin_content_list_table_custom_column 액션 추가
-  9. kboard_init_category1_list 필터 추가
-  10. kboard_init_category2_list 필터 추가
-  11. kboard_xssfilter 설정 변경(font 태그 color 속성 추가)
-  12. kboard_notice_list_select 필터 추가
-  13. kboard_notice_list_from 필터 추가
-  14. kboard_notice_list_where 필터 추가
-	15. KBoardPreventCopy 클래스 추가
-	16. kboard_prevent_copy_text 필터 추가
+  1. kboard_admin_content_list_table_columns 필터 추가
+  2. kboard_admin_content_list_table_custom_column 액션 추가
+  3. kboard_init_category1_list 필터 추가
+  4. kboard_init_category2_list 필터 추가
+  5. kboard_notice_list_select 필터 추가
+  6. kboard_notice_list_from 필터 추가
+  7. kboard_notice_list_where 필터 추가
+  8. kboard_prevent_copy_text 필터 추가
+  9. 복사 방지 기능 추가 (대시보드에서 설정 가능)
+  10. kboard_xssfilter 개선 (font 태그 color 속성 추가)
+  11. 포인트 적용 대상 설정 추가
+  12. 작성자명 마스킹 설정 추가
+  13. administrator 역할(role)에 manage_kboard 권한 추가
+  14. 입력필드 게시글 본문에 표시 코드 개선
+  15. 입력필드 설정에 새로운 확장 필드 추가 (이메일, 주소)
+  16. 게시글 표시 수 관련 개선
   17. 버그 수정
 
 
