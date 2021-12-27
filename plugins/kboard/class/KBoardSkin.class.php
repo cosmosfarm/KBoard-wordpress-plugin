@@ -272,6 +272,23 @@ class KBoardSkin {
 			$header['kboard_option_woocommerce_product_id'] = sprintf('<input type="hidden" name="kboard_option_woocommerce_product_id" value="%d">', $product_id);
 		}
 		
+		if($content->uid){
+			if($content->category1){
+				$header['category1'] = sprintf('<input type="hidden" name="category1" value="%s">', esc_attr($content->category1));
+			}
+			if($content->category2){
+				$header['category2'] = sprintf('<input type="hidden" name="category2" value="%s">', esc_attr($content->category2));
+			}
+		}
+		else{
+			if(kboard_category1()){
+				$header['category1'] = sprintf('<input type="hidden" name="category1" value="%s">', esc_attr(kboard_category1()));
+			}
+			if(kboard_category2()){
+				$header['category2'] = sprintf('<input type="hidden" name="category2" value="%s">', esc_attr(kboard_category2()));
+			}
+		}
+		
 		$header = apply_filters('kboard_skin_editor_header', $header, $content, $board);
 		
 		foreach($header as $input){
