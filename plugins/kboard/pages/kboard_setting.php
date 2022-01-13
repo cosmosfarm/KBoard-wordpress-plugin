@@ -989,6 +989,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												</div>
 											</div>
 											<?php endif?>
+											<?php if(isset($item['custom_class'])):?>
+											<div class="attr-row">
+												<label class="attr-name">CSS 클래스</label>
+												<div class="attr-value"><input type="text" class="field_data custom_class"></div>
+											</div>
+											<?php endif?>
 											<div class="attr-row">
 												<?php if(isset($item['required'])):?>
 												<input type="hidden" class="field_data required" value="">
@@ -1264,6 +1270,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<div class="attr-value">
 											<input type="text" id="<?php echo esc_attr($meta_key)?>_description" name="fields[<?php echo esc_attr($meta_key)?>][description]" class="field_data field_description" value="<?php echo esc_attr($item['description'])?>">
 										</div>
+									</div>
+									<?php endif?>
+									<?php if(isset($item['custom_class'])):?>
+									<div class="attr-row">
+										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_custom_class">CSS 클래스</label>
+										<div class="attr-value"><input type="text" id="<?php echo esc_attr($meta_key)?>_custom_class" name="fields[<?php echo esc_attr($meta_key)?>][custom_class]" class="field_data custom_class" value="<?php echo esc_attr($item['custom_class'])?>"></div>
 									</div>
 									<?php endif?>
 									<?php if(isset($item['show_document']) && !$board->fields()->isMultiLineFields($item['field_type'])):?>

@@ -54,6 +54,7 @@ jQuery(document).ready(function(){
 			jQuery(li.item).find('.hidden').attr('name', 'fields['+uniq_id+'][hidden]');
 			jQuery(li.item).find('.option_field').attr('name', 'fields['+uniq_id+'][option_field]');
 			jQuery(li.item).find('.field_description').attr('name', 'fields['+uniq_id+'][description]');
+			jQuery(li.item).find('.custom_class').attr('name', 'fields['+uniq_id+'][custom_class]');
 			jQuery(li.item).find('.close_button').attr('name', 'fields['+uniq_id+'][close_button]');
 			
 			if(jQuery(li.item).find('.option-wrap').length){
