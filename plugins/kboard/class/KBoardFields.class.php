@@ -261,8 +261,9 @@ class KBoardFields {
 				'meta_key' => '',
 				'permission' => '',
 				'roles' => array(),
-				'description' => '',
+				'required' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes'
 			),
 			'wp_editor' => array(
@@ -275,8 +276,10 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'description' => '',
+				'placeholder' => '',
+				'required' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes'
 			),
 			'html' => array(
@@ -289,8 +292,8 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'description' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes',
 				'html' => ''
 			),
@@ -304,8 +307,8 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'description' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes',
 				'shortcode' => ''
 			),
@@ -319,8 +322,10 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'description' => '',
+				'placeholder' => '',
+				'required' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes'
 			),
 			'time' => array(
@@ -333,8 +338,10 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'description' => '',
+				'placeholder' => '',
+				'required' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes'
 			),
 			'email' => array(
@@ -348,9 +355,9 @@ class KBoardFields {
 				'roles' => array(),
 				'default_value' => '',
 				'placeholder' => '',
-				'description' => '',
 				'required' => '',
 				'show_document' => '',
+				'description' => '',
 				'hidden' => '',
 				'close_button' => 'yes'
 			),
@@ -363,9 +370,11 @@ class KBoardFields {
 				'meta_key' => '',
 				'permission' => '',
 				'roles' => array(),
-				'description' => '',
+				'default_value' => '',
+				'placeholder' => '',
 				'required' => '',
 				'show_document' => '',
+				'description' => '',
 				'close_button' => 'yes'
 			),
 			/*
