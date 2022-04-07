@@ -535,7 +535,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		
+	
 	}
 	else if($action == 'comments-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -658,8 +658,6 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_store') . "\" class=\"button\">스토어 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
@@ -692,11 +690,11 @@ function kboard_updates(){
 		
 		
 	}
-	
-	// $upgrader->flush();
-	// $version = $upgrader->getLatestVersion();
-	
-	// include_once 'pages/kboard_updates.php';
+	if(!$action){
+		$upgrader->flush();
+		$version = $upgrader->getLatestVersion();
+		include_once 'pages/kboard_updates.php';
+	}
 }
 
 /*
