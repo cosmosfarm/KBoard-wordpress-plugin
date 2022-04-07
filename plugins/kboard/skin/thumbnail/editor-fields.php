@@ -119,12 +119,12 @@
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 		</div>
 	</div>
-<?php elseif($field['field_type'] == 'option'):?>
+	<?php elseif($field['field_type'] == 'option'):?>
 	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?>">
 		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 		<div class="attr-value">
 			<?php if($fields->isUseFields($field['secret_permission'], $field['secret'])):?>
-				<label class="attr-value-option"><input type="checkbox" name="secret" value="true" onchange="kboard_toggle_password_field(this)"<?php if($content->secret):?> checked<?php endif?>> <?php echo __('Secret', 'kboard')?></label>
+				<label class="attr-value-option"><input type="checkbox" name="secret" value="true" onchange="kboard_toggle_password_field(this)"<?php if($board->meta->secret_checked_forced && !$board->isAdmin()):?> checked disabled<?php endif?> <?php if($content->secret):?>checked <?php endif?>> <?php echo __('Secret', 'kboard')?></label>
 			<?php endif?>
 			<?php if($fields->isUseFields($field['notice_permission'], $field['notice'])):?>
 				<label class="attr-value-option"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
