@@ -597,7 +597,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
