@@ -473,7 +473,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	if($action == 'kboard-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -504,7 +504,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	else if($action == 'comments'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -535,7 +535,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	else if($action == 'comments-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -566,7 +566,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -628,7 +628,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
@@ -659,7 +659,7 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	else if($action == 'comments-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_COMMENTS_SKIN)) exit;
@@ -690,13 +690,13 @@ function kboard_updates(){
 		@ob_flush();
 		@flush();
 		
-		exit;
+		
 	}
 	
-	$upgrader->flush();
-	$version = $upgrader->getLatestVersion();
+	// $upgrader->flush();
+	// $version = $upgrader->getLatestVersion();
 	
-	include_once 'pages/kboard_updates.php';
+	// include_once 'pages/kboard_updates.php';
 }
 
 /*
