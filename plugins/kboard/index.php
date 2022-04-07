@@ -440,7 +440,13 @@ function kboard_updates(){
 	$action = isset($_GET['action'])?kboard_htmlclear($_GET['action']):'';
 	$download_url = isset($_GET['download_url'])?kboard_htmlclear($_GET['download_url']):'';
 	$download_version = isset($_GET['download_version'])?kboard_htmlclear($_GET['download_version']):'';
-	$form_url = wp_nonce_url(admin_url("admin.php?page=kboard_updates&action={$action}" . ($download_url?"&download_url=$download_url":'') . ($download_version?"&download_version=$download_version":'')), 'kboard_updates');
+	$form_url = add_query_arg(array(
+		'page'             => 'kboard_updates',
+		'action'           => $action,
+		'download_url'     => $download_url,
+		'download_version' => $download_version
+	), admin_url('admin.php'));
+	$form_url = wp_nonce_url($form_url, 'kboard_updates');
 	
 	$upgrader = KBUpgrader::getInstance();
 	
@@ -472,10 +478,8 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
-	if($action == 'kboard-noskins'){
+	else if($action == 'kboard-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
 		
 		echo "<h1>KBoard 게시판 플러그인 설치</h1>";
@@ -503,8 +507,6 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
 	else if($action == 'comments'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -534,8 +536,6 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-	
 	}
 	else if($action == 'comments-noskins'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -565,8 +565,6 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_updates') . "\" class=\"button\">업데이트 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
 	else if($action == 'plugin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_PLUGINS)) exit;
@@ -596,8 +594,6 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('plugins.php') . "\" class=\"button\">플러그인 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
 	else if($action == 'theme'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_THEMES)) exit;
@@ -627,8 +623,6 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('themes.php') . "\" class=\"button\">테마 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
 	else if($action == 'kboard-skin'){
 		if(!$upgrader->credentials($form_url, WP_CONTENT_DIR . KBUpgrader::$TYPE_KBOARD_SKIN)) exit;
@@ -687,9 +681,8 @@ function kboard_updates(){
 		echo "<p><a href=\"" . admin_url('admin.php?page=kboard_store') . "\" class=\"button\">스토어 메뉴로 이동</a></p>";
 		@ob_flush();
 		@flush();
-		
-		
 	}
+	
 	if(!$action){
 		$upgrader->flush();
 		$version = $upgrader->getLatestVersion();
