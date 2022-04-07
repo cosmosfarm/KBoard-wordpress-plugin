@@ -68,6 +68,11 @@ class KBController {
 			
 			$content->new_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):$content->password;
 			
+			if($board->meta->secret_checked_forced && !$board->isAdmin()){
+				$content->new_password = $content->new_password ? $content->new_password : uniqid();
+				$content->secret = true;
+			}
+			
 			if(!$board->id){
 				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
 			}

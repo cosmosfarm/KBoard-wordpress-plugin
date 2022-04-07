@@ -34,7 +34,7 @@ class KBContentListTable extends WP_List_Table {
 		$list = new KBContentList($this->filter_board_id);
 		$list->rpp = 20;
 		$list->page = $this->get_pagenum();
-		$list->status = $this->filter_view;
+		$list->status = $this->filter_view ? $this->filter_view : 'published';
 		$list->initWithKeyword($keyword, $target);
 		
 		$this->items = $list->resource;
@@ -55,7 +55,7 @@ class KBContentListTable extends WP_List_Table {
 		$views = array();
 		$class = '';
 		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE 1");
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='{$status}'");
 		$class = !$this->filter_view ? ' class="current"' : '';
 		$views['all'] = '<a href="' . add_query_arg(array('filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
 		

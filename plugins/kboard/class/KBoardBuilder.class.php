@@ -312,7 +312,7 @@ class KBoardBuilder {
 				}
 				else if($this->mod != 'editor' && kboard_id() && !$this->meta->view_iframe){
 					$url = new KBUrl();
-					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->set('iframe_id', '')->toString() . '";</script>';
+					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->set('iframe_id', '')->toString() . '";</script>';
 					exit;
 				}
 			}
@@ -322,7 +322,7 @@ class KBoardBuilder {
 			if($view_iframe){
 				$url = new KBUrl();
 				$iframe_id = uniqid();
-				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('parent_uid', kboard_parent_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('parent_uid', kboard_parent_uid())->set('mod', kboard_mod())->set('category1', kboard_category1())->set('category2', kboard_category2())->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
 			
 			// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
@@ -415,17 +415,16 @@ class KBoardBuilder {
 		
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
-		$list_url = esc_url($url->set('mod', 'list')->toString());
 		
 		if(!$content->uid){
 			echo '<script>alert("'.__('Invalid URL address.', 'kboard').'");</script>';
-			echo '<script>window.location.href="' . $list_url . '";</script>';
+			echo '<script>window.location.href="' . $url->set('mod', 'list')->toString() . '";</script>';
 			exit;
 		}
 		
 		if($content->isTrash()){
 			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
-			echo '<script>window.location.href="' . $list_url . '";</script>';
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		
@@ -434,7 +433,7 @@ class KBoardBuilder {
 			if($message){
 				echo '<script>alert("'.$message.'");</script>';
 			}
-			echo '<script>window.location.href="' . $list_url . '";</script>';
+			echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 			exit;
 		}
 		
@@ -442,13 +441,13 @@ class KBoardBuilder {
 			if(is_user_logged_in()){
 				if(!$content->notice && $content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
 					echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
-					echo '<script>window.location.href="' . $list_url . '";</script>';
+					echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 					exit;
 				}
 			}
 			else{
 				echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
-				echo '<script>window.location.href="' . $list_url . '";</script>';
+				echo "<script>window.location.href='{$url->set('mod', 'list')->toString()}';</script>";
 				exit;
 			}
 		}
@@ -719,7 +718,6 @@ class KBoardBuilder {
 			if(!$content->uid && $this->meta->secret_checked_default){
 				$content->secret = 'true';
 			}
-			
 			// 새로운 답글 쓰기에서만 실행한다.
 			if(kboard_parent_uid() && !$content->uid && !$content->parent_uid){
 				$parent = new KBContent();

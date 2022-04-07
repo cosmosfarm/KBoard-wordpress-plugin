@@ -138,6 +138,7 @@ class KBAdminController {
 				$board->meta->list_sort_numbers                 = isset($_POST['list_sort_numbers'])                 ? $_POST['list_sort_numbers']                 : '';
 				$board->meta->permit                            = isset($_POST['permit'])                            ? $_POST['permit']                            : '';
 				$board->meta->secret_checked_default            = isset($_POST['secret_checked_default'])            ? $_POST['secret_checked_default']            : '';
+				$board->meta->secret_checked_forced             = isset($_POST['secret_checked_forced'])             ? $_POST['secret_checked_forced']            : '';
 				$board->meta->use_prevent_modify_delete         = isset($_POST['use_prevent_modify_delete'])         ? $_POST['use_prevent_modify_delete']         : '';
 				$board->meta->max_document_limit                = isset($_POST['max_document_limit'])                ? $_POST['max_document_limit']                : '';
 				$board->meta->new_document_delay                = isset($_POST['new_document_delay'])                ? $_POST['new_document_delay']                : '';
@@ -534,7 +535,6 @@ class KBAdminController {
 		wp_redirect(admin_url('admin.php?page=kboard_dashboard'));
 		exit;
 	}
-	
 	/**
 	 * 전체 게시글 정보 업데이트
 	 */
