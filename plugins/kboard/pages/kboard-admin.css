@@ -28,7 +28,6 @@
 #kbstore-products-list .kbstore-thumbnail-img { width: 100px; height: 100px; }
 #kbstore-products-list .kbstore-description-wrap { margin-top: -40px; padding-top: 40px; height: auto; overflow: hidden; transition-duration: .3s; box-sizing: content-box; }
 #kbstore-products-list .show-little .kbstore-description-wrap { height: 50px; }
-.widefat * { box-sizing: content-box; }
 
 .nav-tab-wrapper { border-bottom: 1px solid #ccc; }
 #kboard-dashboard-options { margin: 23px 0 0 0; padding: 0; overflow: hidden; }
