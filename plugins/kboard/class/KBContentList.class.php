@@ -85,7 +85,7 @@ class KBContentList {
 				$where[] = "`status`='{$this->status}'";
 			}
 		}
-		if(!isset($where) || !$where) $where[] = '1=1';
+		if(!isset($where) || !$where) $where[] = "`status`!='trash'";
 		$where = implode(' AND ', $where);
 		
 		$offset = ($this->page-1)*$this->rpp;
