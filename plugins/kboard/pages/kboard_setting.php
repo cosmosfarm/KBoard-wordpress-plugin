@@ -649,6 +649,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="1"<?php if($meta->secret_checked_default):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">새로운 글 작성 시 비밀글 체크박스를 기본적으로 체크해 보여줍니다.</p>
+							<p class="description">작성자가 비밀글 체크박스를 해제할 수 있으며 강제 적용을 원하시면 <label for="secret_checked_forced" style="font-weight:bold">비밀글 강제 설정</label>을 사용해주세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -658,7 +659,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->secret_checked_forced):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">새로운 글 작성 시 강제 설정합니다.</p>
+							<p class="description">새로운 글 작성 시 강제로 비밀글 체크를 설정합니다.</p>
+							<p class="description">관리자의 경우 적용되지 않습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
