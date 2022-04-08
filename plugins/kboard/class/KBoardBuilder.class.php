@@ -261,7 +261,7 @@ class KBoardBuilder {
 		$this->builderList();
 		return ob_get_clean();
 	}
-
+	
 	/**
 	 * 복사 방지 스크립트를 출력한다.
 	 * @param KBoardBuilder $board_builder
