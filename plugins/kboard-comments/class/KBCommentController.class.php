@@ -37,7 +37,7 @@ class KBCommentController {
 		
 		$content_uid = isset($_POST['content_uid'])?intval($_POST['content_uid']):'';
 		
-		if(isset($_POST["kboard-comments-execute-nonce-{$content_uid}"]) && wp_verify_nonce($_POST["kboard-comments-execute-nonce-{$content_uid}"], 'kboard-comments-execute')){
+		if(isset($_POST['kboard-comments-execute-nonce']) && wp_verify_nonce($_POST['kboard-comments-execute-nonce'], "kboard-comments-execute-{$content_uid}")){
 			header("Content-Type: text/html; charset=UTF-8");
 			
 			// 되돌아오는 페이지 주소 깨지는 버그 해결
