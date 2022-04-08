@@ -652,6 +652,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="secret_checked_forced">비밀글 강제 설정</label></th>
+						<td>
+							<select name="secret_checked_forced" id="secret_checked_forced">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->secret_checked_forced):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">새로운 글 작성 시 강제 설정합니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="use_prevent_modify_delete">본인 수정 제한</label></th>
 						<td>
 							<select name="use_prevent_modify_delete" id="use_prevent_modify_delete">

@@ -15,7 +15,7 @@
 .kboard-comments-list .column-content { width: 40%; }
 .kboard-comments-list .kboard-comments-open { margin-top: 20px; }
 
-.kbstore-thumbnail { width: 100px; }
+.kbstore-thumbnail { width: 100px; box-sizing: content-box; }
 .kbstore-title { width: 250px; }
 .kbstore-category { width: 150px; }
 .kbstore-version { width: 150px; }
