@@ -489,7 +489,11 @@ class KBContentList {
 							$sub_where[] = "`{$wpdb->prefix}kboard_board_content`.`{$search}` {$this->compare} '{$keyword}'";
 						}
 						else{
-							$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}')";
+							if(get_option('kboard_search_writer') == '1'){
+								$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`member_display` {$this->compare} '{$keyword}')";
+							}else{
+								$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}')";
+							}
 						}
 					}
 				}
