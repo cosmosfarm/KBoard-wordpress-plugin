@@ -379,10 +379,10 @@
 				
 				<h4>복사 방지 스크립트 실행</h4>
 				<p>
-					Kboard가 있는 페이지에서 복사 방지 스크립트를 실행합니다.<br>
+					KBoard(케이보드)가 있는 페이지에서 복사 방지 스크립트를 실행합니다.<br>
 					드래그 + 우클릭, 복사 방지 단계별로 설정할 수 있습니다.<br>
 					복사 방지는 클립보드에 복사된 값을 삭제하는 방식으로 복사가 실행되어도 값이 저장되지 않습니다.<br>
-					Kboard 동작하는 페이지 전체에 적용됩나다.<br>
+					KBoard(케이보드) 동작하는 페이지 전체에 적용됩나다.<br>
 					관리자를 제외한 나머지 모두에게 적용됩니다.<br>
 					일부 서버 환경에서는 동작하지 않을 수 있습니다.
 				</p>
@@ -401,17 +401,17 @@
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				
-				<h4>전체 검색시 검색어에 작성자 포함</h4>
+				<h4>전체 검색시 작성자 포함</h4>
 				<p>
-					활성화 상태 일 때 Kboard 게시글 전체 검색시<br>
-					제목,내용,작성자로 검색할 수 있습니다.<br>
-					비활성화 상태 일 때 Kboard 게시글 전체 검색시<br>
-					제목,내용으로만 검색 할 수 있습니다.
+					활성화 상태 일 때 게시글 전체 검색시<br>
+					"제목 or 내용 or 작성자"로 검색할 수 있습니다.<br>
+					비활성화 상태 일 때 게시글 전체 검색시<br>
+					"제목 or 내용"으로 검색할 수 있습니다.
 				</p>
 				<p>
-					<select name="option[kboard_search_writer]">
+					<select name="option[kboard_search_include_member_display]">
 						<option value="">비활성화</option>
-						<option value="1"<?php if(get_option('kboard_search_writer') == '1'):?> selected<?php endif?>>활성화</option>
+						<option value="1"<?php if(get_option('kboard_search_include_member_display') == '1'):?> selected<?php endif?>>활성화</option>
 					</select>
 					<button type="submit" class="button">적용</button>
 				</p>
