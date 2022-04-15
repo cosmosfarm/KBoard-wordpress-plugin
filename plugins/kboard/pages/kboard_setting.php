@@ -600,6 +600,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 									<?php echo kboard_permission('roles')?>
 								</option>
 							</select>
+							<div class="kboard-permission-vote-hide"><label><input type="checkbox" name="permission_vote_hide" value="1"<?php if($meta->permission_vote_hide):?> checked<?php endif?>>좋아요/싫어요 버튼 숨기기</label></div>
 							<div class="kboard-permission-vote-roles-view<?php if($meta->permission_vote != 'roles'):?> kboard-hide<?php endif?>">
 								<input type="hidden" name="permission_vote_roles" value="">
 								<?php $vote_roles = $board->getVoteRoles();?>
@@ -608,6 +609,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<?php endforeach?>
 							</div>
 							<p class="description">게시판에서 좋아요, 싫어요 기능을 제한할 수 있습니다.</p>
+							<p class="description">좋아요/싫어요 버튼 숨기기를 체크하면 게시판에서 좋아요, 싫어요 버튼을 안보이게 할 수 있습니다 .</p>
 							<p class="description">스킨에 따라서 버튼이 숨겨지거나 그렇지 않을 수 있습니다.</p>
 						</td>
 					</tr>

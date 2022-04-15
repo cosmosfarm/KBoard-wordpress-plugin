@@ -129,6 +129,7 @@ class KBAdminController {
 				$board->meta->permission_order                  = isset($_POST['permission_order'])                  ? $_POST['permission_order']                  : '';
 				$board->meta->permission_attachment_download    = isset($_POST['permission_attachment_download'])    ? $_POST['permission_attachment_download']    : '';
 				$board->meta->permission_vote                   = isset($_POST['permission_vote'])                   ? $_POST['permission_vote']                   : '';
+				$board->meta->permission_vote_hide              = isset($_POST['permission_vote_hide'])              ? $_POST['permission_vote_hide']              : '';
 				$board->meta->comments_plugin_id                = isset($_POST['comments_plugin_id'])                ? $_POST['comments_plugin_id']                : '';
 				$board->meta->use_comments_plugin               = isset($_POST['use_comments_plugin'])               ? $_POST['use_comments_plugin']               : '';
 				$board->meta->comments_plugin_row               = isset($_POST['comments_plugin_row'])               ? $_POST['comments_plugin_row']               : '';
