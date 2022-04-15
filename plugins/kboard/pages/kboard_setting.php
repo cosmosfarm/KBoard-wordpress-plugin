@@ -676,6 +676,26 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="username_name_masking">작성자 이름 숨기기</label></th>
+						<td>
+							<select name="username_name_masking" id="username_name_masking">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->username_name_masking):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">게시글 리스트,본문에서 작성자 이름을 숨길 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="comments_username_hide">댓글 작성자 이름 숨기기</label></th>
+						<td>
+							<select name="comments_username_hide" id="comments_username_hide">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->comments_username_hide):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">본문에서 댓글 작성자 이름을 숨길 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="max_document_limit">최대 게시글 작성 제한</label></th>
 						<td>
 							<input type="number" name="max_document_limit" id="max_document_limit" value="<?php echo esc_attr($meta->max_document_limit)?>" placeholder="숫자만 입력 가능">개
