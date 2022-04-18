@@ -1683,7 +1683,7 @@ class KBContent {
 			$builder = $kboard_builder;
 			
 			$board = $this->getBoard();
-			if($board->meta->username_name_masking){
+			if($board->meta->board_username_masking){
 				$user_display  = $this->getObfuscateName();
 			}
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);

@@ -363,13 +363,13 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="list_sort_basic_setting">게시글 기본 정렬 순서 설정하기</label></th>
+						<th scope="row"><label for="list_default_sorting">게시글 기본 정렬 순서 설정하기</label></th>
 						<td>
-							<select name="list_sort_basic_setting" id="list_sort_basic_setting">
+							<select name="list_default_sorting" id="list_default_sorting">
 								<option value="">최신순</option>
-								<option value="best"<?php if($board->meta->list_sort_basic_setting == 'best'):?> selected<?php endif?>>추천순</option>
-								<option value="viewed"<?php if($board->meta->list_sort_basic_setting == 'viewed'):?> selected<?php endif?>>조회순</option>
-								<option value="updated"<?php if($board->meta->list_sort_basic_setting == 'updated'):?> selected<?php endif?>>업데이트순</option>
+								<option value="best"<?php if($board->meta->list_default_sorting == 'best'):?> selected<?php endif?>>추천순</option>
+								<option value="viewed"<?php if($board->meta->list_default_sorting == 'viewed'):?> selected<?php endif?>>조회순</option>
+								<option value="updated"<?php if($board->meta->list_default_sorting == 'updated'):?> selected<?php endif?>>업데이트순</option>
 							</select>
 							<p class="description">게시글 기본 정렬 순서를 설정합니다.</p>
 							<p class="description">게시판 첫 화면 에서만 적용됩니다.</p>
@@ -689,21 +689,21 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="username_name_masking">작성자 이름 숨기기</label></th>
+						<th scope="row"><label for="board_username_masking">작성자 이름 숨기기</label></th>
 						<td>
-							<select name="username_name_masking" id="username_name_masking">
+							<select name="board_username_masking" id="board_username_masking">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->username_name_masking):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->board_username_masking):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">게시글 리스트,본문에서 작성자 이름을 숨길 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="comments_username_hide">댓글 작성자 이름 숨기기</label></th>
+						<th scope="row"><label for="comments_username_masking">댓글 작성자 이름 숨기기</label></th>
 						<td>
-							<select name="comments_username_hide" id="comments_username_hide">
+							<select name="comments_username_masking" id="comments_username_masking">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->comments_username_hide):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->comments_username_masking):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">본문에서 댓글 작성자 이름을 숨길 수 있습니다.</p>
 						</td>
