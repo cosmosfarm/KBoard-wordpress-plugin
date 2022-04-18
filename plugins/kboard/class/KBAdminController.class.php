@@ -137,13 +137,13 @@ class KBAdminController {
 				$board->meta->always_view_list                  = isset($_POST['always_view_list'])                  ? $_POST['always_view_list']                  : '';
 				$board->meta->max_attached_count                = isset($_POST['max_attached_count'])                ? $_POST['max_attached_count']                : '';
 				$board->meta->list_sort_numbers                 = isset($_POST['list_sort_numbers'])                 ? $_POST['list_sort_numbers']                 : '';
-				$board->meta->list_default_sorting 					    = isset($_POST['list_default_sorting'])              ? $_POST['list_default_sorting']         	   : '';
+				$board->meta->list_default_sorting              = isset($_POST['list_default_sorting'])              ? $_POST['list_default_sorting']              : '';
 				$board->meta->permit                            = isset($_POST['permit'])                            ? $_POST['permit']                            : '';
 				$board->meta->secret_checked_default            = isset($_POST['secret_checked_default'])            ? $_POST['secret_checked_default']            : '';
 				$board->meta->secret_checked_forced             = isset($_POST['secret_checked_forced'])             ? $_POST['secret_checked_forced']             : '';
 				$board->meta->use_prevent_modify_delete         = isset($_POST['use_prevent_modify_delete'])         ? $_POST['use_prevent_modify_delete']         : '';
-				$board->meta->board_username_masking        		= isset($_POST['board_username_masking'])            ? $_POST['board_username_masking']         	 : '';
-				$board->meta->comments_username_masking 				= isset($_POST['comments_username_masking'])         ? $_POST['comments_username_masking']         : '';
+				$board->meta->board_username_masking            = isset($_POST['board_username_masking'])            ? $_POST['board_username_masking']            : '';
+				$board->meta->comments_username_masking         = isset($_POST['comments_username_masking'])         ? $_POST['comments_username_masking']         : '';
 				$board->meta->max_document_limit                = isset($_POST['max_document_limit'])                ? $_POST['max_document_limit']                : '';
 				$board->meta->new_document_delay                = isset($_POST['new_document_delay'])                ? $_POST['new_document_delay']                : '';
 				$board->meta->default_build_mod                 = isset($_POST['default_build_mod'])                 ? $_POST['default_build_mod']                 : '';
