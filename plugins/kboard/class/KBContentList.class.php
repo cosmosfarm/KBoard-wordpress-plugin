@@ -1029,7 +1029,10 @@ class KBContentList {
 	 * @return string
 	 */
 	public function getDefaultSorting(){
-		return apply_filters('kboard_list_default_sorting', 'newest', $this->board_id, $this);
+		$board = new KBoard($this->board_id);
+		$sort_basic_setting = $board->meta->list_sort_basic_setting;
+		$sort = $sort_basic_setting ? $sort_basic_setting : 'newest';
+		return apply_filters('kboard_list_default_sorting', $sort, $this->board_id, $this);
 	}
 	
 	/**

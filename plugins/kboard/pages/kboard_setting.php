@@ -363,6 +363,19 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="list_sort_basic_setting">게시글 기본 정렬 순서 설정하기</label></th>
+						<td>
+							<select name="list_sort_basic_setting" id="list_sort_basic_setting">
+								<option value="">최신순</option>
+								<option value="best"<?php if($board->meta->list_sort_basic_setting == 'best'):?> selected<?php endif?>>추천순</option>
+								<option value="viewed"<?php if($board->meta->list_sort_basic_setting == 'viewed'):?> selected<?php endif?>>조회순</option>
+								<option value="updated"<?php if($board->meta->list_sort_basic_setting == 'updated'):?> selected<?php endif?>>업데이트순</option>
+							</select>
+							<p class="description">게시글 기본 정렬 순서를 설정합니다.</p>
+							<p class="description">게시판 첫 화면 에서만 적용됩니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"></th>
 						<td>
 							<ul class="cosmosfarm-news-list">

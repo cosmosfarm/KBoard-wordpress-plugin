@@ -151,6 +151,7 @@ class KBAdminController {
 				$board->meta->display_name_masking              = isset($_POST['display_name_masking'])              ? $_POST['display_name_masking']              : '';
 				$board->meta->username_name_masking        			= isset($_POST['username_name_masking'])         		 ? $_POST['username_name_masking']         	   : '';
 				$board->meta->comments_username_hide 						= isset($_POST['comments_username_hide'])         	 ? $_POST['comments_username_hide']         	 : '';
+				$board->meta->list_sort_basic_setting 					= isset($_POST['list_sort_basic_setting'])           ? $_POST['list_sort_basic_setting']         	 : '';
 
 				
 				if(isset($_POST['permission_read_roles'])){
