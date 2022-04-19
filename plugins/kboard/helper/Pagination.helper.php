@@ -23,7 +23,7 @@ function kboard_pagination($current_page, $total, $limit, $args=array(), $text=a
 			$query_strings[] = "mod={$value}";
 		}
 		else if($key != 'pageid' && $value){
-			$query_strings[] = sanitize_key($key).'='.urlencode(kboard_htmlclear($value));
+			$query_strings[] = sanitize_key($key).'='.urlencode(sanitize_text_field($value));
 		}
 	}
 	if(isset($query_strings) && $query_strings) $query_strings = '&' . implode('&', $query_strings);
