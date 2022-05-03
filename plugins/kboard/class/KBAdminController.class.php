@@ -12,6 +12,7 @@ class KBAdminController {
 		add_action('admin_post_kboard_backup_download', array($this, 'backup'));
 		add_action('admin_post_kboard_restore_execute', array($this, 'restore'));
 		add_action('admin_post_kboard_latestview_action', array($this, 'latestview_update'));
+		add_action('admin_post_kboard_category_update', array($this, 'category_update'));
 		add_action('admin_post_kboard_csv_download_execute', array($this, 'csv_download'));
 		add_action('admin_post_kboard_csv_upload_execute', array($this, 'csv_upload'));
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
@@ -587,6 +588,37 @@ class KBAdminController {
 				}
 			}
 		}
+		exit;
+	}
+	
+	/**
+	 * 카테고리 업데이트
+	 */
+	public function category_update(){
+		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
+		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
+		$target = isset($_POST['target'])?sanitize_text_field($_POST['target']):'';
+		$pre_category = isset($_POST['pre_category'])?sanitize_text_field($_POST['pre_category']):'';
+		$after_category = isset($_POST['after_category'])?sanitize_text_field($_POST['after_category']):'';
+		
+		$board        = new KBContentList($board_id);
+		$content_list = $board->getList();
+		
+		foreach($content_list as $content){
+			$uid = $content->uid;
+			$category = $content->$target;
+			
+			if($category == $pre_category){
+				$data = array();
+				$data[$target] = $after_category;
+				
+				$kbcontent = new KBContent();
+				$content = $kbcontent->initWithUID($uid);
+				$kbcontent->updateContent($data);
+			}
+		}
+		
+		wp_redirect(admin_url('admin.php?page=kboard_category_update'));
 		exit;
 	}
 	

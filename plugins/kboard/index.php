@@ -3,14 +3,14 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: https://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 6.2
+Version: 6.3
 Author: 코스모스팜 - Cosmosfarm
 Author URI: https://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define('KBOARD_VERSION', '6.2');
+define('KBOARD_VERSION', '6.3');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -23,6 +23,7 @@ define('KBOARD_SETTING_PAGE', admin_url('admin.php?page=kboard_list'));
 define('KBOARD_LATESTVIEW_PAGE', admin_url('admin.php?page=kboard_latestview'));
 define('KBOARD_LATESTVIEW_NEW_PAGE', admin_url('admin.php?page=kboard_latestview_new'));
 define('KBOARD_BACKUP_PAGE', admin_url('admin.php?page=kboard_backup'));
+define('KBOARD_CATEGORY_PAGE', admin_url('admin.php?page=kboard_category_update'));
 define('KBOARD_CONTENT_LIST_PAGE', admin_url('admin.php?page=kboard_content_list'));
 
 if(!defined('KBOARD_STORE_AUTH')){
@@ -259,7 +260,8 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기', 'kboard'), 'manage_kboard', 'kboard_latestview', 'kboard_latestview');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('최신글 모아보기 생성', 'kboard'), 'manage_kboard', 'kboard_latestview_new', 'kboard_latestview_new');
 	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('백업 및 복구', 'kboard'), 'manage_kboard', 'kboard_backup', 'kboard_backup');
-	
+	add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('카테고리 변경', 'kboard'), 'manage_kboard', 'kboard_category_update', 'kboard_category_update');
+
 	if(KBOARD_CONNECT_COSMOSFARM){
 		add_submenu_page('kboard_dashboard', KBOARD_PAGE_TITLE, __('업데이트', 'kboard'), 'manage_kboard', 'kboard_updates', 'kboard_updates');
 		
@@ -431,6 +433,16 @@ function kboard_latestview_new(){
  */
 function kboard_backup(){
 	include_once 'pages/kboard_backup.php';
+}
+
+/*
+ * 카테고리 변경 페이지
+ */
+function kboard_category_update(){
+	$list = new KBoardList();
+	$listcontent = $list ->initWithKeyword();
+  $items = $list->resource;
+	include_once 'pages/kboard_category_update.php';
 }
 
 /*
