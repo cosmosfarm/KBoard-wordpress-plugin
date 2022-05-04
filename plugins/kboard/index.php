@@ -440,8 +440,8 @@ function kboard_backup(){
  */
 function kboard_category_update(){
 	$list = new KBoardList();
-	$list ->initWithKeyword();
-  $items = $list->resource;
+	$list->initWithKeyword();
+	$items = $list->resource;
 	include_once 'pages/kboard_category_update.php';
 }
 

@@ -595,18 +595,31 @@ class KBAdminController {
 	 * 카테고리 업데이트
 	 */
 	public function category_update(){
+		global $wpdb;
 		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
+		if(isset($_POST['kboard-category-execute-nonce']) && wp_verify_nonce($_POST['kboard-category-execute-nonce'], 'kboard-category-execute')){
+		
 		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
 		$target = isset($_POST['target'])?sanitize_text_field($_POST['target']):'';
 		$before_category = isset($_POST['before_category'])?sanitize_text_field($_POST['before_category']):'';
 		$after_category = isset($_POST['after_category'])?sanitize_text_field($_POST['after_category']):'';
 
-		global $wpdb;
-		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `{$wpdb->prefix}kboard_board_content`.`{$target}`='{$before_category}'");
-
-		wp_redirect(admin_url('admin.php?page=kboard_category_update'));
+		$target   = esc_sql( $target );
+		$before_category = esc_sql( $before_category );
+		$after_category = esc_sql( $after_category );
+		
+		$updated_count = $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `board_id` = '{$board_id}' AND `{$target}`='{$before_category}'AND `status` = ''");
+		
+		$msg = '변경 할 카테고리가 없습니다.';
+		if($updated_count){
+			$msg = sprintf(__('%s개의 카테고리가 변경되었습니다', 'kboard'), $updated_count);
+		}
+		echo '<script>alert("'. $msg . '");</script>';
+		$redirect_url = admin_url('admin.php?page=kboard_category_update');
+		echo "<script>window.location.href='{$redirect_url}';</script>";
 		exit;
 	}
+}
 	
 	/**
 	 * 계층형 카테고리 업데이트
