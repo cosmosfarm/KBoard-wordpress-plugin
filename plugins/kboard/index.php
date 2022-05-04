@@ -3,14 +3,14 @@
 Plugin Name: KBoard : 게시판
 Plugin URI: https://www.cosmosfarm.com/products/kboard
 Description: 워드프레스 KBoard 게시판 플러그인 입니다.
-Version: 6.3
+Version: 6.2
 Author: 코스모스팜 - Cosmosfarm
 Author URI: https://www.cosmosfarm.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define('KBOARD_VERSION', '6.3');
+define('KBOARD_VERSION', '6.2');
 define('KBOARD_PAGE_TITLE', __('KBoard : 게시판', 'kboard'));
 define('KBOARD_WORDPRESS_ROOT', substr(ABSPATH, 0, -1));
 define('KBOARD_WORDPRESS_APP_ID', '083d136637c09572c3039778d8667b27');
@@ -440,7 +440,7 @@ function kboard_backup(){
  */
 function kboard_category_update(){
 	$list = new KBoardList();
-	$listcontent = $list ->initWithKeyword();
+	$list ->initWithKeyword();
   $items = $list->resource;
 	include_once 'pages/kboard_category_update.php';
 }

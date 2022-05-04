@@ -598,26 +598,12 @@ class KBAdminController {
 		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
 		$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
 		$target = isset($_POST['target'])?sanitize_text_field($_POST['target']):'';
-		$pre_category = isset($_POST['pre_category'])?sanitize_text_field($_POST['pre_category']):'';
+		$before_category = isset($_POST['before_category'])?sanitize_text_field($_POST['before_category']):'';
 		$after_category = isset($_POST['after_category'])?sanitize_text_field($_POST['after_category']):'';
-		
-		$board        = new KBContentList($board_id);
-		$content_list = $board->getList();
-		
-		foreach($content_list as $content){
-			$uid = $content->uid;
-			$category = $content->$target;
-			
-			if($category == $pre_category){
-				$data = array();
-				$data[$target] = $after_category;
-				
-				$kbcontent = new KBContent();
-				$content = $kbcontent->initWithUID($uid);
-				$kbcontent->updateContent($data);
-			}
-		}
-		
+
+		global $wpdb;
+		$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `{$wpdb->prefix}kboard_board_content`.`{$target}`='{$before_category}'");
+
 		wp_redirect(admin_url('admin.php?page=kboard_category_update'));
 		exit;
 	}

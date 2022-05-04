@@ -19,7 +19,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="skin">게시판 선택</label></th>
 					<td>
-						<select name="board_id" name="board_id" value="">
+						<select name="board_id" name="board_id">
 							<option value="">— 선택하기 —</option>
 							<?php foreach($items as $key=>$page):?>
 								<option value="<?php echo $page->uid?>"selected><?php echo $page->board_name?></option>
@@ -38,9 +38,9 @@
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="pre_category">기존 카테고리</label></th>
+					<th scope="row"><label for="before_category">기존 카테고리</label></th>
 					<td>
-						<input type="text" name="pre_category" id="pre_category" value="" class="regular-text">
+						<input type="text" name="before_category" id="before_category" value="" class="regular-text">
 						<p class="description">기존에 입력된 카테고리명을 입력합니다.</p>
 					</td>
 				</tr>
