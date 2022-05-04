@@ -608,7 +608,7 @@ class KBAdminController {
 		$before_category = esc_sql( $before_category );
 		$after_category = esc_sql( $after_category );
 		
-		$updated_count = $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `board_id` = '{$board_id}' AND `{$target}`='{$before_category}'AND `status` = ''");
+		$updated_count = $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `board_id`='{$board_id}' AND `{$target}`='{$before_category}'");
 		
 		$msg = '변경 할 카테고리가 없습니다.';
 		if($updated_count){

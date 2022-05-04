@@ -9,7 +9,7 @@
 	
 	<hr class="wp-header-end">
 	<form action="<?php echo admin_url('admin-post.php')?>" method="post">
-	<?php wp_nonce_field('kboard-category-execute', 'kboard-category-execute-nonce');?>
+		<?php wp_nonce_field('kboard-category-execute', 'kboard-category-execute-nonce');?>
 		<input type="hidden" name="action" value="kboard_category_update">
 		<table class="form-table">
 			<tbody>
