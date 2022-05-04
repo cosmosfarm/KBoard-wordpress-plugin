@@ -15,15 +15,15 @@
 			<tbody>
 				<tr valign="top">
 					<th scope="row"></th>
-					<td>카테고리 이름을 변경 합니다.</td>
+					<td>게시글의 카테고리 이름을 일괄 변경 합니다.</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="skin">게시판 선택</label></th>
 					<td>
-						<select name="board_id" name="board_id">
+						<select name="board_id" name="board_id" required>
 							<option value="">— 선택하기 —</option>
-							<?php foreach($items as $key=>$page):?>
-								<option value="<?php echo $page->uid?>"selected><?php echo $page->board_name?></option>
+							<?php foreach($board_list as $board):?>
+								<option value="<?php echo intval($board->uid)?>"><?php echo esc_html($board->board_name)?></option>
 							<?php endforeach?>
 						</select>
 					</td>
@@ -31,31 +31,32 @@
 				<tr valign="top">
 					<th scope="row"><label for="target">카테고리 선택</label></th>
 					<td>
-						<select name="target" id="target">
+						<select name="target" id="target" required>
+							<option value="">— 선택하기 —</option>
 							<option value="category1">카테고리1</option>
 							<option value="category2">카테고리2</option>
-							<p class="description">카테고리명을 바꿀 카테고리를 선택합니다.</p>
 						</select>
+						<p class="description">카테고리명을 바꿀 카테고리를 선택합니다.</p>
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="before_category">기존 카테고리</label></th>
 					<td>
-						<input type="text" name="before_category" id="before_category" value="" class="regular-text">
+						<input type="text" name="before_category" id="before_category" value="" class="regular-text" required>
 						<p class="description">기존에 입력된 카테고리명을 입력합니다.</p>
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="after_category">바꿀 카테고리</label></th>
 					<td>
-						<input type="text" name="after_category" id="after_category" value="" class="regular-text">
+						<input type="text" name="after_category" id="after_category" value="" class="regular-text" required>
 						<p class="description">바꿀 카테고리명을 입력합니다.</p>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<p class="submit">
-				<input type="submit" class="button-primary" value="<?php echo __('변경 하기', 'kboard')?>">
+			<input type="submit" class="button-primary" value="<?php echo __('변경 하기', 'kboard')?>">
 		</p>
 	</form>
 </div>
