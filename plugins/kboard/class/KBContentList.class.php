@@ -380,7 +380,7 @@ class KBContentList {
 		$this->from[] = "`{$wpdb->prefix}kboard_board_content`";
 		
 		if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) !== false && $keyword){
-			// 입력 필드 검색후 게시글을 불러온다.
+			// 입력 필드 검색후 게시글을 불러온다. (검색 target이 kboard_option_{meta_key} 인 경우 실행한다.)
 			$this->from[] = "LEFT JOIN `{$wpdb->prefix}kboard_board_option` ON `{$wpdb->prefix}kboard_board_content`.`uid`=`{$wpdb->prefix}kboard_board_option`.`content_uid`";
 			
 			$search = esc_sql(str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $search));
@@ -471,7 +471,13 @@ class KBContentList {
 			$search = esc_sql($search);
 			$keyword = esc_sql($keyword);
 			
+			// 더 많은 게시글 검색 옵션 활성화 시 스페이스를 | 로 변경한다.
+			if(get_option('kboard_search_auto_operator_or')){
+				$keyword = str_replace(' ', '|', $keyword);
+			}
+			
 			$keyword_list = preg_split("/(&|\|)/", $keyword, -1, PREG_SPLIT_DELIM_CAPTURE);
+			
 			if(is_array($keyword_list) && count($keyword_list) > 0){
 				foreach($keyword_list as $keyword){
 					if($keyword == '&'){

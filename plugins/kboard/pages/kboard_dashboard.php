@@ -417,6 +417,24 @@
 				</p>
 			</form>
 		</li>
+		<li>
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>더 많은 게시글 검색하기</h4>
+				<p>
+					게시판에서 검색 시 키워드의 공백 기준으로 OR 검색을 시도합니다.<br>
+					게시글이 많고 키워드가 복잡해질수록 홈페이지 속도가 느려질 수 있습니다.
+				</p>
+				<p>
+					<select name="option[kboard_search_auto_operator_or]">
+						<option value="">비활성화</option>
+						<option value="1"<?php if(get_option('kboard_search_auto_operator_or') == '1'):?> selected<?php endif?>>활성화</option>
+					</select>
+					<button type="submit" class="button">적용</button>
+				</p>
+			</form>
+		</li>
 	</ul>
 </div>
 <script>
