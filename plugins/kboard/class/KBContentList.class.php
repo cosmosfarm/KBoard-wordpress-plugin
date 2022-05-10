@@ -32,6 +32,7 @@ class KBContentList {
 	var $stop;
 	var $resource;
 	var $resource_notice;
+	var $resource_popular;
 	var $resource_reply;
 	var $row;
 	var $is_loop_start;
@@ -859,6 +860,88 @@ class KBContentList {
 		}
 		else{
 			unset($this->resource);
+			return '';
+		}
+	}
+	
+	/**
+	 * 인기글 리스트를 반환한다.
+	 * @return resource
+	 * @return KBoard
+	 */
+	public function getPopularList(){
+		global $wpdb;
+		$board = new KBoard($this->board_id);
+		
+		if(is_array($this->board_id)){
+			foreach($this->board_id as $key=>$value){
+				$value = intval($value);
+				$board_ids[] = "'{$value}'";
+			}
+			$board_ids = implode(',', $board_ids);
+			$where[] = "`board_id` IN ($board_ids)";
+		}
+		else{
+			$this->board_id = intval($this->board_id);
+			$where[] = "`board_id`='$this->board_id'";
+		}
+		
+		if($this->category1){
+			$category1 = esc_sql($this->category1);
+			$where[] = "`category1`='{$category1}'";
+		}
+		
+		if($this->category2){
+			$category2 = esc_sql($this->category2);
+			$where[] = "`category2`='{$category2}'";
+		}
+		
+		// 휴지통에 없는 게시글만 불러온다.
+		$get_list_status_query = kboard_get_list_status_query($this->board_id);
+		if($get_list_status_query){
+			$where[] = $get_list_status_query;
+		}
+		if($board->meta->popular_list_pulgin_row =='check'){
+			if($board->meta->popular_list_cehck_date=='week'){
+				$where[] = 'DATE > date_add(now(),interval -1 week)';
+			}
+			else{
+				$where[] = 'DATE > date_add(now(),interval -1 month)';
+			}
+			$orderby = '`view` DESC';
+			$limit = $board->meta->popular_list_count;
+		}
+		else if($board->meta->popular_list_pulgin_row =='suggestion'){
+			$orderby = '`like` DESC';
+			$limit = $board->meta->popular_list_count;
+		}
+	
+		$select = apply_filters('kboard_popular_list_select', '*', $this->board_id, $this);
+		$from = apply_filters('kboard_popular_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
+		$where = apply_filters('kboard_popular_list_where', implode(' AND ', $where), $this->board_id, $this);
+		$orderby = apply_filters('kboard_popular_list_orderby', "{$orderby}", $this->board_id, $this);
+		
+		$this->resource_popular = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$limit}");
+		$wpdb->flush();
+		return $this->resource_popular;
+	}
+	
+	/**
+	 * 리스트에서 다음 인기글을 반환한다.
+	 * @return KBContent
+	 */
+	public function hasNextPopular(){
+		if(!$this->resource_popular) $this->getPopularList();
+		$this->row = current($this->resource_popular);
+		
+		if($this->row){
+			next($this->resource_popular);
+			$content = new KBContent();
+			$content->initWithRow($this->row);
+			return $content;
+		}
+		else{
+			unset($this->resource_popular);
 			return '';
 		}
 	}
