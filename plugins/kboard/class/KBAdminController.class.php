@@ -622,9 +622,9 @@ class KBAdminController {
 					$msg = sprintf(__('%s개의 카테고리가 변경되었습니다.', 'kboard'), number_format($updated_count));
 				}
 				echo '<script>alert("'. $msg . '");</script>';
-		$redirect_url = admin_url('admin.php?page=kboard_category_update');
-		echo "<script>window.location.href='{$redirect_url}';</script>";
-		exit;
+			$redirect_url = admin_url('admin.php?page=kboard_category_update');
+			echo "<script>window.location.href='{$redirect_url}';</script>";
+			exit;
 	}
 }
 	
