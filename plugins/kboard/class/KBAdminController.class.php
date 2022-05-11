@@ -156,7 +156,7 @@ class KBAdminController {
 				$board->meta->popular_list_pulgin_row           = isset($_POST['popular_list_pulgin_row'])           ? $_POST['popular_list_pulgin_row']           : '';
 				$board->meta->popular_list_count                = isset($_POST['popular_list_count'])                ? $_POST['popular_list_count']                : '';
 				$board->meta->popular_list_cehck_date           = isset($_POST['popular_list_cehck_date'])           ? $_POST['popular_list_cehck_date']           : '';
-				$board->meta->popular_board_name                = isset($_POST['popular_board_name'])                ? $_POST['popular_board_name']                : '';
+				$board->meta->popular_board_name                = isset($_POST['popular_board_name'])                ? sanitize_text_field($_POST['popular_board_name'])           : '인기글';
 				$board->meta->display_name_masking              = isset($_POST['display_name_masking'])              ? $_POST['display_name_masking']              : '';
 				
 				if(isset($_POST['permission_read_roles'])){

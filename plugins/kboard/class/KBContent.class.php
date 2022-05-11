@@ -39,6 +39,16 @@ class KBContent {
 		if($board_id) $this->setBoardID($board_id);
 	}
 	
+	public function getClass($class_name=''){
+		$class_uid = $this->uid == kboard_uid() ? ' kboard-list-selected' : '';
+		if($class_name){
+			$class_return = $class_name ? 'kboard-list-'.$class_name.$class_uid : '';
+		}else{
+			$class_return = $class_name ?$class_name.$class_uid : '';
+		}
+	return  $class_return;
+	}
+		
 	public function __get($name){
 		$value = '';
 		if(isset($this->row->{$name})){
@@ -654,7 +664,7 @@ class KBContent {
 		$this->attach = array();
 		if($this->uid){
 			$url = new KBUrl();
-			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}' ORDER BY `file_key` DESC");
+			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}'");
 			foreach($result as $file){
 				$file_info = array(
 					0 => $file->file_path,
@@ -1956,6 +1966,7 @@ class KBContent {
 			}
 		}
 	}
+	
 	
 	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.

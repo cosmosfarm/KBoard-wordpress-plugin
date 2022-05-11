@@ -53,7 +53,7 @@
 			</thead>
 			<tbody>
 				<?php while($content = $list->hasNextNotice()):?>
-				<tr class="kboard-list-notice<?php if($content->uid == kboard_uid()):?> kboard-list-selected<?php endif?>">
+				<tr class="<?php echo esc_attr($content->getClass('notice'))?>">
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-title">
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
@@ -83,7 +83,7 @@
 				<!-- 옵션체크 -->
 				<?php if($board->meta->popular_list_setting):?>
 					<?php while($content = $list->hasNextPopular()):?>
-					<tr class="kboard-list-popularity<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
+					<tr class="<?php echo esc_attr($content->getClass('popular'))?>">
 						<td class="kboard-list-uid"><?php echo $board->meta->popular_board_name?></td>
 						<td class="kboard-list-title">
 							<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
@@ -113,7 +113,7 @@
 				<?php endif?>
 				<!-- 닫기 -->
 				<?php while($content = $list->hasNext()):?>
-				<tr class="<?php if($content->uid == kboard_uid()):?>kboard-list-selected<?php endif?>">
+				<tr class="<?php echo esc_attr($content->getClass())?>">
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-title">
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
