@@ -101,6 +101,22 @@ class KBoard {
 	}
 	
 	/**
+	 * 인기글 이름 정보를 입력받는다.
+	 * @return KBoard
+	 */
+	public function getPopularName(){
+		$getPopularName = '';
+		if(!$this->meta->popular_name){
+			$getPopularName = '인기글';
+		}
+		else{
+			$getPopularName = $this->meta->popular_name;
+		}
+		return $getPopularName;
+	}
+
+	
+	/**
 	 * 게시글이 등록된 게시판 정보를 초기화한다.
 	 * @param int $content_uid
 	 * @return KBoard

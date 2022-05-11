@@ -30,8 +30,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('소셜댓글', 'kboard')?></a>
 			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('대량관리', 'kboard')?></a>
-			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('확장설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('인기글 표시 설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('인기글 표시 설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
 		
@@ -1768,6 +1768,73 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
+						<th scope="row"><label for="popular_action">인기글 표시 설정</label></th>
+						<td>
+							<select name="popular_action" id="popular_action">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->popular_action):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">게시판 리스트에 인기글이 추가됩니다.</p>
+							<p class="description">일부 스킨에는 적용이 안될 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="popular_type">인기글 표시 종류</label></th>
+						<td>
+							<select name="popular_type" id="popular_type">
+								<option value="">— 선택하기 —</option>
+								<option value="check"<?php if($meta->popular_type =='check'):?> selected<?php endif?>>조회수</option>
+								<option value="suggestion"<?php if($meta->popular_type =='suggestion'):?> selected<?php endif?>>추천수</option>
+							</select>
+							<p class="description">인기글 표시 종류를 선택합니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="popular_count">인기글 표시 개수</label></th>
+						<td>
+							<select name="popular_count" id="popular_count">
+								<?php if(!$meta->popular_count) $meta->popular_count=5;?>
+								<option value="10"<?php if($meta->popular_count == 10):?> selected<?php endif?>>10개</option>
+								<option value="9"<?php if($meta->popular_count == 9):?> selected<?php endif?>>9개</option>
+								<option value="8"<?php if($meta->popular_count == 8):?> selected<?php endif?>>8개</option>
+								<option value="7"<?php if($meta->popular_count == 7):?> selected<?php endif?>>7개</option>
+								<option value="6"<?php if($meta->popular_count == 6):?> selected<?php endif?>>6개</option>
+								<option value="5"<?php if($meta->popular_count == 5):?> selected<?php endif?>>5개</option>
+								<option value="4"<?php if($meta->popular_count == 4):?> selected<?php endif?>>4개</option>
+								<option value="3"<?php if($meta->popular_count == 3):?> selected<?php endif?>>3개</option>
+								<option value="2"<?php if($meta->popular_count == 2):?> selected<?php endif?>>2개</option>
+								<option value="1"<?php if($meta->popular_count == 1):?> selected<?php endif?>>1개</option>
+							</select>
+							<p class="description">리스트에 보여지는 인기글 개수를 정합니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="popular_range">기간내 조회수 옵션</label></th>
+						<td>
+							<select name="popular_range" id="popular_range">
+								<?php if(!$meta->popular_range) $meta->popular_range = 'all';?>
+								<option value="all"<?php if($meta->popular_range =='all'):?> selected<?php endif?>>전체 인기글</option>
+								<option value="week"<?php if($meta->popular_range =='week'):?> selected<?php endif?>>이주의 인기글</option>
+								<option value="month"<?php if($meta->popular_range =='month'):?> selected<?php endif?>>이달의 인기글</option>
+							</select>
+							<p class="description">조회수로 인기글 정렬 기간을 정합니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="popular_name">인기글 이름 변경 옵션</label></th>
+						<td>
+							<input type="text" name="popular_name" id="popular_name" class="regular-text" value="<?php echo esc_html($meta->popular_name)?>"placeholder='인기글'>
+							<p class="description">리스트에 표시되는 인기글 이름을 변경합니다.</p>
+							<p class="description">기본 이름은 '인기글' 입니다.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
 						<th scope="row"></th>
 						<td>
 							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="https://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a> 
@@ -1782,73 +1849,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			$html = apply_filters("kboard_{$board->skin}_extends_setting", $html, $meta, $board->id);
 			echo $html;
 			?>
-		</div>
-		<div class="tab-kboard-setting">
-			<table class="form-table">
-				<tbody>
-					<tr valign="top">
-						<th scope="row"><label for="popular_list_setting">인기글 표시 설정</label></th>
-						<td>
-							<select name="popular_list_setting" id="popular_list_setting">
-								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->popular_list_setting):?> selected<?php endif?>>활성화</option>
-							</select>
-							<p class="description">게시판 리스트에 인기글이 추가됩니다.</p>
-							<p class="description">일부 스킨에는 적용이 안될 수 있습니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="popular_list_pulgin_row">인기글 표시 종류</label></th>
-						<td>
-							<select name="popular_list_pulgin_row" id="popular_list_pulgin_row">
-								<option value="">— 선택하기 —</option>
-								<option value="check"<?php if($meta->popular_list_pulgin_row =='check'):?> selected<?php endif?>>조회수</option>
-								<option value="suggestion"<?php if($meta->popular_list_pulgin_row =='suggestion'):?> selected<?php endif?>>추천수</option>
-							</select>
-							<p class="description">인기글 표시 종류를 선택합니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="popular_list_count">인기글 표시 개수</label></th>
-						<td>
-							<select name="popular_list_count" id="popular_list_count">
-								<?php if(!$meta->popular_list_count) $meta->popular_list_count=5;?>
-								<option value="10"<?php if($meta->popular_list_count == 5):?> selected<?php endif?>>10개</option>
-								<option value="9"<?php if($meta->popular_list_count == 5):?> selected<?php endif?>>9개</option>
-								<option value="8"<?php if($meta->popular_list_count == 5):?> selected<?php endif?>>8개</option>
-								<option value="7"<?php if($meta->popular_list_count == 5):?> selected<?php endif?>>7개</option>
-								<option value="6"<?php if($meta->popular_list_count == 5):?> selected<?php endif?>>6개</option>
-								<option value="5"<?php if($meta->popular_list_count == 5):?> selected<?php endif?>>5개</option>
-								<option value="4"<?php if($meta->popular_list_count == 4):?> selected<?php endif?>>4개</option>
-								<option value="3"<?php if($meta->popular_list_count == 3):?> selected<?php endif?>>3개</option>
-								<option value="2"<?php if($meta->popular_list_count == 3):?> selected<?php endif?>>2개</option>
-								<option value="1"<?php if($meta->popular_list_count == 3):?> selected<?php endif?>>1개</option>
-							</select>
-							<p class="description">리스트에 보여지는 인기글 개수를 정합니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="popular_list_cehck_date">기간내 조회수 옵션</label></th>
-						<td>
-							<select name="popular_list_cehck_date" id="popular_list_cehck_date">
-								<?php if(!$meta->popular_list_cehck_date) $meta->popular_list_cehck_date = 'all';?>
-								<option value="all"<?php if($meta->popular_list_cehck_date =='all'):?> selected<?php endif?>>전체 인기글</option>
-								<option value="week"<?php if($meta->popular_list_cehck_date =='week'):?> selected<?php endif?>>이주의 인기글</option>
-								<option value="month"<?php if($meta->popular_list_cehck_date =='month'):?> selected<?php endif?>>이달의 인기글</option>
-							</select>
-							<p class="description">조회수로 인기글 정렬 기간을 정합니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="popular_board_name">인기글 이름 변경 옵션</label></th>
-						<td>
-							<input type="text" name="popular_board_name" id="popular_board_name" class="regular-text" value="<?php echo esc_html($meta->popular_board_name)?>">
-							<p class="description">리스트에 표시되는 인기글 이름을 변경합니다.</p>
-							<p class="description">기본 이름은 '인기글' 입니다.</p>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 		<?php endif?>
 		<p class="submit">

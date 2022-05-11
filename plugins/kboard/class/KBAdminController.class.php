@@ -152,11 +152,11 @@ class KBAdminController {
 				$board->meta->woocommerce_product_tabs_add      = isset($_POST['woocommerce_product_tabs_add'])      ? $_POST['woocommerce_product_tabs_add']      : '';
 				$board->meta->woocommerce_product_tabs_priority = isset($_POST['woocommerce_product_tabs_priority']) ? $_POST['woocommerce_product_tabs_priority'] : '';
 				$board->meta->prevent_copy                      = isset($_POST['prevent_copy'])                      ? $_POST['prevent_copy']                      : '';
-				$board->meta->popular_list_setting              = isset($_POST['popular_list_setting'])              ? $_POST['popular_list_setting']              : '';
-				$board->meta->popular_list_pulgin_row           = isset($_POST['popular_list_pulgin_row'])           ? $_POST['popular_list_pulgin_row']           : '';
-				$board->meta->popular_list_count                = isset($_POST['popular_list_count'])                ? $_POST['popular_list_count']                : '';
-				$board->meta->popular_list_cehck_date           = isset($_POST['popular_list_cehck_date'])           ? $_POST['popular_list_cehck_date']           : '';
-				$board->meta->popular_board_name                = isset($_POST['popular_board_name'])                ? sanitize_text_field($_POST['popular_board_name']) : '';
+				$board->meta->popular_action                    = isset($_POST['popular_action'])                    ? $_POST['popular_action']                    : '';
+				$board->meta->popular_type                      = isset($_POST['popular_type'])                      ? $_POST['popular_type']                      : '';
+				$board->meta->popular_count                     = isset($_POST['popular_count'])                     ? $_POST['popular_count']                     : '';
+				$board->meta->popular_range                     = isset($_POST['popular_range'])                     ? $_POST['popular_range']                     : '';
+				$board->meta->popular_name                      = isset($_POST['popular_name'])                      ? sanitize_text_field($_POST['popular_name']) : '';
 				$board->meta->display_name_masking              = isset($_POST['display_name_masking'])              ? $_POST['display_name_masking']              : '';
 				
 				if(isset($_POST['permission_read_roles'])){

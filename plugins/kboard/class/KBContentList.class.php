@@ -904,19 +904,19 @@ class KBContentList {
 		if($get_list_status_query){
 			$where[] = $get_list_status_query;
 		}
-		if($this->board->meta->popular_list_pulgin_row =='check'){
-			if($this->board->meta->popular_list_cehck_date=='week'){
+		if($this->board->meta->popular_type =='check'){
+			if($this->board->meta->popular_range=='week'){
 				$where[] = 'DATE > date_add(now(),interval -1 week)';
 			}
 			else{
 				$where[] = 'DATE > date_add(now(),interval -1 month)';
 			}
 			$orderby = '`view` DESC';
-			$limit = $this->board->meta->popular_list_count;
+			$limit = $this->board->meta->popular_count;
 		}
-		else if($this->board->meta->popular_list_pulgin_row =='suggestion'){
+		else if($this->board->meta->popular_type =='suggestion'){
 			$orderby = '`like` DESC';
-			$limit = $this->board->meta->popular_list_count;
+			$limit = $this->board->meta->popular_count;
 		}
 		
 		$select = apply_filters('kboard_popular_list_select', '*', $this->board_id, $this);
@@ -937,16 +937,17 @@ class KBContentList {
 		if(!$this->board){
 			$this->board = new KBoard($this->board_id);
 		}
-		
-		if(!$this->resource_popular) $this->getPopularList();
-		$this->row = current($this->resource_popular);
-		
-		if($this->row){
-			next($this->resource_popular);
-			$content = new KBContent();
-			$content->class_type = 'popular';
-			$content->initWithRow($this->row);
-			return $content;
+		if($this->board->meta->popular_action){
+			if(!$this->resource_popular) $this->getPopularList();
+			$this->row = current($this->resource_popular);
+			
+			if($this->row){
+				next($this->resource_popular);
+				$content = new KBContent();
+				$content->class_type = 'popular';
+				$content->initWithRow($this->row);
+				return $content;
+			}
 		}
 		else{
 			unset($this->resource_popular);
