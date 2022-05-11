@@ -42,7 +42,7 @@ class KBContent {
 
 	public function __get($name){
 		$value = '';
-		if(isset($this->row->)){
+		if(isset($this->row->{$name})){
 			if(in_array($name, array('title', 'content'))){
 				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
 					if($this->isEditor()){
@@ -65,7 +65,7 @@ class KBContent {
 	}
 	
 	public function __set($name, $value){
-		$this->row->view = $value;
+		$this->row->{$name} = $value;
 	}
 
 	/**
