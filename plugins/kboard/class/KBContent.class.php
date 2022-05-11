@@ -40,11 +40,11 @@ class KBContent {
 	}
 	
 	public function getClass($class_name=''){
-		$class_uid = $this->uid == kboard_uid() ? ' kboard-list-selected' : '';
+		$class_uid = $this->uid == kboard_uid()?' kboard-list-selected':'';
 		if($class_name){
-			$class_return = $class_name ? 'kboard-list-'.$class_name.$class_uid : '';
-		}else{
-			$class_return = $class_name ?$class_name.$class_uid : '';
+			$class_return = $class_name?'kboard-list-'.$class_name.$class_uid:'';
+		} else {
+			$class_return = $class_name?$class_name.$class_uid:'';
 		}
 	return  $class_return;
 	}
@@ -664,7 +664,7 @@ class KBContent {
 		$this->attach = array();
 		if($this->uid){
 			$url = new KBUrl();
-			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}'");
+			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}' ORDER BY `file_key` DESC");
 			foreach($result as $file){
 				$file_info = array(
 					0 => $file->file_path,

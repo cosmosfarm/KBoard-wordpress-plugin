@@ -64,7 +64,7 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 #kboard-default-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #f1f1f1; }
 #kboard-default-list .kboard-list tbody tr:hover { background-color: #f7f7f7; }
 #kboard-default-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
-#kboard-default-list > div.kboard-list > table > tbody > tr.kboard-list-popular > td.kboard-list-uid { font-weight: bold; }
+#kboard-default-list .kboard-list tbody tr.kboard-list-popular  .kboard-list-uid { font-weight: bold; }
 #kboard-default-list .kboard-list tbody tr.kboard-list-selected .kboard-default-cut-strings { font-weight: bold; }
 #kboard-default-list .kboard-list tbody td.kboard-list-title { text-align: left; }
 #kboard-default-list .kboard-list tbody td.kboard-list-title img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
