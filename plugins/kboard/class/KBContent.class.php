@@ -29,6 +29,7 @@ class KBContent {
 	var $previous_board_id;
 	var $tree_category_depth;
 	var $new_password;
+	var $class_type;
 	
 	public function __construct($board_id=''){
 		$upload_dir = wp_upload_dir();
@@ -38,20 +39,10 @@ class KBContent {
 		$this->execute_action = 'insert';
 		if($board_id) $this->setBoardID($board_id);
 	}
-	
-	public function getClass($class_name=''){
-		$class_uid = $this->uid == kboard_uid()?' kboard-list-selected':'';
-		if($class_name){
-			$class_return = $class_name?'kboard-list-'.$class_name.$class_uid:'';
-		} else {
-			$class_return = $class_name?$class_name.$class_uid:'';
-		}
-	return  $class_return;
-	}
-		
+
 	public function __get($name){
 		$value = '';
-		if(isset($this->row->{$name})){
+		if(isset($this->row->)){
 			if(in_array($name, array('title', 'content'))){
 				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
 					if($this->isEditor()){
@@ -74,9 +65,9 @@ class KBContent {
 	}
 	
 	public function __set($name, $value){
-		$this->row->{$name} = $value;
+		$this->row->view = $value;
 	}
-	
+
 	/**
 	 * 게시판 ID를 입력받는다.
 	 * @param int $board_id
@@ -1124,6 +1115,25 @@ class KBContent {
 				$this->restoreReplyFromTrash($row->uid);
 			}
 		}
+	}
+	
+	/**
+	 * 게시글 목록에서 게시글과 관련된 CSS 클래스를 반환한다.
+	 * @return string
+	 */
+	public function getClass(){
+		$class = array();
+		$class[] = $this->uid == kboard_uid() ? 'kboard-list-selected' : '';
+		
+		if($this->class_type == 'notice'){
+			$class[] = 'kboard-list-notice';
+		}
+		else if($this->class_type == 'popular'){
+			$class[] = 'kboard-list-popular';
+		}
+		
+		$class = apply_filters('kboard_content_get_class', $class, $this);
+		return implode(' ', $class);
 	}
 	
 	/**

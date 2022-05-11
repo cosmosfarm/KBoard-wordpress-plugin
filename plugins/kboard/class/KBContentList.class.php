@@ -871,7 +871,10 @@ class KBContentList {
 	 */
 	public function getPopularList(){
 		global $wpdb;
-		$board = new KBoard($this->board_id);
+		
+		if(!$this->board){
+			$this->board = new KBoard($this->board_id);
+		}
 		
 		if(is_array($this->board_id)){
 			foreach($this->board_id as $key=>$value){
@@ -901,21 +904,21 @@ class KBContentList {
 		if($get_list_status_query){
 			$where[] = $get_list_status_query;
 		}
-		if($board->meta->popular_list_pulgin_row =='check'){
-			if($board->meta->popular_list_cehck_date=='week'){
+		if($this->board->meta->popular_list_pulgin_row =='check'){
+			if($this->board->meta->popular_list_cehck_date=='week'){
 				$where[] = 'DATE > date_add(now(),interval -1 week)';
 			}
 			else{
 				$where[] = 'DATE > date_add(now(),interval -1 month)';
 			}
 			$orderby = '`view` DESC';
-			$limit = $board->meta->popular_list_count;
+			$limit = $this->board->meta->popular_list_count;
 		}
-		else if($board->meta->popular_list_pulgin_row =='suggestion'){
+		else if($this->board->meta->popular_list_pulgin_row =='suggestion'){
 			$orderby = '`like` DESC';
-			$limit = $board->meta->popular_list_count;
+			$limit = $this->board->meta->popular_list_count;
 		}
-	
+		
 		$select = apply_filters('kboard_popular_list_select', '*', $this->board_id, $this);
 		$from = apply_filters('kboard_popular_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
 		$where = apply_filters('kboard_popular_list_where', implode(' AND ', $where), $this->board_id, $this);
@@ -931,12 +934,17 @@ class KBContentList {
 	 * @return KBContent
 	 */
 	public function hasNextPopular(){
+		if(!$this->board){
+			$this->board = new KBoard($this->board_id);
+		}
+		
 		if(!$this->resource_popular) $this->getPopularList();
 		$this->row = current($this->resource_popular);
 		
 		if($this->row){
 			next($this->resource_popular);
 			$content = new KBContent();
+			$content->class_type = 'popular';
 			$content->initWithRow($this->row);
 			return $content;
 		}
@@ -1024,6 +1032,7 @@ class KBContentList {
 		if($this->row){
 			next($this->resource_notice);
 			$content = new KBContent();
+			$content->class_type = 'notice';
 			$content->initWithRow($this->row);
 			return $content;
 		}
