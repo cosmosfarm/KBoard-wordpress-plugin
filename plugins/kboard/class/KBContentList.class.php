@@ -877,9 +877,9 @@ class KBContentList {
 		}
 		
 		if(is_array($this->board_id)){
-			foreach($this->board_id as $key=>$value){
-				$value = intval($value);
-				$board_ids[] = "'{$value}'";
+			foreach($this->board_id as $board_id){
+				$board_id = intval($board_id);
+				$board_ids[] = "'{$board_id}'";
 			}
 			$board_ids = implode(',', $board_ids);
 			$where[] = "`board_id` IN ($board_ids)";
@@ -904,7 +904,7 @@ class KBContentList {
 		if($get_list_status_query){
 			$where[] = $get_list_status_query;
 		}
-		if($this->board->meta->popular_type =='check'){
+		if($this->board->meta->popular_type =='view'){
 			if($this->board->meta->popular_range=='week'){
 				$where[] = 'DATE > date_add(now(),interval -1 week)';
 			}
@@ -914,7 +914,7 @@ class KBContentList {
 			$orderby = '`view` DESC';
 			$limit = $this->board->meta->popular_count;
 		}
-		else if($this->board->meta->popular_type =='suggestion'){
+		else if($this->board->meta->popular_type =='vote'){
 			$orderby = '`like` DESC';
 			$limit = $this->board->meta->popular_count;
 		}

@@ -1783,8 +1783,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="popular_type" id="popular_type">
 								<option value="">— 선택하기 —</option>
-								<option value="check"<?php if($meta->popular_type =='check'):?> selected<?php endif?>>조회수</option>
-								<option value="suggestion"<?php if($meta->popular_type =='suggestion'):?> selected<?php endif?>>추천수</option>
+								<option value="view"<?php if($meta->popular_type =='view'):?> selected<?php endif?>>조회수</option>
+								<option value="vote"<?php if($meta->popular_type =='vote'):?> selected<?php endif?>>추천수</option>
 							</select>
 							<p class="description">인기글 표시 종류를 선택합니다.</p>
 						</td>
