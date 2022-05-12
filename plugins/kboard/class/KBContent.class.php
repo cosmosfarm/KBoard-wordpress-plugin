@@ -1123,7 +1123,10 @@ class KBContent {
 	 */
 	public function getClass(){
 		$class = array();
-		$class[] = $this->uid == kboard_uid() ? 'kboard-list-selected' : '';
+		
+		if($this->uid == kboard_uid()){
+			$class[] = 'kboard-list-selected';
+		}
 		
 		if($this->class_type == 'notice'){
 			$class[] = 'kboard-list-notice';

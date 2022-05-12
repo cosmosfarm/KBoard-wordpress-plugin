@@ -904,8 +904,9 @@ class KBContentList {
 		if($get_list_status_query){
 			$where[] = $get_list_status_query;
 		}
-		if($this->board->meta->popular_type =='view'){
-			if($this->board->meta->popular_range=='week'){
+		
+		if($this->board->meta->popular_type == 'view'){
+			if($this->board->meta->popular_range == 'week'){
 				$where[] = 'DATE > date_add(now(),interval -1 week)';
 			}
 			else{
@@ -914,7 +915,7 @@ class KBContentList {
 			$orderby = '`view` DESC';
 			$limit = $this->board->meta->popular_count;
 		}
-		else if($this->board->meta->popular_type =='vote'){
+		else if($this->board->meta->popular_type == 'vote'){
 			$orderby = '`like` DESC';
 			$limit = $this->board->meta->popular_count;
 		}
@@ -937,6 +938,7 @@ class KBContentList {
 		if(!$this->board){
 			$this->board = new KBoard($this->board_id);
 		}
+		
 		if($this->board->meta->popular_action){
 			if(!$this->resource_popular) $this->getPopularList();
 			$this->row = current($this->resource_popular);
