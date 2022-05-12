@@ -24,14 +24,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-0" class="tab-kboard nav-tab nav-tab-active" onclick="kboard_setting_tab_change(0);"><?php echo __('기본설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(1);"><?php echo __('권한설정', 'kboard')?></a>
 			<?php if($board->id):?>
-			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(2);"><?php echo __('입력필드 설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(2);"><?php echo __('입력 필드', 'kboard')?></a>
 			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('계층형 카테고리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('고급설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('소셜댓글', 'kboard')?></a>
 			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('대량관리', 'kboard')?></a>
-			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('인기글 표시 설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('확장설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('인기글 표시', 'kboard')?></a>
+			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
 		
@@ -1768,29 +1768,29 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
-						<th scope="row"><label for="popular_action">인기글 표시 설정</label></th>
+						<th scope="row"><label for="popular_action">인기글 사용 설정</label></th>
 						<td>
 							<select name="popular_action" id="popular_action">
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->popular_action):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">게시판 리스트에 인기글이 추가됩니다.</p>
+							<p class="description">게시판 리스트에 인기글이 표시됩니다.</p>
 							<p class="description">일부 스킨에는 적용이 안될 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="popular_type">인기글 표시 종류</label></th>
+						<th scope="row"><label for="popular_type">표시 종류</label></th>
 						<td>
 							<select name="popular_type" id="popular_type">
 								<option value="">— 선택하기 —</option>
-								<option value="view"<?php if($meta->popular_type =='view'):?> selected<?php endif?>>조회수</option>
-								<option value="vote"<?php if($meta->popular_type =='vote'):?> selected<?php endif?>>추천수</option>
+								<option value="view"<?php if($meta->popular_type == 'view'):?> selected<?php endif?>>조회수</option>
+								<option value="vote"<?php if($meta->popular_type == 'vote'):?> selected<?php endif?>>추천수</option>
 							</select>
-							<p class="description">인기글 표시 종류를 선택합니다.</p>
+							<p class="description">선택한 종류를 기준으로 가장 높은 순서의 게시글을 표시합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="popular_count">인기글 표시 개수</label></th>
+						<th scope="row"><label for="popular_count">표시 개수</label></th>
 						<td>
 							<select name="popular_count" id="popular_count">
 								<?php if(!$meta->popular_count) $meta->popular_count=5;?>
@@ -1809,23 +1809,23 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="popular_range">기간내 조회수 옵션</label></th>
+						<th scope="row"><label for="popular_range">표시 기간</label></th>
 						<td>
 							<select name="popular_range" id="popular_range">
-								<?php if(!$meta->popular_range) $meta->popular_range = 'all';?>
-								<option value="all"<?php if($meta->popular_range =='all'):?> selected<?php endif?>>전체 인기글</option>
-								<option value="week"<?php if($meta->popular_range =='week'):?> selected<?php endif?>>이주의 인기글</option>
-								<option value="month"<?php if($meta->popular_range =='month'):?> selected<?php endif?>>이달의 인기글</option>
+								<?php if(!$meta->popular_range) $meta->popular_range='all';?>
+								<option value="all"<?php if($meta->popular_range == 'all'):?> selected<?php endif?>>전체 인기글</option>
+								<option value="week"<?php if($meta->popular_range == 'week'):?> selected<?php endif?>>이주의 인기글</option>
+								<option value="month"<?php if($meta->popular_range == 'month'):?> selected<?php endif?>>이달의 인기글</option>
 							</select>
-							<p class="description">조회수로 인기글 정렬 기간을 정합니다.</p>
+							<p class="description">해당 기간 내의 인기글을 표시할 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="popular_name">인기글 이름 변경 옵션</label></th>
+						<th scope="row"><label for="popular_name">표시 이름</label></th>
 						<td>
-							<input type="text" name="popular_name" id="popular_name" class="regular-text" value="<?php echo esc_html($meta->popular_name)?>"placeholder='인기글'>
+							<input type="text" name="popular_name" id="popular_name" class="regular-text" value="<?php echo esc_attr($meta->popular_name)?>" placeholder="인기글">
 							<p class="description">리스트에 표시되는 인기글 이름을 변경합니다.</p>
-							<p class="description">기본 이름은 '인기글' 입니다.</p>
+							<p class="description">리스트에서 게시글 번호 대신 이름이 표시됩니다.</p>
 						</td>
 					</tr>
 				</tbody>
