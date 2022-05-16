@@ -864,9 +864,15 @@ function kboard_latest_shortcode($args){
 	$board->setID($args['id']);
 	
 	if($board->id){
+		$message = isset($args['message']) ? sanitize_text_field($args['message']) : '';
+		if(!$board->getListTotal() && $message){
+			return $message;
+		}
+		
 		$builder = new KBoardBuilder($board->id, true);
 		$builder->board = $board;
 		$builder->setSkin($board->skin);
+		
 		if(wp_is_mobile()){
 			$builder->setRpp($args['mobile_rpp']);
 		}
@@ -947,12 +953,25 @@ function kboard_latestview_shortcode($args){
 	if(isset($args['blog']) && $args['blog']){
 		do_action('kboard_switch_to_blog', $args);
 	}
-	
+
 	$latestview = new KBLatestview($args['id']);
+	
 	if($latestview->uid){
+		$count = 0;
+		foreach($latestview->getLinkedBoard() as $board_id){
+			$board = new Kboard($board_id);
+			$count += $board->getListTotal();
+		}
+		
+		$message = isset($args['message']) ? sanitize_text_field($args['message']) : '';
+		if(!$count && $message){
+			return $message;
+		}
+		
 		$builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
 		$builder->board = new KBoard();
 		$builder->setSkin($latestview->skin);
+		
 		if(wp_is_mobile()){
 			$builder->setRpp($latestview->mobile_rpp);
 		}
