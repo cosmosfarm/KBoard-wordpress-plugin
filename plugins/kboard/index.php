@@ -864,9 +864,9 @@ function kboard_latest_shortcode($args){
 	$board->setID($args['id']);
 	
 	if($board->id){
-		$message = isset($args['message']) ? sanitize_text_field($args['message']) : '';
-		if(!$board->getListTotal() && $message){
-			return $message;
+		$empty_list_message = isset($args['empty_list_message']) ? trim($args['empty_list_message']) : '';
+		if(!$board->getListTotal() && $empty_list_message){
+			return sprintf('<div class="kboard-latest-empty-list-message">%s</div>', $empty_list_message);
 		}
 		
 		$builder = new KBoardBuilder($board->id, true);
@@ -953,7 +953,7 @@ function kboard_latestview_shortcode($args){
 	if(isset($args['blog']) && $args['blog']){
 		do_action('kboard_switch_to_blog', $args);
 	}
-
+	
 	$latestview = new KBLatestview($args['id']);
 	
 	if($latestview->uid){
@@ -963,9 +963,9 @@ function kboard_latestview_shortcode($args){
 			$count += $board->getListTotal();
 		}
 		
-		$message = isset($args['message']) ? sanitize_text_field($args['message']) : '';
-		if(!$count && $message){
-			return $message;
+		$empty_list_message = isset($args['empty_list_message']) ? trim($args['empty_list_message']) : '';
+		if(!$count && $empty_list_message){
+			return sprintf('<div class="kboard-latest-empty-list-message">%s</div>', $empty_list_message);
 		}
 		
 		$builder = new KBoardBuilder($latestview->getLinkedBoard(), true);
