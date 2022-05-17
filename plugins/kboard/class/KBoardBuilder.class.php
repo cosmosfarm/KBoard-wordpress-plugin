@@ -19,6 +19,7 @@ class KBoardBuilder {
 	var $rpp;
 	var $sort;
 	var $url;
+	var $message;
 	var $dayofweek;
 	var $within_days;
 	var $random;
@@ -33,7 +34,6 @@ class KBoardBuilder {
 		$this->category2 = kboard_category2();
 		$this->uid = kboard_uid();
 		$this->sort = 'newest';
-		
 		$this->setSkin('default');
 		
 		if($board_id){
@@ -167,7 +167,7 @@ class KBoardBuilder {
 	public function setRandom($random){
 		$this->random = $random ? true : false;
 	}
-	
+
 	/**
 	 * 게시판 리스트를 반환한다.
 	 * @return KBContentList
@@ -1214,6 +1214,7 @@ class KBoardBuilder {
 		$list->setWithinDays($this->within_days);
 		$list->setRandom($this->random);
 		$list->getList('', '', $with_notice);
+
 		
 		$url = new KBUrl();
 		$url->is_latest = true;
