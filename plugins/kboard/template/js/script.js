@@ -361,18 +361,28 @@ function kboard_fields_validation(form, callback){
 		}
 		
 		if(jQuery(required).is(':checkbox') || jQuery(required).is(':radio')){
-		    if(jQuery(element).find('.required:checked').length == 0){
-		        alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
-		        callback(jQuery(required).eq(0));
-		        
-		        return false;
-		    }
+			if(jQuery(element).find('.required:checked').length == 0){
+				alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
+				callback(jQuery(required).eq(0));
+				return false;
+			}
 		}
 		else if(jQuery(required).val() == 'default' || !jQuery(required).val()){
-		    alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
-		    callback(required);
-		    
-		    return false;
+			if(jQuery(element).hasClass('kboard-attr-address')){
+				if(!jQuery('.kboard-row-postcode input').val() || !jQuery('.kboard-row-address-1 input').val()){
+					alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
+					callback(required);
+					return false;
+				}
+				else{
+					return true;
+				}
+			}
+			else{
+				alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
+				callback(required);
+				return false;
+			}
 		}
 	});
 }
