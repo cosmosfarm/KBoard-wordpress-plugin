@@ -265,8 +265,8 @@
 	<?php
 	wp_enqueue_script('kboard-field-address');
 	?>
-	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo isset($field['custom_class']) && $field['custom_class'] ? esc_attr($field['custom_class']) : ''?> <?php echo esc_attr($required)?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><?php echo esc_html($field_name)?></label>
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo esc_attr($required)?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
 			<div class="kboard-row-postcode">
 				<input type="text" id="<?php echo esc_attr($meta_key)?>_postcode" class="kboard-postcode" name="<?php echo esc_attr($fields->getOptionFieldName($meta_key))?>_postcode" value="<?php echo esc_attr($content->option->{$meta_key.'_postcode'})?>" placeholder="<?php echo __('Zip Code', 'kboard')?>" style="width:160px;"> <button type="button" class="kboard-contact-form-button-small kboard-postcode-address-search-button" onclick="kboard_postcode_address_search('<?php echo esc_attr($meta_key)?>_postcode', '<?php echo esc_attr($meta_key)?>_address_1', '<?php echo esc_attr($meta_key)?>_address_2')"><?php echo __('Search', 'kboard')?></button>
