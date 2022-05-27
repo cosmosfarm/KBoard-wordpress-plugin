@@ -378,6 +378,16 @@ function kboard_fields_validation(form, callback){
 					return true;
 				}
 			}
+			else if(jQuery(element).hasClass('kboard-attr-file')){
+				if(jQuery('input[name="'+jQuery(element).children('.attr-value').children().attr('name')+'"]').val() == ''){
+					alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
+					callback(required);
+					return false;
+				}
+				else{
+					return true;
+				}
+			}
 			else{
 				alert(kboard_localize_strings.required.replace('%s', jQuery(element).find('.field-name').text()));
 				callback(required);
