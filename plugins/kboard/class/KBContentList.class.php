@@ -42,6 +42,7 @@ class KBContentList {
 	var $dayofweek;
 	var $within_days = 0;
 	var $random = false;
+	var $sort_random = false;
 	var $latest = array();
 	
 	public function __construct($board_id=''){
@@ -268,6 +269,14 @@ class KBContentList {
 	 */
 	public function setRandom($random){
 		$this->random = $random ? true : false;
+	}
+	
+	/**
+	 * 전체를 랜점하게 정렬할지 설정한다.
+	 * @param boolean $random
+	 */
+	public function setSortRandom($sort_random){
+		$this->sort_random = $sort_random ? true : false;
 	}
 	
 	/**
@@ -616,10 +625,20 @@ class KBContentList {
 		
 		if($default_select != $select){
 			$this->total = $wpdb->get_var("SELECT {$select_count} FROM {$from} WHERE {$where}");
-			$this->resource = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
+			if($this->sort_random){
+				$this->resource = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY RAND() LIMIT {$this->rpp}");
+			}
+			else{
+				$this->resource = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
+			}
 		}
 		else{
-			$results = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
+			if($this->sort_random){
+				$results = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY RAND() LIMIT {$this->rpp}");
+			}
+			else{
+				$results = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY {$orderby} LIMIT {$offset},{$this->rpp}");
+			}
 			foreach($results as $row){
 				if($row->uid){
 					$select_uid[] = intval($row->uid);

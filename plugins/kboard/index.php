@@ -925,6 +925,10 @@ function kboard_latest_shortcode($args){
 			$builder->setRandom(true);
 		}
 		
+		if(isset($args['sort_random']) && $args['sort_random'] == 'true'){
+			$builder->setSortRandom(true);
+		}
+		
 		$args['type'] = 'latest';
 		$latest = $builder->createLatest($with_notice, $args);
 		

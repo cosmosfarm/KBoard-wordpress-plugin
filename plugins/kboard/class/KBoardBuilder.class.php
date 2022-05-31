@@ -23,6 +23,7 @@ class KBoardBuilder {
 	var $dayofweek;
 	var $within_days;
 	var $random;
+	var $sort_random;
 	var $view_iframe;
 	var $is_ajax = false;
 	
@@ -166,6 +167,14 @@ class KBoardBuilder {
 	 */
 	public function setRandom($random){
 		$this->random = $random ? true : false;
+	}
+	
+	/**
+	 * 최신글 숏코드 목록 전체를 랜점하게 정렬할지 설정한다.
+	 * @param boolean $random
+	 */
+	public function setSortRandom($sort_random){
+		$this->sort_random = $sort_random ? true : false;
 	}
 
 	/**
@@ -1213,6 +1222,7 @@ class KBoardBuilder {
 		$list->setDayOfWeek($this->dayofweek);
 		$list->setWithinDays($this->within_days);
 		$list->setRandom($this->random);
+		$list->setSortRandom($this->sort_random);
 		$list->getList('', '', $with_notice);
 
 		
