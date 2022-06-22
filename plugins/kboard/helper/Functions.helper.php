@@ -810,6 +810,45 @@ function kboard_category2(){
 }
 
 /**
+ * category3 값을 반환한다.
+ * @return string
+ */
+function kboard_category3(){
+	static $category3;
+	if($category3 === null){
+		$_GET['category3'] = isset($_GET['category3'])?sanitize_text_field($_GET['category3']):'';
+		$category3 = $_GET['category3'];
+	}
+	return apply_filters('kboard_category3', $category3);
+}
+
+/**
+ * category4 값을 반환한다.
+ * @return string
+ */
+function kboard_category4(){
+	static $category4;
+	if($category4 === null){
+		$_GET['category4'] = isset($_GET['category4'])?sanitize_text_field($_GET['category4']):'';
+		$category4 = $_GET['category4'];
+	}
+	return apply_filters('kboard_category4', $category4);
+}
+
+/**
+ * category5 값을 반환한다.
+ * @return string
+ */
+function kboard_category5(){
+	static $category5;
+	if($category5 === null){
+		$_GET['category5'] = isset($_GET['category5'])?sanitize_text_field($_GET['category5']):'';
+		$category5 = $_GET['category5'];
+	}
+	return apply_filters('kboard_category5', $category5);
+}
+
+/**
  * sales_category1 값을 반환한다.
  * @return string
  */

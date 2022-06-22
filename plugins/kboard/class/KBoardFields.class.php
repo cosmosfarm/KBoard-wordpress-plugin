@@ -82,6 +82,45 @@ class KBoardFields {
 				'required' => '',
 				'close_button' => 'yes'
 			),
+			'category3' => array(
+				'field_type' => 'category3',
+				'field_label' => __('Category', 'kboard').'3',
+				'field_name' => '',
+				'class' => 'kboard-attr-category3',
+				'meta_key' => 'category3',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'required' => '',
+				'close_button' => 'yes'
+			),
+			'category4' => array(
+				'field_type' => 'category4',
+				'field_label' => __('Category', 'kboard').'4',
+				'field_name' => '',
+				'class' => 'kboard-attr-category4',
+				'meta_key' => 'category4',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'required' => '',
+				'close_button' => 'yes'
+			),
+			'category5' => array(
+				'field_type' => 'category5',
+				'field_label' => __('Category', 'kboard').'5',
+				'field_name' => '',
+				'class' => 'kboard-attr-category5',
+				'meta_key' => 'category5',
+				'permission' => '',
+				'roles' => array(),
+				'default_value' => '',
+				'description' => '',
+				'required' => '',
+				'close_button' => 'yes'
+			),
 			'tree_category' => array(
 				'field_type' => 'tree_category',
 				'field_label' => __('Tree Category', 'kboard'),

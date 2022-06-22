@@ -8,18 +8,33 @@
 			<div class="kboard-detail">
 				<?php if($content->category1):?>
 				<div class="detail-attr detail-category1">
-					<div class="detail-name"><?php echo $content->category1?></div>
+					<div class="detail-name"><?php echo esc_html($content->category1)?></div>
 				</div>
 				<?php endif?>
 				<?php if($content->category2):?>
 				<div class="detail-attr detail-category2">
-					<div class="detail-name"><?php echo $content->category2?></div>
+					<div class="detail-name"><?php echo esc_html($content->category2)?></div>
+				</div>
+				<?php endif?>
+				<?php if($content->category3):?>
+				<div class="detail-attr detail-category3">
+					<div class="detail-name"><?php echo esc_html($content->category3)?></div>
+				</div>
+				<?php endif?>
+				<?php if($content->category4):?>
+				<div class="detail-attr detail-category4">
+					<div class="detail-name"><?php echo esc_html($content->category4)?></div>
+				</div>
+				<?php endif?>
+				<?php if($content->category5):?>
+				<div class="detail-attr detail-category5">
+					<div class="detail-name"><?php echo esc_html($content->category5)?></div>
 				</div>
 				<?php endif?>
 				<?php if($content->option->tree_category_1):?>
 				<?php for($i=1; $i<=$content->getTreeCategoryDepth(); $i++):?>
 				<div class="detail-attr detail-tree-category-<?php echo $i?>">
-					<div class="detail-name"><?php echo $content->option->{'tree_category_'.$i}?></div>
+					<div class="detail-name"><?php echo esc_html($content->option->{'tree_category_'.$i})?></div>
 				</div>
 				<?php endfor?>
 				<?php endif?>

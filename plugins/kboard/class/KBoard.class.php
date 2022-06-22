@@ -128,7 +128,7 @@ class KBoard {
 	}
 	
 	/**
-	 * 카테고리 정보를 초기화 한다.
+	 * 카테고리1 정보를 초기화 한다.
 	 */
 	public function initCategory1(){
 		$category1_list = apply_filters('kboard_init_category1_list', $this->category1_list, $this);
@@ -137,12 +137,39 @@ class KBoard {
 	}
 	
 	/**
-	 * 두번째 카테코리 정보를 초기화 한다.
+	 * 카테코리2 정보를 초기화 한다.
 	 */
 	public function initCategory2(){
 		$category2_list = apply_filters('kboard_init_category2_list', $this->category2_list, $this);
 		$this->category = explode(',', $category2_list);
 		return $category2_list;
+	}
+	
+	/**
+	 * 카테코리3 정보를 초기화 한다.
+	 */
+	public function initCategory3(){
+		$category3_list = apply_filters('kboard_init_category2_list', $this->category3_list, $this);
+		$this->category = explode(',', $category3_list);
+		return $category3_list;
+	}
+	
+	/**
+	 * 카테코리4 정보를 초기화 한다.
+	 */
+	public function initCategory4(){
+		$category4_list = apply_filters('kboard_init_category2_list', $this->category4_list, $this);
+		$this->category = explode(',', $category4_list);
+		return $category4_list;
+	}
+	
+	/**
+	 * 카테코리5 정보를 초기화 한다.
+	 */
+	public function initCategory5(){
+		$category5_list = apply_filters('kboard_init_category2_list', $this->category5_list, $this);
+		$this->category = explode(',', $category5_list);
+		return $category5_list;
 	}
 	
 	/**

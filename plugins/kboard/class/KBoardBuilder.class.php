@@ -16,6 +16,9 @@ class KBoardBuilder {
 	var $skin_name;
 	var $category1;
 	var $category2;
+	var $category3;
+	var $category4;
+	var $category5;
 	var $rpp;
 	var $sort;
 	var $url;
@@ -33,6 +36,9 @@ class KBoardBuilder {
 		
 		$this->category1 = kboard_category1();
 		$this->category2 = kboard_category2();
+		$this->category3 = kboard_category3();
+		$this->category4 = kboard_category4();
+		$this->category5 = kboard_category5();
 		$this->uid = kboard_uid();
 		$this->sort = 'newest';
 		$this->setSkin('default');
@@ -185,6 +191,9 @@ class KBoardBuilder {
 		$list = new KBContentList($this->board_id);
 		$list->category1($this->category1);
 		$list->category2($this->category2);
+		$list->category3($this->category3);
+		$list->category4($this->category4);
+		$list->category5($this->category5);
 		
 		if($this->board->isPrivate()){
 			if(is_user_logged_in()){
@@ -239,6 +248,9 @@ class KBoardBuilder {
 			$_data['thumbnail_name'] = $content->thumbnail_name;
 			$_data['category1'] = $content->category1;
 			$_data['category2'] = $content->category2;
+			$_data['category3'] = $content->category3;
+			$_data['category4'] = $content->category4;
+			$_data['category5'] = $content->category5;
 			$_data['secret'] = $content->secret;
 			$_data['search'] = $content->search;
 			$_data['attach'] = $content->attach;
@@ -321,7 +333,7 @@ class KBoardBuilder {
 				}
 				else if($this->mod != 'editor' && kboard_id() && !$this->meta->view_iframe){
 					$url = new KBUrl();
-					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->set('iframe_id', '')->toString() . '";</script>';
+					echo '<script>top.window.location.href="' . $url->set('kboard_id', '')->set('uid', kboard_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('category3', $this->category3)->set('category4', $this->category4)->set('category5', $this->category5)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '')->set('iframe_id', '')->toString() . '";</script>';
 					exit;
 				}
 			}
@@ -331,7 +343,7 @@ class KBoardBuilder {
 			if($view_iframe){
 				$url = new KBUrl();
 				$iframe_id = uniqid();
-				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('parent_uid', kboard_parent_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('parent_uid', kboard_parent_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('category3', $this->category3)->set('category4', $this->category4)->set('category5', $this->category5)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
 			
 			// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
@@ -757,6 +769,15 @@ class KBoardBuilder {
 				}
 				if($parent->category2){
 					$content->category2 = $parent->category2;
+				}
+				if($parent->category3){
+					$content->category3 = $parent->category3;
+				}
+				if($parent->category4){
+					$content->category4 = $parent->category4;
+				}
+				if($parent->category5){
+					$content->category5 = $parent->category5;
 				}
 			}
 			
@@ -1217,6 +1238,9 @@ class KBoardBuilder {
 		$list->latest = $args;
 		$list->category1($this->category1);
 		$list->category2($this->category2);
+		$list->category3($this->category3);
+		$list->category4($this->category4);
+		$list->category5($this->category5);
 		$list->setSorting($this->sort);
 		$list->rpp($this->rpp);
 		$list->setDayOfWeek($this->dayofweek);

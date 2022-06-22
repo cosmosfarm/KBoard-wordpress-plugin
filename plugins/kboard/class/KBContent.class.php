@@ -39,7 +39,7 @@ class KBContent {
 		$this->execute_action = 'insert';
 		if($board_id) $this->setBoardID($board_id);
 	}
-
+	
 	public function __get($name){
 		$value = '';
 		if(isset($this->row->{$name})){
@@ -67,7 +67,7 @@ class KBContent {
 	public function __set($name, $value){
 		$this->row->{$name} = $value;
 	}
-
+	
 	/**
 	 * 게시판 ID를 입력받는다.
 	 * @param int $board_id
@@ -288,6 +288,9 @@ class KBContent {
 			$data['vote'] = 0;
 			$data['category1'] = $this->category1;
 			$data['category2'] = $this->category2;
+			$data['category3'] = $this->category3;
+			$data['category4'] = $this->category4;
+			$data['category5'] = $this->category5;
 			$data['secret'] = $this->secret;
 			$data['notice'] = $this->notice;
 			$data['search'] = $this->search;
@@ -316,6 +319,9 @@ class KBContent {
 		$data['vote'] = isset($data['vote'])?intval($data['vote']):0;
 		$data['category1'] = isset($data['category1'])?sanitize_text_field($data['category1']):'';
 		$data['category2'] = isset($data['category2'])?sanitize_text_field($data['category2']):'';
+		$data['category3'] = isset($data['category3'])?sanitize_text_field($data['category3']):'';
+		$data['category4'] = isset($data['category4'])?sanitize_text_field($data['category4']):'';
+		$data['category5'] = isset($data['category5'])?sanitize_text_field($data['category5']):'';
 		$data['secret'] = isset($data['secret'])?sanitize_key($data['secret']):'';
 		$data['notice'] = isset($data['notice'])?sanitize_key($data['notice']):'';
 		$data['search'] = isset($data['search'])?intval(($data['secret'] && $data['search']==1)?'2':$data['search']):'1';
@@ -339,7 +345,7 @@ class KBContent {
 		$data['content'] = $this->encodeEmoji($data['content']);
 		
 		// 불필요한 데이터 필터링
-		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
+		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
 		
 		if($data['board_id'] && $data['title']){
 			foreach($data as $key=>$value){
@@ -401,6 +407,9 @@ class KBContent {
 				$data['vote'] = $this->vote;
 				$data['category1'] = $this->category1;
 				$data['category2'] = $this->category2;
+				$data['category3'] = $this->category3;
+				$data['category4'] = $this->category4;
+				$data['category5'] = $this->category5;
 				$data['secret'] = $this->secret;
 				$data['notice'] = $this->notice;
 				$data['search'] = $this->search;
@@ -429,6 +438,9 @@ class KBContent {
 			if(isset($data['vote'])) $data['vote'] = intval($data['vote']);
 			if(isset($data['category1'])) $data['category1'] = sanitize_text_field($data['category1']);
 			if(isset($data['category2'])) $data['category2'] = sanitize_text_field($data['category2']);
+			if(isset($data['category3'])) $data['category3'] = sanitize_text_field($data['category3']);
+			if(isset($data['category4'])) $data['category4'] = sanitize_text_field($data['category4']);
+			if(isset($data['category5'])) $data['category5'] = sanitize_text_field($data['category5']);
 			if(isset($data['secret'])) $data['secret'] = sanitize_key($data['secret']);
 			if(isset($data['notice'])) $data['notice'] = sanitize_key($data['notice']);
 			if(isset($data['search'])) $data['search'] = intval($data['search']);
@@ -456,7 +468,7 @@ class KBContent {
 			}
 			
 			// 불필요한 데이터 필터링
-			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
+			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
 			
 			foreach($data as $key=>$value){
 				$this->{$key} = $value;
@@ -1528,6 +1540,9 @@ class KBContent {
 		if(isset($_POST['vote'])) $this->vote = intval($_POST['vote']);
 		$this->category1 = isset($_POST['category1'])?sanitize_text_field($_POST['category1']):'';
 		$this->category2 = isset($_POST['category2'])?sanitize_text_field($_POST['category2']):'';
+		$this->category3 = isset($_POST['category3'])?sanitize_text_field($_POST['category3']):'';
+		$this->category4 = isset($_POST['category4'])?sanitize_text_field($_POST['category4']):'';
+		$this->category5 = isset($_POST['category5'])?sanitize_text_field($_POST['category5']):'';
 		$this->secret = isset($_POST['secret'])?sanitize_key($_POST['secret']):'';
 		$this->notice = isset($_POST['notice'])?sanitize_key($_POST['notice']):'';
 		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'1';
@@ -1979,7 +1994,6 @@ class KBContent {
 			}
 		}
 	}
-	
 	
 	/**
 	 * 본문에 인터넷 주소가 있을때 자동으로 링크를 생성한다.

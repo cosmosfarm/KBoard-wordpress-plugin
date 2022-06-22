@@ -815,6 +815,15 @@ function kboard_builder($args){
 		if(isset($args['category2']) && $args['category2']){
 			$builder->category2 = $args['category2'];
 		}
+		if(isset($args['category3']) && $args['category3']){
+			$builder->category3 = $args['category3'];
+		}
+		if(isset($args['category4']) && $args['category4']){
+			$builder->category4 = $args['category4'];
+		}
+		if(isset($args['category5']) && $args['category5']){
+			$builder->category5 = $args['category5'];
+		}
 		
 		$kboard = $builder->create();
 		
@@ -901,6 +910,27 @@ function kboard_latest_shortcode($args){
 		}
 		else{
 			$builder->category2 = '';
+		}
+		
+		if(isset($args['category3']) && $args['category3']){
+			$builder->category3 = $args['category3'];
+		}
+		else{
+			$builder->category3 = '';
+		}
+		
+		if(isset($args['category4']) && $args['category4']){
+			$builder->category4 = $args['category4'];
+		}
+		else{
+			$builder->category4 = '';
+		}
+		
+		if(isset($args['category5']) && $args['category5']){
+			$builder->category5 = $args['category5'];
+		}
+		else{
+			$builder->category5 = '';
 		}
 		
 		$with_notice = true;
@@ -996,6 +1026,27 @@ function kboard_latestview_shortcode($args){
 		}
 		else{
 			$builder->category2 = '';
+		}
+		
+		if(isset($args['category3']) && $args['category3']){
+			$builder->category3 = $args['category3'];
+		}
+		else{
+			$builder->category3 = '';
+		}
+		
+		if(isset($args['category4']) && $args['category4']){
+			$builder->category4 = $args['category4'];
+		}
+		else{
+			$builder->category4 = '';
+		}
+		
+		if(isset($args['category5']) && $args['category5']){
+			$builder->category5 = $args['category5'];
+		}
+		else{
+			$builder->category5 = '';
 		}
 		
 		$with_notice = true;
@@ -1582,7 +1633,7 @@ function kboard_activation_execute(){
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 	$charset_collate = $wpdb->get_charset_collate();
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_setting` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_setting` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`board_name` varchar(127) NOT NULL,
 	`skin` varchar(127) NOT NULL,
@@ -1594,6 +1645,9 @@ function kboard_activation_execute(){
 	`use_category` varchar(5) NOT NULL,
 	`category1_list` text NOT NULL,
 	`category2_list` text NOT NULL,
+	`category3_list` text NOT NULL,
+	`category4_list` text NOT NULL,
+	`category5_list` text NOT NULL,
 	`page_rpp` int(10) unsigned NOT NULL,
 	`created` char(14) NOT NULL,
 	PRIMARY KEY (`uid`)
@@ -1615,7 +1669,7 @@ function kboard_activation_execute(){
 	KEY `comment_uid` (`comment_uid`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_content` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_content` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`board_id` bigint(20) unsigned NOT NULL,
 	`parent_uid` bigint(20) unsigned NOT NULL,
@@ -1634,6 +1688,9 @@ function kboard_activation_execute(){
 	`thumbnail_name` varchar(127) NOT NULL,
 	`category1` varchar(127) NOT NULL,
 	`category2` varchar(127) NOT NULL,
+	`category3` varchar(127) NOT NULL,
+	`category4` varchar(127) NOT NULL,
+	`category5` varchar(127) NOT NULL,
 	`secret` varchar(5) NOT NULL,
 	`notice` varchar(5) NOT NULL,
 	`search` char(1) NOT NULL,
@@ -1649,6 +1706,9 @@ function kboard_activation_execute(){
 	KEY `vote` (`vote`),
 	KEY `category1` (`category1`),
 	KEY `category2` (`category2`),
+	KEY `category3` (`category3`),
+	KEY `category4` (`category4`),
+	KEY `category5` (`category5`),
 	KEY `notice` (`notice`),
 	KEY `status` (`status`)
 	) {$charset_collate};");

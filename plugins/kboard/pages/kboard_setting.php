@@ -284,6 +284,27 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="category3_list">카테고리3</label></th>
+						<td>
+							<input type="text" name="category3_list" id="category3_list" value="<?php echo $board->category3_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="category4_list">카테고리4</label></th>
+						<td>
+							<input type="text" name="category4_list" id="category4_list" value="<?php echo $board->category4_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="category5_list">카테고리5</label></th>
+						<td>
+							<input type="text" name="category5_list" id="category5_list" value="<?php echo $board->category5_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
 						<td>
 							<input type="text" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>" class="regular-text" placeholder="예제 : <?php echo get_bloginfo('admin_email')?>">

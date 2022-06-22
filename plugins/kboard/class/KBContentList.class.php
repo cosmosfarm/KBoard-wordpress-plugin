@@ -19,6 +19,9 @@ class KBContentList {
 	var $index;
 	var $category1;
 	var $category2;
+	var $category3;
+	var $category4;
+	var $category5;
 	var $member_uid = 0;
 	var $compare;
 	var $start_date;
@@ -207,6 +210,36 @@ class KBContentList {
 	 */
 	public function category2($category){
 		if($category) $this->category2 = $category;
+		return $this;
+	}
+	
+	/**
+	 * 카테고리3를 입력한다.
+	 * @param string $category
+	 * @return KBContentList
+	 */
+	public function category3($category){
+		if($category) $this->category3 = $category;
+		return $this;
+	}
+	
+	/**
+	 * 카테고리4를 입력한다.
+	 * @param string $category
+	 * @return KBContentList
+	 */
+	public function category4($category){
+		if($category) $this->category4 = $category;
+		return $this;
+	}
+	
+	/**
+	 * 카테고리5를 입력한다.
+	 * @param string $category
+	 * @return KBContentList
+	 */
+	public function category5($category){
+		if($category) $this->category5 = $category;
 		return $this;
 	}
 	
@@ -592,6 +625,57 @@ class KBContentList {
 			}
 		}
 		
+		// 카테고리3 검색
+		if($this->category3){
+			$category = explode(',', $this->category3); // 여러 카테고리의 경우 콤마로 구분한다.
+			
+			if(count($category) > 1){
+				foreach($category as $index=>$item){
+					$category[$index] = sprintf("'%s'", esc_sql($item));
+				}
+				$category3 = implode(',', $category);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`category3` IN ({$category3})";
+			}
+			else{
+				$category3 = esc_sql($this->category3);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`category3`='{$category3}'";
+			}
+		}
+		
+		// 카테고리4 검색
+		if($this->category4){
+			$category = explode(',', $this->category4); // 여러 카테고리의 경우 콤마로 구분한다.
+			
+			if(count($category) > 1){
+				foreach($category as $index=>$item){
+					$category[$index] = sprintf("'%s'", esc_sql($item));
+				}
+				$category4 = implode(',', $category);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`category4` IN ({$category4})";
+			}
+			else{
+				$category4 = esc_sql($this->category4);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`category4`='{$category4}'";
+			}
+		}
+		
+		// 카테고리5 검색
+		if($this->category5){
+			$category = explode(',', $this->category5); // 여러 카테고리의 경우 콤마로 구분한다.
+			
+			if(count($category) > 1){
+				foreach($category as $index=>$item){
+					$category[$index] = sprintf("'%s'", esc_sql($item));
+				}
+				$category5 = implode(',', $category);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`category5` IN ({$category5})";
+			}
+			else{
+				$category5 = esc_sql($this->category5);
+				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`category5`='{$category5}'";
+			}
+		}
+		
 		if($this->member_uid){
 			$member_uid = esc_sql($this->member_uid);
 			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`member_uid`='{$member_uid}'";
@@ -918,6 +1002,21 @@ class KBContentList {
 			$where[] = "`category2`='{$category2}'";
 		}
 		
+		if($this->category3){
+			$category3 = esc_sql($this->category3);
+			$where[] = "`category3`='{$category3}'";
+		}
+		
+		if($this->category4){
+			$category4 = esc_sql($this->category4);
+			$where[] = "`category4`='{$category4}'";
+		}
+		
+		if($this->category5){
+			$category5 = esc_sql($this->category5);
+			$where[] = "`category5`='{$category5}'";
+		}
+		
 		// 휴지통에 없는 게시글만 불러온다.
 		$get_list_status_query = kboard_get_list_status_query($this->board_id);
 		if($get_list_status_query){
@@ -1012,6 +1111,21 @@ class KBContentList {
 		if($this->category2){
 			$category2 = esc_sql($this->category2);
 			$where[] = "`category2`='{$category2}'";
+		}
+		
+		if($this->category3){
+			$category3 = esc_sql($this->category3);
+			$where[] = "`category3`='{$category3}'";
+		}
+		
+		if($this->category4){
+			$category4 = esc_sql($this->category4);
+			$where[] = "`category4`='{$category4}'";
+		}
+		
+		if($this->category5){
+			$category5 = esc_sql($this->category5);
+			$where[] = "`category5`='{$category5}'";
 		}
 		
 		$where[] = "`notice`!=''";

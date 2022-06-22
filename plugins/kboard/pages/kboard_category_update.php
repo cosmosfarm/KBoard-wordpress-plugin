@@ -35,6 +35,9 @@
 							<option value="">— 선택하기 —</option>
 							<option value="category1">카테고리1</option>
 							<option value="category2">카테고리2</option>
+							<option value="category3">카테고리3</option>
+							<option value="category4">카테고리4</option>
+							<option value="category5">카테고리5</option>
 						</select>
 						<p class="description">카테고리명을 바꿀 카테고리를 선택합니다.</p>
 					</td>

@@ -46,6 +46,9 @@ class KBAdminController {
 			$use_category     = isset($_POST['use_category'])     ? esc_sql(sanitize_text_field($_POST['use_category']))     : '';
 			$category1_list   = isset($_POST['category1_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category1_list'])))) : '';
 			$category2_list   = isset($_POST['category2_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category2_list'])))) : '';
+			$category3_list   = isset($_POST['category3_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category3_list'])))) : '';
+			$category4_list   = isset($_POST['category4_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category4_list'])))) : '';
+			$category5_list   = isset($_POST['category5_list'])   ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['category5_list'])))) : '';
 			
 			$auto_page = isset($_POST['auto_page']) ? intval($_POST['auto_page']) : '';
 			if($auto_page){
@@ -72,9 +75,12 @@ class KBAdminController {
 						'use_category'     => $use_category,
 						'category1_list'   => $category1_list,
 						'category2_list'   => $category2_list,
+						'category3_list'   => $category3_list,
+						'category4_list'   => $category4_list,
+						'category5_list'   => $category5_list,
 						'created'          => date('YmdHis', current_time('timestamp'))
 					),
-					array('%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
+					array('%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
 				);
 				$board_id = $wpdb->insert_id;
 			}
@@ -92,10 +98,13 @@ class KBAdminController {
 						'use_category'     => $use_category,
 						'category1_list'   => $category1_list,
 						'category2_list'   => $category2_list,
+						'category3_list'   => $category3_list,
+						'category4_list'   => $category4_list,
+						'category5_list'   => $category5_list,
 						'admin_user'       => $admin_user
 					),
 					array('uid' => $board_id),
-					array('%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'),
+					array('%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'),
 					array('%d')
 				);
 			}
