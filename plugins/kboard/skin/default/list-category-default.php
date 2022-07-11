@@ -1,6 +1,6 @@
 <div class="kboard-category category-mobile">
 	<form id="kboard-category-form-<?php echo $board->id?>" method="get" action="<?php echo esc_url($url->toString())?>">
-		<?php echo esc_url($url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('category3', '')->set('category4', '')->set('category5', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput())?>
+		<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('category3', '')->set('category4', '')->set('category5', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->toInput()?>
 		
 		<?php if($board->initCategory1()):?>
 			<select name="category1" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
