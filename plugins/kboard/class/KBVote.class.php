@@ -132,7 +132,6 @@ class KBVote {
 		if(!isset($args['ip_address'])){
 			$args['ip_address'] = '';
 		}
-		return $args;
+		return apply_filters('kboard_vote_filter', $args);
 	}
 }
-?>
