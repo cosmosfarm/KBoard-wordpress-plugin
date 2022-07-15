@@ -761,6 +761,7 @@ class KBoard {
 				$content->moveReplyToTrash($content->uid);
 			}
 		}
+		// return intval(apply_filters('kboard_get_list_total', $this->meta->list_total, $this));
 		return intval($this->meta->list_total);
 	}
 	
