@@ -112,7 +112,7 @@ class KBCommentList {
 	 * @param string $keyword
 	 * @return KBCommentList
 	 */
-	public function initWithKeyword($keyword='', $search){
+	public function initWithKeyword($keyword, $search){
 		global $wpdb;
 		
 		if($keyword){
