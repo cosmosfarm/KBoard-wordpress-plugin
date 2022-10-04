@@ -361,11 +361,11 @@ function kboard_new(){
 		$comment_skin = KBCommentSkin::getInstance();
 	}
 	wp_enqueue_script('jquery-ui-datepicker');
-	wp_enqueue_script('jquery-timepicker', KBOARD_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_VERSION);
-	wp_enqueue_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
-	wp_enqueue_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
-	wp_enqueue_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-sortable'), '2.1a');
-	wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
+	wp_enqueue_script('jquery-timepicker');
+	wp_enqueue_style('jquery-flick-style');
+	wp_enqueue_style('jquery-timepicker');
+	wp_enqueue_script('nested-sortable');
+	wp_enqueue_script('kboard-setting-script');
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -382,11 +382,11 @@ function kboard_setting(){
 		$comment_skin = KBCommentSkin::getInstance();
 	}
 	wp_enqueue_script('jquery-ui-datepicker');
-	wp_enqueue_script('jquery-timepicker', KBOARD_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_VERSION);
-	wp_enqueue_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
-	wp_enqueue_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
-	wp_enqueue_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-sortable'), '2.1a');
-	wp_enqueue_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
+	wp_enqueue_script('jquery-timepicker');
+	wp_enqueue_style('jquery-flick-style');
+	wp_enqueue_style('jquery-timepicker');
+	wp_enqueue_script('nested-sortable');
+	wp_enqueue_script('kboard-setting-script');
 	include_once 'pages/kboard_setting.php';
 }
 
@@ -1416,6 +1416,12 @@ function kboard_admin_style($hook_suffix){
 	}
 	wp_enqueue_script('kboard-cosmosfarm-apis', KBOARD_URL_PATH . '/pages/cosmosfarm-apis.js', array(), KBOARD_VERSION);
 	wp_enqueue_style('kboard-admin', KBOARD_URL_PATH . '/pages/kboard-admin.css', array(), KBOARD_VERSION);
+	
+	wp_register_script('jquery-timepicker', KBOARD_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_VERSION);
+	wp_register_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
+	wp_register_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
+	wp_register_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-sortable'), '2.1a');
+	wp_register_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
 }
 
 /*
