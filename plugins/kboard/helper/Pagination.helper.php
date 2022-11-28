@@ -1,12 +1,13 @@
 <?php
 if(!defined('ABSPATH')) exit;
 /**
+ * 
  * KBoard 워드프레스 게시판 페이지 출력 함수
  * @link www.cosmosfarm.com
  * @copyright Copyright 2021 Cosmosfarm. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl.html
  */
-function kboard_pagination($current_page, $total, $limit, $args=array(), $text=array()){
+function kboard_pagination($current_page, $total, $limit, $args=array(), $text=array(), $hash=''){
 	if(!is_array($args)){
 		$args = array();
 	}
@@ -51,13 +52,12 @@ function kboard_pagination($current_page, $total, $limit, $args=array(), $text=a
 		$page_name = $i + 1;
 		// 링크는 적당히 수정
 		if($current_page != $page_name){
-			$paging .= "<li><a href=\"?pageid={$page_name}{$query_strings}\">{$page_name}</a></li>";
+			$paging .= "<li><a href=\"?pageid={$page_name}{$query_strings}{$hash}\">{$page_name}</a></li>";
 		}
 		else{
-			$paging .= "<li class=\"active\"><a href=\"?pageid={$page_name}{$query_strings}\" onclick=\"return false\">{$page_name}</a></li>";
+			$paging .= "<li class=\"active\"><a href=\"?pageid={$page_name}{$query_strings}{$hash}\" onclick=\"return false\">{$page_name}</a></li>";
 		}
 	}
-	
 	
 	// 페이징에 출력할 텍스트 필터
 	$text = apply_filters('kboard_pagination_text', $text);
@@ -84,11 +84,11 @@ function kboard_pagination($current_page, $total, $limit, $args=array(), $text=a
 	// 처음과 마지막 페이지가 아니라면 링크를 걸어주면 된다.
 	if($current_page != 1){
 		$prev_page = $current_page - 1;
-		$paging = "<li class=\"first-page\"><a href=\"?pageid=1{$query_strings}\">{$text['fist']}</a></li>" . "<li class=\"prev-page\"><a href=\"?pageid={$prev_page}{$query_strings}\">{$text['prev']}</a></li>{$paging}";
+		$paging = "<li class=\"first-page\"><a href=\"?pageid=1{$query_strings}{$hash}\">{$text['fist']}</a></li>" . "<li class=\"prev-page\"><a href=\"?pageid={$prev_page}{$query_strings}{$hash}\">{$text['prev']}</a></li>{$paging}";
 	}
 	if($current_page != $total_page){
 		$next_page = $current_page + 1;
-		$paging = "{$paging}<li class=\"next-page\"><a href=\"?pageid={$next_page}{$query_strings}\">{$text['next']}</a></li>" . "<li class=\"last-page\"><a href=\"?pageid={$total_page}{$query_strings}\">{$text['last']}</a></li>";
+		$paging = "{$paging}<li class=\"next-page\"><a href=\"?pageid={$next_page}{$query_strings}{$hash}\">{$text['next']}</a></li>" . "<li class=\"last-page\"><a href=\"?pageid={$total_page}{$query_strings}{$hash}\">{$text['last']}</a></li>";
 	}
 	
 	return $total ? $paging : '<li class="active"><a href="#" onclick="return false">1</a></li>';
