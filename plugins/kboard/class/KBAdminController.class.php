@@ -411,13 +411,15 @@ class KBAdminController {
 			
 			header('Content-Type: text/html; charset=UTF-8');
 			
-			$board_id = isset($_POST['board_id'])?$_POST['board_id']:'';
-			$board = new KBoard($board_id);
+			$board_id = isset($_POST['board_id']) ? intval($_POST['board_id']) : '';
+			$board    = new KBoard($board_id);
 			
-			$option = isset($_POST['kboard_csv_upload_option'])?$_POST['kboard_csv_upload_option']:'';
-			if(!in_array($option, array('keep', 'update', 'delete'))) $option = 'keep';
+			$option = isset($_POST['kboard_csv_upload_option']) ? sanitize_text_field($_POST['kboard_csv_upload_option']) : '';
+			if(!in_array($option, array('keep', 'update', 'delete'))){
+				$option = 'keep';
+			}
 			
-			$file = $_FILES['kboard_csv_upload_file']['tmp_name'];
+			$file      = $_FILES['kboard_csv_upload_file']['tmp_name'];
 			$file_name = basename($_FILES['kboard_csv_upload_file']['name']);
 			
 			if(is_uploaded_file($file) && $board->id){
@@ -431,7 +433,8 @@ class KBAdminController {
 							$total = count($data);
 							
 							for($index=0; $index<$total; $index++){
-								$value = $data[$index];
+								// Zero Width No-Break Space 삭제
+								$value = preg_replace('/\xEF\xBB\xBF/', '', $data[$index]);
 								
 								// 인코딩 변환
 								if(function_exists('mb_detect_encoding')){
@@ -461,7 +464,10 @@ class KBAdminController {
 								}
 							}
 							
-							if(isset($row_data)) $rows[] = $row_data;
+							if(isset($row_data)){
+								$rows[] = $row_data;
+							}
+							
 							$length++;
 						}
 						
@@ -474,7 +480,10 @@ class KBAdminController {
 									if(!isset($row['parent_uid']) || !intval($row['parent_uid'])){
 										$row['board_id'] = $board->id;
 										$insert_id = $content->insertContent($row);
-										if(isset($row['﻿uid'])) $new_uids[] = $insert_id;
+										if(isset($row['uid'])){
+											$new_uids[] = $insert_id;
+										}
+										
 										$content->updateOptions($row);
 										unset($rows[$key]);
 										@ob_flush();
@@ -482,7 +491,7 @@ class KBAdminController {
 									}
 								}
 								foreach($rows as $key=>$row){
-									$row['board_id'] = $board->id;
+									$row['board_id']   = $board->id;
 									$row['parent_uid'] = $new_uids[$row['parent_uid']];
 									$content->insertContent($row);
 									$content->updateOptions($row);
@@ -493,7 +502,8 @@ class KBAdminController {
 							}
 							else if($option == 'update'){ // update
 								foreach($rows as $key=>$row){
-									$uid = isset($row['uid']) ? $row['uid'] : '';
+									$uid = isset($row['uid']) ? intval($row['uid']) : 0;
+									
 									if($uid){
 										$row['board_id'] = $board->id;
 										$content->initWithUID($uid);
@@ -510,8 +520,11 @@ class KBAdminController {
 								foreach($rows as $key=>$row){
 									if(!isset($row['parent_uid']) || !intval($row['parent_uid'])){
 										$row['board_id'] = $board->id;
-										$insert_id = $content->insertContent($row);
-										if(isset($row['﻿uid'])) $new_uids[] = $insert_id;
+										$insert_id       = $content->insertContent($row);
+										if(isset($row['uid'])){
+											$new_uids[] = $insert_id;
+										}
+										
 										$content->updateOptions($row);
 										unset($rows[$key]);
 										@ob_flush();
@@ -519,7 +532,7 @@ class KBAdminController {
 									}
 								}
 								foreach($rows as $key=>$row){
-									$row['board_id'] = $board->id;
+									$row['board_id']   = $board->id;
 									$row['parent_uid'] = $new_uids[$row['parent_uid']];
 									$content->insertContent($row);
 									$content->updateOptions($row);
@@ -546,8 +559,8 @@ class KBAdminController {
 			
 			if($file) unlink($file);
 			
-			$tab_kboard_setting = isset($_POST['tab_kboard_setting'])?'#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']):'';
-			$redirect_url = admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting);
+			$tab_kboard_setting = isset($_POST['tab_kboard_setting']) ? '#tab-kboard-setting-'.intval($_POST['tab_kboard_setting']) : '';
+			$redirect_url       = admin_url('admin.php?page=kboard_list&board_id=' . $board_id . $tab_kboard_setting);
 			echo "<script>window.location.href='{$redirect_url}'</script>";
 			exit;
 		}
