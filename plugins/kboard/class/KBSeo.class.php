@@ -49,6 +49,10 @@ class KBSeo {
 					
 					$is_display = false;
 					
+					if($this->content->secret){
+						add_action('kboard_head', array($this, 'noindex'));
+					}
+					
 					if($board->isReader($this->content->member_uid, $this->content->secret)){
 						$is_display = true;
 					}
@@ -261,6 +265,14 @@ class KBSeo {
 			echo "\n";
 			$check_kboard_seo_rss_once = true;
 		}
+	}
+	
+	/**
+	 * noindex를 추가한다.
+	 */
+	public function noindex(){
+		echo '<meta name="robots" content="noindex">';
+		echo "\n";
 	}
 	
 	/**
