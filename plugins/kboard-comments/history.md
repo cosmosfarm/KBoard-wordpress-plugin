@@ -2,6 +2,10 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+5.3
+----------------------------------
+  1. kboard_comments_update_data 필터 추가
+
 5.2
 ----------------------------------
 

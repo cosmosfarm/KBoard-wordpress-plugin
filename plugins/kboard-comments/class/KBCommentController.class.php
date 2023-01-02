@@ -449,6 +449,7 @@ class KBCommentController {
 		do_action('kboard_comments_pre_update', $comment->uid, $comment->content_uid, $board);
 		
 		$comment->content = $content;
+		$comment = apply_filters('kboard_comments_update_data', $comment, $board->id);
 		$comment->update();
 		
 		$option = new stdClass();
