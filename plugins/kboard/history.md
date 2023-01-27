@@ -2,6 +2,13 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+6.4
+----------------------------------
+
+  1. kboard_autolink 도메인 지원 확대
+  2. 버그 수정
+
+
 6.3
 ----------------------------------
 
