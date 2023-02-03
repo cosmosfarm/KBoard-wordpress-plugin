@@ -188,8 +188,9 @@ class KBContentList {
 			$this->rpp = 10;
 		}
 		else{
-			$this->rpp = $rpp;
+			$this->rpp = apply_filters('kboard_list_rpp', $rpp, $this->board_id, $this);
 		}
+		
 		return $this;
 	}
 	

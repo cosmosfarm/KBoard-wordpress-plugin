@@ -667,7 +667,7 @@ class KBContent {
 		$this->attach = array();
 		if($this->uid){
 			$url = new KBUrl();
-			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}' ORDER BY `file_key` DESC");
+			$result = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$this->uid}' ORDER BY `file_key`*1");
 			foreach($result as $file){
 				$file_info = array(
 					0 => $file->file_path,
