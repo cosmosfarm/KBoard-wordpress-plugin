@@ -1,109 +1,114 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: KBoard-comments\n"
-"POT-Creation-Date: 2021-02-16 19:17+0900\n"
-"PO-Revision-Date: 2021-02-16 19:17+0900\n"
-"Last-Translator: Cosmosfarm <support@cosmosfarm.com>\n"
+"Project-Id-Version: KBoard : 댓글\n"
+"POT-Creation-Date: 2023-02-03 16:15+0900\n"
+"PO-Revision-Date: 2023-02-03 16:15+0900\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
-"X-Poedit-KeywordsList: _;__;gettext;gettext_noop\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: index.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: ../kboard\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: class/KBComment.class.php:229
+#: class/KBComment.class.php:233
 msgid "Deleted comment increment points"
 msgstr "댓글삭제 증가 포인트"
 
-#: class/KBComment.class.php:241
+#: class/KBComment.class.php:245
 msgid "Deleted comment decrease points"
 msgstr "댓글삭제 감소 포인트"
 
-#: class/KBCommentController.class.php:44
-#: class/KBCommentController.class.php:334
-#: class/KBCommentController.class.php:395
+#: class/KBCommentController.class.php:48
+#: class/KBCommentController.class.php:345
+#: class/KBCommentController.class.php:409
 msgid "This page is restricted from external access."
 msgstr "이 페이지는 외부에서의 접근을 제한하고 있습니다."
 
-#: class/KBCommentController.class.php:86
-#: class/KBCommentController.class.php:89
-#: class/KBCommentController.class.php:92
-#: class/KBCommentController.class.php:168
-#: class/KBCommentController.class.php:324
-#: class/KBCommentController.class.php:352
-#: class/KBCommentController.class.php:356
-#: class/KBCommentController.class.php:361
-#: class/KBCommentController.class.php:366
-#: class/KBCommentController.class.php:422
-#: class/KBCommentController.class.php:426
-#: class/KBCommentController.class.php:431
+#: class/KBCommentController.class.php:90
+#: class/KBCommentController.class.php:93
+#: class/KBCommentController.class.php:96
+#: class/KBCommentController.class.php:172
+#: class/KBCommentController.class.php:332
+#: class/KBCommentController.class.php:363
+#: class/KBCommentController.class.php:367
+#: class/KBCommentController.class.php:372
+#: class/KBCommentController.class.php:377
 #: class/KBCommentController.class.php:436
-#: class/KBCommentController.class.php:496
-#: class/KBCommentController.class.php:534 class/KBCommentTemplate.class.php:34
+#: class/KBCommentController.class.php:440
+#: class/KBCommentController.class.php:445
+#: class/KBCommentController.class.php:450
+#: class/KBCommentController.class.php:529
+#: class/KBCommentController.class.php:567 class/KBCommentTemplate.class.php:34
 #: class/KBCommentTemplate.class.php:88 class/KBCommentTemplate.class.php:107
 msgid "You do not have permission."
 msgstr "권한이 없습니다."
 
-#: class/KBCommentController.class.php:95 index.php:149
+#: class/KBCommentController.class.php:99 index.php:149
 msgid "Please enter the author."
 msgstr "작성자명을 입력해주세요."
 
-#: class/KBCommentController.class.php:98 index.php:150 template/confirm.php:36
+#: class/KBCommentController.class.php:102 index.php:150
+#: template/confirm.php:36
 msgid "Please enter the password."
 msgstr "비밀번호를 입력해주세요."
 
-#: class/KBCommentController.class.php:101
-#: class/KBCommentController.class.php:411 index.php:152 template/edit.php:37
+#: class/KBCommentController.class.php:105
+#: class/KBCommentController.class.php:425 index.php:152 template/edit.php:37
 msgid "Please enter the content."
 msgstr "내용을 입력해주세요."
 
-#: class/KBCommentController.class.php:104
+#: class/KBCommentController.class.php:108
 msgid "content_uid is required."
 msgstr "content_uid는 필수입니다."
 
-#: class/KBCommentController.class.php:123
-#: class/KBCommentController.class.php:143
+#: class/KBCommentController.class.php:127
+#: class/KBCommentController.class.php:147
 #, php-format
 msgid "%s is not available."
 msgstr "%s는 사용할 수 없습니다."
 
-#: class/KBCommentController.class.php:160
+#: class/KBCommentController.class.php:164
 msgid "CAPTCHA is invalid."
 msgstr "CAPTCHA가 올바르지 않습니다."
 
-#: class/KBCommentController.class.php:173
+#: class/KBCommentController.class.php:177
 msgid "You have not enough points."
 msgstr "포인트가 부족합니다."
 
-#: class/KBCommentController.class.php:179
+#: class/KBCommentController.class.php:183
 msgid "Writing comment decrease points"
 msgstr "댓글쓰기 감소 포인트"
 
-#: class/KBCommentController.class.php:303
+#: class/KBCommentController.class.php:311
 msgid "Writing comment increase points"
 msgstr "댓글쓰기 증가 포인트"
 
-#: class/KBCommentController.class.php:341
-#: class/KBCommentController.class.php:408 class/KBCommentTemplate.class.php:24
+#: class/KBCommentController.class.php:352
+#: class/KBCommentController.class.php:422 class/KBCommentTemplate.class.php:24
 #: class/KBCommentTemplate.class.php:78
 msgid "uid is required."
 msgstr "uid는 필수입니다."
 
-#: class/KBCommentController.class.php:344
-#: class/KBCommentController.class.php:414
-#: class/KBCommentController.class.php:492
-#: class/KBCommentController.class.php:530
+#: class/KBCommentController.class.php:355
+#: class/KBCommentController.class.php:428
+#: class/KBCommentController.class.php:525
+#: class/KBCommentController.class.php:563
 msgid "Please log in to continue."
 msgstr "로그인 하셔야 사용할 수 있습니다."
 
-#: class/KBCommentController.class.php:488
-#: class/KBCommentController.class.php:526
+#: class/KBCommentController.class.php:521
+#: class/KBCommentController.class.php:559
 msgid "You have already voted."
 msgstr "이미 투표했습니다."
 
@@ -115,31 +120,36 @@ msgstr "댓글이 없습니다."
 msgid "Forum"
 msgstr "게시판"
 
-#: class/KBCommentListTable.class.php:52 class/KBCommentListTable.class.php:87
+#: class/KBCommentListTable.class.php:52 class/KBCommentListTable.class.php:105
 #: index.php:155
 msgid "Name"
 msgstr "이름"
 
-#: class/KBCommentListTable.class.php:53 class/KBCommentListTable.class.php:96
+#: class/KBCommentListTable.class.php:53 class/KBCommentListTable.class.php:114
 #: pages/comments_list.php:17
 msgid "Content"
 msgstr "내용"
 
-#: class/KBCommentListTable.class.php:54 class/KBCommentListTable.class.php:100
+#: class/KBCommentListTable.class.php:54
+msgid "Status"
+msgstr "상태"
+
+#: class/KBCommentListTable.class.php:55 class/KBCommentListTable.class.php:118
+#: class/KBCommentListTable.class.php:125
 msgid "Date"
 msgstr "작성일"
 
-#: class/KBCommentListTable.class.php:60 skin/default/list-template.php:35
+#: class/KBCommentListTable.class.php:61 skin/default/list-template.php:35
 #: skin/default/list-template.php:38
 msgid "Delete"
 msgstr "삭제"
 
-#: class/KBCommentListTable.class.php:82 skin/default/list-template.php:36
+#: class/KBCommentListTable.class.php:100 skin/default/list-template.php:36
 #: skin/default/list-template.php:39
 msgid "Edit"
 msgstr "편집"
 
-#: class/KBCommentListTable.class.php:97
+#: class/KBCommentListTable.class.php:115
 msgid "Open"
 msgstr "페이지 열기"
 
@@ -147,6 +157,7 @@ msgstr "페이지 열기"
 msgid "Comment does not exist."
 msgstr "댓글이 존재하지 않습니다."
 
+#. Plugin Name of the plugin/theme
 #: index.php:16
 msgid "KBoard : 댓글"
 msgstr "KBoard : 댓글"
@@ -339,6 +350,22 @@ msgstr "비밀번호 확인"
 #: template/edit.php:23
 msgid "Edit content"
 msgstr "내용 편집"
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.cosmosfarm.com/products/kboard"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "워드프레스 KBoard 댓글 플러그인 입니다."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "코스모스팜 - Cosmosfarm"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.cosmosfarm.com/"
+msgstr ""
 
 #~ msgid "Please Log in to continue."
 #~ msgstr "로그인 하셔야 사용할 수 있습니다."

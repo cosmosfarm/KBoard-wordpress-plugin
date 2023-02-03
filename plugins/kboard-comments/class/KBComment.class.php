@@ -135,6 +135,10 @@ class KBComment {
 	public function isReader(){
 		if($this->uid){
 			$board = $this->getBoard();
+			if($board->meta->comment_permit && $this->status == 'pending_approval'){
+				return false;
+			}
+			
 			if($board->isAdmin()){
 				// 게시판 관리자 허용
 				return true;
@@ -360,7 +364,10 @@ class KBComment {
 			
 			$board = $this->getBoard();
 			if($board->meta->comments_username_masking){
-				$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
+				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
+			}
+			if($board->meta->comment_permit && $this->status == 'pending_approval'){
+				$user_display = '승인 대기중';
 			}
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
 		}

@@ -668,7 +668,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="permit">관리자 승인</label></th>
+						<th scope="row"><label for="permit">게시글 관리자 승인</label></th>
 						<td>
 							<select name="permit" id="permit">
 								<option value="">비활성화</option>
@@ -676,6 +676,17 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</select>
 							<p class="description">읽기/쓰기 권한과는 관계없이 관리자가 승인한 게시글만 정상적으로 보입니다. <a href="<?php echo admin_url('admin.php?page=kboard_content_list')?>" onclick="window.open(this.href);return false;">전체 게시글 관리</a></p>
 							<p class="description">승인되지 않은 글은 제목과 내용이 숨김 처리되어 확인이 불가능하며 리스트에는 추가되어 작성자가 편집할 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="comment_permit">댓글 관리자 승인</label></th>
+						<td>
+							<select name="comment_permit" id="comment_permit">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->comment_permit):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">읽기/쓰기 권한과는 관계없이 관리자가 승인한 댓글만 정상적으로 보입니다. <a href="<?php echo admin_url('admin.php?page=kboard_comments_list')?>" target="__blank">전체 게시글 관리</a></p>
+							<p class="description">승인되지 않은 댓글은 내용이 숨김 처리되어 확인이 불가능하며 리스트에는 추가되어 작성자가 편집할 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

@@ -21,8 +21,20 @@
 			<?php $table->search_box(__('Search', 'kboard-comments'), 'kboard_comments_list_search')?>
 		</form>
 	</div>
-
-	<form method="post">
-		<?php $table->display()?>
-	</form>
+	
+	<div class="kboard-comments-list">
+		<form id="kboard-comments-list" method="post">
+			<?php $table->display()?>
+		</form>
+	</div>
 </div>
+
+<script>
+function kboard_comment_list_update(){
+	jQuery('#kboard-comments-list').find('.spinner').addClass('is-active');
+	jQuery.post(ajaxurl, jQuery('#kboard-comments-list').serialize()+'&action=kboard_comments_list_update', function(res){
+		jQuery('#kboard-comments-list').find('.spinner').removeClass('is-active');
+	});
+	return false;
+}
+</script>

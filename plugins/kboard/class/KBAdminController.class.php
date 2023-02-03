@@ -149,6 +149,7 @@ class KBAdminController {
 				$board->meta->list_sort_numbers                 = isset($_POST['list_sort_numbers'])                 ? $_POST['list_sort_numbers']                 : '';
 				$board->meta->list_default_sorting              = isset($_POST['list_default_sorting'])              ? $_POST['list_default_sorting']              : '';
 				$board->meta->permit                            = isset($_POST['permit'])                            ? $_POST['permit']                            : '';
+				$board->meta->comment_permit                    = isset($_POST['comment_permit'])                    ? $_POST['comment_permit']                    : '';
 				$board->meta->secret_checked_default            = isset($_POST['secret_checked_default'])            ? $_POST['secret_checked_default']            : '';
 				$board->meta->secret_checked_forced             = isset($_POST['secret_checked_forced'])             ? $_POST['secret_checked_forced']             : '';
 				$board->meta->use_prevent_modify_delete         = isset($_POST['use_prevent_modify_delete'])         ? $_POST['use_prevent_modify_delete']         : '';
@@ -576,7 +577,7 @@ class KBAdminController {
 			$content = new KBContent();
 			foreach($_POST['board_id'] as $uid=>$value){
 				$content->initWithUID($uid);
-
+				
 				// 게시글 수정 전에 액션 훅 실행
 				do_action('kboard_pre_content_list_update', $content);
 				

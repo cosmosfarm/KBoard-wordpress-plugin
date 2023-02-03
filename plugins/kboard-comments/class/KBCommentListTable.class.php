@@ -47,11 +47,12 @@ class KBCommentListTable extends WP_List_Table {
 	
 	public function get_columns(){
 		return array(
-				'cb' => '<input type="checkbox">',
-				'board_name' => __('Forum', 'kboard-comments'),
+				'cb'           => '<input type="checkbox">',
+				'board_name'   => __('Forum', 'kboard-comments'),
 				'user_display' => __('Name', 'kboard-comments'),
-				'content' => __('Content', 'kboard-comments'),
-				'date' => __('Date', 'kboard-comments')
+				'content'      => __('Content', 'kboard-comments'),
+				'status'       => __('Status', 'kboard-comments'),
+				'date'         => __('Date', 'kboard-comments')
 		);
 	}
 	
@@ -60,6 +61,22 @@ class KBCommentListTable extends WP_List_Table {
 				'delete' => __('Delete', 'kboard-comments')
 		);
 	}
+	
+	public function display_tablenav($which){ ?>
+		<div class="tablenav <?php echo esc_attr($which)?>">
+			<div class="alignleft actions bulkactions"><?php $this->bulk_actions($which)?></div>
+			<?php if($which=='top'):?>
+			<div class="alignleft actions">
+				<span class="spinner"></span>
+			</div>
+			<?php endif?>
+			<?php
+			$this->extra_tablenav($which);
+			$this->pagination($which);
+			?>
+			<br class="clear">
+		</div>
+	<?php }
 	
 	public function display_rows(){
 		foreach($this->items as $item){
@@ -70,6 +87,7 @@ class KBCommentListTable extends WP_List_Table {
 	public function single_row($item){
 		$board = new KBoard();
 		$board->initWithContentUID($item->content_uid);
+		$selected = $item->status == 'pending_approval' ? 'selected' : '';
 		
 		$edit_url = admin_url("admin.php?page=kboard_list&board_id={$board->id}");
 		
@@ -95,6 +113,13 @@ class KBCommentListTable extends WP_List_Table {
 		
 		echo '<td class="kboard-comments-list-content" data-colname="'.__('Content', 'kboard-comments').'">';
 		echo $item->content.'<div class="kboard-comments-open"><a href="'.$this->url->getDocumentRedirect($item->content_uid).'" class="button button-small" titlt="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a></div>';
+		echo '</td>';
+		
+		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';
+		echo '<select name="status['.$item->uid.']" onchange="kboard_comment_list_update()">';
+		echo '<option value="">발행됨</option>';
+		echo '<option value="pending_approval" '.$selected.'>승인 대기중</option>';
+		echo '</select>';
 		echo '</td>';
 		
 		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';

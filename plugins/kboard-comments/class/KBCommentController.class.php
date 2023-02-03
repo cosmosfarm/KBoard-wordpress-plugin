@@ -23,6 +23,7 @@ class KBCommentController {
 			case 'kboard_comment_update': add_action('wp_loaded', array($this, 'update')); break;
 		}
 		
+		add_action('wp_ajax_kboard_comments_list_update', array($this, 'comments_list_update'));
 		add_action('wp_ajax_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_nopriv_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_kboard_comment_unlike', array($this, 'commentUnlike'));
@@ -251,6 +252,10 @@ class KBCommentController {
 				}
 			}
 			
+			if($board->meta->comment_permit){
+				$status = 'pending_approval';
+			}
+			
 			$comment_list = new KBCommentList($content_uid);
 			$comment_list->board = $board;
 			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $status, $password);
@@ -405,14 +410,14 @@ class KBCommentController {
 		}
 		
 		$_POST = stripslashes_deep($_POST);
-
+		
 		$content = isset($_POST['content'])?$_POST['content']:'';
 		$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
 		$content = $content?$content:$comment_content;
 		
 		$uid = isset($_GET['uid'])?intval($_GET['uid']):'';
 		$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
-
+		
 		if(!$uid){
 			die("<script>alert('".__('uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 		}
@@ -422,11 +427,11 @@ class KBCommentController {
 		else if(!is_user_logged_in() && !$password){
 			die("<script>alert('".__('Please log in to continue.', 'kboard-comments')."');history.go(-1);</script>");
 		}
-
+		
 		$comment = new KBComment();
 		$comment->initWithUID($uid);
 		$board = $comment->getBoard();
-
+		
 		if(!$comment->isEditor() && $comment->password != $password){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
@@ -465,6 +470,24 @@ class KBCommentController {
 		echo 'opener.window.location.reload();';
 		echo 'window.close();';
 		echo '</script>';
+		exit;
+	}
+	
+	/**
+	 * 댓글 정보 업데이트
+	 */
+	public function comments_list_update(){
+		if(current_user_can('manage_kboard')){
+			$status = isset($_POST['status']) ? $_POST['status'] : array();
+			if($status){
+				foreach($status as $uid=>$status){
+					$comment = new KBComment();
+					$comment->initWithUID($uid);
+					$comment->status = $status;
+					$comment->update();
+				}
+			}
+		}
 		exit;
 	}
 	
