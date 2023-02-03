@@ -118,6 +118,7 @@ class KBSeo {
 			add_filter('aioseop_title_page', '__return_false');
 			add_filter('aioseop_description', '__return_false');
 			add_filter('aioseop_canonical_url', '__return_false');
+			add_filter('aioseo_meta_views', '__return_false');
 		}
 		return $this;
 	}
