@@ -53,7 +53,7 @@ jQuery(document).ready(function(){
 						['para', ['ul', 'ol', 'paragraph']],
 						['height', ['height']],
 						['table', ['table']],
-						['insert', ['link', 'picture', 'hr']],
+						['insert', ['link', 'video', 'hr']],
 						['view', ['fullscreen', 'codeview']],
 						['help', ['help']]
 					],
