@@ -1030,10 +1030,10 @@ class KBController {
 					$is_success = true;
 					
 					// 포인트 결제 적용
-					if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
+					if($board->isUsePointOrder() && $item->order->user_id && $item->use_points){
 						$balance = mycred_get_users_balance($item->order->user_id);
-						if($balance >= $item->order->use_points){
-							mycred_add('kboard_order', $item->order->user_id, ($item->order->use_points*-1), __('Point payment', 'kboard'));
+						if($balance >= $item->use_points){
+							mycred_add('kboard_order', $item->order->user_id, ($item->use_points*-1), __('Point payment', 'kboard'));
 						}
 						else{
 							$is_success = false;
@@ -1057,8 +1057,8 @@ class KBController {
 					
 					if($item->order->getAmount() <= 0){
 						// 포인트 결제 취소
-						if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
-							mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+						if($board->isUsePointOrder() && $item->order->user_id && $item->use_points){
+							mycred_add('kboard_order', $item->order->user_id, $item->use_points, __('Cancel point payment', 'kboard'));
 						}
 						
 						$item->update(array(
@@ -1079,8 +1079,8 @@ class KBController {
 						$result = $pg_instance->cancel($item->order);
 						if($result->status == 'cancelled'){
 							// 포인트 결제 취소
-							if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
-								mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+							if($board->isUsePointOrder() && $item->order->user_id && $item->use_points){
+								mycred_add('kboard_order', $item->order->user_id, $item->use_points, __('Cancel point payment', 'kboard'));
 							}
 							
 							$item->update(array(
@@ -1119,8 +1119,8 @@ class KBController {
 							}
 							else if($payment->data->status == 'cancelled'){
 								// 포인트 결제 취소
-								if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
-									mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+								if($board->isUsePointOrder() && $item->order->user_id && $item->use_points){
+									mycred_add('kboard_order', $item->order->user_id, $item->use_points, __('Cancel point payment', 'kboard'));
 								}
 								
 								$item->update(array(
@@ -1139,8 +1139,8 @@ class KBController {
 					}
 					else if($item->order->payment_method == 'cash'){
 						// 포인트 결제 취소
-						if($board->isUsePointOrder() && $item->order->user_id && $item->order->use_points){
-							mycred_add('kboard_order', $item->order->user_id, $item->order->use_points, __('Cancel point payment', 'kboard'));
+						if($board->isUsePointOrder() && $item->order->user_id && $item->use_points){
+							mycred_add('kboard_order', $item->order->user_id, $item->use_points, __('Cancel point payment', 'kboard'));
 						}
 						
 						$item->update(array(
