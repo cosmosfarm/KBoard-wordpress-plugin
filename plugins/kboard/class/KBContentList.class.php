@@ -1214,7 +1214,7 @@ class KBContentList {
 	public function hasNextReply(){
 		if(!$this->resource_reply) return '';
 		$this->row = current($this->resource_reply);
-
+		
 		if($this->row){
 			next($this->resource_reply);
 			$content = new KBContent();
@@ -1234,6 +1234,10 @@ class KBContentList {
 	public function getSorting(){
 		if($this->kboard_list_sort){
 			return $this->kboard_list_sort;
+		}
+		
+		if(is_array($this->board_id)){
+			$this->board_id = current($this->board_id);
 		}
 		
 		$this->kboard_list_sort = isset($_COOKIE["kboard_list_sort_{$this->board_id}"]) ? $_COOKIE["kboard_list_sort_{$this->board_id}"] : $this->getDefaultSorting();
