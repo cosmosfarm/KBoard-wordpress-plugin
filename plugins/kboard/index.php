@@ -774,10 +774,11 @@ function kboard_restore_current_blog($args=array()){
 	}
 }
 
-/*
- * 게시판 생성 숏코드
+/**
+ * 게시판 생성 숏코드 [kboard]
+ * @param array $args
+ * @return string
  */
-add_shortcode('kboard', 'kboard_builder');
 function kboard_builder($args){
 	if(!isset($args['id']) || !$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	
@@ -841,11 +842,13 @@ function kboard_builder($args){
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
 	}
 }
+add_shortcode('kboard', 'kboard_builder');
 
-/*
+/**
  * 선택된 페이지에 자동으로 게시판 생성
+ * @param string $content
+ * @return string
  */
-add_filter('the_content', 'kboard_auto_builder');
 function kboard_auto_builder($content){
 	global $post, $wpdb;
 	if(isset($post->ID) && is_page($post->ID) && !post_password_required()){
@@ -854,11 +857,13 @@ function kboard_auto_builder($content){
 	}
 	return $content;
 }
+add_filter('the_content', 'kboard_auto_builder');
 
-/*
- * 최신글 생성 숏코드
+/**
+ * 최신글 생성 숏코드 [kboard_latest]
+ * @param array $args
+ * @return string
  */
-add_shortcode('kboard_latest', 'kboard_latest_shortcode');
 function kboard_latest_shortcode($args){
 	if(!isset($args['id']) || !$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	if(!isset($args['url']) || !$args['url']) return 'KBoard 알림 :: url=null, 페이지 주소는 필수입니다.';
@@ -976,11 +981,13 @@ function kboard_latest_shortcode($args){
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 게시판입니다.';
 	}
 }
+add_shortcode('kboard_latest', 'kboard_latest_shortcode');
 
-/*
- * 최신글 모아보기 생성 숏코드
+/**
+ * 최신글 모아보기 생성 숏코드 [kboard_latestview]
+ * @param array $args
+ * @return string
  */
-add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
 function kboard_latestview_shortcode($args){
 	if(!isset($args['id']) || !$args['id']) return 'KBoard 알림 :: id=null, 아이디값은 필수입니다.';
 	
@@ -1088,12 +1095,64 @@ function kboard_latestview_shortcode($args){
 		return 'KBoard 알림 :: id='.$args['id'].', 생성되지 않은 최신글 뷰 입니다.';
 	}
 }
+add_shortcode('kboard_latestview', 'kboard_latestview_shortcode');
 
-/*
+/**
+ * 회원 본인의 글만 표시하는 숏코드 [kboard_my_list]
+ * @param array $args
+ * @return string
+ */
+function kboard_my_list_shortcode($args){
+	global $wpdb;
+	
+	$user_id = get_current_user_id();
+	
+	if(!$user_id){
+		return sprintf('<div class="kboard-my-list-login-message" style="margin: 20px 0; font-size: 16px;"><p>화면을 보시려면 <a href="%s" title="로그인">로그인</a> 해주세요.</p></div>', esc_url(wp_login_url($_SERVER['REQUEST_URI'])));
+	}
+	
+	if(isset($args['blog']) && $args['blog']){
+		do_action('kboard_switch_to_blog', $args);
+	}
+	
+	$where = array();
+	$where[] = "`member_uid`='{$user_id}'";
+	
+	$where = implode(' AND ', $where);
+	
+	$results = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} ORDER BY `date` DESC LIMIT 100");
+	
+	$empty_list_message = isset($args['empty_list_message']) ? trim($args['empty_list_message']) : '';
+	if(!$results && $empty_list_message){
+		return sprintf('<div class="kboard-my-list-empty-message" style="margin: 20px 0; font-size: 16px;">%s</div>', $empty_list_message);
+	}
+	
+	$url = new KBUrl();
+	$url->is_latest = true;
+	
+	?>
+	<div class="kboard-my-list" style="margin: 20px 0; font-size: 16px;">
+		<ul>
+			<?php
+			foreach($results as $item):
+				$content = new KBContent();
+				$content->initWithUID($item->uid);
+				?>
+				<li><span class="board-name">[<?php echo esc_html($content->getBoard()->getTitle())?>]</span> <a class="content-title" href="<?php echo esc_url($url->getDocumentRedirect($content->uid))?>"><?php echo esc_html($content->getTitle())?></a> <span class="content-date" style="color:gray">(<?php echo $content->getDate()?>)</span></li>
+			<?php endforeach?>
+		</ul>
+	</div>
+	<?php
+	
+	if(isset($args['blog']) && $args['blog']){
+		do_action('kboard_restore_current_blog', $args);
+	}
+}
+add_shortcode('kboard_my_list', 'kboard_my_list_shortcode');
+
+/**
  * 비동기 게시판 빌더
  */
-add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
-add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
 function kboard_ajax_builder(){
 	check_ajax_referer('kboard_ajax_security', 'security');
 	
@@ -1164,11 +1223,12 @@ function kboard_ajax_builder(){
 	
 	wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
 }
+add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
+add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
 
-/*
+/**
  * 관리자 알림 출력
  */
-add_action('admin_notices', 'kboard_admin_notices');
 function kboard_admin_notices(){
 	if(KBOARD_CONNECT_COSMOSFARM && current_user_can('manage_kboard')){
 		
@@ -1189,6 +1249,7 @@ function kboard_admin_notices(){
 		}
 	}
 }
+add_action('admin_notices', 'kboard_admin_notices');
 
 /*
  * 스크립트와 스타일 파일 등록

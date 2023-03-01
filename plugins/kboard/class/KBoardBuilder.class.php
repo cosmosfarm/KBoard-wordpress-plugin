@@ -1248,7 +1248,6 @@ class KBoardBuilder {
 		$list->setRandom($this->random);
 		$list->setSortRandom($this->sort_random);
 		$list->getList('', '', $with_notice);
-
 		
 		$url = new KBUrl();
 		$url->is_latest = true;

@@ -65,7 +65,7 @@ class KBoard {
 	 * @return int
 	 */
 	public function getID(){
-		return $this->id;
+		return intval($this->id);
 	}
 	
 	/**
@@ -73,7 +73,15 @@ class KBoard {
 	 * @return int
 	 */
 	public function ID(){
-		return $this->id;
+		return intval($this->id);
+	}
+	
+	/**
+	 * 게시판 이름을 반환한다.
+	 * @return string
+	 */
+	public function getTitle(){
+		return $this->board_name;
 	}
 	
 	/**
@@ -129,6 +137,7 @@ class KBoard {
 	
 	/**
 	 * 카테고리1 정보를 초기화 한다.
+	 * @return string
 	 */
 	public function initCategory1(){
 		$category1_list = apply_filters('kboard_init_category1_list', $this->category1_list, $this);
@@ -138,6 +147,7 @@ class KBoard {
 	
 	/**
 	 * 카테코리2 정보를 초기화 한다.
+	 * @return string
 	 */
 	public function initCategory2(){
 		$category2_list = apply_filters('kboard_init_category2_list', $this->category2_list, $this);
@@ -147,6 +157,7 @@ class KBoard {
 	
 	/**
 	 * 카테코리3 정보를 초기화 한다.
+	 * @return string
 	 */
 	public function initCategory3(){
 		$category3_list = apply_filters('kboard_init_category2_list', $this->category3_list, $this);
@@ -156,6 +167,7 @@ class KBoard {
 	
 	/**
 	 * 카테코리4 정보를 초기화 한다.
+	 * @return string
 	 */
 	public function initCategory4(){
 		$category4_list = apply_filters('kboard_init_category2_list', $this->category4_list, $this);
@@ -165,6 +177,7 @@ class KBoard {
 	
 	/**
 	 * 카테코리5 정보를 초기화 한다.
+	 * @return string
 	 */
 	public function initCategory5(){
 		$category5_list = apply_filters('kboard_init_category2_list', $this->category5_list, $this);
@@ -188,13 +201,14 @@ class KBoard {
 	
 	/**
 	 * 카테고리 정보를 반환한다.
+	 * @return string
 	 */
 	public function currentCategory(){
 		return sanitize_text_field($this->category_row);
 	}
 	
 	/**
-	 * 게시물의 댓글 폼과 리스트를 생성한다.
+	 * 게시글의 댓글 폼과 리스트를 생성한다.
 	 * @param int $content_uid
 	 * @return string
 	 */

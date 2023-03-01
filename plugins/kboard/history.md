@@ -6,10 +6,11 @@
 ----------------------------------
 
   1. kboard_list_rpp 필터 추가
-  2. kboard_autolink 도메인 지원 확대
-  3. KBoard 자체 SEO 기능 최적화 코드 수정 (All In One SEO Pack 플러그인 대응)
-  4. Summernote 에디터 사진 입력버튼을 비디오 입력 버튼으로 변경
-  5. 버그 수정
+  2. 회원 본인의 글만 표시하는 숏코드 추가 [kboard_my_list]
+  3. kboard_autolink 도메인 지원 확대
+  4. KBoard 자체 SEO 기능 최적화 코드 수정 (All In One SEO Pack 플러그인 대응)
+  5. Summernote 에디터 사진 입력버튼을 비디오 입력 버튼으로 변경
+  6. 버그 수정
 
 
 6.3
