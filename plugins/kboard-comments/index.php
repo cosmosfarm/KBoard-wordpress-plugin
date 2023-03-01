@@ -29,17 +29,14 @@ include_once 'class/KBCommentUrl.class.php';
 
 add_action('plugins_loaded', 'kboard_comments_plugins_loaded');
 function kboard_comments_plugins_loaded(){
-	
 	// 언어 파일 추가
 	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
-/*
+/**
  * KBoard 댓글 시작
  */
-add_action('init', 'kboard_comments_init', 5);
 function kboard_comments_init(){
-	
 	// 스킨의 functions.php 파일을 실행한다.
 	$skin = KBCommentSkin::getInstance();
 	foreach($skin->getActiveList() as $skin_name){
@@ -68,16 +65,17 @@ function kboard_comments_init(){
 		}
 	}
 }
+add_action('init', 'kboard_comments_init', 5);
 
-/*
- * 관리자메뉴에 추가
+/**
+ * KBoard 댓글 관리자 메뉴에 추가
  */
 function kboard_comments_settings_menu(){
 	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard-comments'), 'manage_kboard', 'kboard_comments_list', 'kboard_comments_list');
 }
 
-/*
- * 댓글 임시저장 데이터를 반환한다.
+/**
+ * KBoard 댓글 임시저장 데이터를 반환한다.
  */
 function kboard_comments_get_temporary(){
 	static $temporary;
@@ -97,8 +95,8 @@ function kboard_comments_get_temporary(){
 	return $temporary;
 }
 
-/*
- * 댓글 목록 페이지
+/**
+ * KBoard 댓글 목록 페이지
  */
 function kboard_comments_list(){
 	include_once 'class/KBCommentListTable.class.php';
@@ -114,10 +112,11 @@ function kboard_comments_list(){
 	include_once 'pages/comments_list.php';
 }
 
-/*
- * 댓글 숏코드
+/**
+ * KBoard 댓글 숏코드 [kboard_comments]
+ * @param array $atts
+ * @return string
  */
-add_shortcode('kboard_comments', 'kboard_comments_builder');
 function kboard_comments_builder($atts){
 	$atts = shortcode_atts(array(
 		'board' => new KBoard(),
@@ -135,13 +134,12 @@ function kboard_comments_builder($atts){
 	$builder->setSkin($atts['skin']);
 	return $builder->create();
 }
+add_shortcode('kboard_comments', 'kboard_comments_builder');
 
-/*
- * 댓글 스크립트 추가
+/**
+ * KBoard 댓글 스크립트 추가
  */
-add_action('wp_enqueue_scripts', 'kboard_comments_scripts', 9999);
 function kboard_comments_scripts(){
-	
 	// 번역 등록
 	$localize = array(
 		'reply' => __('Reply', 'kboard-comments'),
@@ -170,27 +168,27 @@ function kboard_comments_scripts(){
 	);
 	wp_localize_script('kboard-script', 'kboard_comments_localize_strings', $localize);
 }
+add_action('wp_enqueue_scripts', 'kboard_comments_scripts', 9999);
 
-/*
- * 댓글 스킨에서 로그인 메시지 출력
+/**
+ * KBoard 댓글 스킨에서 로그인 메시지 출력
  */
-add_action('kboard_comments_login_content', 'kboard_comments_login_content', 10, 3);
 function kboard_comments_login_content($board, $content_uid, $comment_builder){
 	echo sprintf(__('You must be <a href="%s">logged in</a> to post a comment.', 'kboard-comments'), wp_login_url($_SERVER['REQUEST_URI']));
 }
+add_action('kboard_comments_login_content', 'kboard_comments_login_content', 10, 3);
 
-/*
- * 댓글 스킨에서 입력 필드 출력
+/**
+ * KBoard 댓글 스킨에서 입력 필드 출력
  */
-add_action('kboard_comments_field', 'kboard_comments_field', 10, 4);
 function kboard_comments_field($field_html, $board, $content_uid, $comment_builder){
 	echo $field_html;
 }
+add_action('kboard_comments_field', 'kboard_comments_field', 10, 4);
 
-/*
- * 관리자 알림 출력
+/**
+ * KBoard 댓글 관리자 알림 출력
  */
-add_action('admin_notices', 'kboard_comments_admin_notices');
 function kboard_comments_admin_notices(){
 	if(current_user_can('manage_kboard')){
 		
@@ -206,23 +204,23 @@ function kboard_comments_admin_notices(){
 		}
 	}
 }
+add_action('admin_notices', 'kboard_comments_admin_notices');
 
-/*
- * 스타일 파일을 출력한다.
+/**
+ * KBoard 댓글 스타일 파일을 출력한다.
  */
-add_action('wp_enqueue_scripts', 'kboard_comments_style', 999);
-add_action('kboard_switch_to_blog', 'kboard_comments_style');
 function kboard_comments_style(){
 	$skin = KBCommentSkin::getInstance();
 	foreach($skin->getActiveList() as $skin_name){
 		wp_enqueue_style("kboard-comments-skin-{$skin_name}", $skin->url($skin_name, 'style.css'), array(), KBOARD_COMMNETS_VERSION);
 	}
 }
+add_action('wp_enqueue_scripts', 'kboard_comments_style', 999);
+add_action('kboard_switch_to_blog', 'kboard_comments_style');
 
-/*
- * 시스템 업데이트
+/**
+ * KBoard 댓글 시스템 업데이트
  */
-add_action('plugins_loaded', 'kboard_comments_update_check');
 function kboard_comments_update_check(){
 	global $wpdb;
 	
@@ -243,12 +241,13 @@ function kboard_comments_update_check(){
 	
 	kboard_comments_activation_execute();
 }
+add_action('plugins_loaded', 'kboard_comments_update_check');
+
 } // KBoard 게시판 플러그인이 활성화 돼 있어야 동작하는 구간 완료
 
-/*
- * 활성화
+/**
+ * KBoard 댓글 활성화
  */
-register_activation_hook(__FILE__, 'kboard_comments_activation');
 function kboard_comments_activation($networkwide){
 	global $wpdb;
 	if(function_exists('is_multisite') && is_multisite()){
@@ -265,9 +264,10 @@ function kboard_comments_activation($networkwide){
 	}
 	kboard_comments_activation_execute();
 }
+register_activation_hook(__FILE__, 'kboard_comments_activation');
 
-/*
- * 활성화 실행
+/**
+ * KBoard 댓글 활성화 실행
  */
 function kboard_comments_activation_execute(){
 	global $wpdb;
@@ -315,18 +315,17 @@ function kboard_comments_activation_execute(){
 	unset($index);
 }
 
-/*
- * 비활성화
+/**
+ * KBoard 댓글 비활성화
  */
-register_deactivation_hook(__FILE__, 'kboard_comments_deactivation');
 function kboard_comments_deactivation($networkwide){
 	
 }
+register_deactivation_hook(__FILE__, 'kboard_comments_deactivation');
 
-/*
- * 언인스톨
+/**
+ * KBoard 댓글 언인스톨
  */
-register_uninstall_hook(__FILE__, 'kboard_comments_uninstall');
 function kboard_comments_uninstall(){
 	global $wpdb;
 	if(function_exists('is_multisite') && is_multisite()){
@@ -341,9 +340,10 @@ function kboard_comments_uninstall(){
 	}
 	kboard_comments_uninstall_exeucte();
 }
+register_uninstall_hook(__FILE__, 'kboard_comments_uninstall');
 
-/*
- * 언인스톨 실행
+/**
+ * KBoard 댓글 언인스톨 실행
  */
 function kboard_comments_uninstall_exeucte(){
 	global $wpdb;
