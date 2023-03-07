@@ -372,6 +372,15 @@ class KBComment {
 				}
 			}
 			
+			if($board->meta->comments_anonymous == '1'){
+				$user_display = sprintf('%s %s', get_avatar('', 24, '', '익명'), '익명');
+			}
+			else if($board->meta->comments_anonymous == '2'){
+				if($this->option->anonymous == '1'){
+					$user_display = sprintf('%s %s', get_avatar('', 24, '', '익명'), '익명');
+				}
+			}
+			
 			if($board->meta->comment_permit && $this->status == 'pending_approval'){
 				$user_display = '승인 대기중';
 			}

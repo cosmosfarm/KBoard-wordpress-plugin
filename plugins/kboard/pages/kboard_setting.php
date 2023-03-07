@@ -743,6 +743,17 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="comments_anonymous">댓글 작성자 익명 설정</label></th>
+						<td>
+							<select name="comments_anonymous" id="comments_anonymous">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->comments_anonymous == '1'):?> selected<?php endif?>>활성화 (모두 적용)</option>
+								<option value="2"<?php if($meta->comments_anonymous == '2'):?> selected<?php endif?>>활성화 (각자 적용)</option>
+							</select>
+							<p class="description">본문에서 댓글 작성자를 익명으로 만들 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="max_document_limit">최대 게시글 작성 제한</label></th>
 						<td>
 							<input type="number" name="max_document_limit" id="max_document_limit" value="<?php echo esc_attr($meta->max_document_limit)?>" placeholder="숫자만 입력 가능">개

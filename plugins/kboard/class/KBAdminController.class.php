@@ -155,6 +155,7 @@ class KBAdminController {
 				$board->meta->use_prevent_modify_delete         = isset($_POST['use_prevent_modify_delete'])         ? $_POST['use_prevent_modify_delete']         : '';
 				$board->meta->board_username_masking            = isset($_POST['board_username_masking'])            ? $_POST['board_username_masking']            : '';
 				$board->meta->comments_username_masking         = isset($_POST['comments_username_masking'])         ? $_POST['comments_username_masking']         : '';
+				$board->meta->comments_anonymous                = isset($_POST['comments_anonymous'])                ? $_POST['comments_anonymous']                : '';
 				$board->meta->max_document_limit                = isset($_POST['max_document_limit'])                ? $_POST['max_document_limit']                : '';
 				$board->meta->new_document_delay                = isset($_POST['new_document_delay'])                ? $_POST['new_document_delay']                : '';
 				$board->meta->default_build_mod                 = isset($_POST['default_build_mod'])                 ? $_POST['default_build_mod']                 : '';
