@@ -72,6 +72,13 @@
 						<input type="file" id="comment_file1_<?php echo $content_uid?>" name="comment_attach_file1">
 					</div>
 					
+					<div class="comments-field field-anonymousmasking">
+						<?php if($board->meta->comments_username_masking == '2'):?>
+							<label class="comments-field-label" for="comment_anonymous_<?php echo $content_uid?>"><?php echo __('익명댓글', 'kboard-comments')?></label>
+							<input type="checkbox" id="comment_anonymous_<?php echo $content_uid?>" name="comment_option_anonymous" value="1"<?php if($temporary->comment_anonymous):?> checked<?php endif?>><label class="comments-field-label" for="comment_anonymous_<?php echo $content_uid?>">익명</label>
+						<?php endif?>
+					</div>
+					
 					<?php if($board->useCAPTCHA()):?>
 						<?php if(kboard_use_recaptcha()):?>
 							<div class="comments-field field-recaptcha">

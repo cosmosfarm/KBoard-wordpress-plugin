@@ -363,9 +363,15 @@ class KBComment {
 			$builder = $kboard_comment_builder;
 			
 			$board = $this->getBoard();
-			if($board->meta->comments_username_masking){
+			if($board->meta->comments_username_masking == '1'){
 				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
 			}
+			else if($board->meta->comments_username_masking == '2'){
+				if($this->option->anonymous == '1'){
+					$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
+				}
+			}
+			
 			if($board->meta->comment_permit && $this->status == 'pending_approval'){
 				$user_display = '승인 대기중';
 			}

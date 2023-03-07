@@ -736,7 +736,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="comments_username_masking" id="comments_username_masking">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->comments_username_masking):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->comments_username_masking == '1'):?> selected<?php endif?>>활성화 (모두 적용)</option>
+								<option value="2"<?php if($meta->comments_username_masking == '2'):?> selected<?php endif?>>활성화 (각자 적용)</option>
 							</select>
 							<p class="description">본문에서 댓글 작성자 이름을 숨길 수 있습니다.</p>
 						</td>
