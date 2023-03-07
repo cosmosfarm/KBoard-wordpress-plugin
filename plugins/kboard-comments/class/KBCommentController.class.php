@@ -53,6 +53,7 @@ class KBCommentController {
 			$content = isset($_POST['content'])?$_POST['content']:'';
 			$comment_content = isset($_POST['comment_content'])?$_POST['comment_content']:'';
 			$content = $content?$content:$comment_content;
+			$comment_hide = isset($_POST['comment_option_hide'])?sanitize_text_field($_POST['comment_option_hide']):'';
 			$comment_anonymous = isset($_POST['comment_option_anonymous'])?sanitize_text_field($_POST['comment_option_anonymous']):'';
 			
 			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
@@ -85,6 +86,7 @@ class KBCommentController {
 			$temporary->member_display = $member_display;
 			$temporary->content = $content;
 			$temporary->option = $option;
+			$temporary->comment_hide = $comment_hide;
 			$temporary->comment_anonymous = $comment_anonymous;
 			$_SESSION['kboard_temporary_comments'] = $temporary;
 			

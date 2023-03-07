@@ -87,6 +87,7 @@ function kboard_comments_get_temporary(){
 			$temporary = new stdClass();
 			$temporary->member_display = '';
 			$temporary->content = '';
+			$temporary->comment_hide = '';
 			$temporary->comment_anonymous = '';
 		}
 		if(!isset($temporary->option) || !(array)$temporary->option){

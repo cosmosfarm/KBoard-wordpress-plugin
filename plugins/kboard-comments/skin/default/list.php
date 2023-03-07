@@ -72,10 +72,10 @@
 						<input type="file" id="comment_file1_<?php echo $content_uid?>" name="comment_attach_file1">
 					</div>
 					
-					<div class="comments-field field-anonymousmasking">
+					<div class="comments-field field-comment-hide">
 						<?php if($board->meta->comments_username_masking == '2'):?>
-							<label class="comments-field-label" for="comment_anonymous_<?php echo $content_uid?>"><?php echo __('익명댓글', 'kboard-comments')?></label>
-							<input type="checkbox" id="comment_anonymous_<?php echo $content_uid?>" name="comment_option_anonymous" value="1"<?php if($temporary->comment_anonymous):?> checked<?php endif?>><label class="comments-field-label" for="comment_anonymous_<?php echo $content_uid?>">익명</label>
+							<label class="comments-field-label" for="comment_hide_<?php echo $content_uid?>"><?php echo __('작성자 숨기기', 'kboard-comments')?></label>
+							<input type="checkbox" id="comment_hide_<?php echo $content_uid?>" name="comment_option_hide" value="1"<?php if($temporary->comment_hide):?> checked<?php endif?>><label class="comments-field-label" for="comment_hide_<?php echo $content_uid?>">작성자 숨기기</label>
 						<?php endif?>
 					</div>
 					

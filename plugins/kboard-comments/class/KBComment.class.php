@@ -367,7 +367,7 @@ class KBComment {
 				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
 			}
 			else if($board->meta->comments_username_masking == '2'){
-				if($this->option->anonymous == '1'){
+				if($this->option->hide == '1'){
 					$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
 				}
 			}
