@@ -99,6 +99,12 @@ class KBSeo {
 			// Jetpack Open Graph Tags
 			add_filter('jetpack_enable_open_graph', '__return_false');
 			
+			// Rank Math
+			add_action('rank_math/head', function(){
+				remove_all_actions('rank_math/opengraph/facebook');
+				remove_all_actions('rank_math/opengraph/twitter');
+			}, 10);
+			
 			// Yoast SEO
 			add_filter('wpseo_title', '__return_false');
 			add_filter('wpseo_metadesc', '__return_false');
