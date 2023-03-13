@@ -343,4 +343,3 @@ class KBSeo {
 		return esc_url_raw($canonical_url);
 	}
 }
-?>

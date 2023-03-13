@@ -90,14 +90,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"><label for="shortcode">게시판 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width:600px;max-width:100%;" id="shortcode">[kboard id=<?php echo $board->id?>]</textarea>
+							<textarea id="shortcode" class="kboard-copy-text" style="width:600px;max-width:100%;" readonly>[kboard id=<?php echo $board->id?>]</textarea>
 							<p class="description">게시판 자동설치에 문제가 있을 경우 이 숏코드를 페이지에 입력하세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="latest_shortcode">최신글 숏코드(Shortcode)</label></th>
 						<td>
-							<textarea style="width:600px;max-width:100%;" id="latest_shortcode">[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5"]</textarea>
+							<textarea id="latest_shortcode" class="kboard-copy-text" style="width:600px;max-width:100%;" readonly>[kboard_latest id="<?php echo $board->id?>" url="<?php echo $meta->latest_target_page?esc_url(get_permalink($meta->latest_target_page)):'최신글이동페이지주소'?>" rpp="5"]</textarea>
 							<p class="description">최신글 리스트를 생성합니다. <span style="font-weight:bold">url</span> 부분에 게시판이 설치된 페이지의 전체 URL을 입력하고 이 숏코드를 메인페이지 또는 사이드바에 입력하세요.</p>
 							<p class="description">여러 게시판의 최신글을 모아서 하나의 최신글에 보여주려면 <a href="<?php echo admin_url('admin.php?page=kboard_latestview')?>" onclick="window.open(this.href);return false;">최신글 모아보기</a> 기능을 사용하세요.</p>
 							<p class="description"><a href="https://blog.cosmosfarm.com/?p=1145" onclick="window.open(this.href);return false;">최신글 숏코드 사용 예제 알아보기</a></p>
@@ -1900,3 +1900,24 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		</p>
 	</form>
 </div>
+
+<script>
+jQuery(document).ready(function(){
+	jQuery('.kboard-copy-text').each(function(){
+		jQuery(this).click(function(){
+			kboard_copy_text(jQuery(this).val());
+			alert('복사되었습니다.');
+		});
+	});
+});
+
+function kboard_copy_text(string){
+	function handler(event){
+		event.clipboardData.setData('text/plain', string);
+		event.preventDefault();
+		document.removeEventListener('copy', handler, true);
+	}
+	document.addEventListener('copy', handler, true);
+	document.execCommand('copy');
+}
+</script>

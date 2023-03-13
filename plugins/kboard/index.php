@@ -737,7 +737,7 @@ function kboard_admin_view(){
 }
 
 /**
- * 멀티사이트 게시판 디비 변경
+ * 멀티사이트 게시판 DB 테이블 변경
  */
 function kboard_switch_to_blog($args=array()){
 	if(isset($args['blog']) && $args['blog']){
@@ -750,7 +750,7 @@ function kboard_switch_to_blog($args=array()){
 add_action('kboard_switch_to_blog', 'kboard_switch_to_blog', 0, 1);
 
 /**
- * 멀티사이트 게시판 디비 복구
+ * 멀티사이트 게시판 DB 테이블 복구
  */
 function kboard_restore_current_blog($args=array()){
 	if(isset($args['blog']) && $args['blog']){
