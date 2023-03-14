@@ -700,11 +700,20 @@ class KBContentList {
 		$default_select = "`{$wpdb->prefix}kboard_board_content`.`uid`";
 		
 		// kboard_list_select_count, kboard_list_select, kboard_list_from, kboard_list_where, kboard_list_orderby 워드프레스 필터 실행
-		$select_count = apply_filters('kboard_list_select_count', 'COUNT(*)', $this->board_id, $this);
-		$select = apply_filters('kboard_list_select', $default_select, $this->board_id, $this);
-		$from = apply_filters('kboard_list_from', implode(' ', $this->from), $this->board_id, $this);
-		$where = apply_filters('kboard_list_where', implode(' AND ', $this->where), $this->board_id, $this);
-		$orderby = apply_filters('kboard_list_orderby', "{$this->sort} {$this->order}", $this->board_id, $this);
+		if($this->is_latest){
+			$select_count = apply_filters('kboard_latest_select_count', 'COUNT(*)', $this->board_id, $this);
+			$select = apply_filters('kboard_latest_select', $default_select, $this->board_id, $this);
+			$from = apply_filters('kboard_latest_from', implode(' ', $this->from), $this->board_id, $this);
+			$where = apply_filters('kboard_latest_where', implode(' AND ', $this->where), $this->board_id, $this);
+			$orderby = apply_filters('kboard_latest_orderby', "{$this->sort} {$this->order}", $this->board_id, $this);
+		}
+		else{
+			$select_count = apply_filters('kboard_list_select_count', 'COUNT(*)', $this->board_id, $this);
+			$select = apply_filters('kboard_list_select', $default_select, $this->board_id, $this);
+			$from = apply_filters('kboard_list_from', implode(' ', $this->from), $this->board_id, $this);
+			$where = apply_filters('kboard_list_where', implode(' AND ', $this->where), $this->board_id, $this);
+			$orderby = apply_filters('kboard_list_orderby', "{$this->sort} {$this->order}", $this->board_id, $this);
+		}
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
