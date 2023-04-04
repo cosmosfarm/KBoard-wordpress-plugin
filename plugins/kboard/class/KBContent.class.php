@@ -517,15 +517,15 @@ class KBContent {
 	public function insertPost($content_uid, $member_uid){
 		if($content_uid && $this->search>0 && $this->search<3){
 			$args = array(
-					'post_author'   => $member_uid,
-					'post_title'    => $this->title,
-					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
-					'post_status'   => 'publish',
-					'comment_status'=> 'closed',
-					'ping_status'   => 'closed',
-					'post_name'     => $content_uid,
-					'post_parent'   => $this->board_id,
-					'post_type'     => 'kboard'
+				'post_author'   => $member_uid,
+				'post_title'    => $this->title,
+				'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
+				'post_status'   => 'publish',
+				'comment_status'=> 'closed',
+				'ping_status'   => 'closed',
+				'post_name'     => $content_uid,
+				'post_parent'   => $this->board_id,
+				'post_type'     => 'kboard'
 			);
 			wp_insert_post($args);
 			add_action('kboard_document_insert', array($this, 'setPostThumbnail'), 10, 4);
@@ -551,12 +551,12 @@ class KBContent {
 		if($post_id && $this->search>0 && $this->search<3){
 			add_action('save_post_kboard', array($this, 'preUpdatePost'));
 			$args = array(
-					'ID'            => $post_id,
-					'post_author'   => $member_uid,
-					'post_title'    => $this->title,
-					'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
-					'post_status'	=> $this->status == 'trash' ? 'trash' : 'publish',
-					'post_parent'   => $this->board_id
+				'ID'            => $post_id,
+				'post_author'   => $member_uid,
+				'post_title'    => $this->title,
+				'post_content'  => ($this->secret || $this->search==2)?'':$this->content,
+				'post_status'	=> $this->status == 'trash' ? 'trash' : 'publish',
+				'post_parent'   => $this->board_id
 			);
 			wp_update_post($args);
 			add_action('kboard_document_update', array($this, 'setPostThumbnail'), 10, 4);
