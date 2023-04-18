@@ -311,8 +311,8 @@
 		</div>
 	</div>
 <?php elseif($field['field_type'] == 'file'):?>
-	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo isset($field['custom_class']) && $field['custom_class'] ? esc_attr($field['custom_class']) : ''?>">
-		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
+	<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> meta-key-<?php echo esc_attr($meta_key)?> <?php echo isset($field['custom_class']) && $field['custom_class'] ? esc_attr($field['custom_class']) : ''?> <?php echo esc_attr($required)?>">
+		<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span><?php if($required):?> <span class="attr-required-text">*</span><?php endif?></label>
 		<div class="attr-value">
 			<?php if(isset($content->attach->{$meta_key})):?><?php echo $content->attach->{$meta_key}[1]?> - <a href="<?php echo $url->getDeleteURLWithAttach($content->uid, $meta_key)?>" onclick="return confirm('<?php echo __('Are you sure you want to delete?', 'kboard')?>');"><?php echo __('Delete file', 'kboard')?></a><?php endif?>
 				<input type="file" id="kboard-input-<?php echo esc_attr($meta_key)?>" name="kboard_attach_<?php echo esc_attr($meta_key)?>">

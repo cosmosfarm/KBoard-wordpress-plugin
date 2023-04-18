@@ -21,7 +21,7 @@
 		<?php endif?>
 		
 		<?php if($board->initCategory3()):?>
-			<select name="category2" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
+			<select name="category3" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
 				<option value=""><?php echo __('All', 'kboard')?></option>
 				<?php while($board->hasNextCategory()):?>
 				<option value="<?php echo esc_attr($board->currentCategory())?>"<?php if(kboard_category3() == $board->currentCategory()):?> selected<?php endif?>><?php echo esc_html($board->currentCategory())?></option>
@@ -30,7 +30,7 @@
 		<?php endif?>
 		
 		<?php if($board->initCategory4()):?>
-			<select name="category2" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
+			<select name="category4" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
 				<option value=""><?php echo __('All', 'kboard')?></option>
 				<?php while($board->hasNextCategory()):?>
 				<option value="<?php echo esc_attr($board->currentCategory())?>"<?php if(kboard_category4() == $board->currentCategory()):?> selected<?php endif?>><?php echo esc_html($board->currentCategory())?></option>
@@ -39,7 +39,7 @@
 		<?php endif?>
 		
 		<?php if($board->initCategory5()):?>
-			<select name="category2" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
+			<select name="category5" onchange="jQuery('#kboard-category-form-<?php echo $board->id?>').submit();">
 				<option value=""><?php echo __('All', 'kboard')?></option>
 				<?php while($board->hasNextCategory()):?>
 				<option value="<?php echo esc_attr($board->currentCategory())?>"<?php if(kboard_category5() == $board->currentCategory()):?> selected<?php endif?>><?php echo esc_html($board->currentCategory())?></option>
