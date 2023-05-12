@@ -289,7 +289,7 @@ class KBSeo {
 	 */
 	public function getTitle($title=''){
 		if($this->content->title){
-			return esc_attr(sanitize_text_field($this->content->title));
+			return esc_attr(sanitize_text_field(wp_strip_all_tags($this->content->title)));
 		}
 		return esc_attr($title);
 	}
@@ -301,7 +301,7 @@ class KBSeo {
 	 */
 	public function getDescription($description=''){
 		if($this->content->content){
-			return esc_attr(sanitize_text_field($this->content->content));
+			return esc_attr(sanitize_text_field(wp_strip_all_tags($this->content->content)));
 		}
 		return esc_attr($description);
 	}
@@ -323,7 +323,7 @@ class KBSeo {
 	 * @return string
 	 */
 	public function getUsername(){
-		return esc_attr($this->content->getUserDisplay());
+		return esc_attr(sanitize_text_field(wp_strip_all_tags($this->content->getUserDisplay())));
 	}
 	
 	/**
