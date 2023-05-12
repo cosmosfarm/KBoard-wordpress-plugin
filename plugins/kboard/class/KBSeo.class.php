@@ -231,9 +231,9 @@ class KBSeo {
 	 * 작성자 메타태그를 추가한다.
 	 */
 	public function author(){
-		echo '<meta name="author" content="' . $this->getUserDisplay() . '">';
+		echo '<meta name="author" content="' . $this->getUsername() . '">';
 		echo "\n";
-		echo '<meta name="article:author" content="' . $this->getUserDisplay() . '">';
+		echo '<meta name="article:author" content="' . $this->getUsername() . '">';
 		echo "\n";
 	}
 	
@@ -323,65 +323,7 @@ class KBSeo {
 	 * @return string
 	 */
 	public function getUsername(){
-		if(kboard_uid() && $this->content->member_display){
-			// 작성자명 마스킹
-			$board = $this->content->getBoard();
-			if($board->meta->display_name_masking){
-				return kboard_text_masking($this->content->member_display);
-			}
-			
-			return $this->content->member_display;
-		}
-		return '';
-	}
-	
-	/**
-	 * 작성자 이름을 반환한다.
-	 * @param string $user_display
-	 * @return string
-	 */
-	public function getUserDisplay($user_display=''){
-		global $kboard_builder;
-		
-		if(kboard_uid()){
-			if(!$user_display){
-				$user_display = $this->getUserName();
-			}
-			
-			$user_id = $this->content->member_uid;
-			$user_name = $this->getUserName();
-			$type = 'kboard';
-			$builder = $kboard_builder;
-			
-			$board = $this->content->getBoard();
-			if($board->meta->board_username_masking){
-				$user_display  = $this->getObfuscateName();
-			}
-			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
-		}
-		return $user_display;
-	}
-	
-	/**
-	 * 작성자 이름을 읽을 수 없도록 만든다.
-	 * @param string $replace
-	 * @return string
-	 */
-	public function getObfuscateName($replace='*'){
-		if(kboard_uid() && $this->content->member_display){
-			$strlen = mb_strlen($this->content->member_display, 'utf-8');
-			
-			if($strlen > 3){
-				$showlen = 2;
-			}
-			else{
-				$showlen = 1;
-			}
-			
-			$obfuscate_name = mb_substr($this->content->member_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen-$showlen);
-			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->content->member_display, $this, $this->content->getBoard());
-		}
-		return apply_filters('kboard_obfuscate_name', '', '', $this, $this->content->getBoard());
+		return esc_attr($this->content->getUserDisplay());
 	}
 	
 	/**
