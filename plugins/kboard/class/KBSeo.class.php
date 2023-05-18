@@ -62,6 +62,14 @@ class KBSeo {
 						}
 					}
 					
+					if($this->content->isTrash()){
+						$is_display = false;
+					}
+					
+					if($board->isPrivate()){
+						$is_display = false;
+					}
+					
 					if($is_display){
 						$this->init();
 					}
