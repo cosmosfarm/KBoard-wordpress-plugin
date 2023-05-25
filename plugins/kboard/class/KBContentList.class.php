@@ -979,10 +979,11 @@ class KBContentList {
 	
 	/**
 	 * 인기글 리스트를 반환한다.
+	 * @param boolean $with_notice
 	 * @return resource
 	 * @return KBoard
 	 */
-	public function getPopularList(){
+	public function getPopularList($with_notice=false){
 		global $wpdb;
 		
 		if(!$this->board){
@@ -1048,8 +1049,13 @@ class KBContentList {
 			$limit = $this->board->meta->popular_count;
 		}
 		
+		if(!$with_notice){
+			$where[] = "`{$wpdb->prefix}kboard_board_content`.`notice`=''";
+		}
+		
 		$select = apply_filters('kboard_popular_list_select', '*', $this->board_id, $this);
 		$from = apply_filters('kboard_popular_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
+		
 		$where = apply_filters('kboard_popular_list_where', implode(' AND ', $where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_popular_list_orderby', "{$orderby}", $this->board_id, $this);
 		
