@@ -1055,7 +1055,6 @@ class KBContentList {
 		
 		$select = apply_filters('kboard_popular_list_select', '*', $this->board_id, $this);
 		$from = apply_filters('kboard_popular_list_from', "`{$wpdb->prefix}kboard_board_content`", $this->board_id, $this);
-		
 		$where = apply_filters('kboard_popular_list_where', implode(' AND ', $where), $this->board_id, $this);
 		$orderby = apply_filters('kboard_popular_list_orderby', "{$orderby}", $this->board_id, $this);
 		
