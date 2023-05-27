@@ -2,6 +2,13 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+6.5
+----------------------------------
+
+  1. kboard_url_to_string 필터 추가
+  2. 버그 수정
+
+
 6.4
 ----------------------------------
 
@@ -16,7 +23,7 @@
   8. KBoard 자체 SEO 기능 최적화 코드 수정 (All In One SEO Pack, Rank Math 플러그인 대응)
   9. Summernote 에디터 사진 입력버튼을 비디오 입력 버튼으로 변경
   10. 인기글 활성화시 인기글 리스트에 공지사항 제거
-  10. 버그 수정
+  11. 버그 수정
 
 
 6.3

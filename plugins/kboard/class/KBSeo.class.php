@@ -12,7 +12,7 @@ class KBSeo {
 	public function __construct(){
 		global $post;
 		
-		$mod = isset($_REQUEST['mod'])?sanitize_key($_REQUEST['mod']):'';
+		$mod = kboard_mod();
 		if($mod == 'document'){
 			$this->content = new KBContent();
 			$this->content->initWithUID(kboard_uid());
@@ -127,6 +127,13 @@ class KBSeo {
 			add_filter('wpseo_twitter_image', '__return_false');
 			add_filter('wpseo_twitter_image_size', '__return_false');
 			add_filter('wpseo_canonical', '__return_false');
+			add_filter('wpseo_json_ld_output', '__return_false');
+			add_filter('wpseo_frontend_presenter_classes', function($filter){ // article:modified_time 메타 태그 삭제
+				if(($key = array_search('Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter', $filter)) !== false){
+					unset($filter[$key]);
+				}
+				return $filter;
+			});
 			
 			// All in One SEO Pack
 			add_filter('aioseop_title_page', '__return_false');
@@ -342,6 +349,7 @@ class KBSeo {
 	public function getCanonical($canonical_url=''){
 		if($this->content->uid){
 			$url = new KBUrl();
+			$url->setBoard($this->content->getBoard());
 			return esc_url_raw($url->getDocumentRedirect($this->content->uid));
 		}
 		return esc_url_raw($canonical_url);

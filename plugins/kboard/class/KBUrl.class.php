@@ -7,9 +7,8 @@
  */
 class KBUrl {
 	
-	private $path;
-	private $data;
-	
+	var $path;
+	var $data;
 	var $board;
 	var $is_latest = false;
 	
@@ -104,6 +103,9 @@ class KBUrl {
 			if($key == 'page_id' && $this->is_latest){
 				continue;
 			}
+			if($key == 'pageid' && $value == '1'){
+				continue;
+			}
 			if($value){
 				$query_string[$key] = map_deep($value, 'urlencode');
 			}
@@ -132,15 +134,16 @@ class KBUrl {
 		$query_string = $this->getCleanQueryString();
 		$this->init();
 		if($this->path){
-			return add_query_arg($query_string, $this->path);
+			$url_to_string = add_query_arg($query_string, $this->path);
 		}
 		else if($this->is_latest){
-			return $this->getDocumentRedirect($query_string['uid']);
+			$url_to_string = $this->getDocumentRedirect($query_string['uid']);
 		}
 		else{
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			return add_query_arg($query_string, $url['path']);
+			$url_to_string = add_query_arg($query_string, $url['path']);
 		}
+		return apply_filters('kboard_url_to_string', $url_to_string, $query_string, $this);
 	}
 	
 	/**
