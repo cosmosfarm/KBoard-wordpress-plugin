@@ -13,8 +13,8 @@ class KBTemplate {
 	public function route(){
 		$action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : '';
 		switch($action){
-			case 'kboard_media': add_action('wp_loaded', array($this, 'media')); break;
-			case 'kboard_document_print': add_action('wp_loaded', array($this, 'documentPrint')); break;
+			case 'kboard_media': add_action('template_redirect', array($this, 'media')); break;
+			case 'kboard_document_print': add_action('template_redirect', array($this, 'documentPrint')); break;
 		}
 		
 		if(is_admin()){

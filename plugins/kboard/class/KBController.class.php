@@ -9,18 +9,26 @@ class KBController {
 	
 	public function __construct(){
 		$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
+		
+		if(is_admin()){
+			$action_name = 'wp_loaded';
+		}
+		else{
+			$action_name = 'template_redirect';
+		}
+		
 		switch($action){
-			case 'kboard_editor_execute': add_action('wp_loaded', array($this, 'editorExecute'), 0); break;
-			case 'kboard_media_upload': add_action('wp_loaded', array($this, 'mediaUpload'), 0); break;
-			case 'kboard_media_delete': add_action('wp_loaded', array($this, 'mediaDelete'), 0); break;
-			case 'kboard_file_delete': add_action('wp_loaded', array($this, 'fileDelete'), 0); break;
-			case 'kboard_file_download': add_action('wp_loaded', array($this, 'fileDownload'), 0); break;
-			case 'kboard_builtin_pg_request_pay_dialog_open': add_action('wp_loaded', array($this, 'requestPayDialogOpen'), 0); break;
-			case 'kboard_builtin_pg_request_pay_dialog_close': add_action('wp_loaded', array($this, 'requestPayDialogClose'), 0); break;
-			case 'kboard_builtin_pg_request_pay_callback': add_action('wp_loaded', array($this, 'requestPayCallback'), 0); break;
-			case 'kboard_iamport_endpoint': add_action('wp_loaded', array($this, 'iamportEndpoint'), 0); break;
-			case 'kboard_iamport_notification': add_action('wp_loaded', array($this, 'iamportNotification'), 0); break;
-			case 'kboard_order_execute': add_action('wp_loaded', array($this, 'orderExecute'), 0); break;
+			case 'kboard_editor_execute': add_action($action_name, array($this, 'editorExecute'), 0); break;
+			case 'kboard_media_upload': add_action($action_name, array($this, 'mediaUpload'), 0); break;
+			case 'kboard_media_delete': add_action($action_name, array($this, 'mediaDelete'), 0); break;
+			case 'kboard_file_delete': add_action($action_name, array($this, 'fileDelete'), 0); break;
+			case 'kboard_file_download': add_action($action_name, array($this, 'fileDownload'), 0); break;
+			case 'kboard_builtin_pg_request_pay_dialog_open': add_action($action_name, array($this, 'requestPayDialogOpen'), 0); break;
+			case 'kboard_builtin_pg_request_pay_dialog_close': add_action($action_name, array($this, 'requestPayDialogClose'), 0); break;
+			case 'kboard_builtin_pg_request_pay_callback': add_action($action_name, array($this, 'requestPayCallback'), 0); break;
+			case 'kboard_iamport_endpoint': add_action($action_name, array($this, 'iamportEndpoint'), 0); break;
+			case 'kboard_iamport_notification': add_action($action_name, array($this, 'iamportNotification'), 0); break;
+			case 'kboard_order_execute': add_action($action_name, array($this, 'orderExecute'), 0); break;
 		}
 		
 		add_action('wp_ajax_kboard_document_like', array($this, 'documentLike'));

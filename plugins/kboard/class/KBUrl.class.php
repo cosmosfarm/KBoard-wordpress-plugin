@@ -194,6 +194,7 @@ class KBUrl {
 		if($content_uid){
 			$this->data['kboard-file-download-nonce'] = wp_create_nonce('kboard-file-download');
 			$this->data['action'] = 'kboard_file_download';
+			$this->data['mod'] = kboard_mod();
 			$this->data['uid'] = $content_uid;
 			$this->data['file'] = $file_key;
 			
@@ -216,6 +217,7 @@ class KBUrl {
 		if($content_uid){
 			$this->data['kboard-file-delete-nonce'] = wp_create_nonce('kboard-file-delete');
 			$this->data['action'] = 'kboard_file_delete';
+			$this->data['mod'] = kboard_mod();
 			$this->data['uid'] = $content_uid;
 			$this->data['file'] = $file_key;
 			
@@ -239,6 +241,7 @@ class KBUrl {
 		if($content_uid){
 			$this->data['kboard-file-download-nonce'] = wp_create_nonce('kboard-file-download');
 			$this->data['action'] = 'kboard_file_download';
+			$this->data['mod'] = kboard_mod();
 			$this->data['uid'] = $content_uid;
 			$this->data['file'] = $file_key;
 			$this->data['order_item_id'] = $order_item_id;
