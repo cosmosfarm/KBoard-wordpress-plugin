@@ -658,6 +658,31 @@ class KBoard {
 	}
 	
 	/**
+	 * 게시글 표시 수 제외 옵션을 확인한다.
+	 */
+	public function isExceptCountList(){
+		global $wpdb;
+		if($this->meta->except_count_list == '1'){
+			$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `parent_uid` = 0 AND `status`!='trash'");
+			return intval($results);
+		}
+		else if($this->meta->except_count_list == '2'){
+			$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `notice` != 'true' AND `status`!='trash'");
+			return intval($results);
+		}
+		else if($this->meta->except_count_list == '3'){
+			$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `parent_uid` = 0 AND `notice` != 'true' AND `status`!='trash'");
+			return intval($results);
+		}
+		else if($this->meta->except_count_list == '4'){
+			if($this->meta->except_count_list_keyword){
+				$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `title`  NOT LIKE '%{$this->meta->except_count_list_keyword}%' AND `status`!='trash'");
+				return intval($results);
+			}
+		}
+	}
+	
+	/**
 	 * 게시판을 삭제한다.
 	 * @param int $board_id
 	 */
@@ -762,6 +787,11 @@ class KBoard {
 		if(!$this->id){
 			return 0;
 		}
+		
+		if($this->meta->except_count_list){
+			return $this->isExceptCountList();
+		}
+		
 		if(!$this->meta->list_total || $this->meta->list_total<=0){
 			$this->meta->list_total = $this->getTotal();
 			

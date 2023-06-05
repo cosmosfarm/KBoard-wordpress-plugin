@@ -163,6 +163,8 @@ class KBAdminController {
 				$board->meta->woocommerce_product_tabs_add      = isset($_POST['woocommerce_product_tabs_add'])      ? $_POST['woocommerce_product_tabs_add']      : '';
 				$board->meta->woocommerce_product_tabs_priority = isset($_POST['woocommerce_product_tabs_priority']) ? $_POST['woocommerce_product_tabs_priority'] : '';
 				$board->meta->prevent_copy                      = isset($_POST['prevent_copy'])                      ? $_POST['prevent_copy']                      : '';
+				$board->meta->except_count_list                 = isset($_POST['except_count_list'])                 ? $_POST['except_count_list']             : '';
+				$board->meta->except_count_list_keyword         = isset($_POST['except_count_list_keyword'])         ? sanitize_text_field($_POST['except_count_list_keyword'])     : '';
 				$board->meta->popular_action                    = isset($_POST['popular_action'])                    ? $_POST['popular_action']                    : '';
 				$board->meta->popular_type                      = isset($_POST['popular_type'])                      ? $_POST['popular_type']                      : '';
 				$board->meta->popular_count                     = isset($_POST['popular_count'])                     ? $_POST['popular_count']                     : '';
