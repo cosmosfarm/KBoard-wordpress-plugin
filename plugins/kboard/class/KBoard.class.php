@@ -659,27 +659,34 @@ class KBoard {
 	
 	/**
 	 * 게시글 표시 수 제외 옵션을 확인한다.
+	 * @return int
 	 */
-	public function isExceptCountList(){
+	public function getExceptCountList(){
 		global $wpdb;
-		if($this->meta->except_count_list == '1'){
+		$results = '';
+		if($this->meta->except_count_type == '1'){
 			$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `parent_uid` = 0 AND `status`!='trash'");
 			return intval($results);
 		}
-		else if($this->meta->except_count_list == '2'){
+		else if($this->meta->except_count_type == '2'){
 			$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `notice` != 'true' AND `status`!='trash'");
 			return intval($results);
 		}
-		else if($this->meta->except_count_list == '3'){
+		else if($this->meta->except_count_type == '3'){
 			$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `parent_uid` = 0 AND `notice` != 'true' AND `status`!='trash'");
 			return intval($results);
 		}
-		else if($this->meta->except_count_list == '4'){
-			if($this->meta->except_count_list_keyword){
-				$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `title`  NOT LIKE '%{$this->meta->except_count_list_keyword}%' AND `status`!='trash'");
+		else if($this->meta->except_count_type == '4'){
+			if($this->meta->except_count_type_keyword){
+				$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `title`  NOT LIKE '%{$this->meta->except_count_type_keyword}%' AND `status`!='trash'");
+				return intval($results);
+			}
+			else{
+				$results = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `board_id`='$this->id' AND `status`!='trash'");
 				return intval($results);
 			}
 		}
+		return $results;
 	}
 	
 	/**
@@ -788,8 +795,8 @@ class KBoard {
 			return 0;
 		}
 		
-		if($this->meta->except_count_list){
-			return $this->isExceptCountList();
+		if($this->meta->except_count_type){
+			return $this->getExceptCountList();
 		}
 		
 		if(!$this->meta->list_total || $this->meta->list_total<=0){
