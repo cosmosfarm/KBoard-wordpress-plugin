@@ -1711,19 +1711,20 @@ class KBContent {
 		global $kboard_builder;
 		
 		if($this->uid){
-			if(!$user_display){
-				$user_display = $this->getUserName();
-			}
-			
 			$user_id = $this->getUserID();
-			$user_name = $this->getUserName();
+			$user_name = esc_html($this->getUserName());
 			$type = 'kboard';
 			$builder = $kboard_builder;
 			
-			$board = $this->getBoard();
-			if($board->meta->board_username_masking){
-				$user_display  = $this->getObfuscateName();
+			if(!$user_display){
+				$user_display = $user_name;
 			}
+			
+			$board = $this->getBoard();
+			if($board->meta->board_username_masking){ // 게시판 작성자 이름 숨기기 활성화
+				$user_display  = esc_html($this->getObfuscateName());
+			}
+			
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
 		}
 		return $user_display;

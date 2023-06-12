@@ -1,7 +1,7 @@
 <div class="comments-list">
 	<ul>
 		<?php while($comment = $commentList->hasNext()): $commentURL->setCommentUID($comment->uid);?>
-		<li itemscope itemtype="http://schema.org/Comment" class="kboard-comments-item" data-username="<?php echo $comment->user_display?>" data-created="<?php echo $comment->created?>">
+		<li itemscope itemtype="http://schema.org/Comment" class="kboard-comments-item" data-username="<?php echo esc_attr($comment->user_display)?>" data-created="<?php echo esc_attr($comment->created)?>">
 			<div class="comments-list-username" itemprop="author">
 				<?php echo $comment->getUserDisplay()?>
 			</div>
@@ -15,7 +15,7 @@
 					<?php endif?>
 					
 					<?php if(isset($comment->attach->file1)):?>
-						<p class="comments-list-file1"><?php echo __('Attachment', 'kboard-comments')?> : <a href="<?php echo $comment->attach->file1[2]?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo $comment->attach->file1[1]?></a></p>
+						<p class="comments-list-file1"><?php echo __('Attachment', 'kboard-comments')?> : <a href="<?php echo esc_url($comment->attach->file1[2])?>" title="<?php echo __('Download', 'kboard-comments')?>"><?php echo esc_html($comment->attach->file1[1])?></a></p>
 					<?php endif?>
 				<?php else:?>
 					<?php if($comment->remaining_time_for_reading):?>
@@ -55,7 +55,7 @@
 			<!-- 답글 리스트 끝 -->
 			
 			<!-- 댓글 입력 폼 시작 -->
-			<form id="kboard-comment-reply-form-<?php echo $comment->uid?>" method="post" action="<?php echo $commentURL->getInsertURL()?>" class="comments-reply-form" enctype="multipart/form-data" onsubmit="return kboard_comments_execute(this);">
+			<form id="kboard-comment-reply-form-<?php echo $comment->uid?>" method="post" action="<?php echo esc_url($commentURL->getInsertURL())?>" class="comments-reply-form" enctype="multipart/form-data" onsubmit="return kboard_comments_execute(this);">
 				<input type="hidden" name="content_uid" value="<?php echo $comment->content_uid?>">
 				<input type="hidden" name="parent_uid" value="<?php echo $comment->uid?>">
 				<input type="hidden" name="member_uid" value="<?php echo $member_uid?>">

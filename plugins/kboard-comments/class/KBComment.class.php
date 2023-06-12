@@ -353,22 +353,24 @@ class KBComment {
 		global $kboard_comment_builder;
 		
 		if($this->uid){
-			if(!$user_display){
-				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getUserName()), $this->getUserName());
-			}
-			
 			$user_id = $this->getUserID();
-			$user_name = $this->getUserName();
+			$user_name = esc_html($this->getUserName());
 			$type = 'kboard-comments';
 			$builder = $kboard_comment_builder;
 			
-			$board = $this->getBoard();
-			if($board->meta->comments_username_masking == '1'){
-				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
+			if(!$user_display){
+				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $user_name), $user_name);
 			}
-			else if($board->meta->comments_username_masking == '2'){
+			
+			$board = $this->getBoard();
+			if($board->meta->comments_username_masking == '1'){ // 댓글 작성자 이름 숨기기 활성화 (모두 적용)
+				$obfuscate_name = esc_html($this->getUserName());
+				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $obfuscate_name), $obfuscate_name);
+			}
+			else if($board->meta->comments_username_masking == '2'){ // 댓글 작성자 이름 숨기기 활성화 (각자 적용)
 				if($this->option->hide == '1'){
-					$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $this->getObfuscateName()), $this->getObfuscateName());
+					$obfuscate_name = esc_html($this->getUserName());
+					$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $obfuscate_name), $obfuscate_name);
 				}
 			}
 			
@@ -384,6 +386,7 @@ class KBComment {
 			if($board->meta->comment_permit && $this->status == 'pending_approval'){
 				$user_display = '승인 대기중';
 			}
+			
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
 		}
 		return $user_display;
