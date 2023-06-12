@@ -1634,16 +1634,17 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="except_count_type" id="except_count_type">
 								<option value="">기본 설정</option>
-								<option value="1"<?php if($meta->except_count_type == '1'):?> selected<?php endif?>>답변 제외</option>
+								<option value="1"<?php if($meta->except_count_type == '1'):?> selected<?php endif?>>답글 제외</option>
 								<option value="2"<?php if($meta->except_count_type == '2'):?> selected<?php endif?>>공지사항 제외</option>
 								<option value="3"<?php if($meta->except_count_type == '3'):?> selected<?php endif?>>답변, 공지사항 제외</option>
 								<option value="4"<?php if($meta->except_count_type == '4'):?> selected<?php endif?>>글 제목 키워드 설정 제외</option>
 							</select>
 							<div>
-								<label>제외 할 키워드 설정 <input type="text" name="except_count_type_keyword" value="<?php echo $meta->except_count_type_keyword?>"></label>
+								<label>제외 할 키워드<input type="text" name="except_count_type_keyword" value="<?php echo $meta->except_count_type_keyword?>"></label>
 							</div>
 							<p class="description">게시글 수 제외 옵션입니다.</p>
 							<p class="description">설정한 옵션이 게시판 리스트 전체글 수 에서 제외 됩니다.</p>
+							<p class="description">글 제목 키워드 설정 제외 옵션 선택시 제외 할 키워드를 입력 안하시면 게시판에 등록된 전체 게시글 숫자가 표시됩니다.</p>
 						</td>
 					</tr>
 				</tbody>
