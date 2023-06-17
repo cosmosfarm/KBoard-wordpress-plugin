@@ -262,6 +262,10 @@ class KBoard {
 				}
 			}
 		}
+		else if(get_option('kboard_allow_search_engines_always_read') && kboard_is_bot()){
+			// 검색엔진 검색로봇 허용
+			$is_reader = true;
+		}
 		return apply_filters('kboard_is_reader', $is_reader, $user_id, $secret, $this);
 	}
 	

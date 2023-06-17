@@ -435,6 +435,24 @@
 				</p>
 			</form>
 		</li>
+		<li>
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<h4>검색엔진 항상 읽기 가능</h4>
+				<p>
+					검색엔진은 권한 체크하지 않고 항상 내용을 읽을 수 있습니다.<br>
+					악용될 수 있기 때문에 특별한 이유가 없다면 비활성화해주세요.
+				</p>
+				<p>
+					<select name="option[kboard_allow_search_engines_always_read]">
+						<option value="">비활성화</option>
+						<option value="1"<?php if(get_option('kboard_allow_search_engines_always_read') == '1'):?> selected<?php endif?>>활성화</option>
+					</select>
+					<button type="submit" class="button">적용</button>
+				</p>
+			</form>
+		</li>
 	</ul>
 </div>
 <script>

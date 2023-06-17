@@ -1157,3 +1157,29 @@ function kboard_text_masking($value){
 	}
 	return $value;
 }
+
+/**
+ * 검색엔진 검색로봇인지 확인한다.
+ * @return boolean
+ */
+function kboard_is_bot(){
+	$user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	
+	if(strpos($user_agent, 'google') !== false){
+		return true;
+	}
+	if(strpos($user_agent, 'bingbot') !== false){
+		return true;
+	}
+	if(strpos($user_agent, 'yeti') !== false){
+		return true;
+	}
+	if(strpos($user_agent, 'daum') !== false){
+		return true;
+	}
+	if(strpos($user_agent, 'kakaotalk-scrap') !== false){
+		return true;
+	}
+	
+	return false;
+}
