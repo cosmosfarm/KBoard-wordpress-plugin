@@ -11,7 +11,7 @@ function kboard_autolink($text){
 	 * Mark Goldsmith
 	 * http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
 	 */
-	return preg_replace_callback('#(?i)(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com|xyz|or.kr|pe.kr|re.kr|ne.kr|biz|jp|us|so|asia|tv|co+)(?:/[^,\s]*|))#', 'kboard_autolink_prependHTTP', $text);
+	return preg_replace_callback('#(?i)(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com|xyz|or.kr|pe.kr|re.kr|ne.kr|biz|us|so|asia|tv|co+)(?:/[^,\s]*|))#', 'kboard_autolink_prependHTTP', $text);
 }
 function kboard_autolink_prependHTTP($m){
 	/*
