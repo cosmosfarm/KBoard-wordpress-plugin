@@ -120,8 +120,8 @@ class KBComment {
 				return true;
 			}
 			
-			if($this->getUserID() == get_current_user_id()){
-				// 본인인 경우 허용
+			if($this->getUserID() == get_current_user_id() && $board->meta->use_prevent_comment_modify_delete != 1){
+				// 본인인 경우 허용 + 댓글 본인 수정 제한 기능 비활성화
 				return true;
 			}
 		}

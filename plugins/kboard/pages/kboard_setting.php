@@ -712,11 +712,21 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="use_prevent_modify_delete">본인 수정 제한</label></th>
+						<th scope="row"><label for="use_prevent_modify_delete">게시글 본인 수정 제한</label></th>
 						<td>
 							<select name="use_prevent_modify_delete" id="use_prevent_modify_delete">
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->use_prevent_modify_delete):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">작성자 본인의 수정/삭제를 막을 때 사용해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="use_prevent_comment_modify_delete">댓글 본인 수정 제한</label></th>
+						<td>
+							<select name="use_prevent_comment_modify_delete" id="use_prevent_comment_modify_delete">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->use_prevent_comment_modify_delete):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">작성자 본인의 수정/삭제를 막을 때 사용해주세요.</p>
 						</td>
