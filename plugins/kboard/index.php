@@ -865,6 +865,10 @@ function kboard_latest_shortcode($args){
 	$board = new KBoard();
 	$board->setID($args['id']);
 	
+	if(isset($args['private']) && $args['private'] == 'true'){
+		$board->setPrivate();
+	}
+	
 	if($board->id){
 		$empty_list_message = isset($args['empty_list_message']) ? trim($args['empty_list_message']) : '';
 		if(!$board->getListTotal() && $empty_list_message){
