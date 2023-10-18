@@ -528,6 +528,10 @@ class KBContent {
 				'post_type'     => 'kboard'
 			);
 			wp_insert_post($args);
+			// Rank Math 검색엔진 최적화 플러그인 실행 시 글 작성 오류 수정
+			if(defined('RANK_MATH_VERSION')){
+				$this->uid = $content_uid;
+			}
 			add_action('kboard_document_insert', array($this, 'setPostThumbnail'), 10, 4);
 		}
 	}

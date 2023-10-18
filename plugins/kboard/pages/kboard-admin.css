@@ -125,7 +125,10 @@
 .kboard-category-setting-sortable .menu-item-handle .item-title { margin: 0; }
 .kboard-category-setting-sortable .menu-item-bar .menu-item-handle { width: auto; }
 
-.kboard-panel-column { float: left; margin-bottom: 20px; width: 50%; }
+.kboard-panel-column { float: left; width: 100%; }
+.welcome-panel h2 {}
+.welcome-panel .welcome-panel-column-container { display: flex; flex-direction: column; }
+.welcome-panel-column { grid-template-columns: 15% 85%; }
 
 @media screen and (max-width: 600px) {
     .kboard-fields-wrap .kboard-fields-left { float: none; width: auto; }

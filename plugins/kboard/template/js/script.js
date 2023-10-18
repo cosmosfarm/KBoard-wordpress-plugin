@@ -53,10 +53,24 @@ jQuery(document).ready(function(){
 						['para', ['ul', 'ol', 'paragraph']],
 						['height', ['height']],
 						['table', ['table']],
-						['insert', ['link', 'video', 'hr']],
+						['insert', ['link', 'video', 'hr', 'media']],
 						['view', ['fullscreen', 'codeview']],
 						['help', ['help']]
 					],
+					buttons: {
+						media: function (context) {
+							var ui = jQuery.summernote.ui;
+							var button = ui.button({
+								contents: '<i class="note-icon-picture"></i>',
+								tooltip: '이미지 입력',
+								click: function () {
+									kboard_editor_open_media();
+								}
+							});
+							return button.render();
+						}
+					},
+					disableDragAndDrop: true,
 					fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana', 'Nanum Gothic', 'Malgun Gothic', 'Noto Sans KR', 'Apple SD Gothic Neo'],
 					fontNamesIgnoreCheck: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande', 'Tahoma', 'Times New Roman', 'Verdana', 'Nanum Gothic', 'Malgun Gothic', 'Noto Sans KR', 'Apple SD Gothic Neo'],
 					fontSizes: ['8','9','10','11','12','13','14','15','16','17','18','19','20','24','30','36','48','64','82','150'],

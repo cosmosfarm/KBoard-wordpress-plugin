@@ -43,7 +43,7 @@ class KBContentOption {
 			$this->row[$key] = $value;
 			$value = esc_sql($value);
 			
-			if($value){
+			if($value != ''){
 				$count = 0;
 				if(!$cosmosfarm_migration_in_progress){
 					$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$this->content_uid' AND `option_key`='$key'");
