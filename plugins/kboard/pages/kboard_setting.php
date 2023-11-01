@@ -1350,7 +1350,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										<?php if($item['field_type'] == 'html'):?>
 											<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_html"><?php echo $item['field_label']?></label>
 											<div class="attr-value">
-												<textarea id="<?php echo esc_attr($meta_key)?>_html" name="fields[<?php echo esc_attr($meta_key)?>][html]" class="field_data html" rows="5"><?php echo $item['html']?></textarea>
+												<textarea id="<?php echo esc_attr($meta_key)?>_html" name="fields[<?php echo esc_attr($meta_key)?>][html]" class="field_data html" rows="5"><?php echo esc_textarea($item['html'])?></textarea>
 											</div>
 										<?php elseif($item['field_type'] == 'shortcode'):?>
 											<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_shortcode"><?php echo $item['field_label']?></label>
