@@ -841,7 +841,7 @@ class KBoard {
 	 * 본인의 글만 보기인지 확인한다.
 	 */
 	public function isPrivate(){
-		if(($this->meta->permission_list || $this->row->private == true) && !$this->isAdmin()){
+		if(($this->meta->permission_list || (isset($this->row->private) && $this->row->private == true)) && !$this->isAdmin()){
 			return true;
 		}
 		return false;
