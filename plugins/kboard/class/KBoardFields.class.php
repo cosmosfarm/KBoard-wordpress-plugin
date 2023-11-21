@@ -561,7 +561,7 @@ class KBoardFields {
 	public function getTemplate($field, $content='', $boardBuilder=''){
 		$template = '';
 		$permission = (isset($field['permission']) && $field['permission']) ? $field['permission'] : '';
-		$roles = (isset($field['roles']) && $field['roles']) ? $field['roles'] : '';
+		$roles = (isset($field['roles']) && $field['roles']) ? $field['roles'] : array();
 		$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? sanitize_key($field['meta_key']) : '';
 		
 		if($this->isUseFields($permission, $roles) && $meta_key){
@@ -619,7 +619,7 @@ class KBoardFields {
 				$boardBuilder = new KBoardBuilder($this->board->id);
 				$boardBuilder->setSkin($this->board->skin);
 				if(wp_is_mobile() && $this->board->meta->mobile_page_rpp){
-					$builder->setRpp($this->board->meta->mobile_page_rpp);
+					$boardBuilder->setRpp($this->board->meta->mobile_page_rpp);
 				}
 				else{
 					$boardBuilder->setRpp($this->board->page_rpp);
@@ -756,7 +756,8 @@ class KBoardFields {
 	
 	/**
 	 * 입력 필드를 사용할 수 있는 권한인지 확인한다.
-	 * @param string $name
+	 * @param string $permission
+	 * @param array $roles
 	 * @return boolean
 	 */
 	public function isUseFields($permission, $roles){
