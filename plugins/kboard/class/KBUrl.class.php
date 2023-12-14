@@ -194,7 +194,7 @@ class KBUrl {
 		if($content_uid){
 			$this->data['kboard-file-download-nonce'] = wp_create_nonce('kboard-file-download');
 			$this->data['action'] = 'kboard_file_download';
-			$this->data['mod'] = kboard_mod();
+			$this->data['mod'] = 'document';
 			$this->data['uid'] = $content_uid;
 			$this->data['file'] = $file_key;
 			
