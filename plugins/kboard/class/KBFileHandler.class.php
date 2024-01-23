@@ -10,7 +10,7 @@ class KBFileHandler {
 	var $name;
 	var $path;
 	var $file_extension;
-	var $extension;
+	var $extensions;
 	var $limit_file_size;
 	var $uploaded_file;
 	var $abspath;
@@ -583,4 +583,3 @@ class KBFileHandler {
 		}
 	}
 }
-?>
