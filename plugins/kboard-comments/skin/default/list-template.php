@@ -8,7 +8,7 @@
 			<div class="comments-list-create" itemprop="dateCreated"><?php echo date('Y-m-d H:i', strtotime($comment->created))?></div>
 			<div class="comments-list-content" itemprop="description">
 				<?php if($comment->isReader()):?>
-					<?php echo wpautop($comment->content)?>
+					<?php echo wpautop(kboard_autolink($comment->content))?>
 					
 					<?php if(isset($comment->attach->image1)):?>
 						<p class="comments-list-image1"><img src="<?php echo esc_url(site_url($comment->attach->image1[0]))?>" alt="<?php echo esc_attr($comment->attach->image1[1])?>"></p>

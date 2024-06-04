@@ -570,9 +570,8 @@ class KBoardBuilder {
 			$content->increaseView();
 			
 			// 에디터를 사용하지 않고, autolink가 활성화면 자동으로 link를 생성한다.
+			include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
 			if(!$board->use_editor && $this->meta->autolink){
-				include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
-				
 				// 댓글 내용에 자동으로 link를 생성한다.
 				add_filter('kboard_comments_content', 'kboard_autolink', 10, 1);
 				
