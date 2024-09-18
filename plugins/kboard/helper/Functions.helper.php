@@ -615,6 +615,10 @@ function kboard_video_url_to_iframe($content){
 	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
 	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtu.be\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
 	
+	// 유튜브 쇼츠
+	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)">(.*)<\/a>/i', 'https://youtube.com/shorts/$2', $content);
+	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
+	
 	// 비메오
 	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*vimeo.com\/(\d+)">(.*)<\/a>/i', 'https://vimeo.com/$2', $content);
 	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*vimeo.com\/(\d+)/i", '<iframe src="https://player.vimeo.com/video/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
