@@ -1702,7 +1702,8 @@ function kboard_activation_execute(){
 	`category5_list` text NOT NULL,
 	`page_rpp` int(10) unsigned NOT NULL,
 	`created` char(14) NOT NULL,
-	PRIMARY KEY (`uid`)
+	PRIMARY KEY (`uid`),
+	KEY `skin` (`skin`)
 	) {$charset_collate};");
 	
 	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_attached` (
@@ -1765,7 +1766,7 @@ function kboard_activation_execute(){
 	KEY `status` (`status`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
+	$wpdb->query("CREATE TABLE `{$wpdb->prefix}kboard_board_option` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`content_uid` bigint(20) unsigned NOT NULL,
 	`option_key` varchar(127) NOT NULL,
@@ -1775,11 +1776,12 @@ function kboard_activation_execute(){
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
+	$wpdb->query("CREATE TABLE `{$wpdb->prefix}kboard_board_meta` (
 	`board_id` bigint(20) unsigned NOT NULL,
 	`key` varchar(127) NOT NULL,
 	`value` longtext NOT NULL,
-	UNIQUE KEY `meta_index` (`board_id`,`key`)
+	UNIQUE KEY `meta_index` (`board_id`,`key`),
+	KEY `key` (`key`)
 	) {$charset_collate};");
 	
 	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_latestview` (
@@ -1790,10 +1792,11 @@ function kboard_activation_execute(){
 	`mobile_rpp` int(10) unsigned NOT NULL,
 	`sort` varchar(20) NOT NULL,
 	`created` char(14) NOT NULL,
-	PRIMARY KEY (`uid`)
+	PRIMARY KEY (`uid`),
+	KEY `skin` (`skin`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
+	$wpdb->query("CREATE TABLE `{$wpdb->prefix}kboard_board_latestview_link` (
 	`latestview_uid` bigint(20) unsigned NOT NULL,
 	`board_id` bigint(20) unsigned NOT NULL,
 	UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
@@ -2103,6 +2106,36 @@ function kboard_activation_execute(){
 	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_meida_relationships` WHERE `Key_name`='content_uid'");
 	if(count($index)){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_meida_relationships` DROP INDEX `content_uid`");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 6.5
+	 * kboard_board_meta 테이블에 key 컬럼 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_meta` WHERE `Key_name`='key'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_meta` ADD INDEX `key` (`key`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 6.5
+	 * kboard_board_latestview 테이블에 skin 컬럼 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_latestview` WHERE `Key_name`='skin'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_latestview` ADD INDEX `skin` (`skin`)");
+	}
+	unset($index);
+	
+	/*
+	 * KBoard 6.5
+	 * kboard_board_setting 테이블에 skin 컬럼 인덱스 추가
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_board_setting` WHERE `Key_name`='skin'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_setting` ADD INDEX `skin` (`skin`)");
 	}
 	unset($index);
 	
