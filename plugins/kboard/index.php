@@ -79,7 +79,12 @@ function kboard_plugins_loaded(){
 	}
 	
 	// 언어 파일 추가
-	load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	if(version_compare($GLOBALS['wp_version'], '6.7', '<')){
+		load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	}
+	else{
+		load_textdomain('kboard', KBOARD_DIR_PATH . '/languages/kboard-' . determine_locale() . '.mo');
+	}
 }
 
 /**

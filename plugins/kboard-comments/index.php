@@ -30,7 +30,12 @@ include_once 'class/KBCommentUrl.class.php';
 add_action('plugins_loaded', 'kboard_comments_plugins_loaded');
 function kboard_comments_plugins_loaded(){
 	// 언어 파일 추가
-	load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	if(version_compare($GLOBALS['wp_version'], '6.7', '<')){
+		load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	}
+	else{
+		load_textdomain('kboard-comments', KBOARD_COMMENTS_DIR_PATH . '/languages/kboard-comments-' . determine_locale() . '.mo');
+	}
 }
 
 /**
