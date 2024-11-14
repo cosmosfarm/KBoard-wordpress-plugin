@@ -638,16 +638,20 @@ class KBAdminController {
 			$before_category = isset($_POST['before_category'])?sanitize_text_field($_POST['before_category']):'';
 			$after_category = isset($_POST['after_category'])?sanitize_text_field($_POST['after_category']):'';
 			
-			$target   = esc_sql($target);
+			$target = esc_sql($target);
 			$before_category = esc_sql($before_category);
 			$after_category = esc_sql($after_category);
 			
-			$updated_count = $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `board_id`='{$board_id}' AND `{$target}`='{$before_category}'");
-			
 			$msg = '변경 할 카테고리가 없습니다.';
-			if($updated_count){
-				$msg = sprintf(__('%s개의 카테고리가 변경되었습니다.', 'kboard'), number_format($updated_count));
+			
+			if(in_array($target, array('category1', 'category2', 'category3', 'category4', 'category5'))){
+				$updated_count = $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `board_id`='{$board_id}' AND `{$target}`='{$before_category}'");
+				
+				if($updated_count){
+					$msg = sprintf(__('%s개의 카테고리가 변경되었습니다.', 'kboard'), number_format($updated_count));
+				}
 			}
+			
 			echo '<script>alert("'. $msg . '");</script>';
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_category_update');
