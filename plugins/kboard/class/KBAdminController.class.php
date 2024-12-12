@@ -393,6 +393,12 @@ class KBAdminController {
 							}
 						}
 						
+						foreach($row_data as $key=>$value){
+							if(!is_array($value) && !is_numeric($value)){
+								$row_data[$key] = kboard_sanitize_csv_field($value);
+							}
+						}
+						
 						fputcsv($csv, $row_data);
 					}
 					@ob_flush();

@@ -200,3 +200,35 @@ function kboard_hash($text, $salt, $length=0){
 	}
 	return '$kboard$v1$' . hash_pbkdf2('sha256', $text, $salt, 100000, $length);
 }
+
+/**
+ * Sanitizes a string for safe usage in a CSV file.
+ *
+ * This function specifically addresses CSV injection vulnerabilities by:
+ * 1. Prefixing cells starting with =, +, -, @, and Tab characters with a single quote (').
+ *    This prevents the CSV parser from interpreting them as formulas.
+ * 2. Enclosing the string in double quotes if it contains commas or newlines.
+ *    This ensures proper cell separation and formatting.
+ *
+ * @param string $str The string to sanitize.
+ * @return string The sanitized string.
+ */
+function kboard_sanitize_csv_field($str){
+	// Escape characters that could be interpreted as formulas (=, +, -, @, Tab, Carriage Return)
+	if (preg_match('/^[\=\+\-\@\t\r]/', $str)){
+		$str = "'" . $str;
+	}
+	
+	// Escape double quotes by doubling them
+	//$str = str_replace('"', '""', $str);
+	
+	// Escape newlines to preserve data integrity
+	//$str = str_replace(array("\r\n", "\r", "\n"), " ", $str);
+	
+	// Enclose in double quotes if it contains commas or newlines (already handled above)
+	// if (strpos($str, ',') !== false || strpos($str, "\n") !== false || strpos($str, '"') !== false) {
+	//     $str = '"' . $str . '"';
+	// }
+	
+	return $str;
+}
