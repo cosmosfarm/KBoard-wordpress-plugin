@@ -215,6 +215,11 @@ class KBCommentController {
 					$key = str_replace($this->skin_attach_prefix, '', $key);
 					$key = sanitize_key($key);
 					
+					// SVG 파일 업로드 제한
+					if(strpos($key, 'image') === 0 && isset($value['type']) && $value['type'] === 'image/svg+xml') {
+						continue;
+					}
+					
 					$upload = $file->upload($this->skin_attach_prefix . $key);
 					$file_path = $upload['path'] . $upload['stored_name'];
 					$file_name = $upload['original_name'];
