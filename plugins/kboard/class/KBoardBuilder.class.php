@@ -343,7 +343,8 @@ class KBoardBuilder {
 			if($view_iframe){
 				$url = new KBUrl();
 				$iframe_id = uniqid();
-				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('parent_uid', kboard_parent_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('category3', $this->category3)->set('category4', $this->category4)->set('category5', $this->category5)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
+				$iframe_nonce = wp_create_nonce($iframe_id);
+				return '<iframe id="kboard-iframe-' . $iframe_id . '" class="kboard-iframe kboard-iframe-' . $this->board_id . '" src="' . $url->set('kboard_id', $this->board_id)->set('uid', kboard_uid())->set('parent_uid', kboard_parent_uid())->set('mod', kboard_mod())->set('category1', $this->category1)->set('category2', $this->category2)->set('category3', $this->category3)->set('category4', $this->category4)->set('category5', $this->category5)->set('keyword', kboard_keyword())->set('target', kboard_target())->set('view_iframe', '1')->set('iframe_id', $iframe_id)->set('kboard_nonce', $iframe_nonce)->toString() . '" style="width:100%" scrolling="no" frameborder="0"></iframe>';
 			}
 			
 			// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
