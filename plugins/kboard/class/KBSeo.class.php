@@ -348,9 +348,19 @@ class KBSeo {
 	 */
 	public function getCanonical($canonical_url=''){
 		if($this->content->uid){
+			$board = $this->content->getBoard();
+			
 			$url = new KBUrl();
-			$url->setBoard($this->content->getBoard());
-			return esc_url_raw($url->getDocumentRedirect($this->content->uid));
+			$url->setBoard($board);
+			
+			$latest_target_page = $board->meta->latest_target_page;
+			
+			if($latest_target_page){
+				$canonical_url = $url->getDocumentURLWithUID($this->content->uid);
+			}
+			else{
+				$canonical_url = $url->getDocumentRedirect($this->content->uid);
+			}
 		}
 		return esc_url_raw($canonical_url);
 	}
