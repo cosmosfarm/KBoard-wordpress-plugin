@@ -2,6 +2,11 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+6.8
+----------------------------------
+  1. kboard_url_to_string 지원 도메인 확대(유튜브 임베드)
+  2. 버그 수정
+
 6.7
 ----------------------------------
   1. 버그 수정
