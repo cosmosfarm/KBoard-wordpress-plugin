@@ -574,13 +574,16 @@ class KBoardBuilder {
 			include_once KBOARD_DIR_PATH . '/helper/Autolink.helper.php';
 			if(!$board->use_editor && $this->meta->autolink){
 				// 댓글 내용에 자동으로 link를 생성한다.
+				add_filter('kboard_content', 'kboard_video_url_to_iframe', 10, 1);
+				add_filter('kboard_comments_content', '2', 10, 1);
+				
 				add_filter('kboard_comments_content', 'kboard_autolink', 10, 1);
 				
 				$content->content = apply_filters('kboard_content_paragraph_breaks', kboard_autolink($content->getContent()), $this);
 			}
 			else{
 				// 유튜브, 비메오 동영상 URL을 iframe 코드로 변환한다.
-				add_filter('kboard_content', 'kboard_video_url_to_iframe', 10, 1);
+				
 				add_filter('kboard_comments_content', 'kboard_video_url_to_iframe', 10, 1);
 				
 				$content->content = apply_filters('kboard_content_paragraph_breaks', $content->getContent(), $this);

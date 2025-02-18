@@ -8,11 +8,32 @@ if(!defined('ABSPATH')) exit;
  */
 function kboard_autolink($text){
 	/*
-	 * Mark Goldsmith
-	 * http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
-	 */
-	return preg_replace_callback('#(?i)(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com|xyz|or.kr|pe.kr|re.kr|ne.kr|biz|us|so|asia|tv|co+)(?:/[^,\s]*|))#', 'kboard_autolink_prependHTTP', $text);
+	* Mark Goldsmith
+	* http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
+	*/
+	// <iframe> 태그가 포함된 경우 변환하지 않고 원래 내용 유지
+	if (preg_match('/<iframe.*?>.*?<\/iframe>/is', $text)) {
+		return $text;
+	}
+
+	// 이미 <a> 태그가 있는 경우 변환 방지
+	if (preg_match('/<a\s+href=["\']?(http|https):\/\/[^"\']+["\']?\s*target=["\']?_blank["\']?>/i', $text)) {
+		return $text;
+	}
+	
+	// 유튜브 & 비메오 URL이 포함된 경우 자동 링크 변환 방지
+	if (preg_match('#(youtube\.com|youtu\.be|vimeo\.com)#', $text)) {
+		return $text;
+	}
+	
+	// <iframe> 내부의 src 속성 URL은 변환하지 않도록 정규식 예외 처리
+	return preg_replace_callback(
+		'#(?i)(?<!src=")(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com|xyz|or.kr|pe.kr|re.kr|ne.kr|biz|us|so|asia|tv|co+)(?:/[^,\s]*|))#',
+		'kboard_autolink_prependHTTP',
+		$text
+	);
 }
+
 function kboard_autolink_prependHTTP($m){
 	/*
 	 * Mark Goldsmith
