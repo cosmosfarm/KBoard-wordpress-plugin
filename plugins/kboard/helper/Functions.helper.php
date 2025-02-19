@@ -610,6 +610,10 @@ function kboard_builtin_pg_init($pg, $args=array()){
  * @return mixed
  */
 function kboard_video_url_to_iframe($content){
+	
+	if (preg_match('/<iframe.*?>.*?<\/iframe>/is', $content)) {
+		return $content;
+	}
 	// 유튜브
 	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)">(.*)<\/a>/i', 'https://youtube.com/watch?v=$2', $content);
 	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
