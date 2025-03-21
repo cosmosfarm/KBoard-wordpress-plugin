@@ -329,11 +329,25 @@ class KBCommentController {
 			$next_page_url = wp_get_referer() . "#kboard-comments-{$content_uid}";
 			$next_page_url = apply_filters('kboard_comments_after_executing_url', $next_page_url, $comment_uid, $content_uid);
 			
-			
 			$comment = new KBComment();
 			$comment->initWithUID($comment_uid);
 			
 			do_action('kboard_comments_execute_pre_redirect', $next_page_url, $comment, $content, $board);
+			
+			// 댓글 알림 설정이 활성화가 되어 있다면 메일을 보낸다.
+			if($board->meta->comment_alerts &&is_user_logged_in()){
+				$user = get_userdata($document->member_uid);
+				$email = $user ? $user->user_email : null;
+				
+				$url = new KBUrl();
+				$mail = kboard_mail();
+				$mail->to = $email;
+				$mail->title = apply_filters('kboard_new_comment_alerts_subject', '['.__('신규 댓글', 'kboard').'] ' .__('작성하신 글에 새로운 댓글이 달렸습니다.', 'kboard'));
+				$mail->content = apply_filters('kboard_new_comment_alerts_message',$content);
+				$mail->url = $url->getDocumentRedirect($document->uid);
+				$mail->url_name = __('Go to Homepage', 'kboard');
+				$mail->send();
+			}
 			
 			wp_redirect($next_page_url);
 			exit;

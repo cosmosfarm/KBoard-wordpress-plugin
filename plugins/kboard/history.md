@@ -2,6 +2,13 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+6.9
+----------------------------------
+  1. kboard_new_comment_alerts_subject 필터 추가
+  2. kboard_new_comment_alerts_message 필터 추가
+  3. 신규 댓글 알림 기능 추가
+  4. 버그 수정
+  
 6.8
 ----------------------------------
   1. kboard_url_to_string 지원 도메인 확대(유튜브 임베드)

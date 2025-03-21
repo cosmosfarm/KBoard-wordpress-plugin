@@ -31,7 +31,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('대량관리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('인기글 표시', 'kboard')?></a>
-			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('확장설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('알림', 'kboard')?></a>
+			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
 		
@@ -302,31 +303,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<input type="text" name="category5_list" id="category5_list" value="<?php echo $board->category5_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
 							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
-						<td>
-							<input type="text" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>" class="regular-text" placeholder="예제 : <?php echo get_bloginfo('admin_email')?>">
-							<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다.</p>
-							<p class="description">여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
-							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다.</p>
-							<p class="description">이메일 전송에 문제가 있다면 <a href="https://blog.cosmosfarm.com/?p=720" onclick="window.open(this.href);return false;">워드프레스 이메일 전송 문제 해결 방법</a>을 참고해주세요.</p>
-							<p class="description"><a href="https://www.cosmosfarm.com/wpstore/product/cosmosfarm-telebot" onclick="window.open(this.href);return false;">코스모스팜 텔레봇</a> 플러그인을 사용하시면 최신글 알림을 <span style="font-weight:bold">텔레그램</span> 메신저로 받아보실 수 있습니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="latest_alerts_attachments_size"></label></th>
-						<td>
-							<select name="latest_alerts_attachments_size" id="latest_alerts_attachments_size">
-								<option value="">첨부파일 제외</option>
-								<?php for($i=1; $i<=100; $i++):?>
-									<option value="<?php echo $i?>"<?php if($i == $meta->latest_alerts_attachments_size):?> selected<?php endif?>><?php echo $i?> MB 이하 첨부파일 포함</option>
-								<?php endfor?>
-							</select>
-							<p class="description"><label for="latest_alerts" style="font-weight:bold">최신글 이메일 알림</label>에 첨부파일을 포함해서 전송할 수 있습니다.</p>
-							<p class="description">안전한 전송을 위해서 설정한 용량보다 작은 파일만 포함해서 이메일을 전송합니다.</p>
-							<p class="description">이메일을 보내는 쪽 서버 또는 받는 쪽 서버에서 첨부파일 허용 용량에 제한이 있다면 에러가 날 수도 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1907,9 +1883,54 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
+						<th scope="row"><label for="latest_alerts">최신글 이메일 알림</label></th>
+						<td>
+							<input type="text" name="latest_alerts" id="latest_alerts" value="<?php echo $meta->latest_alerts?>" class="regular-text" placeholder="예제 : <?php echo get_bloginfo('admin_email')?>">
+							<p class="description">최신글이 등록되면 입력된 이메일로 알려드립니다.</p>
+							<p class="description">여러명을 입력하실 경우 콤마(,)로 구분됩니다.</p>
+							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다.</p>
+							<p class="description">이메일 전송에 문제가 있다면 <a href="https://blog.cosmosfarm.com/?p=720" onclick="window.open(this.href);return false;">워드프레스 이메일 전송 문제 해결 방법</a>을 참고해주세요.</p>
+							<p class="description"><a href="https://www.cosmosfarm.com/wpstore/product/cosmosfarm-telebot" onclick="window.open(this.href);return false;">코스모스팜 텔레봇</a> 플러그인을 사용하시면 최신글 알림을 <span style="font-weight:bold">텔레그램</span> 메신저로 받아보실 수 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="latest_alerts_attachments_size"></label></th>
+						<td>
+							<select name="latest_alerts_attachments_size" id="latest_alerts_attachments_size">
+								<option value="">첨부파일 제외</option>
+								<?php for($i=1; $i<=100; $i++):?>
+									<option value="<?php echo $i?>"<?php if($i == $meta->latest_alerts_attachments_size):?> selected<?php endif?>><?php echo $i?> MB 이하 첨부파일 포함</option>
+								<?php endfor?>
+							</select>
+							<p class="description"><label for="latest_alerts" style="font-weight:bold">최신글 이메일 알림</label>에 첨부파일을 포함해서 전송할 수 있습니다.</p>
+							<p class="description">안전한 전송을 위해서 설정한 용량보다 작은 파일만 포함해서 이메일을 전송합니다.</p>
+							<p class="description">이메일을 보내는 쪽 서버 또는 받는 쪽 서버에서 첨부파일 허용 용량에 제한이 있다면 에러가 날 수도 있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="comment_alerts">댓글 이메일 알림</label></th>
+						<td>
+							<select name="comment_alerts" id="comment_alerts">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->comment_alerts):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">댓글 등록되면 게시글 본문 작성자 이메일로 알려드립니다.</p>
+							<p class="description">댓글 작성자의 이메일과 대댓글 작성자의 이메일에는 적용되지 않습니다.</p>
+							<p class="description">로그인하지 않았거나 로그인 상태이지만 이메일이 설정이 안되있는 경우에는 이메일이 전송되지 못 할 수도 있습니다.</p>
+							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다.</p>
+							<p class="description">이메일 전송에 문제가 있다면 <a href="https://blog.cosmosfarm.com/?p=720" onclick="window.open(this.href);return false;">워드프레스 이메일 전송 문제 해결 방법</a>을 참고해주세요.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="https://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a> 
+							KBoard는 직접 확장 플러그인 개발이 가능하며 추가된 게시판 기능을 이곳에 표시 할 수 있습니다. <a href="https://www.cosmosfarm.com/products/kboard/hooks" onclick="window.open(this.href);return false;">더보기</a>
 						</td>
 					</tr>
 				</tbody>
