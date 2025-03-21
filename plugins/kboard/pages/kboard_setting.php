@@ -1916,7 +1916,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</select>
 							<p class="description">댓글 등록되면 게시글 본문 작성자 이메일로 알려드립니다.</p>
 							<p class="description">댓글 작성자의 이메일과 대댓글 작성자의 이메일에는 적용되지 않습니다.</p>
-							<p class="description">로그인하지 않았거나 로그인 상태이지만 이메일이 설정이 안되있는 경우에는 이메일이 전송되지 못 할 수도 있습니다.</p>
+							<p class="description">로그인하지 않았거나 로그인 상태이지만 사용자 정보에 이메일이 없는 경우에는 이메일이 전송되지 못할 수도 있습니다.</p>
 							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다.</p>
 							<p class="description">이메일 전송에 문제가 있다면 <a href="https://blog.cosmosfarm.com/?p=720" onclick="window.open(this.href);return false;">워드프레스 이메일 전송 문제 해결 방법</a>을 참고해주세요.</p>
 						</td>
