@@ -7,8 +7,8 @@
   1. kboard_new_comment_alerts_subject 필터 추가
   2. kboard_new_comment_alerts_message 필터 추가
   3. 신규 댓글 알림 기능 추가
-  4. 작성자 이름 표시 변경 기능 추가
-  5. 댓글 작성자 이름 표시 변경 기능 추가
+  4. 작성자명 저장 방법 기능 추가
+  5. 댓글 작성자명 저장 방법 기능 추가
   6. 버그 수정
   
 6.8
