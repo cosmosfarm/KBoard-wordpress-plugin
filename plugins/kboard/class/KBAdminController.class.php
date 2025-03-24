@@ -155,6 +155,8 @@ class KBAdminController {
 				$board->meta->secret_checked_forced             = isset($_POST['secret_checked_forced'])             ? $_POST['secret_checked_forced']             : '';
 				$board->meta->use_prevent_modify_delete         = isset($_POST['use_prevent_modify_delete'])         ? $_POST['use_prevent_modify_delete']         : '';
 				$board->meta->use_prevent_comment_modify_delete = isset($_POST['use_prevent_comment_modify_delete']) ? $_POST['use_prevent_comment_modify_delete'] : '';
+				$board->meta->board_username_display_change     = isset($_POST['board_username_display_change'])     ? $_POST['board_username_display_change']     : '';
+				$board->meta->comments_username_display_change  = isset($_POST['comments_username_display_change'])  ? $_POST['comments_username_display_change']  : '';
 				$board->meta->board_username_masking            = isset($_POST['board_username_masking'])            ? $_POST['board_username_masking']            : '';
 				$board->meta->comments_username_masking         = isset($_POST['comments_username_masking'])         ? $_POST['comments_username_masking']         : '';
 				$board->meta->comments_anonymous                = isset($_POST['comments_anonymous'])                ? $_POST['comments_anonymous']                : '';

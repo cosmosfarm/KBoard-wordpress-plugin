@@ -25,14 +25,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(1);"><?php echo __('권한설정', 'kboard')?></a>
 			<?php if($board->id):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(2);"><?php echo __('입력 필드', 'kboard')?></a>
-			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('계층형 카테고리', 'kboard')?></a>
-			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('고급설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('소셜댓글', 'kboard')?></a>
-			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('포인트설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('대량관리', 'kboard')?></a>
-			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('인기글 표시', 'kboard')?></a>
-			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('알림', 'kboard')?></a>
-			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('확장설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('기본 카테고리', 'kboard')?></a>
+			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('계층형 카테고리', 'kboard')?></a>
+			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('고급설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('소셜댓글', 'kboard')?></a>
+			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('포인트설정', 'kboard')?></a>
+			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('대량관리', 'kboard')?></a>
+			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('인기글 표시', 'kboard')?></a>
+			<a href="#tab-kboard-setting-10" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('알림', 'kboard')?></a>
+			<a href="#tab-kboard-setting-11" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(11);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
 		
@@ -247,64 +248,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<?php endif?>
-					<tr valign="top">
-						<th scope="row"><label for="use_category">카테고리 사용</label></th>
-						<td>
-							<select name="use_category" id="use_category">
-								<option value="">비활성화</option>
-								<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>활성화</option>
-							</select>
-							<p class="description">카테고리를 사용해서 게시글을 분리할 수 있습니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="use_tree_category">카테고리 선택</label></th>
-						<td>
-							<select name="use_tree_category" id="use_tree_category">
-								<option value="">기본 카테고리 사용</option>
-								<option value="yes"<?php if($board->meta->use_tree_category == 'yes'):?> selected<?php endif?>>계층형 카테고리 사용</option>
-							</select>
-							<a class="button button-small" href="#tab-kboard-setting-3" onclick="kboard_setting_tab_change(3);">계층형 카테고리 관리</a>
-							<p class="description">기본 카테고리를 사용하시려면 아래의 <label for="category1_list" style="font-weight:bold">카테고리1</label>과 <label for="category2_list" style="font-weight:bold">카테고리2</label> 설정을 세팅해주세요.</p>
-							<p class="description">계층형 카테고리를 선택하면 기본 카테고리는 사용이 중지됩니다.</p>
-							<p class="description">계층형 카테고리가 적용되지 않는 일부 스킨에는 기본 카테고리를 사용해주세요.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="category1_list">카테고리1</label></th>
-						<td>
-							<input type="text" name="category1_list" id="category1_list" value="<?php echo $board->category1_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
-							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="category2_list">카테고리2</label></th>
-						<td>
-							<input type="text" name="category2_list" id="category2_list" value="<?php echo $board->category2_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
-							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="category3_list">카테고리3</label></th>
-						<td>
-							<input type="text" name="category3_list" id="category3_list" value="<?php echo $board->category3_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
-							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="category4_list">카테고리4</label></th>
-						<td>
-							<input type="text" name="category4_list" id="category4_list" value="<?php echo $board->category4_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
-							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="category5_list">카테고리5</label></th>
-						<td>
-							<input type="text" name="category5_list" id="category5_list" value="<?php echo $board->category5_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
-							<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
-						</td>
-					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="always_view_list">리스트 항상 보기</label></th>
 						<td>
@@ -705,6 +648,29 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="1"<?php if($meta->use_prevent_comment_modify_delete):?> selected<?php endif?>>활성화</option>
 							</select>
 							<p class="description">작성자 본인의 수정/삭제를 막을 때 사용해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="board_username_display_change">작성자 이름 표시 변경</label></th>
+						<td>
+							<select name="board_username_display_change" id="board_username_display_change">
+								<option value="">기본 (사용자명)</option>
+								<option value="name"<?php if($meta->board_username_display_change === 'name'):?> selected<?php endif?>>이름</option>
+								<option value="email"<?php if($meta->board_username_display_change === 'email'):?> selected<?php endif?>>이메일</option>
+							</select>
+							<p class="description">게시글 리스트, 본문에서 작성자 정보를 어떤 형식으로 표시할지 설정합니다.</p>
+						</td>
+					</tr>
+
+					<tr valign="top">
+						<th scope="row"><label for="comments_username_display_change">댓글 작성자 이름 표시 변경</label></th>
+						<td>
+							<select name="comments_username_display_change" id="comments_username_display_change">
+								<option value="">기본 (사용자명)</option>
+								<option value="name"<?php if($meta->comments_username_display_change === 'name'):?> selected<?php endif?>>이름</option>
+								<option value="email"<?php if($meta->comments_username_display_change === 'email'):?> selected<?php endif?>>이메일</option>
+							</select>
+							<p class="description">댓글 작성자의 표시 형식을 설정합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1409,6 +1375,70 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="tab-kboard-setting">
+			<table class="form-table">
+				<tbody>
+				<tr valign="top">
+					<th scope="row"><label for="use_category">카테고리 사용</label></th>
+					<td>
+						<select name="use_category" id="use_category">
+							<option value="">비활성화</option>
+							<option value="yes"<?php if($board->use_category == 'yes'):?> selected<?php endif?>>활성화</option>
+						</select>
+						<p class="description">카테고리를 사용해서 게시글을 분리할 수 있습니다.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="use_tree_category">카테고리 선택</label></th>
+					<td>
+						<select name="use_tree_category" id="use_tree_category">
+							<option value="">기본 카테고리 사용</option>
+							<option value="yes"<?php if($board->meta->use_tree_category == 'yes'):?> selected<?php endif?>>계층형 카테고리 사용</option>
+						</select>
+						<a class="button button-small" href="#tab-kboard-setting-4" onclick="kboard_setting_tab_change(4);">계층형 카테고리 관리</a>
+						<p class="description">기본 카테고리를 사용하시려면 아래의 <label for="category1_list" style="font-weight:bold">카테고리1</label>과 <label for="category2_list" style="font-weight:bold">카테고리2</label> 설정을 세팅해주세요.</p>
+						<p class="description">계층형 카테고리를 선택하면 기본 카테고리는 사용이 중지됩니다.</p>
+						<p class="description">계층형 카테고리가 적용되지 않는 일부 스킨에는 기본 카테고리를 사용해주세요.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="category1_list">카테고리1</label></th>
+					<td>
+						<input type="text" name="category1_list" id="category1_list" value="<?php echo $board->category1_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+						<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="category2_list">카테고리2</label></th>
+					<td>
+						<input type="text" name="category2_list" id="category2_list" value="<?php echo $board->category2_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+						<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="category3_list">카테고리3</label></th>
+					<td>
+						<input type="text" name="category3_list" id="category3_list" value="<?php echo $board->category3_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+						<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="category4_list">카테고리4</label></th>
+					<td>
+						<input type="text" name="category4_list" id="category4_list" value="<?php echo $board->category4_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+						<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="category5_list">카테고리5</label></th>
+					<td>
+						<input type="text" name="category5_list" id="category5_list" value="<?php echo $board->category5_list?>" class="regular-text" placeholder="예제 : 자유게시판,공지사항">
+						<p class="description">특수문자는 사용할 수 없습니다. 여러 카테고리를 입력하실 경우 콤마(,)로 구분됩니다.</p>
+					</td>
+				</tr>
+				</tbody>
+			</table>
 		</div>
 		<div class="tab-kboard-setting">
 			<div class="kboard-tree-category-wrap">

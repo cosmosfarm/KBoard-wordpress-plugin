@@ -1717,18 +1717,29 @@ class KBContent {
 		if($this->uid){
 			$user_id = $this->getUserID();
 			$user_name = esc_html($this->getUserName());
+			$user = get_userdata($user_id);
 			$type = 'kboard';
 			$builder = $kboard_builder;
-			
-			if(!$user_display){
-				$user_display = $user_name;
-			}
-			
 			$board = $this->getBoard();
-			if($board->meta->board_username_masking){ // 게시판 작성자 이름 숨기기 활성화
-				$user_display  = esc_html($this->getObfuscateName());
+			
+			$user_display = $user_name;
+			
+			if ($board->meta->board_username_display_change === 'name') {
+				$first_name = isset($user->first_name) ? trim($user->first_name) : '';
+				$last_name  = isset($user->last_name) ? trim($user->last_name) : '';
+				
+				if ($first_name || $last_name) {
+					$user_display = esc_html(trim("{$last_name} {$first_name}"));
+				}
+			}
+			else if ($board->meta->board_username_display_change === 'email' && isset($user->user_email)) {
+				$user_display = esc_html($user->user_email);
 			}
 			
+			// 3. 무조건 마스킹 옵션 체크 (표시 변경 결과에도 적용)
+			if ($board->meta->board_username_masking) {
+				$user_display = esc_html($this->getObfuscateName($user_display));
+			}
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
 		}
 		return $user_display;
@@ -1739,22 +1750,19 @@ class KBContent {
 	 * @param string $replace
 	 * @return string
 	 */
-	public function getObfuscateName($replace='*'){
-		if($this->uid && $this->member_display){
-			$strlen = mb_strlen($this->member_display, 'utf-8');
-			
-			if($strlen > 3){
-				$showlen = 2;
+		public function getObfuscateName($target_name = '', $replace = '*'){
+			$display = $target_name ?: $this->member_display;
+		
+			if($this->uid && $display){
+				$strlen = mb_strlen($display, 'utf-8');
+				$showlen = $strlen > 3 ? 2 : 1;
+				
+				$obfuscate_name = mb_substr($display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen - $showlen);
+				return apply_filters('kboard_obfuscate_name', $obfuscate_name, $display, $this, $this->getBoard());
 			}
-			else{
-				$showlen = 1;
-			}
-			
-			$obfuscate_name = mb_substr($this->member_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen-$showlen);
-			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->member_display, $this, $this->getBoard());
+		
+			return apply_filters('kboard_obfuscate_name', '', '', $this, $this->getBoard());
 		}
-		return apply_filters('kboard_obfuscate_name', '', '', $this, $this->getBoard());
-	}
 	
 	/**
 	 * 게시글에 저장된 카테고리의 값을 반환한다.
