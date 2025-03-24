@@ -651,26 +651,30 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="board_username_display_change">작성자 이름 표시 변경</label></th>
+						<th scope="row"><label for="board_username_display_change">작성자명 저장 방법</label></th>
 						<td>
 							<select name="board_username_display_change" id="board_username_display_change">
-								<option value="">기본 (사용자명)</option>
+								<option value="">공개적으로 보일 이름</option>
 								<option value="name"<?php if($meta->board_username_display_change === 'name'):?> selected<?php endif?>>이름</option>
 								<option value="email"<?php if($meta->board_username_display_change === 'email'):?> selected<?php endif?>>이메일</option>
 							</select>
-							<p class="description">게시글 리스트, 본문에서 작성자 정보를 어떤 형식으로 표시할지 설정합니다.</p>
+							<p class="description">게시글 작성자명 저장 방법을 설정합니다.</p>
+							<p class="description">기존에 작성된 글은 적용되지 않습니다.</p>
+							<p class="description">로그인한 사용자가 글 작성할 때만 적용됩니다.</p>
 						</td>
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><label for="comments_username_display_change">댓글 작성자 이름 표시 변경</label></th>
+						<th scope="row"><label for="comments_username_display_change">댓글 작성자명 저장 방법</label></th>
 						<td>
 							<select name="comments_username_display_change" id="comments_username_display_change">
-								<option value="">기본 (사용자명)</option>
+								<option value="">공개적으로 보일 이름</option>
 								<option value="name"<?php if($meta->comments_username_display_change === 'name'):?> selected<?php endif?>>이름</option>
 								<option value="email"<?php if($meta->comments_username_display_change === 'email'):?> selected<?php endif?>>이메일</option>
 							</select>
-							<p class="description">댓글 작성자의 표시 형식을 설정합니다.</p>
+							<p class="description">댓글 작성자명 저장 방법을 설정합니다.</p>
+							<p class="description">기존에 작성된 글은 적용되지 않습니다.</p>
+							<p class="description">로그인한 사용자가 글 작성할 때만 적용됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

@@ -62,12 +62,6 @@ class KBCommentController {
 			$status = isset($_POST['status'])?sanitize_key($_POST['status']):'';
 			$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
 			
-			if(is_user_logged_in()){
-				$current_user = wp_get_current_user();
-				$member_uid = $current_user->ID;
-				$member_display = $member_display ? $member_display : $current_user->display_name;
-			}
-			
 			$option = new stdClass();
 			foreach($_POST as $key=>$value){
 				if(strpos($key, $this->skin_option_prefix) !== false){
@@ -80,6 +74,23 @@ class KBCommentController {
 			$document = new KBContent();
 			$document->initWithUID($content_uid);
 			$board = new KBoard($document->board_id);
+			
+			if(is_user_logged_in()){
+				$current_user = wp_get_current_user();
+				$member_uid = $current_user->ID;
+				
+				if ($board->meta->comments_username_display_change === 'name') {
+					$first_name = trim($current_user->user_firstname);
+					$last_name = trim($current_user->user_lastname);
+					$member_display = trim($last_name . ' ' . $first_name);
+				}
+				else if ($board->meta->comments_username_display_change === 'email') {
+					$member_display = $current_user->user_email;
+				}
+				else {
+					$member_display = $current_user->display_name;
+				}
+			}
 			
 			// 임시저장
 			$temporary = new stdClass();

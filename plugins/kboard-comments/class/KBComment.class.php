@@ -356,46 +356,33 @@ class KBComment {
 			$user_id = $this->getUserID();
 			$user_name = esc_html($this->getUserName());
 			$type = 'kboard-comments';
-			$user      = get_userdata($user_id);
 			$builder = $kboard_comment_builder;
+			
+			if(!$user_display){
+				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $user_name), $user_name);
+			}
+			
 			$board = $this->getBoard();
-			
-			$display_name = $user_name;
-			
-			// 댓글 표시 변경: 이름
-			if($board->meta->comments_username_display_change === 'name'){
-				$first_name = isset($user->first_name) ? trim($user->first_name) : '';
-				$last_name  = isset($user->last_name) ? trim($user->last_name) : '';
-
-				if($first_name || $last_name){
-					$display_name = esc_html(trim("{$last_name} {$first_name}"));
+			if($board->meta->comments_username_masking == '1'){ // 댓글 작성자 이름 숨기기 활성화 (모두 적용)
+				$obfuscate_name = esc_html($this->getUserName());
+				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $obfuscate_name), $obfuscate_name);
+			}
+			else if($board->meta->comments_username_masking == '2'){ // 댓글 작성자 이름 숨기기 활성화 (각자 적용)
+				if($this->option->hide == '1'){
+					$obfuscate_name = esc_html($this->getUserName());
+					$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $obfuscate_name), $obfuscate_name);
 				}
 			}
-			// 댓글 표시 변경: 이메일
-			else if($board->meta->comments_username_display_change === 'email' && isset($user->user_email)){
-				$display_name = esc_html($user->user_email);
-			}
-		
-			// 기본 출력
-			$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $display_name), $display_name);
-
-			// 마스킹 (모두 적용)
-			if($board->meta->comments_username_masking == '1'){
-				$masked_name = esc_html($this->getObfuscateName($display_name));
-				$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $masked_name), $masked_name);
-			}
-			// 마스킹 (각자 설정)
-			else if($board->meta->comments_username_masking == '2' && $this->option->hide == '1'){
-				$masked_name = esc_html($this->getObfuscateName($display_name));
-				$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $masked_name), $masked_name);
-			}
-
-			// 익명 설정
-			if($board->meta->comments_anonymous == '1' || ($board->meta->comments_anonymous == '2' && $this->option->anonymous == '1')){
+			
+			if($board->meta->comments_anonymous == '1'){
 				$user_display = sprintf('%s %s', get_avatar('', 24, '', '익명'), '익명');
 			}
-
-			// 승인 대기 중인 댓글
+			else if($board->meta->comments_anonymous == '2'){
+				if($this->option->anonymous == '1'){
+					$user_display = sprintf('%s %s', get_avatar('', 24, '', '익명'), '익명');
+				}
+			}
+			
 			if($board->meta->comment_permit && $this->status == 'pending_approval'){
 				$user_display = '승인 대기중';
 			}
@@ -407,25 +394,23 @@ class KBComment {
 	
 	/**
 	 * 작성자 이름을 읽을 수 없도록 만든다.
-	 * @param string $name 마스킹할 이름
 	 * @param string $replace
 	 * @return string
 	 */
-	public function getObfuscateName($name='', $replace='*'){
-		if(!$name && $this->user_display){
-			$name = $this->user_display;
+	public function getObfuscateName($replace='*'){
+		if($this->uid && $this->user_display){
+			$strlen = mb_strlen($this->user_display, 'utf-8');
+			
+			if($strlen > 3){
+				$showlen = 2;
+			}
+			else{
+				$showlen = 1;
+			}
+			
+			$obfuscate_name = mb_substr($this->user_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen-$showlen);
+			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->user_display, $this->getBoard());
 		}
-
-		if($name){
-			$strlen = mb_strlen($name, 'utf-8');
-
-			$showlen = ($strlen > 3) ? 2 : 1;
-
-			$obfuscate_name = mb_substr($name, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen - $showlen);
-
-			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $name, $this->getBoard());
-		}
-
 		return apply_filters('kboard_obfuscate_name', '', '', $this->getBoard());
 	}
 	
