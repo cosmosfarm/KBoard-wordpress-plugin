@@ -189,7 +189,7 @@ function kboard_setting_tab_change(index){
 	jQuery('.tab-kboard-setting').removeClass('tab-kboard-setting-active').eq(index).addClass('tab-kboard-setting-active');
 	jQuery('input[name=tab_kboard_setting]').val(index);
 
-	if(index == 3){
+	if(index == 4){
 		jQuery('#kboard-setting-form .submit').hide();
 	}
 	else{
