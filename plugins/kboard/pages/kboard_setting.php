@@ -107,6 +107,25 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 					<?php endif?>
 					<tr valign="top">
+						<th scope="row"><label for="latest_list_columns">최신글 리스트에 추가로 표시할 정보</label></th>
+						<td>
+							<input type="hidden" name="latest_list_columns" value="">
+							<?php
+							$latest_list_columns = $board->getLatestListColumns(); // 👈 함수로 가져옴
+							$options = array(
+								'author' => '작성자'
+							);
+							?>
+							<?php foreach($options as $key => $label): ?>
+								<label>
+									<input type="checkbox" name="latest_list_columns[]" value="<?php echo esc_attr($key) ?>" <?php if(in_array($key, $latest_list_columns)): ?>checked<?php endif ?>>
+									<?php echo esc_html($label) ?>
+								</label>
+							<?php endforeach; ?>
+							<p class="description">최신글 리스트에 추가로 보여줄 항목을 선택하세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="add_menu_page">관리자 페이지에서 게시판 보기</label></th>
 						<td>
 							<select name="add_menu_page" id="add_menu_page">
@@ -314,6 +333,32 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</select>
 							<p class="description">게시글 기본 정렬 순서를 설정합니다.</p>
 							<p class="description">게시판 첫 화면 에서만 적용됩니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="list_sorting_range_select">기간 내 게시글만 표시하기</label></th>
+						<td>
+							<select name="list_sorting_range_select" id="list_sorting_range_select">
+								<option value="">-- 선택하세요 --</option>
+								<option value="7" <?php selected($board->meta->list_sorting_range_select, '7'); ?>>최근 일주일</option>
+								<option value="30" <?php selected($board->meta->list_sorting_range_select, '30'); ?>>최근 한달</option>
+								<option value="365" <?php selected($board->meta->list_sorting_range_select, '365'); ?>>최근 1년</option>
+								<option value="custom" <?php selected($board->meta->list_sorting_range_select, 'custom'); ?>>직접 설정</option>
+							</select>
+
+							<div id="custom-date-range" style="margin-top: 10px; <?php echo ($board->meta->list_sorting_range_select === 'custom') ? '' : 'display:none'; ?>">
+								<label>
+									<input type="date" name="list_sorting_start_date" id="list_sorting_start_date" value="<?php echo esc_attr($board->meta->list_sorting_start_date) ?>">
+								</label>
+								~
+								<label>
+									<input type="date" name="list_sorting_end_date" id="list_sorting_end_date" value="<?php echo esc_attr($board->meta->list_sorting_end_date) ?>">
+								</label>
+							</div>
+							<p class="description">게시판 목록에 표시할 게시글의 기간을 선택할 수 있습니다.</p>
+							<p class="description">예: '최근 7일'을 선택하면 최근 일주일 이내에 작성된 게시글만 목록에 표시됩니다.</p>
+							<p class="description">기간을 설정하지 않으면 전체 게시글이 모두 표시됩니다.</p>
+							<p class="description">※ 인기글 및 공지사항은 기간 설정과 관계없이 항상 상단에 표시됩니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -587,6 +632,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="author_only_list">작성자 글만 보기 설정</label></th>
+						<td>
+							<select name="author_only_list" id="author_only_list">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->author_only_list):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">설정을 활성화 하면 리스트에서 작성자 클릭 시 작성자 글만 모아볼수있습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="permit">게시글 관리자 승인</label></th>
 						<td>
 							<select name="permit" id="permit">
@@ -651,7 +706,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="board_username_display_change">작성자명 저장 방법</label></th>
+						<th scope="row"><label for="board_username_display_change">게시글 작성자명 저장 방법</label></th>
 						<td>
 							<select name="board_username_display_change" id="board_username_display_change">
 								<option value="">공개적으로 보일 이름</option>

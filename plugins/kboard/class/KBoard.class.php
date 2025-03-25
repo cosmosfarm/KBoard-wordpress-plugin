@@ -136,6 +136,21 @@ class KBoard {
 	}
 	
 	/**
+	 * 최신글 목록에 추가할 정보를 반환한다.
+	 * @return array
+	 */
+	public function getLatestListColumns(){
+		if($this->meta->latest_list_columns){
+			$value = trim(stripslashes($this->meta->latest_list_columns));
+			$data = @unserialize($value);
+			if(is_array($data)){
+				return $data;
+			}
+		}
+		return array();
+	}
+	
+	/**
 	 * 카테고리1 정보를 초기화 한다.
 	 * @return string
 	 */

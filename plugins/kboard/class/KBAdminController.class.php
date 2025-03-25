@@ -132,6 +132,7 @@ class KBAdminController {
 				$board->meta->view_iframe                       = isset($_POST['view_iframe'])                       ? $_POST['view_iframe']                       : '';
 				$board->meta->editor_view_iframe                = isset($_POST['editor_view_iframe'])                ? $_POST['editor_view_iframe']                : '';
 				$board->meta->permission_list                   = isset($_POST['permission_list'])                   ? $_POST['permission_list']                   : '';
+				$board->meta->author_only_list                  = isset($_POST['author_only_list'])                  ? $_POST['author_only_list']                  : '';
 				$board->meta->permission_access                 = isset($_POST['permission_access'])                 ? $_POST['permission_access']                 : '';
 				$board->meta->permission_reply                  = isset($_POST['permission_reply'])                  ? $_POST['permission_reply']                  : '';
 				$board->meta->permission_comment_write          = isset($_POST['permission_comment_write'])          ? $_POST['permission_comment_write']          : '';
@@ -149,6 +150,9 @@ class KBAdminController {
 				$board->meta->max_attached_count                = isset($_POST['max_attached_count'])                ? $_POST['max_attached_count']                : '';
 				$board->meta->list_sort_numbers                 = isset($_POST['list_sort_numbers'])                 ? $_POST['list_sort_numbers']                 : '';
 				$board->meta->list_default_sorting              = isset($_POST['list_default_sorting'])              ? $_POST['list_default_sorting']              : '';
+				$board->meta->list_sorting_range_select         = isset($_POST['list_sorting_range_select'])         ? $_POST['list_sorting_range_select']         : '';
+				$board->meta->list_sorting_start_date           = isset($_POST['list_sorting_start_date'])           ? $_POST['list_sorting_start_date']           : '';
+				$board->meta->list_sorting_end_date             = isset($_POST['list_sorting_end_date'])             ? $_POST['list_sorting_end_date']             : '';
 				$board->meta->permit                            = isset($_POST['permit'])                            ? $_POST['permit']                            : '';
 				$board->meta->comment_permit                    = isset($_POST['comment_permit'])                    ? $_POST['comment_permit']                    : '';
 				$board->meta->secret_checked_default            = isset($_POST['secret_checked_default'])            ? $_POST['secret_checked_default']            : '';
@@ -176,6 +180,9 @@ class KBAdminController {
 				$board->meta->popular_name                      = isset($_POST['popular_name'])                      ? sanitize_text_field($_POST['popular_name']) : '';
 				$board->meta->display_name_masking              = isset($_POST['display_name_masking'])              ? $_POST['display_name_masking']              : '';
 				
+				if(isset($_POST['latest_list_columns'])){
+					$board->meta->latest_list_columns = serialize($_POST['latest_list_columns']);
+				}
 				if(isset($_POST['permission_read_roles'])){
 					$board->meta->permission_read_roles = serialize($_POST['permission_read_roles']);
 				}
@@ -202,7 +209,6 @@ class KBAdminController {
 				}
 				
 				$board->meta->skin_fields                    = isset($_POST['fields'])                         ? serialize($_POST['fields'])                     : '';
-				
 				$board->meta->point_applied_to               = isset($_POST['point_applied_to'])               ? sanitize_text_field($_POST['point_applied_to']) : '';
 				$board->meta->document_insert_up_point       = isset($_POST['document_insert_up_point'])       ? abs(intval($_POST['document_insert_up_point']))       : '';
 				$board->meta->document_insert_down_point     = isset($_POST['document_insert_down_point'])     ? abs(intval($_POST['document_insert_down_point']))     : '';

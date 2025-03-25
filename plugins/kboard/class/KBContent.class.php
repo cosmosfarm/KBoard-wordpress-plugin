@@ -1741,6 +1741,10 @@ class KBContent {
 				$user_display  = esc_html($this->getObfuscateName());
 			}
 			
+			if($board->meta->author_only_list){
+				$user_display = $this->getUserDisplayLink($user_id, $user_display);
+			}
+			
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
 		}
 		return $user_display;
@@ -1768,6 +1772,21 @@ class KBContent {
 		return apply_filters('kboard_obfuscate_name', '', '', $this, $this->getBoard());
 	}
 	
+	/**
+	 * 작성자 링크를 반환한다.
+	 * @param int $user_id
+	 * @param string $user_display
+	 * @return string
+	 */
+	public function getUserDisplayLink($user_id, $user_display){
+		if($user_id && $user_display){
+			$url = new KBUrl();
+			$user_link = $url->set('mod', 'list')->set('author_id', $user_id)->toString();
+			return "<a href='{$user_link}'>{$user_display}</a>";
+		}
+		return $user_display;
+	}
+
 	/**
 	 * 게시글에 저장된 카테고리의 값을 반환한다.
 	 * @param string $format

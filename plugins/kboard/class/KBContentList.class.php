@@ -376,6 +376,28 @@ class KBContentList {
 			$this->sort = "`{$wpdb->prefix}kboard_board_content`.`date`";
 			$this->order = 'DESC';
 		}
+		$board = new KBoard($this->board_id);
+		$range_type = $board->meta->list_sorting_range_select;
+		
+		if ($range_type === '7' || $range_type === '30' || $range_type === '365') {
+			$this->start_date = date('Ymd', strtotime("-{$range_type} days", current_time('timestamp')));
+			$this->end_date = ''; // 오늘까지
+		}
+		else if ($range_type === 'custom') {
+			$this->start_date = preg_replace('/[^0-9]/', '', $board->meta->list_sorting_start_date);
+			$this->end_date = preg_replace('/[^0-9]/', '', $board->meta->list_sorting_end_date);
+		}
+		else {
+			$this->start_date = '';
+			$this->end_date = '';
+		}
+		
+		if ($this->start_date) {
+			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`date` >= '{$this->start_date}'";
+		}
+		if ($this->end_date) {
+			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`date` <= '{$this->end_date}'";
+		}
 		
 		if($this->getSorting() == 'newest'){
 			// 최신순서
@@ -417,6 +439,12 @@ class KBContentList {
 			}
 		}
 		
+		// 작성자 글만 보기 설정이 활성화된 경우 member_uid 필터 추가
+		if($board->meta->author_only_list && isset($_GET['author_id']) && $_GET['author_id']){
+			$author_id = esc_sql($_GET['author_id']);
+			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`member_uid`='{$author_id}'";
+		}
+	
 		if(!in_array($this->compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
 			$this->compare = 'LIKE';
 		}

@@ -156,6 +156,8 @@ jQuery(document).ready(function(){
 	jQuery(document).on('focus', '.extends.time .default_value', function(){
 		jQuery(this).timepicker({'timeFormat': 'HH:mm:ss'});
 	});
+	
+	kboard_init_sorting_range_toggle();
 });
 
 function kboard_radio_reset(obj){
@@ -360,6 +362,28 @@ function kboard_csv_upload(){
 	jQuery('input[name=action]', '#kboard-setting-form').val('kboard_csv_upload_execute');
 	jQuery('#kboard-setting-form').submit();
 }
+
+function kboard_init_sorting_range_toggle(){
+	const $rangeSelect = jQuery('#list_sorting_range_select');
+	const $customDateRange = jQuery('#custom-date-range');
+
+	function toggleCustomDateRange() {
+		if ($rangeSelect.val() === 'custom') {
+			$customDateRange.show();
+		} else {
+			$customDateRange.hide();
+		}
+	}
+
+	// 최초 로드 시 상태 반영
+	toggleCustomDateRange();
+
+	// 셀렉트 변경 시 반응
+	$rangeSelect.on('change', function() {
+		toggleCustomDateRange();
+	});
+}
+
 /**
  * JavaScript alternative of PHP uniqid()
  * original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
