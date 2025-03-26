@@ -132,7 +132,7 @@ class KBAdminController {
 				$board->meta->view_iframe                       = isset($_POST['view_iframe'])                       ? $_POST['view_iframe']                       : '';
 				$board->meta->editor_view_iframe                = isset($_POST['editor_view_iframe'])                ? $_POST['editor_view_iframe']                : '';
 				$board->meta->permission_list                   = isset($_POST['permission_list'])                   ? $_POST['permission_list']                   : '';
-				$board->meta->author_only_list                  = isset($_POST['author_only_list'])                  ? $_POST['author_only_list']                  : '';
+				$board->meta->show_author_activity_menu         = isset($_POST['show_author_activity_menu'])         ? $_POST['show_author_activity_menu']         : '';
 				$board->meta->permission_access                 = isset($_POST['permission_access'])                 ? $_POST['permission_access']                 : '';
 				$board->meta->permission_reply                  = isset($_POST['permission_reply'])                  ? $_POST['permission_reply']                  : '';
 				$board->meta->permission_comment_write          = isset($_POST['permission_comment_write'])          ? $_POST['permission_comment_write']          : '';

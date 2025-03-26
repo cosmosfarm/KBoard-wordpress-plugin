@@ -440,7 +440,7 @@ class KBContentList {
 		}
 		
 		// 작성자 글만 보기 설정이 활성화된 경우 member_uid 필터 추가
-		if($board->meta->author_only_list && isset($_GET['author_id']) && $_GET['author_id']){
+		if($board->meta->show_author_activity_menu && isset($_GET['author_id']) && $_GET['author_id']){
 			$author_id = esc_sql($_GET['author_id']);
 			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`member_uid`='{$author_id}'";
 		}

@@ -632,13 +632,17 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="author_only_list">작성자 글만 보기 설정</label></th>
+						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기</label></th>
 						<td>
-							<select name="author_only_list" id="author_only_list">
+							<select name="show_author_activity_menu" id="show_author_activity_menu">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->author_only_list):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->show_author_activity_menu):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">설정을 활성화 하면 리스트에서 작성자 클릭 시 작성자 글만 모아볼수있습니다.</p>
+							<p class="description"> 활성화하면 게시글 목록에서 작성자 이름을 클릭 시 해당 사용자의 글과 댓글을 볼 수 있는 메뉴가 표시됩니다.</p>
+							<p class="description"> 작성자 이름을 클릭하면 작은 메뉴가 열립니다.</p>
+							<p class="description"> 해당 메뉴를 통해 작성자의 다른 글이나 댓글을 빠르게 확인할 수 있습니다.</p>
+							<p class="description"> 예: "작성 게시글 보기", "작성 댓글 보기" 메뉴 표시</p>
+							<p class="description"> <strong>탈퇴했거나 존재하지 않는 사용자</strong>는 메뉴를 클릭해도 동작하지 않습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

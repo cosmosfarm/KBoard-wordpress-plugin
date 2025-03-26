@@ -241,3 +241,13 @@ button.kboard-default-button-small:active { opacity: 0.7; }
 	#kboard-default-document .kboard-document-navi .kboard-prev-document { width: 100%; }
 	#kboard-default-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
 }
+
+/* 작성자 메뉴 */
+.kboard-author-dropdown { position: relative; display: inline-block; cursor: pointer; }
+.kboard-author-menu { position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 1000; width: 150px; display: none; border-radius: 4px; }
+.kboard-author-menu ul { list-style: none; margin: 0; padding: 0; }
+.kboard-author-menu li { padding: 8px 12px; border-bottom: 1px solid #eee; }
+.kboard-author-menu li:last-child { border-bottom: none; }
+.kboard-author-menu li a { text-decoration: none; color: #333; display: block;font-size: 14px; }
+.kboard-author-menu li a:hover { background: #f5f5f5; color: #000; }
+.kboard-author-name { word-break: break-all };

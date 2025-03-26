@@ -1741,8 +1741,9 @@ class KBContent {
 				$user_display  = esc_html($this->getObfuscateName());
 			}
 			
-			if($board->meta->author_only_list){
-				$user_display = $this->getUserDisplayLink($user_id, $user_display);
+			// 출력 HTML 구성
+			if($board->meta->show_author_activity_menu){
+				$user_display = $this->getUserDisplayDropdown($user_display, $user_id);
 			}
 			
 			$user_display = apply_filters('kboard_user_display', $user_display, $user_id, $user_name, $type, $builder);
@@ -1773,18 +1774,28 @@ class KBContent {
 	}
 	
 	/**
-	 * 작성자 링크를 반환한다.
-	 * @param int $user_id
-	 * @param string $user_display
-	 * @return string
+	 * 작성자 드롭다운 HTML 반환
+	 * 
+	 * @param string $user_display 표시될 작성자 이름
+	 * @param int $user_id 사용자 ID
+	 * @return string HTML 출력 문자열
 	 */
-	public function getUserDisplayLink($user_id, $user_display){
-		if($user_id && $user_display){
-			$url = new KBUrl();
-			$user_link = $url->set('mod', 'list')->set('author_id', $user_id)->toString();
-			return "<a href='{$user_link}'>{$user_display}</a>";
-		}
-		return $user_display;
+	public function getUserDisplayDropdown($user_display, $user_id){
+		$url = new KBUrl();
+
+		$author_list_url = esc_url($url->set('mod', 'list')->set('author_id', $user_id)->toString());
+		$author_comments_url = esc_url($url->set('mod', 'comments')->set('author_id', $user_id)->toString());
+
+		return '
+		<div class="kboard-author-dropdown">
+			<span class="kboard-author-name" onclick="kboardToggleAuthorMenu(this)">' . esc_html($user_display) . '</span>
+			<div class="kboard-author-menu">
+				<ul>
+					<li><a href="' . $author_list_url . '">' . __('작성 게시글 보기', 'kboard') . '</a></li>
+					<li><a href="' . $author_comments_url . '">' . __('작성 댓글 보기', 'kboard') . '</a></li>
+				</ul>
+			</div>
+		</div>';
 	}
 
 	/**

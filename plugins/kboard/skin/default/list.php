@@ -181,3 +181,5 @@
 	</div>
 	<?php endif?>
 </div>
+
+<?php wp_enqueue_script('kboard-default-script', "{$skin_path}/script.js", array(), KBOARD_VERSION, true)?>
