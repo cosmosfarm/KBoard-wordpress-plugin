@@ -79,12 +79,12 @@ class KBCommentController {
 				$current_user = wp_get_current_user();
 				$member_uid = $current_user->ID;
 				
-				if ($board->meta->comments_username_display_change === 'name') {
+				if ($board->meta->comments_username_display_save === 'name') {
 					$first_name = trim($current_user->user_firstname);
 					$last_name = trim($current_user->user_lastname);
 					$member_display = trim($last_name . ' ' . $first_name);
 				}
-				else if ($board->meta->comments_username_display_change === 'email') {
+				else if ($board->meta->comments_username_display_save === 'email') {
 					$member_display = $current_user->user_email;
 				}
 				else {
@@ -353,8 +353,8 @@ class KBCommentController {
 				$url = new KBUrl();
 				$mail = kboard_mail();
 				$mail->to = $email;
-				$mail->title = apply_filters('kboard_new_comment_alerts_subject', '['.__('신규 댓글', 'kboard').'] ' .__('작성하신 글에 새로운 댓글이 달렸습니다.', 'kboard'));
-				$mail->content = apply_filters('kboard_new_comment_alerts_message',$content);
+				$mail->title = apply_filters('kboard_new_comment_alerts_subject', '['.__('신규 댓글', 'kboard').'] ' .__('작성하신 글에 새로운 댓글이 달렸습니다.', 'kboard'), $this);
+				$mail->content = apply_filters('kboard_new_comment_alerts_message', $content, $this);
 				$mail->url = $url->getDocumentRedirect($document->uid);
 				$mail->url_name = __('Go to Homepage', 'kboard');
 				$mail->send();

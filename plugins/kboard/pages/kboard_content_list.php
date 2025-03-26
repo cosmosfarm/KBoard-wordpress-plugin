@@ -43,17 +43,28 @@ function kboard_content_list_update(){
 	return false;
 }
 function kboard_content_list_filter(form){
-	var url = '<?php echo admin_url('admin.php?page=kboard_content_list')?>'
+	var url = '<?php echo admin_url('admin.php?page=kboard_content_list') ?>';
 	var filter_view = jQuery('input[name=filter_view]', form).val();
 	var board_id = jQuery('select[name=filter_board_id]', form).val();
+	var start_date = jQuery('input[name=start_date]', form).val();
+	var end_date = jQuery('input[name=end_date]', form).val();
+
 	if(filter_view){
-		url += '&filter_view='+filter_view;
+		url += '&filter_view=' + encodeURIComponent(filter_view);
 	}
 	if(board_id){
-		url += '&filter_board_id='+board_id;
+		url += '&filter_board_id=' + encodeURIComponent(board_id);
 	}
+	if(start_date){
+		url += '&start_date=' + encodeURIComponent(start_date);
+	}
+	if(end_date){
+		url += '&end_date=' + encodeURIComponent(end_date);
+	}
+	
 	window.location.href = url;
 }
+
 jQuery(document).ready(function(){
 	jQuery('.kboard-content-datepicker').datepicker({
 		closeText : '닫기',

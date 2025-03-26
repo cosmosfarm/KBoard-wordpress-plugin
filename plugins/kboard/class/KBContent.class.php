@@ -1556,12 +1556,12 @@ class KBContent {
 			$current_user = wp_get_current_user();
 			$board = $this->getBoard();
 			
-			if ($board->meta->board_username_display_change === 'name') {
+			if ($board->meta->board_username_display_save === 'name') {
 				$first_name = trim($current_user->user_firstname);
 				$last_name  = trim($current_user->user_lastname);
 				$this->member_display = $last_name . ' ' . $first_name;
 			}
-			else if ($board->meta->board_username_display_change === 'email') {
+			else if ($board->meta->board_username_display_save === 'email') {
 				$this->member_display = $current_user->user_email;
 			}
 			else {
@@ -1741,7 +1741,6 @@ class KBContent {
 				$user_display  = esc_html($this->getObfuscateName());
 			}
 			
-			// 출력 HTML 구성
 			if($board->meta->show_author_activity_menu){
 				$user_display = $this->getUserDisplayDropdown($user_display, $user_id);
 			}

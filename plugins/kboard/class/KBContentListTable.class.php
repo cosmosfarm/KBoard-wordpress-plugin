@@ -115,6 +115,10 @@ class KBContentListTable extends WP_List_Table {
 					<option value="<?php echo $board->uid?>"<?php if($this->filter_board_id == $board->uid):?> selected<?php endif?>><?php echo $board->board_name?></option>
 					<?php endforeach?>
 				</select>
+				
+				<input type="date" name="start_date" value="<?php echo esc_attr(kboard_start_date()) ?>" placeholder="시작일">
+				<input type="date" name="end_date" value="<?php echo esc_attr(kboard_end_date()) ?>" placeholder="종료일">
+				
 				<input type="button" name="filter_action" class="button" value="<?php echo __('Filter', 'kboard')?>" onclick="kboard_content_list_filter(this.form)">
 				<span class="spinner"></span>
 			</div>

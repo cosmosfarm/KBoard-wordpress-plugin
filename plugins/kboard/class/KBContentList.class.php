@@ -71,6 +71,19 @@ class KBContentList {
 	 */
 	public function initWithKeyword($keyword='', $search=''){
 		global $wpdb;
+		
+		$start_date = kboard_start_date();
+		$end_date = kboard_end_date();
+		
+		if($start_date){
+			$start_date = date('YmdHis', strtotime($start_date . ' 00:00:00'));
+			$where[] = "`date` >= '{$start_date}'";
+		}
+		if($end_date){
+			$end_date = date('YmdHis', strtotime($end_date . ' 23:59:59'));
+			$where[] = "`date` <= '{$end_date}'";
+		}
+		
 		if($keyword){
 			$keyword = esc_sql($keyword);
 			if($search){

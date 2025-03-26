@@ -107,7 +107,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 					<?php endif?>
 					<!-- <tr valign="top">
-						<th scope="row"><label for="latest_list_columns">최신글 리스트에 추가로 표시할 정보</label></th>
+						<th scope="row"><label for="latest_list_columns">최신글 리스트에 추가로 표시할 정보[개발중]</label></th>
 						<td>
 							<input type="hidden" name="latest_list_columns" value="">
 							<?php
@@ -632,7 +632,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기</label></th>
+						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기[개발중]</label></th>
 						<td>
 							<select name="show_author_activity_menu" id="show_author_activity_menu">
 								<option value="">비활성화</option>
@@ -710,12 +710,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="board_username_display_change">게시글 작성자명 저장 방법</label></th>
+						<th scope="row"><label for="board_username_display_save">게시글 작성자명 저장 방법</label></th>
 						<td>
-							<select name="board_username_display_change" id="board_username_display_change">
+							<select name="board_username_display_save" id="board_username_display_save">
 								<option value="">공개적으로 보일 이름</option>
-								<option value="name"<?php if($meta->board_username_display_change === 'name'):?> selected<?php endif?>>이름</option>
-								<option value="email"<?php if($meta->board_username_display_change === 'email'):?> selected<?php endif?>>이메일</option>
+								<option value="name"<?php if($meta->board_username_display_save === 'name'):?> selected<?php endif?>>이름</option>
+								<option value="email"<?php if($meta->board_username_display_save === 'email'):?> selected<?php endif?>>이메일</option>
 							</select>
 							<p class="description">게시글 작성자명 저장 방법을 설정합니다.</p>
 							<p class="description">기존에 작성된 글은 적용되지 않습니다.</p>
@@ -724,12 +724,12 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><label for="comments_username_display_change">댓글 작성자명 저장 방법</label></th>
+						<th scope="row"><label for="comments_username_display_save">댓글 작성자명 저장 방법</label></th>
 						<td>
-							<select name="comments_username_display_change" id="comments_username_display_change">
+							<select name="comments_username_display_save" id="comments_username_display_save">
 								<option value="">공개적으로 보일 이름</option>
-								<option value="name"<?php if($meta->comments_username_display_change === 'name'):?> selected<?php endif?>>이름</option>
-								<option value="email"<?php if($meta->comments_username_display_change === 'email'):?> selected<?php endif?>>이메일</option>
+								<option value="name"<?php if($meta->comments_username_display_save === 'name'):?> selected<?php endif?>>이름</option>
+								<option value="email"<?php if($meta->comments_username_display_save === 'email'):?> selected<?php endif?>>이메일</option>
 							</select>
 							<p class="description">댓글 작성자명 저장 방법을 설정합니다.</p>
 							<p class="description">기존에 작성된 글은 적용되지 않습니다.</p>

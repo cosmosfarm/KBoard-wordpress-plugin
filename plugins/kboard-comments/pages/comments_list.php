@@ -37,4 +37,20 @@ function kboard_comment_list_update(){
 	});
 	return false;
 }
+
+function kboard_comment_list_filter(form){
+	var url = '<?php echo admin_url('admin.php?page=kboard_comments_list') ?>';
+	
+	var start_date = jQuery('input[name=start_date]', form).val();
+	var end_date = jQuery('input[name=end_date]', form).val();
+	
+	if(start_date){
+		url += '&start_date=' + encodeURIComponent(start_date);
+	}
+	if(end_date){
+		url += '&end_date=' + encodeURIComponent(end_date);
+	}
+	
+	window.location.href = url;
+}
 </script>

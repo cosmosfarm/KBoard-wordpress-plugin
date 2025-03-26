@@ -115,19 +115,34 @@ class KBCommentList {
 	public function initWithKeyword($keyword, $search){
 		global $wpdb;
 		
+		$start_date = kboard_start_date();
+		$end_date = kboard_end_date();
+		
+		if($start_date){
+			$start_date = date('YmdHis', strtotime($start_date . ' 00:00:00'));
+			$where[] = "`created` >= '{$start_date}'";
+		}
+		if($end_date){
+			$end_date = date('YmdHis', strtotime($end_date . ' 23:59:59'));
+			$where[] = "`created` <= '{$end_date}'";
+		}
+		
 		if($keyword){
 			$keyword = esc_sql($keyword);
 			if($search){
 				$search = esc_sql($search);
-				$where = "(`{$search}` LIKE '%{$keyword}%')";
+				$where[] = "(`{$search}` LIKE '%{$keyword}%')";
 			}
 			else{
-				$where = "`content` LIKE '%$keyword%'";
+				$where[] = "`content` LIKE '%$keyword%'";
 			}
 		}
-		else{
-			$where = '1=1';
+		
+		if(empty($where)){
+			$where[] = '1=1';
 		}
+		
+		$where = implode(' AND ', $where);
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
