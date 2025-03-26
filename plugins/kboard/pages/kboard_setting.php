@@ -106,7 +106,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<?php endif?>
-					<tr valign="top">
+					<!-- <tr valign="top">
 						<th scope="row"><label for="latest_list_columns">최신글 리스트에 추가로 표시할 정보</label></th>
 						<td>
 							<input type="hidden" name="latest_list_columns" value="">
@@ -124,7 +124,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<?php endforeach; ?>
 							<p class="description">최신글 리스트에 추가로 보여줄 항목을 선택하세요.</p>
 						</td>
-					</tr>
+					</tr> -->
 					<tr valign="top">
 						<th scope="row"><label for="add_menu_page">관리자 페이지에서 게시판 보기</label></th>
 						<td>
@@ -638,10 +638,10 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->show_author_activity_menu):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description"> 활성화하면 게시글 목록에서 작성자 이름을 클릭 시 해당 사용자의 글과 댓글을 볼 수 있는 메뉴가 표시됩니다.</p>
+							<p class="description"> 활성화하면 게시글 목록에서 작성자 이름을 클릭 시 해당 사용자의 글을 볼 수 있는 메뉴가 표시됩니다.</p>
 							<p class="description"> 작성자 이름을 클릭하면 작은 메뉴가 열립니다.</p>
 							<p class="description"> 해당 메뉴를 통해 작성자의 다른 글이나 댓글을 빠르게 확인할 수 있습니다.</p>
-							<p class="description"> 예: "작성 게시글 보기", "작성 댓글 보기" 메뉴 표시</p>
+							<p class="description"> 예: "작성 게시글 보기", 메뉴 표시</p>
 							<p class="description"> <strong>탈퇴했거나 존재하지 않는 사용자</strong>는 메뉴를 클릭해도 동작하지 않습니다.</p>
 						</td>
 					</tr>

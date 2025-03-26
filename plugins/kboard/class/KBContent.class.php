@@ -1775,7 +1775,7 @@ class KBContent {
 	
 	/**
 	 * 작성자 드롭다운 HTML 반환
-	 * 
+	 *
 	 * @param string $user_display 표시될 작성자 이름
 	 * @param int $user_id 사용자 ID
 	 * @return string HTML 출력 문자열
@@ -1784,15 +1784,14 @@ class KBContent {
 		$url = new KBUrl();
 
 		$author_list_url = esc_url($url->set('mod', 'list')->set('author_id', $user_id)->toString());
-		$author_comments_url = esc_url($url->set('mod', 'comments')->set('author_id', $user_id)->toString());
-
+		// $author_comments_url = esc_url($url->getCommentsListWithAuthor($user_id));
+		
 		return '
 		<div class="kboard-author-dropdown">
 			<span class="kboard-author-name" onclick="kboardToggleAuthorMenu(this)">' . esc_html($user_display) . '</span>
 			<div class="kboard-author-menu">
 				<ul>
 					<li><a href="' . $author_list_url . '">' . __('작성 게시글 보기', 'kboard') . '</a></li>
-					<li><a href="' . $author_comments_url . '">' . __('작성 댓글 보기', 'kboard') . '</a></li>
 				</ul>
 			</div>
 		</div>';
