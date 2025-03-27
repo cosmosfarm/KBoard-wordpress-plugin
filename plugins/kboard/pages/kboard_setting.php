@@ -632,7 +632,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기[개발중]</label></th>
+						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기(개발중)</label></th>
 						<td>
 							<select name="show_author_activity_menu" id="show_author_activity_menu">
 								<option value="">비활성화</option>

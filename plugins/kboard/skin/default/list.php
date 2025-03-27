@@ -181,5 +181,23 @@
 	</div>
 	<?php endif?>
 </div>
+<script>
+	function kboardToggleAuthorMenu(element) {
+		const menu = element.nextElementSibling;
+		const allMenus = document.querySelectorAll('.kboard-author-menu');
+		allMenus.forEach(m => {
+			if (m !== menu) m.style.display = 'none';
+		});
+		menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+	}
 
-<?php wp_enqueue_script('kboard-default-script', "{$skin_path}/script.js", array(), KBOARD_VERSION, true)?>
+	// 바깥 클릭 시 닫힘
+	document.addEventListener('click', function(e) {
+		const target = e.target;
+		if (!target.closest('.kboard-author-dropdown')) {
+			document.querySelectorAll('.kboard-author-menu').forEach(menu => {
+				menu.style.display = 'none';
+			});
+		}
+	});
+</script>
