@@ -362,6 +362,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기(개발중)</label></th>
+						<td>
+							<select name="show_author_activity_menu" id="show_author_activity_menu">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->show_author_activity_menu):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description"> 활성화하면 게시글 목록에서 작성자 이름을 클릭 시 해당 사용자의 글을 볼 수 있는 메뉴가 표시됩니다.</p>
+							<p class="description"> 작성자 이름을 클릭하면 작은 메뉴가 열립니다.</p>
+							<p class="description"> 해당 메뉴를 통해 작성자의 다른 글이나 댓글을 빠르게 확인할 수 있습니다.</p>
+							<p class="description"> 예: "작성 게시글 보기", 메뉴 표시</p>
+							<p class="description"> <strong>탈퇴했거나 존재하지 않는 사용자</strong>는 메뉴를 클릭해도 동작하지 않습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"></th>
 						<td>
 							<ul class="cosmosfarm-news-list">
@@ -629,20 +643,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							</div>
 							<p class="description">본인의 글만 보기로 설정하면 관리자와의 1:1 게시판으로 운영이 가능합니다.</p>
 							<p class="description">공지사항은 항상 표시됩니다.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기(개발중)</label></th>
-						<td>
-							<select name="show_author_activity_menu" id="show_author_activity_menu">
-								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->show_author_activity_menu):?> selected<?php endif?>>활성화</option>
-							</select>
-							<p class="description"> 활성화하면 게시글 목록에서 작성자 이름을 클릭 시 해당 사용자의 글을 볼 수 있는 메뉴가 표시됩니다.</p>
-							<p class="description"> 작성자 이름을 클릭하면 작은 메뉴가 열립니다.</p>
-							<p class="description"> 해당 메뉴를 통해 작성자의 다른 글이나 댓글을 빠르게 확인할 수 있습니다.</p>
-							<p class="description"> 예: "작성 게시글 보기", 메뉴 표시</p>
-							<p class="description"> <strong>탈퇴했거나 존재하지 않는 사용자</strong>는 메뉴를 클릭해도 동작하지 않습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -1548,7 +1548,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</ul>
 					</div>
 				</div>
-				
+				<p class="description"><strong>계층형 카테고리란?</strong></p>
+				<p class="description">카테고리를 <u>1단계 → 2단계 → 3단계</u>처럼 계층 구조로 구성할 수 있습니다. 예를 들어, <code>고객센터 &gt; 회원문의 &gt; 로그인 오류</code>처럼 세분화된 카테고리 구성이 가능합니다.</p>
+				<p class="description"><strong>사용 안내:</strong></p>
+				<p class="description">- 왼쪽 입력창에서 <strong>새 카테고리 추가</strong> 및 <strong>이름 변경</strong>이 가능합니다.</p>
+				<p class="description">- 오른쪽의 카테고리 구조는 <strong>드래그 앤 드롭</strong>으로 정렬하거나 상하위 관계를 변경할 수 있습니다.</p>
+				<p class="description">- <strong>기본 카테고리 입력란(category1~5)은 비활성화되며</strong>, 계층형 카테고리만 사용됩니다.</p>
+				<p class="description"><strong>주의사항:</strong></p>
+				<p class="description">계층형 카테고리는 일부 커스터마이징 스킨에서는 지원되지 않을 수 있습니다. 이 경우 <strong>기본 카테고리</strong>를 사용해주세요.</p>
+				<p class="description"><strong>※</strong> 이 기능은 기본 카테고리 탭에서 <strong>“카테고리 선택”을 계층형 카테고리로 설정</strong>해야만 사용 가능합니다.</p>
 			</div>
 		</div>
 		<div class="tab-kboard-setting">
