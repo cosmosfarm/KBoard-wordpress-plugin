@@ -2009,20 +2009,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="exclude_admin_reply_alert">관리자 답글 알림 제외</label></th>
-						<td>
-							<select name="exclude_admin_reply_alert" id="exclude_admin_reply_alert">
-								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->exclude_admin_reply_alert):?> selected<?php endif?>>활성화</option>
-							</select>
-							<p class="description">
-								이메일 알림 기능을 사용하는 경우, 관리자 계정이 답글을 작성했을 때도 알림이 전송됩니다.<br>
-								이 옵션을 <strong>"활성화"</strong>하면 <strong>관리자가 답글을 작성할 때는 이메일 알림이 전송되지 않습니다.</strong><br>
-								일반 사용자가 답글을 작성할 경우에는 기존대로 알림이 정상적으로 전송됩니다.
-							</p>
-						</td>
-					</tr>
-					<tr valign="top">
 						<th scope="row"><label for="comment_alerts">댓글 이메일 알림</label></th>
 						<td>
 							<select name="comment_alerts" id="comment_alerts">
@@ -2034,6 +2020,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description">로그인하지 않았거나 로그인 상태이지만 사용자 정보에 이메일이 없는 경우에는 이메일이 전송되지 못할 수도 있습니다.</p>
 							<p class="description">서버 환경에 따라서 이메일이 전송되지 못 할 수도 있습니다.</p>
 							<p class="description">이메일 전송에 문제가 있다면 <a href="https://blog.cosmosfarm.com/?p=720" onclick="window.open(this.href);return false;">워드프레스 이메일 전송 문제 해결 방법</a>을 참고해주세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="exclude_admin_reply_alert">관리자 답글 알림 제외</label></th>
+						<td>
+							<select name="exclude_admin_reply_alert" id="exclude_admin_reply_alert">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->exclude_admin_reply_alert):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">
+								이메일 알림 기능을 사용하는 경우, 관리자 계정이 답글을 작성했을 때도 알림이 전송됩니다.<br>
+								이 옵션을 <strong>"활성화"</strong>하면 <strong>관리자가 답글을 작성할 때는 이메일 알림이 전송되지 않습니다.</strong><br>
+								일반 사용자가 답글을 작성할 경우에는 기존대로 알림이 정상적으로 전송됩니다.
+							</p>
 						</td>
 					</tr>
 				</tbody>
