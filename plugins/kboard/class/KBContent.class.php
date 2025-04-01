@@ -222,23 +222,25 @@ class KBContent {
 				
 				// 게시판 설정에 알림 이메일이 설정되어 있으면 메일을 보낸다.
 				if($board->meta->latest_alerts){
-					$this->initAttachedFiles();
-					
-					/*
-					 * https://www.cosmosfarm.com/threads/document/3025
-					 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
-					 */
-					$url = new KBUrl();
-					$mail = kboard_mail();
-					$mail->to = explode(',', $board->meta->latest_alerts);
-					$mail->title = apply_filters('kboard_latest_alerts_subject', '['.__('KBoard new document', 'kboard').'] '.$board->board_name.' - '.$this->title, $this);
-					$mail->content = apply_filters('kboard_latest_alerts_message', $this->getDocumentOptionsHTML() . $this->content, $this);
-					$mail->url = $url->getDocumentRedirect($this->uid);
-					$mail->url_name = __('Go to Homepage', 'kboard');
-					$mail->attachments = apply_filters('kboard_latest_alerts_attachments', $this->getMailAttachments(), $this);
-					$mail->send();
-					
-					$this->deleteMailAttachments();
+					if (!($board->meta->exclude_admin_reply_alert && $board->isAdmin() && $this->parent_uid)) {
+						$this->initAttachedFiles();
+				
+						/*
+						 * https://www.cosmosfarm.com/threads/document/3025
+						 * 메일 제목에 게시글이 등록된 게시판 이름 추가해서 보낸다.
+						 */
+						$url = new KBUrl();
+						$mail = kboard_mail();
+						$mail->to = explode(',', $board->meta->latest_alerts);
+						$mail->title = apply_filters('kboard_latest_alerts_subject', '['.__('KBoard new document', 'kboard').'] ' . $board->board_name . ' - ' . $this->title, $this);
+						$mail->content = apply_filters('kboard_latest_alerts_message', $this->getDocumentOptionsHTML() . $this->content, $this);
+						$mail->url = $url->getDocumentRedirect($this->uid);
+						$mail->url_name = __('Go to Homepage', 'kboard');
+						$mail->attachments = apply_filters('kboard_latest_alerts_attachments', $this->getMailAttachments(), $this);
+						$mail->send();
+				
+						$this->deleteMailAttachments();
+					}
 				}
 				
 				// 게시글 입력 액션 훅 실행
