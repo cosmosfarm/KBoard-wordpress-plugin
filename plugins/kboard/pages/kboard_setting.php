@@ -2100,12 +2100,4 @@ function kboard_copy_text(string){
 	document.addEventListener('copy', handler, true);
 	document.execCommand('copy');
 }
-var baseUrl = '<?php echo wp_nonce_url(
-	add_query_arg(array(
-		'action' => 'kboard_csv_download_execute',
-		'board_id' => $board->id
-	), admin_url('admin-post.php')
-), 'kboard-csv-download-execute', 'kboard-csv-download-execute-nonce', false); ?>';
-
-const finalUrl = baseUrl + '&kboard_csv_download_option=' + encodeURIComponent(option);
 </script>
