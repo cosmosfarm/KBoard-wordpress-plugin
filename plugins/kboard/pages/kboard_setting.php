@@ -1889,7 +1889,23 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row">CSV 파일 다운로드</th>
 						<td>
-							<input type="button" class="button-primary" value="<?php echo __('Download', 'kboard')?>" onclick="window.location.href='<?php echo wp_nonce_url(add_query_arg(array('action'=>'kboard_csv_download_execute', 'board_id'=>$board->id), admin_url('admin-post.php')), 'kboard-csv-download-execute', 'kboard-csv-download-execute-nonce')?>'">
+							<select id="kboard_csv_download_option">
+								<option value="">입력 필드 데이터 제외 (기본)</option>
+								<option value="1">본문 표시 필드만 포함</option>
+								<option value="2">모든 입력 필드 포함</option>
+							</select>
+							<br>
+							<input type="button" class="button-primary" value="<?php echo __('Download', 'kboard')?>" onclick="
+								const option = document.getElementById('kboard_csv_download_option').value;
+								const url = '<?php echo wp_nonce_url(add_query_arg(array('action'=>'kboard_csv_download_execute', 'board_id'=>$board->id), admin_url('admin-post.php')), 'kboard-csv-download-execute', 'kboard-csv-download-execute-nonce')?>';
+								window.location.href = url + '&kboard_csv_download_option=' + encodeURIComponent(option);
+							">
+							<p class="description"><strong>옵션 설명:</strong></p>
+							<ul style="margin: 4px 0 8px 20px; padding-left: 0; list-style: disc;">
+								<li><strong>입력 필드 데이터 제외 (기본)</strong>: 제목, 작성자, 날짜 등 기본 게시글 정보만 포함됩니다.</li>
+								<li><strong>본문 표시 필드만 포함</strong>: '게시글 본문에 표시' 체크된 입력 필드의 값만 게시글 내용에 병합됩니다.</li>
+								<li><strong>모든 입력 필드 포함</strong>: 입력된 모든 필드의 값이 게시글 내용에 포함되어 CSV에 기록됩니다.</li>
+							</ul>
 							<p class="description">대략 <?php echo number_format($board->getTotal())?>개의 게시글 정보를 다운로드합니다. (휴지통에 있는 게시글이 포함됩니다.)</p>
 							<p class="description">게시글 양이 많다면 웹호스팅의 트래픽 사용량이 높아지니 주의해주세요.</p>
 						</td>
@@ -2084,4 +2100,12 @@ function kboard_copy_text(string){
 	document.addEventListener('copy', handler, true);
 	document.execCommand('copy');
 }
+var baseUrl = '<?php echo wp_nonce_url(
+	add_query_arg(array(
+		'action' => 'kboard_csv_download_execute',
+		'board_id' => $board->id
+	), admin_url('admin-post.php')
+), 'kboard-csv-download-execute', 'kboard-csv-download-execute-nonce', false); ?>';
+
+const finalUrl = baseUrl + '&kboard_csv_download_option=' + encodeURIComponent(option);
 </script>

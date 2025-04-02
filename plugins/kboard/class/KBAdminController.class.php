@@ -357,6 +357,17 @@ class KBAdminController {
 			$board_id = isset($_GET['board_id'])?$_GET['board_id']:'';
 			$board = new KBoard($board_id);
 			
+			$fields = new KBoardFields($board);
+			$field_map = array(); // [meta_key => label]
+
+			foreach($fields->getSkinFields() as $field){
+				$meta_key = isset($field['meta_key']) ? $field['meta_key'] : '';
+				$label = $field['field_name'] ?? $field['field_label'] ?? $meta_key;
+				if($meta_key){
+					$field_map[$meta_key] = $label;
+				}
+			}
+			
 			if($board->id){
 				$date = date('YmdHis', current_time('timestamp'));
 				$filename = "KBoard-{$board->id}-{$date}.csv";
@@ -393,6 +404,10 @@ class KBAdminController {
 						$row_data['date'] = date('Y-m-d H:i:s', strtotime($row_data['date']));
 						$row_data['update'] = date('Y-m-d H:i:s', strtotime($row_data['update']));
 						
+						$option_mode = $_GET['kboard_csv_download_option'] ?? '';
+						$skin_fields = $fields->getSkinFields();
+						
+						//항상 옵션 필드를 컬럼으로 추가
 						foreach($option as $option_key){
 							$option_value = $content->option->{$option_key};
 							if(is_array($option_value)){
@@ -401,6 +416,30 @@ class KBAdminController {
 							else{
 								$row_data[] = $option_value;
 							}
+						}
+						
+						//설정에 따라 본문 content에 병합할지 결정
+						if ($option_mode == '1' || $option_mode == '2') {
+							$option_content = '';
+							foreach($option as $option_key){
+								$field = $skin_fields[$option_key] ?? null;
+
+								//show_document 체크된 필드만 본문에 포함
+								if ($option_mode == '1' && (!$field || empty($field['show_document']))) {
+									continue;
+								}
+
+								$label = $field_map[$option_key] ?? $option_key;
+								$option_value = $content->option->{$option_key};
+
+								if (is_array($option_value)) {
+									$option_value = json_encode($option_value, JSON_UNESCAPED_UNICODE);
+								}
+
+								$option_content .= "{$label} : {$option_value}\n";
+							}
+
+							$row_data['content'] = trim($option_content) . "\n\n" . $row_data['content'];
 						}
 						
 						foreach($row_data as $key=>$value){
