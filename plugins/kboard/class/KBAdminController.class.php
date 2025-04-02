@@ -409,12 +409,22 @@ class KBAdminController {
 						
 						//항상 옵션 필드를 컬럼으로 추가
 						foreach($option as $option_key){
-							$option_value = $content->option->{$option_key};
-							if(is_array($option_value)){
-								$row_data[] = json_encode($option_value, JSON_UNESCAPED_UNICODE);
+							// 주소 필드 예외 처리
+							if (isset($skin_fields[$option_key]) && $skin_fields[$option_key]['field_type'] === 'address') {
+								$postcode = $content->option->{$option_key . '_postcode'} ?? '';
+								$addr1 = $content->option->{$option_key . '_address_1'} ?? '';
+								$addr2 = $content->option->{$option_key . '_address_2'} ?? '';
+								$full_address = trim("({$postcode}) {$addr1} {$addr2}");
+								$row_data[] = $full_address;
 							}
-							else{
-								$row_data[] = $option_value;
+							else {
+								$option_value = $content->option->{$option_key};
+								if (is_array($option_value)) {
+									$row_data[] = json_encode($option_value, JSON_UNESCAPED_UNICODE);
+								}
+								else {
+									$row_data[] = $option_value;
+								}
 							}
 						}
 						
