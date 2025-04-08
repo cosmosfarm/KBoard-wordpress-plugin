@@ -373,6 +373,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<p class="description"> 해당 메뉴를 통해 작성자의 다른 글이나 댓글을 빠르게 확인할 수 있습니다.</p>
 							<p class="description"> 예: "작성 게시글 보기", 메뉴 표시</p>
 							<p class="description"> <strong>탈퇴했거나 존재하지 않는 사용자</strong>는 메뉴를 클릭해도 동작하지 않습니다.</p>
+							<p class="description">일부 스킨에서는 적용되지 않습니다.</p>
+							<p class="description">활성화하신 후 적용이 되지 않는 스킨은 비활성화해주시기 바랍니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

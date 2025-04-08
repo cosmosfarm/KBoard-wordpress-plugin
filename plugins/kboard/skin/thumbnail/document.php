@@ -134,3 +134,23 @@
 		<?php endif?>
 	</div>
 </div>
+<script>
+	function kboardToggleAuthorMenu(element) {
+		const menu = element.nextElementSibling;
+		const allMenus = document.querySelectorAll('.kboard-author-menu');
+		allMenus.forEach(m => {
+			if (m !== menu) m.style.display = 'none';
+		});
+		menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+	}
+
+	// 바깥 클릭 시 닫힘
+	document.addEventListener('click', function(e) {
+		const target = e.target;
+		if (!target.closest('.kboard-author-dropdown')) {
+			document.querySelectorAll('.kboard-author-menu').forEach(menu => {
+				menu.style.display = 'none';
+			});
+		}
+	});
+</script>
