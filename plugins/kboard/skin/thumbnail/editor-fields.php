@@ -181,7 +181,7 @@
 				<label class="attr-value-option"><input type="checkbox" name="secret" value="true" onchange="kboard_toggle_password_field(this)"<?php if($board->meta->secret_checked_forced && !$board->isAdmin()):?> checked disabled<?php endif?> <?php if($content->secret):?>checked <?php endif?>> <?php echo __('Secret', 'kboard')?></label>
 			<?php endif?>
 			<?php if($fields->isUseFields($field['notice_permission'], $field['notice'])):?>
-				<label class="attr-value-option"><input type="checkbox" name="notice" value="true"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
+				<label class="attr-value-option"><input type="checkbox" name="notice" value="true" onchange="kboard_toggle_notice_expired_date(this)"<?php if($content->notice):?> checked<?php endif?>> <?php echo __('Notice', 'kboard')?></label>
 			<?php endif?>
 			<?php do_action('kboard_skin_editor_option', $content, $board, $boardBuilder)?>
 			<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
@@ -192,6 +192,23 @@
 		<input style="width:0;height:0;background:transparent;color:transparent;border:none;" type="text" name="fake-autofill-fields">
 		<input style="width:0;height:0;background:transparent;color:transparent;border:none;" type="password" name="fake-autofill-fields">
 	</div>
+	<!-- 공지사항 만료 기간 필드 시작 -->
+	<div class="kboard-attr-row notice-expired-date-row" style="<?php echo ($content->notice && $board->meta->use_notice_expiration) ? '' : 'display:none'; ?>">
+	<label class="attr-name" for="notice_expired_date"><?php echo __('공지사항 만료', 'kboard')?></label>
+		<div class="attr-value">
+			<input type="datetime-local" id="notice_expired_date" name="notice_expired_date"
+				value="<?php echo esc_attr(
+					substr($content->notice_expired_date, 0, 4) . '-' .
+					substr($content->notice_expired_date, 4, 2) . '-' .
+					substr($content->notice_expired_date, 6, 2) . 'T' .
+					substr($content->notice_expired_date, 8, 2) . ':' .
+					substr($content->notice_expired_date, 10, 2)
+				); ?>">
+		</div>
+	</div>
+	<input type="hidden" name="use_notice_expiration" value="<?php echo esc_attr($board->meta->use_notice_expiration ? '1' : '0'); ?>">
+	<!-- 공지사항 만료 기간 필드 끝 -->
+	 
 	<!-- 비밀글 비밀번호 필드 시작 -->
 	<div class="kboard-attr-row kboard-attr-password secret-password-row"<?php if(!$content->secret):?> style="display:none"<?php endif?>>
 		<label class="attr-name" for="kboard-input-password"><?php echo __('Password', 'kboard')?> <span class="attr-required-text">*</span></label>

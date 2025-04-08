@@ -25,14 +25,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(1);"><?php echo __('권한설정', 'kboard')?></a>
 			<?php if($board->id):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(2);"><?php echo __('입력 필드', 'kboard')?></a>
-			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('기본 카테고리', 'kboard')?></a>
+			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('기본 카테고리(NEW)', 'kboard')?></a>
 			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('계층형 카테고리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('고급설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('소셜댓글', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('대량관리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('인기글 표시', 'kboard')?></a>
-			<a href="#tab-kboard-setting-10" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('알림', 'kboard')?></a>
+			<a href="#tab-kboard-setting-10" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('알림(NEW)', 'kboard')?></a>
 			<a href="#tab-kboard-setting-11" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(11);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
@@ -336,7 +336,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="list_sorting_range_select">기간 내 게시글만 표시하기</label></th>
+						<th scope="row"><label for="list_sorting_range_select">기간 내 게시글만 표시하기(NEW)</label></th>
 						<td>
 							<select name="list_sorting_range_select" id="list_sorting_range_select">
 								<option value="">-- 선택하세요 --</option>
@@ -362,7 +362,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기(개발중)</label></th>
+						<th scope="row"><label for="show_author_activity_menu">작성자 활동 보기(NEW)</label></th>
 						<td>
 							<select name="show_author_activity_menu" id="show_author_activity_menu">
 								<option value="">비활성화</option>
@@ -2035,7 +2035,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="comment_alerts">댓글 이메일 알림</label></th>
+						<th scope="row"><label for="comment_alerts">댓글 이메일 알림(NEW)</label></th>
 						<td>
 							<select name="comment_alerts" id="comment_alerts">
 								<option value="">비활성화</option>
@@ -2049,7 +2049,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="exclude_admin_reply_alert">관리자 답글 알림 제외</label></th>
+						<th scope="row"><label for="exclude_admin_reply_alert">관리자 답글 알림 제외(NEW)</label></th>
 						<td>
 							<select name="exclude_admin_reply_alert" id="exclude_admin_reply_alert">
 								<option value="">비활성화</option>

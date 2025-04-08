@@ -77,7 +77,8 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
+						<?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?>
+						<?php echo $content->getUserDisplay(); ?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -109,7 +110,8 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
+						<?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?>
+						<?php echo $content->getUserDisplay(); ?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -142,7 +144,8 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
+						<?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?>
+						<?php echo $content->getUserDisplay(); ?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -194,3 +197,23 @@
 	</div>
 	<?php endif?>
 </div>
+<script>
+	function kboardToggleAuthorMenu(element) {
+		const menu = element.nextElementSibling;
+		const allMenus = document.querySelectorAll('.kboard-author-menu');
+		allMenus.forEach(m => {
+			if (m !== menu) m.style.display = 'none';
+		});
+		menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+	}
+
+	// 바깥 클릭 시 닫힘
+	document.addEventListener('click', function(e) {
+		const target = e.target;
+		if (!target.closest('.kboard-author-dropdown')) {
+			document.querySelectorAll('.kboard-author-menu').forEach(menu => {
+				menu.style.display = 'none';
+			});
+		}
+	});
+</script>
