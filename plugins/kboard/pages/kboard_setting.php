@@ -376,6 +376,20 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="use_notice_expiration">공지 사항 기간 만료 기능(NEW)</label></th>
+						<td>
+							<select name="use_notice_expiration" id="use_notice_expiration">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->use_notice_expiration):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">활성화하면 글 작성 시 공지사항 체크 시 만료 날짜 입력란이 표시됩니다.</p>
+							<p class="description">입력한 만료 날짜가 지나면 자동으로 일반 글로 변경됩니다.</p>
+							<p class="description">입력한 날짜 형식이 올바르지 않으면 만료 처리가 정상 작동하지 않을 수 있습니다.</p>
+							<p class="description">만료 시간이 지나더라도 서버 작업 또는 페이지 새로고침 이후에 반영될 수 있습니다.</p>
+							<p class="description">일부 스킨에서는 적용되지 않습니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"></th>
 						<td>
 							<ul class="cosmosfarm-news-list">

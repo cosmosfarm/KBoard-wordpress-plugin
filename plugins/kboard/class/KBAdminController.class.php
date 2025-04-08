@@ -151,6 +151,7 @@ class KBAdminController {
 				$board->meta->max_attached_count                = isset($_POST['max_attached_count'])                ? $_POST['max_attached_count']                : '';
 				$board->meta->list_sort_numbers                 = isset($_POST['list_sort_numbers'])                 ? $_POST['list_sort_numbers']                 : '';
 				$board->meta->list_default_sorting              = isset($_POST['list_default_sorting'])              ? $_POST['list_default_sorting']              : '';
+				$board->meta->use_notice_expiration             = isset($_POST['use_notice_expiration'])             ? $_POST['use_notice_expiration']             : '';
 				$board->meta->list_sorting_range_select         = isset($_POST['list_sorting_range_select'])         ? $_POST['list_sorting_range_select']         : '';
 				$board->meta->list_sorting_start_date           = isset($_POST['list_sorting_start_date'])           ? $_POST['list_sorting_start_date']           : '';
 				$board->meta->list_sorting_end_date             = isset($_POST['list_sorting_end_date'])             ? $_POST['list_sorting_end_date']             : '';

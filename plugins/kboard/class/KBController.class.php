@@ -75,6 +75,15 @@ class KBController {
 			}
 			
 			$content->new_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):$content->password;
+			if(isset($_POST['notice_expired_date']) && $_POST['notice_expired_date']){
+				// notice_expired_date가 Y-m-d 형식으로 들어오니까 변환
+				$date = sanitize_text_field($_POST['notice_expired_date']);
+				$timestamp = strtotime($date);
+				$content->notice_expired_date = date('YmdHis', $timestamp);
+			}
+			else{
+				$content->notice_expired_date = '';
+			}
 			
 			if($board->meta->secret_checked_forced && !$board->isAdmin()){
 				$content->new_password = $content->new_password ? $content->new_password : uniqid();

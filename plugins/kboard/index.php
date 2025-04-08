@@ -1751,6 +1751,7 @@ function kboard_activation_execute(){
 	`category5` varchar(127) NOT NULL,
 	`secret` varchar(5) NOT NULL,
 	`notice` varchar(5) NOT NULL,
+	`notice_expired_date` char(14) NULL,
 	`search` char(1) NOT NULL,
 	`status` varchar(20) NOT NULL,
 	`password` varchar(127) NOT NULL,
@@ -2087,6 +2088,16 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD INDEX (`status`)");
 	}
 	unset($index);
+	
+	/*
+	 * KBoard 6.9
+	 * kboard_board_content 테이블에 notice_expired_date 컬럼 추가
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_board_content` `notice_expired_date`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_content` ADD `notice_expired_date` char(14) NULL AFTER `notice`");
+	}
+	unset($name);
 	
 	/*
 	 * KBoard 5.3

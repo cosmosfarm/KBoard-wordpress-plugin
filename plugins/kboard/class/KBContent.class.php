@@ -103,6 +103,7 @@ class KBContent {
 			$this->row = new stdClass();
 		}
 		$this->initOptions();
+		$this->checkNoticeExpiration();
 		$this->initAttachedFiles();
 		$this->setExecuteAction();
 		$this->previous_status = $this->status;
@@ -300,6 +301,7 @@ class KBContent {
 			$data['thumbnail_name'] = '';
 			$data['status'] = $this->status;
 			$data['password'] = $this->new_password;
+			$data['notice_expired_date'] = $this->notice_expired_date;
 		}
 		
 		// 입력할 데이터 필터
@@ -331,6 +333,7 @@ class KBContent {
 		$data['thumbnail_name'] = isset($data['thumbnail_name'])?sanitize_text_field($data['thumbnail_name']):'';
 		$data['status'] = isset($data['status'])?sanitize_key($data['status']):'';
 		$data['password'] = isset($data['password'])?sanitize_text_field($data['password']):'';
+		$data['notice_expired_date'] = isset($data['notice_expired_date']) ? sanitize_text_field($data['notice_expired_date']) : '';
 		
 		if(!$data['member_display']){
 			$data['member_display'] = __('Anonymous', 'kboard');
@@ -347,7 +350,7 @@ class KBContent {
 		$data['content'] = $this->encodeEmoji($data['content']);
 		
 		// 불필요한 데이터 필터링
-		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
+		$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password', 'notice_expired_date'));
 		
 		if($data['board_id'] && $data['title']){
 			foreach($data as $key=>$value){
@@ -419,6 +422,7 @@ class KBContent {
 				$data['thumbnail_name'] = $this->thumbnail_name;
 				$data['status'] = $this->status;
 				if($this->member_uid || $this->password) $data['password'] = $this->new_password;
+				$data['notice_expired_date'] = $this->notice_expired_date;
 			}
 			
 			// 수정할 데이터 필터
@@ -450,6 +454,7 @@ class KBContent {
 			if(isset($data['thumbnail_name'])) $data['thumbnail_name'] = sanitize_text_field($data['thumbnail_name']);
 			if(isset($data['status'])) $data['status'] = sanitize_key($data['status']);
 			if(isset($data['password'])) $data['password'] = sanitize_text_field($data['password']);
+			if(isset($data['notice_expired_date'])) $data['notice_expired_date'] = sanitize_text_field($data['notice_expired_date']);
 			
 			if(isset($data['member_display']) && !$data['member_display']){
 				$data['member_display'] = __('Anonymous', 'kboard');
@@ -470,7 +475,7 @@ class KBContent {
 			}
 			
 			// 불필요한 데이터 필터링
-			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password'));
+			$data = kboard_array_filter($data, array('board_id', 'parent_uid', 'member_uid', 'member_display', 'title', 'content', 'date', 'update', 'view', 'comment', 'like', 'unlike', 'vote', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'notice', 'search', 'thumbnail_file', 'thumbnail_name', 'status', 'password', 'notice_expired_date'));
 			
 			foreach($data as $key=>$value){
 				$this->{$key} = $value;
@@ -2053,5 +2058,27 @@ class KBContent {
 		$pattern .= "(\?[_0-9a-z#%&=\-\+]+)*/i";// parameters
 		$replacement = "<a href=\"\\0\" target=\"window.opne(this.href); return false;\">\\0</a>";
 		return preg_replace($pattern, $replacement, $contents, -1);
+	}
+	
+	/**
+	 * 공지사항 만료 여부 체크
+	 */
+	public function checkNoticeExpiration(){
+		if($this->notice && $this->notice_expired_date){
+			$current_date = date('YmdHis', current_time('timestamp'));
+			$expired_date = preg_replace('/[^0-9]/', '', $this->notice_expired_date); // 날짜 포맷 정리 (숫자만)
+
+			// 만료 시간이 지났으면 공지 해제
+			if($expired_date && $current_date > $expired_date){
+				$this->notice = '';
+				$this->notice_expired_date = '';
+
+				// 바로 DB 업데이트
+				$this->updateContent([
+					'notice' => '',
+					'notice_expired_date' => '',
+				]);
+			}
+		}
 	}
 }
