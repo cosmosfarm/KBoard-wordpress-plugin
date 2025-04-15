@@ -26,12 +26,24 @@ function kboard_autolink($text){
 		return $text;
 	}
 	
-	// <iframe> 내부의 src 속성 URL은 변환하지 않도록 정규식 예외 처리
-	return preg_replace_callback(
-		'#(?i)(?<!src=")(http|https)?(://)?(([-\w^@]+\.)+(kr|co.kr|go.kr|net|org|edu|gov|me|com|xyz|or.kr|pe.kr|re.kr|ne.kr|biz|us|so|asia|tv|co+)(?:/[^,\s]*|))#',
+	$protected_tags = array();
+	$text = preg_replace_callback('/<[^>]+>/', function($matches) use (&$protected_tags) {
+		$hash = '__PROTECTED_TAG_' . count($protected_tags) . '__';
+		$protected_tags[$hash] = $matches[0];
+		return $hash;
+	}, $text);
+	
+	$text = preg_replace_callback(
+		'#(?<![="\'])(https?:\/\/(?:[-\w]+\.)+(com|net|org|kr|co\.kr|go\.kr|edu|gov|me|xyz|biz|tv|us|asia|store|shop|io|ai|re\.kr|pe\.kr|ne\.kr|or\.kr)(\/[^\s<]*)?)#i',
 		'kboard_autolink_prependHTTP',
 		$text
 	);
+	
+	foreach($protected_tags as $hash => $original){
+		$text = str_replace($hash, $original, $text);
+	}
+
+	return $text;
 }
 
 function kboard_autolink_prependHTTP($m){
@@ -39,12 +51,12 @@ function kboard_autolink_prependHTTP($m){
 	 * Mark Goldsmith
 	 * http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
 	 */
-	$mStr = $m[1].$m[2].$m[3];
+	$mStr = $m[1];
 	if(preg_match('#([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#', $mStr)){
-		return "<a href=\"mailto:".$m[2].$m[3]."\" target=\"_blank\">".$m[1].$m[2].$m[3]."</a>";
+		return "<a href=\"mailto:{$m[2]}{$m[3]}\" target=\"_blank\">{$m[1]}{$m[2]}{$m[3]}</a>";
 	}
 	else{
-		$http = (!preg_match("#(https://)#", $mStr)) ? 'http://' : 'https://';
-		return "<a href=\"".$http.$m[3]."\" target=\"_blank\">".$m[1].$m[2].$m[3]."</a>";
+		$http = (!preg_match("#^https://#i", $mStr)) ? 'http://' : '';
+		return "<a href=\"".$http.$mStr."\" target=\"_blank\">".$mStr."</a>";
 	}
 }

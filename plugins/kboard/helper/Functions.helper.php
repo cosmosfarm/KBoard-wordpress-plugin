@@ -610,26 +610,43 @@ function kboard_builtin_pg_init($pg, $args=array()){
  * @return mixed
  */
 function kboard_video_url_to_iframe($content){
-	
-	if (preg_match('/<iframe.*?>.*?<\/iframe>/is', $content)) {
+	// 이미 iframe이 들어있는 경우, 변환하지 않음
+	if (strpos($content, '<iframe') !== false) {
 		return $content;
 	}
-	// 유튜브
-	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)">(.*)<\/a>/i', 'https://youtube.com/watch?v=$2', $content);
-	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
-	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtu.be\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
 	
-	// 유튜브 쇼츠
-	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)">(.*)<\/a>/i', 'https://youtube.com/shorts/$2', $content);
-	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
+	// <a href="...">로 감싸진 유튜브 링크는 변환하지 않음
+	if (preg_match('/<a\s[^>]*href=["\']?(https?:)?\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)[^"\']*["\'][^>]*>.*?<\/a>/i', $content)) {
+		return $content;
+	}
 	
-	//유튜브 임베드
-	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*youtube.com\/embed\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)">(.*)<\/a>/i', 'https://youtube.com/embed/$2', $content);
-	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/embed\/([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", '<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
+	// YouTube
+	$content = preg_replace(
+		"/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9\-_]+)/i",
+		'<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
+		$content
+	);
 	
-		// 비메오
-	$content = preg_replace('/<a(.*)href=\"[a-zA-Z\/\/:\.]*vimeo.com\/(\d+)">(.*)<\/a>/i', 'https://vimeo.com/$2', $content);
-	$content = preg_replace("/\s*[a-zA-Z\/\/:\.]*vimeo.com\/(\d+)/i", '<iframe src="https://player.vimeo.com/video/$1" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>', $content);
+	// YouTube 숏츠
+	$content = preg_replace(
+		"/(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)/i",
+		'<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
+		$content
+	);
+	
+	// YouTube 임베드
+	$content = preg_replace(
+		"/(?:https?:\/\/)?youtu\.be\/([a-zA-Z0-9\-_]+)/i",
+		'<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
+		$content
+	);
+	
+	// 비메오
+	$content = preg_replace(
+		"/(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(\d+)/i",
+		'<iframe src="https://player.vimeo.com/video/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
+		$content
+	);
 	
 	return $content;
 }
