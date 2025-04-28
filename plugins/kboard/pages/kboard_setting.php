@@ -873,6 +873,27 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											</div>
 										</div>
 										<?php endif?>
+										<?php if(isset($item['show_document']) || isset($item['show_document_mode'])):?>
+											<div class="attr-row">
+												<label class="attr-name" for="<?php echo $key?>_show_document_mode">게시글 본문 표시하기</label>
+												<div class="attr-value">
+													<select id="<?php echo $key?>_show_document_mode" class="field_data show_document_mode" onchange="kboard_fields_permission_roles_view(this)">
+														<option value="" <?php if(empty($item['show_document_mode']) || $item['show_document_mode'] == ''):?> selected<?php endif?>>안함</option>
+														<option value="1" <?php if((isset($item['show_document']) && $item['show_document']) || $item['show_document_mode'] == '1'):?> selected<?php endif?>>전체 표시</option>
+														<option value="roles" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == 'roles'):?> selected<?php endif?>>직접 설정(역할)</option>
+													</select>
+
+													<div class="kboard-permission-read-roles-view<?php if(!isset($item['show_document_mode']) || $item['show_document_mode'] != 'roles'):?> kboard-hide<?php endif?>">
+														<?php foreach(get_editable_roles() as $roles_key => $roles_value):?>
+														<label>
+															<input type="checkbox" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>" <?php if($roles_key == 'administrator'):?>onclick="return false" checked<?php endif?>>
+															<?php echo _x($roles_value['name'], 'User role')?>
+														</label>
+														<?php endforeach;?>
+													</div>
+												</div>
+											</div>
+										<?php endif?>
 										<?php if(isset($item['secret_permission'])):?>
 										<div class="attr-row">
 											<label class="attr-name" for="<?php echo $key?>_secret">비밀글</label>
@@ -963,12 +984,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 													<input type="checkbox" class="field_data required" value="1"<?php if($item['required']):?> checked<?php endif?>>필수
 												</label>
 											<?php endif?>
-											<?php if(isset($item['show_document'])):?>
-												<label>
-													<input type="hidden" class="field_data show_document" value="">
-													<input type="checkbox" class="field_data show_document" value="1"<?php if($item['show_document']):?> checked<?php endif?>>게시글 본문에 표시
-												</label>
-											<?php endif?>
 											<?php if(isset($item['hidden'])):?>
 												<label>
 													<input type="hidden" class="field_data hidden" value="">
@@ -1033,10 +1048,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 													<?php endif?>
 												</div>
 											</div>
-											<?php if(isset($item['show_document'])):?>
-											<input type="hidden" class="field_data show_document" value="">
-											<label><input type="checkbox" class="field_data show_document" value="1">게시글 본문에 표시</label>
-											<?php endif?>
 										<?php else:?>
 											<div class="attr-row">
 												<label class="attr-name">필드 레이블</label>
@@ -1092,6 +1103,25 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												</div>
 											</div>
 											<?php endif?>
+											<?php if(isset($item['show_document']) || isset($item['show_document_mode'])):?>
+											<div class="attr-row">
+												<label class="attr-name">게시글 본문 표시하기</label>
+												<div class="attr-value">
+													<select class="field_data show_document_mode" onchange="kboard_fields_permission_roles_view(this)">
+														<option value="" <?php if(empty($item['show_document_mode']) || $item['show_document_mode'] == ''):?> selected<?php endif?>>안함</option>
+														<option value="1" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == '1'):?> selected<?php endif?>>전체 표시</option>
+														<option value="roles" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == 'roles'):?> selected<?php endif?>>직접 설정(역할)</option>
+													</select>
+													<div class="kboard-permission-read-roles-view<?php if(!isset($item['show_document_mode']) || $item['show_document_mode'] != 'roles'):?> kboard-hide<?php endif?>">
+														<?php foreach(get_editable_roles() as $roles_key => $roles_value):?>
+															<label>
+																<input type="checkbox" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key == 'administrator'):?> onclick="return false"<?php endif?><?php if($roles_key == 'administrator' || (isset($item['show_document_roles']) && in_array($roles_key, $item['show_document_roles']))):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?>
+															</label>
+														<?php endforeach?>
+													</div>
+												</div>
+											</div>
+											<?php endif?>
 											<?php if(isset($item['default_value']) && !isset($item['row'])):?>
 											<div class="attr-row">
 												<label class="attr-name">기본값</label>
@@ -1122,10 +1152,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												<?php if(isset($item['required'])):?>
 												<input type="hidden" class="field_data required" value="">
 												<label><input type="checkbox" class="field_data required" value="1">필수</label>
-												<?php endif?>
-												<?php if(isset($item['show_document'])):?>
-												<input type="hidden" class="field_data show_document" value="">
-												<label><input type="checkbox" class="field_data show_document" value="1">게시글 본문에 표시</label>
 												<?php endif?>
 												<?php if(isset($item['hidden'])):?>
 												<input type="hidden" class="field_data hidden" value="">
@@ -1298,6 +1324,25 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 										</div>
 									</div>
 									<?php endif?>
+									<?php if(!empty($item['show_document_mode']) || !empty($item['show_document']) || isset($item['show_document_mode']) || isset($item['show_document'])):?>
+										<div class="attr-row">
+											<label class="attr-name">게시글 본문 표시하기</label>
+											<div class="attr-value">
+												<select name="fields[<?php echo esc_attr($meta_key)?>][show_document_mode]" class="field_data show_document_mode" onchange="kboard_fields_permission_roles_view(this)">
+													<option value="" <?php if(empty($item['show_document_mode']) || $item['show_document_mode'] == ''):?> selected<?php endif?>>안함</option>
+													<option value="1" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == '1'):?> selected<?php endif?>>전체 표시</option>
+													<option value="roles" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == 'roles'):?> selected<?php endif?>>직접 설정(역할)</option>
+												</select>
+												<div class="kboard-permission-read-roles-view<?php if(!isset($item['show_document_mode']) || $item['show_document_mode'] != 'roles'):?> kboard-hide<?php endif?>">
+													<?php foreach(get_editable_roles() as $roles_key => $roles_value):?>
+														<label>
+															<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][show_document_roles][]" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key == 'administrator'):?> onclick="return false"<?php endif?><?php if($roles_key == 'administrator' || (isset($item['show_document_roles']) && in_array($roles_key, $item['show_document_roles']))):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?>
+														</label>
+													<?php endforeach?>
+												</div>
+											</div>
+										</div>
+									<?php endif?>
 									<?php if(isset($item['secret_permission'])):?>
 									<div class="attr-row">
 										<label class="attr-name" for="<?php echo esc_attr($meta_key)?>_secret">비밀글</label>
@@ -1430,12 +1475,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											<label>
 												<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][required]" class="field_data required" value="">
 												<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][required]" class="field_data required" value="1"<?php if($item['required']):?> checked<?php endif?>>필수
-											</label>
-										<?php endif?>
-										<?php if(isset($item['show_document'])):?>
-											<label>
-												<input type="hidden" name="fields[<?php echo esc_attr($meta_key)?>][show_document]" class="field_data show_document" value="">
-												<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][show_document]" class="field_data show_document" value="1"<?php if($item['show_document']):?> checked<?php endif?>>게시글 본문에 표시
 											</label>
 										<?php endif?>
 										<?php if(isset($item['hidden'])):?>

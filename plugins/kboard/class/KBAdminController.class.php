@@ -436,8 +436,16 @@ class KBAdminController {
 								$field = $skin_fields[$option_key] ?? null;
 
 								//show_document 체크된 필드만 본문에 포함
-								if ($option_mode == '1' && (!$field || empty($field['show_document']))) {
-									continue;
+								if ($option_mode == '1') {
+									if (!$field) continue;
+
+									$show_document_mode = $field['show_document_mode'] ?? '';
+									$show_document_roles = $field['show_document_roles'] ?? array();
+
+									// 전체 표시 (1) 이거나, 직접 설정(roles)이면 포함
+									if ($show_document_mode !== '1' && $show_document_mode !== 'roles') {
+										continue;
+									}
 								}
 
 								$label = $field_map[$option_key] ?? $option_key;

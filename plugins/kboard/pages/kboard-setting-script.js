@@ -74,6 +74,10 @@ jQuery(document).ready(function(){
 			jQuery(li.item).find('.field_data.roles').attr('name', 'fields['+uniq_id+'][permission]');
 			jQuery(li.item).find('.field_data.secret-roles').attr('name', 'fields['+uniq_id+'][secret_permission]');
 			jQuery(li.item).find('.field_data.notice-roles').attr('name', 'fields['+uniq_id+'][notice_permission]');
+			jQuery(li.item).find('.field_data.show_document_mode').attr('name', 'fields['+uniq_id+'][show_document_mode]');
+			jQuery(li.item).find('.field_data.show_document_roles_checkbox').each(function(index, element){
+				jQuery(element).attr('name', 'fields['+uniq_id+'][show_document_roles][]');
+			});
 			jQuery(li.item).find('.roles_checkbox').each(function(index, element){
 				jQuery(element).attr('name', 'fields['+uniq_id+'][roles][]');
 			});

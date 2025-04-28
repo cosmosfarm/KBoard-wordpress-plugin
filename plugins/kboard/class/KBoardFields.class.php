@@ -204,7 +204,8 @@ class KBoardFields {
 				'class' => 'kboard-attr-ip',
 				'kboard_extends' => '',
 				'meta_key' => 'ip',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'option_field' => true,
 				'close_button' => 'yes'
 			)
@@ -224,7 +225,8 @@ class KBoardFields {
 				'placeholder' => '',
 				'description' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'hidden' => '',
 				'close_button' => 'yes'
 			),
@@ -241,7 +243,8 @@ class KBoardFields {
 				'roles' => array(),
 				'description' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'close_button' => 'yes'
 			),
 			'radio' => array(
@@ -257,7 +260,8 @@ class KBoardFields {
 				'roles' => array(),
 				'description' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'close_button' => 'yes'
 			),
 			'checkbox' => array(
@@ -272,7 +276,8 @@ class KBoardFields {
 				'roles' => array(),
 				'description' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'close_button' => 'yes'
 			),
 			'textarea' => array(
@@ -287,7 +292,8 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -301,7 +307,8 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -317,7 +324,8 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -331,7 +339,8 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes',
 				'html' => ''
@@ -346,7 +355,8 @@ class KBoardFields {
 				'permission' => '',
 				'roles' => array(),
 				'default_value' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes',
 				'shortcode' => ''
@@ -363,7 +373,8 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -379,7 +390,8 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -395,7 +407,8 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'hidden' => '',
 				'close_button' => 'yes'
@@ -412,7 +425,8 @@ class KBoardFields {
 				'default_value' => '',
 				'placeholder' => '',
 				'required' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'description' => '',
 				'close_button' => 'yes'
 			),
@@ -427,7 +441,8 @@ class KBoardFields {
 				'roles' => array(),
 				'default_value' => '',
 				'description' => '',
-				'show_document' => '',
+				'show_document_mode' => '',
+				'show_document_roles' => array(),
 				'close_button' => 'yes'
 			)
 			*/
@@ -808,7 +823,20 @@ class KBoardFields {
 				$option_value = $content->option->{$meta_key};
 			}
 			
-			if(isset($field['show_document']) && $field['show_document'] && $option_value){
+			$show_document_mode = $field['show_document_mode'] ?? '';
+			$show_document_roles = $field['show_document_roles'] ?? array();
+			$can_show = false;
+			
+			if($show_document_mode == '1'){
+				$can_show = true;
+			}
+			else if($show_document_mode == 'roles'){
+				if(current_user_can('administrator') || array_intersect(array_keys(wp_get_current_user()->caps), (array)$show_document_roles)){
+					$can_show = true;
+				}
+			}
+			
+			if($can_show && $option_value){
 				if(is_array($option_value) && $field_type != 'file'){
 					$separator = apply_filters('kboard_document_add_option_value_separator', ', ', $field, $content, $board);
 					$option_value = implode($separator, $option_value);
@@ -864,7 +892,20 @@ class KBoardFields {
 			$meta_key = (isset($field['meta_key']) && $field['meta_key']) ? $field['meta_key'] : $key;
 			$option_value = $content->option->{$meta_key};
 			
-			if(isset($field['show_document']) && $field['show_document'] && $option_value){
+			$show_document_mode = $field['show_document_mode'] ?? '';
+			$show_document_roles = $field['show_document_roles'] ?? array();
+			$can_show = false;
+			
+			if($show_document_mode == '1'){
+				$can_show = true;
+			}
+			else if($show_document_mode == 'roles'){
+				if(current_user_can('administrator') || array_intersect(array_keys(wp_get_current_user()->caps), (array)$show_document_roles)){
+					$can_show = true;
+				}
+			}
+			
+			if($can_show && $option_value){
 				if(!(isset($field['field_name']) && $field['field_name'])){
 					$field['field_name'] = $this->getFieldLabel($field);
 				}
