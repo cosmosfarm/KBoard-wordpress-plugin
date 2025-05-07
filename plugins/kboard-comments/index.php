@@ -27,20 +27,18 @@ include_once 'class/KBCommentSkin.class.php';
 include_once 'class/KBCommentTemplate.class.php';
 include_once 'class/KBCommentUrl.class.php';
 
-add_action('init', 'kboard_comments_load_textdomain');
-function kboard_comments_load_textdomain(){
+/**
+ * KBoard 댓글 시작
+ */
+function kboard_comments_init(){
+	//번역 파일 등록
 	if(version_compare($GLOBALS['wp_version'], '6.7', '<')){
 		load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
 	else{
 		load_textdomain('kboard-comments', KBOARD_COMMENTS_DIR_PATH . '/languages/kboard-comments-' . determine_locale() . '.mo');
 	}
-}
-
-/**
- * KBoard 댓글 시작
- */
-function kboard_comments_init(){
+	
 	// 스킨의 functions.php 파일을 실행한다.
 	$skin = KBCommentSkin::getInstance();
 	foreach($skin->getActiveList() as $skin_name){

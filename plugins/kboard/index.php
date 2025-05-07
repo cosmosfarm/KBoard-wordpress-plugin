@@ -72,16 +72,6 @@ foreach(glob(KBOARD_DIR_PATH . '/addons/*.php') as $filename){
 	include_once $filename;
 }
 
-add_action('init', 'kboard_load_textdomain');
-function kboard_load_textdomain(){
-	if(version_compare($GLOBALS['wp_version'], '6.7', '<')){
-		load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
-	}
-	else{
-		load_textdomain('kboard', KBOARD_DIR_PATH . '/languages/kboard-' . determine_locale() . '.mo');
-	}
-}
-
 add_action('plugins_loaded', 'kboard_plugins_loaded');
 function kboard_plugins_loaded(){
 	if(!session_id() && (!is_admin() || kboard_id()) && !wp_is_json_request()){
@@ -93,6 +83,14 @@ function kboard_plugins_loaded(){
  * KBoard 게시판 시작
  */
 function kboard_init(){
+	// 번역 파일 등록
+	if(version_compare($GLOBALS['wp_version'], '6.7', '<')){
+		load_plugin_textdomain('kboard', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	}
+	else{
+		load_textdomain('kboard', KBOARD_DIR_PATH . '/languages/kboard-' . determine_locale() . '.mo');
+	}
+	
 	// 스킨의 functions.php 파일을 실행한다.
 	$skin = KBoardSkin::getInstance();
 	foreach($skin->getActiveList() as $skin_name){
