@@ -13,7 +13,7 @@ if(!function_exists('is_plugin_active') || !function_exists('is_plugin_active_fo
 if(is_plugin_active('kboard/index.php') || is_plugin_active_for_network('kboard/index.php')){
 
 define('KBOARD_COMMNETS_VERSION', '5.5');
-define('KBOARD_COMMENTS_PAGE_TITLE', __('KBoard : 댓글', 'kboard-comments'));
+define('KBOARD_COMMENTS_PAGE_TITLE', 'KBoard : 댓글');
 define('KBOARD_COMMENTS_DIR_PATH', dirname(__FILE__));
 define('KBOARD_COMMENTS_URL_PATH', plugins_url('', __FILE__));
 define('KBOARD_COMMENTS_LIST_PAGE', admin_url('admin.php?page=kboard_comments_list'));
@@ -27,9 +27,8 @@ include_once 'class/KBCommentSkin.class.php';
 include_once 'class/KBCommentTemplate.class.php';
 include_once 'class/KBCommentUrl.class.php';
 
-add_action('plugins_loaded', 'kboard_comments_plugins_loaded');
-function kboard_comments_plugins_loaded(){
-	// 언어 파일 추가
+add_action('init', 'kboard_comments_load_textdomain');
+function kboard_comments_load_textdomain(){
 	if(version_compare($GLOBALS['wp_version'], '6.7', '<')){
 		load_plugin_textdomain('kboard-comments', false, dirname(plugin_basename(__FILE__)) . '/languages');
 	}
@@ -76,7 +75,7 @@ add_action('init', 'kboard_comments_init', 5);
  * KBoard 댓글 관리자 메뉴에 추가
  */
 function kboard_comments_settings_menu(){
-	add_submenu_page('kboard_dashboard', KBOARD_COMMENTS_PAGE_TITLE, __('전체 댓글', 'kboard-comments'), 'manage_kboard', 'kboard_comments_list', 'kboard_comments_list');
+	add_submenu_page('kboard_dashboard', __(KBOARD_COMMENTS_PAGE_TITLE, 'kboard-comments'), __('전체 댓글', 'kboard-comments'), 'manage_kboard', 'kboard_comments_list', 'kboard_comments_list');
 }
 
 /**

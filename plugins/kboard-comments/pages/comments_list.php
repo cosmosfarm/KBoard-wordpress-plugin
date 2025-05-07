@@ -1,6 +1,6 @@
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
-	<h1 class="wp-heading-inline"><?php echo KBOARD_COMMENTS_PAGE_TITLE?></h1>
+	<h1 class="wp-heading-inline"><?php echo __(KBOARD_COMMENTS_PAGE_TITLE, 'kboard-comments')?></h1>
 	<a href="https://www.cosmosfarm.com" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard-comments')?></a>
 	<a href="https://www.cosmosfarm.com/threads" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard-comments')?></a>
 	<a href="https://www.cosmosfarm.com/support" class="page-title-action" onclick="window.open(this.href);return false;"><?php echo __('Support', 'kboard-comments')?></a>
