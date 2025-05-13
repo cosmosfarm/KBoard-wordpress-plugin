@@ -1053,7 +1053,7 @@ class KBoard {
 		$url = 'https://workers.sidetalk.ai/v1/chat/completions';
 		
 		$args = array(
-			'timeout' => 60,
+			'timeout' => 30,
 			'headers' => array(
 				'Content-Type' => 'application/json',
 				'Authorization' => 'Bearer ' . $api_key,
@@ -1073,8 +1073,16 @@ class KBoard {
 		$body = wp_remote_retrieve_body($response);
 		$data = json_decode($body, true);
 		if (!isset($data['success']) || !$data['success'] || !isset($data['message']['content'])) {
-			return new WP_Error('invalid_response', 'API 응답이 유효하지 않습니다.');
+			$error_message = isset($data['errors'][0]['message']) ? $data['errors'][0]['message'] : 'AI 응답이 유효하지 않습니다.';
+			error_log('[Sidetalk] API 실패 응답: ' . $error_message);
+			return '⚠️ 적절한 답변을 찾지 못했습니다. 다시 질문해 주세요.';
 		}
+		
+		if (!isset($data['message']['content'])) {
+			error_log('[Sidetalk] 응답에 message.content 없음: ' . $body);
+			return '⚠️ AI 응답 형식이 올바르지 않습니다.';
+		}
+	
 		return $data['message']['content'];
 	}
 }
