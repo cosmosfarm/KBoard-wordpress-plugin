@@ -28,7 +28,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('기본 카테고리(NEW)', 'kboard')?></a>
 			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('계층형 카테고리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('고급설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('소셜댓글', 'kboard')?></a>
+			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('사이드톡 연동', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('대량관리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('인기글 표시', 'kboard')?></a>
@@ -1798,40 +1798,66 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							먼저 <a href="https://www.cosmosfarm.com/plugin/comments" onclick="window.open(this.href);return false;">코스모스팜 소셜댓글</a> 관리사이트에서 이 워드프레스 사이트를 <a href="https://www.cosmosfarm.com/plugin/comments/create" onclick="window.open(this.href);return false;">등록</a>해주세요.
+							<p>
+								먼저 <a href="https://sidetalk.kr/" target="_blank">Sidetalk 대시보드</a>에 사이트를 등록하고 API 키를 발급받아야 자동응답 기능을 사용할 수 있습니다.
+							</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="comments_plugin_id">소셜댓글 ID</label></th>
+						<th scope="row"><label for="sidetalk_ai_enable">AI 자동답변</label></th>
 						<td>
-							<input type="text" name="comments_plugin_id" id="comments_plugin_id" class="regular-text" value="<?php echo $meta->comments_plugin_id?>">
-							<p class="description"><a href="https://www.cosmosfarm.com/plugin/comments/sites" onclick="window.open(this.href);return false;">등록된 사이트</a> » 설치하기 페이지에 나와있는 ID값을 입력해주세요.</p>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"><label for="use_comments_plugin">소셜댓글 사용</label></th>
-						<td>
-							<select name="use_comments_plugin" id="use_comments_plugin">
+							<select name="sidetalk_ai_enable" id="sidetalk_ai_enable">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->use_comments_plugin):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->sidetalk_ai_enable):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">게시판에 KBoard 댓글을 비활성화 하고 코스모스팜 소셜댓글을 사용합니다.</p>
+							<p class="description">Sidetalk API를 이용해 게시글 또는 댓글에 AI 자동답변을 생성합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="comments_plugin_row">댓글 표시</label></th>
+						<th scope="row"><label for="sidetalk_api_key">사이드톡 API 키</label></th>
 						<td>
-							<select name="comments_plugin_row" id="comments_plugin_row">
-								<?php if(!$meta->comments_plugin_row) $meta->comments_plugin_row=10;?>
-								<option value="10"<?php if($meta->comments_plugin_row == 10):?> selected<?php endif?>>10개</option>
-								<option value="20"<?php if($meta->comments_plugin_row == 20):?> selected<?php endif?>>20개</option>
-								<option value="30"<?php if($meta->comments_plugin_row == 30):?> selected<?php endif?>>30개</option>
-								<option value="50"<?php if($meta->comments_plugin_row == 50):?> selected<?php endif?>>50개</option>
-								<option value="100"<?php if($meta->comments_plugin_row == 100):?> selected<?php endif?>>100개</option>
-							</select>
-							<p class="description">한 페이지에 보여지는 댓글 숫자를 정합니다.</p>
+							<input type="text" name="sidetalk_api_key" id="sidetalk_api_key" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_api_key) ?>">
+							<p class="description">Sidetalk 대시보드에서 발급받은 API 키를 입력하세요.</p>
 						</td>
 					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="sidetalk_ai_target">자동답변 대상</label></th>
+						<td>
+							<select name="sidetalk_ai_target" id="sidetalk_ai_target">
+								<option value="post"<?php if($meta->sidetalk_ai_target == 'post'):?> selected<?php endif?>>게시글만</option>
+								<option value="comment"<?php if($meta->sidetalk_ai_target == 'comment'):?> selected<?php endif?>>댓글만</option>
+							</select>
+							<p class="description">어떤 유형의 글에 자동으로 AI 답변을 생성할지 선택하세요.</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="sidetalk_filter_keywords">필터 키워드</label></th>
+						<td>
+							<input type="text" name="sidetalk_filter_keywords" id="sidetalk_filter_keywords" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_filter_keywords) ?>">
+							<p class="description">쉼표(,)로 구분. 포함 시 AI 응답을 생성하지 않습니다. 예: [AI답변금지], [NOAI]</p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="sidetalk_ai_reply_title">자동답변 제목</label></th>
+						<td>
+							<input type="text" name="sidetalk_ai_reply_title" id="sidetalk_ai_reply_title" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_ai_reply_title) ?>">
+							<p class="description">자동생성되는 답변의 제목입니다. 예: <code>AI 자동 답변</code></p>
+						</td>
+					</tr>
+
+					<tr valign="top">
+						<th scope="row"><label for="sidetalk_ai_reply_author">자동답변 작성자 이름</label></th>
+						<td>
+							<input type="text" name="sidetalk_ai_reply_author" id="sidetalk_ai_reply_author" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_ai_reply_author) ?>">
+							<p class="description">AI 답변 작성자 이름으로 표시할 이름입니다. 예: <code>사이드톡 AI</code></p>
+						</td>
+					</tr>
+					<!-- <tr valign="top">
+						<th scope="row">AI 댓글 스타일</th>
+						<td>
+							<p class="description">자동 생성된 댓글에는 <code>ai-reply</code> 클래스가 추가됩니다.<br>CSS에서 이 클래스를 활용해 별도 스타일을 지정할 수 있습니다.</p>
+						</td>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>

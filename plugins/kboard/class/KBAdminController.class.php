@@ -143,9 +143,19 @@ class KBAdminController {
 				$board->meta->permission_attachment_download    = isset($_POST['permission_attachment_download'])    ? $_POST['permission_attachment_download']    : '';
 				$board->meta->permission_vote                   = isset($_POST['permission_vote'])                   ? $_POST['permission_vote']                   : '';
 				$board->meta->permission_vote_hide              = isset($_POST['permission_vote_hide'])              ? $_POST['permission_vote_hide']              : '';
+				//소셜 댓글
 				$board->meta->comments_plugin_id                = isset($_POST['comments_plugin_id'])                ? $_POST['comments_plugin_id']                : '';
 				$board->meta->use_comments_plugin               = isset($_POST['use_comments_plugin'])               ? $_POST['use_comments_plugin']               : '';
 				$board->meta->comments_plugin_row               = isset($_POST['comments_plugin_row'])               ? $_POST['comments_plugin_row']               : '';
+				
+				//사이드톡
+				$board->meta->sidetalk_ai_enable                = isset($_POST['sidetalk_ai_enable'])                ? $_POST['sidetalk_ai_enable']                : '';
+				$board->meta->sidetalk_api_key                  = isset($_POST['sidetalk_api_key'])                  ? $_POST['sidetalk_api_key']                  : '';
+				$board->meta->sidetalk_ai_target                = isset($_POST['sidetalk_ai_target'])                ? $_POST['sidetalk_ai_target']                : '';
+				$board->meta->sidetalk_filter_keywords          = isset($_POST['sidetalk_filter_keywords'])          ? $_POST['sidetalk_filter_keywords']          : '';
+				$board->meta->sidetalk_ai_reply_title           = isset($_POST['sidetalk_ai_reply_title'])           ? $_POST['sidetalk_ai_reply_title']           : '';
+				$board->meta->sidetalk_ai_reply_author          = isset($_POST['sidetalk_ai_reply_author'])          ? $_POST['sidetalk_ai_reply_author']          : '';
+				
 				$board->meta->conversion_tracking_code          = isset($_POST['conversion_tracking_code'])          ? $_POST['conversion_tracking_code']          : '';
 				$board->meta->always_view_list                  = isset($_POST['always_view_list'])                  ? $_POST['always_view_list']                  : '';
 				$board->meta->max_attached_count                = isset($_POST['max_attached_count'])                ? $_POST['max_attached_count']                : '';

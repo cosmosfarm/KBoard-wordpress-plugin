@@ -1037,4 +1037,44 @@ class KBoard {
 		}
 		return $this->fields;
 	}
+	
+	/**
+	 * 사이드톡 API로 질문을 전송하고 응답을 가져옵니다.
+	 * Cloudflare Worker 환경에 맞춤
+	 *
+	 * @param {string} question 사용자 질문
+	 * @param {string} apiKey Bearer API 키
+	 */
+	public function sidetalk_request_ai_reply($question, $api_key) {
+		if (!$question || !$api_key) {
+			return new WP_Error('missing_params', '질문 또는 API 키가 누락되었습니다.');
+		}
+		
+		$url = 'https://workers.sidetalk.ai/v1/chat/completions';
+		
+		$args = array(
+			'timeout' => 60,
+			'headers' => array(
+				'Content-Type' => 'application/json',
+				'Authorization' => 'Bearer ' . $api_key,
+			),
+			'body' => json_encode(array(
+				'message' => $question,
+				'stream' => false,
+			)),
+		);
+		
+		$response = wp_remote_post($url, $args);
+
+		if (is_wp_error($response)) {
+			return $response;
+		}
+		
+		$body = wp_remote_retrieve_body($response);
+		$data = json_decode($body, true);
+		if (!isset($data['success']) || !$data['success'] || !isset($data['message']['content'])) {
+			return new WP_Error('invalid_response', 'API 응답이 유효하지 않습니다.');
+		}
+		return $data['message']['content'];
+	}
 }
