@@ -1799,7 +1799,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"></th>
 						<td>
 							<p>
-								먼저 <a href="https://sidetalk.kr/" target="_blank">Sidetalk 대시보드</a>에 사이트를 등록하고 API 키를 발급받아야 자동응답 기능을 사용할 수 있습니다.
+								먼저 <a href="https://sidetalk.kr/" target="_blank">사이드톡 대시보드</a>에 사이트를 등록하고 API 키를 발급받아야 자동응답 기능을 사용할 수 있습니다.
 							</p>
 						</td>
 					</tr>
@@ -1810,38 +1810,50 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->sidetalk_ai_enable):?> selected<?php endif?>>활성화</option>
 							</select>
-							<p class="description">Sidetalk API를 이용해 게시글 또는 댓글에 AI 자동답변을 생성합니다.</p>
+							<p class="description">사이드톡 API를 이용해 게시글 또는 댓글에 AI 자동답변을 생성합니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"><label for="sidetalk_api_key">사이드톡 API 키</label></th>
 						<td>
 							<input type="text" name="sidetalk_api_key" id="sidetalk_api_key" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_api_key) ?>">
-							<p class="description">Sidetalk 대시보드에서 발급받은 API 키를 입력하세요.</p>
+							<p class="description">사이드톡 대시보드에서 발급받은 API 키를 입력하세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="sidetalk_ai_target">자동답변 대상</label></th>
+						<th scope="row"><label for="sidetalk_ai_target">AI 자동답변을 적용할 대상</label></th>
 						<td>
 							<select name="sidetalk_ai_target" id="sidetalk_ai_target">
 								<option value="post"<?php if($meta->sidetalk_ai_target == 'post'):?> selected<?php endif?>>게시글만</option>
 								<option value="comment"<?php if($meta->sidetalk_ai_target == 'comment'):?> selected<?php endif?>>댓글만</option>
+								<option value="all"<?php if($meta->sidetalk_ai_target == 'all'):?> selected<?php endif?>>게시글 + 댓글 모두</option>
 							</select>
 							<p class="description">어떤 유형의 글에 자동으로 AI 답변을 생성할지 선택하세요.</p>
 						</td>
 					</tr>
-					<tr valign="top">
+					<tr id="sidetalk_ai_post_reply_mode_row" valign="top" style="display:none;">
+						<th scope="row"><label for="sidetalk_ai_post_reply_mode">게시글의 답변 달기 방식</label></th>
+						<td>
+							<select name="sidetalk_ai_post_reply_mode" id="sidetalk_ai_post_reply_mode">
+								<option value="comment"<?php if ($meta->sidetalk_ai_post_reply_mode === 'comment'): ?> selected<?php endif; ?>>댓글로 달기</option>
+								<option value="reply"<?php if ($meta->sidetalk_ai_post_reply_mode === 'reply'): ?> selected<?php endif; ?>>답글로 달기</option>
+							</select>
+							<p class="description">새로운 글이 등록되면 AI 답변을 어떤 형식으로 추가할지 선택합니다.</p>
+						</td>
+					</tr>
+					<!-- <tr valign="top">
 						<th scope="row"><label for="sidetalk_filter_keywords">필터 키워드</label></th>
 						<td>
 							<input type="text" name="sidetalk_filter_keywords" id="sidetalk_filter_keywords" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_filter_keywords) ?>">
 							<p class="description">쉼표(,)로 구분. 포함 시 AI 응답을 생성하지 않습니다. 예: [AI답변금지], [NOAI]</p>
 						</td>
-					</tr>
+					</tr> -->
 					<tr valign="top">
 						<th scope="row"><label for="sidetalk_ai_reply_title">자동답변 제목</label></th>
 						<td>
 							<input type="text" name="sidetalk_ai_reply_title" id="sidetalk_ai_reply_title" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_ai_reply_title) ?>">
 							<p class="description">자동생성되는 답변의 제목입니다. 예: <code>AI 자동 답변</code></p>
+							<p class="description">댓글에는 제목이 없어 이 기능이 적용되지 않을 수 있습니다.</p>
 						</td>
 					</tr>
 

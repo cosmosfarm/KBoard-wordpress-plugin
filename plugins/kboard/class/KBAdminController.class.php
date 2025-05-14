@@ -152,6 +152,7 @@ class KBAdminController {
 				$board->meta->sidetalk_ai_enable                = isset($_POST['sidetalk_ai_enable'])                ? $_POST['sidetalk_ai_enable']                : '';
 				$board->meta->sidetalk_api_key                  = isset($_POST['sidetalk_api_key'])                  ? $_POST['sidetalk_api_key']                  : '';
 				$board->meta->sidetalk_ai_target                = isset($_POST['sidetalk_ai_target'])                ? $_POST['sidetalk_ai_target']                : '';
+				$board->meta->sidetalk_ai_post_reply_mode       = isset($_POST['sidetalk_ai_post_reply_mode'])       ? $_POST['sidetalk_ai_post_reply_mode']       : '';
 				$board->meta->sidetalk_filter_keywords          = isset($_POST['sidetalk_filter_keywords'])          ? $_POST['sidetalk_filter_keywords']          : '';
 				$board->meta->sidetalk_ai_reply_title           = isset($_POST['sidetalk_ai_reply_title'])           ? $_POST['sidetalk_ai_reply_title']           : '';
 				$board->meta->sidetalk_ai_reply_author          = isset($_POST['sidetalk_ai_reply_author'])          ? $_POST['sidetalk_ai_reply_author']          : '';

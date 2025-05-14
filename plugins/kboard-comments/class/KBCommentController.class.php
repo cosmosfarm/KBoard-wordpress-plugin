@@ -280,35 +280,8 @@ class KBCommentController {
 			$comment_list->board = $board;
 			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $status, $password);
 			
-			if ($board->meta->sidetalk_ai_enable && $board->meta->sidetalk_api_key && $board->meta->sidetalk_ai_target === 'comment') {
-				$question = strip_tags($content);
-				$filter_keywords = trim($board->meta->sidetalk_filter_keywords);
-				$skip_ai = false;
-
-				if ($filter_keywords) {
-					$keywords = array_map('trim', explode(',', $filter_keywords));
-					foreach ($keywords as $keyword) {
-						if (stripos($question, $keyword) !== false) {
-							$skip_ai = true;
-							break;
-						}
-					}
-				}
-
-				if (!$skip_ai) {
-					$ai_reply = $board->sidetalk_request_ai_reply($question, $board->meta->sidetalk_api_key);
-					if (!is_wp_error($ai_reply) && $ai_reply) {
-						$comment_list->add(
-							$comment_uid,
-							1,
-							$board->meta->sidetalk_ai_reply_author ?: '사이드톡 AI',
-							$ai_reply,
-							'',
-							''
-						);
-					}
-				}
-			}
+			// 자동답변 기능이 활성화 되어 있다면 답변을 생성한다.
+			$board->sidetalk_generate_comment_ai($comment_uid, $content);
 			
 			if($comment_uid && $upload_attach_files && is_array($upload_attach_files)){
 				foreach($upload_attach_files as $attach_file){

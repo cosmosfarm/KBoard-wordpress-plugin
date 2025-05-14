@@ -162,6 +162,9 @@ jQuery(document).ready(function(){
 	});
 	
 	kboard_init_sorting_range_toggle();
+	
+	kboard_reply_mode_option();
+	jQuery('#sidetalk_ai_target').on('change', kboard_reply_mode_option);
 });
 
 function kboard_radio_reset(obj){
@@ -387,7 +390,17 @@ function kboard_init_sorting_range_toggle(){
 		toggleCustomDateRange();
 	});
 }
-
+function kboard_reply_mode_option() {
+	const targetSelect = jQuery('#sidetalk_ai_target');
+	const replyModeRow = jQuery('#sidetalk_ai_post_reply_mode_row');
+	
+	const value = targetSelect.val();
+	if (value === 'post' || value === 'all') {
+		replyModeRow.show();
+	} else {
+		replyModeRow.hide();
+	}
+}
 /**
  * JavaScript alternative of PHP uniqid()
  * original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)

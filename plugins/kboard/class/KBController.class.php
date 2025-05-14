@@ -244,36 +244,9 @@ class KBController {
 				die('<script>alert("'.__('An unexpected problem has occurred.', 'kboard').'");history.go(-1);</script>');
 			}
 			
-			if ($content->execute_action == 'insert' && $board->meta->sidetalk_ai_enable && $board->meta->sidetalk_api_key && $board->meta->sidetalk_ai_target === 'post') {
-				$question = $content->title . "\n\n" . strip_tags($content->content);
-				$filter_keywords = trim($board->meta->sidetalk_filter_keywords);
-				if ($filter_keywords) {
-					$keywords = array_map('trim', explode(',', $filter_keywords));
-					foreach ($keywords as $keyword) {
-						if (stripos($question, $keyword) !== false) {
-							$url = new KBUrl();
-							wp_redirect($url->getDocumentRedirect($content->uid));
-							exit;
-						}
-					}
-				}
-				
-				$ai_reply = $board->sidetalk_request_ai_reply($question, $board->meta->sidetalk_api_key);
-				
-				if (!is_wp_error($ai_reply) && $ai_reply) {
-					$reply = new KBContent();
-					$reply->setBoardID($board->id);
-					$reply->parent_uid = $content->uid;
-					$reply->member_uid = 1;
-					$reply->member_display = $board->meta->sidetalk_ai_reply_author ?: '사이드톡 AI';
-					$reply->title = $board->meta->sidetalk_ai_reply_title ?: 'AI 자동 답변';
-					$reply->content = $ai_reply;
-					$reply->secret = 'no';
-					$reply->execute_action = 'insert';
-
-					$reply_uid = $reply->execute();
-				}
-			}
+			// AI 답변 생성
+			$board->sidetalk_generate_post_ai($content);
+			
 			do_action('kboard_content_execute', $content, $board);
 			
 			// 글쓰기 증가 포인트
