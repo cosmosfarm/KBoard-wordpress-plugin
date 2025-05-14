@@ -112,7 +112,10 @@ function kboard_comments_list(){
 			$comment->delete();
 		}
 	}
+	
 	$table->prepare_items();
+	wp_enqueue_style('jquery-flick-style', KBOARD_COMMENTS_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
+	wp_enqueue_style('jquery-timepicker', KBOARD_COMMENTS_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_COMMNETS_VERSION);
 	include_once 'pages/comments_list.php';
 }
 
@@ -221,6 +224,21 @@ function kboard_comments_style(){
 }
 add_action('wp_enqueue_scripts', 'kboard_comments_style', 999);
 add_action('kboard_switch_to_blog', 'kboard_comments_style');
+
+/**
+ * 관리자 페이지 스타일 파일을 출력한다.
+ */
+function kboard_comment_admin_style($hook_suffix){
+	if($hook_suffix == 'kboard_page_kboard_comments_list'){
+		wp_enqueue_script('jquery-ui-datepicker');
+		wp_enqueue_script('jquery-timepicker', KBOARD_COMMENTS_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_COMMNETS_VERSION);
+	}
+	
+	wp_register_script('jquery-timepicker', KBOARD_COMMENTS_URL_PATH . '/template/js/jquery.timepicker.js', array(), KBOARD_COMMNETS_VERSION);
+	wp_register_style('jquery-flick-style', KBOARD_COMMENTS_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
+	wp_register_style('jquery-timepicker', KBOARD_COMMENTS_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_COMMNETS_VERSION);
+}
+add_action('admin_enqueue_scripts', 'kboard_comment_admin_style', 999, 1);
 
 /**
  * KBoard 댓글 시스템 업데이트

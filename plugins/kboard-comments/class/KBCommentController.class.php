@@ -28,6 +28,7 @@ class KBCommentController {
 		add_action('wp_ajax_nopriv_kboard_comment_like', array($this, 'commentLike'));
 		add_action('wp_ajax_kboard_comment_unlike', array($this, 'commentUnlike'));
 		add_action('wp_ajax_nopriv_kboard_comment_unlike', array($this, 'commentUnlike'));
+		
 	}
 	
 	/**
@@ -281,7 +282,7 @@ class KBCommentController {
 			$comment_uid = $comment_list->add($parent_uid, $member_uid, $member_display, $content, $status, $password);
 			
 			// 자동답변 기능이 활성화 되어 있다면 답변을 생성한다.
-			$board->sidetalk_generate_comment_ai($comment_uid, $content);
+			$board->sidetalk_generate_comment_ai($content_uid, $comment_uid, $content);
 			
 			if($comment_uid && $upload_attach_files && is_array($upload_attach_files)){
 				foreach($upload_attach_files as $attach_file){
@@ -516,13 +517,29 @@ class KBCommentController {
 	public function comments_list_update(){
 		if(current_user_can('manage_kboard')){
 			$status = isset($_POST['status']) ? $_POST['status'] : array();
-			if($status){
-				foreach($status as $uid=>$status){
-					$comment = new KBComment();
-					$comment->initWithUID($uid);
-					$comment->status = $status;
-					$comment->update();
+			$comment_date = isset($_POST['comment_date']) ? $_POST['comment_date'] : array();
+			$comment_time = isset($_POST['comment_time']) ? $_POST['comment_time'] : array();
+
+			$comment = new KBComment();
+
+			// 상태나 날짜가 하나라도 있으면 처리
+			$uids = array_unique(array_merge(array_keys($status), array_keys($comment_date)));
+
+			foreach($uids as $uid){
+				$comment->initWithUID($uid);
+
+				if(isset($status[$uid])){
+					$comment->status = $status[$uid];
 				}
+				
+				if(isset($comment_date[$uid]) && isset($comment_time[$uid])){
+					$comment->created = date('YmdHis', strtotime($comment_date[$uid] . ' ' . $comment_time[$uid]));
+				}
+
+				$comment->update();
+
+				// 액션 훅 실행
+				do_action('kboard_comments_list_update', $comment);
 			}
 		}
 		exit;

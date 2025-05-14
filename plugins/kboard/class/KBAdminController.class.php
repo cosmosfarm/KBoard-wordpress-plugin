@@ -148,8 +148,9 @@ class KBAdminController {
 				$board->meta->use_comments_plugin               = isset($_POST['use_comments_plugin'])               ? $_POST['use_comments_plugin']               : '';
 				$board->meta->comments_plugin_row               = isset($_POST['comments_plugin_row'])               ? $_POST['comments_plugin_row']               : '';
 				
-				//사이드톡
+				//사이드톡 연동
 				$board->meta->sidetalk_ai_enable                = isset($_POST['sidetalk_ai_enable'])                ? $_POST['sidetalk_ai_enable']                : '';
+				$board->meta->sidetalk_ai_reply_user_id         = isset($_POST['sidetalk_ai_reply_user_id'])         ? $_POST['sidetalk_ai_reply_user_id']         : '';
 				$board->meta->sidetalk_api_key                  = isset($_POST['sidetalk_api_key'])                  ? $_POST['sidetalk_api_key']                  : '';
 				$board->meta->sidetalk_ai_target                = isset($_POST['sidetalk_ai_target'])                ? $_POST['sidetalk_ai_target']                : '';
 				$board->meta->sidetalk_ai_post_reply_mode       = isset($_POST['sidetalk_ai_post_reply_mode'])       ? $_POST['sidetalk_ai_post_reply_mode']       : '';

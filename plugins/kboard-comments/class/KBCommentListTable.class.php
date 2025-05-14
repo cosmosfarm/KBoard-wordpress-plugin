@@ -126,7 +126,9 @@ class KBCommentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';
-		echo date('Y-m-d H:i:s', strtotime($item->created));
+		echo '<input type="text" name="comment_date['.$item->uid.']" class="kboard-comment-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->created)).'">';
+		echo '<input type="text" name="comment_time['.$item->uid.']" class="kboard-comment-content-datepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->created)).'">';
+		echo '<button type="button" class="button button-small" onclick="kboard_comment_list_update('.$item->uid.')">'.__('Update', 'kboard').'</button>';
 		echo '</td>';
 		
 		echo '</tr>';

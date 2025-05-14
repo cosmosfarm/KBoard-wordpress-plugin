@@ -1804,7 +1804,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="sidetalk_ai_enable">AI 자동답변</label></th>
+						<th scope="row"><label for="sidetalk_ai_enable">AI 자동답변</label> <span style="font-size:12px;color:red;">(필수)</span></th>
 						<td>
 							<select name="sidetalk_ai_enable" id="sidetalk_ai_enable">
 								<option value="">비활성화</option>
@@ -1814,14 +1814,26 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="sidetalk_api_key">사이드톡 API 키</label></th>
+						<th scope="row"><label for="sidetalk_ai_reply_user_id">AI 자동답변 작성 계정 ID</label> <span style="font-size:12px;color:red;">(필수)</span></th>
+						<td>
+							<input type="number" name="sidetalk_ai_reply_user_id" id="sidetalk_ai_reply_user_id" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_ai_reply_user_id) ?>" min="1" step="1">
+							<p class="description">
+								WordPress 사용자 ID는 AI 자동답변을 생성할 때 사용할 계정입니다.<br>
+								<strong>입력하지 않으면 자동답변이 생성되지 않습니다.</strong><br>
+								예: <code>1</code>은 기본 관리자 계정일 수 있습니다. 별도 AI 전용 계정을 생성해 ID를 입력하는 것을 권장합니다.
+							</p>
+							<p class="description"><a href="https://www.notion.so/cosmosfarm/Kboard-WordPress-ID-1f3c7b1cfe21803fa1f5cb1374dcfa8b" target="_blank"> WordPress 사용자 ID 확인 방법</a></p>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="sidetalk_api_key">사이드톡 API 키</label> <span style="font-size:12px;color:red;">(필수)</span></th>
 						<td>
 							<input type="text" name="sidetalk_api_key" id="sidetalk_api_key" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_api_key) ?>">
 							<p class="description">사이드톡 대시보드에서 발급받은 API 키를 입력하세요.</p>
 						</td>
 					</tr>
 					<tr valign="top">
-						<th scope="row"><label for="sidetalk_ai_target">AI 자동답변을 적용할 대상</label></th>
+						<th scope="row"><label for="sidetalk_ai_target">AI 자동답변을 적용할 대상</label> <span style="font-size:12px;color:gray;">(선택)</span></th>
 						<td>
 							<select name="sidetalk_ai_target" id="sidetalk_ai_target">
 								<option value="post"<?php if($meta->sidetalk_ai_target == 'post'):?> selected<?php endif?>>게시글만</option>
@@ -1832,13 +1844,15 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr id="sidetalk_ai_post_reply_mode_row" valign="top" style="display:none;">
-						<th scope="row"><label for="sidetalk_ai_post_reply_mode">게시글의 답변 달기 방식</label></th>
+						<th scope="row"><label for="sidetalk_ai_post_reply_mode">게시글의 답변 달기 방식</label> <span style="font-size:12px;color:gray;">(선택)</span></th>
 						<td>
 							<select name="sidetalk_ai_post_reply_mode" id="sidetalk_ai_post_reply_mode">
 								<option value="comment"<?php if ($meta->sidetalk_ai_post_reply_mode === 'comment'): ?> selected<?php endif; ?>>댓글로 달기</option>
 								<option value="reply"<?php if ($meta->sidetalk_ai_post_reply_mode === 'reply'): ?> selected<?php endif; ?>>답글로 달기</option>
 							</select>
-							<p class="description">새로운 글이 등록되면 AI 답변을 어떤 형식으로 추가할지 선택합니다.</p>
+							<p class="description">게시글에 대한 AI 자동답변을 어떤 형태로 작성할지 선택하세요.<br>
+							<strong>댓글로 달기:</strong> 게시글 아래 일반 댓글로 AI 답변이 작성됩니다.<br>
+							<strong>답글로 달기:</strong> 게시글에 대한 하위 글(답글)로 AI가 새 글을 작성합니다.</p>
 						</td>
 					</tr>
 					<!-- <tr valign="top">
@@ -1849,7 +1863,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr> -->
 					<tr valign="top">
-						<th scope="row"><label for="sidetalk_ai_reply_title">자동답변 제목</label></th>
+						<th scope="row"><label for="sidetalk_ai_reply_title">자동답변 제목</label> <span style="font-size:12px;color:gray;">(선택)</span></th>
 						<td>
 							<input type="text" name="sidetalk_ai_reply_title" id="sidetalk_ai_reply_title" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_ai_reply_title) ?>">
 							<p class="description">자동생성되는 답변의 제목입니다. 예: <code>AI 자동 답변</code></p>
@@ -1858,7 +1872,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 					</tr>
 
 					<tr valign="top">
-						<th scope="row"><label for="sidetalk_ai_reply_author">자동답변 작성자 이름</label></th>
+						<th scope="row"><label for="sidetalk_ai_reply_author">자동답변 작성자 이름</label> <span style="font-size:12px;color:gray;">(선택)</span></th>
 						<td>
 							<input type="text" name="sidetalk_ai_reply_author" id="sidetalk_ai_reply_author" class="regular-text" value="<?php echo esc_attr($meta->sidetalk_ai_reply_author) ?>">
 							<p class="description">AI 답변 작성자 이름으로 표시할 이름입니다. 예: <code>사이드톡 AI</code></p>

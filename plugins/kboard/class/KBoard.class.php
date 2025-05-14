@@ -1096,11 +1096,23 @@ class KBoard {
 	 * @return void
 	 */
 	public function sidetalk_generate_post_ai($content) {
-		if (!$content || $content->execute_action !== 'insert' || !$this->meta->sidetalk_ai_enable || !$this->meta->sidetalk_api_key || !in_array($this->meta->sidetalk_ai_target, array('post', 'all'))
+		if (!$content || $content->execute_action !== 'insert' || !$this->meta->sidetalk_ai_enable || !$this->meta->sidetalk_api_key || !in_array($this->meta->sidetalk_ai_target, array('post', 'all')) || !intval($this->meta->sidetalk_ai_reply_user_id)
 		) { return; }
 
 		$question = $content->title . "\n\n" . strip_tags($content->content);
 		$ai_reply = $this->sidetalk_request_ai_reply($question, $this->meta->sidetalk_api_key);
+		
+		$ai_reply_user_id = intval($this->meta->sidetalk_ai_reply_user_id);
+		$author_name = '사이드톡 AI';
+
+		if (!empty($this->meta->sidetalk_ai_reply_author)) {
+			$author_name = $this->meta->sidetalk_ai_reply_author;
+		} elseif ($ai_reply_user_id > 0) {
+			$user = get_userdata($ai_reply_user_id);
+			if ($user && !empty($user->display_name)) {
+				$author_name = $user->display_name;
+			}
+		}
 
 		if (!is_wp_error($ai_reply) && $ai_reply) {
 			$reply_mode = $this->meta->sidetalk_ai_post_reply_mode;
@@ -1110,8 +1122,8 @@ class KBoard {
 				$comment_list->board = $this;
 				$comment_list->add(
 					0,
-					1,
-					$this->meta->sidetalk_ai_reply_author ?: '사이드톡 AI',
+					$ai_reply_user_id,
+					$author_name,
 					$ai_reply,
 					'',
 					''
@@ -1121,10 +1133,10 @@ class KBoard {
 				$reply->setBoardID($this->id);
 				$reply->parent_uid = $content->uid;
 				$reply->member_uid = 1;
-				$reply->member_display = $this->meta->sidetalk_ai_reply_author ?: '사이드톡 AI';
+				$reply->member_display = $author_name;
 				$reply->title = $this->meta->sidetalk_ai_reply_title ?: 'AI 자동 답변';
 				$reply->content = $ai_reply;
-				$reply->secret = 'no';
+				$reply->secret = $content->secret === 'yes' ? 'yes' : 'no';
 				$reply->execute_action = 'insert';
 				$reply->execute();
 			}
@@ -1138,21 +1150,32 @@ class KBoard {
 	 * @param string $comment_content 원본 댓글 내용
 	 * @return void
 	 */
-	public function sidetalk_generate_comment_ai($parent_comment_uid, $comment_content) {
-		if (!$this->meta->sidetalk_ai_enable || !$this->meta->sidetalk_api_key || !in_array($this->meta->sidetalk_ai_target, array('comment', 'all'))
+	public function sidetalk_generate_comment_ai($content_uid, $parent_comment_uid, $comment_content) {
+		if (!$this->meta->sidetalk_ai_enable || !$this->meta->sidetalk_api_key || !in_array($this->meta->sidetalk_ai_target, array('comment', 'all')) || !intval($this->meta->sidetalk_ai_reply_user_id)
 		) { return; }
 
 		$question = strip_tags($comment_content);
 		$ai_reply = $this->sidetalk_request_ai_reply($question, $this->meta->sidetalk_api_key);
+		$ai_reply_user_id = intval($this->meta->sidetalk_ai_reply_user_id);
+		$author_name = '사이드톡 AI';
 
+		if (!empty($this->meta->sidetalk_ai_reply_author)) {
+			$author_name = $this->meta->sidetalk_ai_reply_author;
+		} elseif ($ai_reply_user_id > 0) {
+			$user = get_userdata($ai_reply_user_id);
+			if ($user && !empty($user->display_name)) {
+				$author_name = $user->display_name;
+			}
+		}
+		
 		if (!is_wp_error($ai_reply) && $ai_reply) {
-			$comment_list = new KBCommentList($this->uid);
+			$comment_list = new KBCommentList($content_uid);
 			$comment_list->board = $this;
 
 			$comment_list->add(
 				$parent_comment_uid,
-				1,
-				$this->meta->sidetalk_ai_reply_author ?: '사이드톡 AI',
+				$ai_reply_user_id,
+				$author_name,
 				$ai_reply,
 				'',
 				''
