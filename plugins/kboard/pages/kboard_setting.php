@@ -28,7 +28,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('기본 카테고리(NEW)', 'kboard')?></a>
 			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('계층형 카테고리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('고급설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('사이드톡 연동', 'kboard')?></a>
+			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('사이드톡 연동(NEW)', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('대량관리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('인기글 표시', 'kboard')?></a>
