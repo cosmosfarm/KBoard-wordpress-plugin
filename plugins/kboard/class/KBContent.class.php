@@ -1744,8 +1744,18 @@ class KBContent {
 			}
 			
 			$board = $this->getBoard();
-			if($board->meta->board_username_masking){ // 게시판 작성자 이름 숨기기 활성화
-				$user_display  = esc_html($this->getObfuscateName());
+			$masking_option = $board->meta->board_username_masking;
+			
+			// 작성자 이름 마스킹 처리
+			if($masking_option == '1'){
+				// 모두 마스킹
+				$user_display = esc_html($this->getObfuscateName());
+			}
+			else if($masking_option == '2'){
+				// 관리자 제외 마스킹
+				if(!current_user_can('administrator')){
+					$user_display = esc_html($this->getObfuscateName());
+				}
 			}
 			
 			if($board->meta->show_author_activity_menu){

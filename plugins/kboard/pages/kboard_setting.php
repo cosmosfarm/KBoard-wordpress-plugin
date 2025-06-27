@@ -757,9 +757,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<td>
 							<select name="board_username_masking" id="board_username_masking">
 								<option value="">비활성화</option>
-								<option value="1"<?php if($meta->board_username_masking):?> selected<?php endif?>>활성화</option>
+								<option value="1"<?php if($meta->board_username_masking == '1'):?> selected<?php endif?>>활성화 (모두 적용)</option>
+								<option value="2"<?php if($meta->board_username_masking == '2'):?> selected<?php endif?>>활성화 (관리자 제외)</option>
 							</select>
 							<p class="description">게시글 리스트,본문에서 작성자 이름을 숨길 수 있습니다.</p>
+							<p class="description"><code>관리자 제외</code> 옵션을 선택하면 관리자는 이름을 그대로 볼 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">
@@ -769,8 +771,11 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="">비활성화</option>
 								<option value="1"<?php if($meta->comments_username_masking == '1'):?> selected<?php endif?>>활성화 (모두 적용)</option>
 								<option value="2"<?php if($meta->comments_username_masking == '2'):?> selected<?php endif?>>활성화 (각자 적용)</option>
+								<option value="3"<?php if($meta->comments_username_masking == '3'):?> selected<?php endif?>>활성화 (모두 적용 - 관리자 제외)</option>
+								<option value="4"<?php if($meta->comments_username_masking == '4'):?> selected<?php endif?>>활성화 (각자 적용 - 관리자 제외)</option>
 							</select>
 							<p class="description">본문에서 댓글 작성자 이름을 숨길 수 있습니다.</p>
+							<p class="description"><code>관리자 제외</code> 옵션을 선택하면 관리자는 이름을 그대로 볼 수 있습니다.</p>
 						</td>
 					</tr>
 					<tr valign="top">

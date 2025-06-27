@@ -73,7 +73,7 @@
 					</div>
 					
 					<div class="comments-field field-comment-hide">
-						<?php if($board->meta->comments_username_masking == '2'):?>
+						<?php if($board->meta->comments_username_masking == '2' || $board->meta->comments_username_masking == '4'):?>
 							<label class="comments-field-label" for="comment_hide_<?php echo $content_uid?>"><?php echo __('작성자 숨기기', 'kboard-comments')?></label>
 							<input type="checkbox" id="comment_hide_<?php echo $content_uid?>" name="comment_option_hide" value="1"<?php if($temporary->comment_hide):?> checked<?php endif?>><label class="comments-field-label" for="comment_hide_<?php echo $content_uid?>">작성자 숨기기</label>
 						<?php endif?>

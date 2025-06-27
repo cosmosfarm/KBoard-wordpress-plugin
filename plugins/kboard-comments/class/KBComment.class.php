@@ -363,14 +363,28 @@ class KBComment {
 			}
 			
 			$board = $this->getBoard();
-			if($board->meta->comments_username_masking == '1'){ // 댓글 작성자 이름 숨기기 활성화 (모두 적용)
-				$obfuscate_name = esc_html($this->getUserName());
-				$user_display = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $obfuscate_name), $obfuscate_name);
+			$masking_option = $board->meta->comments_username_masking;
+			
+			if($masking_option === '1'){ // 모두 마스킹
+				$obfuscate_name = esc_html($this->getObfuscateName());
+				$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $obfuscate_name), $obfuscate_name);
 			}
-			else if($board->meta->comments_username_masking == '2'){ // 댓글 작성자 이름 숨기기 활성화 (각자 적용)
+			elseif($masking_option === '2'){ // 각자 마스킹
 				if($this->option->hide == '1'){
-					$obfuscate_name = esc_html($this->getUserName());
-					$user_display  = sprintf('%s %s', get_avatar($this->getUserID(), 24, '', $obfuscate_name), $obfuscate_name);
+					$obfuscate_name = esc_html($this->getObfuscateName());
+					$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $obfuscate_name), $obfuscate_name);
+				}
+			}
+			elseif($masking_option === '3'){ // 모두 마스킹 (관리자 제외)
+				if(!current_user_can('administrator')){
+					$obfuscate_name = esc_html($this->getObfuscateName());
+					$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $obfuscate_name), $obfuscate_name);
+				}
+			}
+			elseif($masking_option === '4'){ // 각자 마스킹 (관리자 제외)
+				if(!current_user_can('administrator') && $this->option->hide == '1'){
+					$obfuscate_name = esc_html($this->getObfuscateName());
+					$user_display = sprintf('%s %s', get_avatar($user_id, 24, '', $obfuscate_name), $obfuscate_name);
 				}
 			}
 			
@@ -400,15 +414,9 @@ class KBComment {
 	public function getObfuscateName($replace='*'){
 		if($this->uid && $this->user_display){
 			$strlen = mb_strlen($this->user_display, 'utf-8');
+			$showlen = ($strlen > 3) ? 2 : 1;
+			$obfuscate_name = mb_substr($this->user_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen - $showlen);
 			
-			if($strlen > 3){
-				$showlen = 2;
-			}
-			else{
-				$showlen = 1;
-			}
-			
-			$obfuscate_name = mb_substr($this->user_display, 0, $showlen, 'utf-8') . str_repeat($replace, $strlen-$showlen);
 			return apply_filters('kboard_obfuscate_name', $obfuscate_name, $this->user_display, $this->getBoard());
 		}
 		return apply_filters('kboard_obfuscate_name', '', '', $this->getBoard());
