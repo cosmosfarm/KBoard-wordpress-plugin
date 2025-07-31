@@ -746,14 +746,16 @@ class KBContentList {
 			$select = apply_filters('kboard_latest_select', $default_select, $this->board_id, $this);
 			$from = apply_filters('kboard_latest_from', implode(' ', $this->from), $this->board_id, $this);
 			$where = apply_filters('kboard_latest_where', implode(' AND ', $this->where), $this->board_id, $this);
-			$orderby = apply_filters('kboard_latest_orderby', "{$this->sort} {$this->order}", $this->board_id, $this);
+			$stable_orderby = "{$this->sort} {$this->order}, `{$wpdb->prefix}kboard_board_content`.`uid` DESC";
+			$orderby = apply_filters('kboard_latest_orderby', $stable_orderby, $this->board_id, $this);
 		}
 		else{
 			$select_count = apply_filters('kboard_list_select_count', 'COUNT(*)', $this->board_id, $this);
 			$select = apply_filters('kboard_list_select', $default_select, $this->board_id, $this);
 			$from = apply_filters('kboard_list_from', implode(' ', $this->from), $this->board_id, $this);
 			$where = apply_filters('kboard_list_where', implode(' AND ', $this->where), $this->board_id, $this);
-			$orderby = apply_filters('kboard_list_orderby', "{$this->sort} {$this->order}", $this->board_id, $this);
+			$stable_orderby = "{$this->sort} {$this->order}, `{$wpdb->prefix}kboard_board_content`.`uid` DESC";
+			$orderby = apply_filters('kboard_list_orderby', $stable_orderby, $this->board_id, $this);
 		}
 		
 		$offset = ($this->page-1)*$this->rpp;
