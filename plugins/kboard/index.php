@@ -1772,7 +1772,7 @@ function kboard_activation_execute(){
 	KEY `status` (`status`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_option` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_option` (
 	`uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	`content_uid` bigint(20) unsigned NOT NULL,
 	`option_key` varchar(127) NOT NULL,
@@ -1782,7 +1782,7 @@ function kboard_activation_execute(){
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_meta` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_meta` (
 	`board_id` bigint(20) unsigned NOT NULL,
 	`key` varchar(127) NOT NULL,
 	`value` longtext NOT NULL,
@@ -1802,7 +1802,7 @@ function kboard_activation_execute(){
 	KEY `skin` (`skin`)
 	) {$charset_collate};");
 	
-	$wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}kboard_board_latestview_link` (
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_latestview_link` (
 	`latestview_uid` bigint(20) unsigned NOT NULL,
 	`board_id` bigint(20) unsigned NOT NULL,
 	UNIQUE KEY `latestview_uid` (`latestview_uid`,`board_id`)
