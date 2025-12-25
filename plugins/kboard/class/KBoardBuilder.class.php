@@ -437,17 +437,18 @@ class KBoardBuilder {
 		
 		$content = new KBContent();
 		$content->initWithUID($this->uid);
-		$list_url = esc_url($url->set('mod', 'list')->toString());
+		$list_url = esc_url_raw($url->set('mod', 'list')->toString());
+		$list_url_js = wp_json_encode($list_url);
 		
 		if(!$content->uid){
 			echo '<script>alert("'.__('Invalid URL address.', 'kboard').'");</script>';
-			echo '<script>window.location.href="' . $list_url . '";</script>';
+			echo '<script>window.location.href=' . $list_url_js . ';</script>';
 			exit;
 		}
 		
 		if($content->isTrash()){
 			echo '<script>alert("'.__('This post has been removed.', 'kboard').'");</script>';
-			echo '<script>window.location.href="' . $list_url . '";</script>';
+			echo '<script>window.location.href=' . $list_url_js . ';</script>';
 			exit;
 		}
 		
@@ -456,7 +457,7 @@ class KBoardBuilder {
 			if($message){
 				echo '<script>alert("'.$message.'");</script>';
 			}
-			echo '<script>window.location.href="' . $list_url . '";</script>';
+			echo '<script>window.location.href=' . $list_url_js . ';</script>';
 			exit;
 		}
 		
@@ -464,13 +465,13 @@ class KBoardBuilder {
 			if(is_user_logged_in()){
 				if(!$content->notice && $content->member_uid != get_current_user_id() && $content->getTopContent()->member_uid != get_current_user_id()){
 					echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
-					echo '<script>window.location.href="' . $list_url . '";</script>';
+					echo '<script>window.location.href=' . $list_url_js . ';</script>';
 					exit;
 				}
 			}
 			else{
 				echo '<script>alert("'.__('This post can only be read by the owner.', 'kboard').'");</script>';
-				echo '<script>window.location.href="' . $list_url . '";</script>';
+				echo '<script>window.location.href=' . $list_url_js . ';</script>';
 				exit;
 			}
 		}
