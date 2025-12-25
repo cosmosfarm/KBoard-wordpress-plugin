@@ -927,7 +927,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												</select>
 												<div class="kboard-permission-read-roles-view<?php if($item['notice_permission'] != 'roles'):?> kboard-hide<?php endif?>">
 													<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-														<label><input type="checkbox" class="field_data notice_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['notice'])):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
+														<label><input type="checkbox" class="field_data notice_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, (array)$item['notice'])):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
 													<?php endforeach?>
 												</div>
 											</div>
@@ -1120,7 +1120,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 													<div class="kboard-permission-read-roles-view<?php if(!isset($item['show_document_mode']) || $item['show_document_mode'] != 'roles'):?> kboard-hide<?php endif?>">
 														<?php foreach(get_editable_roles() as $roles_key => $roles_value):?>
 															<label>
-																<input type="checkbox" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key == 'administrator'):?> onclick="return false"<?php endif?><?php if($roles_key == 'administrator' || (isset($item['show_document_roles']) && in_array($roles_key, $item['show_document_roles']))):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?>
+																<input type="checkbox" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key == 'administrator'):?> onclick="return false"<?php endif?><?php if($roles_key == 'administrator' || (isset($item['show_document_roles']) && in_array($roles_key, (array)$item['show_document_roles']))):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?>
 															</label>
 														<?php endforeach?>
 													</div>
@@ -1341,7 +1341,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 												<div class="kboard-permission-read-roles-view<?php if(!isset($item['show_document_mode']) || $item['show_document_mode'] != 'roles'):?> kboard-hide<?php endif?>">
 													<?php foreach(get_editable_roles() as $roles_key => $roles_value):?>
 														<label>
-															<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][show_document_roles][]" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key == 'administrator'):?> onclick="return false"<?php endif?><?php if($roles_key == 'administrator' || (isset($item['show_document_roles']) && in_array($roles_key, $item['show_document_roles']))):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?>
+															<input type="checkbox" name="fields[<?php echo esc_attr($meta_key)?>][show_document_roles][]" class="field_data show_document_roles_checkbox" value="<?php echo $roles_key?>"<?php if($roles_key == 'administrator'):?> onclick="return false"<?php endif?><?php if($roles_key == 'administrator' || (isset($item['show_document_roles']) && in_array($roles_key, (array)$item['show_document_roles']))):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?>
 														</label>
 													<?php endforeach?>
 												</div>
@@ -1359,7 +1359,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											</select>
 											<div class="kboard-permission-read-roles-view<?php if($item['secret_permission'] != 'roles'):?> kboard-hide<?php endif?>">
 												<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-													<label><input type="checkbox" name="fields[option][secret][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['secret'])):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
+													<label><input type="checkbox" name="fields[option][secret][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, (array)$item['secret'])):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
 												<?php endforeach?>
 											</div>
 										</div>
@@ -1376,7 +1376,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											</select>
 											<div class="kboard-permission-read-roles-view<?php if($item['notice_permission'] != 'roles'):?> kboard-hide<?php endif?>">
 												<?php foreach(get_editable_roles() as $roles_key=>$roles_value):?>
-													<label><input type="checkbox" name="fields[option][notice][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, $item['notice'])):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
+													<label><input type="checkbox" name="fields[option][notice][]" class="field_data" value="<?php echo $roles_key?>"<?php if($roles_key=='administrator'):?> onclick="return false"<?php endif?><?php if($roles_key=='administrator' || in_array($roles_key, (array)$item['notice'])):?> checked<?php endif?>> <?php echo _x($roles_value['name'], 'User role')?></label>
 												<?php endforeach?>
 											</div>
 										</div>
