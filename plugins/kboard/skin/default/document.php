@@ -54,7 +54,9 @@
 			
 			<div class="kboard-content" itemprop="description">
 				<div class="content-view">
-					<?php echo $content->getDocumentOptionsHTML()?>
+					<div class="kboard-document-options-group">
+						<?php echo $content->getDocumentOptionsHTML()?>
+					</div>
 					<?php echo $content->content?>
 				</div>
 			</div>
