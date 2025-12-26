@@ -36,29 +36,46 @@
 }
 
 /* Global Reset within KBoard Container */
-[id^="kboard-"] {
+#kboard-default-list,
+#kboard-default-document,
+#kboard-default-editor,
+#kboard-default-latest {
 	font-family: var(--kboard-font-family);
 	font-size: var(--kboard-font-size);
 	color: var(--kboard-text);
 	box-sizing: border-box;
 	line-height: 1.6;
 	margin: 20px 0;
-	/* Add top/bottom spacing */
 }
 
-[id^="kboard-"] *,
-[id^="kboard-"] *::before,
-[id^="kboard-"] *::after {
+#kboard-default-list *,
+#kboard-default-document *,
+#kboard-default-editor *,
+#kboard-default-latest *,
+#kboard-default-list *::before,
+#kboard-default-document *::before,
+#kboard-default-editor *::before,
+#kboard-default-latest *::before,
+#kboard-default-list *::after,
+#kboard-default-document *::after,
+#kboard-default-editor *::after,
+#kboard-default-latest *::after {
 	box-sizing: inherit;
 }
 
-[id^="kboard-"] a {
+#kboard-default-list a,
+#kboard-default-document a,
+#kboard-default-editor a,
+#kboard-default-latest a {
 	text-decoration: none;
 	color: inherit;
 	transition: color 0.2s;
 }
 
-[id^="kboard-"] img {
+#kboard-default-list img,
+#kboard-default-document img,
+#kboard-default-editor img,
+#kboard-default-latest img {
 	max-width: 100%;
 	height: auto;
 	vertical-align: middle;
@@ -117,17 +134,37 @@ button.kboard-default-button-small:hover {
 	-webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M8.309 189.836L184.313 37.851C199.719 24.546 224 35.347 224 56.015v80.053c160.629 1.839 288 34.032 288 186.258 0 61.441-39.581 122.309-83.333 154.132-13.653 9.931-33.111-2.533-28.077-18.631 45.344-145.012-21.507-183.51-176.59-185.742V360c0 20.7-24.3 31.453-39.687 18.164l-176.004-152c-11.07-9.533-11.07-26.633 0-36.328z'/%3E%3C/svg%3E") no-repeat center/contain;
 	mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M8.309 189.836L184.313 37.851C199.719 24.546 224 35.347 224 56.015v80.053c160.629 1.839 288 34.032 288 186.258 0 61.441-39.581 122.309-83.333 154.132-13.653 9.931-33.111-2.533-28.077-18.631 45.344-145.012-21.507-183.51-176.59-185.742V360c0 20.7-24.3 31.453-39.687 18.164l-176.004-152c-11.07-9.533-11.07-26.633 0-36.328z'/%3E%3C/svg%3E") no-repeat center/contain;
 	transform: scaleX(-1);
-	/* Flip horizontally to look like a reply arrow */
 }
 
 /* Form Elements Reset & Style */
-[id^="kboard-"] input[type=text],
-[id^="kboard-"] input[type=email],
-[id^="kboard-"] input[type=password],
-[id^="kboard-"] input[type=number],
-[id^="kboard-"] input[type=date],
-[id^="kboard-"] select,
-[id^="kboard-"] textarea {
+#kboard-default-list input[type=text],
+#kboard-default-document input[type=text],
+#kboard-default-editor input[type=text],
+#kboard-default-latest input[type=text],
+#kboard-default-list input[type=email],
+#kboard-default-document input[type=email],
+#kboard-default-editor input[type=email],
+#kboard-default-latest input[type=email],
+#kboard-default-list input[type=password],
+#kboard-default-document input[type=password],
+#kboard-default-editor input[type=password],
+#kboard-default-latest input[type=password],
+#kboard-default-list input[type=number],
+#kboard-default-document input[type=number],
+#kboard-default-editor input[type=number],
+#kboard-default-latest input[type=number],
+#kboard-default-list input[type=date],
+#kboard-default-document input[type=date],
+#kboard-default-editor input[type=date],
+#kboard-default-latest input[type=date],
+#kboard-default-list select,
+#kboard-default-document select,
+#kboard-default-editor select,
+#kboard-default-latest select,
+#kboard-default-list textarea,
+#kboard-default-document textarea,
+#kboard-default-editor textarea,
+#kboard-default-latest textarea {
 	appearance: none;
 	-webkit-appearance: none;
 	background-color: #fff;
@@ -139,18 +176,38 @@ button.kboard-default-button-small:hover {
 	outline: none;
 	transition: border-color 0.2s, box-shadow 0.2s;
 	min-height: 40px;
-	/* Touch friendly */
 	box-shadow: none;
 	margin: 0;
-	/* Reset theme margin */
 }
 
-[id^="kboard-"] input:focus,
-[id^="kboard-"] select:focus,
-[id^="kboard-"] textarea:focus {
+#kboard-default-list input:focus,
+#kboard-default-document input:focus,
+#kboard-default-editor input:focus,
+#kboard-default-latest input:focus,
+#kboard-default-list select:focus,
+#kboard-default-document select:focus,
+#kboard-default-editor select:focus,
+#kboard-default-latest select:focus,
+#kboard-default-list textarea:focus,
+#kboard-default-document textarea:focus,
+#kboard-default-editor textarea:focus,
+#kboard-default-latest textarea:focus {
 	border-color: var(--kboard-primary);
 	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 	border-bottom: 1px solid var(--kboard-primary) !important;
+}
+
+/* Select Custom Arrow (Restore Dropdown Icon) */
+#kboard-default-list select,
+#kboard-default-document select,
+#kboard-default-editor select,
+#kboard-default-latest select {
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	background-size: 16px;
+	padding-right: 32px !important;
+	cursor: pointer;
 }
 
 /* --- List View --- */
