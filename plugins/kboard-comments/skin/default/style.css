@@ -22,7 +22,7 @@
 	--kboard-comments-radius-sm: 4px;
 	--kboard-comments-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
 	font-size: 15px;
 	color: var(--kboard-comments-text);
 	line-height: 1.6;
@@ -210,7 +210,6 @@
 	color: var(--kboard-comments-text);
 	font-size: 14px;
 	display: inline-block;
-	margin-bottom: 4px;
 	margin-right: 10px;
 	line-height: 36px;
 	vertical-align: middle;
