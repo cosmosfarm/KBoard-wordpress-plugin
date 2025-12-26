@@ -294,8 +294,8 @@
 }
 
 /* Like/Unlike Counts */
-.kboard-comment-like-count,
-.kboard-comment-unlike-count {
+.kboard-comments-default .kboard-comment-like-count,
+.kboard-comments-default .kboard-comment-unlike-count {
 	font-weight: 700;
 	margin-left: 2px;
 }

@@ -381,8 +381,14 @@ button.kboard-default-button-small:hover {
 	font-weight: 500;
 }
 
-.kboard-list-title a {
+#kboard-default-list .kboard-list-title a {
 	color: var(--kboard-text);
+	text-decoration: none;
+	transition: color 0.15s;
+}
+
+#kboard-default-list .kboard-list-title a:hover {
+	color: var(--kboard-primary);
 }
 
 .kboard-comments-count {
