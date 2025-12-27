@@ -12,9 +12,9 @@
 				<?php if($content->getThumbnail(96, 70)):?><img src="<?php echo $content->getThumbnail(96, 70)?>" alt="" class="contents-thumbnail"><?php endif?>
 			</div>
 			<div class="kboard-thumbnail-cut-strings">
-				<img src="<?php echo $skin_path?>/images/icon-reply.png" alt="">
+				<span class="kboard-icon-reply"></span>
 				<?php if($content->isNew()):?><span class="kboard-thumbnail-new-notify">New</span><?php endif?>
-				<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+				<?php if($content->secret):?><span class="kboard-icon-lock"></span><?php endif?>
 				<?php echo $content->title?>
 				<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 			</div>
