@@ -10,45 +10,249 @@
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<style>
-	* { font-family: Apple SD Gothic Neo,Malgun Gothic,arial,sans-serif,arial,sans-serif; }
-	html,body { margin: 0; padding: 0; background-color: white; }
-	img { border: 0; }
-	.kboard-media-header { padding: 0 20px; font-size: 20px; overflow: hidden; }
-	.kboard-media-header .title { float: left; padding-right: 10px; line-height: 64px; }
-	.kboard-media-header .controller { float: left; line-height: 64px; }
-	.kboard-media-header .header-button { display: inline-block; *display: inline; zoom: 1; vertical-align: middle; margin: 0; padding: 0; padding: 0 10px; line-height: 40px; border: 0; background-color: white; color: #757575; font-size: 12px; cursor: pointer; text-decoration: none; }
-	.kboard-media-header .header-button img { vertical-align: middle; }
-	.media-wrap { padding: 0 10px; overflow: hidden; }
-	.media-wrap .no-media { margin: 20px 10px; padding: 30px 10px; overflow: hidden; line-height: 30px; border: 1px solid #eeeeee; color: #757575; }
-	.media-wrap .no-media a { color: #757575; text-decoration: none; }
-	.media-wrap .media-item { position: relative; display: block; float: left; margin: 5px; padding: 5px; cursor: pointer; }
-	.media-wrap .media-item .selected-media { display: none; position: absolute; left: 0; top: 0; border-radius: 12px; box-shadow: 2px 2px 2px RGBA(0,0,0,0.2); }
-	.media-wrap .media-item .media-image-wrap { width: 150px; }
-	.media-wrap .media-item .media-image-wrap .media-image { width: 100%; height: 150px; background-size: cover; background-position: center; }
-	.media-wrap .media-item .media-control { text-align: center; background-color: #f5f5f5; }
-	.media-wrap .media-item .media-control input { display: none; }
-	.media-wrap .media-item .media-control button { margin: 0; padding: 5px 10px; border: 0; background-color: transparent; color: #757575; font-size: 14px; cursor: pointer; text-decoration: none; }
-	.media-wrap .media-item:hover .selected-media { display: block; }
-	.media-wrap .media-item.selected-item { padding: 5px; border: 0px solid #0073ea; }
+	/* Global Corporate Style Reset & Variables */
+	:root {
+		--primary-color: #2563eb;
+		--primary-hover: #1d4ed8;
+		--bg-color: #f8fafc;
+		--surface-white: #ffffff;
+		--text-main: #1e293b;
+		--text-sub: #64748b;
+		--border-color: #e2e8f0;
+	}
+
+	* { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+	html, body { margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); height: 100%; }
+	img { border: 0; display: block; }
+	
+	/* Header */
+	.kboard-media-header {
+		background: var(--surface-white);
+		padding: 12px 24px;
+		border-bottom: 1px solid var(--border-color);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+	}
+	.kboard-media-header .title {
+		font-size: 18px;
+		font-weight: 600;
+		color: var(--text-main);
+	}
+	.kboard-media-header .controller {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+	}
+	
+	/* Buttons */
+	.kboard-media-header .header-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 36px;
+		padding: 0 16px;
+		border-radius: 6px;
+		font-size: 14px;
+		font-weight: 500;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all 0.2s ease;
+		border: 1px solid transparent;
+		line-height: 1;
+		white-space: nowrap;
+	}
+	.kboard-media-header .header-button img { margin-right: 6px; height: 14px; width: auto; vertical-align: middle; }
+	
+	/* Primary Button (Upload) */
+	.kboard-media-header .header-button.upload-button {
+		background-color: var(--primary-color);
+		color: white;
+		border-color: var(--primary-color);
+		box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	}
+	.kboard-media-header .header-button.upload-button:hover {
+		background-color: var(--primary-hover);
+		border-color: var(--primary-hover);
+		transform: translateY(-1px);
+	}
+
+	/* Secondary Button (Insert) */
+	.kboard-media-header .header-button.btn-secondary {
+		background-color: white;
+		border-color: var(--border-color);
+		color: var(--text-main);
+	}
+	.kboard-media-header .header-button.btn-secondary:hover {
+		background-color: #f1f5f9;
+		border-color: #cbd5e1;
+	}
+
+	/* Text Button (Controls) */
+	.kboard-media-header .header-button.btn-text {
+		background-color: transparent;
+		color: var(--text-sub);
+	}
+	.kboard-media-header .header-button.btn-text:hover {
+		background-color: rgba(0,0,0,0.05);
+		color: var(--text-main);
+	}
+
+	/* Media Grid */
+	.media-wrap {
+		padding: 24px;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+		gap: 20px;
+	}
+	
+	/* Media Item */
+	.media-wrap .media-item {
+		display: block;
+		background: var(--surface-white);
+		border-radius: 12px;
+		border: 1px solid var(--border-color);
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		margin: 0; /* Override float margins */
+		float: none; /* Override float */
+		padding: 0;
+	}
+	.media-wrap .media-item:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		border-color: #cbd5e1;
+	}
+	
+	/* Selection */
+	.media-wrap .media-item.selected-item {
+		border: 2px solid var(--primary-color);
+		box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+	}
+	
+	.media-wrap .media-item .selected-media {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		width: 28px;
+		height: 28px;
+		display: none;
+		z-index: 10;
+		background: var(--primary-color) url('<?php echo KBOARD_URL_PATH?>/images/selected-media.png') no-repeat center center;
+		background-size: 14px;
+		border-radius: 50%;
+		border: 2px solid white;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	}
+	/* Use CSS for checkmark if image fails or for cleaner look, but keeping image logic for now */
+	.media-wrap .media-item .selected-media img { display: none; } /* hide original img tag inside if we use bg */
+	
+	.media-wrap .media-item:hover .selected-media,
 	.media-wrap .media-item.selected-item .selected-media { display: block; }
-	.media-wrap .media-item.selected-item .media-image-wrap { width: 130px; padding: 10px; background-color: #f5f5f5; }
-	.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 130px; }
-	.kboard-loading { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: black; opacity: 0.5; text-align: center; }
-	.kboard-loading img { position: relative; top: 50%; margin-top: -32px; border: 0; }
+	.media-wrap .media-item:hover .selected-media { opacity: 0.5; background-color: #aaa; }
+	.media-wrap .media-item.selected-item .selected-media { opacity: 1; background-color: var(--primary-color); }
+
+	.media-wrap .media-item .media-image-wrap {
+		width: 100%;
+		padding-top: 100%; /* 1:1 Square */
+		position: relative;
+		background-color: #f1f5f9;
+	}
+	.media-wrap .media-item .media-image-wrap .media-image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+		transition: transform 0.3s ease;
+	}
+	.media-wrap .media-item:hover .media-image-wrap .media-image {
+		transform: scale(1.05); /* Subtle Toggle zoom */
+	}
+
+	/* Controls Grid */
+	.media-wrap .media-item .media-control {
+		display: flex;
+		border-top: 1px solid var(--border-color);
+		background: var(--surface-white);
+	}
+	.media-wrap .media-item .media-control button {
+		flex: 1;
+		padding: 12px 0;
+		border: 0;
+		background: transparent;
+		color: var(--text-sub);
+		font-size: 13px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+	.media-wrap .media-item .media-control button:hover {
+		background-color: #f8fafc;
+		color: var(--primary-color);
+	}
+	.media-wrap .media-item .media-control button:first-of-type {
+		border-right: 1px solid var(--border-color);
+	}
+	
+	.media-wrap .media-item .media-control input { display: none; }
+
+	/* No Media State */
+	.media-wrap .no-media {
+		grid-column: 1 / -1;
+		text-align: center;
+		padding: 80px 20px;
+		color: var(--text-sub);
+		background: var(--surface-white);
+		border-radius: 16px;
+		border: 2px dashed var(--border-color);
+		margin: 0;
+	}
+	.media-wrap .no-media .kboard-media-poweredby {
+		display: inline-block;
+		margin-top: 24px;
+		font-size: 12px;
+		color: #cbd5e1;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	.media-wrap .no-media .kboard-media-poweredby:hover { color: var(--text-sub); }
+
+	.kboard-loading {
+		position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+		background-color: rgba(255,255,255,0.8);
+		backdrop-filter: blur(4px);
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.kboard-loading img { margin: 0; }
 	.kboard-hide { display: none !important; }
 	
-	@media screen and (max-width: 899px) {
-		.kboard-media-header { line-height: normal; }
-		.kboard-media-header .title { float: none; padding-right: 0; text-align: center; }
-		.kboard-media-header .controller { float: none; line-height: 30px; text-align: center; }
-		.kboard-media-header .controller input[type="file"] { display: block; }
-		.media-wrap .media-item { float: none; }
-		.media-wrap .media-item .media-image-wrap { width: auto; }
-		.media-wrap .media-item .media-image-wrap .media-image { height: 200px; }
-		.media-wrap .media-item:hover .selected-media { display: none; }
-		.media-wrap .media-item.selected-item .selected-media { display: block; }
-		.media-wrap .media-item.selected-item .media-image-wrap { width: auto; }
-		.media-wrap .media-item.selected-item .media-image-wrap .media-image { height: 180px; }
+	@media screen and (max-width: 600px) {
+		.kboard-media-header {
+			flex-direction: column;
+			gap: 12px;
+			padding: 16px;
+		}
+		.kboard-media-header .title { width: 100%; text-align: center; margin-bottom: 4px; }
+		.kboard-media-header .controller { width: 100%; justify-content: center; flex-wrap: wrap; }
+		.kboard-media-header .header-button { flex: 1; min-width: 100px; }
+		
+		.media-wrap {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 12px;
+			padding: 12px;
+		}
 	}
 	</style>
 	
@@ -68,10 +272,10 @@
 	<div class="kboard-media-header">
 		<div class="title"><?php echo __('KBoard Add Media', 'kboard')?></div>
 		<div class="controller">
-			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png"> <?php echo __('업로드', 'kboard')?></a>
-			<a href="javascript:void(0)" class="header-button" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png"> <?php echo __('선택 삽입', 'kboard')?></a>
-			<a href="javascript:void(0)" class="header-button" onclick="kboard_media_select_all();return false;" title="<?php echo __('전체선택', 'kboard')?>"><?php echo __('전체선택', 'kboard')?></a>
-			<a href="javascript:void(0)" class="header-button" onclick="kboard_media_close();return false;" title="<?php echo __('창닫기', 'kboard')?>"><?php echo __('창닫기', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button upload-button" data-name="kboard_media_file[]" title="<?php echo __('이미지 선택하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-upload.png" style="filter: brightness(0) invert(1);"> <?php echo __('업로드', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button btn-secondary" onclick="kboard_selected_media_insert();return false;" title="<?php echo __('선택된 이미지 삽입하기', 'kboard')?>"><img src="<?php echo KBOARD_URL_PATH?>/images/icon-add.png" style="opacity: 0.6"> <?php echo __('선택 삽입', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button btn-text" onclick="kboard_media_select_all();return false;" title="<?php echo __('전체선택', 'kboard')?>"><?php echo __('전체선택', 'kboard')?></a>
+			<a href="javascript:void(0)" class="header-button btn-text" onclick="kboard_media_close();return false;" title="<?php echo __('창닫기', 'kboard')?>"><?php echo __('창닫기', 'kboard')?></a>
 		</div>
 	</div>
 </form>
@@ -79,7 +283,7 @@
 <div class="media-wrap">
 	<?php $index=0; foreach($media->getList() as $key=>$item): $index++;?>
 	<label class="media-item" data-media-uid="<?php echo $item->uid?>">
-		<img class="selected-media" src="<?php echo KBOARD_URL_PATH?>/images/selected-media.png" alt="<?php echo __('선택됨', 'kboard')?>">
+		<div class="selected-media"></div>
 		<div class="media-image-wrap">
 			<div class="media-image" style="background-image:url(<?php echo $item->thumbnail_url?>)"></div>
 		</div>
@@ -93,8 +297,8 @@
 	
 	<?php if(!$index):?>
 	<div class="no-media">
-		<?php echo __('업로드된 이미지가 없습니다.', 'kboard')?><br>
-		<?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다 :D', 'kboard')?><br>
+		<div style="font-size: 16px; margin-bottom: 10px; font-weight: 500; color: #1e293b;"><?php echo __('업로드된 이미지가 없습니다.', 'kboard')?></div>
+		<div style="font-size: 14px;"><?php echo __('업로드 버튼을 눌러 이미지 파일을 선택하면 이곳에 표시됩니다.', 'kboard')?></div>
 		
 		<?php if($board->contribution()):?>
 		<a class="kboard-media-poweredby" href="https://www.cosmosfarm.com/products/kboard" onclick="window.open(this.href);return false;" title="<?php echo __('KBoard is the best community software available for WordPress', 'kboard')?>">Powered by KBoard</a>
