@@ -953,41 +953,6 @@ button.kboard-avatar-button-small:hover {
 	transform: scale(1.2);
 }
 
-/* Editor Action Buttons */
-#kboard-avatar-editor .kboard-control {
-	float: none;
-	padding: 20px 0;
-	display: flex;
-	justify-content: flex-end;
-	gap: 10px;
-}
-
-#kboard-avatar-editor .kboard-control a {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 10px 20px;
-	background: #fff;
-	border: 1px solid var(--kboard-border);
-	border-radius: var(--kboard-radius);
-	font-weight: 500;
-	color: var(--kboard-text);
-}
-
-#kboard-avatar-editor .kboard-control button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 10px 24px;
-	background: var(--kboard-primary);
-	color: #fff;
-	border: none;
-	border-radius: var(--kboard-radius);
-	font-weight: 600;
-	font-size: 15px;
-	cursor: pointer;
-}
-
 /* Editor Mobile Responsive */
 @media screen and (max-width: 600px) {
 	#kboard-avatar-editor .kboard-attr-row {
