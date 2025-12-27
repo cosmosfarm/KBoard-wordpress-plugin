@@ -1003,6 +1003,21 @@ button.kboard-avatar-button-small:hover {
 	box-sizing: border-box;
 }
 
+/* Tree Category in Editor */
+#kboard-avatar-editor .kboard-tree-category-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+#kboard-avatar-editor .kboard-tree-category-wrap select {
+	flex: 1;
+	min-width: 120px;
+	width: auto;
+}
+
 #kboard-avatar-editor .kboard-control {
 	float: none;
 	display: flex;

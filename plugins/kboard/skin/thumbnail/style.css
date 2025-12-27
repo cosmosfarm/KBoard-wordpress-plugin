@@ -1004,6 +1004,21 @@ button.kboard-thumbnail-button-small:hover {
 	border-color: var(--kboard-text-muted);
 }
 
+/* Tree Category in Editor */
+#kboard-thumbnail-editor .kboard-tree-category-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+#kboard-thumbnail-editor .kboard-tree-category-wrap select {
+	flex: 1;
+	min-width: 120px;
+	width: auto;
+}
+
 /* --- Address Field (Postcode) --- */
 #kboard-thumbnail-editor .kboard-row-postcode {
 	display: flex;

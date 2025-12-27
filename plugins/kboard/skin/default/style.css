@@ -1120,6 +1120,21 @@ button.kboard-default-button-small:hover {
 	width: 90px;
 }
 
+/* Tree Category in Editor (Global) */
+#kboard-default-editor .kboard-tree-category-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+#kboard-default-editor .kboard-tree-category-wrap select {
+	flex: 1;
+	min-width: 120px;
+	width: auto;
+}
+
 /* --- Responsive Media Query --- */
 @media screen and (max-width: 768px) {
 
@@ -1207,6 +1222,8 @@ button.kboard-default-button-small:hover {
 		min-width: 0;
 		/* Fix flex overflow */
 	}
+
+
 
 	/* Editor */
 	#kboard-default-editor .kboard-control {
