@@ -1,255 +1,1378 @@
 @charset "utf-8";
 /**
- * @author https://www.cosmosfarm.com
+ * KBoard Contact Form Skin - Modern 2026 Redesign
+ * (Cloned from Default Skin)
  */
 
+:root {
+	/* Palette */
+	--kboard-primary: #2563eb;
+	--kboard-primary-hover: #1d4ed8;
+	--kboard-text: #1e293b;
+	--kboard-text-muted: #64748b;
+	--kboard-bg: #ffffff;
+	--kboard-bg-alt: #f8fafc;
+	--kboard-border: #e2e8f0;
+	--kboard-danger: #ef4444;
+
+	/* Typography */
+	--kboard-font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
+	--kboard-font-size: 15px;
+
+	/* Spacing & Radius */
+	--kboard-radius: 8px;
+	--kboard-spacing-sm: 8px;
+	--kboard-spacing-md: 16px;
+	--kboard-spacing-lg: 24px;
+
+	/* Shadows */
+	--kboard-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	--kboard-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Global Reset within KBoard Container */
+#kboard-contact-form-list,
+#kboard-contact-form-document,
+#kboard-contact-form-editor,
+#kboard-contact-form-latest {
+	font-family: var(--kboard-font-family);
+	font-size: var(--kboard-font-size);
+	color: var(--kboard-text);
+	box-sizing: border-box;
+	line-height: 1.6;
+	margin: 20px 0;
+}
+
+#kboard-contact-form-list *,
+#kboard-contact-form-document *,
+#kboard-contact-form-editor *,
+#kboard-contact-form-latest *,
+#kboard-contact-form-list *::before,
+#kboard-contact-form-document *::before,
+#kboard-contact-form-editor *::before,
+#kboard-contact-form-latest *::before,
+#kboard-contact-form-list *::after,
+#kboard-contact-form-document *::after,
+#kboard-contact-form-editor *::after,
+#kboard-contact-form-latest *::after {
+	box-sizing: inherit;
+}
+
+#kboard-contact-form-list a,
+#kboard-contact-form-document a,
+#kboard-contact-form-editor a,
+#kboard-contact-form-latest a {
+	text-decoration: none;
+	color: inherit;
+	transition: color 0.2s;
+}
+
+#kboard-contact-form-list img,
+#kboard-contact-form-document img,
+#kboard-contact-form-editor img,
+#kboard-contact-form-latest img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+/* Buttons */
 a.kboard-contact-form-button-small,
 input.kboard-contact-form-button-small,
-button.kboard-contact-form-button-small { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 10px; width: auto; height: 28px; line-height: 28px; font-size: 14px; font-weight: normal; letter-spacing: normal; color: #545861 !important; background: #eaeaea !important; border: none; border-radius: 0; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
+button.kboard-contact-form-button-small {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 36px;
+	padding: 0 16px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #fff !important;
+	background-color: var(--kboard-text) !important;
+	border: 1px solid transparent;
+	border-radius: var(--kboard-radius);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	line-height: 1;
+	box-shadow: var(--kboard-shadow-sm);
+	text-shadow: none;
+}
+
 a.kboard-contact-form-button-small:hover,
-a.kboard-contact-form-button-small:focus,
-a.kboard-contact-form-button-small:active,
-input.kboard-contact-form-button-small:hover,
-input.kboard-contact-form-button-small:focus,
-input.kboard-contact-form-button-small:active,
-button.kboard-contact-form-button-small:hover,
-button.kboard-contact-form-button-small:focus,
-button.kboard-contact-form-button-small:active { opacity: 0.7; }
+button.kboard-contact-form-button-small:hover {
+	background-color: var(--kboard-primary) !important;
+	transform: translateY(-1px);
+	box-shadow: var(--kboard-shadow-md);
+	opacity: 1 !important;
+}
 
-a.kboard-contact-form-button-large,
-input.kboard-contact-form-button-large,
-button.kboard-contact-form-button-large { position: relative; display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 50px; width: auto; height: 48px; line-height: 48px; font-size: 16px; font-weight: normal; letter-spacing: normal; color: #545861 !important; background: #eaeaea !important; border: none; border-radius: 24px; text-decoration: none !important; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; transition-duration: 0.3s; box-sizing: content-box; }
-a.kboard-contact-form-button-large:hover,
-a.kboard-contact-form-button-large:focus,
-a.kboard-contact-form-button-large:active,
-input.kboard-contact-form-button-large:hover,
-input.kboard-contact-form-button-large:focus,
-input.kboard-contact-form-button-large:active,
-button.kboard-contact-form-button-large:hover,
-button.kboard-contact-form-button-large:focus,
-button.kboard-contact-form-button-large:active { opacity: 0.7; }
+/* Lock Icon */
+.kboard-icon-lock {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+	margin-right: 4px;
+	background-color: var(--kboard-text-muted);
+	-webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z'/%3E%3C/svg%3E") no-repeat center/contain;
+	mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z'/%3E%3C/svg%3E") no-repeat center/contain;
+}
 
-.kboard-contact-form-poweredby { float: left; padding-bottom: 15px; width: 100%; font-size: 14px; text-align: right; }
-.kboard-contact-form-new-notify { display: inline-block; *display: inline; zoom: 1; padding: 2px 2px; line-height: 10px; font-size: 10px; color: white; background-color: #f61b5d; font-weight: normal; }
-.kboard-contact-form-cut-strings { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-wrap: normal; }
+/* Reply Icon */
+.kboard-icon-reply {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	margin-right: 4px;
+	background-color: var(--kboard-text-muted);
+	-webkit-mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 15l-6 6-1.42-1.42L15.17 16H4V4h2v10h9.17l-3.59-3.58L13 9l6 6z'/%3E%3C/svg%3E") no-repeat center/contain;
+	mask: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 15l-6 6-1.42-1.42L15.17 16H4V4h2v10h9.17l-3.59-3.58L13 9l6 6z'/%3E%3C/svg%3E") no-repeat center/contain;
+	transform: none;
+}
 
-#kboard-contact-form-list { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-contact-form-list form { margin: 0; padding: 0; }
-#kboard-contact-form-list .kboard-list-header { float: left; display: table; padding-bottom: 15px; width: 100%; }
-#kboard-contact-form-list .kboard-list-header .kboard-total-count { *float: left; display: table-cell; font-size: 14px; }
-#kboard-contact-form-list .kboard-list-header .kboard-sort { *float: right; display: table-cell; text-align: right; }
-#kboard-contact-form-list .kboard-list-header .kboard-sort select { display: inline; margin: 0; padding: 0; width: auto; min-width: 0; max-width: none; height: 26px; min-height: 0; line-height: 26px; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: content-box; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-contact-form-list .kboard-category { float: left; padding-bottom: 15px; width: 100%; }
-#kboard-contact-form-list .kboard-category.category-mobile { display: none; }
-#kboard-contact-form-list .kboard-category.category-pc { display: block; }
-#kboard-contact-form-list .kboard-category select { display: inline; margin: 0 0 5px 0; padding: 0; width: 100%; min-width: 100%; height: 28px; min-height: 0; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: border-box; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-contact-form-list .kboard-category .kboard-category-list { margin: 0 0 5px 0; padding: 0; list-style: none; border: 0; background-color: #f9f9f9; overflow: hidden; }
-#kboard-contact-form-list .kboard-category .kboard-category-list li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 5px; border: 0; list-style: none; }
-#kboard-contact-form-list .kboard-category .kboard-category-list li::before,
-#kboard-contact-form-list .kboard-category .kboard-category-list li::after { display: none; }
-#kboard-contact-form-list .kboard-category .kboard-category-list li a { display: block; padding: 10px 10px 8px 10px; font-size: 14px; border: 0; border-bottom: 2px solid transparent; text-decoration: none; text-shadow: none; box-shadow: none; color: #515151; }
-#kboard-contact-form-list .kboard-category .kboard-category-list li.kboard-category-selected a { font-weight: bold; border-bottom: 2px solid #545861; color: #545861; }
-#kboard-contact-form-list .kboard-tree-category-wrap { float: left; padding-bottom: 15px; width: 100%; }
-#kboard-contact-form-list .kboard-tree-category-wrap select { display: inline; margin: 0 0 5px 0; padding: 0; width: 100%; height: 28px; line-height: 28px; font-size: 13px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: white; vertical-align: middle; box-shadow: none; box-sizing: border-box; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-contact-form-list .kboard-tree-category-search .kboard-search-option-wrap.type-select { width: auto; }
-#kboard-contact-form-list .kboard-tree-category-search .kboard-search-option-wrap.type-tab { width: 100%; }
-#kboard-contact-form-list .kboard-tree-category { float: left; margin: 0 0 5px 0; padding: 0; width: 100%; list-style: none; border: 0; background-color: #f9f9f9; overflow: hidden; }
-#kboard-contact-form-list .kboard-tree-category li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 5px; border: 0; list-style: none; }
-#kboard-contact-form-list .kboard-tree-category li::before,
-#kboard-contact-form-list .kboard-tree-category li::after { display: none; }
-#kboard-contact-form-list .kboard-tree-category li a { display: block; padding: 10px 10px 8px 10px; font-size: 14px; border: 0; border-bottom: 2px solid transparent; text-decoration: none; text-shadow: none; box-shadow: none; color: #515151; }
-#kboard-contact-form-list .kboard-tree-category li.kboard-category-selected a { font-weight: bold; border-bottom: 2px solid #545861; color: #545861; }
-#kboard-contact-form-list .kboard-tree-category-search { float: left; width: 100%; }
-#kboard-contact-form-list .kboard-tree-category-search .kboard-search-option-wrap { margin-right: 5px; float: left; }
-#kboard-contact-form-list .kboard-list { float: left; width: 100%; background-color: white; }
-#kboard-contact-form-list .kboard-list table { display: table; table-layout: fixed; margin: 0; padding: 0; width: 100%; border: 0; font-size: 14px; border-collapse: collapse; }
-#kboard-contact-form-list .kboard-list table a { color: black; font-weight: normal; text-decoration: none; border: 0; box-shadow: none; font-size: 14px; }
-#kboard-contact-form-list .kboard-list table tr { border: 0; background-color: transparent; transition-duration: 0.3s; }
-#kboard-contact-form-list .kboard-list table td { padding: 10px 0; height: auto; text-align: center; vertical-align: middle; font-size: 14px; }
-#kboard-contact-form-list .kboard-list table td.kboard-list-uid { width: 72px; }
-#kboard-contact-form-list .kboard-list table td.kboard-list-title { width: auto; }
-#kboard-contact-form-list .kboard-list table td.kboard-list-user { width: 100px; }
-#kboard-contact-form-list .kboard-list table td.kboard-list-date { width: 75px; }
-#kboard-contact-form-list .kboard-list table td.kboard-list-vote { width: 55px; }
-#kboard-contact-form-list .kboard-list table td.kboard-list-view { width: 55px; }
-#kboard-contact-form-list .kboard-list thead { background-color: transparent; }
-#kboard-contact-form-list .kboard-list thead tr td { font-weight: bold; color: #545861; border: 0; border-bottom: 2px solid #f1f1f1; }
-#kboard-contact-form-list .kboard-list tbody tr td { word-break: break-all; border: 0; border-bottom: 1px solid #f1f1f1; }
-#kboard-contact-form-list .kboard-list tbody tr:hover { background-color: #f7f7f7; }
-#kboard-contact-form-list .kboard-list tbody tr.kboard-list-notice { background-color: #f4f4f4; }
-#kboard-contact-form-list .kboard-list tbody tr.kboard-list-selected .kboard-contact-form-cut-strings { font-weight: bold; }
-#kboard-contact-form-list .kboard-list tbody td.kboard-list-title { text-align: left; }
-#kboard-contact-form-list .kboard-list tbody td.kboard-list-title img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
-#kboard-contact-form-list .kboard-list tbody td.kboard-list-title .kboard-comments-count { color: #00a8e7; }
-#kboard-contact-form-list .kboard-list tbody td.kboard-list-user img.avatar { display: inline; margin: 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
-#kboard-contact-form-list .kboard-list .kboard-mobile-contents { display: none; font-size: 13px; color: #999999; }
-#kboard-contact-form-list .kboard-list .kboard-mobile-contents .contents-item { display: inline; margin: 0; padding: 0; }
-#kboard-contact-form-list .kboard-list .kboard-mobile-contents .contents-item img.avatar { display: inline; margin: 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
-#kboard-contact-form-list .kboard-list .kboard-mobile-contents .contents-separator { display: inline; margin: 0; padding: 0 2px; color: #bebebe; }
-#kboard-contact-form-list .kboard-pagination { float: left; padding: 15px 0; width: 100%; }
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages { float: left; margin: 0; padding: 0; width: 100%; list-style: none; text-align: center; border: 0; }
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li { display: inline-block; *display: inline; zoom: 1; margin: 0; padding: 0 1px; background: none; border: 0; list-style: none; }
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li a { display: block; margin: 0; padding: 0 11px; height: 28px; line-height: 28px; font-size: 14px; color: #999999; text-decoration: none; border: 0; background-color: #f9f9f9; box-shadow: none; transition-duration: 0.3s; }
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:hover a,
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.active a { border: 0; color: #545861; background-color: #eaeaea; }
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:before { display: none; }
-#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li:after { display: none; }
-#kboard-contact-form-list .kboard-search { float: left; padding-bottom: 15px; width: 100%; text-align: center; }
-#kboard-contact-form-list .kboard-search select { display: inline; margin: 0; padding: 0 5px; width: 100px; min-width: 0; max-width: 100px; height: 26px; min-height: 0; font-size: 14px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-contact-form-list .kboard-search input { display: inline; margin: 0; padding: 0 5px; width: 200px; min-width: 0; max-width: 200px; height: 26px; min-height: 0; font-size: 14px; color: #666666; border-radius: 0; border: 1px solid #f1f1f1; background: none; background-color: white; line-height: 26px; vertical-align: middle; box-shadow: none; box-sizing: content-box; }
-#kboard-contact-form-list .kboard-control { float: left; padding-bottom: 15px; width: 100%; text-align: right; }
+/* Form Elements Reset & Style */
+#kboard-contact-form-list input[type=text],
+#kboard-contact-form-document input[type=text],
+#kboard-contact-form-editor input[type=text],
+#kboard-contact-form-latest input[type=text],
+#kboard-contact-form-list input[type=email],
+#kboard-contact-form-document input[type=email],
+#kboard-contact-form-editor input[type=email],
+#kboard-contact-form-latest input[type=email],
+#kboard-contact-form-list input[type=password],
+#kboard-contact-form-document input[type=password],
+#kboard-contact-form-editor input[type=password],
+#kboard-contact-form-latest input[type=password],
+#kboard-contact-form-list input[type=number],
+#kboard-contact-form-document input[type=number],
+#kboard-contact-form-editor input[type=number],
+#kboard-contact-form-latest input[type=number],
+#kboard-contact-form-list input[type=date],
+#kboard-contact-form-document input[type=date],
+#kboard-contact-form-editor input[type=date],
+#kboard-contact-form-latest input[type=date],
+#kboard-contact-form-list select,
+#kboard-contact-form-document select,
+#kboard-contact-form-editor select,
+#kboard-contact-form-latest select,
+#kboard-contact-form-list textarea,
+#kboard-contact-form-document textarea,
+#kboard-contact-form-editor textarea,
+#kboard-contact-form-latest textarea {
+	appearance: none;
+	-webkit-appearance: none;
+	background-color: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	padding: 8px 12px;
+	font-size: 14px;
+	color: var(--kboard-text);
+	outline: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	min-height: 40px;
+	box-shadow: none;
+	margin: 0;
+}
 
-#kboard-contact-form-editor { overflow: hidden; }
-#kboard-contact-form-editor form { margin: 0; padding: 0; }
-#kboard-contact-form-editor select { display: inline; margin: 0; padding: 0 5px; font-size: 16px; width: 100%; height: 32px; line-height: 32px; color: #666666; border-radius: 4px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: white; box-sizing: border-box; vertical-align: middle; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-#kboard-contact-form-editor .editor-textarea { display: inline; margin: 0; padding: 5px; font-size: 16px; width: 100%; min-width: 100%; max-width: 100%; height: 250px; min-height: 0; color: #666666; border-radius: 4px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: white; box-sizing: border-box; vertical-align: top; text-indent: 0; }
+#kboard-contact-form-list input:focus,
+#kboard-contact-form-document input:focus,
+#kboard-contact-form-editor input:focus,
+#kboard-contact-form-latest input:focus,
+#kboard-contact-form-list select:focus,
+#kboard-contact-form-document select:focus,
+#kboard-contact-form-editor select:focus,
+#kboard-contact-form-latest select:focus,
+#kboard-contact-form-list textarea:focus,
+#kboard-contact-form-document textarea:focus,
+#kboard-contact-form-editor textarea:focus,
+#kboard-contact-form-latest textarea:focus {
+	border-color: var(--kboard-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	border-bottom: 1px solid var(--kboard-primary) !important;
+}
+
+/* Select Custom Arrow */
+#kboard-contact-form-list select,
+#kboard-contact-form-document select,
+#kboard-contact-form-editor select,
+#kboard-contact-form-latest select {
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	background-size: 16px;
+	padding-right: 32px !important;
+	cursor: pointer;
+}
+
+/* --- List View --- */
+#kboard-contact-form-list {
+	width: 100%;
+	max-width: 100%;
+}
+
+#kboard-contact-form-list .kboard-list-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: var(--kboard-spacing-md);
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+#kboard-contact-form-list .kboard-total-count {
+	float: none;
+	font-weight: 600;
+	color: var(--kboard-text-muted);
+}
+
+#kboard-contact-form-list .kboard-sort {
+	float: none;
+}
+
+#kboard-contact-form-list .kboard-sort select {
+	height: 36px;
+	padding-right: 32px;
+}
+
+/* Categories */
+#kboard-contact-form-list .kboard-category .kboard-category-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 0;
+	margin: 0 0 20px 0;
+	list-style: none;
+	background: transparent;
+	border: none;
+}
+
+#kboard-contact-form-list .kboard-category .kboard-category-list li {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+#kboard-contact-form-list .kboard-category .kboard-category-list li a {
+	display: block;
+	padding: 6px 14px;
+	border-radius: 20px;
+	background-color: var(--kboard-bg-alt);
+	color: var(--kboard-text-muted);
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.2s;
+	border: 1px solid var(--kboard-border);
+}
+
+#kboard-contact-form-list .kboard-category .kboard-category-list li.kboard-category-selected a,
+#kboard-contact-form-list .kboard-category .kboard-category-list li a:hover {
+	background-color: var(--kboard-primary);
+	color: #fff;
+	text-decoration: none;
+	border-color: var(--kboard-primary);
+	font-weight: 500;
+}
+
+/* Table Listing */
+#kboard-contact-form-list .kboard-list {
+	background: #fff;
+	border-radius: var(--kboard-radius);
+	overflow: hidden;
+	border: 1px solid var(--kboard-border);
+	box-shadow: var(--kboard-shadow-sm);
+}
+
+#kboard-contact-form-list .kboard-list table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	border: 0;
+}
+
+#kboard-contact-form-list .kboard-list thead {
+	background-color: var(--kboard-bg-alt);
+	border-bottom: 1px solid var(--kboard-border);
+}
+
+#kboard-contact-form-list .kboard-list thead td {
+	padding: 12px 16px;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+	color: var(--kboard-text-muted);
+	text-align: center;
+	border: 0;
+	border-bottom: 1px solid var(--kboard-border);
+}
+
+#kboard-contact-form-list .kboard-list tbody tr {
+	background: #fff;
+	border: 0;
+	border-bottom: 1px solid var(--kboard-border);
+	transition: background-color 0.1s;
+}
+
+#kboard-contact-form-list .kboard-list tbody tr:last-child {
+	border-bottom: none;
+}
+
+#kboard-contact-form-list .kboard-list tbody tr:hover {
+	background-color: var(--kboard-bg-alt);
+}
+
+#kboard-contact-form-list .kboard-list td {
+	padding: 16px;
+	vertical-align: middle;
+	text-align: center;
+	border: 0;
+	font-size: 15px;
+}
+
+#kboard-contact-form-list .kboard-list td.kboard-list-title {
+	text-align: left;
+	width: auto;
+}
+
+/* Notice & Popular Rows */
+#kboard-contact-form-list .kboard-list tbody tr.kboard-list-notice {
+	background-color: #eff6ff;
+}
+
+#kboard-contact-form-list .kboard-list tbody tr.kboard-list-notice:hover {
+	background-color: #dbeafe;
+}
+
+#kboard-contact-form-list .kboard-list tbody tr.kboard-list-selected {
+	background-color: #f0f9ff;
+	border-left: 3px solid var(--kboard-primary);
+}
+
+#kboard-contact-form-list .kboard-list tbody tr.kboard-list-selected .kboard-list-title a {
+	font-weight: 700;
+	color: var(--kboard-primary);
+}
+
+/* Icons & Labels */
+.kboard-contact-form-new-notify {
+	background-color: var(--kboard-danger);
+	color: #fff;
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-size: 10px;
+	font-weight: 700;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+
+.kboard-contact-form-cut-strings {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 500;
+}
+
+#kboard-contact-form-list .kboard-list-title a {
+	color: var(--kboard-text);
+	text-decoration: none;
+	transition: color 0.15s;
+}
+
+#kboard-contact-form-list .kboard-list-title a:hover {
+	color: var(--kboard-primary);
+}
+
+.kboard-comments-count {
+	font-size: 12px;
+	color: var(--kboard-primary);
+	font-weight: 600;
+	margin-left: 4px;
+	background: rgba(37, 99, 235, 0.1);
+	padding: 2px 6px;
+	border-radius: 12px;
+}
+
+.kboard-comments-count:empty {
+	display: none;
+}
+
+#kboard-contact-form-list .kboard-mobile-contents {
+	display: none;
+	margin-top: 6px;
+	font-size: 13px;
+	color: var(--kboard-text-muted);
+}
+
+/* Column Widths (Desktop) */
+#kboard-contact-form-list .kboard-list-uid {
+	width: 90px;
+	color: var(--kboard-text-muted);
+	font-size: 13px;
+	word-break: keep-all;
+}
+
+#kboard-contact-form-list .kboard-list-notice .kboard-list-uid {
+	font-weight: 700;
+	font-size: 12px;
+	color: var(--kboard-primary);
+}
+
+#kboard-contact-form-list .kboard-list-user {
+	width: 120px;
+}
+
+#kboard-contact-form-list .kboard-list-date {
+	width: 110px;
+	color: var(--kboard-text-muted);
+	font-size: 13px;
+}
+
+#kboard-contact-form-list .kboard-list-vote {
+	width: 70px;
+	color: var(--kboard-text-muted);
+	font-size: 13px;
+}
+
+#kboard-contact-form-list .kboard-list-view {
+	width: 70px;
+	color: var(--kboard-text-muted);
+	font-size: 13px;
+}
+
+/* Pagination */
+#kboard-contact-form-list .kboard-pagination {
+	padding: 30px 0;
+	text-align: center;
+	float: none;
+}
+
+#kboard-contact-form-list .kboard-pagination ul {
+	display: inline-flex;
+	padding: 0;
+	list-style: none;
+	gap: 4px;
+}
+
+#kboard-contact-form-list .kboard-pagination li {
+	display: block;
+	margin: 0;
+}
+
+#kboard-contact-form-list .kboard-pagination li a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 8px;
+	border-radius: var(--kboard-radius);
+	background: #fff;
+	border: 1px solid var(--kboard-border);
+	font-size: 14px;
+	color: var(--kboard-text);
+	box-shadow: none;
+}
+
+#kboard-contact-form-list .kboard-pagination li.active a,
+#kboard-contact-form-list .kboard-pagination li a:hover {
+	background: var(--kboard-primary);
+	color: #fff;
+	border-color: var(--kboard-primary);
+}
+
+/* Search Bar */
+#kboard-contact-form-list .kboard-search {
+	margin-bottom: 20px;
+	text-align: center;
+	padding: 20px;
+	background: var(--kboard-bg-alt);
+	border-radius: var(--kboard-radius);
+	float: none;
+}
+
+#kboard-contact-form-list .kboard-search form {
+	display: inline-flex;
+	gap: 8px;
+	max-width: 100%;
+}
+
+#kboard-contact-form-list .kboard-search select {
+	width: 100px;
+	margin: 0;
+}
+
+#kboard-contact-form-list .kboard-search input {
+	width: 200px;
+	margin: 0;
+}
+
+/* Bottom Control */
+#kboard-contact-form-list .kboard-control {
+	display: flex;
+	justify-content: flex-end;
+	padding: 10px 0;
+	float: none;
+}
+
+.kboard-contact-form-poweredby {
+	text-align: right;
+	font-size: 14px;
+	color: #ccc;
+	margin-top: 10px;
+	float: none;
+	width: 100%;
+}
+
+/* --- Document View --- */
+#kboard-contact-form-document .kboard-document-wrap {
+	background: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	overflow: hidden;
+	float: none;
+}
+
+#kboard-contact-form-document .kboard-title {
+	float: none;
+}
+
+#kboard-contact-form-document .kboard-title h1 {
+	margin: 0;
+	padding: 24px;
+	font-size: 24px;
+	font-weight: 700;
+	color: var(--kboard-text);
+	border-bottom: 1px solid var(--kboard-border);
+}
+
+#kboard-contact-form-document .kboard-detail {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 12px 24px;
+	background: var(--kboard-bg-alt);
+	font-size: 14px;
+	gap: 20px;
+	align-items: center;
+	float: none;
+	border: 0;
+	border-bottom: 1px solid var(--kboard-border);
+}
+
+#kboard-contact-form-document .kboard-detail .detail-attr {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0;
+	float: none;
+}
+
+#kboard-contact-form-document .kboard-detail .detail-name {
+	font-weight: 600;
+	color: var(--kboard-text-muted);
+	float: none;
+	text-align: left;
+}
+
+#kboard-contact-form-document .kboard-detail .detail-value {
+	color: var(--kboard-text);
+	float: none;
+	padding: 0;
+}
+
+#kboard-contact-form-document .kboard-content {
+	padding: 30px 24px;
+	min-height: 200px;
+	float: none;
+}
+
+#kboard-contact-form-document .content-view {
+	font-size: 16px;
+	line-height: 1.8;
+	color: #334155;
+	padding: 0;
+}
+
+#kboard-contact-form-document .kboard-document-action {
+	padding: 10px 24px 20px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.kboard-button-action {
+	border: 1px solid var(--kboard-border);
+	background: #fff;
+	padding: 6px 12px;
+	border-radius: 4px;
+	font-size: 13px;
+	cursor: pointer;
+	margin-right: 5px;
+	font-weight: 500;
+}
+
+.kboard-button-action:hover {
+	background: var(--kboard-bg-alt);
+}
+
+.kboard-button-like {
+	color: #ef4444;
+}
+
+.kboard-button-unlike {
+	color: var(--kboard-primary);
+}
+
+#kboard-contact-form-document .kboard-control {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px 0;
+	float: none;
+	gap: 10px;
+}
+
+#kboard-contact-form-document .kboard-control .left,
+#kboard-contact-form-document .kboard-control .right {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 8px;
+	white-space: nowrap;
+}
+
+/* Attachments, Comments, Navi, Options */
+.kboard-attach {
+	border-top: 1px dashed var(--kboard-border);
+	padding: 15px 24px;
+	background: var(--kboard-bg-alt);
+	margin: 0;
+}
+
+.kboard-comments-area {
+	float: none;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.kboard-document-navi {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+	float: none;
+	padding: 0;
+}
+
+.kboard-document-options-group {
+	margin-bottom: 40px;
+	border: none;
+	background: transparent;
+	padding: 0;
+}
+
+.kboard-document-add-option-value-wrap {
+	background-color: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	padding: 0;
+	margin-bottom: 12px;
+	overflow: hidden;
+	display: block;
+}
+
+.kboard-document-add-option-value-wrap:last-child {
+	border-bottom: 1px solid var(--kboard-border);
+	margin-bottom: 0px;
+}
+
+.kboard-document-add-option-value {
+	display: flex;
+	align-items: stretch;
+	padding: 0;
+	min-height: 48px;
+	border: none;
+}
+
+.kboard-document-add-option-value .option-name {
+	width: 160px;
+	background-color: #f8fafc;
+	border-right: 1px solid var(--kboard-border);
+	font-weight: 600;
+	color: var(--kboard-text);
+	padding: 14px 20px;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	font-size: 15px;
+}
+
+.kboard-document-add-option-value .option-separator {
+	display: none;
+}
+
+.kboard-document-add-option-value .option-value {
+	color: var(--kboard-text);
+	padding: 14px 20px;
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	word-break: break-all;
+	font-size: 15px;
+}
+
+.kboard-document-add-option-value-wrap hr {
+	display: none;
+}
+
+#kboard-contact-form-document .kboard-document-navi a {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 16px;
+	border: 1px solid var(--kboard-border);
+	background: #fff;
+	border-radius: var(--kboard-radius);
+	margin-bottom: 0;
+	font-weight: 500;
+	height: 100%;
+}
+
+#kboard-contact-form-document .kboard-document-navi a:hover {
+	border-color: var(--kboard-primary);
+	color: var(--kboard-primary);
+	box-shadow: var(--kboard-shadow-sm);
+}
+
+#kboard-contact-form-document .kboard-document-navi .kboard-prev-document,
+#kboard-contact-form-document .kboard-document-navi .kboard-next-document {
+	float: none;
+	width: 50%;
+}
+
+#kboard-contact-form-document .kboard-document-navi .kboard-prev-document a {
+	justify-content: flex-start;
+	text-align: left;
+}
+
+#kboard-contact-form-document .kboard-document-navi .kboard-next-document a {
+	justify-content: flex-end;
+	text-align: right;
+}
+
+#kboard-contact-form-document .kboard-document-navi .navi-arrow {
+	position: static;
+}
+
+/* --- Editor --- */
+#kboard-contact-form-editor .kboard-attr-row {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 16px;
+	padding: 0;
+	background: transparent;
+	border-bottom: none;
+	float: none;
+}
+
+#kboard-contact-form-editor .attr-name {
+	font-weight: 600;
+	margin-bottom: 8px;
+	font-size: 14px;
+	width: 100% !important;
+	float: none !important;
+	text-align: left;
+	padding: 0 !important;
+}
+
+#kboard-contact-form-editor input[type=file] {
+	margin: 0;
+	padding: 8px 0;
+	width: 100%;
+}
+
+#kboard-contact-form-editor .attr-value {
+	margin: 0 !important;
+	width: 100%;
+	padding: 0;
+}
+
+#kboard-contact-form-editor .attr-value .attr-value-option {
+	display: inline-flex;
+	align-items: center;
+	margin-right: 16px;
+	cursor: pointer;
+	font-size: 14px;
+	color: var(--kboard-text);
+}
+
+#kboard-contact-form-editor .attr-value .attr-value-option input[type=checkbox] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 18px !important;
+	height: 18px !important;
+	border: 1px solid var(--kboard-border);
+	border-radius: 4px;
+	background: #fff;
+	cursor: pointer;
+	position: relative;
+	margin: 0 8px 0 0;
+	vertical-align: middle;
+	outline: none;
+}
+
+#kboard-contact-form-editor .attr-value .attr-value-option input[type=checkbox]:checked {
+	background-color: var(--kboard-primary);
+	border-color: var(--kboard-primary);
+	background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
 #kboard-contact-form-editor input[type=text],
 #kboard-contact-form-editor input[type=email],
-#kboard-contact-form-editor input[type=number],
-#kboard-contact-form-editor input[type=date],
-#kboard-contact-form-editor input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 100%; height: 32px; line-height: 32px; font-size: 16px; color: #666666; border-radius: 4px; border: 1px solid #dcdcdc; box-shadow: none; background: none; background-color: white; box-sizing: border-box; vertical-align: middle; }
-#kboard-contact-form-editor input[type=checkbox] { width: auto; -webkit-appearance: checkbox; -moz-appearance: checkbox; appearance: checkbox; }
-#kboard-contact-form-editor input[type=radio] { width: auto; -webkit-appearance: radio; -moz-appearance: radio; appearance: radio; }
-#kboard-contact-form-editor select:hover,
-#kboard-contact-form-editor .editor-textarea:hover,
-#kboard-contact-form-editor input[type=text]:hover,
-#kboard-contact-form-editor input[type=email]:hover,
-#kboard-contact-form-editor input[type=number]:hover,
-#kboard-contact-form-editor input[type=date]:hover,
-#kboard-contact-form-editor input[type=password]:hover { border: 1px solid #9e9e9e; }
-#kboard-contact-form-editor select:focus,
-#kboard-contact-form-editor .editor-textarea:focus,
-#kboard-contact-form-editor input[type=text]:focus,
-#kboard-contact-form-editor input[type=email]:focus,
-#kboard-contact-form-editor input[type=number]:focus,
-#kboard-contact-form-editor input[type=date]:focus,
-#kboard-contact-form-editor input[type=password]:focus { border: 1px solid #9e9e9e; }
-#kboard-contact-form-editor input[type=file] { display: inline; margin: 0; padding: 0; width: 30%; font-size: 13px; color: #666666; border-radius: 0; border: 0; box-shadow: none; background-color: transparent; }
-#kboard-contact-form-editor .kboard-attr-title input { width: 100%; }
-#kboard-contact-form-editor .kboard-attr-row { float: left; padding: 5px 0; width: 100%; }
-#kboard-contact-form-editor .kboard-attr-row.secret-password-row { display: none; }
-#kboard-contact-form-editor .kboard-attr-row .attr-name { display: inline; float: left; margin: 0; padding: 0; width: 100%; line-height: 34px; color: #545861; font-size: 16px; font-weight: bold; }
-#kboard-contact-form-editor .kboard-attr-row .attr-name img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: middle; }
-#kboard-contact-form-editor .kboard-attr-row .attr-name .attr-required-text { color: red; font-weight: normal; font-size: 13px; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value { margin: 0; padding: 0; line-height: 34px; font-size: 16px; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-option { display: inline; padding-right: 20px; width: auto; font-size: 14px; cursor: pointer; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-option input { cursor: pointer; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-label { display: inline; padding-right: 10px; width: auto; cursor: pointer; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-value-label input { cursor: pointer; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .attr-reset-button { color: gray; font-size: 0.8em; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .description { margin: 0; color: #666666; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap { float: left; width: 100%; }
-#kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { clear: both; float: left; margin-bottom: 5px; width: 30%; }
-#kboard-contact-form-editor .kboard-attr-row .kboard-content { float: left; width: 100%; }
-#kboard-contact-form-editor .kboard-control { float: left; padding: 15px 0; width: 100%; }
-#kboard-contact-form-editor .kboard-control .left { position: static; float: left; }
-#kboard-contact-form-editor .kboard-control .right { position: static; float: right; width: 50%; text-align: right; }
-#kboard-contact-form-editor.confirm { margin: 100px auto; max-width: 590px; }
-#kboard-contact-form-editor.confirm input[type=password] { width: 100%; box-sizing: border-box; }
+#kboard-contact-form-editor input[type=password],
+#kboard-contact-form-editor select {
+	width: 100% !important;
+}
 
-#kboard-contact-form-document { display: inline-block; *display: inline; zoom: 1; margin: 0; width: 100%; }
-#kboard-contact-form-document .kboard-document-wrap { float: left; width: 100%; background-color: white; }
-#kboard-contact-form-document .kboard-title { float: left; width: 100%; }
-#kboard-contact-form-document .kboard-title h1 { margin: 0; padding: 12px 22px; color: #545861; font-weight: bold; font-size: 22px; line-height: 30px; text-align: left; }
-#kboard-contact-form-document .kboard-detail { clear: both; float: left; width: 100%; border-top: 1px solid #f1f1f1; border-bottom: 1px solid #f1f1f1; background-color: #f9f9f9; font-size: 14px; }
-#kboard-contact-form-document .kboard-detail .detail-attr { display: inline-block; *display: inline; zoom: 1; float: left; margin: 0; padding: 12px 35px 12px 22px; }
-#kboard-contact-form-document .kboard-detail .detail-attr .detail-name { float: left; font-weight: bold; color: #545861; text-align: right; }
-#kboard-contact-form-document .kboard-detail .detail-attr .detail-value { float: left; padding-left: 20px; color: #545861; }
-#kboard-contact-form-document .kboard-detail .detail-attr .detail-value a { color: #545861; text-decoration: none; border: 0; box-shadow: none; }
-#kboard-contact-form-document .kboard-detail .detail-attr .detail-value img.avatar { display: inline; margin: 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
-#kboard-contact-form-document .kboard-content { clear: both; float: left; width: 100%; min-height: 200px; }
-#kboard-contact-form-document .kboard-content .content-view { margin: 0; padding: 22px; word-break: break-all; }
-#kboard-contact-form-document .kboard-content .content-view iframe { max-width: 100%; }
-#kboard-contact-form-document .kboard-content .content-view img { display: inline; margin: 0; vertical-align: middle; max-width: 100%; }
-#kboard-contact-form-document .kboard-content .content-view hr { margin: 10px 0; padding: 0; height: 1px; border: 0; background-color: #f1f1f1; }
-#kboard-contact-form-document .kboard-content .content-view ul { margin: 0.75em 0; }
-#kboard-contact-form-document .kboard-content .content-view ol { margin: 0.75em 0; }
-#kboard-contact-form-document .kboard-content .content-view p { margin: 0 0 0.75em; }
-#kboard-contact-form-document .kboard-content .content-view p:last-child { margin: 0; }
-#kboard-contact-form-document .kboard-content .content-view .thumbnail-area { text-align: center; }
-#kboard-contact-form-document .kboard-content .content-view .aligncenter { display: block; margin-right: auto; margin-left: auto; }
-#kboard-contact-form-document .kboard-content .content-view .alignright { float:right; }
-#kboard-contact-form-document .kboard-content .content-view .alignleft { float: left; }
-#kboard-contact-form-document .kboard-document-action { padding: 0 22px 5px 22px; overflow: hidden; line-height: 1; }
-#kboard-contact-form-document .kboard-document-action .left { position: static; float: left; }
-#kboard-contact-form-document .kboard-document-action .right { position: static; float: right; text-align: right; }
-#kboard-contact-form-document .kboard-attach { clear: both; margin: 0 22px; padding: 10px 0 5px 0; font-size: 13px; overflow: hidden; line-height: 1; border-top: 1px dashed #ededed; }
-#kboard-contact-form-document .kboard-button-action { margin: 0 0 5px 0; padding: 4px 5px; font-size: 13px; font-weight: normal; line-height: 12px; text-align: left; border: 1px solid #ededed; background: none; background-color: white; border-radius: 2px; letter-spacing: normal; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
-#kboard-contact-form-document .kboard-button-action span { position: static; display: inline; margin: 0; padding: 0; font-size: 13px; line-height: 12px; }
-#kboard-contact-form-document .kboard-button-like { color: #ff5959; }
-#kboard-contact-form-document .kboard-button-unlike { color: #3d62aa; }
-#kboard-contact-form-document .kboard-button-print { color: gray; }
-#kboard-contact-form-document .kboard-button-download { color: gray; }
-#kboard-contact-form-document .kboard-comments-area { float: left; width: 100%; }
-#kboard-contact-form-document .kboard-document-navi { float: left; padding-top: 15px; width: 100%; }
-#kboard-contact-form-document .kboard-document-navi a { display: block; text-decoration: none; border: 0; font-size: 14px; line-height: 20px; box-shadow: none; color: #545861; transition-duration: .3s; }
-#kboard-contact-form-document .kboard-document-navi .navi-document-title { display: block; }
-#kboard-contact-form-document .kboard-document-navi .navi-arrow { position: absolute; display: block; }
-#kboard-contact-form-document .kboard-document-navi .kboard-prev-document { position: relative; float: left; width: 45%; }
-#kboard-contact-form-document .kboard-document-navi .kboard-prev-document .navi-document-title { padding-left: 15px; }
-#kboard-contact-form-document .kboard-document-navi .kboard-prev-document .navi-arrow { left: 0; top: 0; }
-#kboard-contact-form-document .kboard-document-navi .kboard-prev-document:hover a { color: black; }
-#kboard-contact-form-document .kboard-document-navi .kboard-next-document { position: relative; float: right; width: 45%; text-align: right; }
-#kboard-contact-form-document .kboard-document-navi .kboard-next-document .navi-document-title { padding-right: 15px; }
-#kboard-contact-form-document .kboard-document-navi .kboard-next-document .navi-arrow { right: 0; top: 0; }
-#kboard-contact-form-document .kboard-document-navi .kboard-next-document:hover a { color: black; }
-#kboard-contact-form-document .kboard-control { float: left; padding: 15px 0;  width: 100%; }
-#kboard-contact-form-document .kboard-control .left { position: static; float: left; }
-#kboard-contact-form-document .kboard-control .right { position: static; float: right; text-align: right; }
+#kboard-contact-form-editor .kboard-content {
+	border: none;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	float: none;
+}
 
-#kboard-contact-form-latest table { display: table; table-layout: fixed; width: 100%; border: 0; border-bottom: 1px solid #f1f1f1; }
-#kboard-contact-form-latest table tr { padding: 0; border: 0; }
-#kboard-contact-form-latest table th { padding: 5px 0; height: auto; border: 0; text-align: center; }
-#kboard-contact-form-latest table td { padding: 5px 0; height: auto; border: 0; border-top: 1px solid #f1f1f1; vertical-align: middle; }
-#kboard-contact-form-latest table td.kboard-latest-title { text-align: left; }
-#kboard-contact-form-latest table .kboard-latest-title { padding-left: 5px; font-size: 14px; }
-#kboard-contact-form-latest table .kboard-latest-title a { text-decoration: none; box-shadow: none; }
-#kboard-contact-form-latest table .kboard-latest-title img { display: inline; margin: 0; width: auto; height: auto; vertical-align: middle; max-width: 100%; }
-#kboard-contact-form-latest table .kboard-latest-title .kboard-comments-count { }
-#kboard-contact-form-latest table .kboard-latest-date { width: 80px; text-align: center; font-size: 14px; }
+#kboard-contact-form-editor textarea {
+	width: 100% !important;
+	min-height: 400px;
+	border: 1px solid var(--kboard-border);
+	box-sizing: border-box;
+}
 
+#kboard-contact-form-editor .kboard-control {
+	float: none;
+	display: flex;
+	justify-content: space-between;
+}
+
+#kboard-contact-form-editor .kboard-control .left,
+#kboard-contact-form-editor .kboard-control .right {
+	float: none;
+	width: auto;
+}
+
+/* --- Confirm & Address & Latest --- */
+#kboard-contact-form-editor.confirm {
+	max-width: 400px;
+	margin: 60px auto;
+	padding: 30px;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	background: #fff;
+	box-shadow: var(--kboard-shadow-md);
+}
+
+#kboard-contact-form-editor.confirm .kboard-confirm-row {
+	margin-bottom: 24px;
+}
+
+#kboard-contact-form-editor.confirm .attr-name {
+	margin-bottom: 10px;
+}
+
+#kboard-contact-form-editor.confirm .description {
+	color: var(--kboard-danger);
+	font-size: 13px;
+	margin-top: 8px;
+	font-weight: 500;
+}
+
+#kboard-contact-form-editor.confirm input[type=password] {
+	width: 100%;
+}
+
+#kboard-contact-form-editor.confirm .kboard-control {
+	justify-content: center;
+	flex-direction: column-reverse;
+	gap: 10px;
+}
+
+#kboard-contact-form-editor.confirm .kboard-control .left,
+#kboard-contact-form-editor.confirm .kboard-control .right {
+	width: 100%;
+}
+
+#kboard-contact-form-editor.confirm .kboard-control button {
+	width: 100%;
+	height: 40px;
+	font-size: 15px;
+}
+
+#kboard-contact-form-editor.confirm .kboard-control a {
+	width: 100%;
+	height: 40px;
+	background: #fff !important;
+	color: var(--kboard-text-muted) !important;
+	border: 1px solid var(--kboard-border);
+	box-shadow: none;
+}
+
+#kboard-contact-form-editor.confirm .kboard-control a:hover {
+	background: var(--kboard-bg-alt) !important;
+	color: var(--kboard-text) !important;
+	border-color: var(--kboard-text-muted);
+}
+
+/* --- Address Field (Postcode) --- */
+#kboard-contact-form-editor .kboard-row-postcode {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+#kboard-contact-form-editor .kboard-row-postcode input[type=text] {
+	width: 150px !important;
+	flex: 0 0 auto;
+}
+
+#kboard-contact-form-editor .kboard-row-postcode button {
+	height: 40px;
+	flex: 0 0 auto;
+	white-space: nowrap;
+	margin: 0 !important;
+}
+
+#kboard-contact-form-editor .kboard-row-address-1,
+#kboard-contact-form-editor .kboard-row-address-2 {
+	display: block;
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+#kboard-contact-form-editor .kboard-row-address-2 {
+	margin-bottom: 0;
+}
+
+#kboard-contact-form-editor .kboard-row-address-1 input[type=text],
+#kboard-contact-form-editor .kboard-row-address-2 input[type=text] {
+	width: 100% !important;
+}
+
+/* --- Latest View (Widget) --- */
+#kboard-contact-form-latest {
+	width: 100%;
+	background: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+#kboard-contact-form-latest table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	border: 0;
+}
+
+#kboard-contact-form-latest thead th {
+	padding: 10px;
+	background: var(--kboard-bg-alt);
+	border-bottom: 1px solid var(--kboard-border);
+	font-size: 13px;
+	color: var(--kboard-text-muted);
+	font-weight: 600;
+	text-align: center;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+}
+
+#kboard-contact-form-latest tbody tr {
+	border-bottom: 1px solid var(--kboard-border);
+	background: #fff;
+}
+
+#kboard-contact-form-latest tbody tr:last-child {
+	border-bottom: none;
+}
+
+#kboard-contact-form-latest tbody tr:hover {
+	background-color: var(--kboard-bg-alt);
+}
+
+#kboard-contact-form-latest td {
+	padding: 12px 16px;
+	vertical-align: middle;
+	font-size: 14px;
+	border: 0;
+}
+
+#kboard-contact-form-latest .kboard-latest-title {
+	text-align: left;
+}
+
+#kboard-contact-form-latest .kboard-latest-title a {
+	display: block;
+	color: var(--kboard-text);
+	text-decoration: none;
+}
+
+#kboard-contact-form-latest .kboard-latest-title a:hover {
+	color: var(--kboard-primary);
+}
+
+#kboard-contact-form-latest .kboard-contact-form-cut-strings {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#kboard-contact-form-latest .kboard-latest-date,
+#kboard-contact-form-latest .kboard-latest-author {
+	color: var(--kboard-text-muted);
+	font-size: 13px;
+	text-align: center;
+	width: 90px;
+}
+
+/* --- Responsive Media Query --- */
+@media screen and (max-width: 768px) {
+
+	/* Hide complex table headers */
+	#kboard-contact-form-list .kboard-list thead {
+		display: none;
+	}
+
+	/* Make rows into cards */
+	#kboard-contact-form-list .kboard-list tbody tr {
+		display: block;
+		padding: 16px;
+		border-bottom: 1px solid var(--kboard-border);
+	}
+
+	/* Hide unneeded columns */
+	#kboard-contact-form-list .kboard-list-uid,
+	#kboard-contact-form-list .kboard-list-date,
+	#kboard-contact-form-list .kboard-list-vote,
+	#kboard-contact-form-list .kboard-list-view,
+	#kboard-contact-form-list .kboard-list-user {
+		display: none;
+	}
+
+	/* Title takes full width */
+	#kboard-contact-form-list .kboard-list td.kboard-list-title {
+		display: block;
+		padding: 0;
+		width: 100%;
+		text-align: left;
+	}
+
+	#kboard-contact-form-list .kboard-list-title .kboard-contact-form-cut-strings {
+		white-space: normal;
+		font-size: 16px;
+		line-height: 1.4;
+		margin-bottom: 8px;
+	}
+
+	/* Show Mobile Contents */
+	#kboard-contact-form-list .kboard-mobile-contents {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		align-items: center;
+		font-size: 12px;
+	}
+
+	#kboard-contact-form-list .kboard-mobile-contents .contents-separator {
+		color: #e2e8f0;
+	}
+
+	/* Search Stack */
+	#kboard-contact-form-list .kboard-search form {
+		flex-direction: column;
+		width: 100%;
+	}
+
+	#kboard-contact-form-list .kboard-search select,
+	#kboard-contact-form-list .kboard-search input,
+	#kboard-contact-form-list .kboard-search button {
+		width: 100% !important;
+		margin: 0 !important;
+	}
+
+	/* Document Control Mobile */
+	#kboard-contact-form-document .kboard-control {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	#kboard-contact-form-document .kboard-control .left,
+	#kboard-contact-form-document .kboard-control .right {
+		width: 100%;
+		justify-content: center;
+		flex-wrap: wrap;
+		white-space: normal;
+	}
+
+	#kboard-contact-form-document .kboard-control a,
+	#kboard-contact-form-document .kboard-control button {
+		flex: 1;
+		text-align: center;
+		min-width: 0;
+	}
+
+	/* Editor */
+	#kboard-contact-form-editor .kboard-control {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	#kboard-contact-form-editor .kboard-control .left,
+	#kboard-contact-form-editor .kboard-control .right {
+		width: 100%;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	/* Pagination Mobile */
+	#kboard-contact-form-list .kboard-pagination ul {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	/* Latest Mobile */
+	#kboard-contact-form-latest thead,
+	#kboard-contact-form-latest .kboard-latest-author {
+		display: none;
+	}
+
+	#kboard-contact-form-latest tbody tr {
+		display: flex;
+		flex-direction: column;
+		padding: 8px 0;
+	}
+
+	#kboard-contact-form-latest td.kboard-latest-title {
+		display: block;
+		width: 100%;
+		padding-bottom: 4px;
+		border: none;
+	}
+
+	#kboard-contact-form-latest td.kboard-latest-date {
+		display: block;
+		width: 100%;
+		text-align: left;
+		font-size: 12px;
+		padding-top: 5px;
+		padding-bottom: 8px;
+		border: none;
+		color: var(--kboard-text-muted);
+	}
+
+	/* Document Navi Mobile */
+	.kboard-document-navi {
+		flex-direction: column;
+	}
+
+	#kboard-contact-form-document .kboard-document-navi .kboard-prev-document,
+	#kboard-contact-form-document .kboard-document-navi .kboard-next-document {
+		width: 100%;
+	}
+}
+
+/* ============================================
+   Tree Category Search (Contact Form)
+   ============================================ */
+#kboard-contact-form-list .kboard-tree-category-search {
+	margin-bottom: 20px;
+	padding: 15px;
+	background: var(--kboard-bg-alt);
+	border-radius: var(--kboard-radius);
+	text-align: left;
+}
+
+#kboard-contact-form-list .kboard-tree-category-search .kboard-tree-category-wrap {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+#kboard-contact-form-list .kboard-tree-category-search .kboard-search-option-wrap {
+	display: inline-block;
+}
+
+#kboard-contact-form-list .kboard-tree-category-search select {
+	height: 38px;
+	padding: 0 36px 0 16px;
+	border: 1px solid var(--kboard-border);
+	border-radius: 999px;
+	background-color: #fff;
+	font-size: 14px;
+	color: var(--kboard-text-muted);
+	font-weight: 500;
+	min-width: 120px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	appearance: none;
+	-webkit-appearance: none;
+	background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+	background-repeat: no-repeat;
+	background-position: right 14px center;
+	background-size: 10px;
+}
+
+#kboard-contact-form-list .kboard-tree-category-search select:hover {
+	border-color: var(--kboard-primary);
+	color: var(--kboard-primary);
+	background-color: var(--kboard-bg-alt);
+}
+
+#kboard-contact-form-list .kboard-tree-category-search select:focus {
+	border-color: var(--kboard-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	outline: none;
+}
+
+/* =========================================================
+   Category Styles (PC vs Mobile)
+   ========================================================= */
+
+/* Default: Show PC, Hide Mobile */
+#kboard-contact-form-list .kboard-category.category-mobile {
+	display: none;
+}
+
+#kboard-contact-form-list .kboard-category.category-pc {
+	display: block;
+	margin-bottom: 20px;
+	padding: 15px;
+	background-color: var(--kboard-bg-alt);
+	border-radius: var(--kboard-radius);
+}
+
+/* PC Category List Style */
+#kboard-contact-form-list .kboard-category.category-pc .kboard-category-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 10px 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+#kboard-contact-form-list .kboard-category.category-pc .kboard-category-list li {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#kboard-contact-form-list .kboard-category.category-pc .kboard-category-list li a {
+	display: block;
+	padding: 6px 16px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--kboard-text-muted);
+	background-color: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: 999px;
+	transition: all 0.2s ease;
+	text-decoration: none;
+}
+
+#kboard-contact-form-list .kboard-category.category-pc .kboard-category-list li a:hover {
+	border-color: var(--kboard-primary);
+	color: var(--kboard-primary);
+	background-color: var(--kboard-bg-alt);
+}
+
+/* Selected Category */
+#kboard-contact-form-list .kboard-category.category-pc .kboard-category-list li.kboard-category-selected a {
+	background-color: var(--kboard-primary);
+	border-color: var(--kboard-primary);
+	color: #fff;
+	font-weight: 600;
+	box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+/* Mobile Category Style Base */
+#kboard-contact-form-list .kboard-category.category-mobile select {
+	width: auto;
+	min-width: 120px;
+	height: 38px;
+	padding: 0 12px;
+	margin-right: 5px;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	background-color: #fff;
+	font-size: 14px;
+	color: var(--kboard-text);
+}
+
+/* --- Mobile Media Query for Category --- */
 @media screen and (max-width: 600px) {
-	#kboard-contact-form-list .kboard-category.category-mobile { display: block; }
-	#kboard-contact-form-list .kboard-category.category-pc { display: none; }
-	#kboard-contact-form-list .kboard-tree-category-search .kboard-search-option-wrap.select { width: 100%; }
-	#kboard-contact-form-list .kboard-list table { border-top: 1px solid #f1f1f1; }
-	#kboard-contact-form-list .kboard-list table thead { display: none; }
-	#kboard-contact-form-list .kboard-list table td.kboard-list-title { padding: 10px 5px; }
-	#kboard-contact-form-list .kboard-list table td.kboard-list-title .kboard-contact-form-cut-strings { margin-bottom: 10px; white-space: normal; font-size: 15px; line-height: 23px; }
-	#kboard-contact-form-list .kboard-list table td.kboard-list-uid,
-	#kboard-contact-form-list .kboard-list table td.kboard-list-user,
-	#kboard-contact-form-list .kboard-list table td.kboard-list-date,
-	#kboard-contact-form-list .kboard-list table td.kboard-list-vote,
-	#kboard-contact-form-list .kboard-list table td.kboard-list-view { display: none; }
-	#kboard-contact-form-list .kboard-list .kboard-mobile-contents { display: block; }
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li { display: none; }
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.first-page,
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.last-page,
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.prev-page,
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.next-page,
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.active { display: inline-block; }
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.prev-page a,
-	#kboard-contact-form-list .kboard-pagination .kboard-pagination-pages li.next-page a { padding: 0 18px; }
-	#kboard-contact-form-list .kboard-search select { float: left; margin-right: 1%; width: 29%; min-width: 29%; height: 28px; line-height: 28px; box-sizing: border-box; }
-	#kboard-contact-form-list .kboard-search input { float: left; margin-right: 1%; width: 49%; min-width: 49%; height: 28px; line-height: 28px; box-sizing: border-box; }
-	#kboard-contact-form-list .kboard-search button { float: left; width: 20%; min-width: 20%; box-sizing: border-box; }
-	
-	#kboard-contact-form-editor select,
-	#kboard-contact-form-editor input[type=text],
-	#kboard-contact-form-editor input[type=email],
-	#kboard-contact-form-editor input[type=number],
-	#kboard-contact-form-editor input[type=date],
-	#kboard-contact-form-editor input[type=password],
-	#kboard-contact-form-editor input[type=file] { width: 100% !important; box-sizing: border-box; }
-	#kboard-contact-form-editor .kboard-attr-row { padding: 10px 0; }
-	#kboard-contact-form-editor .kboard-attr-row .attr-value .kboard-tree-category-wrap select { margin-bottom: 10px; width: 100%; }
-	#kboard-contact-form-editor.confirm { max-width: none; }
-	
-	#kboard-contact-form-document .kboard-title h1 { padding: 10px 5px; font-size: 18px; }
-	#kboard-contact-form-document .kboard-content .content-view { padding: 10px 5px; }
-	#kboard-contact-form-document .kboard-detail .detail-attr { clear: both; padding: 10px 5px; line-height: normal; }
-	#kboard-contact-form-document .kboard-document-action { padding: 10px 5px 5px 5px; }
-	#kboard-contact-form-document .kboard-attach { margin: 0 5px; padding: 10px 0 5px 0; }
-	#kboard-contact-form-document .kboard-document-navi .kboard-prev-document { width: 100%; }
-	#kboard-contact-form-document .kboard-document-navi .kboard-next-document { margin-top: 10px; float: left; width: 100%; text-align: left; }
+	#kboard-contact-form-list .kboard-category.category-pc {
+		display: none;
+	}
+
+	#kboard-contact-form-list .kboard-category.category-mobile {
+		display: block;
+		margin-bottom: 20px;
+		padding: 10px;
+		background: var(--kboard-bg-alt);
+		border-radius: var(--kboard-radius);
+	}
+
+	#kboard-contact-form-list .kboard-category.category-mobile form {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	#kboard-contact-form-list .kboard-category.category-mobile select {
+		flex: 1;
+		width: 100%;
+		min-width: 140px;
+	}
+}
+
+/* Contact Form Specific Buttons (Large) */
+a.kboard-contact-form-button-large,
+input.kboard-contact-form-button-large,
+button.kboard-contact-form-button-large {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 48px;
+	padding: 0 32px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff !important;
+	background-color: var(--kboard-primary) !important;
+	border: 1px solid transparent;
+	border-radius: 24px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	line-height: 1;
+	box-shadow: var(--kboard-shadow-md);
+	text-shadow: none;
+	text-decoration: none;
+}
+
+a.kboard-contact-form-button-large:hover,
+input.kboard-contact-form-button-large:hover,
+button.kboard-contact-form-button-large:hover {
+	background-color: var(--kboard-primary-hover) !important;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+	opacity: 1;
 }
