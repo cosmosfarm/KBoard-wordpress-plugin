@@ -107,7 +107,46 @@
      - 예시 (Avatar 스킨): `<?php echo $content->getUserDisplay(sprintf('%s<br>%s', get_avatar(...), $content->getUserName()))?>`
      - **주의**: 각 스킨마다 작성자를 표시하는 방식(줄바꿈, 이미지 포함 여부 등)이 다릅니다. 이 부분은 **절대 수정하지 말고 원본 코드를 그대로 사용**하십시오.
 
+## 4-1. 컴포넌트 디자인 가이드 (Component Design Guide)
+
+글로벌 기업 수준의 일관성 있는 UX를 제공하기 위한 디자인 표준입니다.
+
+### 🧩 1. 카테고리 (Categories)
+플랫폼(PC/Mobile)에 따라 최적화된 UI를 제공하며, 시각적 일관성을 유지합니다.
+
+*   **반응형 분기 처리 (Responsive Handling)**:
+    *   **PC View**: 버튼형 리스트 (Tab/Pill 형태) → 클릭 한 번으로 이동.
+    *   **Mobile View**: 셀렉트 박스 (Select Box) → 좁은 화면 효율적 사용.
+    *   *구현 방법*: `@media screen and (max-width: 600px)` 쿼리를 사용하여 `.category-pc`와 `.category-mobile`의 `display` 속성을 토글(toggle)합니다.
+
+*   **디자인 표준 (Global Standard - Pill Shape)**:
+    *   일관성을 위해 모든 버튼과 셀렉트 박스는 **완벽한 타원형(Pill Shape, `border-radius: 999px`)**을 사용합니다.
+    *   일반 필터와 계층형(트리) 필터가 서로 다른 UI 요소라도, "무언가를 선택한다"는 목적이 같으면 동일한 형태(Shape)를 가져야 합니다.
+    *   **Style 예시**:
+        ```css
+        /* Unified Select Box Style */
+        select {
+            height: 38px;
+            border-radius: 999px; /* 핵심 */
+            padding: 0 36px 0 16px; /* 화살표 공간 확보 */
+            background-color: #fff;
+            appearance: none; /* 브라우저 기본 스타일 제거 후 커스텀 화살표 적용 */
+        }
+        ```
+
+*   **배경 및 컨테이너 (Container)**:
+    *   카테고리 영역은 배경색(`var(--kboard-bg-alt)`)과 패딩(`15px`)을 적용하여 본문과 구분되는 **독립된 섹션**으로 표현합니다.
+
+### 📝 2. 글쓰기 에디터 (Editor Form)
+Editor 스타일은 분량이 많아 누락되기 쉽습니다.
+
+*   **포팅 원칙**: `default` 스킨의 Editor 스타일(약 200라인 분량, `#kboard-default-editor` 섹션)을 **통째로 복사**해와야 합니다.
+*   **주의사항**:
+    *   단순 복사 후 `#kboard-default-editor` → `#kboard-[new-skin]-editor` 로 **프리픽스 전수 치환**이 필수입니다.
+    *   누락 시 입력창이 깨지거나 모바일에서 레이아웃이 어긋납니다.
+
 ## 5. 작업 체크리스트
+
 
 1. [ ] **⭐⭐ CSS 프리픽스 확인 ⭐⭐**: `#kboard-default`가 완전히 제거되었는가? → `#kboard-[new-skin]`으로 완벽히 변경되었는가? (하나라도 남으면 스타일 충돌!)
 2. [ ] **CSS 구조 확인**: `default` 스킨의 CSS 순서와 구조가 동일한가? (Diff 비교 가능)
