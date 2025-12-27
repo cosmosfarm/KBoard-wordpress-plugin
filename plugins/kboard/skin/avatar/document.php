@@ -40,7 +40,7 @@
 				<?php endif?>
 				<div class="detail-attr detail-writer">
 					<div class="detail-name"><?php echo __('Author', 'kboard')?></div>
-					<div class="detail-value"><?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?><?php echo $content->getUserDisplay(); ?></div>
+					<div class="detail-value"><?php echo get_avatar($content->getUserID(), 28, '', $content->getUserName()); ?><?php echo $content->getUserDisplay(); ?></div>
 				</div>
 				<div class="detail-attr detail-date">
 					<div class="detail-name"><?php echo __('Date', 'kboard')?></div>

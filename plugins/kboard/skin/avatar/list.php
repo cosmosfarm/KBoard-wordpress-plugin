@@ -59,7 +59,7 @@
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 							<div class="kboard-avatar-cut-strings">
 								<?php if($content->isNew()):?><span class="kboard-avatar-new-notify">New</span><?php endif?>
-								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+								<?php if($content->secret):?><span class="kboard-icon-lock"></span><?php endif?>
 								<?php echo $content->title?>
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
@@ -77,8 +77,7 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?>
-						<?php echo $content->getUserDisplay(); ?>
+						<?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -92,7 +91,7 @@
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 							<div class="kboard-avatar-cut-strings">
 								<?php if($content->isNew()):?><span class="kboard-avatar-new-notify">New</span><?php endif?>
-								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+								<?php if($content->secret):?><span class="kboard-icon-lock"></span><?php endif?>
 								<?php echo $content->title?>
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
@@ -110,8 +109,7 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?>
-						<?php echo $content->getUserDisplay(); ?>
+						<?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>
@@ -126,7 +124,7 @@
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
 							<div class="kboard-avatar-cut-strings">
 								<?php if($content->isNew()):?><span class="kboard-avatar-new-notify">New</span><?php endif?>
-								<?php if($content->secret):?><img src="<?php echo $skin_path?>/images/icon-lock.png" alt="<?php echo __('Secret', 'kboard')?>"><?php endif?>
+								<?php if($content->secret):?><span class="kboard-icon-lock"></span><?php endif?>
 								<?php echo $content->title?>
 								<span class="kboard-comments-count"><?php echo $content->getCommentsCount()?></span>
 							</div>
@@ -144,8 +142,7 @@
 						</div>
 					</td>
 					<td class="kboard-list-user">
-						<?php echo get_avatar($content->getUserID(), 24, '', $content->getUserName()); ?>
-						<?php echo $content->getUserDisplay(); ?>
+						<?php echo $content->getUserDisplay(sprintf('%s %s', get_avatar($content->getUserID(), 24, '', $content->getUserName()), $content->getUserName()))?>
 					</td>
 					<td class="kboard-list-date"><?php echo $content->getDate()?></td>
 					<td class="kboard-list-vote"><?php echo $content->vote?></td>

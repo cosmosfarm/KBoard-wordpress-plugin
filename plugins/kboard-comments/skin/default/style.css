@@ -193,12 +193,12 @@
 
 /* Avatar */
 .kboard-comments-default .comments-list-username img.avatar {
-	width: 36px;
-	height: 36px;
+	width: 24px;
+	height: 24px;
 	border-radius: 50%;
 	object-fit: cover;
 	border: 1px solid var(--kboard-comments-border);
-	margin-right: 10px;
+	margin-right: 5px;
 	vertical-align: middle;
 	display: inline-block;
 	flex-shrink: 0;
@@ -210,8 +210,8 @@
 	color: var(--kboard-comments-text);
 	font-size: 14px;
 	display: inline-block;
-	margin-right: 10px;
-	line-height: 36px;
+	margin-right: 5px;
+	line-height: 24px;
 	vertical-align: middle;
 }
 
@@ -221,7 +221,7 @@
 	color: var(--kboard-comments-text-muted);
 	font-weight: 400;
 	display: inline-block;
-	line-height: 36px;
+	line-height: 24px;
 	vertical-align: middle;
 }
 
@@ -514,17 +514,17 @@
 	}
 
 	.kboard-comments-default .comments-list .comments-list-username img.avatar {
-		width: 30px;
-		height: 30px;
+		width: 24px;
+		height: 24px;
 	}
 
 	.kboard-comments-default .comments-list-username {
-		line-height: 30px;
+		line-height: 24px;
 		font-size: 13px;
 	}
 
 	.kboard-comments-default .comments-list-create {
-		line-height: 30px;
+		line-height: 24px;
 		font-size: 12px;
 	}
 
