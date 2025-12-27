@@ -871,47 +871,80 @@ button.kboard-contact-form-button-small:hover {
 /* --- Latest (Widget) --- */
 #kboard-contact-form-latest {
 	width: 100%;
-	max-width: 100%;
+	background: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	overflow: hidden;
+	box-sizing: border-box;
 }
 
 #kboard-contact-form-latest table {
 	width: 100%;
 	border-collapse: collapse;
-	border: 0;
 	table-layout: fixed;
+	border: 0;
 }
 
-#kboard-contact-form-latest thead td {
-	height: 45px;
-	border-top: 1px solid var(--kboard-border);
+#kboard-contact-form-latest thead th {
+	padding: 10px;
+	background: var(--kboard-bg-alt);
 	border-bottom: 1px solid var(--kboard-border);
-	background-color: var(--kboard-bg-alt);
 	font-size: 13px;
 	color: var(--kboard-text-muted);
 	font-weight: 600;
 	text-align: center;
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
 }
 
-#kboard-contact-form-latest tbody td {
-	height: 45px;
+#kboard-contact-form-latest tbody tr {
 	border-bottom: 1px solid var(--kboard-border);
+	background: #fff;
+}
+
+#kboard-contact-form-latest tbody tr:last-child {
+	border-bottom: none;
+}
+
+#kboard-contact-form-latest tbody tr:hover {
+	background-color: var(--kboard-bg-alt);
+}
+
+#kboard-contact-form-latest td {
+	padding: 12px 16px;
+	vertical-align: middle;
 	font-size: 14px;
-	color: var(--kboard-text);
-	padding: 8px 10px;
+	border: 0;
 }
 
 #kboard-contact-form-latest .kboard-latest-title {
 	text-align: left;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 
-#kboard-contact-form-latest .kboard-latest-date {
-	text-align: center;
-	font-size: 13px;
+#kboard-contact-form-latest .kboard-latest-title a {
+	display: block;
+	color: var(--kboard-text);
+	text-decoration: none;
+}
+
+#kboard-contact-form-latest .kboard-latest-title a:hover {
+	color: var(--kboard-primary);
+}
+
+#kboard-contact-form-latest .kboard-contact-form-cut-strings {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#kboard-contact-form-latest .kboard-latest-date,
+#kboard-contact-form-latest .kboard-latest-author {
 	color: var(--kboard-text-muted);
-	width: 80px;
+	font-size: 13px;
+	text-align: center;
+	width: 90px;
 }
 
 /* ============================================
@@ -1098,5 +1131,35 @@ button.kboard-contact-form-button-small:hover {
 	#kboard-contact-form-document .kboard-document-navi .kboard-prev-document,
 	#kboard-contact-form-document .kboard-document-navi .kboard-next-document {
 		width: 100%;
+	}
+
+	/* Latest Mobile */
+	#kboard-contact-form-latest thead,
+	#kboard-contact-form-latest .kboard-latest-author {
+		display: none;
+	}
+
+	#kboard-contact-form-latest tbody tr {
+		display: flex;
+		flex-direction: column;
+		padding: 8px 0;
+	}
+
+	#kboard-contact-form-latest td.kboard-latest-title {
+		display: block;
+		width: 100%;
+		padding-bottom: 4px;
+		border: none;
+	}
+
+	#kboard-contact-form-latest td.kboard-latest-date {
+		display: block;
+		width: 100%;
+		text-align: left;
+		font-size: 12px;
+		padding-top: 5px;
+		padding-bottom: 8px;
+		border: none;
+		color: var(--kboard-text-muted);
 	}
 }
