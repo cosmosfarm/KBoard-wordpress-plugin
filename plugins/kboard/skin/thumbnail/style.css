@@ -639,6 +639,25 @@ button.kboard-thumbnail-button-small:hover {
 	color: var(--kboard-primary);
 }
 
+/* Document Control Buttons (List, Reply, Edit, Delete) */
+#kboard-thumbnail-document .kboard-control {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px 0;
+	float: none;
+	gap: 10px;
+}
+
+#kboard-thumbnail-document .kboard-control .left,
+#kboard-thumbnail-document .kboard-control .right {
+	display: flex;
+	flex-wrap: nowrap;
+	/* Prevent wrapping */
+	gap: 8px;
+	white-space: nowrap;
+	/* Keep text on one line */
+}
+
 /* Attachments */
 .kboard-attach {
 	border-top: 1px dashed var(--kboard-border);
@@ -1166,6 +1185,27 @@ button.kboard-thumbnail-button-small:hover {
 		margin: 0 !important;
 	}
 
+	/* Document Control Mobile */
+	#kboard-thumbnail-document .kboard-control {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	#kboard-thumbnail-document .kboard-control .left,
+	#kboard-thumbnail-document .kboard-control .right {
+		width: 100%;
+		justify-content: center;
+		flex-wrap: wrap;
+		white-space: normal;
+	}
+
+	#kboard-thumbnail-document .kboard-control a,
+	#kboard-thumbnail-document .kboard-control button {
+		flex: 1;
+		text-align: center;
+		min-width: 0;
+	}
+
 	/* Editor */
 	#kboard-thumbnail-editor .kboard-control {
 		flex-direction: column;
@@ -1401,13 +1441,25 @@ button.kboard-thumbnail-button-small:hover {
 
 /* Thumbnail Column */
 #kboard-thumbnail-list .kboard-list table td.kboard-list-thumbnail {
-	width: 130px;
+	width: 180px;
 	padding: 10px;
 	text-align: center;
 }
 
+/* Thumbnail Header (thead) */
+#kboard-thumbnail-list .kboard-list thead td.kboard-list-thumbnail {
+	width: 180px;
+	padding: 12px 16px;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+	color: var(--kboard-text-muted);
+	text-align: center;
+}
+
 #kboard-thumbnail-list .kboard-list tbody td.kboard-list-thumbnail .icon-picture {
-	font-size: 14px;
+	font-size: 20px;
 	color: var(--kboard-text-muted);
 }
 
@@ -1415,23 +1467,25 @@ button.kboard-thumbnail-button-small:hover {
 	display: block;
 	margin: 0 auto;
 	width: 100%;
-	max-width: 120px;
+	max-width: 160px;
 	height: auto;
 	border-radius: var(--kboard-radius);
 	object-fit: cover;
-	aspect-ratio: 4/3;
+	aspect-ratio: 16/9;
+	box-shadow: var(--kboard-shadow-sm);
 }
 
 /* Mobile: Thumbnail in mobile contents */
 #kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-thumbnail {
 	float: left;
 	display: inline;
-	margin: 0 12px 8px 0;
-	width: 80px;
-	height: 60px;
+	margin: 0 16px 8px 0;
+	width: 100px;
+	height: 75px;
 	border: 1px solid var(--kboard-border);
 	border-radius: var(--kboard-radius);
 	object-fit: cover;
+	aspect-ratio: 4/3;
 }
 
 /* Mobile: Hide desktop thumbnail column */

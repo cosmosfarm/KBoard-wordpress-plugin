@@ -639,6 +639,25 @@ button.kboard-default-button-small:hover {
 	color: var(--kboard-primary);
 }
 
+/* Document Control Buttons (List, Reply, Edit, Delete) */
+#kboard-default-document .kboard-control {
+	display: flex;
+	justify-content: space-between;
+	padding: 20px 0;
+	float: none;
+	gap: 10px;
+}
+
+#kboard-default-document .kboard-control .left,
+#kboard-default-document .kboard-control .right {
+	display: flex;
+	flex-wrap: nowrap;
+	/* Prevent wrapping */
+	gap: 8px;
+	white-space: nowrap;
+	/* Keep text on one line */
+}
+
 /* Attachments */
 .kboard-attach {
 	border-top: 1px dashed var(--kboard-border);
@@ -1164,6 +1183,29 @@ button.kboard-default-button-small:hover {
 	#kboard-default-list .kboard-search button {
 		width: 100% !important;
 		margin: 0 !important;
+	}
+
+	/* Document Control Mobile */
+	#kboard-default-document .kboard-control {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	#kboard-default-document .kboard-control .left,
+	#kboard-default-document .kboard-control .right {
+		width: 100%;
+		justify-content: center;
+		flex-wrap: wrap;
+		/* Allow wrapping on mobile */
+		white-space: normal;
+	}
+
+	#kboard-default-document .kboard-control a,
+	#kboard-default-document .kboard-control button {
+		flex: 1;
+		text-align: center;
+		min-width: 0;
+		/* Fix flex overflow */
 	}
 
 	/* Editor */

@@ -623,15 +623,15 @@ button.kboard-avatar-button-small:hover {
 	justify-content: space-between;
 	padding: 20px 0;
 	float: none;
-	flex-wrap: wrap;
 	gap: 10px;
 }
 
 #kboard-avatar-document .kboard-control .left,
 #kboard-avatar-document .kboard-control .right {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	gap: 8px;
+	white-space: nowrap;
 }
 
 /* Powered By - Subtle */
@@ -1265,6 +1265,27 @@ button.kboard-avatar-button-small:hover {
 	#kboard-avatar-list .kboard-search button {
 		width: 100% !important;
 		margin: 0 !important;
+	}
+
+	/* Document Control Mobile */
+	#kboard-avatar-document .kboard-control {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	#kboard-avatar-document .kboard-control .left,
+	#kboard-avatar-document .kboard-control .right {
+		width: 100%;
+		justify-content: center;
+		flex-wrap: wrap;
+		white-space: normal;
+	}
+
+	#kboard-avatar-document .kboard-control a,
+	#kboard-avatar-document .kboard-control button {
+		flex: 1;
+		text-align: center;
+		min-width: 0;
 	}
 
 	/* Editor */
