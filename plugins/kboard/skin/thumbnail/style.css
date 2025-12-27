@@ -350,6 +350,10 @@ button.kboard-thumbnail-button-small:hover {
 	background-color: #dbeafe;
 }
 
+#kboard-thumbnail-list .kboard-mobile-contents {
+	display: none;
+}
+
 /* Selected Row (Current Post) */
 #kboard-thumbnail-list .kboard-list tbody tr.kboard-list-selected {
 	background-color: #f0f9ff;
@@ -1137,6 +1141,7 @@ button.kboard-thumbnail-button-small:hover {
 
 	/* Hide unneeded columns */
 	#kboard-thumbnail-list .kboard-list-uid,
+	#kboard-thumbnail-list .kboard-list-thumbnail,
 	#kboard-thumbnail-list .kboard-list-date,
 	#kboard-thumbnail-list .kboard-list-vote,
 	#kboard-thumbnail-list .kboard-list-view,
@@ -1166,6 +1171,10 @@ button.kboard-thumbnail-button-small:hover {
 		gap: 8px;
 		align-items: center;
 		font-size: 12px;
+	}
+
+	#kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-thumbnail {
+		display: block;
 	}
 
 	#kboard-thumbnail-list .kboard-mobile-contents .contents-separator {
@@ -1488,13 +1497,3 @@ button.kboard-thumbnail-button-small:hover {
 	aspect-ratio: 4/3;
 }
 
-/* Mobile: Hide desktop thumbnail column */
-@media screen and (max-width: 768px) {
-	#kboard-thumbnail-list .kboard-list-thumbnail {
-		display: none;
-	}
-
-	#kboard-thumbnail-list .kboard-list .kboard-mobile-contents .contents-thumbnail {
-		display: block;
-	}
-}
