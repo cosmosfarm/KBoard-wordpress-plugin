@@ -95,6 +95,26 @@ class KBContentList {
 			}
 		}
 		if($this->board_id) $where[] = "`board_id`='{$this->board_id}'";
+		if($this->category1){
+			$category1 = esc_sql($this->category1);
+			$where[] = "`category1`='{$category1}'";
+		}
+		if($this->category2){
+			$category2 = esc_sql($this->category2);
+			$where[] = "`category2`='{$category2}'";
+		}
+		if($this->category3){
+			$category3 = esc_sql($this->category3);
+			$where[] = "`category3`='{$category3}'";
+		}
+		if($this->category4){
+			$category4 = esc_sql($this->category4);
+			$where[] = "`category4`='{$category4}'";
+		}
+		if($this->category5){
+			$category5 = esc_sql($this->category5);
+			$where[] = "`category5`='{$category5}'";
+		}
 		if($this->status){
 			if($this->status == 'published'){
 				$where[] = "`status`=''";
