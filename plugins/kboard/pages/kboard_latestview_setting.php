@@ -80,10 +80,10 @@
 								</select>
 							</div>
 							<div class="link-control-area-center">
-								<button type="button" class="button" onclick="return push_board();">◀</button>
+								<button type="button" class="button button-primary" onclick="return push_board();" style="width: 40px; height: 30px; font-size: 14px; padding: 0;">◀</button>
 								<br>
 								<br>
-								<button type="button" class="button" onclick="return pop_board();">▶</button>
+								<button type="button" class="button button-primary" onclick="return pop_board();" style="width: 40px; height: 30px; font-size: 14px; padding: 0;">▶</button>
 							</div>
 							<div class="link-control-area-right">
 								<p>제외된 게시판</p>
