@@ -106,7 +106,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<?php endif?>
-					<!-- <tr valign="top">
+					<?php if(current_user_can('manage_options')):?>
+					<tr valign="top">
 						<th scope="row"><label for="latest_list_columns">최신글 리스트에 추가로 표시할 정보[개발중]</label></th>
 						<td>
 							<input type="hidden" name="latest_list_columns" value="">
@@ -124,7 +125,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 							<?php endforeach; ?>
 							<p class="description">최신글 리스트에 추가로 보여줄 항목을 선택하세요.</p>
 						</td>
-					</tr> -->
+					</tr>
+					<?php endif?>
 					<tr valign="top">
 						<th scope="row"><label for="add_menu_page">관리자 페이지에서 게시판 보기</label></th>
 						<td>
