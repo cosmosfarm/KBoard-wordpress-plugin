@@ -115,10 +115,10 @@ class KBCommentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td class="kboard-comments-list-content" data-colname="'.__('Content', 'kboard-comments').'">';
-		echo $item->content.'<div class="kboard-comments-open"><a href="'.$this->url->getDocumentRedirect($item->content_uid).'" class="button button-small" titlt="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a></div>';
+		echo $item->content.'<div class="kboard-comments-open"><a href="'.$this->url->getDocumentRedirect($item->content_uid).'" class="button button-small" title="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a></div>';
 		echo '</td>';
 		
-		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';
+		echo '<td class="kboard-comments-list-status" data-colname="'.__('Status', 'kboard-comments').'">';
 		echo '<select name="status['.$item->uid.']" onchange="kboard_comment_list_update()">';
 		echo '<option value="">발행됨</option>';
 		echo '<option value="pending_approval" '.$selected.'>승인 대기중</option>';
@@ -144,4 +144,3 @@ class KBCommentListTable extends WP_List_Table {
 	</p>
 	<?php }
 }
-?>

@@ -267,10 +267,10 @@ function kboard_settings_menu(){
 	add_submenu_page('kboard_dashboard', __(KBOARD_PAGE_TITLE, 'kboard'), __('전체 게시글', 'kboard'), 'manage_kboard', 'kboard_content_list', 'kboard_content_list');
 	
 	// 댓글 플러그인 활성화면 댓글 리스트 페이지를 보여준다.
-	if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '1.3' && KBOARD_COMMNETS_VERSION < '3.3'){
+	if(defined('KBOARD_COMMNETS_VERSION') && version_compare(KBOARD_COMMNETS_VERSION, '1.3', '>=') && version_compare(KBOARD_COMMNETS_VERSION, '3.3', '<')){
 		add_submenu_page('kboard_dashboard', __(KBOARD_COMMENTS_PAGE_TITLE, 'kboard-comments'), __('전체 댓글', 'kboard'), 'administrator', 'kboard_comments_list', 'kboard_comments_list');
 	}
-	else if(defined('KBOARD_COMMNETS_VERSION') && KBOARD_COMMNETS_VERSION >= '3.3'){
+	else if(defined('KBOARD_COMMNETS_VERSION') && version_compare(KBOARD_COMMNETS_VERSION, '3.3', '>=')){
 		kboard_comments_settings_menu();
 	}
 	
