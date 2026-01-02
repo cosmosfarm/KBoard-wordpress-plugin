@@ -127,8 +127,6 @@ class KBoardBuilder
 			if (!get_option('kboard_fontawesome')) {
 				global $wp_styles;
 				wp_enqueue_style('font-awesome', KBOARD_URL_PATH . '/assets/font-awesome/css/font-awesome.min.css', array(), '3.2.1');
-				wp_enqueue_style('font-awesome-ie7', KBOARD_URL_PATH . '/assets/font-awesome/css/font-awesome-ie7.min.css', array(), '3.2.1');
-				$wp_styles->add_data('font-awesome-ie7', 'conditional', 'lte IE 7');
 			}
 		}
 	}
