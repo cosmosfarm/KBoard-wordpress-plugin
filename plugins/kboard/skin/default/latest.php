@@ -19,9 +19,6 @@
 						</div>
 					</a>
 				</td>
-				<?php if(in_array('author', $latest_columns)): ?>
-					<td class="kboard-latest-author"><?php echo $content->getUserDisplay()?></td>
-				<?php endif; ?>
 				<td class="kboard-latest-date"><?php echo $content->getDate()?></td>
 			</tr>
 			<?php endwhile?>
