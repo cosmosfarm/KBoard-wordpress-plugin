@@ -1,12 +1,8 @@
 <div id="kboard-default-latest">
 	<table>
-		<?php $latest_columns = $board->getLatestListColumns(); ?>
 		<thead>
 			<tr>
 				<th class="kboard-latest-title"><?php echo __('Title', 'kboard')?></th>
-				<?php if(in_array('author', $latest_columns)): ?>
-					<th class="kboard-latest-author"><?php echo __('Author', 'kboard')?></th>
-				<?php endif; ?>
 				<th class="kboard-latest-date"><?php echo __('Date', 'kboard')?></th>
 			</tr>
 		</thead>
