@@ -264,6 +264,10 @@ button.kboard-thumbnail-button-small:hover {
 	border: none;
 }
 
+#kboard-thumbnail-list .kboard-category.category-pc .kboard-category-list:last-child {
+	margin-bottom: 0;
+}
+
 #kboard-thumbnail-list .kboard-category .kboard-category-list li {
 	display: block;
 	margin: 0;

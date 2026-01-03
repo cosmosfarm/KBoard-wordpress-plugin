@@ -232,6 +232,10 @@ button.kboard-contact-form-button-small:hover {
 	list-style: none;
 }
 
+#kboard-contact-form-list .kboard-category.category-pc .kboard-category-list:last-child {
+	margin-bottom: 0;
+}
+
 #kboard-contact-form-list .kboard-category .kboard-category-list li a {
 	display: block;
 	padding: 6px 14px;
