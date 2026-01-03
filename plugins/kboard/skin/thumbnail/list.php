@@ -58,7 +58,7 @@
 					<td class="kboard-list-uid"><?php echo __('Notice', 'kboard')?></td>
 					<td class="kboard-list-thumbnail">
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
-						<?php if($content->getThumbnail(320, 180)):?><img src="<?php echo $content->getThumbnail(320, 180)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
+						<?php if($content->getThumbnail(320, 180)):?><img src="<?php echo $content->getThumbnail(320, 180)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><span class="kboard-icon-thumbnail"></span><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
@@ -96,7 +96,7 @@
 					<td class="kboard-list-uid"><?php echo esc_html($board->getPopularName())?></td>
 					<td class="kboard-list-thumbnail">
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
-						<?php if($content->getThumbnail(320, 180)):?><img src="<?php echo $content->getThumbnail(320, 180)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
+						<?php if($content->getThumbnail(320, 180)):?><img src="<?php echo $content->getThumbnail(320, 180)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><span class="kboard-icon-thumbnail"></span><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
@@ -135,7 +135,7 @@
 					<td class="kboard-list-uid"><?php echo $list->index()?></td>
 					<td class="kboard-list-thumbnail">
 						<a href="<?php echo esc_url($url->getDocumentURLWithUID($content->uid))?>">
-						<?php if($content->getThumbnail(320, 180)):?><img src="<?php echo $content->getThumbnail(320, 180)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><i class="icon-picture"></i><?php endif?>
+						<?php if($content->getThumbnail(320, 180)):?><img src="<?php echo $content->getThumbnail(320, 180)?>" alt="<?php echo esc_attr($content->title)?>"><?php else:?><span class="kboard-icon-thumbnail"></span><?php endif?>
 						</a>
 					</td>
 					<td class="kboard-list-title">
