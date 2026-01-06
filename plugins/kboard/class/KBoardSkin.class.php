@@ -14,6 +14,7 @@ class KBoardSkin {
 	private $merged_list;
 	
 	private function __construct(){
+		$this->list = array();
 		$dir = KBOARD_DIR_PATH . '/skin';
 		if($dh = @opendir($dir)){
 			while(($name = readdir($dh)) !== false){
@@ -24,8 +25,8 @@ class KBoardSkin {
 				$skin->url = KBOARD_URL_PATH . "/skin/{$name}";
 				$this->list[$name] = $skin;
 			}
+			closedir($dh);
 		}
-		closedir($dh);
 		
 		$this->list = apply_filters('kboard_skin_list', $this->list);
 		$this->latestview_list = apply_filters('kboard_skin_latestview_list', $this->list);
