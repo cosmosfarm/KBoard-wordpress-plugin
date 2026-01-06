@@ -115,10 +115,10 @@ class KBCommentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td class="kboard-comments-list-content" data-colname="'.__('Content', 'kboard-comments').'">';
-		echo $item->content.'<div class="kboard-comments-open"><a href="'.$this->url->getDocumentRedirect($item->content_uid).'" class="button button-small" titlt="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a></div>';
+		echo $item->content.'<div class="kboard-comments-open"><a href="'.$this->url->getDocumentRedirect($item->content_uid).'" class="button button-small" title="'.__('Open', 'kboard-comments').'" onclick="window.open(this.href);return false;">'.__('Open', 'kboard-comments').'</a></div>';
 		echo '</td>';
 		
-		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';
+		echo '<td class="kboard-comments-list-status" data-colname="'.__('Status', 'kboard-comments').'">';
 		echo '<select name="status['.$item->uid.']" onchange="kboard_comment_list_update()">';
 		echo '<option value="">발행됨</option>';
 		echo '<option value="pending_approval" '.$selected.'>승인 대기중</option>';
@@ -126,9 +126,11 @@ class KBCommentListTable extends WP_List_Table {
 		echo '</td>';
 		
 		echo '<td class="kboard-comments-list-date" data-colname="'.__('Date', 'kboard-comments').'">';
-		echo '<input type="text" name="comment_date['.$item->uid.']" class="kboard-comment-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->created)).'">';
-		echo '<input type="text" name="comment_time['.$item->uid.']" class="kboard-comment-content-datepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->created)).'">';
+		echo '<div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">';
+		echo '<input type="text" name="comment_date['.$item->uid.']" class="kboard-comment-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->created)).'" style="width: 95px;">';
+		echo '<input type="text" name="comment_time['.$item->uid.']" class="kboard-comment-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->created)).'" style="width: 75px;">';
 		echo '<button type="button" class="button button-small" onclick="kboard_comment_list_update('.$item->uid.')">'.__('Update', 'kboard').'</button>';
+		echo '</div>';
 		echo '</td>';
 		
 		echo '</tr>';
@@ -136,10 +138,9 @@ class KBCommentListTable extends WP_List_Table {
 	
 	public function search_box($text, $input_id){
 	?>
-	<p class="search-box">
+	<p class="search-box" style="margin: 0; display: inline-block; vertical-align: middle;">
 		<input type="search" id="<?php echo $input_id?>" name="s" value="<?php _admin_search_query()?>">
 		<?php submit_button($text, 'button', false, false, array('id'=>'search-submit'))?>
 	</p>
 	<?php }
 }
-?>

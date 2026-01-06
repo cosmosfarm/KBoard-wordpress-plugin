@@ -719,29 +719,38 @@ class KBAdminController {
 		if(isset($_POST['kboard-category-execute-nonce']) && wp_verify_nonce($_POST['kboard-category-execute-nonce'], 'kboard-category-execute')){
 			header('Content-Type: text/html; charset=UTF-8');
 			
-			$board_id = isset($_POST['board_id'])?intval($_POST['board_id']):'';
-			$target = isset($_POST['target'])?sanitize_text_field($_POST['target']):'';
-			$before_category = isset($_POST['before_category'])?sanitize_text_field($_POST['before_category']):'';
-			$after_category = isset($_POST['after_category'])?sanitize_text_field($_POST['after_category']):'';
+			$board_id = isset($_POST['board_id']) ? absint($_POST['board_id']) : 0;
+			$target = isset($_POST['target']) ? sanitize_key(wp_unslash($_POST['target'])) : '';
+			$before_category = isset($_POST['before_category']) ? sanitize_text_field(wp_unslash($_POST['before_category'])) : '';
+			$after_category  = isset($_POST['after_category'])  ? sanitize_text_field(wp_unslash($_POST['after_category']))  : '';
 			
-			$target = esc_sql($target);
-			$before_category = esc_sql($before_category);
-			$after_category = esc_sql($after_category);
+			$msg = '변경할 카테고리가 없습니다.';
 			
-			$msg = '변경 할 카테고리가 없습니다.';
-			
-			if(in_array($target, array('category1', 'category2', 'category3', 'category4', 'category5'))){
-				$updated_count = $wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `{$target}`='{$after_category}' WHERE `board_id`='{$board_id}' AND `{$target}`='{$before_category}'");
+			if($board_id > 0 && in_array($target, array('category1', 'category2', 'category3', 'category4', 'category5'), true)){
+				$table = $wpdb->prefix . 'kboard_board_content';
 				
-				if($updated_count){
+				// 값은 prepare로 안전하게 바인딩
+				$sql = $wpdb->prepare(
+					"UPDATE `{$table}` SET `{$target}` = %s WHERE `board_id` = %d AND `{$target}` = %s",
+					$after_category,
+					$board_id,
+					$before_category
+				);
+				
+				$updated_count = $wpdb->query($sql);
+				
+				if($updated_count === false){
+					$msg = __('DB Error occurred.', 'kboard');
+				}
+				else if($updated_count){
 					$msg = sprintf(__('%s개의 카테고리가 변경되었습니다.', 'kboard'), number_format($updated_count));
 				}
 			}
 			
-			echo '<script>alert("'. $msg . '");</script>';
+			echo '<script>alert("'. esc_js($msg) . '");</script>';
 		}
 		$redirect_url = admin_url('admin.php?page=kboard_category_update');
-		echo "<script>window.location.href='{$redirect_url}';</script>";
+		echo "<script>window.location.href='" . esc_url_raw($redirect_url) . "';</script>";
 		exit;
 	}
 	

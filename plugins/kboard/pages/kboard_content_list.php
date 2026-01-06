@@ -16,6 +16,10 @@
 			<input type="hidden" name="page" value="kboard_content_list">
 			<input type="hidden" name="filter_view" value="<?php echo $table->filter_view?>">
 			<input type="hidden" name="filter_board_id" value="<?php echo $table->filter_board_id?>">
+			<input type="hidden" name="per_page" value="<?php echo $table->per_page?>">
+			<input type="hidden" name="filter_category1" value="<?php echo esc_attr($table->filter_category1)?>">
+			<input type="hidden" name="start_date" value="<?php echo esc_attr(kboard_start_date())?>">
+			<input type="hidden" name="end_date" value="<?php echo esc_attr(kboard_end_date())?>">
 			
 			<select name="target">
 				<option value=""><?php echo __('All', 'kboard')?></option>
@@ -46,8 +50,13 @@ function kboard_content_list_filter(form){
 	var url = '<?php echo admin_url('admin.php?page=kboard_content_list') ?>';
 	var filter_view = jQuery('input[name=filter_view]', form).val();
 	var board_id = jQuery('select[name=filter_board_id]', form).val();
+	var per_page = jQuery('select[name=per_page]', form).val();
+	var filter_category1 = jQuery('input[name=filter_category1]', form).val();
 	var start_date = jQuery('input[name=start_date]', form).val();
 	var end_date = jQuery('input[name=end_date]', form).val();
+	
+	var target = '<?php echo esc_js(kboard_target())?>';
+	var keyword = '<?php echo esc_js(isset($_GET["s"])?$_GET["s"]:"")?>';
 
 	if(filter_view){
 		url += '&filter_view=' + encodeURIComponent(filter_view);
@@ -55,13 +64,37 @@ function kboard_content_list_filter(form){
 	if(board_id){
 		url += '&filter_board_id=' + encodeURIComponent(board_id);
 	}
+	if(per_page){
+		url += '&per_page=' + encodeURIComponent(per_page);
+	}
+	if(filter_category1){
+		url += '&filter_category1=' + encodeURIComponent(filter_category1);
+	}
 	if(start_date){
 		url += '&start_date=' + encodeURIComponent(start_date);
 	}
 	if(end_date){
 		url += '&end_date=' + encodeURIComponent(end_date);
 	}
+	if(target){
+		url += '&target=' + encodeURIComponent(target);
+	}
+	if(keyword){
+		url += '&s=' + encodeURIComponent(keyword);
+	}
 	
+	window.location.href = url;
+}
+
+function kboard_content_list_move_to_board(){
+	var board_id = jQuery('#move-to-board').val();
+	if(!board_id){
+		alert('게시판을 선택해주세요.');
+		return false;
+	}
+	var url = '<?php echo admin_url('admin.php') ?>';
+	url += '?page=kboard_list';
+	url += '&uid=' + encodeURIComponent(board_id);
 	window.location.href = url;
 }
 

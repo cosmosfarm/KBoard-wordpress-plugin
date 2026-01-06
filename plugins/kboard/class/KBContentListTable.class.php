@@ -10,12 +10,16 @@ class KBContentListTable extends WP_List_Table {
 	var $board_list;
 	var $filter_view;
 	var $filter_board_id;
+	var $filter_category1;
+	var $per_page;
 	var $active_admin_board;
 	
 	public function __construct(){
 		parent::__construct();
 		$this->filter_view = isset($_REQUEST['filter_view'])?$_REQUEST['filter_view']:'';
 		$this->filter_board_id = isset($_REQUEST['filter_board_id'])?intval($_REQUEST['filter_board_id']):'';
+		$this->filter_category1 = isset($_REQUEST['filter_category1'])?sanitize_text_field($_REQUEST['filter_category1']):'';
+		$this->per_page = isset($_REQUEST['per_page'])?intval($_REQUEST['per_page']):20;
 	}
 	
 	public function prepare_items(){
@@ -32,9 +36,14 @@ class KBContentListTable extends WP_List_Table {
 		$target = kboard_target();
 		
 		$list = new KBContentList($this->filter_board_id);
-		$list->rpp = 20;
+		$list->rpp = $this->per_page;
 		$list->page = $this->get_pagenum();
 		$list->status = $this->filter_view;
+		
+		if($this->filter_category1){
+			$list->category1 = $this->filter_category1;
+		}
+		
 		$list->initWithKeyword($keyword, $target);
 		
 		$this->items = $list->resource;
@@ -79,6 +88,7 @@ class KBContentListTable extends WP_List_Table {
 			'cb' => '<input type="checkbox">',
 			'board' => __('Forum', 'kboard'),
 			'title' => __('Title', 'kboard'),
+			'category1' => '카테고리1',
 			'member' => __('Author', 'kboard'),
 			'view' => __('Views', 'kboard'),
 			'secret' => __('Secret', 'kboard'),
@@ -108,6 +118,16 @@ class KBContentListTable extends WP_List_Table {
 			<?php if($which=='top'):?>
 			<div class="alignleft actions">
 				<input type="hidden" name="filter_view" value="<?php echo esc_attr($this->filter_view)?>">
+				
+				<label class="screen-reader-text" for="posts-per-page">게시글 표시 수</label>
+				<select id="posts-per-page" name="per_page">
+					<option value="10"<?php if($this->per_page == 10):?> selected<?php endif?>>10개씩 보기</option>
+					<option value="20"<?php if($this->per_page == 20):?> selected<?php endif?>>20개씩 보기</option>
+					<option value="30"<?php if($this->per_page == 30):?> selected<?php endif?>>30개씩 보기</option>
+					<option value="50"<?php if($this->per_page == 50):?> selected<?php endif?>>50개씩 보기</option>
+					<option value="100"<?php if($this->per_page == 100):?> selected<?php endif?>>100개씩 보기</option>
+				</select>
+				
 				<label class="screen-reader-text" for="filter-by-board-id">게시판으로 필터</label>
 				<select id="filter-by-board-id" name="filter_board_id">
 					<option value="">전체 게시글</option>
@@ -116,11 +136,25 @@ class KBContentListTable extends WP_List_Table {
 					<?php endforeach?>
 				</select>
 				
+				<label class="screen-reader-text" for="filter-category1">카테고리1</label>
+				<input type="text" id="filter-category1" name="filter_category1" value="<?php echo esc_attr($this->filter_category1)?>" placeholder="카테고리1" style="width: 150px;">
+				
 				<input type="date" name="start_date" value="<?php echo esc_attr(kboard_start_date()) ?>" placeholder="시작일">
 				<input type="date" name="end_date" value="<?php echo esc_attr(kboard_end_date()) ?>" placeholder="종료일">
 				
 				<input type="button" name="filter_action" class="button" value="<?php echo __('Filter', 'kboard')?>" onclick="kboard_content_list_filter(this.form)">
 				<span class="spinner"></span>
+			</div>
+			
+			<div class="alignleft actions" style="margin-left: 10px;">
+				<label class="screen-reader-text" for="move-to-board">게시판으로 이동</label>
+				<select id="move-to-board" name="move_to_board">
+					<option value="">게시판 선택</option>
+					<?php foreach($this->board_list->resource as $board):?>
+					<option value="<?php echo $board->uid?>"><?php echo $board->board_name?></option>
+					<?php endforeach?>
+				</select>
+				<input type="button" class="button" value="이동" onclick="kboard_content_list_move_to_board()">
 			</div>
 			<?php endif?>
 			<?php
@@ -179,6 +213,11 @@ class KBContentListTable extends WP_List_Table {
 				echo '<p>'.mb_strimwidth(strip_tags($item->content), 0, 300, '...', 'UTF-8').'</p>';
 				echo '</td>';
 			}
+			else if($key == 'category1'){
+				echo '<td class="kboard-content-list-category1" data-colname="카테고리1">';
+				echo esc_html($item->category1);
+				echo '</td>';
+			}
 			else if($key == 'member'){
 				echo '<td class="kboard-content-list-author" data-colname="'.__('Author', 'kboard').'">';
 				if($item->member_uid) echo '<a href="'.admin_url('user-edit.php?user_id='.$item->member_uid).'">';
@@ -203,9 +242,11 @@ class KBContentListTable extends WP_List_Table {
 			}
 			else if($key == 'date'){
 				echo '<td class="kboard-content-list-date">';
-				echo '<input type="text" name="date['.$item->uid.']" class="kboard-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->date)).'">';
-				echo '<input type="text" name="time['.$item->uid.']" class="kboard-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->date)).'">';
+				echo '<div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">';
+				echo '<input type="text" name="date['.$item->uid.']" class="kboard-content-datepicker" size="10" maxlength="10" value="'.date('Y-m-d', strtotime($item->date)).'" style="width: 95px;">';
+				echo '<input type="text" name="time['.$item->uid.']" class="kboard-content-timepicker" size="8" maxlength="8" value="'.date('H:i:s', strtotime($item->date)).'" style="width: 75px;">';
 				echo '<button type="button" class="button button-small" onclick="kboard_content_list_update()">'.__('Update', 'kboard').'</button>';
+				echo '</div>';
 				echo '</td>';
 			}
 			else if($key == 'status'){
@@ -228,7 +269,7 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	public function search_box($text, $input_id){ ?>
-	<p class="search-box">
+	<p class="search-box" style="margin: 0; display: inline-block; vertical-align: middle;">
 		<input type="search" id="<?php echo $input_id?>" name="s" value="<?php _admin_search_query()?>">
 		<?php submit_button($text, 'button', false, false, array('id'=>'search-submit'))?>
 	</p>

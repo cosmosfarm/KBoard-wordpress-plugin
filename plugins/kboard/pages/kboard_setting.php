@@ -25,14 +25,14 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 			<a href="#tab-kboard-setting-1" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(1);"><?php echo __('권한설정', 'kboard')?></a>
 			<?php if($board->id):?>
 			<a href="#tab-kboard-setting-2" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(2);"><?php echo __('입력 필드', 'kboard')?></a>
-			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('기본 카테고리(NEW)', 'kboard')?></a>
+			<a href="#tab-kboard-setting-3" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(3);"><?php echo __('카테고리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-4" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(4);"><?php echo __('계층형 카테고리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-5" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(5);"><?php echo __('고급설정', 'kboard')?></a>
-			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('사이드톡 연동(NEW)', 'kboard')?></a>
+			<a href="#tab-kboard-setting-6" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(6);"><?php echo __('사이드톡 AI', 'kboard')?></a>
 			<a href="#tab-kboard-setting-7" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(7);"><?php echo __('포인트설정', 'kboard')?></a>
 			<a href="#tab-kboard-setting-8" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(8);"><?php echo __('대량관리', 'kboard')?></a>
 			<a href="#tab-kboard-setting-9" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(9);"><?php echo __('인기글 표시', 'kboard')?></a>
-			<a href="#tab-kboard-setting-10" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('알림(NEW)', 'kboard')?></a>
+			<a href="#tab-kboard-setting-10" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(10);"><?php echo __('알림', 'kboard')?></a>
 			<a href="#tab-kboard-setting-11" class="tab-kboard nav-tab" onclick="kboard_setting_tab_change(11);"><?php echo __('확장설정', 'kboard')?></a>
 			<?php endif?>
 		</h2>
@@ -106,25 +106,6 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<?php endif?>
-					<!-- <tr valign="top">
-						<th scope="row"><label for="latest_list_columns">최신글 리스트에 추가로 표시할 정보[개발중]</label></th>
-						<td>
-							<input type="hidden" name="latest_list_columns" value="">
-							<?php
-							$latest_list_columns = $board->getLatestListColumns(); // 👈 함수로 가져옴
-							$options = array(
-								'author' => '작성자'
-							);
-							?>
-							<?php foreach($options as $key => $label): ?>
-								<label>
-									<input type="checkbox" name="latest_list_columns[]" value="<?php echo esc_attr($key) ?>" <?php if(in_array($key, $latest_list_columns)): ?>checked<?php endif ?>>
-									<?php echo esc_html($label) ?>
-								</label>
-							<?php endforeach; ?>
-							<p class="description">최신글 리스트에 추가로 보여줄 항목을 선택하세요.</p>
-						</td>
-					</tr> -->
 					<tr valign="top">
 						<th scope="row"><label for="add_menu_page">관리자 페이지에서 게시판 보기</label></th>
 						<td>

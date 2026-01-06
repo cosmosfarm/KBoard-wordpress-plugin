@@ -62,7 +62,7 @@
 		<!-- 첨부파일 끝 -->
 	<?php endif?>
 <?php elseif($field['field_type'] == 'category1'):?>
-	<?php if(!$board->isTreeCategoryActive()):?>
+	<?php if($board->use_category == 'yes' && !$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory1()):?>
 			<?php $category1 = $content->category1 ? $content->category1 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
@@ -80,7 +80,7 @@
 		<?php endif?>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'category2'):?>
-	<?php if(!$board->isTreeCategoryActive()):?>
+	<?php if($board->use_category == 'yes' && !$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory2()):?>
 			<?php $category2 = $content->category2 ? $content->category2 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
@@ -98,7 +98,7 @@
 		<?php endif?>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'category3'):?>
-	<?php if(!$board->isTreeCategoryActive()):?>
+	<?php if($board->use_category == 'yes' && !$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory3()):?>
 			<?php $category3 = $content->category3 ? $content->category3 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
@@ -116,7 +116,7 @@
 		<?php endif?>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'category4'):?>
-	<?php if(!$board->isTreeCategoryActive()):?>
+	<?php if($board->use_category == 'yes' && !$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory4()):?>
 			<?php $category4 = $content->category4 ? $content->category4 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
@@ -134,7 +134,7 @@
 		<?php endif?>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'category5'):?>
-	<?php if(!$board->isTreeCategoryActive()):?>
+	<?php if($board->use_category == 'yes' && !$board->isTreeCategoryActive()):?>
 		<?php if($board->initCategory5()):?>
 			<?php $category5 = $content->category5 ? $content->category5 : $default_value?>
 			<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
@@ -152,7 +152,7 @@
 		<?php endif?>
 	<?php endif?>
 <?php elseif($field['field_type'] == 'tree_category'):?>
-	<?php if($board->isTreeCategoryActive()):?>
+	<?php if($board->use_category == 'yes' && $board->isTreeCategoryActive()):?>
 		<div class="kboard-attr-row <?php echo esc_attr($field['class'])?> <?php echo esc_attr($required)?>">
 			<label class="attr-name" for="<?php echo esc_attr($meta_key)?>"><span class="field-name"><?php echo esc_html($field_name)?></span></label>
 			<div class="attr-value">

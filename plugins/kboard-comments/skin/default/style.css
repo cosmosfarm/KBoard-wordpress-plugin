@@ -1,70 +1,596 @@
 @charset "utf-8";
+
 /**
- * @author https://www.cosmosfarm.com/
+ * KBoard Comments Default Skin - Enterprise Grade Design
+ * Modern, accessible, and fully responsive.
+ * Version: 2.0 (Final Polish)
  */
 
-.kboard-comments-default { background-color: #f9f9f9; }
-.kboard-comments-default form { margin: 0; padding: 0; }
-.kboard-comments-default hr { clear: both; margin: 0 !important; padding: 5px 0 0 0 !important; max-width: 100% !important; height: 0 !important; border: 0 !important; border-bottom: 1px dashed #d8d8d8 !important; background: none !important; background-color: transparent !important; }
-.kboard-comments-default input[type=text],
-.kboard-comments-default input[type=email],
-.kboard-comments-default input[type=number],
-.kboard-comments-default input[type=date],
-.kboard-comments-default input[type=file],
-.kboard-comments-default input[type=password] { display: inline; margin: 0; padding: 0 5px; width: 50%; height: 26px; line-height: 26px; font-size: 14px; border: 1px solid #eaeaea; background-color: white; color: #8a8a8a; vertical-align: top; box-sizing: border-box; text-indent: 0; }
-.kboard-comments-default .kboard-comments-wrap { padding: 15px 15px 0 0; }
-.kboard-comments-default .comments-header { padding: 0 0 0 15px; overflow: hidden; line-height: 1; }
-.kboard-comments-default .comments-count { display: inline; color: #8a8a8a; font-size: 14px; }
-.kboard-comments-default .comments-count .comments-total-count { color: #f05726; font-size: 14px; }
-.kboard-comments-default .comments-sort { float: right; text-align: right; }
-.kboard-comments-default .comments-sort select { display: inline; margin: 0; padding: 0; border: 0; width: auto; min-width: 0; max-width: none; height: auto; min-height: 0; color: #66666a; font-size: 14px; background: none; background-color: transparent; cursor: pointer; box-shadow: none; text-indent: 0; -webkit-appearance: menulist; -moz-appearance: menulist; appearance: menulist; }
-.kboard-comments-default .comments-list { padding: 0 0 0 15px; overflow: hidden; }
-.kboard-comments-default .comments-list ul { margin: 0 !important; padding: 0 !important; list-style: none; border: 0; background: none; }
-.kboard-comments-default .comments-list ul li { margin: 0 !important; padding: 15px 0 0 0 !important; list-style: none; border: 0; background: none; }
-.kboard-comments-default .comments-list .comments-list-username { float: left; margin: 0; padding-right: 10px; width: auto; font-size: 14px; color: #3b3b3b; font-weight: bold; line-height: 24px; }
-.kboard-comments-default .comments-list .comments-list-username a { color: #3b3b3b; }
-.kboard-comments-default .comments-list .comments-list-username img.avatar { display: inline; margin: 0 3px 0 0; width: 24px; max-width: none; height: 24px; vertical-align: middle; border-radius: 50%; }
-.kboard-comments-default .comments-list .comments-list-create { float: left; margin: 0; padding-right: 10px; width: auto; font-size: 13px; color: gray; line-height: 24px; }
-.kboard-comments-default .comments-list .comments-list-content { clear: both; padding: 10px 0; word-break: break-all; overflow: hidden; }
-.kboard-comments-default .comments-list .comments-list-content iframe { max-width: 100%; }
-.kboard-comments-default .comments-list .comments-list-content img { display: inline; margin: 0; vertical-align: middle; max-width: 100%; }
-.kboard-comments-default .comments-list .comments-list-content p { margin: 0 0 0.75em; }
-.kboard-comments-default .comments-list .comments-list-content p:last-child { margin: 0; }
-.kboard-comments-default .comments-list .comments-list-content .aligncenter { display: block; margin-right: auto; margin-left: auto; }
-.kboard-comments-default .comments-list .comments-list-content .alignright { float:right; }
-.kboard-comments-default .comments-list .comments-list-content .alignleft { float: left; }
-.kboard-comments-default .comments-list .comments-list-controller { clear: both; overflow: hidden; line-height: 1; }
-.kboard-comments-default .comments-list .comments-list-controller .left { position: static; float: left; }
-.kboard-comments-default .comments-list .comments-list-controller .right { position: static; float: right; text-align: right; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-action { margin: 0 0 5px 0; padding: 3px 4px; font-size: 13px; font-weight: normal; line-height: 12px; text-align: left; border: 1px solid #ededed; background: none; background-color: white; border-radius: 2px; letter-spacing: normal; cursor: pointer; vertical-align: middle; text-shadow: none; box-shadow: none; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-action span { position: static; display: inline; margin: 0; padding: 0; font-size: 12px; line-height: 12px; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-like { color: #ff5959; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-unlike { color: #3d62aa; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-delete { color: gray; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-edit { color: gray; }
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-reply { color: gray; }
-.kboard-comments-default .comments-list .comments-list-controller .kboard-reply-active { }
-.kboard-comments-default .comments-list .comments-reply-form { }
-.kboard-comments-default .kboard-comments-form { padding: 15px 0 15px 15px; overflow: hidden; }
-.kboard-comments-default .kboard-comments-form .comment-textarea { margin: 0; padding: 5px; width: 100%; min-width: 100%; max-width: 100%; height: 60px; min-height: 0; border: 1px solid #eaeaea; font-size: 14px; background-color: white; color: #8a8a8a; vertical-align: top; box-sizing: border-box; text-indent: 0; }
-.kboard-comments-default .kboard-comments-form .comments-field-wrap { display: none; float: left; width: 50%; }
-.kboard-comments-default .kboard-comments-form .comments-field { margin-bottom: 10px; line-height: 28px; font-size: 14px; }
-.kboard-comments-default .kboard-comments-form .comments-field .comments-field-label { display: inline-block !important; margin: 0; padding: 0; width: 100px; font-size: 14px; color: #8a8a8a; vertical-align: top; }
-.kboard-comments-default .kboard-comments-form .comments-field img { display: inline; margin: 0; padding: 0; width: auto; max-width: 100%; vertical-align: top; }
-.kboard-comments-default .kboard-comments-form .comments-submit-button { display: none; float: right; }
-.kboard-comments-default .kboard-comments-form .comments-submit-button input[type=submit] { margin: 0; padding: 10px 20px; width: auto; min-width: inherit; max-width: inherit; border: 0; background-color: black; color: white; font-weight: bold; cursor: pointer; text-align: center; vertical-align: top; }
-.kboard-comments-default .kboard-comments-login { padding: 15px 0 15px 15px; text-align: center; font-size: 13px; overflow: hidden; }
+/* ============================================
+   1. DESIGN TOKENS (CSS Variables)
+   ============================================ */
+.kboard-comments-default {
+	--kboard-comments-primary: #2563eb;
+	--kboard-comments-primary-hover: #1d4ed8;
+	--kboard-comments-text: #1e293b;
+	--kboard-comments-text-muted: #64748b;
+	--kboard-comments-bg: #ffffff;
+	--kboard-comments-bg-alt: #f8fafc;
+	--kboard-comments-border: #e2e8f0;
+	--kboard-comments-border-light: #f1f5f9;
+	--kboard-comments-radius: 8px;
+	--kboard-comments-radius-sm: 4px;
+	--kboard-comments-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 
+	font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
+	font-size: 15px;
+	color: var(--kboard-comments-text);
+	line-height: 1.6;
+	background-color: transparent;
+	margin: 40px 0;
+	box-sizing: border-box;
+}
+
+.kboard-comments-default *,
+.kboard-comments-default *::before,
+.kboard-comments-default *::after {
+	box-sizing: border-box;
+}
+
+/* Hide redundant HR tags */
+.kboard-comments-default hr {
+	display: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/* ============================================
+   2. HEADER (Count & Sort)
+   ============================================ */
+.kboard-comments-default .comments-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 0 16px 0;
+	border-bottom: 2px solid var(--kboard-comments-text);
+	margin-bottom: 24px;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.kboard-comments-default .comments-count {
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--kboard-comments-text);
+}
+
+.kboard-comments-default .comments-count .comments-total-count {
+	color: var(--kboard-comments-primary);
+	margin-left: 4px;
+}
+
+.kboard-comments-default .comments-sort {
+	margin-left: auto;
+}
+
+.kboard-comments-default .comments-sort select {
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius);
+	padding: 8px 36px 8px 14px;
+	font-size: 13px;
+	color: var(--kboard-comments-text-muted);
+	background-color: var(--kboard-comments-bg);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	outline: none;
+	height: 36px;
+	line-height: 1;
+	box-shadow: none;
+	min-width: 90px;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.kboard-comments-default .comments-sort select:focus {
+	border-color: var(--kboard-comments-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ============================================
+   3. COMMENT LIST & THREADING
+   ============================================ */
+.kboard-comments-default .comments-list {
+	padding: 0;
+	margin: 0;
+}
+
+.kboard-comments-default .comments-list ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Base List Item */
+.kboard-comments-default .comments-list li {
+	position: relative;
+	padding: 24px 0;
+	margin: 0;
+	border-bottom: none;
+	list-style: none;
+	background: none;
+	display: block;
+}
+
+/* Separator line between top-level comments */
+.kboard-comments-default .comments-list>ul>li {
+	border-top: 1px solid var(--kboard-comments-border);
+}
+
+.kboard-comments-default .comments-list>ul>li:first-child {
+	border-top: none;
+}
+
+/* Thread Container (Nested Replies) */
+.kboard-comments-default .comments-list li .comments-list {
+	margin-top: 20px;
+	padding-left: 0;
+	border: none;
+	background: none;
+}
+
+/* --- DESKTOP THREADING --- */
+@media screen and (min-width: 601px) {
+	.kboard-comments-default .comments-list li .comments-list {
+		margin-left: 40px;
+		border-left: 2px solid var(--kboard-comments-border);
+		padding-left: 24px;
+	}
+
+	.kboard-comments-default .comments-list li .comments-list ul li {
+		padding: 20px 0;
+		background-color: transparent;
+		border: none;
+		margin-top: 0;
+		border-radius: 0;
+	}
+
+	/* No separator between replies - use spacing only (Slack/Discord style) */
+	.kboard-comments-default .comments-list li .comments-list ul li+li {
+		border-top: none;
+		padding-top: 16px;
+	}
+}
+
+/* --- MOBILE THREADING --- */
 @media screen and (max-width: 600px) {
+	.kboard-comments-default .comments-list li .comments-list {
+		margin-left: 12px;
+		padding-left: 12px;
+		border-left: 2px solid var(--kboard-comments-border);
+		margin-top: 16px;
+	}
+
+	.kboard-comments-default .comments-list li .comments-list ul li {
+		padding: 16px 0;
+		margin-top: 0;
+		border: none;
+	}
+
+	/* No separator between replies on mobile either */
+	.kboard-comments-default .comments-list li .comments-list ul li+li {
+		border-top: none;
+		padding-top: 12px;
+	}
+}
+
+/* ============================================
+   4. COMMENT ITEM ELEMENTS
+   ============================================ */
+
+/* Avatar */
+.kboard-comments-default .comments-list-username img.avatar {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 1px solid var(--kboard-comments-border);
+	margin-right: 5px;
+	vertical-align: middle;
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+/* Username */
+.kboard-comments-default .comments-list-username {
+	font-weight: 600;
+	color: var(--kboard-comments-text);
+	font-size: 14px;
+	display: inline-block;
+	margin-right: 5px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+
+/* Date */
+.kboard-comments-default .comments-list-create {
+	font-size: 13px;
+	color: var(--kboard-comments-text-muted);
+	font-weight: 400;
+	display: inline-block;
+	line-height: 24px;
+	vertical-align: middle;
+}
+
+/* Content - High contrast for readability (Enterprise standard) */
+.kboard-comments-default .comments-list-content {
+	font-size: 15px;
+	color: var(--kboard-comments-text);
+	/* Changed to near-black for better readability */
+	line-height: 1.7;
+	word-break: break-word;
+	margin-top: 8px;
+	display: block;
+}
+
+.kboard-comments-default .comments-list-content p {
+	margin: 0 0 8px 0;
+}
+
+/* ============================================
+   5. ACTION BUTTONS (Enterprise Style)
+   ============================================ */
+.kboard-comments-default .comments-list-controller {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 12px;
+	padding-top: 0;
+	border: none;
+	width: 100%;
+}
+
+.kboard-comments-default .comments-list-controller .left,
+.kboard-comments-default .comments-list-controller .right {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+/* Button Base - Text Link Style */
+.kboard-comments-default .comments-button-action {
+	appearance: none;
+	-webkit-appearance: none;
+	background: transparent;
+	border: none;
+	padding: 4px 0;
+	border-radius: 0;
+	cursor: pointer;
+	color: var(--kboard-comments-text-muted);
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 1;
+	transition: color 0.15s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	text-decoration: none !important;
+	white-space: nowrap;
+}
+
+.kboard-comments-default .comments-button-action:hover {
+	color: var(--kboard-comments-primary);
+	text-decoration: underline !important;
+}
+
+.kboard-comments-default .comments-button-action:active {
+	opacity: 0.7;
+}
+
+/* Like/Unlike Counts */
+.kboard-comments-default .kboard-comment-like-count,
+.kboard-comments-default .kboard-comment-unlike-count {
+	font-weight: 700;
+	margin-left: 2px;
+}
+
+/* --- MOBILE BUTTON OPTIMIZATION --- */
+@media screen and (max-width: 600px) {
+
+	/* Keep buttons in ONE row */
+	.kboard-comments-default .comments-list-controller {
+		flex-direction: row;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.kboard-comments-default .comments-list-controller .left,
+	.kboard-comments-default .comments-list-controller .right {
+		gap: 10px;
+	}
+
+	.kboard-comments-default .comments-button-action {
+		font-size: 12px;
+	}
+
+	/* In deeply nested replies */
+	.kboard-comments-default .comments-list li .comments-list .comments-button-action {
+		font-size: 11px;
+	}
+}
+
+/* ============================================
+   6. WRITE FORM (Card Style)
+   ============================================ */
+.kboard-comments-default .kboard-comments-form {
+	background: var(--kboard-comments-bg-alt);
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius);
+	padding: 24px;
+	margin-top: 32px;
+	overflow: hidden;
+}
+
+.kboard-comments-default .comments-field.field-content {
+	margin-bottom: 12px;
+}
+
+.kboard-comments-default .comments-field-wrap {
+	display: block;
+	width: 100%;
+}
+
+/* ---- Unified Field Layout ---- */
+.kboard-comments-default .comments-field {
+	margin-bottom: 12px;
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 12px;
+}
+
+/* Label - Fixed Width */
+.kboard-comments-default .comments-field-label {
+	width: 80px;
+	min-width: 80px;
+	font-weight: 600;
+	font-size: 13px;
+	color: var(--kboard-comments-text);
+	flex-shrink: 0;
+	line-height: 1.4;
+}
+
+/* Text & Password Inputs */
+.kboard-comments-default input[type=text],
+.kboard-comments-default input[type=password] {
+	flex: 1;
+	min-width: 0;
+	height: 40px;
+	padding: 0 12px;
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius);
+	background: var(--kboard-comments-bg);
+	font-size: 14px;
+	color: var(--kboard-comments-text);
+	outline: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* File Inputs */
+.kboard-comments-default input[type=file] {
+	flex: 1;
+	min-width: 0;
+	padding: 8px;
+	height: 40px;
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius);
+	background: var(--kboard-comments-bg);
+	font-size: 13px;
+	color: var(--kboard-comments-text);
+}
+
+/* Checkbox Fields */
+.kboard-comments-default .comments-field.field-comment-hide,
+.kboard-comments-default .comments-field.field-comment-anonymous {
+	align-items: center;
+}
+
+.kboard-comments-default .comments-field input[type=checkbox] {
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	cursor: pointer;
+}
+
+.kboard-comments-default .comments-field input[type=checkbox]+.comments-field-label {
+	width: auto;
+	min-width: auto;
+	margin-left: 4px;
+	font-weight: 400;
+	cursor: pointer;
+}
+
+/* CAPTCHA Field */
+.kboard-comments-default .comments-field.field-captcha {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: nowrap;
+}
+
+.kboard-comments-default .comments-field.field-captcha .comments-field-label {
+	width: 80px;
+	min-width: 80px;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+/* Keep image at original size - no resizing */
+.kboard-comments-default .comments-field.field-captcha .comments-field-label img {
+	display: block;
+	width: auto;
+	height: auto;
+	max-width: none;
+	max-height: none;
+}
+
+/* Full width input like other fields */
+.kboard-comments-default .comments-field.field-captcha input[type=text] {
+	flex: 1;
+	min-width: 0;
+}
+
+/* reCAPTCHA Field */
+.kboard-comments-default .comments-field.field-recaptcha {
+	margin-bottom: 12px;
+}
+
+.kboard-comments-default textarea {
+	width: 100%;
+	height: 110px;
+	padding: 14px;
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius);
+	background: var(--kboard-comments-bg);
+	font-size: 14px;
+	color: var(--kboard-comments-text);
+	outline: none;
+	resize: vertical;
+	margin-bottom: 0;
+	display: block;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.kboard-comments-default input:focus,
+.kboard-comments-default textarea:focus {
+	border-color: var(--kboard-comments-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Submit Button */
+.kboard-comments-default .comments-submit-button {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 12px;
+}
+
+.kboard-comments-default .comments-submit-button input[type=submit] {
+	background-color: var(--kboard-comments-text);
+	color: #fff;
+	border: none;
+	padding: 0 28px;
+	height: 44px;
+	border-radius: var(--kboard-comments-radius);
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.2s, transform 0.1s;
+	display: inline-block;
+}
+
+.kboard-comments-default .comments-submit-button input[type=submit]:hover {
+	background-color: var(--kboard-comments-primary);
+}
+
+.kboard-comments-default .comments-submit-button input[type=submit]:active {
+	transform: scale(0.98);
+}
+
+/* --- MOBILE FORM OPTIMIZATION --- */
+@media screen and (max-width: 600px) {
+	.kboard-comments-default .kboard-comments-form {
+		padding: 16px;
+	}
+
+	.kboard-comments-default .comments-list li {
+		padding: 16px 0;
+	}
+
+	.kboard-comments-default .comments-list .comments-list-username img.avatar {
+		width: 24px;
+		height: 24px;
+	}
+
+	.kboard-comments-default .comments-list-username {
+		line-height: 24px;
+		font-size: 13px;
+	}
+
+	.kboard-comments-default .comments-list-create {
+		line-height: 24px;
+		font-size: 12px;
+	}
+
+	.kboard-comments-default .kboard-comments-form .comments-field {
+		flex-direction: column;
+		align-items: stretch;
+		margin-bottom: 20px;
+		gap: 6px;
+		/* Reduced gap for vertical layout */
+	}
+
+	.kboard-comments-default .kboard-comments-form .comments-field:last-child {
+		margin-bottom: 0;
+	}
+
+	.kboard-comments-default .comments-field-label {
+		width: 100%;
+		margin-bottom: 6px;
+		/* Closer to its input */
+		line-height: 1.2;
+	}
+
+	/* Ensure proper input height on mobile */
 	.kboard-comments-default input[type=text],
-	.kboard-comments-default input[type=email],
-	.kboard-comments-default input[type=number],
-	.kboard-comments-default input[type=date],
-	.kboard-comments-default input[type=password] { width: 100%; height: 28px; line-height: 28px; box-sizing: border-box; }
-	.kboard-comments-default input[type=file] { width: 100%; height: auto; line-height: normal; box-sizing: border-box; }
-	.kboard-comments-default .kboard-comments-form .comments-field { float: none; width: auto; }
-	.kboard-comments-default .kboard-comments-form .comments-field .comments-field-label { display: block; margin: 0; }
-	.kboard-comments-default .kboard-comments-form .comments-field-wrap { float: left; width: 100%; }
-	.kboard-comments-default .kboard-comments-form .comments-submit-button { float: left; width: 100%; }
-	.kboard-comments-default .kboard-comments-form .comments-submit-button input[type=submit] { padding: 10px 0; width: 100%; box-sizing: border-box; }
+	.kboard-comments-default input[type=password] {
+		width: 100%;
+		height: 44px;
+		min-height: 44px;
+	}
+
+	.kboard-comments-default input[type=file] {
+		width: 100%;
+		height: 44px;
+		min-height: 44px;
+	}
+
+	.kboard-comments-default .comments-submit-button {
+		justify-content: stretch;
+	}
+
+	.kboard-comments-default .comments-submit-button input[type=submit] {
+		width: 100%;
+		height: 48px;
+	}
+}
+
+/* ============================================
+   7. LOGIN/PERMISSION MESSAGE
+   ============================================ */
+.kboard-comments-default .kboard-comments-login {
+	text-align: center;
+	padding: 32px 20px;
+	background: var(--kboard-comments-bg-alt);
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius);
+	margin-top: 24px;
+	color: var(--kboard-comments-text-muted);
+	font-size: 14px;
+}
+
+.kboard-comments-default .kboard-comments-login a {
+	color: var(--kboard-comments-primary);
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+.kboard-comments-default .kboard-comments-login a:hover {
+	color: var(--kboard-comments-primary-hover);
 }
