@@ -3,7 +3,6 @@
 /**
  * KBoard Comments Default Skin - Enterprise Grade Design
  * Modern, accessible, and fully responsive.
- * Version: 2.0 (Final Polish)
  */
 
 /* ============================================
@@ -480,19 +479,9 @@
 }
 
 /* CAPTCHA Field */
-.kboard-comments-default .comments-field.field-captcha {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	flex-wrap: nowrap;
-}
-
 .kboard-comments-default .comments-field.field-captcha .comments-field-label {
-	width: 80px;
-	min-width: 80px;
 	display: flex;
 	align-items: center;
-	flex-shrink: 0;
 }
 
 /* Keep image at original size - no resizing */
@@ -502,12 +491,6 @@
 	height: auto;
 	max-width: none;
 	max-height: none;
-}
-
-/* Full width input like other fields */
-.kboard-comments-default .comments-field.field-captcha input[type=text] {
-	flex: 1;
-	min-width: 0;
 }
 
 /* reCAPTCHA Field */
@@ -574,11 +557,6 @@
 
 	.kboard-comments-default .comments-list li {
 		padding: 16px 0;
-	}
-
-	.kboard-comments-default .comments-list .comments-list-username img.avatar {
-		width: 24px;
-		height: 24px;
 	}
 
 	.kboard-comments-default .comments-list-username {
