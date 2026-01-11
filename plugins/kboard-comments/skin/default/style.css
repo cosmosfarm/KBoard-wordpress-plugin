@@ -240,6 +240,68 @@
 	margin: 0 0 8px 0;
 }
 
+/* Image Attachment */
+.kboard-comments-default .comments-list-image1 {
+	margin: 16px 0 8px 0;
+}
+
+.kboard-comments-default .comments-list-image1 img {
+	max-width: 100%;
+	height: auto;
+	border-radius: var(--kboard-comments-radius);
+	border: 1px solid var(--kboard-comments-border);
+	display: block;
+}
+
+/* File Attachment */
+.kboard-comments-default .comments-list-file1 {
+	margin: 12px 0 8px 0;
+	font-size: 14px;
+	color: var(--kboard-comments-text-muted);
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.kboard-comments-default .comments-list-file1 a {
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 12px;
+	background-color: var(--kboard-comments-bg-alt);
+	border: 1px solid var(--kboard-comments-border);
+	border-radius: var(--kboard-comments-radius-sm);
+	color: var(--kboard-comments-text);
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 13px;
+	transition: all 0.2s ease;
+}
+
+.kboard-comments-default .comments-list-file1 a:hover {
+	border-color: var(--kboard-comments-primary);
+	color: var(--kboard-comments-primary);
+	background-color: #fff;
+	text-decoration: none !important;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.kboard-comments-default .comments-list-file1 a::before {
+	content: '';
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 6px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='7 10 12 15 17 10'/%3E%3Cline x1='12' y1='15' x2='12' y2='3'/%3E%3C/svg%3E");
+	background-size: contain;
+	background-repeat: no-repeat;
+	transition: background-image 0.2s;
+}
+
+.kboard-comments-default .comments-list-file1 a:hover::before {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='7 10 12 15 17 10'/%3E%3Cline x1='12' y1='15' x2='12' y2='3'/%3E%3C/svg%3E");
+}
+
 /* ============================================
    5. ACTION BUTTONS (Enterprise Style)
    ============================================ */
@@ -338,12 +400,13 @@
 }
 
 .kboard-comments-default .comments-field.field-content {
-	margin-bottom: 12px;
+	margin-bottom: 0;
 }
 
 .kboard-comments-default .comments-field-wrap {
-	display: block;
+	display: none;
 	width: 100%;
+	margin-top: 12px;
 }
 
 /* ---- Unified Field Layout ---- */
@@ -474,9 +537,9 @@
 	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Submit Button */
+/* Submit Button - Hidden initially, shown via JS on textarea focus */
 .kboard-comments-default .comments-submit-button {
-	display: flex;
+	display: none;
 	justify-content: flex-end;
 	margin-top: 12px;
 }
@@ -536,6 +599,14 @@
 		/* Reduced gap for vertical layout */
 	}
 
+	.kboard-comments-default .kboard-comments-form .comments-field.field-content {
+		margin-bottom: 0;
+	}
+
+	.kboard-comments-default .comments-field-wrap {
+		margin-top: 20px;
+	}
+
 	.kboard-comments-default .kboard-comments-form .comments-field:last-child {
 		margin-bottom: 0;
 	}
@@ -563,6 +634,7 @@
 
 	.kboard-comments-default .comments-submit-button {
 		justify-content: stretch;
+		margin-top: 20px;
 	}
 
 	.kboard-comments-default .comments-submit-button input[type=submit] {
