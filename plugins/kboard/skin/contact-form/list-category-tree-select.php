@@ -7,7 +7,7 @@
 			<div class="kboard-search-option-wrap-<?php echo $board->tree_category->depth?> kboard-search-option-wrap type-select">
 				<input type="hidden" name="kboard_search_option[tree_category_<?php echo $board->tree_category->depth?>][key]" value="tree_category_<?php echo $board->tree_category->depth?>">
 				<input type="hidden" name="kboard_search_option[tree_category_<?php echo $board->tree_category->depth?>][value]" value="<?php echo $board->tree_category->getCategoryNameWithDepth($board->tree_category->depth)?>">
-				<select onchange="return kboard_tree_category_search('<?php echo $board->tree_category->depth?>', this.value)">
+				<select onchange="return kboard_tree_category_search('tree_category_<?php echo $board->tree_category->depth?>', this.value, this)">
 					<option<?php if(!$board->tree_category->getCategoryNameWithDepth($board->tree_category->depth)):?> selected<?php endif?> value=""><?php echo __('All', 'kboard')?></option>
 					<?php foreach($tree_category_list as $item):?>
 					<option<?php if($board->tree_category->getCategoryNameWithDepth($board->tree_category->depth) == $item['category_name']):?> selected<?php endif?> value="<?php echo $item['category_name']?>"><?php echo $item['category_name']?></option>

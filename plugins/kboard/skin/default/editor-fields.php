@@ -160,7 +160,7 @@
 				<input type="hidden" id="tree-category-check-<?php echo $i?>" value="<?php echo $content->option->{'tree_category_'.$i}?>">
 				<input type="hidden" name="kboard_option_tree_category_<?php echo $i?>" value="">
 				<?php endfor?>
-				<div class="kboard-tree-category-wrap"></div>
+				<div class="kboard-tree-category-wrap" data-board-id="<?php echo $board->id?>" data-use-tree-category="<?php echo $board->meta->use_tree_category?>" data-tree-category="<?php echo esc_attr(kboard_json_encode($board->tree_category->tree_category))?>"></div>
 				<?php if(isset($field['description']) && $field['description']):?><div class="description"><?php echo esc_html($field['description'])?></div><?php endif?>
 			</div>
 		</div>

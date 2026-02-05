@@ -7,10 +7,10 @@
 			<div class="kboard-search-option-wrap-<?php echo $board->tree_category->depth?> kboard-search-option-wrap type-tab">
 				<input type="hidden" name="kboard_search_option[tree_category_<?php echo $board->tree_category->depth?>][key]" value="tree_category_<?php echo $board->tree_category->depth?>">
 				<input type="hidden" name="kboard_search_option[tree_category_<?php echo $board->tree_category->depth?>][value]" value="<?php echo $board->tree_category->getCategoryNameWithDepth($board->tree_category->depth)?>">
-				<ul class="kboard-tree-category">
-					<li<?php if(!$board->tree_category->getCategoryNameWithDepth($board->tree_category->depth)):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="return kboard_tree_category_search('<?php echo $board->tree_category->depth?>', '')"><?php echo __('All', 'kboard')?></a></li>
+				<ul class="kboard-tree-category-list">
+					<li<?php if(!$board->tree_category->getCategoryNameWithDepth($board->tree_category->depth)):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="return kboard_tree_category_search('tree_category_<?php echo $board->tree_category->depth?>', '', this)"><?php echo __('All', 'kboard')?></a></li>
 					<?php foreach($tree_category_list as $item):?>
-					<li<?php if($board->tree_category->getCategoryNameWithDepth($board->tree_category->depth) == $item['category_name']):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="return kboard_tree_category_search('<?php echo $board->tree_category->depth?>', '<?php echo $item['category_name']?>')"><?php echo $item['category_name']?></a></li>
+					<li<?php if($board->tree_category->getCategoryNameWithDepth($board->tree_category->depth) == $item['category_name']):?> class="kboard-category-selected"<?php endif?>><a href="#" onclick="return kboard_tree_category_search('tree_category_<?php echo $board->tree_category->depth?>', '<?php echo $item['category_name']?>', this)"><?php echo $item['category_name']?></a></li>
 					<?php endforeach?>
 				</ul>
 			</div>

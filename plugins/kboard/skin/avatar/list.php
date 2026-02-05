@@ -12,6 +12,16 @@
 			<form id="kboard-sort-form-<?php echo $board->id?>" method="get" action="<?php echo esc_url($url->toString())?>">
 				<?php echo $url->set('pageid', '1')->set('category1', '')->set('category2', '')->set('target', '')->set('keyword', '')->set('mod', 'list')->set('kboard_list_sort_remember', $board->id)->toInput()?>
 				
+				<?php
+				if(isset($_GET['kboard_search_option']) && is_array($_GET['kboard_search_option'])){
+					foreach($_GET['kboard_search_option'] as $key=>$value){
+						foreach($value as $k=>$v){
+							echo '<input type="hidden" name="kboard_search_option['.esc_attr($key).']['.esc_attr($k).']" value="'.esc_attr($v).'">';
+						}
+					}
+				}
+				?>
+				
 				<select name="kboard_list_sort" onchange="jQuery('#kboard-sort-form-<?php echo $board->id?>').submit();">
 					<option value="newest"<?php if($list->getSorting() == 'newest'):?> selected<?php endif?>><?php echo __('Newest', 'kboard')?></option>
 					<option value="best"<?php if($list->getSorting() == 'best'):?> selected<?php endif?>><?php echo __('Best', 'kboard')?></option>

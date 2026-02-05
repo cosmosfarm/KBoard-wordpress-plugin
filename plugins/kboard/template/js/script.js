@@ -22,13 +22,17 @@
 }(jQuery, window));
 
 var kboard_ajax_lock = false;
+if(typeof kboard_current == 'undefined') var kboard_current = {};
 
 jQuery(document).ready(function(){
-	var kboard_mod = jQuery('input[name=mod]', '.kboard-form').val();
+	var kboard_mod = kboard_current.mod ? kboard_current.mod : jQuery('input[name=mod]', '.kboard-form').val();
 	if(kboard_mod == 'editor'){
-		if(kboard_current.use_tree_category == 'yes'){
-			kboard_tree_category_parents();
-		}
+		jQuery('.kboard-tree-category-wrap').each(function(){
+			var wrap = jQuery(this);
+			if(wrap.data('use-tree-category') == 'yes' || kboard_current.use_tree_category == 'yes'){
+				kboard_tree_category_parents(wrap);
+			}
+		});
 		
 		if(kboard_current.use_editor == 'snote'){ // summernote
 			jQuery('.summernote').each(function(){
@@ -83,109 +87,150 @@ jQuery(document).ready(function(){
 	}
 });
 
-function kboard_tree_category_search(index, value){
+function kboard_tree_category_search(index, value, element){
 	var length = jQuery('.kboard-search-option-wrap').length;
-	var tree_category_index = parseInt(index) +1;
+	var tree_category_index;
+	var form = null;
+
+	if(element){
+		form = jQuery(element).closest('form');
+	}
+
+	// index에 tree_category_ 접두사가 포함되어 있는지 확인
+	var search_index = (index.toString().indexOf('tree_category_') === -1) ? 'tree_category_' + index : index;
+	tree_category_index = parseInt(search_index.replace('tree_category_', '')) + 1;
 
 	if(value){
-		jQuery('input[name="kboard_search_option[tree_category_'+index+'][value]"]').val(value);
+		if(form){
+			jQuery('input[name="kboard_search_option['+search_index+'][value]"]', form).val(value);
+		}
+		else{
+			jQuery('input[name="kboard_search_option['+search_index+'][value]"]').val(value);
+		}
 	}
 	else{
-		jQuery('input[name="kboard_search_option[tree_category_'+index+'][value]"]').val('');
+		if(form){
+			jQuery('input[name="kboard_search_option['+search_index+'][value]"]', form).val('');
+		}
+		else{
+			jQuery('input[name="kboard_search_option['+search_index+'][value]"]').val('');
+		}
 	}
 	
 	for(var i=tree_category_index; i<=length; i++){
-		jQuery('.kboard-search-option-wrap-'+i).remove();
+		if(form){
+			jQuery('.kboard-search-option-wrap-'+i, form).remove();
+		}
+		else{
+			jQuery('.kboard-search-option-wrap-'+i).remove();
+		}
 	}
-	jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+	
+	if(form){
+		form.submit();
+	}
+	else if(kboard_current.board_id){
+		jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+	}
 	
 	return false;
 }
 
-function kboard_tree_category_parents(){
-	if(kboard_current.use_tree_category){
-		var tree_category = kboard_current.tree_category;
+function kboard_tree_category_parents(wrap){
+	if(!wrap) wrap = jQuery('.kboard-tree-category-wrap');
+	
+	var use_tree_category = wrap.data('use-tree-category') ? wrap.data('use-tree-category') : kboard_current.use_tree_category;
+	var tree_category = wrap.data('tree-category') ? wrap.data('tree-category') : kboard_current.tree_category;
+	var board_id = wrap.data('board-id') ? wrap.data('board-id') : kboard_current.board_id;
+	
+	if(use_tree_category == 'yes' || use_tree_category === true){
 		var tree_category_name;
 		var tree_category_index = 1;
 		
 		tree_category_name = 'kboard_option_tree_category_';
 		
-		jQuery('.kboard-tree-category-wrap').prepend('<select id="kboard-tree-category-'+tree_category_index+'" class="kboard-tree-category kboard-tree-category-'+tree_category_index+'"></select>');
-		jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="">'+kboard_localize_strings.category+' '+kboard_localize_strings.select+'</option>');
-		jQuery('#kboard-tree-category-'+tree_category_index).after('<input type="hidden" id="'+tree_category_name+tree_category_index+'" name="'+tree_category_name+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
+		wrap.prepend('<select id="kboard-tree-category-'+tree_category_index+'" class="kboard-tree-category kboard-tree-category-'+tree_category_index+'"></select>');
+		jQuery('#kboard-tree-category-'+tree_category_index, wrap).append('<option value="">'+kboard_localize_strings.category+' '+kboard_localize_strings.select+'</option>');
+		jQuery('#kboard-tree-category-'+tree_category_index, wrap).after('<input type="hidden" id="'+tree_category_name+tree_category_index+'" name="'+tree_category_name+tree_category_index+'" class="kboard-tree-category-hidden-'+tree_category_index+'">');
 		
-		jQuery('#kboard-tree-category-'+tree_category_index).change(function(){
-			kboard_tree_category_children(this.value, tree_category_index, tree_category_name);
-			jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+		jQuery('#kboard-tree-category-'+tree_category_index, wrap).change(function(){
+			kboard_tree_category_children(this.value, tree_category_index, tree_category_name, wrap);
+			jQuery('#kboard-tree-category-search-form-'+board_id).submit();
 		});
 		
 		jQuery.each(tree_category, function(index, element){
 			if(!element.parent_id){
-				jQuery('#kboard-tree-category-'+tree_category_index).append('<option value="'+element.id+'">'+element.category_name+'</option>');
+				jQuery('#kboard-tree-category-'+tree_category_index, wrap).append('<option value="'+element.id+'">'+element.category_name+'</option>');
 			}
 		});
 
-		kboard_tree_category_selected(tree_category_index, tree_category_name);
+		kboard_tree_category_selected(tree_category_index, tree_category_name, wrap);
 	}
 }
 
-function kboard_tree_category_children(category_id, tree_category_index, tree_category_name){
-	var tree_category = kboard_current.tree_category;
-	var length = jQuery('.kboard-tree-category').length;
+function kboard_tree_category_children(category_id, tree_category_index, tree_category_name, wrap){
+	if(!wrap) wrap = jQuery('.kboard-tree-category-wrap');
+	
+	var tree_category = wrap.data('tree-category') ? wrap.data('tree-category') : kboard_current.tree_category;
+	var board_id = wrap.data('board-id') ? wrap.data('board-id') : kboard_current.board_id;
+	
+	var length = jQuery('.kboard-tree-category', wrap).length;
 	var check = 0;
 	
 	for(var i=tree_category_index+1; i<=length; i++){
-		jQuery('.kboard-tree-category-'+i).remove();
-		jQuery('.kboard-tree-category-hidden-'+i).remove();
+		jQuery('.kboard-tree-category-'+i, wrap).remove();
+		jQuery('.kboard-tree-category-hidden-'+i, wrap).remove();
 	}
 	
 	jQuery.each(tree_category, function(index, element){
-		if(jQuery('#kboard-tree-category-'+tree_category_index).val() == element.id){
-			jQuery('#'+tree_category_name+tree_category_index).val(element.category_name);
+		if(jQuery('#kboard-tree-category-'+tree_category_index, wrap).val() == element.id){
+			jQuery('#'+tree_category_name+tree_category_index, wrap).val(element.category_name);
 		}
 	});
 	
-	if(jQuery('#kboard-tree-category-'+tree_category_index).val()){
+	if(jQuery('#kboard-tree-category-'+tree_category_index, wrap).val()){
 		jQuery.each(tree_category, function(index, element){
 			if(category_id === element.parent_id){
 				if(check==0){
-					jQuery('#kboard-tree-category-'+tree_category_index).after('<select id="kboard-tree-category-'+(tree_category_index+1)+'" class="kboard-tree-category kboard-tree-category-'+(tree_category_index+1)+'"></select>');
-					jQuery('#kboard-tree-category-'+(tree_category_index+1)).append('<option value="">'+kboard_localize_strings.category+' '+kboard_localize_strings.select+'</option>');
+					jQuery('#kboard-tree-category-'+tree_category_index, wrap).after('<select id="kboard-tree-category-'+(tree_category_index+1)+'" class="kboard-tree-category kboard-tree-category-'+(tree_category_index+1)+'"></select>');
+					jQuery('#kboard-tree-category-'+(tree_category_index+1), wrap).append('<option value="">'+kboard_localize_strings.category+' '+kboard_localize_strings.select+'</option>');
 					
-					jQuery('#kboard-tree-category-'+(tree_category_index+1)).after('<input type="hidden" id="'+tree_category_name+(tree_category_index+1)+'" name="'+tree_category_name+(tree_category_index+1)+'" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'">');
+					jQuery('#kboard-tree-category-'+(tree_category_index+1), wrap).after('<input type="hidden" id="'+tree_category_name+(tree_category_index+1)+'" name="'+tree_category_name+(tree_category_index+1)+'" class="kboard-tree-category-hidden-'+(tree_category_index+1)+'">');
 					
-					jQuery('#kboard-tree-category-'+(tree_category_index+1)).change(function(){
-						kboard_tree_category_children(this.value, (tree_category_index+1), tree_category_name);
-						jQuery('#kboard-tree-category-search-form-'+kboard_current.board_id).submit();
+					jQuery('#kboard-tree-category-'+(tree_category_index+1), wrap).change(function(){
+						kboard_tree_category_children(this.value, (tree_category_index+1), tree_category_name, wrap);
+						jQuery('#kboard-tree-category-search-form-'+board_id).submit();
 					});
 				}
 				check++;
-				jQuery('#kboard-tree-category-'+(tree_category_index+1)).append('<option value="'+element.id+'">'+element.category_name+'</option>');
+				jQuery('#kboard-tree-category-'+(tree_category_index+1), wrap).append('<option value="'+element.id+'">'+element.category_name+'</option>');
 			}
 		});
-		kboard_tree_category_selected(tree_category_index+1, tree_category_name);
+		kboard_tree_category_selected(tree_category_index+1, tree_category_name, wrap);
 	}
 	else{
 		for(var i=tree_category_index; i<=length; i++){
-			jQuery('.kboard-tree-category-hidden-'+i).val('');
-			jQuery('.kboard-tree-category-hidden-'+(i+1)).remove();
+			jQuery('.kboard-tree-category-hidden-'+i, wrap).val('');
+			jQuery('.kboard-tree-category-hidden-'+(i+1), wrap).remove();
 		}
 	}
 	
-	if(jQuery('.kboard-tree-category-search').length){
-		jQuery('input[name="kboard_search_option[tree_category_'+tree_category_index+'][value]"').val(jQuery('#'+tree_category_name+tree_category_index).val());
-		jQuery('input[name="kboard_search_option[tree_category_'+tree_category_index+'][key]"').val('tree_category_'+tree_category_index);
+	if(jQuery('.kboard-tree-category-search', wrap).length){
+		jQuery('input[name="kboard_search_option[tree_category_'+tree_category_index+'][value]"', wrap).val(jQuery('#'+tree_category_name+tree_category_index, wrap).val());
+		jQuery('input[name="kboard_search_option[tree_category_'+tree_category_index+'][key]"', wrap).val('tree_category_'+tree_category_index);
 	}
 }
 
-function kboard_tree_category_selected(tree_category_index, tree_category_name){
-	var check = jQuery('#tree-category-check-'+tree_category_index).val();
+function kboard_tree_category_selected(tree_category_index, tree_category_name, wrap){
+	if(!wrap) wrap = jQuery('.kboard-tree-category-wrap');
+	
+	var check = jQuery('#tree-category-check-'+tree_category_index, wrap.parent()).val();
 	
 	if(check){
-		jQuery('#kboard-tree-category-'+tree_category_index+' option').each(function(index, element){
+		jQuery('#kboard-tree-category-'+tree_category_index+' option', wrap).each(function(index, element){
 			if(jQuery(element).text() == check){
 				jQuery(element).attr('selected', 'selected');
-				kboard_tree_category_children(this.value, tree_category_index, tree_category_name);
+				kboard_tree_category_children(this.value, tree_category_index, tree_category_name, wrap);
 			}
 		});
 	}
