@@ -491,3 +491,88 @@ function kboard_ajax_builder(args, callback){
 	}
 	return false;
 }
+
+function kboard_recaptcha_v3_token(form, callback){
+	var $form = jQuery(form);
+	var $recaptcha = jQuery('.kboard-recaptcha-v3', $form).first();
+	if(!$recaptcha.length){
+		callback(false);
+		return;
+	}
+	
+	var siteKey = $recaptcha.data('sitekey');
+	var action = $recaptcha.data('action') || 'kboard_submit';
+	var $token = jQuery('input[name=g-recaptcha-response]', $form).first();
+	
+	if(!siteKey || !$token.length){
+		callback(false);
+		return;
+	}
+	
+	if(typeof grecaptcha === 'undefined' || !grecaptcha.execute){
+		callback(false);
+		return;
+	}
+	
+	grecaptcha.ready(function(){
+		grecaptcha.execute(siteKey, {action: action}).then(function(token){
+			$token.val(token);
+			callback(true);
+		}, function(){
+			callback(false);
+		});
+	});
+}
+
+document.addEventListener('submit', function(event){
+	var form = event.target;
+	if(!form || !form.querySelector || !form.querySelector('.kboard-recaptcha-v3')){
+		return;
+	}
+	if(form.dataset.kboardRecaptchaV3Ready == '1'){
+		form.dataset.kboardRecaptchaV3Ready = '';
+		return;
+	}
+	if(form.dataset.kboardRecaptchaV3Loading == '1'){
+		event.preventDefault();
+		if(event.stopImmediatePropagation){
+			event.stopImmediatePropagation();
+		}
+		event.stopPropagation();
+		return;
+	}
+	
+	event.preventDefault();
+	if(event.stopImmediatePropagation){
+		event.stopImmediatePropagation();
+	}
+	event.stopPropagation();
+	form.dataset.kboardRecaptchaV3Loading = '1';
+	
+	kboard_recaptcha_v3_token(form, function(success){
+		form.dataset.kboardRecaptchaV3Loading = '';
+		if(success){
+			form.dataset.kboardRecaptchaV3Ready = '1';
+			if(typeof form.requestSubmit === 'function'){
+				form.requestSubmit();
+			}
+			else{
+				var submitButton = document.createElement('button');
+				submitButton.type = 'submit';
+				submitButton.style.display = 'none';
+				form.appendChild(submitButton);
+				submitButton.click();
+				form.removeChild(submitButton);
+			}
+		}
+		else{
+			jQuery(form).removeData('submitted');
+			if(typeof kboard_localize_strings !== 'undefined' && kboard_localize_strings.please_wait){
+				alert(kboard_localize_strings.please_wait);
+			}
+			else{
+				alert('Please wait.');
+			}
+		}
+	});
+}, true);

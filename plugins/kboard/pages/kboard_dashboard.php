@@ -1,4 +1,4 @@
-<?php if(!defined('ABSPATH')) exit;?>
+﻿<?php if(!defined('ABSPATH')) exit;?>
 
 <style>
 :root {
@@ -662,10 +662,15 @@ textarea.kboard-form-control {
 				</div>
 				<div class="kboard-card-body">
 					<p class="kboard-description">
-						v2 (Checkbox 타입) 키를 입력하면 내장 CAPTCHA 대신 구글 reCAPTCHA를 사용합니다.<br>
+						v2/v3 타입을 선택하고 해당 타입의 Site key/Secret key를 입력하면 내장 CAPTCHA 대신 구글 reCAPTCHA를 사용합니다.<br>
+						v3 사용 시에는 반드시 v3 키를 입력해 주세요.<br>
 						<a href="https://www.google.com/recaptcha/admin" target="_blank">키 발급받기</a>
 					</p>
 					<div class="kboard-input-group mt-4">
+						<select class="kboard-form-control" name="option[kboard_recaptcha_type]">
+							<option value="v2"<?php if(get_option('kboard_recaptcha_type') != 'v3'):?> selected<?php endif?>>reCAPTCHA v2 (Checkbox)</option>
+							<option value="v3"<?php if(get_option('kboard_recaptcha_type') == 'v3'):?> selected<?php endif?>>reCAPTCHA v3 (Score based)</option>
+						</select>
 						<input type="text" class="kboard-form-control" name="option[kboard_recaptcha_site_key]" value="<?php echo get_option('kboard_recaptcha_site_key')?>" placeholder="Site key">
 						<input type="text" class="kboard-form-control" name="option[kboard_recaptcha_secret_key]" value="<?php echo get_option('kboard_recaptcha_secret_key')?>" placeholder="Secret key">
 					</div>
@@ -1068,3 +1073,4 @@ function kboard_system_option_update(form){
 	return false;
 }
 </script>
+

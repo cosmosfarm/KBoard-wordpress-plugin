@@ -89,7 +89,12 @@
 					<?php if($board->useCAPTCHA()):?>
 						<?php if(kboard_use_recaptcha()):?>
 							<div class="comments-field field-recaptcha">
-								<div class="g-recaptcha" data-sitekey="<?php echo kboard_recaptcha_site_key()?>"></div>
+								<?php if(kboard_recaptcha_type() == 'v3'):?>
+									<input type="hidden" name="g-recaptcha-response" value="">
+									<div class="kboard-recaptcha-v3" data-sitekey="<?php echo esc_attr(kboard_recaptcha_site_key())?>" data-action="<?php echo esc_attr(kboard_recaptcha_v3_action())?>"></div>
+								<?php else:?>
+									<div class="g-recaptcha" data-sitekey="<?php echo kboard_recaptcha_site_key()?>"></div>
+								<?php endif?>
 							</div>
 						<?php else:?>
 							<div class="comments-field field-captcha">

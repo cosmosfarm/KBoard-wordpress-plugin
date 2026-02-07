@@ -91,7 +91,18 @@ class KBCaptcha {
 		if(is_wp_error($response) || empty($response['body']) || !($json = json_decode($response['body'])) || !$json->success){
 			return false;
 		}
+		
+		if(kboard_recaptcha_type() == 'v3'){
+			$response_action = isset($json->action) ? sanitize_key($json->action) : '';
+			$response_score = isset($json->score) ? floatval($json->score) : 0;
+			
+			if($response_action !== kboard_recaptcha_v3_action()){
+				return false;
+			}
+			if($response_score < 0.5){
+				return false;
+			}
+		}
 		return true;
 	}
 }
-?>
