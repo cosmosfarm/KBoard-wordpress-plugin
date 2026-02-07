@@ -207,6 +207,7 @@ button.kboard-contact-form-button-small:hover {
 #kboard-contact-form-list {
 	width: 100%;
 	max-width: 100%;
+	overflow: hidden;
 }
 
 #kboard-contact-form-list .kboard-list-header {

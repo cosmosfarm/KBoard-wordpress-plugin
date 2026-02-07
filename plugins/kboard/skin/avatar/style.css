@@ -301,6 +301,7 @@ button.kboard-avatar-button-small:hover {
 #kboard-avatar-list {
 	width: 100%;
 	max-width: 100%;
+	overflow: hidden;
 }
 
 /* Header (Total & Sort) */

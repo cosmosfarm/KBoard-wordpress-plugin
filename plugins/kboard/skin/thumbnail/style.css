@@ -225,6 +225,7 @@ button.kboard-thumbnail-button-small:hover {
 #kboard-thumbnail-list {
 	width: 100%;
 	max-width: 100%;
+	overflow: hidden;
 }
 
 /* Header (Total & Sort) */

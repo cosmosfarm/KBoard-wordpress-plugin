@@ -214,6 +214,7 @@ button.kboard-default-button-small:hover {
 #kboard-default-list {
 	width: 100%;
 	max-width: 100%;
+	overflow: hidden;
 }
 
 /* Header (Total & Sort) */
