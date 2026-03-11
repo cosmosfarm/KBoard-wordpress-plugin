@@ -103,6 +103,13 @@ class KBoardBuilder
 			// 외부 요청을 금지하기 위해서 사용될 게시판 id는 세션에 저장한다.
 			$_SESSION['kboard_board_id'] = $this->board_id;
 
+			if (!wp_script_is('kboard-script', 'registered')) {
+				wp_enqueue_script('kboard-script', KBOARD_URL_PATH . '/template/js/script.js', array(), KBOARD_VERSION, true);
+			}
+			else if (!wp_script_is('kboard-script', 'enqueued')) {
+				wp_enqueue_script('kboard-script');
+			}
+
 			wp_localize_script('kboard-script', 'kboard_current', array(
 				'board_id'          => $this->board_id,
 				'content_uid'       => $this->uid,
