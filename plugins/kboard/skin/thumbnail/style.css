@@ -570,6 +570,7 @@ button.kboard-thumbnail-button-small:hover {
 #kboard-thumbnail-document .kboard-title h1 {
 	margin: 0;
 	padding: 24px;
+	text-align: left;
 	font-size: 24px;
 	font-weight: 700;
 	color: var(--kboard-text);
@@ -996,7 +997,11 @@ button.kboard-thumbnail-button-small:hover {
 
 #kboard-thumbnail-editor.confirm .kboard-control .left,
 #kboard-thumbnail-editor.confirm .kboard-control .right {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 	width: 100%;
+	margin: 0;
 }
 
 #kboard-thumbnail-editor.confirm .kboard-control button {

@@ -30,7 +30,7 @@ class KBCommentTemplate {
 		if(!$comment->uid){
 			die("<script>alert('".__('Comment does not exist.', 'kboard-comments')."');window.close();</script>");
 		}
-		if(!$comment->password){
+		if(!$comment->getPassword()){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');window.close();</script>");
 		}
 		
@@ -40,11 +40,11 @@ class KBCommentTemplate {
 		$password = isset($_POST['password'])?$_POST['password']:'';
 		
 		if($password){
-			if($comment->password && $comment->password == $password){
+			if($comment->getPassword() && $comment->checkPassword($password)){
 				$delete_url = $commentURL->getDeleteURL();
 				
 				// 비밀번호 nonce 추가
-				$delete_url = add_query_arg('kboard-comments-delete-nonce', wp_create_nonce("kboard-comments-delete-{$comment->password}"), $delete_url);
+				$delete_url = add_query_arg('kboard-comments-delete-nonce', wp_create_nonce("kboard-comments-delete-{$comment->getPassword()}"), $delete_url);
 				?>
 				<!DOCTYPE html>
 				<html <?php language_attributes()?>>
@@ -54,7 +54,7 @@ class KBCommentTemplate {
 				</head>
 				<body onload="document.kboard_comments_delete.submit()">
 					<form method="post" action="<?php echo esc_attr($delete_url)?>" name="kboard_comments_delete">
-						<input type="hidden" name="password" value="<?php echo esc_attr($password)?>">
+						<input type="hidden" name="password" value="<?php echo esc_attr($comment->getPassword())?>">
 					</form>
 				</body>
 				</html>
@@ -84,26 +84,27 @@ class KBCommentTemplate {
 		if(!$comment->uid){
 			die("<script>alert('".__('Comment does not exist.', 'kboard-comments')."');window.close();</script>");
 		}
-		if(!$comment->password && !is_user_logged_in()){
+		if(!$comment->getPassword() && !is_user_logged_in()){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');window.close();</script>");
 		}
 		
 		$password = isset($_POST['password'])?$_POST['password']:'';
 		
-		if($comment->isEditor() || ($comment->password && $comment->password == $password)){
+		if($comment->isEditor() || ($comment->getPassword() && $comment->checkPassword($password))){
 			$commentURL = new KBCommentUrl();
 			$commentURL->setCommentUID($comment->uid);
 			$submit_action_url = $commentURL->getUpdateURL();
 			
-			if($comment->password){
+			if($comment->getPassword()){
 				// 비밀번호 nonce 추가
-				$submit_action_url = add_query_arg('kboard-comments-update-nonce', wp_create_nonce("kboard-comments-update-{$comment->password}"), $submit_action_url);
+				$submit_action_url = add_query_arg('kboard-comments-update-nonce', wp_create_nonce("kboard-comments-update-{$comment->getPassword()}"), $submit_action_url);
 			}
 			
+			$edit_password = $comment->isEditor() ? '' : $comment->getPassword();
 			include_once KBOARD_COMMENTS_DIR_PATH . '/template/edit.php';
 		}
 		else{
-			if($password && $comment->password != $password){
+			if($password && !$comment->checkPassword($password, false)){
 				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			$commentURL = new KBCommentUrl();

@@ -74,7 +74,14 @@ class KBController {
 				}
 			}
 			
-			$content->new_password = isset($_POST['password'])?sanitize_text_field($_POST['password']):$content->password;
+			$stored_password = $content->getPassword();
+			$submitted_password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
+			if(kboard_password_is_mask($submitted_password)){
+				$content->new_password = $stored_password;
+			}
+			else{
+				$content->new_password = $submitted_password;
+			}
 			if(isset($_POST['notice_expired_date']) && $_POST['notice_expired_date']){
 				// notice_expired_date가 Y-m-d 형식으로 들어오니까 변환
 				$date = sanitize_text_field($_POST['notice_expired_date']);
@@ -262,7 +269,7 @@ class KBController {
 			}
 			
 			// 비밀번호가 입력되면 즉시 인증과정을 거친다.
-			if($content->password) $board->isConfirm($content->password, $execute_uid);
+			if($content->getPassword()) $board->isConfirm($content->getPassword(), $execute_uid);
 			
 			$url = kboard_url();
 			

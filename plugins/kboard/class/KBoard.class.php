@@ -460,6 +460,7 @@ class KBoard {
 	 * @return boolean
 	 */
 	public function isConfirm($content_password, $content_uid, $reauth=false){
+		global $wpdb;
 		$confirm = false;
 		$input_password = '';
 		
@@ -469,7 +470,11 @@ class KBoard {
 			$input_password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 			
 			if($reauth){
-				if($input_password == $content_password){
+				if(kboard_password_verify($input_password, $content_password)){
+					if(kboard_password_needs_migration($content_password)){
+						$content_password = kboard_password_hash($input_password);
+						$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `password`='".esc_sql($content_password)."' WHERE `uid`='".intval($content_uid)."'");
+					}
 					$_SESSION['kboard_confirm'][$content_uid] = $content_password;
 					$confirm = true;
 				}
@@ -477,7 +482,11 @@ class KBoard {
 			else if(isset($_SESSION['kboard_confirm']) && isset($_SESSION['kboard_confirm'][$content_uid]) && $_SESSION['kboard_confirm'][$content_uid] == $content_password){
 				$confirm = true;
 			}
-			else if($input_password == $content_password){
+			else if(kboard_password_verify($input_password, $content_password)){
+				if(kboard_password_needs_migration($content_password)){
+					$content_password = kboard_password_hash($input_password);
+					$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `password`='".esc_sql($content_password)."' WHERE `uid`='".intval($content_uid)."'");
+				}
 				$_SESSION['kboard_confirm'][$content_uid] = $content_password;
 				$confirm = true;
 			}

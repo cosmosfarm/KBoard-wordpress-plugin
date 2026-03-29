@@ -313,7 +313,7 @@ class KBCommentList {
 		$data['vote'] = isset($data['vote'])?intval($data['vote']):0;
 		$data['created'] = isset($data['created'])?esc_sql($data['created']):date('YmdHis', current_time('timestamp'));
 		$data['status'] = isset($data['status'])?esc_sql(sanitize_key($data['status'])):'';
-		$data['password'] = isset($data['password'])?esc_sql(sanitize_text_field($data['password'])):'';
+		$data['password'] = isset($data['password'])?esc_sql(kboard_password_prepare($data['password'])):'';
 		
 		$wpdb->query("INSERT INTO `{$wpdb->prefix}kboard_comments` (`content_uid`, `parent_uid`, `user_uid`, `user_display`, `content`, `like`, `unlike`, `vote`, `created`, `status`, `password`) VALUES ('{$data['content_uid']}', '{$data['parent_uid']}', '{$data['user_uid']}', '{$data['user_display']}', '{$data['content']}', '{$data['like']}', '{$data['unlike']}', '{$data['vote']}', '{$data['created']}', '{$data['status']}', '{$data['password']}')");
 		$comment_uid = $wpdb->insert_id;

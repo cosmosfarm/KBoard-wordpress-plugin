@@ -397,7 +397,7 @@ class KBCommentController {
 		$comment->initWithUID($uid);
 		$board = $comment->getBoard();
 		
-		if(!$comment->isEditor() && $comment->password != $password){
+		if(!$comment->isEditor() && !$comment->checkPassword($password, false)){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
@@ -406,7 +406,7 @@ class KBCommentController {
 		}
 		
 		if($password){
-			if(!wp_verify_nonce($_REQUEST['kboard-comments-delete-nonce'], "kboard-comments-delete-{$comment->password}")){
+			if(!wp_verify_nonce($_REQUEST['kboard-comments-delete-nonce'], "kboard-comments-delete-{$comment->getPassword()}")){
 				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 		}
@@ -420,7 +420,7 @@ class KBCommentController {
 		
 		$comment->delete();
 		
-		if($comment->password && $comment->password == $password){
+		if($comment->getPassword() && kboard_password_verify($password, $comment->getPassword())){
 			// 팝업창으로 비밀번호 확인 후 opener 윈도우를 새로고침 한다.
 			echo '<script>';
 			echo 'opener.window.location.reload();';
@@ -470,7 +470,7 @@ class KBCommentController {
 		$comment->initWithUID($uid);
 		$board = $comment->getBoard();
 		
-		if(!$comment->isEditor() && $comment->password != $password){
+		if(!$comment->isEditor() && !$comment->checkPassword($password, false)){
 			die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 		}
 		
@@ -479,7 +479,7 @@ class KBCommentController {
 		}
 		
 		if($password){
-			if(!wp_verify_nonce($_REQUEST['kboard-comments-update-nonce'], "kboard-comments-update-{$comment->password}")){
+			if(!wp_verify_nonce($_REQUEST['kboard-comments-update-nonce'], "kboard-comments-update-{$comment->getPassword()}")){
 				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 		}

@@ -59,13 +59,29 @@ class KBContent {
 					}
 				}
 			}
-			$value = $this->row->{$name};
+			if($name == 'password' && kboard_mod() == 'editor' && $this->row->{$name}){
+				$value = kboard_password_mask();
+			}
+			else{
+				$value = $this->row->{$name};
+			}
 		}
 		return apply_filters('kboard_content_value', $value, $name, $this);
 	}
 	
 	public function __set($name, $value){
 		$this->row->{$name} = $value;
+	}
+
+	/**
+	 * 저장된 비밀번호 값을 반환한다.
+	 * @return string
+	 */
+	public function getPassword(){
+		if(isset($this->row->password)){
+			return $this->row->password;
+		}
+		return '';
 	}
 	
 	/**
@@ -108,7 +124,7 @@ class KBContent {
 		$this->setExecuteAction();
 		$this->previous_status = $this->status;
 		$this->previous_board_id = $this->board_id;
-		$this->new_password = $this->password;
+		$this->new_password = $this->getPassword();
 		$wpdb->flush();
 		return $this;
 	}
@@ -132,7 +148,7 @@ class KBContent {
 		$this->setExecuteAction();
 		$this->previous_status = $this->status;
 		$this->previous_board_id = $this->board_id;
-		$this->new_password = $this->password;
+		$this->new_password = $this->getPassword();
 		$wpdb->flush();
 		return $this;
 	}
@@ -332,7 +348,7 @@ class KBContent {
 		$data['thumbnail_file'] = isset($data['thumbnail_file'])?sanitize_text_field($data['thumbnail_file']):'';
 		$data['thumbnail_name'] = isset($data['thumbnail_name'])?sanitize_text_field($data['thumbnail_name']):'';
 		$data['status'] = isset($data['status'])?sanitize_key($data['status']):'';
-		$data['password'] = isset($data['password'])?sanitize_text_field($data['password']):'';
+		$data['password'] = isset($data['password'])?kboard_password_prepare($data['password']):'';
 		$data['notice_expired_date'] = isset($data['notice_expired_date']) ? sanitize_text_field($data['notice_expired_date']) : '';
 		
 		if(!$data['member_display']){
@@ -421,7 +437,7 @@ class KBContent {
 				$data['thumbnail_file'] = $this->thumbnail_file;
 				$data['thumbnail_name'] = $this->thumbnail_name;
 				$data['status'] = $this->status;
-				if($this->member_uid || $this->password) $data['password'] = $this->new_password;
+				if($this->member_uid || $this->getPassword()) $data['password'] = $this->new_password;
 				$data['notice_expired_date'] = $this->notice_expired_date;
 			}
 			
@@ -453,7 +469,7 @@ class KBContent {
 			if(isset($data['thumbnail_file'])) $data['thumbnail_file'] = sanitize_text_field($data['thumbnail_file']);
 			if(isset($data['thumbnail_name'])) $data['thumbnail_name'] = sanitize_text_field($data['thumbnail_name']);
 			if(isset($data['status'])) $data['status'] = sanitize_key($data['status']);
-			if(isset($data['password'])) $data['password'] = sanitize_text_field($data['password']);
+			if(isset($data['password'])) $data['password'] = kboard_password_prepare($data['password']);
 			if(isset($data['notice_expired_date'])) $data['notice_expired_date'] = sanitize_text_field($data['notice_expired_date']);
 			
 			if(isset($data['member_display']) && !$data['member_display']){
@@ -1665,7 +1681,7 @@ class KBContent {
 	public function isConfirm($reauth=false){
 		if($this->uid){
 			$board = $this->getBoard();
-			if($board->isConfirm($this->password, $this->uid, $reauth)){
+			if($board->isConfirm($this->getPassword(), $this->uid, $reauth)){
 				return true;
 			}
 		}

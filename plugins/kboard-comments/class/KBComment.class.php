@@ -44,6 +44,37 @@ class KBComment {
 	public function __set($name, $value){
 		$this->row->{$name} = $value;
 	}
+
+	/**
+	 * 저장된 비밀번호 값을 반환한다.
+	 * @return string
+	 */
+	public function getPassword(){
+		if(isset($this->row->password)){
+			return $this->row->password;
+		}
+		return '';
+	}
+
+	/**
+	 * 댓글 비밀번호를 확인하고 필요하다면 해시로 마이그레이션한다.
+	 * @param string $password
+	 * @param boolean $migrate
+	 * @return boolean
+	 */
+	public function checkPassword($password, $migrate=true){
+		global $wpdb;
+		
+		$stored_password = $this->getPassword();
+		if(!kboard_password_verify($password, $stored_password)){
+			return false;
+		}
+		if($migrate && $this->uid && kboard_password_needs_migration($stored_password)){
+			$this->row->password = kboard_password_hash($password);
+			$wpdb->query("UPDATE `{$wpdb->prefix}kboard_comments` SET `password`='".esc_sql($this->row->password)."' WHERE `uid`='{$this->uid}'");
+		}
+		return true;
+	}
 	
 	/**
 	 * 댓글 고유번호를 입력받아 정보를 초기화한다.
@@ -193,7 +224,12 @@ class KBComment {
 			foreach($this->row as $key=>$value){
 				if($key == 'uid') continue;
 				else if($key == 'user_display' || $key == 'password'){
-					$value = sanitize_text_field($value);
+					if($key == 'password'){
+						$value = kboard_password_prepare($value);
+					}
+					else{
+						$value = sanitize_text_field($value);
+					}
 				}
 				else if($key == 'content'){
 					$value = kboard_safeiframe(kboard_xssfilter($value));

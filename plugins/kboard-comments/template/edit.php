@@ -22,7 +22,7 @@
 <body>
 <h1 class="kboard-popup-title"><?php echo __('Edit content', 'kboard-comments')?></h1>
 <form id="kbaord-comments-confirm-form" method="post" action="<?php echo $submit_action_url?>" onsubmit="return submit_checker(this)">
-	<input type="hidden" name="password" value="<?php echo $comment->password?>">
+	<input type="hidden" name="password" value="<?php echo esc_attr(isset($edit_password)?$edit_password:'')?>">
 	<div class="kboard-popup-form">
 		<div class="kboard-popup-row"><textarea name="comment_content" rows="5" required><?php echo $comment->content?></textarea></div>
 		<div class="kboard-popup-row row-button"><button type="submit"><?php echo __('Submit', 'kboard-comments')?></button></div>

@@ -202,6 +202,105 @@ function kboard_hash($text, $salt, $length=0){
 }
 
 /**
+ * KBoard 비밀번호 해시 버전 prefix를 반환한다.
+ * @return string
+ */
+function kboard_password_prefix(){
+	return '$kboard_password$v1$';
+}
+
+/**
+ * 에디터에서 기존 해시 비밀번호를 가리기 위한 마스크 문자열을 반환한다.
+ * @return string
+ */
+function kboard_password_mask(){
+	return '__KBOARD_PASSWORD_KEEP__';
+}
+
+/**
+ * 마스크 문자열인지 확인한다.
+ * @param string $password
+ * @return boolean
+ */
+function kboard_password_is_mask($password){
+	return $password === kboard_password_mask();
+}
+
+/**
+ * KBoard 비밀번호가 해시화되어 저장되었는지 확인한다.
+ * @param string $password
+ * @return boolean
+ */
+function kboard_password_is_hashed($password){
+	if(!$password){
+		return false;
+	}
+	return strpos($password, kboard_password_prefix()) === 0;
+}
+
+/**
+ * KBoard 비밀번호 해시를 생성한다.
+ * @param string $password
+ * @return string
+ */
+function kboard_password_hash($password){
+	$password = sanitize_text_field($password);
+	if(!$password){
+		return '';
+	}
+	if(kboard_password_is_hashed($password)){
+		return $password;
+	}
+	return kboard_password_prefix() . wp_hash_password($password);
+}
+
+/**
+ * 저장 가능한 비밀번호 값으로 변환한다.
+ * @param string $password
+ * @return string
+ */
+function kboard_password_prepare($password){
+	$password = sanitize_text_field($password);
+	if(!$password){
+		return '';
+	}
+	return kboard_password_hash($password);
+}
+
+/**
+ * 레거시 평문 비밀번호인지 확인한다.
+ * @param string $password
+ * @return boolean
+ */
+function kboard_password_needs_migration($password){
+	return $password && !kboard_password_is_hashed($password);
+}
+
+/**
+ * 입력된 비밀번호와 저장된 비밀번호를 비교한다.
+ * 저장된 해시 문자열 자체가 전달된 경우도 허용한다.
+ * @param string $input_password
+ * @param string $stored_password
+ * @return boolean
+ */
+function kboard_password_verify($input_password, $stored_password){
+	$input_password = sanitize_text_field($input_password);
+	$stored_password = sanitize_text_field($stored_password);
+	
+	if(!$input_password || !$stored_password){
+		return false;
+	}
+	if($input_password === $stored_password){
+		return true;
+	}
+	if(kboard_password_is_hashed($stored_password)){
+		$password_hash = substr($stored_password, strlen(kboard_password_prefix()));
+		return wp_check_password($input_password, $password_hash);
+	}
+	return $input_password === $stored_password;
+}
+
+/**
  * Sanitizes a string for safe usage in a CSV file.
  *
  * This function specifically addresses CSV injection vulnerabilities by:

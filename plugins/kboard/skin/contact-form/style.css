@@ -473,6 +473,7 @@ button.kboard-contact-form-button-small:hover {
 #kboard-contact-form-document .kboard-title h1 {
 	margin: 0;
 	padding: 24px;
+	text-align: left;
 	font-size: 24px;
 	font-weight: 700;
 	color: var(--kboard-text);
@@ -832,6 +833,14 @@ button.kboard-contact-form-button-small:hover {
 #kboard-contact-form-editor.confirm .attr-value {
 	font-size: 16px;
 	font-weight: 500;
+}
+
+#kboard-contact-form-editor.confirm .kboard-control .left,
+#kboard-contact-form-editor.confirm .kboard-control .right {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
 }
 
 /* --- Address Field --- */
