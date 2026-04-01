@@ -321,16 +321,29 @@ function kboard_svg_batch_scan_uploads(){
 		'errors' => 0,
 		'quarantined_files' => array(),
 	);
+	$manifest = array(
+		'version' => defined('KBOARD_VERSION') ? KBOARD_VERSION : '',
+		'batch_at' => date('YmdHis', current_time('timestamp')),
+		'attached_uids' => array(),
+		'media_uids' => array(),
+		'thumbnail_content_uids' => array(),
+		'restored_at' => '',
+	);
 	$targets = array(
 		untrailingslashit($upload_dir['basedir']) . '/kboard_attached',
 		untrailingslashit($upload_dir['basedir']) . '/kboard_thumbnails',
 	);
 	
 	foreach($targets as $target){
-		kboard_svg_batch_scan_path($target, $result);
+		kboard_svg_batch_scan_path($target, $result, $manifest);
 	}
 	
 	$result['completed_at'] = current_time('mysql');
+	$manifest['attached_uids'] = array_values(array_unique(array_map('intval', $manifest['attached_uids'])));
+	$manifest['media_uids'] = array_values(array_unique(array_map('intval', $manifest['media_uids'])));
+	$manifest['thumbnail_content_uids'] = array_values(array_unique(array_map('intval', $manifest['thumbnail_content_uids'])));
+	update_option('kboard_svg_batch_restore_manifest', $manifest, 'no');
+	delete_option('kboard_svg_batch_restore_result');
 	return $result;
 }
 
@@ -338,8 +351,9 @@ function kboard_svg_batch_scan_uploads(){
  * 지정한 경로의 SVG 파일을 순회하며 정리한다.
  * @param string $path
  * @param array $result
+ * @param array $manifest
  */
-function kboard_svg_batch_scan_path($path, &$result){
+function kboard_svg_batch_scan_path($path, &$result, &$manifest){
 	if(!is_dir($path)){
 		return;
 	}
@@ -364,8 +378,10 @@ function kboard_svg_batch_scan_path($path, &$result){
 		
 		$sanitized = kboard_sanitize_svg_markup($svg);
 		if($sanitized === false || !trim($sanitized)){
-			if(kboard_quarantine_svg_file($file)){
+			$quarantined_file = kboard_quarantine_svg_file($file);
+			if($quarantined_file){
 				$result['quarantined']++;
+				kboard_svg_batch_register_quarantine($file, $quarantined_file, $manifest);
 				if(count($result['quarantined_files']) < 5){
 					$result['quarantined_files'][] = str_replace(ABSPATH, '', $file);
 				}
@@ -391,9 +407,270 @@ function kboard_svg_batch_scan_path($path, &$result){
 }
 
 /**
+ * 격리된 SVG 파일을 DB row와 연결해서 manifest에 등록한다.
+ * @param string $original_path
+ * @param string $quarantined_path
+ * @param array $manifest
+ */
+function kboard_svg_batch_register_quarantine($original_path, $quarantined_path, &$manifest){
+	global $wpdb;
+	
+	$original_relative_path = kboard_svg_batch_relative_path($original_path);
+	$quarantined_relative_path = kboard_svg_batch_relative_path($quarantined_path);
+	
+	if(!$original_relative_path || !$quarantined_relative_path){
+		return;
+	}
+	
+	$attached_rows = $wpdb->get_results("SELECT `uid`, `file_path` FROM `{$wpdb->prefix}kboard_board_attached`");
+	foreach((array) $attached_rows as $row){
+		if(!isset($row->uid) || !isset($row->file_path)){
+			continue;
+		}
+		if(!kboard_svg_batch_is_same_relative_path($row->file_path, $original_relative_path)){
+			continue;
+		}
+		$uid = intval($row->uid);
+		if(!$uid){
+			continue;
+		}
+		$manifest['attached_uids'][] = $uid;
+		$updated_relative_path = kboard_svg_batch_apply_relative_path_format($row->file_path, $quarantined_relative_path);
+		$wpdb->update("{$wpdb->prefix}kboard_board_attached", array('file_path'=>$updated_relative_path), array('uid'=>$uid));
+	}
+	
+	$media_rows = $wpdb->get_results("SELECT `uid`, `file_path` FROM `{$wpdb->prefix}kboard_meida`");
+	foreach((array) $media_rows as $row){
+		if(!isset($row->uid) || !isset($row->file_path)){
+			continue;
+		}
+		if(!kboard_svg_batch_is_same_relative_path($row->file_path, $original_relative_path)){
+			continue;
+		}
+		$uid = intval($row->uid);
+		if(!$uid){
+			continue;
+		}
+		$manifest['media_uids'][] = $uid;
+		$updated_relative_path = kboard_svg_batch_apply_relative_path_format($row->file_path, $quarantined_relative_path);
+		$wpdb->update("{$wpdb->prefix}kboard_meida", array('file_path'=>$updated_relative_path), array('uid'=>$uid));
+	}
+	
+	$thumbnail_rows = $wpdb->get_results("SELECT `uid`, `thumbnail_file` FROM `{$wpdb->prefix}kboard_board_content`");
+	foreach((array) $thumbnail_rows as $row){
+		if(!isset($row->uid) || !isset($row->thumbnail_file)){
+			continue;
+		}
+		if(!kboard_svg_batch_is_same_relative_path($row->thumbnail_file, $original_relative_path)){
+			continue;
+		}
+		$uid = intval($row->uid);
+		if(!$uid){
+			continue;
+		}
+		$manifest['thumbnail_content_uids'][] = $uid;
+		$updated_relative_path = kboard_svg_batch_apply_relative_path_format($row->thumbnail_file, $quarantined_relative_path);
+		$wpdb->update("{$wpdb->prefix}kboard_board_content", array('thumbnail_file'=>$updated_relative_path), array('uid'=>$uid));
+	}
+}
+
+/**
+ * 마지막 SVG 정리 작업에서 격리된 파일을 복원한다.
+ * @return array
+ */
+function kboard_svg_batch_restore_uploads(){
+	global $wpdb;
+	
+	$manifest = get_option('kboard_svg_batch_restore_manifest');
+	$result = array(
+		'version' => defined('KBOARD_VERSION') ? KBOARD_VERSION : '',
+		'started_at' => current_time('mysql'),
+		'completed_at' => '',
+		'total' => 0,
+		'restored' => 0,
+		'conflicts' => 0,
+		'errors' => 0,
+		'restored_files' => array(),
+	);
+	
+	$attached_uids = is_array($manifest) && isset($manifest['attached_uids']) ? array_values(array_unique(array_map('intval', (array)$manifest['attached_uids']))) : array();
+	$media_uids = is_array($manifest) && isset($manifest['media_uids']) ? array_values(array_unique(array_map('intval', (array)$manifest['media_uids']))) : array();
+	$thumbnail_content_uids = is_array($manifest) && isset($manifest['thumbnail_content_uids']) ? array_values(array_unique(array_map('intval', (array)$manifest['thumbnail_content_uids']))) : array();
+	
+	if(!is_array($manifest) || !empty($manifest['restored_at']) || (!$attached_uids && !$media_uids && !$thumbnail_content_uids)){
+		$result['completed_at'] = current_time('mysql');
+		update_option('kboard_svg_batch_restore_result', $result, 'no');
+		return $result;
+	}
+	
+	$result['total'] = count($attached_uids) + count($media_uids) + count($thumbnail_content_uids);
+	
+	foreach($attached_uids as $uid){
+		$row = $wpdb->get_row("SELECT `uid`, `file_path` FROM `{$wpdb->prefix}kboard_board_attached` WHERE `uid`='{$uid}'");
+		kboard_svg_batch_restore_row_path($row, 'file_path', "{$wpdb->prefix}kboard_board_attached", 'uid', $result);
+	}
+	
+	foreach($media_uids as $uid){
+		$row = $wpdb->get_row("SELECT `uid`, `file_path` FROM `{$wpdb->prefix}kboard_meida` WHERE `uid`='{$uid}'");
+		kboard_svg_batch_restore_row_path($row, 'file_path', "{$wpdb->prefix}kboard_meida", 'uid', $result);
+	}
+	
+	foreach($thumbnail_content_uids as $uid){
+		$row = $wpdb->get_row("SELECT `uid`, `thumbnail_file` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$uid}'");
+		kboard_svg_batch_restore_row_path($row, 'thumbnail_file', "{$wpdb->prefix}kboard_board_content", 'uid', $result);
+	}
+	
+	$result['completed_at'] = current_time('mysql');
+	$manifest['restored_at'] = $result['completed_at'];
+	update_option('kboard_svg_batch_restore_manifest', $manifest, 'no');
+	update_option('kboard_svg_batch_restore_result', $result, 'no');
+	return $result;
+}
+
+/**
+ * 현재 manifest에 복원 대상이 있는지 확인한다.
+ * @param array $manifest
+ * @return boolean
+ */
+function kboard_svg_batch_manifest_has_targets($manifest){
+	if(!is_array($manifest) || !empty($manifest['restored_at'])){
+		return false;
+	}
+	if(!empty($manifest['attached_uids'])){
+		return true;
+	}
+	if(!empty($manifest['media_uids'])){
+		return true;
+	}
+	if(!empty($manifest['thumbnail_content_uids'])){
+		return true;
+	}
+	return false;
+}
+
+/**
+ * 차단된 SVG 경로를 원래 경로로 복원한다.
+ * @param string $path
+ * @return string
+ */
+function kboard_svg_batch_restore_original_relative_path($path){
+	$path = wp_normalize_path($path);
+	return preg_replace('/\.blocked\d*$/', '', $path);
+}
+
+/**
+ * DB 경로와 파일 시스템 경로가 같은 상대경로인지 확인한다.
+ * @param string $left
+ * @param string $right
+ * @return boolean
+ */
+function kboard_svg_batch_is_same_relative_path($left, $right){
+	$left = ltrim(wp_normalize_path((string) $left), '/');
+	$right = ltrim(wp_normalize_path((string) $right), '/');
+	return $left && $left === $right;
+}
+
+/**
+ * 기존 DB 경로의 슬래시 포맷을 유지한 채 새 상대경로를 만든다.
+ * @param string $source_path
+ * @param string $target_path
+ * @return string
+ */
+function kboard_svg_batch_apply_relative_path_format($source_path, $target_path){
+	$target_path = ltrim(wp_normalize_path((string) $target_path), '/');
+	if(!$target_path){
+		return '';
+	}
+	$source_path = (string) $source_path;
+	return substr($source_path, 0, 1) === '/' ? '/' . $target_path : $target_path;
+}
+
+/**
+ * DB row의 SVG 경로를 복원한다.
+ * @param object $row
+ * @param string $column
+ * @param string $table
+ * @param string $key
+ * @param array $result
+ */
+function kboard_svg_batch_restore_row_path($row, $column, $table, $key, &$result){
+	global $wpdb;
+	
+	if(!$row || !isset($row->{$key}) || !isset($row->{$column}) || !$row->{$column}){
+		$result['errors']++;
+		return;
+	}
+	
+	$blocked_relative_path = wp_normalize_path($row->{$column});
+	if(!preg_match('/\.blocked\d*$/', $blocked_relative_path)){
+		$result['errors']++;
+		return;
+	}
+	
+	$original_relative_path = kboard_svg_batch_restore_original_relative_path($blocked_relative_path);
+	$blocked_path = kboard_svg_batch_absolute_path($blocked_relative_path);
+	$original_path = kboard_svg_batch_absolute_path($original_relative_path);
+	
+	if(!$blocked_path || !$original_path || !file_exists($blocked_path)){
+		$result['errors']++;
+		return;
+	}
+	if(file_exists($original_path)){
+		$result['conflicts']++;
+		return;
+	}
+	
+	$directory = dirname($original_path);
+	if(!is_dir($directory)){
+		wp_mkdir_p($directory);
+	}
+	
+	if(@rename($blocked_path, $original_path)){
+		$uid = intval($row->{$key});
+		$column = esc_sql($column);
+		$original_relative_path_sql = esc_sql($original_relative_path);
+		$wpdb->query("UPDATE `{$table}` SET `{$column}`='{$original_relative_path_sql}' WHERE `{$key}`='{$uid}'");
+		$result['restored']++;
+		if(count($result['restored_files']) < 5){
+			$result['restored_files'][] = $original_relative_path;
+		}
+	}
+	else{
+		$result['errors']++;
+	}
+}
+
+/**
+ * SVG 파일 경로를 워드프레스 루트 기준 상대경로로 변환한다.
+ * @param string $path
+ * @return string
+ */
+function kboard_svg_batch_relative_path($path){
+	$path = wp_normalize_path($path);
+	$abspath = wp_normalize_path(untrailingslashit(ABSPATH));
+	if(strpos($path, $abspath) === 0){
+		return ltrim(substr($path, strlen($abspath)), '/');
+	}
+	return ltrim($path, '/');
+}
+
+/**
+ * SVG 파일 상대경로를 절대경로로 변환한다.
+ * @param string $path
+ * @return string
+ */
+function kboard_svg_batch_absolute_path($path){
+	$path = ltrim(wp_normalize_path($path), '/');
+	if(!$path){
+		return '';
+	}
+	return wp_normalize_path(untrailingslashit(ABSPATH) . '/' . $path);
+}
+
+/**
  * SVG 파일을 직접 접근할 수 없도록 격리한다.
  * @param string $file
- * @return boolean
+ * @return string|boolean
  */
 function kboard_quarantine_svg_file($file){
 	$quarantined_file = $file . '.blocked';
@@ -402,7 +679,10 @@ function kboard_quarantine_svg_file($file){
 		$quarantined_file = $file . '.blocked' . $index;
 		$index++;
 	}
-	return @rename($file, $quarantined_file);
+	if(@rename($file, $quarantined_file)){
+		return $quarantined_file;
+	}
+	return false;
 }
 
 /**

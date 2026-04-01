@@ -18,6 +18,7 @@ class KBAdminController {
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('wp_ajax_kboard_system_option_update', array($this, 'system_option_update'));
 		add_action('wp_ajax_kboard_svg_batch_scan_execute', array($this, 'svg_batch_scan_execute'));
+		add_action('wp_ajax_kboard_svg_batch_restore_execute', array($this, 'svg_batch_restore_execute'));
 		add_action('wp_ajax_kboard_tree_category_update', array($this, 'tree_category_update'));
 		add_action('wp_ajax_kboard_tree_category_sortable', array($this, 'tree_category_sortable'));
 	}
@@ -298,6 +299,42 @@ class KBAdminController {
 	 */
 	public function svg_batch_scan_execute(){
 		return $this->svg_batch_scan_execute_internal();
+	}
+
+	/**
+	 * 기존 SVG 파일 복원 작업을 실행한다.
+	 */
+	private function svg_batch_restore_execute_internal(){
+		$lock_ttl = 120;
+		if(!current_user_can('manage_kboard')){
+			wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+		}
+		if(!isset($_POST['kboard-svg-batch-restore-nonce']) || !wp_verify_nonce($_POST['kboard-svg-batch-restore-nonce'], 'kboard-svg-batch-restore')){
+			wp_send_json(array('result'=>'error', 'message'=>__('Security check failed.', 'kboard')));
+		}
+		
+		$running = intval(get_option('kboard_svg_batch_scan_running'));
+		if($running && (time() - $running) < $lock_ttl){
+			$remaining = max(1, $lock_ttl - (time() - $running));
+			wp_send_json(array('result'=>'error', 'message'=>sprintf(__('SVG cleanup is already running. Try again in %d seconds.', 'kboard'), $remaining)));
+		}
+		
+		if(!function_exists('kboard_svg_batch_restore_uploads')){
+			include_once KBOARD_DIR_PATH . '/helper/Security.helper.php';
+		}
+		if(!function_exists('kboard_svg_batch_restore_uploads')){
+			wp_send_json(array('result'=>'error', 'message'=>__('SVG cleanup helpers are not loaded. Please deploy the latest helper file and clear OPcache.', 'kboard')));
+		}
+		
+		$result = kboard_svg_batch_restore_uploads();
+		wp_send_json(array('result'=>'success', 'data'=>$result));
+	}
+
+	/**
+	 * 기존 SVG 파일 복원 작업을 실행한다.
+	 */
+	public function svg_batch_restore_execute(){
+		return $this->svg_batch_restore_execute_internal();
 	}
 	
 	/**

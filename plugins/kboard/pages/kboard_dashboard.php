@@ -443,14 +443,31 @@ textarea.kboard-form-control {
 	$kboard_svg_scan_running = intval(get_option('kboard_svg_batch_scan_running'));
 	$kboard_svg_scan_is_running = $kboard_svg_scan_running && (time() - $kboard_svg_scan_running) < 120;
 	$kboard_svg_scan_result = get_option('kboard_svg_batch_scan_result');
+	$kboard_svg_restore_manifest = get_option('kboard_svg_batch_restore_manifest');
+	$kboard_svg_restore_result = get_option('kboard_svg_batch_restore_result');
+	$kboard_svg_scan_has_quarantined_files = is_array($kboard_svg_scan_result) && isset($kboard_svg_scan_result['version']) && $kboard_svg_scan_result['version'] == KBOARD_VERSION && intval($kboard_svg_scan_result['quarantined']) > 0;
+	$kboard_svg_restore_available = function_exists('kboard_svg_batch_manifest_has_targets') ? kboard_svg_batch_manifest_has_targets($kboard_svg_restore_manifest) : false;
+	$kboard_svg_restore_target_count = 0;
+	if(is_array($kboard_svg_restore_manifest)){
+		$kboard_svg_restore_target_count += count(isset($kboard_svg_restore_manifest['attached_uids']) ? (array)$kboard_svg_restore_manifest['attached_uids'] : array());
+		$kboard_svg_restore_target_count += count(isset($kboard_svg_restore_manifest['media_uids']) ? (array)$kboard_svg_restore_manifest['media_uids'] : array());
+		$kboard_svg_restore_target_count += count(isset($kboard_svg_restore_manifest['thumbnail_content_uids']) ? (array)$kboard_svg_restore_manifest['thumbnail_content_uids'] : array());
+	}
+	$kboard_svg_scan_retry_blocked = !$kboard_svg_scan_pending && !$kboard_svg_scan_is_running && $kboard_svg_scan_has_quarantined_files && (!is_array($kboard_svg_restore_result) || empty($kboard_svg_restore_result['completed_at']));
 	$kboard_svg_scan_i18n = array(
-		'running' => __('실행중', 'kboard'),
-		'pending' => __('실행 필요', 'kboard'),
-		'completed' => __('완료', 'kboard'),
-		'retry_button' => __('SVG 정리 다시 실행하기', 'kboard'),
+		'running' => __('Running', 'kboard'),
+		'pending' => __('Pending', 'kboard'),
+		'completed' => __('Completed', 'kboard'),
+		'retry_button' => __('Run SVG cleanup again', 'kboard'),
+		'restore_button' => __('Restore quarantined SVG files', 'kboard'),
 		'failed' => __('SVG cleanup failed.', 'kboard'),
+		'restore_failed' => __('SVG restore failed.', 'kboard'),
 		'result_template' => __('Last result: checked %1$s, sanitized %2$s, quarantined %3$s, errors %4$s', 'kboard'),
 		'quarantined_files_template' => __('Quarantined files: %s', 'kboard'),
+		'restored_files_template' => __('Restored files: %s', 'kboard'),
+		'restore_result_template' => __('Restore result: total %1$s, restored %2$s, conflicts %3$s, errors %4$s', 'kboard'),
+		'scan_confirm' => __('Running SVG cleanup may disable suspicious SVG files, and the previous restore target list will be overwritten by this run. Do you want to continue?', 'kboard'),
+		'restore_confirm' => __('Do you want to restore the files quarantined by the last SVG cleanup run?', 'kboard'),
 	);
 	?>
 
@@ -460,34 +477,48 @@ textarea.kboard-form-control {
 			<form method="post" onsubmit="return kboard_svg_batch_scan_execute(this)">
 				<input type="hidden" name="action" value="kboard_svg_batch_scan_execute">
 				<input type="hidden" name="kboard-svg-batch-scan-nonce" value="<?php echo esc_attr(wp_create_nonce('kboard-svg-batch-scan'))?>">
+				<input type="hidden" name="kboard-svg-batch-restore-nonce" value="<?php echo esc_attr(wp_create_nonce('kboard-svg-batch-restore'))?>">
 				
 				<div class="kboard-card-header">
 					<h3 class="kboard-card-title">SVG 정리 실행</h3>
 					<span class="kboard-badge <?php echo $kboard_svg_scan_pending || $kboard_svg_scan_is_running ? 'warning' : ($kboard_svg_scan_result ? 'active' : 'inactive')?>" data-kboard-svg-scan-badge><?php
-						if($kboard_svg_scan_is_running) echo '실행중';
-						else if($kboard_svg_scan_pending) echo '실행 필요';
-						else if($kboard_svg_scan_result) echo '완료';
-						else echo '대기';
+						if($kboard_svg_scan_is_running) echo __('Running', 'kboard');
+						else if($kboard_svg_scan_pending) echo __('Pending', 'kboard');
+						else if($kboard_svg_scan_result) echo __('Completed', 'kboard');
+						else echo __('Idle', 'kboard');
 					?></span>
 				</div>
 				<div class="kboard-card-body">
 					<p class="kboard-description">
-						업데이트 후 기존 업로드 경로의 SVG 파일을 한 번 점검해서 위험 파일은 격리하고, 정제 가능한 파일은 sanitize 합니다.<br><br>
+						업데이트 후 기존 업로드 경로의 SVG 파일을 한 번 점검해서 위험 파일은 격리하고, 정제 가능한 파일은 sanitize 합니다.<br>
+						실행 시 의심되는 SVG 파일이 사용불가가 됩니다.<br><br>
 						<?php if($kboard_svg_scan_pending):?>
 							현재 버전에서는 한 번 실행이 필요합니다. 관리자 최초 진입 후 이 카드에서 직접 실행해주세요.
 						<?php elseif($kboard_svg_scan_is_running):?>
 							현재 다른 관리자 요청에서 SVG 정리 작업이 실행 중입니다. 잠시 후 새로고침 해주세요.
 						<?php elseif(is_array($kboard_svg_scan_result) && isset($kboard_svg_scan_result['version']) && $kboard_svg_scan_result['version'] == KBOARD_VERSION):?>
 							마지막 결과: 검사 <?php echo intval($kboard_svg_scan_result['checked'])?>개, 정제 <?php echo intval($kboard_svg_scan_result['sanitized'])?>개, 격리 <?php echo intval($kboard_svg_scan_result['quarantined'])?>개, 오류 <?php echo intval($kboard_svg_scan_result['errors'])?>개
+							<?php if($kboard_svg_restore_available):?><br><br>마지막 정리 작업에서 격리된 SVG 파일 <?php echo intval($kboard_svg_restore_target_count)?>개를 복원할 수 있습니다.<?php endif?>
+							<?php if($kboard_svg_scan_retry_blocked):?><br><br><?php echo __('Quarantined SVG files remain. Restore them or verify them manually before running SVG cleanup again.', 'kboard')?><?php endif?>
+							<?php if(is_array($kboard_svg_restore_result) && !empty($kboard_svg_restore_result['completed_at'])):?>
+								<br><br>마지막 복원 결과: 전체 <?php echo intval($kboard_svg_restore_result['total'])?>개, 복원 <?php echo intval($kboard_svg_restore_result['restored'])?>개, 충돌 <?php echo intval($kboard_svg_restore_result['conflicts'])?>개, 오류 <?php echo intval($kboard_svg_restore_result['errors'])?>개
+							<?php endif?>
 						<?php else:?>
 							필요할 때 수동으로 다시 실행할 수 있습니다.
 						<?php endif?>
 					</p>
 				</div>
 				<div class="kboard-card-footer">
-					<button type="submit" class="kboard-btn full-width primary"<?php if($kboard_svg_scan_is_running):?> disabled<?php endif?>>
-						<?php echo $kboard_svg_scan_pending ? 'SVG 정리 실행하기' : 'SVG 정리 다시 실행하기'?>
+					<?php if(!$kboard_svg_scan_retry_blocked):?>
+					<button type="submit" class="kboard-btn full-width primary" data-kboard-svg-scan-button<?php if($kboard_svg_scan_is_running || $kboard_svg_scan_retry_blocked):?> disabled<?php endif?>>
+						<?php echo $kboard_svg_scan_pending ? __('Run SVG cleanup', 'kboard') : __('Run SVG cleanup again', 'kboard')?>
 					</button>
+					<?php endif?>
+					<?php if($kboard_svg_restore_available):?>
+					<button type="button" class="kboard-btn full-width" data-kboard-svg-restore-button onclick="return kboard_svg_batch_restore_execute(this.form)">
+						<?php echo __('Restore quarantined SVG files', 'kboard')?>
+					</button>
+					<?php endif?>
 				</div>
 			</form>
 		</div>
@@ -1139,9 +1170,13 @@ function kboard_system_option_update(form){
 }
 
 function kboard_svg_batch_scan_execute(form){
-	var button = jQuery(form).find('button[type=submit]');
+	var button = jQuery(form).find('[data-kboard-svg-scan-button]');
 	var badge = jQuery(form).find('[data-kboard-svg-scan-badge]');
+	if(!confirm(kboard_svg_scan_i18n.scan_confirm)){
+		return false;
+	}
 	button.prop('disabled', true);
+	jQuery(form).find('[data-kboard-svg-restore-button]').prop('disabled', true);
 	badge.removeClass('active inactive').addClass('warning').text(kboard_svg_scan_i18n.running);
 	jQuery.post(ajaxurl, jQuery(form).serialize(), function(res){
 		if(res && res.result == 'success'){
@@ -1161,15 +1196,59 @@ function kboard_svg_batch_scan_execute(form){
 			badge.removeClass('warning inactive').addClass('active').text(kboard_svg_scan_i18n.completed);
 			button.text(kboard_svg_scan_i18n.retry_button).prop('disabled', false);
 			alert(message);
+			window.location.reload();
 			return;
 		}
 		button.prop('disabled', false);
+		jQuery(form).find('[data-kboard-svg-restore-button]').prop('disabled', false);
 		badge.removeClass('active inactive').addClass('warning').text(kboard_svg_scan_i18n.pending);
 		alert(res && res.message ? res.message : kboard_svg_scan_i18n.failed);
 	}).fail(function(){
 		button.prop('disabled', false);
+		jQuery(form).find('[data-kboard-svg-restore-button]').prop('disabled', false);
 		badge.removeClass('active inactive').addClass('warning').text(kboard_svg_scan_i18n.pending);
 		alert(kboard_svg_scan_i18n.failed);
+	});
+	return false;
+}
+
+function kboard_svg_batch_restore_execute(form){
+	var restoreButton = jQuery(form).find('[data-kboard-svg-restore-button]');
+	var scanButton = jQuery(form).find('[data-kboard-svg-scan-button]');
+	if(!confirm(kboard_svg_scan_i18n.restore_confirm)){
+		return false;
+	}
+	restoreButton.prop('disabled', true);
+	scanButton.prop('disabled', true);
+	jQuery.post(ajaxurl, {
+		action: 'kboard_svg_batch_restore_execute',
+		'kboard-svg-batch-restore-nonce': jQuery(form).find('input[name=\"kboard-svg-batch-restore-nonce\"]').val()
+	}, function(res){
+		if(res && res.result == 'success'){
+			var data = res.data || {};
+			var message = kboard_svg_scan_sprintf(kboard_svg_scan_i18n.restore_result_template, [
+				(data.total || 0),
+				(data.restored || 0),
+				(data.conflicts || 0),
+				(data.errors || 0)
+			]);
+			if(data.completed_at){
+				message += ' (' + data.completed_at + ')';
+			}
+			if(data.restored_files && data.restored_files.length){
+				message += '\n' + kboard_svg_scan_sprintf(kboard_svg_scan_i18n.restored_files_template, [data.restored_files.join(', ')]);
+			}
+			alert(message);
+			window.location.reload();
+			return;
+		}
+		restoreButton.prop('disabled', false);
+		scanButton.prop('disabled', false);
+		alert(res && res.message ? res.message : kboard_svg_scan_i18n.restore_failed);
+	}).fail(function(){
+		restoreButton.prop('disabled', false);
+		scanButton.prop('disabled', false);
+		alert(kboard_svg_scan_i18n.restore_failed);
 	});
 	return false;
 }
