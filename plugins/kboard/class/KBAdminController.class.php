@@ -18,6 +18,7 @@ class KBAdminController {
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
 		add_action('wp_ajax_kboard_system_option_update', array($this, 'system_option_update'));
 		add_action('wp_ajax_kboard_svg_batch_scan_execute', array($this, 'svg_batch_scan_execute'));
+		add_action('wp_ajax_kboard_search_reindex_batch', array($this, 'search_reindex_batch'));
 		add_action('wp_ajax_kboard_tree_category_update', array($this, 'tree_category_update'));
 		add_action('wp_ajax_kboard_tree_category_sortable', array($this, 'tree_category_sortable'));
 	}
@@ -733,6 +734,34 @@ class KBAdminController {
 			}
 		}
 		exit;
+	}
+
+	/**
+	 * 검색 인덱스 재인덱싱 배치를 실행한다.
+	 */
+	public function search_reindex_batch(){
+		if(!current_user_can('manage_kboard')){
+			wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+		}
+		if(!isset($_POST['kboard-search-reindex-nonce']) || !wp_verify_nonce($_POST['kboard-search-reindex-nonce'], 'kboard-search-reindex')){
+			wp_send_json(array('result'=>'error', 'message'=>__('Security check failed.', 'kboard')));
+		}
+		
+		$_POST = stripslashes_deep($_POST);
+		$limit = isset($_POST['limit']) ? intval($_POST['limit']) : 500;
+		$last_uid = isset($_POST['last_uid']) ? intval($_POST['last_uid']) : 0;
+		$board_id = isset($_POST['board_id']) ? intval($_POST['board_id']) : 0;
+		
+		if(!kboard_use_search_index()){
+			wp_send_json(array(
+				'result' => 'error',
+				'message' => __('Search index is disabled.', 'kboard'),
+				'data' => array('disabled'=>true, 'processed'=>0, 'next_last_uid'=>$last_uid),
+			));
+		}
+		
+		$result = KBSearchIndexer::reindexBatch($limit, $last_uid, $board_id);
+		wp_send_json(array('result'=>'success', 'data'=>$result));
 	}
 	
 	/**

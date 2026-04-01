@@ -61,9 +61,12 @@ include_once 'class/KBLatestview.class.php';
 include_once 'class/KBLatestviewList.class.php';
 include_once 'class/KBFileHandler.class.php';
 include_once 'class/KBVote.class.php';
+include_once 'class/KBSearchEngine.class.php';
+include_once 'class/KBSearchIndexer.class.php';
 include_once 'helper/Pagination.helper.php';
 include_once 'helper/Security.helper.php';
 include_once 'helper/Functions.helper.php';
+include_once 'helper/Search.helper.php';
 
 /**
  * 애드온 파일 로딩
@@ -1256,6 +1259,19 @@ function kboard_admin_notices(){
 		}
 	}
 }
+
+/**
+ * 게시글 검색 인덱스를 동기화한다.
+ */
+function kboard_search_indexer_sync_content_list($content){
+	if(isset($content->uid) && $content->uid){
+		KBSearchIndexer::sync($content->uid);
+	}
+}
+add_action('kboard_document_insert', array('KBSearchIndexer', 'sync'), 10, 1);
+add_action('kboard_document_update', array('KBSearchIndexer', 'sync'), 10, 1);
+add_action('kboard_document_delete', array('KBSearchIndexer', 'delete'), 10, 1);
+add_action('kboard_content_list_update', 'kboard_search_indexer_sync_content_list', 10, 1);
 add_action('admin_notices', 'kboard_admin_notices');
 
 /**
@@ -1877,6 +1893,48 @@ function kboard_activation_execute(){
 	KEY `target_uid` (`target_uid`),
 	KEY `user_id` (`user_id`)
 	) {$charset_collate};");
+
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_search_document` (
+	`content_uid` bigint(20) unsigned NOT NULL,
+	`board_id` bigint(20) unsigned NOT NULL,
+	`member_uid` bigint(20) unsigned NOT NULL,
+	`member_display` varchar(127) NOT NULL,
+	`title` text NOT NULL,
+	`content_plain` longtext NOT NULL,
+	`status` varchar(20) NOT NULL,
+	`secret` varchar(5) NOT NULL,
+	`notice` varchar(5) NOT NULL,
+	`date` char(14) NOT NULL,
+	`category1` varchar(127) NOT NULL,
+	`category2` varchar(127) NOT NULL,
+	`category3` varchar(127) NOT NULL,
+	`category4` varchar(127) NOT NULL,
+	`category5` varchar(127) NOT NULL,
+	`indexed_at` char(14) NOT NULL,
+	PRIMARY KEY (`content_uid`),
+	KEY `board_id` (`board_id`),
+	KEY `member_uid` (`member_uid`),
+	KEY `status` (`status`),
+	KEY `secret` (`secret`),
+	KEY `notice` (`notice`),
+	KEY `date` (`date`),
+	KEY `category1` (`category1`),
+	KEY `category2` (`category2`),
+	KEY `category3` (`category3`),
+	KEY `category4` (`category4`),
+	KEY `category5` (`category5`)
+	) {$charset_collate};");
+
+	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_search_token` (
+	`token` varchar(32) NOT NULL,
+	`content_uid` bigint(20) unsigned NOT NULL,
+	`field` varchar(20) NOT NULL,
+	`position_count` int(10) unsigned NOT NULL DEFAULT 1,
+	`weight` int(10) unsigned NOT NULL DEFAULT 1,
+	PRIMARY KEY (`token`, `content_uid`, `field`),
+	KEY `content_uid` (`content_uid`),
+	KEY `field` (`field`)
+	) {$charset_collate};");
 	
 	/*
 	 * KBoard 2.9
@@ -2172,6 +2230,35 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_setting` ADD INDEX `skin` (`skin`)");
 	}
 	unset($index);
+
+	/*
+	 * KBoard 6.6
+	 * kboard_search_document 테이블에 indexed_at 컬럼 생성 확인
+	 */
+	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_search_document` `indexed_at`", ARRAY_N);
+	if(!$name){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_search_document` ADD `indexed_at` char(14) NOT NULL AFTER `category5`");
+	}
+	unset($name);
+
+	/*
+	 * KBoard 6.6
+	 * kboard_search_token 테이블 인덱스 생성 확인
+	 */
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_search_token` WHERE `Key_name`='content_uid'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_search_token` ADD INDEX `content_uid` (`content_uid`)");
+	}
+	unset($index);
+	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_search_token` WHERE `Key_name`='field'");
+	if(!count($index)){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_search_token` ADD INDEX `field` (`field`)");
+	}
+	unset($index);
+
+	if(get_option('kboard_use_search_index') === false){
+		add_option('kboard_use_search_index', '0', null, 'no');
+	}
 	
 	// 관리자에게 manage_kboard 권한 추가
 	$admin_role = get_role('administrator');
@@ -2224,6 +2311,8 @@ function kboard_uninstall_execute(){
 	`{$wpdb->prefix}kboard_meida_relationships`,
 	`{$wpdb->prefix}kboard_order_item`,
 	`{$wpdb->prefix}kboard_order_item_meta`,
-	`{$wpdb->prefix}kboard_vote`
+	`{$wpdb->prefix}kboard_vote`,
+	`{$wpdb->prefix}kboard_search_document`,
+	`{$wpdb->prefix}kboard_search_token`
 	");
 }

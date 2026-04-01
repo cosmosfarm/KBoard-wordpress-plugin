@@ -394,6 +394,10 @@ class KBContentList {
 	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
 		
+		$indexed_search = false;
+		$indexed_search_total = 0;
+		$indexed_search_uids = array();
+		
 		if($this->stop){
 			$this->total = 0;
 			$this->resource = array();
@@ -455,6 +459,7 @@ class KBContentList {
 		
 		if(is_array($this->board_id)){
 			$board_id = kboard_array2int($this->board_id);
+			$search_board_id = $board_id;
 			$board_id = implode(',', $board_id);
 			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`board_id` IN ($board_id)";
 		}
@@ -463,11 +468,13 @@ class KBContentList {
 			$allowed_board_id = apply_filters('kboard_allowed_board_id', $allowed_board_id, $this->board);
 			if(is_array($allowed_board_id)){
 				$board_id = kboard_array2int($allowed_board_id);
+				$search_board_id = $board_id;
 				$board_id = implode(',', $board_id);
 				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`board_id` IN ($board_id)";
 			}
 			else{
 				$allowed_board_id = (int)$allowed_board_id;
+				$search_board_id = $allowed_board_id;
 				$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`board_id`='$allowed_board_id'";
 			}
 		}
@@ -476,6 +483,7 @@ class KBContentList {
 		if($board->meta->show_author_activity_menu && isset($_GET['author_id']) && $_GET['author_id']){
 			$author_id = esc_sql($_GET['author_id']);
 			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`member_uid`='{$author_id}'";
+			$search_author_id = $author_id;
 		}
 	
 		if(!in_array($this->compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
@@ -483,6 +491,60 @@ class KBContentList {
 		}
 		
 		$this->from[] = "`{$wpdb->prefix}kboard_board_content`";
+		
+		$search_auto_operator_or = get_option('kboard_search_auto_operator_or');
+		$search_target = sanitize_key($search);
+		$is_indexed_search_target = in_array($search_target, array('', 'title', 'content', 'member_display'));
+		$can_use_indexed_search = false;
+		
+		if($keyword && $this->compare == 'LIKE' && $is_indexed_search_target && !$this->sort_random){
+			if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) === false && strpos($search, 'wp_') === false){
+				if(!$this->search_option){
+					if(strpos($keyword, '&') === false && strpos($keyword, '|') === false && !$search_auto_operator_or){
+						$can_use_indexed_search = true;
+					}
+				}
+			}
+		}
+		
+		if($can_use_indexed_search && class_exists('KBSearchEngine') && is_callable(array('KBSearchEngine', 'search'))){
+			$search_engine_args = array(
+				'keyword' => $keyword,
+				'search' => $search,
+				'compare' => $this->compare,
+				'board_id' => isset($search_board_id) ? $search_board_id : $this->board_id,
+				'with_notice' => $with_notice,
+				'status' => $this->status,
+				'category1' => $this->category1,
+				'category2' => $this->category2,
+				'category3' => $this->category3,
+				'category4' => $this->category4,
+				'category5' => $this->category5,
+				'member_uid' => $this->member_uid,
+				'author_id' => isset($search_author_id) ? $search_author_id : 0,
+				'start_date' => $this->start_date,
+				'end_date' => $this->end_date,
+				'within_days' => $this->within_days,
+				'page' => $this->page,
+				'rpp' => $this->rpp,
+				'sort' => $this->sort,
+				'order' => $this->order,
+				'is_latest' => $this->is_latest,
+			);
+			$search_engine_result = KBSearchEngine::search($search_engine_args);
+			if(is_array($search_engine_result) && empty($search_engine_result['fallback'])){
+				$indexed_search = true;
+				$indexed_search_total = isset($search_engine_result['total']) ? intval($search_engine_result['total']) : 0;
+				if(isset($search_engine_result['uids']) && is_array($search_engine_result['uids'])){
+					foreach($search_engine_result['uids'] as $uid){
+						$uid = intval($uid);
+						if($uid){
+							$indexed_search_uids[] = $uid;
+						}
+					}
+				}
+			}
+		}
 		
 		if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) !== false && $keyword){
 			// 입력 필드 검색후 게시글을 불러온다. (검색 target이 kboard_option_{meta_key} 인 경우 실행한다.)
@@ -571,13 +633,13 @@ class KBContentList {
 				$this->where[] = "1=0";
 			}
 		}
-		else if($keyword){
+		else if($keyword && !$indexed_search){
 			// 일반적인 검색후 게시글을 불러온다.
 			$search = esc_sql($search);
 			$keyword = esc_sql($keyword);
 			
 			// 더 많은 게시글 검색 옵션 활성화 시 스페이스를 | 로 변경한다.
-			if(get_option('kboard_search_auto_operator_or')){
+			if($search_auto_operator_or){
 				$keyword = str_replace(' ', '|', $keyword);
 			}
 			
@@ -780,7 +842,18 @@ class KBContentList {
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
-		if($default_select != $select){
+		if($indexed_search){
+			$this->total = $indexed_search_total;
+			
+			if(!$indexed_search_uids){
+				$this->resource = array();
+			}
+			else{
+				$uids = implode(',', $indexed_search_uids);
+				$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `{$wpdb->prefix}kboard_board_content`.`uid` IN({$uids}) ORDER BY FIELD(`{$wpdb->prefix}kboard_board_content`.`uid`,{$uids})");
+			}
+		}
+		else if($default_select != $select){
 			$this->total = $wpdb->get_var("SELECT {$select_count} FROM {$from} WHERE {$where}");
 			if($this->sort_random){
 				$this->resource = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY RAND() LIMIT {$this->rpp}");
