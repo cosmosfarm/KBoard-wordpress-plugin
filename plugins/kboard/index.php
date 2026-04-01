@@ -1669,6 +1669,8 @@ function kboard_update_check(){
 		update_option('kboard_svg_batch_scan_pending', KBOARD_VERSION, 'no');
 		delete_option('kboard_svg_batch_scan_result');
 		delete_option('kboard_svg_batch_scan_running');
+		delete_option('kboard_svg_batch_restore_manifest');
+		delete_option('kboard_svg_batch_restore_result');
 		
 		// 관리자 알림 시작
 		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';
