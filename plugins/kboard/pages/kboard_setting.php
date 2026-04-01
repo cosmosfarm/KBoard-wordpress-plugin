@@ -742,6 +742,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="2"<?php if($meta->board_username_masking == '2'):?> selected<?php endif?>>활성화 (관리자 제외)</option>
 							</select>
 							<p class="description">게시글 리스트,본문에서 작성자 이름을 숨길 수 있습니다.</p>
+							<p class="description">예시: <code>홍길동</code> -> <code>홍길*</code> (이름 일부만 표시)</p>
 							<p class="description"><code>관리자 제외</code> 옵션을 선택하면 관리자는 이름을 그대로 볼 수 있습니다.</p>
 						</td>
 					</tr>
@@ -756,7 +757,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="4"<?php if($meta->comments_username_masking == '4'):?> selected<?php endif?>>활성화 (각자 적용 - 관리자 제외)</option>
 							</select>
 							<p class="description">본문에서 댓글 작성자 이름을 숨길 수 있습니다.</p>
-							<p class="description">예시: <code>홍길동</code> -&gt; <code>홍길*</code> (이름 일부만 표시)</p>
+							<p class="description">예시: <code>홍길동</code> -> <code>홍길*</code> (이름 일부만 표시)</p>
 							<p class="description"><code>각자 적용</code>은 댓글 작성 시 <code>작성자 숨기기</code> 체크박스를 선택한 댓글만 적용됩니다.</p>
 							<p class="description"><code>관리자 제외</code> 옵션을 선택하면 관리자는 이름을 그대로 볼 수 있습니다.</p>
 						</td>
@@ -770,7 +771,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 								<option value="2"<?php if($meta->comments_anonymous == '2'):?> selected<?php endif?>>활성화 (각자 적용)</option>
 							</select>
 							<p class="description">본문에서 댓글 작성자를 익명으로 만들 수 있습니다.</p>
-							<p class="description">예시: <code>홍길동</code> -&gt; <code>익명</code></p>
+							<p class="description">예시: <code>홍길동</code> -> <code>익명</code></p>
 							<p class="description"><code>각자 적용</code>은 댓글 작성 시 <code>익명</code> 체크박스를 선택한 댓글만 적용됩니다.</p>
 							<p class="description"><code>댓글 작성자 이름 숨기기</code>와 함께 사용할 경우 <code>익명 설정</code>이 우선 적용됩니다.</p>
 						</td>
