@@ -1244,9 +1244,44 @@ function kboard_admin_notices(){
 				echo KBAdminNotices::get_kboard_update_notice_message_message($vsersion);
 			}
 		}
+		
+		$svg_scan_pending = get_option('kboard_svg_batch_scan_pending');
+		$svg_scan_result = get_option('kboard_svg_batch_scan_result');
+		if($svg_scan_pending == KBOARD_VERSION){
+			echo '<div class="notice notice-warning"><p>';
+			echo sprintf(
+				__('KBoard SVG cleanup is required after this update. %s and run the SVG cleanup card once.', 'kboard'),
+				'<a href="' . esc_url(KBOARD_DASHBOARD_PAGE) . '">' . esc_html__('Open the dashboard', 'kboard') . '</a>'
+			);
+			echo '</p></div>';
+		}
+		else if(is_array($svg_scan_result) && isset($svg_scan_result['version']) && $svg_scan_result['version'] == KBOARD_VERSION){
+			$notice_class = ($svg_scan_result['quarantined'] || $svg_scan_result['errors']) ? 'notice-warning' : 'notice-success';
+			echo '<div class="notice ' . esc_attr($notice_class) . '"><p>';
+			echo sprintf(
+				__('KBoard SVG cleanup complete. Checked %1$s, sanitized %2$s, quarantined %3$s, errors %4$s', 'kboard'),
+				intval($svg_scan_result['checked']),
+				intval($svg_scan_result['sanitized']),
+				intval($svg_scan_result['quarantined']),
+				intval($svg_scan_result['errors'])
+			);
+			if(!empty($svg_scan_result['completed_at'])){
+				echo ' (' . esc_html($svg_scan_result['completed_at']) . ')';
+			}
+			echo '</p>';
+			if(!empty($svg_scan_result['quarantined_files']) && is_array($svg_scan_result['quarantined_files'])){
+				echo '<p>' . sprintf(__('Quarantined files: %s', 'kboard'), esc_html(implode(', ', $svg_scan_result['quarantined_files']))) . '</p>';
+			}
+			echo '</div>';
+		}
 	}
 }
 add_action('admin_notices', 'kboard_admin_notices');
+
+/**
+ * 업데이트 후 1회 SVG 파일 정리 작업을 실행한다.
+ */
+
 
 /**
  * 스크립트와 스타일 파일 등록
@@ -1635,6 +1670,9 @@ function kboard_update_check(){
 	// 시스템 업데이트를 확인하기 위해서 버전 등록
 	if(get_option('kboard_version') !== false){
 		update_option('kboard_version', KBOARD_VERSION);
+		update_option('kboard_svg_batch_scan_pending', KBOARD_VERSION, 'no');
+		delete_option('kboard_svg_batch_scan_result');
+		delete_option('kboard_svg_batch_scan_running');
 		
 		// 관리자 알림 시작
 		include_once KBOARD_DIR_PATH . '/class/KBAdminNotices.class.php';

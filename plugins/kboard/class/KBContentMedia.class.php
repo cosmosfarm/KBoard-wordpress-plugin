@@ -18,6 +18,99 @@ class KBContentMedia {
 		$basedir = explode('wp-content', $upload_dir['basedir']);
 		$this->abspath = untrailingslashit($basedir[0]);
 	}
+
+	/**
+	 * 현재 미디어 요청 컨텍스트를 정리한다.
+	 */
+	public function sanitizeContext(){
+		$this->board_id = intval($this->board_id);
+		$this->content_uid = intval($this->content_uid);
+		$this->media_group = kboard_htmlclear($this->media_group);
+	}
+
+	/**
+	 * 현재 미디어 요청 컨텍스트에 대한 권한을 확인한다.
+	 * @param boolean $reauth
+	 * @return boolean
+	 */
+	public function hasPermission($reauth=false){
+		$this->sanitizeContext();
+		
+		if(!$this->board_id || !$this->media_group){
+			return false;
+		}
+		
+		$board = new KBoard($this->board_id);
+		if(!$board->id){
+			return false;
+		}
+		
+		if(!$this->content_uid){
+			return $board->isWriter();
+		}
+		
+		$content = new KBContent();
+		$content->initWithUID($this->content_uid);
+		if(!$content->uid || intval($content->board_id) !== $this->board_id){
+			return false;
+		}
+		
+		if($content->isEditor()){
+			return true;
+		}
+		
+		if($board->permission_write == 'all' && !$content->member_uid){
+			return $content->isConfirm($reauth);
+		}
+		
+		return false;
+	}
+
+	/**
+	 * 미디어 UID로 데이터를 조회한다.
+	 * @param int $media_uid
+	 * @return object|null
+	 */
+	public function getWithMediaUID($media_uid){
+		global $wpdb;
+		
+		$media_uid = intval($media_uid);
+		if(!$media_uid){
+			return null;
+		}
+		
+		return $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`uid`='{$media_uid}'");
+	}
+
+	/**
+	 * 현재 컨텍스트에 속한 미디어인지 확인한다.
+	 * @param int $media_uid
+	 * @return boolean
+	 */
+	public function isMediaInContext($media_uid){
+		$this->sanitizeContext();
+		
+		if(!$this->board_id || !$this->media_group){
+			return false;
+		}
+		
+		$row = $this->getWithMediaUID($media_uid);
+		if(!$row || !isset($row->uid)){
+			return false;
+		}
+		
+		$expected_path = wp_normalize_path("/kboard_attached/{$this->board_id}/");
+		$file_path = isset($row->file_path) ? wp_normalize_path(stripslashes($row->file_path)) : '';
+		if(strpos($file_path, $expected_path) === false){
+			return false;
+		}
+		
+		if($this->content_uid && intval($row->content_uid) === $this->content_uid){
+			return true;
+		}
+		
+		return $row->media_group === $this->media_group;
+	}
 	
 	/**
 	 * 미디어 리스트를 반환한다.
@@ -27,8 +120,7 @@ class KBContentMedia {
 		
 		$media_list = array();
 		
-		$this->board_id = intval($this->board_id);
-		$this->content_uid = intval($this->content_uid);
+		$this->sanitizeContext();
 		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->content_uid && $this->media_group){
@@ -59,8 +151,7 @@ class KBContentMedia {
 	public function upload(){
 		global $wpdb;
 		
-		$this->board_id = intval($this->board_id);
-		$this->content_uid = intval($this->content_uid);
+		$this->sanitizeContext();
 		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->board_id && $this->media_group){
@@ -131,8 +222,7 @@ class KBContentMedia {
 	public function createRelationships(){
 		global $wpdb;
 		
-		$this->board_id = intval($this->board_id);
-		$this->content_uid = intval($this->content_uid);
+		$this->sanitizeContext();
 		$this->media_group = esc_sql($this->media_group);
 		
 		if($this->content_uid && $this->media_group){
@@ -148,10 +238,9 @@ class KBContentMedia {
 	 * @param int $media_uid
 	 */
 	public function deleteWithMediaUID($media_uid){
-		global $wpdb;
 		$media_uid = intval($media_uid);
 		if($media_uid){
-			$row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_meida` LEFT JOIN `{$wpdb->prefix}kboard_meida_relationships` ON `{$wpdb->prefix}kboard_meida`.`uid`=`{$wpdb->prefix}kboard_meida_relationships`.`media_uid` WHERE `{$wpdb->prefix}kboard_meida`.`uid`='{$media_uid}'");
+			$row = $this->getWithMediaUID($media_uid);
 			$this->deleteWithMedia($row);
 		}
 	}
@@ -177,7 +266,7 @@ class KBContentMedia {
 	 */
 	public function deleteWithMedia($media){
 		global $wpdb;
-		if($media->uid){
+		if($media && isset($media->uid) && $media->uid){
 			kbaord_delete_resize($this->abspath . stripslashes($media->file_path));
 			@unlink($this->abspath . stripslashes($media->file_path));
 			$wpdb->query("DELETE FROM `{$wpdb->prefix}kboard_meida` WHERE `uid`='$media->uid'");

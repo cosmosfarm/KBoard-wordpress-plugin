@@ -151,6 +151,21 @@ class KBFileHandler {
 	}
 	
 	/**
+	 * SVG 파일을 정제하고 실패 시 업로드를 중단한다.
+	 * @param string $original_name
+	 * @param string $uploaded_file
+	 */
+	private function sanitizeSvgUploadOrAbort($original_name, $uploaded_file){
+		if(!kboard_sanitize_svg_file($uploaded_file)){
+			$this->uploaded_file[] = $uploaded_file;
+			$this->rollback();
+			$message = sprintf(__('%s file contains unsafe SVG markup and could not be uploaded.', 'kboard'), $original_name);
+			echo "<script>alert('{$message}');history.go(-1);</script>";
+			exit;
+		}
+	}
+	
+	/**
 	 * 작업을 롤백한다.
 	 */
 	private function rollback(){
@@ -277,6 +292,7 @@ class KBFileHandler {
 			}
 			
 			// 사진 메타데이터 추출
+			$this->sanitizeSvgUploadOrAbort($file['name'], "{$this->abspath}{$this->path}/{$file_unique_name}");
 			require_once(ABSPATH . 'wp-admin/includes/image.php');
 			$metadata = wp_read_image_metadata("{$this->abspath}{$this->path}/{$file_unique_name}");
 			if(!$metadata){
@@ -369,6 +385,7 @@ class KBFileHandler {
 				}
 				
 				// 사진 메타데이터 추출
+				$this->sanitizeSvgUploadOrAbort($file['name'][$key], "{$this->abspath}{$this->path}/{$file_unique_name}");
 				require_once(ABSPATH . 'wp-admin/includes/image.php');
 				$metadata = wp_read_image_metadata("{$this->abspath}{$this->path}/{$file_unique_name}");
 				if(!$metadata){

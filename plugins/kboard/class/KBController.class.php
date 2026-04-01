@@ -316,6 +316,11 @@ class KBController {
 			$media->board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
 			$media->media_group = kboard_htmlclear(isset($_POST['media_group'])?$_POST['media_group']:'');
 			$media->content_uid = intval(isset($_POST['content_uid'])?$_POST['content_uid']:'');
+			
+			if(!$media->hasPermission()){
+				wp_die(__('You do not have permission.', 'kboard'));
+			}
+			
 			$media->upload();
 		}
 	}
@@ -329,6 +334,14 @@ class KBController {
 			
 			$media_uid = intval(isset($_POST['media_uid'])?$_POST['media_uid']:'');
 			$media = new KBContentMedia();
+			$media->board_id = intval(isset($_POST['board_id'])?$_POST['board_id']:'');
+			$media->media_group = kboard_htmlclear(isset($_POST['media_group'])?$_POST['media_group']:'');
+			$media->content_uid = intval(isset($_POST['content_uid'])?$_POST['content_uid']:'');
+			
+			if(!$media->hasPermission() || !$media->isMediaInContext($media_uid)){
+				wp_die(__('You do not have permission.', 'kboard'));
+			}
+			
 			$media->deleteWithMediaUID($media_uid);
 		}
 	}

@@ -101,7 +101,312 @@ function kboard_htmlclear($data){
 }
 
 /**
- * 아이프레임 화이트리스트를 반환한다.
+ * SVG 파일에서 실행 가능한 마크업을 제거한다.
+ * @param string $file
+ * @return boolean
+ */
+function kboard_sanitize_svg_file($file){
+	if(strtolower(pathinfo($file, PATHINFO_EXTENSION)) != 'svg'){
+		return true;
+	}
+	if(!file_exists($file) || !is_readable($file) || !is_writable($file)){
+		return false;
+	}
+	$svg = file_get_contents($file);
+	if($svg === false){
+		return false;
+	}
+	$svg = kboard_sanitize_svg_markup($svg);
+	if($svg === false || !trim($svg)){
+		return false;
+	}
+	return file_put_contents($file, $svg) !== false;
+}
+
+/**
+ * SVG 문자열을 정제한다.
+ * @param string $svg
+ * @return string|boolean
+ */
+function kboard_sanitize_svg_markup($svg){
+	if(!is_string($svg) || stripos($svg, '<svg') === false){
+		return false;
+	}
+	if(preg_match('/<!DOCTYPE|<!ENTITY/i', $svg)){
+		return false;
+	}
+	if(!class_exists('DOMDocument')){
+		return false;
+	}
+	
+	$internal_errors = libxml_use_internal_errors(true);
+	$dom = new DOMDocument('1.0', 'UTF-8');
+	$options = 0;
+	foreach(array('LIBXML_NONET', 'LIBXML_NOERROR', 'LIBXML_NOWARNING', 'LIBXML_NOBLANKS', 'LIBXML_COMPACT') as $constant){
+		if(defined($constant)){
+			$options |= constant($constant);
+		}
+	}
+	$loaded = $dom->loadXML($svg, $options);
+	libxml_clear_errors();
+	libxml_use_internal_errors($internal_errors);
+	
+	if(!$loaded || !$dom->documentElement || strtolower($dom->documentElement->localName) != 'svg'){
+		return false;
+	}
+	
+	$allowed_tags = array(
+		'svg' => array('xmlns', 'xmlns:xlink', 'version', 'width', 'height', 'viewbox', 'preserveaspectratio'),
+		'g' => array('transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'defs' => array(),
+		'symbol' => array('viewbox', 'preserveaspectratio'),
+		'use' => array('href', 'xlink:href', 'x', 'y', 'width', 'height', 'transform'),
+		'title' => array(),
+		'desc' => array(),
+		'path' => array('d', 'pathlength', 'transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'rect' => array('x', 'y', 'width', 'height', 'rx', 'ry', 'transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'circle' => array('cx', 'cy', 'r', 'transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'ellipse' => array('cx', 'cy', 'rx', 'ry', 'transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'line' => array('x1', 'y1', 'x2', 'y2', 'transform', 'opacity', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'polyline' => array('points', 'transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'polygon' => array('points', 'transform', 'opacity', 'fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-opacity', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'clip-path', 'mask'),
+		'lineargradient' => array('id', 'x1', 'y1', 'x2', 'y2', 'gradientunits', 'gradienttransform'),
+		'radialgradient' => array('id', 'cx', 'cy', 'r', 'fx', 'fy', 'gradientunits', 'gradienttransform'),
+		'stop' => array('offset', 'stop-color', 'stop-opacity'),
+		'clippath' => array('id', 'clippathunits', 'transform'),
+		'mask' => array('id', 'maskunits', 'maskcontentunits', 'x', 'y', 'width', 'height'),
+		'pattern' => array('id', 'patternunits', 'patterncontentunits', 'patterntransform', 'x', 'y', 'width', 'height'),
+	);
+	$common_attributes = array('id', 'class', 'style');
+	
+	kboard_sanitize_svg_node($dom->documentElement, $allowed_tags, $common_attributes);
+	$dom->documentElement->setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+	
+	return $dom->saveXML($dom->documentElement);
+}
+
+/**
+ * SVG 노드를 순회하며 허용되지 않은 요소와 속성을 제거한다.
+ * @param DOMNode $node
+ * @param array $allowed_tags
+ * @param array $common_attributes
+ */
+function kboard_sanitize_svg_node($node, $allowed_tags, $common_attributes){
+	for($child=$node->firstChild; $child; $child=$next_sibling){
+		$next_sibling = $child->nextSibling;
+		
+		if($child->nodeType == XML_ELEMENT_NODE){
+			$tag_name = strtolower($child->localName);
+			if(!isset($allowed_tags[$tag_name])){
+				$node->removeChild($child);
+				continue;
+			}
+			
+			$allowed_attributes = array_merge($common_attributes, $allowed_tags[$tag_name]);
+			$remove_attributes = array();
+			foreach($child->attributes as $attribute){
+				$attribute_name = strtolower($attribute->nodeName);
+				if(strpos($attribute_name, 'on') === 0 || !in_array($attribute_name, $allowed_attributes)){
+					$remove_attributes[] = $attribute->nodeName;
+					continue;
+				}
+				$sanitized_value = kboard_sanitize_svg_attribute_value($attribute_name, $attribute->nodeValue);
+				if($sanitized_value === false || $sanitized_value === ''){
+					$remove_attributes[] = $attribute->nodeName;
+					continue;
+				}
+				$child->setAttribute($attribute->nodeName, $sanitized_value);
+			}
+			foreach($remove_attributes as $attribute_name){
+				$child->removeAttribute($attribute_name);
+			}
+			
+			kboard_sanitize_svg_node($child, $allowed_tags, $common_attributes);
+		}
+		else if(in_array($child->nodeType, array(XML_COMMENT_NODE, XML_PI_NODE, XML_DOCUMENT_TYPE_NODE, XML_ENTITY_REF_NODE, XML_CDATA_SECTION_NODE))){
+			$node->removeChild($child);
+		}
+	}
+}
+
+/**
+ * SVG 속성 값을 정제한다.
+ * @param string $attribute_name
+ * @param string $value
+ * @return string|boolean
+ */
+function kboard_sanitize_svg_attribute_value($attribute_name, $value){
+	$value = trim(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/u', '', $value));
+	if($value === ''){
+		return '';
+	}
+	if(preg_match('/(?:javascript:|vbscript:|data:|expression\s*\(|@import|-moz-binding|behavior\s*:)/i', $value)){
+		return false;
+	}
+	if(preg_match('/url\s*\(\s*[\'"]?\s*(?!#)/i', $value)){
+		return false;
+	}
+	if(strpos($value, '<') !== false || strpos($value, '>') !== false){
+		return false;
+	}
+	
+	if(in_array($attribute_name, array('href', 'xlink:href'))){
+		return preg_match('/^#[-A-Za-z0-9_:.]+$/', $value) ? $value : false;
+	}
+	if($attribute_name == 'style'){
+		return kboard_sanitize_svg_style($value);
+	}
+	if(in_array($attribute_name, array('fill', 'stroke', 'clip-path', 'mask'))){
+		if(preg_match('/^url\s*\(\s*#[-A-Za-z0-9_:.]+\s*\)$/i', $value)){
+			return $value;
+		}
+	}
+	
+	return $value;
+}
+
+/**
+ * SVG style 속성을 정제한다.
+ * @param string $style
+ * @return string|boolean
+ */
+function kboard_sanitize_svg_style($style){
+	$declarations = explode(';', $style);
+	$sanitized = array();
+	
+	foreach($declarations as $declaration){
+		$declaration = trim($declaration);
+		if(!$declaration || strpos($declaration, ':') === false){
+			continue;
+		}
+		list($property, $value) = array_map('trim', explode(':', $declaration, 2));
+		if(!$property || !$value){
+			continue;
+		}
+		if(preg_match('/[^a-z-]/i', $property)){
+			continue;
+		}
+		if(preg_match('/(?:javascript:|vbscript:|data:|expression\s*\(|@import|-moz-binding|behavior\s*:)/i', $value)){
+			continue;
+		}
+		if(preg_match('/url\s*\(\s*[\'"]?\s*(?!#)/i', $value)){
+			continue;
+		}
+		if(strpos($value, '<') !== false || strpos($value, '>') !== false){
+			continue;
+		}
+		$sanitized[] = "{$property}: {$value}";
+	}
+	
+	if(!$sanitized){
+		return false;
+	}
+	return implode('; ', $sanitized);
+}
+
+/**
+ * 업로드 경로의 기존 SVG 파일을 일괄 정리한다.
+ * @return array
+ */
+function kboard_svg_batch_scan_uploads(){
+	$upload_dir = wp_upload_dir();
+	$result = array(
+		'version' => defined('KBOARD_VERSION') ? KBOARD_VERSION : '',
+		'started_at' => current_time('mysql'),
+		'completed_at' => '',
+		'checked' => 0,
+		'sanitized' => 0,
+		'unchanged' => 0,
+		'quarantined' => 0,
+		'errors' => 0,
+		'quarantined_files' => array(),
+	);
+	$targets = array(
+		untrailingslashit($upload_dir['basedir']) . '/kboard_attached',
+		untrailingslashit($upload_dir['basedir']) . '/kboard_thumbnails',
+	);
+	
+	foreach($targets as $target){
+		kboard_svg_batch_scan_path($target, $result);
+	}
+	
+	$result['completed_at'] = current_time('mysql');
+	return $result;
+}
+
+/**
+ * 지정한 경로의 SVG 파일을 순회하며 정리한다.
+ * @param string $path
+ * @param array $result
+ */
+function kboard_svg_batch_scan_path($path, &$result){
+	if(!is_dir($path)){
+		return;
+	}
+	$flags = RecursiveDirectoryIterator::SKIP_DOTS;
+	$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, $flags));
+	
+	foreach($iterator as $file_info){
+		if(!$file_info->isFile()){
+			continue;
+		}
+		if(strtolower($file_info->getExtension()) != 'svg'){
+			continue;
+		}
+		
+		$file = $file_info->getPathname();
+		$result['checked']++;
+		$svg = file_get_contents($file);
+		if($svg === false){
+			$result['errors']++;
+			continue;
+		}
+		
+		$sanitized = kboard_sanitize_svg_markup($svg);
+		if($sanitized === false || !trim($sanitized)){
+			if(kboard_quarantine_svg_file($file)){
+				$result['quarantined']++;
+				if(count($result['quarantined_files']) < 5){
+					$result['quarantined_files'][] = str_replace(ABSPATH, '', $file);
+				}
+			}
+			else{
+				$result['errors']++;
+			}
+			continue;
+		}
+		
+		if($sanitized !== $svg){
+			if(file_put_contents($file, $sanitized) !== false){
+				$result['sanitized']++;
+			}
+			else{
+				$result['errors']++;
+			}
+		}
+		else{
+			$result['unchanged']++;
+		}
+	}
+}
+
+/**
+ * SVG 파일을 직접 접근할 수 없도록 격리한다.
+ * @param string $file
+ * @return boolean
+ */
+function kboard_quarantine_svg_file($file){
+	$quarantined_file = $file . '.blocked';
+	$index = 1;
+	while(file_exists($quarantined_file)){
+		$quarantined_file = $file . '.blocked' . $index;
+		$index++;
+	}
+	return @rename($file, $quarantined_file);
+}
+
+/**
+ * 허용된 iframe 도메인 화이트리스트를 반환한다.
  * @param boolean $to_array
  */
 function kboard_iframe_whitelist($to_array=false){

@@ -417,13 +417,13 @@ textarea.kboard-form-control {
 </style>
 
 <div class="wrap kboard-dashboard-wrapper">
+	<h1>
+		<span class="dashicons dashicons-dashboard" style="font-size: 32px; width: 32px; height: 32px;"></span>
+		<?php echo __('KBoard : 대시보드', 'kboard')?>
+	</h1>
 	
 	<!-- Header -->
 	<div class="kboard-header">
-		<h1>
-			<span class="dashicons dashicons-dashboard" style="font-size: 32px; width: 32px; height: 32px;"></span>
-			<?php echo __('KBoard : 대시보드', 'kboard')?>
-		</h1>
 		<div class="kboard-header-actions">
 			<a href="https://www.cosmosfarm.com" class="kboard-action-link" onclick="window.open(this.href);return false;"><?php echo __('Home', 'kboard')?></a>
 			<a href="https://www.cosmosfarm.com/threads" class="kboard-action-link" onclick="window.open(this.href);return false;"><?php echo __('Community', 'kboard')?></a>
@@ -438,8 +438,59 @@ textarea.kboard-form-control {
 
 	<!-- System Settings -->
 	<h2 class="kboard-section-title"><?php echo __('시스템 설정', 'kboard')?></h2>
+	<?php
+	$kboard_svg_scan_pending = (get_option('kboard_svg_batch_scan_pending') == KBOARD_VERSION);
+	$kboard_svg_scan_running = intval(get_option('kboard_svg_batch_scan_running'));
+	$kboard_svg_scan_is_running = $kboard_svg_scan_running && (time() - $kboard_svg_scan_running) < 120;
+	$kboard_svg_scan_result = get_option('kboard_svg_batch_scan_result');
+	$kboard_svg_scan_i18n = array(
+		'running' => __('실행중', 'kboard'),
+		'pending' => __('실행 필요', 'kboard'),
+		'completed' => __('완료', 'kboard'),
+		'retry_button' => __('SVG 정리 다시 실행하기', 'kboard'),
+		'failed' => __('SVG cleanup failed.', 'kboard'),
+		'result_template' => __('Last result: checked %1$s, sanitized %2$s, quarantined %3$s, errors %4$s', 'kboard'),
+		'quarantined_files_template' => __('Quarantined files: %s', 'kboard'),
+	);
+	?>
 
 	<div class="kboard-settings-grid">
+		
+		<div class="kboard-card" id="kboard_svg_batch_scan">
+			<form method="post" onsubmit="return kboard_svg_batch_scan_execute(this)">
+				<input type="hidden" name="action" value="kboard_svg_batch_scan_execute">
+				<input type="hidden" name="kboard-svg-batch-scan-nonce" value="<?php echo esc_attr(wp_create_nonce('kboard-svg-batch-scan'))?>">
+				
+				<div class="kboard-card-header">
+					<h3 class="kboard-card-title">SVG 정리 실행</h3>
+					<span class="kboard-badge <?php echo $kboard_svg_scan_pending || $kboard_svg_scan_is_running ? 'warning' : ($kboard_svg_scan_result ? 'active' : 'inactive')?>" data-kboard-svg-scan-badge><?php
+						if($kboard_svg_scan_is_running) echo '실행중';
+						else if($kboard_svg_scan_pending) echo '실행 필요';
+						else if($kboard_svg_scan_result) echo '완료';
+						else echo '대기';
+					?></span>
+				</div>
+				<div class="kboard-card-body">
+					<p class="kboard-description">
+						업데이트 후 기존 업로드 경로의 SVG 파일을 한 번 점검해서 위험 파일은 격리하고, 정제 가능한 파일은 sanitize 합니다.<br><br>
+						<?php if($kboard_svg_scan_pending):?>
+							현재 버전에서는 한 번 실행이 필요합니다. 관리자 최초 진입 후 이 카드에서 직접 실행해주세요.
+						<?php elseif($kboard_svg_scan_is_running):?>
+							현재 다른 관리자 요청에서 SVG 정리 작업이 실행 중입니다. 잠시 후 새로고침 해주세요.
+						<?php elseif(is_array($kboard_svg_scan_result) && isset($kboard_svg_scan_result['version']) && $kboard_svg_scan_result['version'] == KBOARD_VERSION):?>
+							마지막 결과: 검사 <?php echo intval($kboard_svg_scan_result['checked'])?>개, 정제 <?php echo intval($kboard_svg_scan_result['sanitized'])?>개, 격리 <?php echo intval($kboard_svg_scan_result['quarantined'])?>개, 오류 <?php echo intval($kboard_svg_scan_result['errors'])?>개
+						<?php else:?>
+							필요할 때 수동으로 다시 실행할 수 있습니다.
+						<?php endif?>
+					</p>
+				</div>
+				<div class="kboard-card-footer">
+					<button type="submit" class="kboard-btn full-width primary"<?php if($kboard_svg_scan_is_running):?> disabled<?php endif?>>
+						<?php echo $kboard_svg_scan_pending ? 'SVG 정리 실행하기' : 'SVG 정리 다시 실행하기'?>
+					</button>
+				</div>
+			</form>
+		</div>
 		
 		<!-- XSS Filter -->
 		<div class="kboard-card" id="kboard_xssfilter">
@@ -1066,9 +1117,59 @@ textarea.kboard-form-control {
 </div>
 
 <script>
+var kboard_svg_scan_i18n = <?php echo wp_json_encode($kboard_svg_scan_i18n)?>;
+
+function kboard_svg_scan_sprintf(template, args){
+	if(!template){
+		return '';
+	}
+	for(var i=0; i<args.length; i++){
+		var index = i + 1;
+		template = template.replace(new RegExp('%' + index + '\\$s', 'g'), args[i]);
+		template = template.replace('%s', args[i]);
+	}
+	return template;
+}
+
 function kboard_system_option_update(form){
 	jQuery.post(ajaxurl, jQuery(form).serialize(), function(res){
 		window.location.reload();
+	});
+	return false;
+}
+
+function kboard_svg_batch_scan_execute(form){
+	var button = jQuery(form).find('button[type=submit]');
+	var badge = jQuery(form).find('[data-kboard-svg-scan-badge]');
+	button.prop('disabled', true);
+	badge.removeClass('active inactive').addClass('warning').text(kboard_svg_scan_i18n.running);
+	jQuery.post(ajaxurl, jQuery(form).serialize(), function(res){
+		if(res && res.result == 'success'){
+			var data = res.data || {};
+			var message = kboard_svg_scan_sprintf(kboard_svg_scan_i18n.result_template, [
+				(data.checked || 0),
+				(data.sanitized || 0),
+				(data.quarantined || 0),
+				(data.errors || 0)
+			]);
+			if(data.completed_at){
+				message += ' (' + data.completed_at + ')';
+			}
+			if(data.quarantined_files && data.quarantined_files.length){
+				message += '\n' + kboard_svg_scan_sprintf(kboard_svg_scan_i18n.quarantined_files_template, [data.quarantined_files.join(', ')]);
+			}
+			badge.removeClass('warning inactive').addClass('active').text(kboard_svg_scan_i18n.completed);
+			button.text(kboard_svg_scan_i18n.retry_button).prop('disabled', false);
+			alert(message);
+			return;
+		}
+		button.prop('disabled', false);
+		badge.removeClass('active inactive').addClass('warning').text(kboard_svg_scan_i18n.pending);
+		alert(res && res.message ? res.message : kboard_svg_scan_i18n.failed);
+	}).fail(function(){
+		button.prop('disabled', false);
+		badge.removeClass('active inactive').addClass('warning').text(kboard_svg_scan_i18n.pending);
+		alert(kboard_svg_scan_i18n.failed);
 	});
 	return false;
 }
