@@ -160,7 +160,8 @@ class KBFileHandler {
 			$this->uploaded_file[] = $uploaded_file;
 			$this->rollback();
 			$message = sprintf(__('%s file contains unsafe SVG markup and could not be uploaded.', 'kboard'), $original_name);
-			echo "<script>alert('{$message}');history.go(-1);</script>";
+			$message = wp_json_encode($message);
+			echo "<script>(function(){var message={$message};alert(message);if(document.referrer){window.location.replace(document.referrer);}else{history.go(-1);}}());</script>";
 			exit;
 		}
 	}
