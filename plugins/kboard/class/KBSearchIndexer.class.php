@@ -36,31 +36,10 @@ class KBSearchIndexer {
 				$option_text .= ' ' . $option_row->option_value;
 			}
 		}
-		
-		$document_data = array(
-			'content_uid' => $content_uid,
-			'board_id' => intval($row->board_id),
-			'member_uid' => intval($row->member_uid),
-			'member_display' => sanitize_text_field((string) $row->member_display),
-			'title' => sanitize_text_field((string) $row->title),
-			'content_plain' => kboard_search_normalize_text((string) $row->content),
-			'status' => sanitize_key((string) $row->status),
-			'secret' => sanitize_key((string) $row->secret),
-			'notice' => sanitize_key((string) $row->notice),
-			'date' => sanitize_text_field((string) $row->date),
-			'category1' => sanitize_text_field((string) $row->category1),
-			'category2' => sanitize_text_field((string) $row->category2),
-			'category3' => sanitize_text_field((string) $row->category3),
-			'category4' => sanitize_text_field((string) $row->category4),
-			'category5' => sanitize_text_field((string) $row->category5),
-			'indexed_at' => date('YmdHis', current_time('timestamp')),
-		);
-		
-		$wpdb->replace(
-			"{$wpdb->prefix}kboard_search_document",
-			$document_data,
-			array('%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
-		);
+
+		$title = sanitize_text_field((string) $row->title);
+		$member_display = sanitize_text_field((string) $row->member_display);
+		$content_plain = kboard_search_normalize_text((string) $row->content);
 		
 		$wpdb->delete("{$wpdb->prefix}kboard_search_token", array('content_uid'=>$content_uid), array('%d'));
 		
@@ -72,10 +51,10 @@ class KBSearchIndexer {
 		);
 		
 		$field_texts = array(
-			'title' => $document_data['title'],
-			'member_display' => $document_data['member_display'],
+			'title' => $title,
+			'member_display' => $member_display,
 			'option' => $option_text,
-			'content' => $document_data['content_plain'],
+			'content' => $content_plain,
 		);
 		
 		$values = array();
@@ -123,7 +102,6 @@ class KBSearchIndexer {
 		if(!$content_uid){
 			return false;
 		}
-		$wpdb->delete("{$wpdb->prefix}kboard_search_document", array('content_uid'=>$content_uid), array('%d'));
 		$wpdb->delete("{$wpdb->prefix}kboard_search_token", array('content_uid'=>$content_uid), array('%d'));
 		return true;
 	}

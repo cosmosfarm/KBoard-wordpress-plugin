@@ -49,28 +49,34 @@ class KBSearchEngine {
 		}
 		
 		$conditions = array();
-		if(intval($args['board_id'])){
-			$conditions[] = "`d`.`board_id`='" . intval($args['board_id']) . "'";
+		if(is_array($args['board_id'])){
+			$board_ids = kboard_array2int($args['board_id']);
+			if($board_ids){
+				$conditions[] = "`c`.`board_id` IN (" . implode(',', $board_ids) . ")";
+			}
+		}
+		else if(intval($args['board_id'])){
+			$conditions[] = "`c`.`board_id`='" . intval($args['board_id']) . "'";
 		}
 		if($args['status'] !== ''){
-			$conditions[] = "`d`.`status`='" . esc_sql(sanitize_key($args['status'])) . "'";
+			$conditions[] = "`c`.`status`='" . esc_sql(sanitize_key($args['status'])) . "'";
 		}
 		if($args['secret'] !== ''){
-			$conditions[] = "`d`.`secret`='" . esc_sql(sanitize_key($args['secret'])) . "'";
+			$conditions[] = "`c`.`secret`='" . esc_sql(sanitize_key($args['secret'])) . "'";
 		}
 		if($args['notice'] !== ''){
-			$conditions[] = "`d`.`notice`='" . esc_sql(sanitize_key($args['notice'])) . "'";
+			$conditions[] = "`c`.`notice`='" . esc_sql(sanitize_key($args['notice'])) . "'";
 		}
 		foreach(array('category1', 'category2', 'category3', 'category4', 'category5') as $category_key){
 			if($args[$category_key] !== ''){
-				$conditions[] = "`d`.`{$category_key}`='" . esc_sql(sanitize_text_field($args[$category_key])) . "'";
+				$conditions[] = "`c`.`{$category_key}`='" . esc_sql(sanitize_text_field($args[$category_key])) . "'";
 			}
 		}
 		if($args['start_date']){
-			$conditions[] = "`d`.`date` >= '" . esc_sql(sanitize_text_field($args['start_date'])) . "'";
+			$conditions[] = "`c`.`date` >= '" . esc_sql(sanitize_text_field($args['start_date'])) . "'";
 		}
 		if($args['end_date']){
-			$conditions[] = "`d`.`date` <= '" . esc_sql(sanitize_text_field($args['end_date'])) . "'";
+			$conditions[] = "`c`.`date` <= '" . esc_sql(sanitize_text_field($args['end_date'])) . "'";
 		}
 		$condition_sql = $conditions ? (' AND ' . implode(' AND ', $conditions)) : '';
 		
@@ -93,9 +99,9 @@ class KBSearchEngine {
 			
 			$required = count($group_tokens);
 			$sql = "
-				SELECT `t`.`content_uid`, SUM(`t`.`weight` * `t`.`position_count`) AS `score`, MAX(`d`.`date`) AS `sort_date`
+				SELECT `t`.`content_uid`, SUM(`t`.`weight` * `t`.`position_count`) AS `score`, MAX(`c`.`date`) AS `sort_date`
 				FROM `{$wpdb->prefix}kboard_search_token` AS `t`
-				INNER JOIN `{$wpdb->prefix}kboard_search_document` AS `d` ON `d`.`content_uid`=`t`.`content_uid`
+				INNER JOIN `{$wpdb->prefix}kboard_board_content` AS `c` ON `c`.`uid`=`t`.`content_uid`
 				WHERE `t`.`token` IN (" . implode(', ', $in_tokens) . ") {$condition_sql}
 				GROUP BY `t`.`content_uid`
 				HAVING COUNT(DISTINCT `t`.`token`) >= {$required}

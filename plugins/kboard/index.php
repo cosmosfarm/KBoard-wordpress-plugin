@@ -1896,37 +1896,6 @@ function kboard_activation_execute(){
 	KEY `user_id` (`user_id`)
 	) {$charset_collate};");
 
-	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_search_document` (
-	`content_uid` bigint(20) unsigned NOT NULL,
-	`board_id` bigint(20) unsigned NOT NULL,
-	`member_uid` bigint(20) unsigned NOT NULL,
-	`member_display` varchar(127) NOT NULL,
-	`title` text NOT NULL,
-	`content_plain` longtext NOT NULL,
-	`status` varchar(20) NOT NULL,
-	`secret` varchar(5) NOT NULL,
-	`notice` varchar(5) NOT NULL,
-	`date` char(14) NOT NULL,
-	`category1` varchar(127) NOT NULL,
-	`category2` varchar(127) NOT NULL,
-	`category3` varchar(127) NOT NULL,
-	`category4` varchar(127) NOT NULL,
-	`category5` varchar(127) NOT NULL,
-	`indexed_at` char(14) NOT NULL,
-	PRIMARY KEY (`content_uid`),
-	KEY `board_id` (`board_id`),
-	KEY `member_uid` (`member_uid`),
-	KEY `status` (`status`),
-	KEY `secret` (`secret`),
-	KEY `notice` (`notice`),
-	KEY `date` (`date`),
-	KEY `category1` (`category1`),
-	KEY `category2` (`category2`),
-	KEY `category3` (`category3`),
-	KEY `category4` (`category4`),
-	KEY `category5` (`category5`)
-	) {$charset_collate};");
-
 	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_search_token` (
 	`token` varchar(32) NOT NULL,
 	`content_uid` bigint(20) unsigned NOT NULL,
@@ -2232,16 +2201,6 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_setting` ADD INDEX `skin` (`skin`)");
 	}
 	unset($index);
-
-	/*
-	 * KBoard 6.6
-	 * kboard_search_document 테이블에 indexed_at 컬럼 생성 확인
-	 */
-	list($name) = $wpdb->get_row("DESCRIBE `{$wpdb->prefix}kboard_search_document` `indexed_at`", ARRAY_N);
-	if(!$name){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_search_document` ADD `indexed_at` char(14) NOT NULL AFTER `category5`");
-	}
-	unset($name);
 
 	/*
 	 * KBoard 6.6
