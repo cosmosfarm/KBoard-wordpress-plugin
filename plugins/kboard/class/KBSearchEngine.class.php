@@ -22,6 +22,7 @@ class KBSearchEngine {
 			'status' => '',
 			'secret' => '',
 			'notice' => '',
+			'with_notice' => true,
 			'category1' => '',
 			'category2' => '',
 			'category3' => '',
@@ -90,11 +91,17 @@ class KBSearchEngine {
 		if($args['status'] !== ''){
 			$conditions[] = "`c`.`status`='" . esc_sql(sanitize_key($args['status'])) . "'";
 		}
+		else{
+			$conditions[] = "`c`.`status`!='trash'";
+		}
 		if($args['secret'] !== ''){
 			$conditions[] = "`c`.`secret`='" . esc_sql(sanitize_key($args['secret'])) . "'";
 		}
 		if($args['notice'] !== ''){
 			$conditions[] = "`c`.`notice`='" . esc_sql(sanitize_key($args['notice'])) . "'";
+		}
+		if(!$args['with_notice']){
+			$conditions[] = "`c`.`notice`=''";
 		}
 		foreach(array('category1', 'category2', 'category3', 'category4', 'category5') as $cat_key){
 			if($args[$cat_key] !== ''){

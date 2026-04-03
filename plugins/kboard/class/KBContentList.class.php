@@ -499,7 +499,9 @@ class KBContentList {
 		
 		if($keyword && $this->compare == 'LIKE' && $is_indexed_search_target && !$this->sort_random){
 			if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) === false && strpos($search, 'wp_') === false){
-				$can_use_indexed_search = true;
+				if(!$this->search_option){
+					$can_use_indexed_search = true;
+				}
 			}
 		}
 		
@@ -528,9 +530,10 @@ class KBContentList {
 				'is_latest' => $this->is_latest,
 			);
 			$search_engine_result = KBSearchEngine::search($search_engine_args);
-			if(is_array($search_engine_result) && empty($search_engine_result['fallback'])){
+			$search_engine_total = isset($search_engine_result['total']) ? intval($search_engine_result['total']) : 0;
+			if(is_array($search_engine_result) && empty($search_engine_result['fallback']) && $search_engine_total > 0){
 				$indexed_search = true;
-				$indexed_search_total = isset($search_engine_result['total']) ? intval($search_engine_result['total']) : 0;
+				$indexed_search_total = $search_engine_total;
 				if(isset($search_engine_result['uids']) && is_array($search_engine_result['uids'])){
 					foreach($search_engine_result['uids'] as $uid){
 						$uid = intval($uid);
