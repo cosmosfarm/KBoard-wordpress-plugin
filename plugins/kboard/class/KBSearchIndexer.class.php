@@ -10,6 +10,7 @@ class KBSearchIndexer {
 	/**
 	 * 게시글 인덱스를 동기화한다.
 	 * @param int $content_uid
+	 * @return boolean
 	 */
 	public static function sync($content_uid, $board_id=0, $content=null, $board=null){
 		global $wpdb;
@@ -23,7 +24,7 @@ class KBSearchIndexer {
 			return false;
 		}
 		
-		$row = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$content_uid' LIMIT 1");
+		$row = $wpdb->get_row("SELECT `uid`, `board_id`, `title`, `content`, `member_display` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='$content_uid' LIMIT 1");
 		if(!$row){
 			self::delete($content_uid);
 			return false;
@@ -36,58 +37,30 @@ class KBSearchIndexer {
 				$option_text .= ' ' . $option_row->option_value;
 			}
 		}
-
-		$title = sanitize_text_field((string) $row->title);
-		$member_display = sanitize_text_field((string) $row->member_display);
+		
+		$title_plain = kboard_search_normalize_text((string) $row->title);
 		$content_plain = kboard_search_normalize_text((string) $row->content);
+		$option_plain = kboard_search_normalize_text($option_text);
+		$member_display = sanitize_text_field((string) $row->member_display);
 		
-		$wpdb->delete("{$wpdb->prefix}kboard_search_token", array('content_uid'=>$content_uid), array('%d'));
-		
-		$field_weights = array(
-			'title' => 10,
-			'member_display' => 6,
-			'option' => 4,
-			'content' => 2,
+		$table = "{$wpdb->prefix}kboard_search_document";
+		$sql = $wpdb->prepare(
+			"INSERT INTO `{$table}` (`content_uid`, `board_id`, `member_display`, `title_plain`, `content_plain`, `option_plain`)
+			VALUES (%d, %d, %s, %s, %s, %s)
+			ON DUPLICATE KEY UPDATE
+				`board_id` = VALUES(`board_id`),
+				`member_display` = VALUES(`member_display`),
+				`title_plain` = VALUES(`title_plain`),
+				`content_plain` = VALUES(`content_plain`),
+				`option_plain` = VALUES(`option_plain`)",
+			$content_uid,
+			intval($row->board_id),
+			$member_display,
+			$title_plain,
+			$content_plain,
+			$option_plain
 		);
-		
-		$field_texts = array(
-			'title' => $title,
-			'member_display' => $member_display,
-			'option' => $option_text,
-			'content' => $content_plain,
-		);
-		
-		$values = array();
-		foreach($field_texts as $field=>$text){
-			$frequencies = kboard_search_token_frequencies(kboard_search_tokenize($text));
-			foreach($frequencies as $token=>$count){
-				if(function_exists('mb_substr')){
-					$token = mb_substr($token, 0, 32, 'UTF-8');
-				}
-				else{
-					$token = substr($token, 0, 32);
-				}
-				if(!$token){
-					continue;
-				}
-				$values[] = $wpdb->prepare(
-					"(%s, %d, %s, %d, %d)",
-					$token,
-					$content_uid,
-					$field,
-					max(1, intval($count)),
-					intval($field_weights[$field])
-				);
-			}
-		}
-		
-		if($values){
-			$chunks = array_chunk($values, 300);
-			foreach($chunks as $chunk){
-				$sql = "INSERT INTO `{$wpdb->prefix}kboard_search_token` (`token`, `content_uid`, `field`, `position_count`, `weight`) VALUES " . implode(', ', $chunk);
-				$wpdb->query($sql);
-			}
-		}
+		$wpdb->query($sql);
 		
 		return true;
 	}
@@ -95,6 +68,7 @@ class KBSearchIndexer {
 	/**
 	 * 게시글 인덱스를 삭제한다.
 	 * @param int $content_uid
+	 * @return boolean
 	 */
 	public static function delete($content_uid, $board_id=0, $content=null, $board=null){
 		global $wpdb;
@@ -102,7 +76,7 @@ class KBSearchIndexer {
 		if(!$content_uid){
 			return false;
 		}
-		$wpdb->delete("{$wpdb->prefix}kboard_search_token", array('content_uid'=>$content_uid), array('%d'));
+		$wpdb->delete("{$wpdb->prefix}kboard_search_document", array('content_uid'=>$content_uid), array('%d'));
 		return true;
 	}
 	

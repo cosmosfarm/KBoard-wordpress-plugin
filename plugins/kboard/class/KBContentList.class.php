@@ -499,11 +499,7 @@ class KBContentList {
 		
 		if($keyword && $this->compare == 'LIKE' && $is_indexed_search_target && !$this->sort_random){
 			if(strpos($search, KBContent::$SKIN_OPTION_PREFIX) === false && strpos($search, 'wp_') === false){
-				if(!$this->search_option){
-					if(strpos($keyword, '&') === false && strpos($keyword, '|') === false && !$search_auto_operator_or){
-						$can_use_indexed_search = true;
-					}
-				}
+				$can_use_indexed_search = true;
 			}
 		}
 		

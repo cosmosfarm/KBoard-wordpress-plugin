@@ -1,4 +1,4 @@
-﻿<?php if(!defined('ABSPATH')) exit;?>
+<?php if(!defined('ABSPATH')) exit;?>
 
 <style>
 :root {
@@ -442,7 +442,7 @@ textarea.kboard-form-control {
 	global $wpdb;
 	$kboard_use_search_index = kboard_use_search_index();
 	$kboard_search_index_total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content`"));
-	$kboard_search_index_indexed = intval($wpdb->get_var("SELECT COUNT(DISTINCT `content_uid`) FROM `{$wpdb->prefix}kboard_search_token`"));
+	$kboard_search_index_indexed = intval($wpdb->get_var("SELECT COUNT(DISTINCT `content_uid`) FROM `{$wpdb->prefix}kboard_search_document`"));
 	$kboard_search_index_remaining = max(0, $kboard_search_index_total - $kboard_search_index_indexed);
 	$kboard_search_index_completed = $kboard_use_search_index && ($kboard_search_index_total == 0 || $kboard_search_index_remaining == 0);
 
@@ -1139,45 +1139,6 @@ textarea.kboard-form-control {
 			</form>
 		</div>
 
-		<!-- Search Index -->
-		<div class="kboard-card" id="kboard_search_index">
-			<form method="post" onsubmit="return kboard_system_option_update(this)">
-				<input type="hidden" name="action" value="kboard_system_option_update">
-				<input type="hidden" name="option[kboard_use_search_index]" value="<?php echo $kboard_use_search_index?'0':'1'?>">
-				<input type="hidden" name="kboard-search-reindex-batch-nonce" value="<?php echo esc_attr(wp_create_nonce('kboard-search-reindex-batch'))?>">
-				<input type="hidden" name="kboard-search-index-enabled" value="<?php echo $kboard_use_search_index?'1':'0'?>">
-				<input type="hidden" name="kboard-search-reindex-limit" value="500">
-
-				<div class="kboard-card-header">
-					<h3 class="kboard-card-title">검색 인덱스</h3>
-					<span class="kboard-badge <?php echo !$kboard_use_search_index ? 'inactive' : ($kboard_search_index_completed ? 'active' : 'warning')?>" data-kboard-search-index-badge>
-						<?php
-						if(!$kboard_use_search_index) echo '비활성';
-						else if($kboard_search_index_completed) echo '완료';
-						else echo '활성';
-						?>
-					</span>
-				</div>
-				<div class="kboard-card-body">
-					<p class="kboard-description">
-						실제 검색 인덱스(토큰 테이블) 사용 여부를 제어하는 옵션입니다.<br>
-						아래 <strong>검색엔진 항상 읽기 가능</strong> 옵션은 크롤러 접근 설정이며, 이 인덱스 활성화와는 별개입니다.
-					</p>
-					<p class="kboard-description mt-2" data-kboard-search-reindex-progress>
-						<?php if($kboard_use_search_index):?>처리 <?php echo intval($kboard_search_index_indexed)?>개 / 전체 <?php echo intval($kboard_search_index_total)?>개 / 남음 <?php echo intval($kboard_search_index_remaining)?>개<?php else:?>검색 인덱스를 활성화하면 전체 재인덱싱을 실행할 수 있습니다.<?php endif?>
-					</p>
-				</div>
-				<div class="kboard-card-footer">
-					<button type="submit" class="kboard-btn full-width <?php echo $kboard_use_search_index?'':'primary'?>" data-kboard-search-index-toggle-button>
-						<?php echo $kboard_use_search_index?'검색 인덱스 비활성화':'검색 인덱스 활성화'?>
-					</button>
-					<button type="button" class="kboard-btn full-width primary" data-kboard-search-reindex-button onclick="return kboard_search_reindex_batch_execute(this.form)"<?php if(!$kboard_use_search_index):?> disabled<?php endif?>>
-						전체 재인덱싱 실행
-					</button>
-				</div>
-			</form>
-		</div>
-
 		<!-- Search Engine Read -->
 		<div class="kboard-card">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
@@ -1200,6 +1161,53 @@ textarea.kboard-form-control {
 				</div>
 				<div class="kboard-card-footer">
 					<button type="submit" class="kboard-btn primary full-width">적용</button>
+				</div>
+			</form>
+		</div>
+		
+		<!-- Search Index -->
+		<div class="kboard-card" id="kboard_search_index">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				<input type="hidden" name="kboard-search-reindex-batch-nonce" value="<?php echo esc_attr(wp_create_nonce('kboard-search-reindex-batch'))?>">
+				<input type="hidden" name="kboard-search-index-enabled" value="<?php echo $kboard_use_search_index?'1':'0'?>">
+				<input type="hidden" name="kboard-search-reindex-limit" value="500">
+
+				<div class="kboard-card-header">
+					<h3 class="kboard-card-title">검색 기능 개선 적용(베타)</h3>
+					<span class="kboard-badge <?php echo !$kboard_use_search_index ? 'inactive' : ($kboard_search_index_completed ? 'active' : 'warning')?>" data-kboard-search-index-badge>
+						<?php
+						if(!$kboard_use_search_index) echo '비활성';
+						else if($kboard_search_index_completed) echo '완료';
+						else echo '활성';
+						?>
+					</span>
+				</div>
+				<div class="kboard-card-body">
+					<p class="kboard-description">
+						게시글 검색 속도를 높이기 위해 FULLTEXT 검색 인덱스를 사용합니다.<br>
+						활성화하면 별도의 검색용 테이블을 생성하여 검색 성능을 개선합니다.<br>
+						<strong>검색엔진 항상 읽기 가능</strong> 옵션은 크롤러 접근 설정이며, 이 인덱스 활성화와는 별개입니다.<br><br>
+						<strong style="color:#c62828">⚠ 서버 리소스 안내</strong><br>
+						게시글이 많을수록(수만 건 이상) 검색 인덱스 테이블의 크기가 커지며, 서버 디스크 공간과 메모리(RAM)를 추가로 사용합니다.<br>
+						게시글 작성/수정 시 인덱스를 갱신하므로 쓰기 성능에 약간의 부하가 발생할 수 있습니다.<br>
+						서버 사양이 낮거나 공유 호스팅 환경에서는 비활성화를 권장합니다.
+					</p>
+					<div class="kboard-input-group mt-4">
+						<select name="option[kboard_use_search_index]" class="kboard-form-control" data-kboard-search-index-select>
+							<option value="">비활성화</option>
+							<option value="1"<?php if($kboard_use_search_index):?> selected<?php endif?>>활성화</option>
+						</select>
+					</div>
+					<p class="kboard-description mt-2" data-kboard-search-reindex-progress>
+						<?php if($kboard_use_search_index):?>처리 <?php echo intval($kboard_search_index_indexed)?>개 / 전체 <?php echo intval($kboard_search_index_total)?>개 / 남음 <?php echo intval($kboard_search_index_remaining)?>개<?php else:?>검색 인덱스를 활성화하면 전체 재인덱싱을 실행할 수 있습니다.<?php endif?>
+					</p>
+				</div>
+				<div class="kboard-card-footer">
+					<button type="submit" class="kboard-btn primary full-width" data-kboard-search-index-apply-button>적용</button>
+					<button type="button" class="kboard-btn full-width primary" data-kboard-search-reindex-button onclick="return kboard_search_reindex_batch_execute(this.form)"<?php if(!$kboard_use_search_index):?> disabled<?php endif?>>
+						전체 재인덱싱 실행
+					</button>
 				</div>
 			</form>
 		</div>
@@ -1316,7 +1324,8 @@ function kboard_svg_batch_restore_execute(form){
 function kboard_search_reindex_batch_execute(form){
 	var formElement = jQuery(form);
 	var reindexButton = formElement.find('[data-kboard-search-reindex-button]');
-	var toggleButton = formElement.find('[data-kboard-search-index-toggle-button]');
+	var applyButton = formElement.find('[data-kboard-search-index-apply-button]');
+	var selectControl = formElement.find('[data-kboard-search-index-select]');
 	var badge = formElement.find('[data-kboard-search-index-badge]');
 	var progress = formElement.find('[data-kboard-search-reindex-progress]');
 	var enabled = formElement.find('input[name="kboard-search-index-enabled"]').val() === '1';
@@ -1335,7 +1344,8 @@ function kboard_search_reindex_batch_execute(form){
 	}
 
 	reindexButton.prop('disabled', true).text('재인덱싱 실행 중...');
-	toggleButton.prop('disabled', true);
+	applyButton.prop('disabled', true);
+	selectControl.prop('disabled', true);
 	badge.removeClass('active inactive').addClass('warning').text('인덱싱');
 	progress.text('처리를 시작합니다...');
 
@@ -1355,7 +1365,8 @@ function kboard_search_reindex_batch_execute(form){
 					errorMessage = jQuery.trim(res);
 				}
 				reindexButton.prop('disabled', false).text('전체 재인덱싱 실행');
-				toggleButton.prop('disabled', false);
+				applyButton.prop('disabled', false);
+				selectControl.prop('disabled', false);
 				badge.removeClass('warning inactive').addClass('active').text('활성');
 				progress.text('재인덱싱 중 오류가 발생했습니다.');
 				alert(errorMessage);
@@ -1365,7 +1376,8 @@ function kboard_search_reindex_batch_execute(form){
 			var data = res.data || {};
 			if(data.disabled){
 				reindexButton.prop('disabled', true).text('전체 재인덱싱 실행');
-				toggleButton.prop('disabled', false);
+				applyButton.prop('disabled', false);
+				selectControl.prop('disabled', false);
 				badge.removeClass('active warning').addClass('inactive').text('비활성');
 				progress.text('검색 인덱스가 비활성화되어 작업이 중단되었습니다.');
 				return;
@@ -1385,15 +1397,18 @@ function kboard_search_reindex_batch_execute(form){
 			}
 
 			reindexButton.prop('disabled', false).text('전체 재인덱싱 다시 실행');
-			toggleButton.prop('disabled', false);
+			applyButton.prop('disabled', false);
+			selectControl.prop('disabled', false);
 			badge.removeClass('warning inactive').addClass('active').text('완료');
+			alert('전체 재인덱싱이 완료되었습니다.');
 		}).fail(function(xhr){
 			var errorMessage = '재인덱싱 중 통신 오류가 발생했습니다.';
 			if(xhr && xhr.responseText && jQuery.trim(xhr.responseText)){
 				errorMessage = jQuery.trim(xhr.responseText);
 			}
 			reindexButton.prop('disabled', false).text('전체 재인덱싱 실행');
-			toggleButton.prop('disabled', false);
+			applyButton.prop('disabled', false);
+			selectControl.prop('disabled', false);
 			badge.removeClass('warning inactive').addClass('active').text('활성');
 			progress.text('재인덱싱 중 통신 오류가 발생했습니다.');
 			alert(errorMessage);

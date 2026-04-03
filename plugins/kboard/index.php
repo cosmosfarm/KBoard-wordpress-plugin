@@ -1896,16 +1896,28 @@ function kboard_activation_execute(){
 	KEY `user_id` (`user_id`)
 	) {$charset_collate};");
 
-	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_search_token` (
-	`token` varchar(32) NOT NULL,
-	`content_uid` bigint(20) unsigned NOT NULL,
-	`field` varchar(20) NOT NULL,
-	`position_count` int(10) unsigned NOT NULL DEFAULT 1,
-	`weight` int(10) unsigned NOT NULL DEFAULT 1,
-	PRIMARY KEY (`token`, `content_uid`, `field`),
-	KEY `content_uid` (`content_uid`),
-	KEY `field` (`field`)
-	) {$charset_collate};");
+	// kboard_search_document 테이블 생성 (FULLTEXT 검색용 그림자 테이블)
+	$search_doc_table = "{$wpdb->prefix}kboard_search_document";
+	$search_doc_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $search_doc_table));
+	if(!$search_doc_exists){
+		$ngram_clause = '';
+		$ngram_check = $wpdb->get_var("SELECT @@ngram_token_size");
+		if($ngram_check !== null && $ngram_check !== false){
+			$ngram_clause = ' WITH PARSER ngram';
+		}
+		$wpdb->query("CREATE TABLE `{$search_doc_table}` (
+		`content_uid` bigint(20) unsigned NOT NULL,
+		`board_id` bigint(20) unsigned NOT NULL,
+		`member_display` varchar(127) NOT NULL,
+		`title_plain` text NOT NULL,
+		`content_plain` longtext NOT NULL,
+		`option_plain` text NOT NULL,
+		PRIMARY KEY (`content_uid`),
+		KEY `board_id` (`board_id`),
+		FULLTEXT INDEX `ft_search` (`title_plain`, `content_plain`, `option_plain`){$ngram_clause},
+		FULLTEXT INDEX `ft_member` (`member_display`){$ngram_clause}
+		) ENGINE=InnoDB {$charset_collate}");
+	}
 	
 	/*
 	 * KBoard 2.9
@@ -2202,20 +2214,7 @@ function kboard_activation_execute(){
 	}
 	unset($index);
 
-	/*
-	 * KBoard 6.6
-	 * kboard_search_token 테이블 인덱스 생성 확인
-	 */
-	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_search_token` WHERE `Key_name`='content_uid'");
-	if(!count($index)){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_search_token` ADD INDEX `content_uid` (`content_uid`)");
-	}
-	unset($index);
-	$index = $wpdb->get_results("SHOW INDEX FROM `{$wpdb->prefix}kboard_search_token` WHERE `Key_name`='field'");
-	if(!count($index)){
-		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_search_token` ADD INDEX `field` (`field`)");
-	}
-	unset($index);
+
 
 	if(get_option('kboard_use_search_index') === false){
 		add_option('kboard_use_search_index', '0', null, 'no');
@@ -2273,7 +2272,6 @@ function kboard_uninstall_execute(){
 	`{$wpdb->prefix}kboard_order_item`,
 	`{$wpdb->prefix}kboard_order_item_meta`,
 	`{$wpdb->prefix}kboard_vote`,
-	`{$wpdb->prefix}kboard_search_document`,
-	`{$wpdb->prefix}kboard_search_token`
+	`{$wpdb->prefix}kboard_search_document`
 	");
 }
