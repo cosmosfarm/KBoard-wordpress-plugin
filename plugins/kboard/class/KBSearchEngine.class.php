@@ -118,10 +118,13 @@ class KBSearchEngine {
 			$days = date('Ymd', strtotime("-" . intval($args['within_days']) . " day", current_time('timestamp')));
 			$conditions[] = "`c`.`date`>='{$days}000000'";
 		}
-		if(intval($args['member_uid'])){
+		if(intval($args['member_uid']) && intval($args['author_id'])){
+			$conditions[] = "(`c`.`member_uid`='" . intval($args['member_uid']) . "' OR `c`.`member_uid`='" . intval($args['author_id']) . "')";
+		}
+		else if(intval($args['member_uid'])){
 			$conditions[] = "`c`.`member_uid`='" . intval($args['member_uid']) . "'";
 		}
-		if(intval($args['author_id'])){
+		else if(intval($args['author_id'])){
 			$conditions[] = "`c`.`member_uid`='" . intval($args['author_id']) . "'";
 		}
 		
@@ -139,15 +142,24 @@ class KBSearchEngine {
 		$rpp = max(1, intval($args['rpp']));
 		$offset = ($page - 1) * $rpp;
 		
-		// 정렬 결정: 사용자 정렬이 날짜/조회/추천순이면 score 계산 생략
+		// 정렬 결정: 허용된 컬럼만 사용, 그 외는 연관도순 정렬
+		$allowed_sort_columns = array(
+			'date'   => '`c`.`date`',
+			'view'   => '`c`.`view`',
+			'vote'   => '`c`.`vote`',
+			'update' => '`c`.`update`',
+		);
 		$sort_col = trim((string) $args['sort']);
 		$use_score_sort = true;
-		
-		// sort가 원본 테이블의 컬럼(date, view, vote, update)을 포함하면 해당 컬럼으로 정렬
-		if($sort_col && preg_match('/\b(`?date`?|`?view`?|`?vote`?|`?update`?)\b/', $sort_col)){
-			$use_score_sort = false;
+		$resolved_sort = '';
+
+		if($sort_col && preg_match('/\b(date|view|vote|update)\b/', $sort_col, $sort_match)){
+			if(isset($allowed_sort_columns[$sort_match[1]])){
+				$resolved_sort = $allowed_sort_columns[$sort_match[1]];
+				$use_score_sort = false;
+			}
 		}
-		
+
 		if($use_score_sort){
 			// 연관도순 정렬
 			$sql = "SELECT `d`.`content_uid`, {$match_clause['score']} AS `score`
@@ -162,7 +174,7 @@ class KBSearchEngine {
 			$sql = "SELECT `d`.`content_uid`
 				FROM {$from}
 				WHERE {$where_sql}
-				ORDER BY {$sort_col} {$order}, `d`.`content_uid` DESC
+				ORDER BY {$resolved_sort} {$order}, `d`.`content_uid` DESC
 				LIMIT {$offset}, {$rpp}";
 		}
 		
