@@ -1899,12 +1899,14 @@ function kboard_activation_execute(){
 	// kboard_search_document 테이블 생성 (FULLTEXT 검색용 그림자 테이블)
 	$search_doc_table = "{$wpdb->prefix}kboard_search_document";
 	$search_doc_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $search_doc_table));
+	$ngram_clause = '';
+	$ngram_check = $wpdb->get_var("SELECT @@ngram_token_size");
+	$ngram_supported = ($ngram_check !== null && $ngram_check !== false);
+	if($ngram_supported){
+		$ngram_clause = ' WITH PARSER ngram';
+	}
+
 	if(!$search_doc_exists){
-		$ngram_clause = '';
-		$ngram_check = $wpdb->get_var("SELECT @@ngram_token_size");
-		if($ngram_check !== null && $ngram_check !== false){
-			$ngram_clause = ' WITH PARSER ngram';
-		}
 		$wpdb->query("CREATE TABLE `{$search_doc_table}` (
 		`content_uid` bigint(20) unsigned NOT NULL,
 		`board_id` bigint(20) unsigned NOT NULL,
@@ -1917,6 +1919,14 @@ function kboard_activation_execute(){
 		FULLTEXT INDEX `ft_search` (`title_plain`, `content_plain`, `option_plain`){$ngram_clause},
 		FULLTEXT INDEX `ft_member` (`member_display`){$ngram_clause}
 		) ENGINE=InnoDB {$charset_collate}");
+	}
+	else if($ngram_supported){
+		// 기존 테이블의 FULLTEXT 인덱스에 ngram 파서가 없으면 재생성
+		$create_sql = $wpdb->get_var("SHOW CREATE TABLE `{$search_doc_table}`", 1);
+		if($create_sql && strpos($create_sql, 'ngram') === false){
+			$wpdb->query("ALTER TABLE `{$search_doc_table}` DROP INDEX `ft_search`, ADD FULLTEXT INDEX `ft_search` (`title_plain`, `content_plain`, `option_plain`) WITH PARSER ngram");
+			$wpdb->query("ALTER TABLE `{$search_doc_table}` DROP INDEX `ft_member`, ADD FULLTEXT INDEX `ft_member` (`member_display`) WITH PARSER ngram");
+		}
 	}
 	
 	/*

@@ -134,7 +134,7 @@ class KBSearchEngine {
 		$total = intval($wpdb->get_var("SELECT COUNT(*) FROM {$from} WHERE {$where_sql}"));
 		
 		if(!$total){
-			return array('total'=>0, 'uids'=>array(), 'fallback'=>false);
+			return array('total'=>0, 'uids'=>array(), 'fallback'=>true);
 		}
 		
 		// 페이지네이션
