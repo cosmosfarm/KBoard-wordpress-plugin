@@ -386,6 +386,7 @@ button.kboard-avatar-button-small:hover {
 	border-collapse: collapse;
 	table-layout: fixed;
 	border: 0;
+	margin: 0;
 }
 
 #kboard-avatar-list .kboard-list thead {
