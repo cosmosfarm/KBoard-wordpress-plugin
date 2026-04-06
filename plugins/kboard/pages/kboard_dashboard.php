@@ -958,7 +958,29 @@ textarea.kboard-form-control {
 				</div>
 			</form>
 		</div>
-
+		
+		<!-- Public Data Portal API -->
+		<div class="kboard-card" id="kboard_public_data_portal_api_setting">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				
+				<div class="kboard-card-header">
+					<h3 class="kboard-card-title">공공데이터포털 API</h3>
+				</div>
+				<div class="kboard-card-body">
+					<p class="kboard-description mb-2">
+						<a href="https://www.data.go.kr" target="_blank">공공데이터포털</a>에서 발급받은 서비스 키를 입력하세요.
+					</p>
+					<div class="kboard-input-group">
+						<input type="text" class="kboard-form-control" name="option[kboard_public_data_portal_api_key]" value="<?php echo esc_attr(get_option('kboard_public_data_portal_api_key'))?>" placeholder="서비스 키">
+					</div>
+				</div>
+				<div class="kboard-card-footer">
+					<button type="submit" class="kboard-btn primary full-width">업데이트</button>
+				</div>
+			</form>
+		</div>
+		
 		<!-- PG: KG Inicis -->
 		<div class="kboard-card" id="kboard_builtin_pg_inicis">
 			<form method="post" onsubmit="return kboard_system_option_update(this)">
