@@ -110,6 +110,7 @@ class KBoardBuilder
 				wp_enqueue_script('kboard-script');
 			}
 
+			$use_editor = kboard_normalize_editor_value($this->board->use_editor);
 			wp_localize_script('kboard-script', 'kboard_current', array(
 				'board_id'          => $this->board_id,
 				'content_uid'       => $this->uid,
@@ -122,7 +123,9 @@ class KBoardBuilder
 					'media_group' => kboard_media_group(),
 					'content_uid' => ($this->mod == 'editor' ? $this->uid : '')
 				), home_url('/', 'relative'))),
-				'use_editor' => $this->board->use_editor,
+				'use_editor' => $use_editor,
+				'editor_root_selector' => '#kboard-editor-root',
+				'editor_textarea_id' => 'kboard_content',
 			));
 
 			// KBoard 미디어 추가
@@ -498,6 +501,7 @@ class KBoardBuilder
 
 		$board = $this->board;
 		$content->board = $board;
+		$editor = kboard_normalize_editor_value($board->use_editor);
 		$board->content = $content;
 
 		$order = new KBOrder();
@@ -665,6 +669,7 @@ class KBoardBuilder
 
 		$board = $this->board;
 		$content->board = $board;
+		$editor = kboard_normalize_editor_value($board->use_editor);
 		$board->content = $content;
 
 		$order = new KBOrder();
@@ -789,7 +794,7 @@ class KBoardBuilder
 			$content->content = str_replace('[', '&#91;', $content->getContent());
 			$content->content = str_replace(']', '&#93;', $content->getContent());
 
-			if ($board->use_editor == 'snote') { // summernote
+			if ($editor == 'snote') { // summernote
 				wp_print_styles('summernote'); // wp_head() 이후이므로 직접 출력
 				wp_enqueue_script('summernote');
 
@@ -797,6 +802,18 @@ class KBoardBuilder
 					wp_enqueue_script('summernote-ko-KR');
 				} else if (get_locale() == 'ja') {
 					wp_enqueue_script('summernote-ja-JP');
+				}
+			}
+			else if (in_array($editor, array('tiptap', 'editorjs'))) {
+				wp_enqueue_script('kboard-editor-registry');
+				wp_enqueue_script('kboard-editor-bootstrap');
+
+				if ($editor == 'tiptap') {
+					wp_enqueue_script('kboard-editor-tiptap-runtime');
+					wp_enqueue_script('kboard-editor-tiptap-adapter');
+				}
+				else if ($editor == 'editorjs') {
+					wp_enqueue_script('kboard-editor-editorjs-adapter');
 				}
 			}
 

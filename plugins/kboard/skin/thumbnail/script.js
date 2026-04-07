@@ -18,6 +18,10 @@ function kboard_editor_execute(form){
 	/*
 	 * 폼 유효성 검사
 	 */
+	if(typeof kboard_editor_sync_content === 'function'){
+		kboard_editor_sync_content(form);
+	}
+
 	var validation = '';
 	kboard_fields_validation(form, function(fields){
 		if(fields){

@@ -780,11 +780,28 @@ function kboard_content_status_list(){
  */
 function kboard_content_editor_list(){
 	$editor_list = array(
-		''      => 'textarea 사용',
-		'yes'   => '워드프레스 내장 에디터 사용',
-		'snote' => '썸머노트 에디터 사용',
+		''        => 'textarea 사용',
+		'yes'     => '워드프레스 내장 에디터 사용',
+		'snote'   => '썸머노트 에디터 사용',
+		'tiptap'  => 'TipTap 에디터 사용',
+		'editorjs'=> 'Editor.js 에디터 사용',
 	);
 	return apply_filters('kboard_content_editor_list', $editor_list);
+}
+
+function kboard_normalize_editor_value($value){
+	$value = trim(strtolower((string)$value));
+	if($value === ''){
+		return '';
+	}
+	$editor_aliases = array(
+		'tptp' => 'tiptap',
+		'edjs' => 'editorjs',
+	);
+	if(isset($editor_aliases[$value])){
+		return $editor_aliases[$value];
+	}
+	return $value;
 }
 
 /**
@@ -807,11 +824,17 @@ function kboard_content_editor($vars=array()){
 	
 	ob_start();
 	
-	if($board->use_editor == 'yes'){
+	$current_editor = kboard_normalize_editor_value($board->use_editor);
+
+	if($current_editor == 'yes'){
 		wp_editor($content->content, 'kboard_content', array('media_buttons'=>$board->isAdmin(), 'editor_height'=>$editor_height));
 	}
-	else if($board->use_editor == 'snote'){ // summernote
+	else if($current_editor == 'snote'){ // summernote
 		echo sprintf('<textarea id="kboard_content" class="summernote" name="kboard_content" style="height:%dpx;" placeholder="%s">%s</textarea>', $editor_height, esc_attr($placeholder), esc_html(kboard_content_paragraph_breaks($content->content)));
+	}
+	else if(in_array($current_editor, array('tiptap', 'editorjs'))){
+		echo sprintf('<textarea id="kboard_content" class="editor-textarea %s" name="kboard_content" style="display:none;" placeholder="%s">%s</textarea>', esc_attr($required), esc_attr($placeholder), esc_textarea($content->content));
+		echo sprintf('<div id="kboard-editor-root" class="kboard-editor-root kboard-editor-root-%s" data-kboard-editor="%s"></div>', esc_attr($current_editor), esc_attr($current_editor));
 	}
 	else{
 		echo sprintf('<textarea id="kboard_content" class="editor-textarea %s" name="kboard_content" placeholder="%s">%s</textarea>', esc_attr($required), esc_attr($placeholder), esc_textarea($content->content));

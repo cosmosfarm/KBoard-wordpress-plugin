@@ -1227,6 +1227,45 @@ add_action('wp_ajax_kboard_ajax_builder', 'kboard_ajax_builder');
 add_action('wp_ajax_nopriv_kboard_ajax_builder', 'kboard_ajax_builder');
 
 /**
+ * 에디터 이미지 AJAX 업로드 (Editor.js 등에서 사용)
+ */
+function kboard_media_ajax_upload(){
+	check_ajax_referer('kboard_ajax_security', 'security');
+
+	global $wpdb;
+
+	$board_id = intval(isset($_POST['board_id']) ? $_POST['board_id'] : 0);
+	$media_group = kboard_htmlclear(isset($_POST['media_group']) ? $_POST['media_group'] : '');
+	$content_uid = intval(isset($_POST['content_uid']) ? $_POST['content_uid'] : 0);
+
+	$media = new KBContentMedia();
+	$media->board_id = $board_id;
+	$media->media_group = $media_group;
+	$media->content_uid = $content_uid;
+
+	if(!$media->hasPermission()){
+		wp_send_json(array('success' => 0, 'message' => __('You do not have permission.', 'kboard')));
+	}
+
+	if(empty($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK){
+		wp_send_json(array('success' => 0, 'message' => __('File upload failed.', 'kboard')));
+	}
+
+	$_FILES['kboard_media_file'] = $_FILES['image'];
+	$media->upload();
+
+	$row = $wpdb->get_row("SELECT `file_path` FROM `{$wpdb->prefix}kboard_meida` WHERE `media_group`='" . esc_sql($media_group) . "' ORDER BY `uid` DESC LIMIT 1");
+
+	if($row && $row->file_path){
+		wp_send_json(array('success' => 1, 'file' => array('url' => site_url($row->file_path))));
+	}
+
+	wp_send_json(array('success' => 0, 'message' => __('File upload failed.', 'kboard')));
+}
+add_action('wp_ajax_kboard_media_ajax_upload', 'kboard_media_ajax_upload');
+add_action('wp_ajax_nopriv_kboard_media_ajax_upload', 'kboard_media_ajax_upload');
+
+/**
  * 관리자 알림 출력
  */
 function kboard_admin_notices(){
@@ -1327,9 +1366,25 @@ function kboard_scripts(){
 	
 	// Summernot 등록
 	wp_register_style('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.css', array(), '0.8.18');
-	wp_register_script('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.js', array('jquery'), '0.8.18');
-	wp_register_script('summernote-ko-KR', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ko-KR.js', array('summernote'), '0.8.18');
-	wp_register_script('summernote-ja-JP', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ja-JP.js', array('summernote'), '0.8.18');
+	wp_register_script('summernote', KBOARD_URL_PATH . '/assets/summernote/summernote-lite.js', array('jquery'), '0.8.18', true);
+	wp_register_script('summernote-ko-KR', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ko-KR.js', array('summernote'), '0.8.18', true);
+	wp_register_script('summernote-ja-JP', KBOARD_URL_PATH . '/assets/summernote/lang/summernote-ja-JP.js', array('summernote'), '0.8.18', true);
+
+	// 신규 에디터 스캐폴드 런타임 등록
+	wp_register_script('kboard-editor-registry', KBOARD_URL_PATH . '/assets/editor-scaffold/kboard-editor-registry.js', array(), KBOARD_VERSION, true);
+	wp_register_script('kboard-editor-tiptap-runtime', KBOARD_URL_PATH . '/assets/editor-scaffold/kboard-editor-tiptap-runtime.js', array(), KBOARD_VERSION, true);
+	wp_register_script('kboard-editor-tiptap-adapter', KBOARD_URL_PATH . '/assets/editor-scaffold/adapters/tiptap-adapter.js', array('kboard-editor-registry', 'kboard-editor-tiptap-runtime'), KBOARD_VERSION, true);
+	wp_register_script('kboard-editor-editorjs-adapter', KBOARD_URL_PATH . '/assets/editor-scaffold/adapters/editorjs-adapter.js', array('kboard-editor-registry', 'kboard-editorjs-core', 'kboard-editorjs-header', 'kboard-editorjs-list', 'kboard-editorjs-quote', 'kboard-editorjs-image', 'kboard-editorjs-delimiter', 'kboard-editorjs-code', 'kboard-editorjs-table', 'kboard-editorjs-warning'), KBOARD_VERSION, true);
+	wp_register_script('kboard-editor-bootstrap', KBOARD_URL_PATH . '/assets/editor-scaffold/kboard-editor-bootstrap.js', array('kboard-editor-registry'), KBOARD_VERSION, true);
+	wp_register_script('kboard-editorjs-core', 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest', array(), 'latest', true);
+	wp_register_script('kboard-editorjs-header', 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-list', 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-quote', 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-image', 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-delimiter', 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-code', 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-table', 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest', array('kboard-editorjs-core'), 'latest', true);
+	wp_register_script('kboard-editorjs-warning', 'https://cdn.jsdelivr.net/npm/@editorjs/warning@latest', array('kboard-editorjs-core'), 'latest', true);
 	
 	// jQuery Timepicker 등록
 	wp_register_style('jquery-timepicker', KBOARD_URL_PATH . '/template/css/jquery.timepicker.css', array(), '1.3.5');
@@ -1493,6 +1548,19 @@ function kboard_scripts(){
 }
 add_action('wp_enqueue_scripts', 'kboard_scripts', 999);
 add_action('kboard_switch_to_blog', 'kboard_scripts');
+
+function kboard_editor_tiptap_runtime_script_loader_tag($tag, $handle, $src){
+	if($handle !== 'kboard-editor-tiptap-runtime'){
+		return $tag;
+	}
+
+	if(stripos($tag, 'type=') !== false){
+		return preg_replace('/type=("|\')([^"\']*)("|\')/i', 'type="module"', $tag, 1);
+	}
+
+	return str_replace('<script', '<script type="module"', $tag);
+}
+add_filter('script_loader_tag', 'kboard_editor_tiptap_runtime_script_loader_tag', 10, 3);
 
 /**
  * 관리자 페이지 스타일 파일을 출력한다.
@@ -1731,7 +1799,7 @@ function kboard_activation_execute(){
 	`board_name` varchar(127) NOT NULL,
 	`skin` varchar(127) NOT NULL,
 	`use_comment` varchar(5) NOT NULL,
-	`use_editor` varchar(5) NOT NULL,
+	`use_editor` varchar(16) NOT NULL,
 	`permission_read` varchar(127) NOT NULL,
 	`permission_write` varchar(127) NOT NULL,
 	`admin_user` text NOT NULL,
@@ -2223,6 +2291,16 @@ function kboard_activation_execute(){
 		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_setting` ADD INDEX `skin` (`skin`)");
 	}
 	unset($index);
+
+	/*
+	 * KBoard 6.6
+	 * kboard_board_setting 테이블의 use_editor 컬럼 길이 확장
+	 */
+	$column = $wpdb->get_row("SHOW COLUMNS FROM `{$wpdb->prefix}kboard_board_setting` LIKE 'use_editor'");
+	if(isset($column->Type) && preg_match('/varchar\((\d+)\)/i', $column->Type, $matches) && intval($matches[1]) < 16){
+		$wpdb->query("ALTER TABLE `{$wpdb->prefix}kboard_board_setting` MODIFY `use_editor` varchar(16) NOT NULL");
+	}
+	unset($column, $matches);
 
 
 

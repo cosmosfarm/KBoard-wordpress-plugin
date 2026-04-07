@@ -1572,6 +1572,277 @@ button.kboard-avatar-button-small:hover {
 	}
 }
 
+/* ============================================
+   Editor.js Visibility & Usability Patch
+   ============================================ */
+#kboard-editor-root,
+.kboard-editor-root-editorjs,
+.kboard-editor-scaffold {
+	--kboard-editorjs-left-gutter: 44px;
+	position: relative;
+	margin: 8px 0 0;
+	padding: 12px;
+	min-height: 280px;
+	background-color: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
+	overflow: visible;
+}
+
+@media screen and (max-width: 768px) {
+	#kboard-editor-root,
+	.kboard-editor-root-editorjs,
+	.kboard-editor-scaffold {
+		--kboard-editorjs-left-gutter: 36px;
+	}
+}
+
+#kboard-editor-root:focus-within,
+.kboard-editor-root-editorjs:focus-within,
+.kboard-editor-scaffold:focus-within {
+	border-color: var(--kboard-primary);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+#kboard-editor-root .codex-editor,
+.kboard-editor-root-editorjs .codex-editor,
+.kboard-editor-scaffold .codex-editor {
+	position: relative;
+	z-index: 1;
+	overflow: visible;
+}
+
+#kboard-editor-root .codex-editor__redactor,
+.kboard-editor-root-editorjs .codex-editor__redactor,
+.kboard-editor-scaffold .codex-editor__redactor {
+	overflow: visible;
+}
+
+#kboard-editor-root .ce-block,
+.kboard-editor-root-editorjs .ce-block,
+.kboard-editor-scaffold .ce-block {
+	padding: 2px 0;
+	margin-bottom: 8px;
+}
+
+#kboard-editor-root .ce-block:last-child,
+.kboard-editor-root-editorjs .ce-block:last-child,
+.kboard-editor-scaffold .ce-block:last-child {
+	margin-bottom: 0;
+}
+
+#kboard-editor-root .ce-block__content,
+#kboard-editor-root .ce-toolbar__content,
+.kboard-editor-root-editorjs .ce-block__content,
+.kboard-editor-root-editorjs .ce-toolbar__content,
+.kboard-editor-scaffold .ce-block__content,
+.kboard-editor-scaffold .ce-toolbar__content {
+	max-width: calc(100% - var(--kboard-editorjs-left-gutter));
+	margin-left: var(--kboard-editorjs-left-gutter);
+	margin-right: 0;
+}
+
+#kboard-editor-root .ce-paragraph,
+#kboard-editor-root .ce-header,
+#kboard-editor-root .cdx-list,
+.kboard-editor-root-editorjs .ce-paragraph,
+.kboard-editor-root-editorjs .ce-header,
+.kboard-editor-root-editorjs .cdx-list,
+.kboard-editor-scaffold .ce-paragraph,
+.kboard-editor-scaffold .ce-header,
+.kboard-editor-scaffold .cdx-list {
+	color: var(--kboard-text);
+	line-height: 1.7;
+}
+
+#kboard-editor-root .ce-paragraph[data-placeholder]:empty::before,
+#kboard-editor-root .ce-header[data-placeholder]:empty::before,
+.kboard-editor-root-editorjs .ce-paragraph[data-placeholder]:empty::before,
+.kboard-editor-root-editorjs .ce-header[data-placeholder]:empty::before,
+.kboard-editor-scaffold .ce-paragraph[data-placeholder]:empty::before,
+.kboard-editor-scaffold .ce-header[data-placeholder]:empty::before {
+	color: var(--kboard-text-muted);
+	opacity: 0.7;
+}
+
+#kboard-editor-root .ce-toolbar,
+#kboard-editor-root .ce-inline-toolbar,
+#kboard-editor-root .ce-popover,
+#kboard-editor-root .ce-conversion-toolbar,
+#kboard-editor-root .ce-settings,
+.kboard-editor-root-editorjs .ce-toolbar,
+.kboard-editor-root-editorjs .ce-inline-toolbar,
+.kboard-editor-root-editorjs .ce-popover,
+.kboard-editor-root-editorjs .ce-conversion-toolbar,
+.kboard-editor-root-editorjs .ce-settings,
+.kboard-editor-scaffold .ce-toolbar,
+.kboard-editor-scaffold .ce-inline-toolbar,
+.kboard-editor-scaffold .ce-popover,
+.kboard-editor-scaffold .ce-conversion-toolbar,
+.kboard-editor-scaffold .ce-settings {
+	left: 0;
+	right: 0;
+	overflow: visible;
+	visibility: visible;
+	opacity: 1;
+	z-index: 1000;
+}
+
+#kboard-editor-root .ce-toolbar__plus,
+#kboard-editor-root .ce-toolbar__settings-btn,
+.kboard-editor-root-editorjs .ce-toolbar__plus,
+.kboard-editor-root-editorjs .ce-toolbar__settings-btn,
+.kboard-editor-scaffold .ce-toolbar__plus,
+.kboard-editor-scaffold .ce-toolbar__settings-btn {
+	visibility: visible;
+	opacity: 1;
+	color: var(--kboard-text);
+	background-color: #fff;
+	border: 1px solid var(--kboard-border);
+	border-radius: 999px;
+	box-shadow: var(--kboard-shadow-sm);
+}
+
+#kboard-editor-root .ce-toolbar__plus:hover,
+#kboard-editor-root .ce-toolbar__plus:focus,
+#kboard-editor-root .ce-toolbar__settings-btn:hover,
+#kboard-editor-root .ce-toolbar__settings-btn:focus,
+.kboard-editor-root-editorjs .ce-toolbar__plus:hover,
+.kboard-editor-root-editorjs .ce-toolbar__plus:focus,
+.kboard-editor-root-editorjs .ce-toolbar__settings-btn:hover,
+.kboard-editor-root-editorjs .ce-toolbar__settings-btn:focus,
+.kboard-editor-scaffold .ce-toolbar__plus:hover,
+.kboard-editor-scaffold .ce-toolbar__plus:focus,
+.kboard-editor-scaffold .ce-toolbar__settings-btn:hover,
+.kboard-editor-scaffold .ce-toolbar__settings-btn:focus {
+	color: var(--kboard-primary);
+	border-color: var(--kboard-primary);
+	background-color: var(--kboard-bg-alt);
+}
+
+#kboard-editor-root .ce-block:focus-within .ce-toolbar__plus,
+#kboard-editor-root .ce-block:focus-within .ce-toolbar__settings-btn,
+#kboard-editor-root .ce-block--focused .ce-toolbar__plus,
+#kboard-editor-root .ce-block--focused .ce-toolbar__settings-btn,
+#kboard-editor-root .ce-block--empty .ce-toolbar__plus,
+#kboard-editor-root .ce-block--empty .ce-toolbar__settings-btn,
+.kboard-editor-root-editorjs .ce-block:focus-within .ce-toolbar__plus,
+.kboard-editor-root-editorjs .ce-block:focus-within .ce-toolbar__settings-btn,
+.kboard-editor-root-editorjs .ce-block--focused .ce-toolbar__plus,
+.kboard-editor-root-editorjs .ce-block--focused .ce-toolbar__settings-btn,
+.kboard-editor-root-editorjs .ce-block--empty .ce-toolbar__plus,
+.kboard-editor-root-editorjs .ce-block--empty .ce-toolbar__settings-btn,
+.kboard-editor-scaffold .ce-block:focus-within .ce-toolbar__plus,
+.kboard-editor-scaffold .ce-block:focus-within .ce-toolbar__settings-btn,
+.kboard-editor-scaffold .ce-block--focused .ce-toolbar__plus,
+.kboard-editor-scaffold .ce-block--focused .ce-toolbar__settings-btn,
+.kboard-editor-scaffold .ce-block--empty .ce-toolbar__plus,
+.kboard-editor-scaffold .ce-block--empty .ce-toolbar__settings-btn {
+	visibility: visible;
+	opacity: 1;
+}
+
+#kboard-editor-root .ce-popover,
+#kboard-editor-root .ce-conversion-toolbar,
+.kboard-editor-root-editorjs .ce-popover,
+.kboard-editor-root-editorjs .ce-conversion-toolbar,
+.kboard-editor-scaffold .ce-popover,
+.kboard-editor-scaffold .ce-conversion-toolbar {
+	border: 1px solid var(--kboard-border);
+	box-shadow: var(--kboard-shadow-sm);
+}
+
+.kboard-content hr,
+.kboard-content .kboard-editorjs-delimiter,
+.kboard-content .kboard-editorjs-block-delimiter,
+.kboard-document-content hr,
+.kboard-document-content .kboard-editorjs-delimiter,
+.kboard-document-content .kboard-editorjs-block-delimiter {
+	margin: 18px 0;
+	border: 0;
+	height: 0;
+	border-top: 1px solid var(--kboard-border);
+}
+
+.kboard-content pre,
+.kboard-content .kboard-editorjs-code,
+.kboard-content .kboard-editorjs-block-code,
+.kboard-document-content pre,
+.kboard-document-content .kboard-editorjs-code,
+.kboard-document-content .kboard-editorjs-block-code {
+	margin: 16px 0;
+	padding: 12px;
+	overflow: auto;
+	background-color: var(--kboard-bg-alt);
+	border: 1px solid var(--kboard-border);
+	border-radius: var(--kboard-radius);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.kboard-content table,
+.kboard-content .kboard-editorjs-table,
+.kboard-content .kboard-editorjs-block-table,
+.kboard-document-content table,
+.kboard-document-content .kboard-editorjs-table,
+.kboard-document-content .kboard-editorjs-block-table {
+	width: 100%;
+	margin: 16px 0;
+	border-collapse: collapse;
+	border: 1px solid var(--kboard-border);
+	font-size: 14px;
+}
+
+.kboard-content table th,
+.kboard-content table td,
+.kboard-content .kboard-editorjs-table th,
+.kboard-content .kboard-editorjs-table td,
+.kboard-content .kboard-editorjs-block-table th,
+.kboard-content .kboard-editorjs-block-table td,
+.kboard-document-content table th,
+.kboard-document-content table td,
+.kboard-document-content .kboard-editorjs-table th,
+.kboard-document-content .kboard-editorjs-table td,
+.kboard-document-content .kboard-editorjs-block-table th,
+.kboard-document-content .kboard-editorjs-block-table td {
+	padding: 10px;
+	border: 1px solid var(--kboard-border);
+	vertical-align: top;
+}
+
+.kboard-content .kboard-warning,
+.kboard-content .kboard-editorjs-warning,
+.kboard-content .kboard-editorjs-block-warning,
+.kboard-document-content .kboard-warning,
+.kboard-document-content .kboard-editorjs-warning,
+.kboard-document-content .kboard-editorjs-block-warning {
+	margin: 16px 0;
+	padding: 12px 14px;
+	background-color: var(--kboard-bg-alt);
+	border: 1px solid var(--kboard-border);
+	border-left: 3px solid var(--kboard-primary);
+	border-radius: var(--kboard-radius);
+	line-height: 1.7;
+}
+
+.kboard-content .kboard-editorjs-checklist,
+.kboard-content .kboard-editorjs-block-checklist,
+.kboard-document-content .kboard-editorjs-checklist,
+.kboard-document-content .kboard-editorjs-block-checklist {
+	margin: 16px 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+.kboard-content .kboard-editorjs-checklist li,
+.kboard-content .kboard-editorjs-block-checklist li,
+.kboard-document-content .kboard-editorjs-checklist li,
+.kboard-document-content .kboard-editorjs-block-checklist li {
+	margin: 0 0 8px;
+	padding-left: 2px;
+}
+
 /* =========================================================
    Editor Styles (Ported from Default Skin)
    ========================================================= */

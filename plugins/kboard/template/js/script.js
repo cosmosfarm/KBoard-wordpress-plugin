@@ -23,6 +23,7 @@
 
 var kboard_ajax_lock = false;
 if(typeof kboard_current == 'undefined') var kboard_current = {};
+if(typeof window.kboard_editor_runtime == 'undefined') window.kboard_editor_runtime = null;
 
 jQuery(document).ready(function(){
 	var kboard_mod = kboard_current.mod ? kboard_current.mod : jQuery('input[name=mod]', '.kboard-form').val();
@@ -84,8 +85,68 @@ jQuery(document).ready(function(){
 				});
 			});
 		}
+
+		kboard_editor_mount_scaffold();
 	}
 });
+
+function kboard_editor_mount_scaffold(){
+	var adapter = kboard_current.use_editor;
+	var mountEditor = function(){
+		try{
+			window.kboard_editor_runtime = window.KBoardEditorBootstrap.mount({
+				adapter: adapter,
+				selector: kboard_current.editor_root_selector ? kboard_current.editor_root_selector : '#kboard-editor-root',
+				textareaId: kboard_current.editor_textarea_id ? kboard_current.editor_textarea_id : 'kboard_content',
+				formSelector: '.kboard-form'
+			});
+		}
+		catch(error){
+			window.kboard_editor_runtime = null;
+			if(window.console && console.error){
+				console.error('[KBoard] Failed to mount editor scaffold:', error);
+			}
+			jQuery('#kboard_content').show();
+		}
+
+		return window.kboard_editor_runtime;
+	};
+
+	if(adapter != 'tiptap' && adapter != 'editorjs'){
+		return null;
+	}
+	if(window.kboard_editor_runtime && window.kboard_editor_runtime.adapter){
+		return window.kboard_editor_runtime;
+	}
+	if(typeof window.KBoardEditorBootstrap == 'undefined' || !window.KBoardEditorBootstrap.mount){
+		return null;
+	}
+
+	if(adapter == 'tiptap' && window.kboardTipTapReady && typeof window.kboardTipTapReady.then === 'function'){
+		window.kboardTipTapReady.then(function(){
+			mountEditor();
+		}).catch(function(error){
+			if(window.console && console.error){
+				console.error('[KBoard] TipTap runtime failed:', error);
+			}
+			jQuery('#kboard_content').show();
+		});
+		return null;
+	}
+
+	return mountEditor();
+}
+
+function kboard_editor_sync_content(form){
+	var runtime = window.kboard_editor_runtime;
+	var textarea = jQuery('#kboard_content', form).length ? jQuery('#kboard_content', form) : jQuery('#kboard_content');
+
+	if(runtime && runtime.adapter && typeof runtime.adapter.getHTML === 'function' && textarea.length){
+		textarea.val(runtime.adapter.getHTML());
+	}
+
+	return textarea.length ? textarea.val() : '';
+}
 
 function kboard_tree_category_search(index, value, element){
 	var length = jQuery('.kboard-search-option-wrap').length;
@@ -277,7 +338,10 @@ function kboard_editor_open_media(){
 }
 
 function kboard_editor_insert_media(url){
-	if(kboard_current.use_editor == 'snote'){ // summernote
+	if(window.kboard_editor_runtime && window.kboard_editor_runtime.adapter && typeof window.kboard_editor_runtime.adapter.insertMedia == 'function'){
+		window.kboard_editor_runtime.adapter.insertMedia(url);
+	}
+	else if(kboard_current.use_editor == 'snote'){ // summernote
 		jQuery('#kboard_content').summernote('editor.saveRange');
 		jQuery('#kboard_content').summernote('editor.restoreRange');
 		jQuery('#kboard_content').summernote('editor.focus');
@@ -412,6 +476,9 @@ function kboard_fields_validation(form, callback){
 				if(jQuery('#wp-kboard_content-wrap').hasClass('tmce-active')){
 					jQuery('#kboard_content').val(tinymce.get('kboard_content').getContent());
 				}
+			}
+			else if(kboard_current.use_editor == 'tiptap' || kboard_current.use_editor == 'editorjs'){
+				kboard_editor_sync_content(form);
 			}
 			required = jQuery('#kboard_content');
 		}

@@ -43,6 +43,7 @@ class KBAdminController {
 			$page_rpp         = isset($_POST['page_rpp'])         ? esc_sql(sanitize_text_field($_POST['page_rpp']))         : '';
 			$use_comment      = isset($_POST['use_comment'])      ? esc_sql(sanitize_text_field($_POST['use_comment']))      : '';
 			$use_editor       = isset($_POST['use_editor'])       ? esc_sql(sanitize_text_field($_POST['use_editor']))       : '';
+			$use_editor       = kboard_normalize_editor_value($use_editor);
 			$permission_read  = isset($_POST['permission_read'])  ? esc_sql(sanitize_text_field($_POST['permission_read']))  : '';
 			$permission_write = isset($_POST['permission_write']) ? esc_sql(sanitize_text_field($_POST['permission_write'])) : '';
 			$admin_user       = isset($_POST['admin_user'])       ? implode(',', array_map('esc_sql', array_map('sanitize_text_field', explode(',', $_POST['admin_user']))))     : '';
