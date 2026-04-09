@@ -402,11 +402,19 @@
           tools.warning = { class: global.Warning, inlineToolbar: true };
         }
         if (global.ImageTool) {
+          /* Image tool — hidden from toolbox, used for rendering image blocks + drag-and-drop */
           tools.image = {
             class: global.ImageTool,
+            toolbox: false,
             config: {
               uploader: {
                 uploadByFile: function uploadByFile(file) {
+                  /* Ignore internal drag (browser generates 'image.png' or empty name for dragged-in page images) */
+                  var fname = (file && file.name) || '';
+                  if (/^image\.(png|jpeg|jpg|gif|bmp|webp)$/i.test(fname) && file.lastModified && (Date.now() - file.lastModified < 1000)) {
+                    return Promise.reject(new Error('internal-drag'));
+                  }
+
                   var settings = global.kboard_settings || {};
                   var current = global.kboard_current || {};
                   if (!settings.ajax_url || !settings.ajax_security) {
@@ -434,6 +442,43 @@
               }
             }
           };
+
+          /* KBoard media selector — visible in toolbox, opens KBoard media popup */
+          var KBoardMediaTool = function KBoardMediaTool(params) {
+            this.api = params.api;
+          };
+          KBoardMediaTool.prototype.render = function render() {
+            if (typeof global.kboard_editor_open_media === 'function') {
+              global.kboard_editor_open_media();
+            }
+            var div = document.createElement('div');
+            var api = this.api;
+            setTimeout(function () {
+              var idx = api.blocks.getCurrentBlockIndex();
+              if (idx >= 0) api.blocks.delete(idx);
+            }, 100);
+            return div;
+          };
+          KBoardMediaTool.prototype.save = function save() { return undefined; };
+          KBoardMediaTool.prototype.validate = function validate() { return false; };
+
+          try {
+            Object.defineProperty(KBoardMediaTool, 'toolbox', {
+              get: function () {
+                return {
+                  title: '\uc774\ubbf8\uc9c0',
+                  icon: '<svg width="17" height="15" viewBox="0 0 336 276"><path d="M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 30zm0 52l-43-30-56 30-81-67-66 39v23c0 19 15 34 34 34h178c17 0 31-13 34-29zM79 0h178c44 0 79 35 79 79v118c0 44-35 79-79 79H79c-44 0-79-35-79-79V79C0 35 35 0 79 0z"/></svg>'
+                };
+              }
+            });
+          } catch (e) {
+            KBoardMediaTool.toolbox = {
+              title: '\uc774\ubbf8\uc9c0',
+              icon: '<svg width="17" height="15" viewBox="0 0 336 276"><path d="M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 30zm0 52l-43-30-56 30-81-67-66 39v23c0 19 15 34 34 34h178c17 0 31-13 34-29zM79 0h178c44 0 79 35 79 79v118c0 44-35 79-79 79H79c-44 0-79-35-79-79V79C0 35 35 0 79 0z"/></svg>'
+            };
+          }
+
+          tools.kboardImage = { class: KBoardMediaTool };
         }
 
         editor = new EditorJS({
