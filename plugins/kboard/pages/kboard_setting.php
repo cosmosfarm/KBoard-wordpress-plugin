@@ -317,6 +317,16 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="notice_list_show">공지사항 일반 리스트 노출</label></th>
+						<td>
+							<select name="notice_list_show" id="notice_list_show">
+								<option value="">비활성화</option>
+								<option value="1"<?php if($meta->notice_list_show):?> selected<?php endif?>>활성화</option>
+							</select>
+							<p class="description">활성화하면 공지사항으로 작성된 게시글이 상단 고정 목록뿐만 아니라 하단 일반 리스트에도 최신 순서에 맞춰 나타납니다.</p>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="list_sorting_range_select">기간 내 게시글만 표시하기(NEW)</label></th>
 						<td>
 							<select name="list_sorting_range_select" id="list_sorting_range_select">

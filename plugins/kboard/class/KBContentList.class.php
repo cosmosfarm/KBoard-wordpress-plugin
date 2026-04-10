@@ -810,7 +810,7 @@ class KBContentList {
 		}
 		
 		// 공지사항이 아닌 게시글만 불러온다.
-		if(!$with_notice) $this->where[] = "`{$wpdb->prefix}kboard_board_content`.`notice`=''";
+		if(!$with_notice && !$board->meta->notice_list_show) $this->where[] = "`{$wpdb->prefix}kboard_board_content`.`notice`=''";
 		
 		// 휴지통에 없는 게시글만 불러온다.
 		$get_list_status_query = kboard_get_list_status_query($this->board_id, "{$wpdb->prefix}kboard_board_content");
