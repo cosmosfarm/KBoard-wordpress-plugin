@@ -51,6 +51,11 @@
 
         event.preventDefault();
         result.then(function () {
+          if (global.jQuery && global.jQuery(form).data('submitted') != 'submitted') {
+            form.__kboardEditorForwardSubmit = false;
+            return;
+          }
+
           form.__kboardEditorForwardSubmit = true;
           form.submit();
         }).catch(function (error) {
