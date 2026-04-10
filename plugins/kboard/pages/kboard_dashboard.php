@@ -1034,7 +1034,7 @@ textarea.kboard-form-control {
 				<input type="hidden" name="action" value="kboard_system_option_update">
 				
 				<div class="kboard-card-header">
-					<h3 class="kboard-card-title">PG: 아임포트</h3>
+					<h3 class="kboard-card-title">PG: 포트원(아임포트)</h3>
 				</div>
 				<div class="kboard-card-body">
 					<p class="kboard-description mb-2">
