@@ -2,6 +2,12 @@
 
 [homepage](https://www.cosmosfarm.com/products/kboard)
 
+6.7.1
+----------------------------------
+
+  1. 입력필드 관련 버그 수정
+
+
 6.7
 ----------------------------------
   1. kboard_new_comment_alerts_subject 필터 추가

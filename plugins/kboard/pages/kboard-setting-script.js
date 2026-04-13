@@ -92,9 +92,15 @@ jQuery(document).ready(function(){
 			jQuery(li.item).prepend('<input type="hidden" class="parent_id" value="'+uniq_id+'">');
 
 			if(!type){
-				li.item.clone().insertAfter(li.item);
- 				jQuery(this).sortable('cancel');
- 				jQuery(li.item).find('.field_data').attr('name', '');
+				var clone = li.item.clone();
+				li.item.find('select, textarea').each(function(i, element){
+					clone.find('select, textarea').eq(i).val(jQuery(element).val());
+				});
+				clone.find('[id]').removeAttr('id');
+				clone.insertAfter(li.item);
+				
+				jQuery(this).sortable('cancel');
+				jQuery(li.item).find('.field_data').attr('name', '');
 			}
 			jQuery(li.item).removeClass(uniq_id);
 
