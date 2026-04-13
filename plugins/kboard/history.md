@@ -5,11 +5,12 @@
 6.7.1
 ----------------------------------
 
-  1. 입력필드 관련 버그 수정
+  1. 입력 필드 드래그 이동 시 설정값이 유실되는 버그 수정
 
 
 6.7
 ----------------------------------
+
   1. kboard_new_comment_alerts_subject 필터 추가
   2. kboard_new_comment_alerts_message 필터 추가
   3. kboard_url_to_string 지원 도메인 확대(유튜브 임베드)
