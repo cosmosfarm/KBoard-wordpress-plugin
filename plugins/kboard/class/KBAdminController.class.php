@@ -227,6 +227,17 @@ class KBAdminController {
 					$board->meta->permission_attachment_download_roles = serialize($_POST['permission_attachment_download_roles']);
 				}
 				
+				if(isset($_POST['fields']) && is_array($_POST['fields'])){
+					foreach($_POST['fields'] as &$field){
+						if(!is_array($field)){
+							continue;
+						}
+						if((!isset($field['show_document_mode']) || $field['show_document_mode'] === '') && !empty($field['show_document'])){
+							$field['show_document_mode'] = '1';
+						}
+					}
+					unset($field);
+				}
 				$board->meta->skin_fields                    = isset($_POST['fields'])                         ? serialize($_POST['fields'])                     : '';
 				$board->meta->point_applied_to               = isset($_POST['point_applied_to'])               ? sanitize_text_field($_POST['point_applied_to']) : '';
 				$board->meta->document_insert_up_point       = isset($_POST['document_insert_up_point'])       ? abs(intval($_POST['document_insert_up_point']))       : '';
@@ -544,10 +555,10 @@ class KBAdminController {
 									if (!$field) continue;
 
 									$show_document_mode = $field['show_document_mode'] ?? '';
-									$show_document_roles = $field['show_document_roles'] ?? array();
+									$legacy_show_document = $field['show_document'] ?? '';
 
 									// 전체 표시 (1) 이거나, 직접 설정(roles)이면 포함
-									if ($show_document_mode !== '1' && $show_document_mode !== 'roles') {
+									if ($show_document_mode !== '1' && $show_document_mode !== 'roles' && !$legacy_show_document) {
 										continue;
 									}
 								}

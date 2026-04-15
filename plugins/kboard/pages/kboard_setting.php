@@ -1331,8 +1331,8 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 											<label class="attr-name">게시글 본문 표시하기</label>
 											<div class="attr-value">
 												<select name="fields[<?php echo esc_attr($meta_key)?>][show_document_mode]" class="field_data show_document_mode" onchange="kboard_fields_permission_roles_view(this)">
-													<option value="" <?php if(empty($item['show_document_mode']) || $item['show_document_mode'] == ''):?> selected<?php endif?>>안함</option>
-													<option value="1" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == '1'):?> selected<?php endif?>>전체 표시</option>
+													<option value="" <?php if((!isset($item['show_document_mode']) || $item['show_document_mode'] == '') && !(isset($item['show_document']) && $item['show_document'])):?> selected<?php endif?>>안함</option>
+													<option value="1" <?php if((isset($item['show_document']) && $item['show_document']) || (isset($item['show_document_mode']) && $item['show_document_mode'] == '1')):?> selected<?php endif?>>전체 표시</option>
 													<option value="roles" <?php if(isset($item['show_document_mode']) && $item['show_document_mode'] == 'roles'):?> selected<?php endif?>>직접 설정(역할)</option>
 												</select>
 												<div class="kboard-permission-read-roles-view<?php if(!isset($item['show_document_mode']) || $item['show_document_mode'] != 'roles'):?> kboard-hide<?php endif?>">

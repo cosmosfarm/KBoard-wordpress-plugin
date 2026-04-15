@@ -825,6 +825,7 @@ class KBoardFields {
 			
 			$show_document_mode = $field['show_document_mode'] ?? '';
 			$show_document_roles = $field['show_document_roles'] ?? array();
+			$legacy_show_document = $field['show_document'] ?? '';
 			$can_show = false;
 			
 			if($show_document_mode == '1'){
@@ -834,6 +835,9 @@ class KBoardFields {
 				if(current_user_can('administrator') || array_intersect(array_keys(wp_get_current_user()->caps), (array)$show_document_roles)){
 					$can_show = true;
 				}
+			}
+			else if($legacy_show_document){
+				$can_show = true;
 			}
 			
 			if($can_show && $option_value){
@@ -894,6 +898,7 @@ class KBoardFields {
 			
 			$show_document_mode = $field['show_document_mode'] ?? '';
 			$show_document_roles = $field['show_document_roles'] ?? array();
+			$legacy_show_document = $field['show_document'] ?? '';
 			$can_show = false;
 			
 			if($show_document_mode == '1'){
@@ -903,6 +908,9 @@ class KBoardFields {
 				if(current_user_can('administrator') || array_intersect(array_keys(wp_get_current_user()->caps), (array)$show_document_roles)){
 					$can_show = true;
 				}
+			}
+			else if($legacy_show_document){
+				$can_show = true;
 			}
 			
 			if($can_show && $option_value){
