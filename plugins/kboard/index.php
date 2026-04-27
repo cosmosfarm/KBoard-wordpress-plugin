@@ -713,18 +713,26 @@ function kboard_content_list(){
 				$content->remove();
 			}
 		}
-		else if($action == 'trash'){
-			foreach($_POST['uid'] as $key=>$value){
-				$content->initWithUID($value);
-				$content->status = 'trash';
-				$content->updateContent();
+		else if($action){
+			$status_list = kboard_content_status_list();
+			$status = '';
+			
+			if($action == 'published'){
+				$status = '';
 			}
-		}
-		else if($action == 'published'){
-			foreach($_POST['uid'] as $key=>$value){
-				$content->initWithUID($value);
-				$content->status = '';
-				$content->updateContent();
+			else if(isset($status_list[$action])){
+				$status = $action;
+			}
+			else{
+				$status = null;
+			}
+			
+			if($status !== null){
+				foreach($_POST['uid'] as $key=>$value){
+					$content->initWithUID($value);
+					$content->status = $status;
+					$content->updateContent();
+				}
 			}
 		}
 	}

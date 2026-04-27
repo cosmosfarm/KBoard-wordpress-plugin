@@ -101,15 +101,33 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	public function get_bulk_actions(){
-		if($this->filter_view == 'trash'){
-			return array(
-				'published' => __('Restore', 'kboard'),
-				'delete' => __('Delete Permanently', 'kboard')
-			);
+		$status_list = kboard_content_status_list();
+		$actions = array();
+		
+		foreach($status_list as $status=>$status_name){
+			if($this->filter_view == 'trash'){
+				if($status == 'trash') continue;
+				$actions[$status ? $status : 'published'] = sprintf(__('%s로 변경', 'kboard'), $status_name);
+			}
+			else{
+				if($status == 'trash'){
+					$actions['trash'] = __('Move to Trash', 'kboard');
+				}
+				else{
+					$action_key = $status ? $status : 'published';
+					
+					if($this->filter_view != $action_key){
+						$actions[$action_key] = sprintf(__('%s로 변경', 'kboard'), $status_name);
+					}
+				}
+			}
 		}
-		return array(
-			'trash' => __('Move to Trash', 'kboard')
-		);
+		
+		if($this->filter_view == 'trash'){
+			$actions['delete'] = __('Delete Permanently', 'kboard');
+		}
+		
+		return $actions;
 	}
 	
 	public function display_tablenav($which){ ?>
