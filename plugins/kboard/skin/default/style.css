@@ -632,6 +632,7 @@ button.kboard-default-button-small:hover {
 	cursor: pointer;
 	margin-right: 5px;
 	font-weight: 500;
+	color: #666 !important;
 }
 
 .kboard-button-action:hover {
