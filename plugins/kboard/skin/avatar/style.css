@@ -732,7 +732,7 @@ button.kboard-avatar-button-small:hover {
 	gap: 10px;
 }
 
-.kboard-button-action {
+#kboard-avatar-document .kboard-button-action {
 	border: 1px solid var(--kboard-border);
 	background: #fff;
 	padding: 6px 12px;
@@ -741,17 +741,19 @@ button.kboard-avatar-button-small:hover {
 	cursor: pointer;
 	margin-right: 5px;
 	font-weight: 500;
+	color: var(--kboard-text);
 }
 
-.kboard-button-action:hover {
+#kboard-avatar-document .kboard-button-action:hover {
 	background: var(--kboard-bg-alt);
+	color: var(--kboard-text);
 }
 
-.kboard-button-like {
+#kboard-avatar-document .kboard-button-like {
 	color: #ef4444;
 }
 
-.kboard-button-unlike {
+#kboard-avatar-document .kboard-button-unlike {
 	color: var(--kboard-primary);
 }
 
