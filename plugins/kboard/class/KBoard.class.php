@@ -877,17 +877,32 @@ class KBoard {
 			$where = array();
 			$where[] = "`board_id`='{$this->id}'";
 			
-			if(is_array($category)){
-				if(isset($category['category1']) && $category['category1']){
-					$category1 = esc_sql($category['category1']);
-					$where[] = "`category1`='{$category1}'";
+				if(is_array($category)){
+					if(isset($category['category1']) && $category['category1']){
+						$category1 = esc_sql($category['category1']);
+						$where[] = "`category1`='{$category1}'";
+					}
+					
+					if(isset($category['category2']) && $category['category2']){
+						$category2 = esc_sql($category['category2']);
+						$where[] = "`category2`='{$category2}'";
+					}
+					
+					if(isset($category['category3']) && $category['category3']){
+						$category3 = esc_sql($category['category3']);
+						$where[] = "`category3`='{$category3}'";
+					}
+					
+					if(isset($category['category4']) && $category['category4']){
+						$category4 = esc_sql($category['category4']);
+						$where[] = "`category4`='{$category4}'";
+					}
+					
+					if(isset($category['category5']) && $category['category5']){
+						$category5 = esc_sql($category['category5']);
+						$where[] = "`category5`='{$category5}'";
+					}
 				}
-				
-				if(isset($category['category2']) && $category['category2']){
-					$category2 = esc_sql($category['category2']);
-					$where[] = "`category2`='{$category2}'";
-				}
-			}
 			else{
 				$category = esc_sql($category);
 				$where[] = "(`category1`='{$category}' OR `category2`='{$category}')";
