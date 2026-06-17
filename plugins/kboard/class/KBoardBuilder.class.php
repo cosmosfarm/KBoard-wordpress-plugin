@@ -598,6 +598,7 @@ class KBoardBuilder
 			} else {
 				// 유튜브, 비메오 동영상 URL을 iframe 코드로 변환한다.
 
+				add_filter('kboard_content', 'kboard_video_url_to_iframe', 10, 1);
 				add_filter('kboard_comments_content', 'kboard_video_url_to_iframe', 10, 1);
 
 				$content->content = apply_filters('kboard_content_paragraph_breaks', $content->getContent(), $this);

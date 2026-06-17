@@ -54,9 +54,12 @@
 			
 			<div class="kboard-content" itemprop="description">
 				<div class="content-view">
+					<?php $document_options_html = $content->getDocumentOptionsHTML()?>
+					<?php if(trim($document_options_html)):?>
 					<div class="kboard-document-options-group">
-						<?php echo $content->getDocumentOptionsHTML()?>
+						<?php echo $document_options_html?>
 					</div>
+					<?php endif?>
 					<?php echo $content->content?>
 				</div>
 			</div>

@@ -11,22 +11,19 @@ function kboard_autolink($text){
 	* Mark Goldsmith
 	* http://css-tricks.com/snippets/php/find-urls-in-text-make-links/
 	*/
-	// <iframe> 태그가 포함된 경우 변환하지 않고 원래 내용 유지
-	if (preg_match('/<iframe.*?>.*?<\/iframe>/is', $text)) {
-		return $text;
-	}
-
-	// 이미 <a> 태그가 있는 경우 변환 방지
-	if (preg_match('/<a\s+href=["\']?(http|https):\/\/[^"\']+["\']?\s*target=["\']?_blank["\']?>/i', $text)) {
-		return $text;
-	}
-	
-	// 유튜브 & 비메오 URL이 포함된 경우 자동 링크 변환 방지
-	if (preg_match('#(youtube\.com|youtu\.be|vimeo\.com)#', $text)) {
-		return $text;
-	}
-	
 	$protected_tags = array();
+	$text = preg_replace_callback('/<(iframe|a)\b[^>]*>.*?<\/\1>/is', function($matches) use (&$protected_tags) {
+		$hash = '__PROTECTED_TAG_' . count($protected_tags) . '__';
+		$protected_tags[$hash] = $matches[0];
+		return $hash;
+	}, $text);
+	
+	$text = preg_replace_callback('#(?<![="\'])(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?[^\\s<"\']+|shorts\/[a-zA-Z0-9\-_]+[^\\s<"\']*)|youtu\.be\/[a-zA-Z0-9\-_]+[^\\s<"\']*|vimeo\.com\/\d+[^\\s<"\']*)#i', function($matches) use (&$protected_tags) {
+		$hash = '__PROTECTED_TAG_' . count($protected_tags) . '__';
+		$protected_tags[$hash] = $matches[0];
+		return $hash;
+	}, $text);
+	
 	$text = preg_replace_callback('/<[^>]+>/', function($matches) use (&$protected_tags) {
 		$hash = '__PROTECTED_TAG_' . count($protected_tags) . '__';
 		$protected_tags[$hash] = $matches[0];
@@ -56,7 +53,7 @@ function kboard_autolink_prependHTTP($m){
 		return "<a href=\"mailto:{$m[2]}{$m[3]}\" target=\"_blank\">{$m[1]}{$m[2]}{$m[3]}</a>";
 	}
 	else{
-		$http = (!preg_match("#^https://#i", $mStr)) ? 'http://' : '';
+		$http = (!preg_match("#^https?://#i", $mStr)) ? 'http://' : '';
 		return "<a href=\"".$http.$mStr."\" target=\"_blank\">".$mStr."</a>";
 	}
 }

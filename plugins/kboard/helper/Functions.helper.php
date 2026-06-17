@@ -640,43 +640,53 @@ function kboard_builtin_pg_init($pg, $args=array()){
  * @return mixed
  */
 function kboard_video_url_to_iframe($content){
-	// 이미 iframe이 들어있는 경우, 변환하지 않음
-	if (strpos($content, '<iframe') !== false) {
-		return $content;
-	}
-	
-	// <a href="...">로 감싸진 유튜브 링크는 변환하지 않음
-	if (preg_match('/<a\s[^>]*href=["\']?(https?:)?\/\/(www\.)?(youtube\.com|youtu\.be|vimeo\.com)[^"\']*["\'][^>]*>.*?<\/a>/i', $content)) {
-		return $content;
-	}
+	$protected_tags = array();
+	$content = preg_replace_callback('/<(iframe|a)\b[^>]*>.*?<\/\1>/is', function($matches) use (&$protected_tags){
+		$hash = '__KBOARD_VIDEO_PROTECTED_TAG_' . count($protected_tags) . '__';
+		$protected_tags[$hash] = $matches[0];
+		return $hash;
+	}, $content);
 	
 	// YouTube
-	$content = preg_replace(
-		"/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9\-_]+)/i",
-		'<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
+	$content = preg_replace_callback(
+		"/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?([^\\s<\"']+)/i",
+		function($matches){
+			$query = html_entity_decode($matches[1], ENT_QUOTES, 'UTF-8');
+			parse_str($query, $params);
+			
+			if(!empty($params['v']) && preg_match('/^[a-zA-Z0-9\-_]+$/', $params['v'])){
+				return '<iframe src="https://www.youtube.com/embed/' . $params['v'] . '" width="560" height="315" frameborder="0" allowfullscreen></iframe>';
+			}
+			
+			return $matches[0];
+		},
 		$content
 	);
 	
 	// YouTube 숏츠
 	$content = preg_replace(
-		"/(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)/i",
+		"/(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9\-_]+)(?:[^\\s<\"']*)?/i",
 		'<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
 		$content
 	);
 	
 	// YouTube 임베드
 	$content = preg_replace(
-		"/(?:https?:\/\/)?youtu\.be\/([a-zA-Z0-9\-_]+)/i",
+		"/(?:https?:\/\/)?youtu\.be\/([a-zA-Z0-9\-_]+)(?:[^\\s<\"']*)?/i",
 		'<iframe src="https://www.youtube.com/embed/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
 		$content
 	);
 	
 	// 비메오
 	$content = preg_replace(
-		"/(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(\d+)/i",
+		"/(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(\d+)(?:[^\\s<\"']*)?/i",
 		'<iframe src="https://player.vimeo.com/video/$1" width="560" height="315" frameborder="0" allowfullscreen></iframe>',
 		$content
 	);
+	
+	foreach($protected_tags as $hash => $original){
+		$content = str_replace($hash, $original, $content);
+	}
 	
 	return $content;
 }
