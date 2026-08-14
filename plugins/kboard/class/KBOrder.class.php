@@ -140,16 +140,27 @@ class KBOrder {
 				$order_item_key = intval($order_item_key);
 				if(!$order_item_key) continue;
 				if(!isset($order_item['uid']) || !$order_item['uid']) continue;
-				if(!isset($order_item['quantity']) || $order_item['quantity'] <= 0) continue;
+				if(!isset($order_item['quantity']) || !is_scalar($order_item['quantity'])) continue;
+				$quantity = intval($order_item['quantity']);
+				if($quantity <= 0) continue;
 				if(isset($order_item['delete']) && $order_item['delete']) continue;
 				
 				$content = new KBContent();
 				$content->initWithUID($order_item['uid']);
 				
 				// 주문 가격 체크
-				if($content->option->price){
-					if(!isset($order_item['price']) || !$order_item['price']) continue;
-					if($content->option->price != $order_item['price']) continue;
+				$server_price_value = $content->option->price;
+				$server_price = floatval($server_price_value);
+				if($server_price < 0) continue;
+				if($server_price_value){
+					if(!isset($order_item['price']) || !is_scalar($order_item['price']) || !$order_item['price']) continue;
+					if($server_price_value != $order_item['price']) continue;
+					$item_price = $server_price;
+				}
+				else{
+					if(isset($order_item['price']) && !is_scalar($order_item['price'])) continue;
+					$item_price = isset($order_item['price']) ? floatval($order_item['price']) : 0;
+					if($item_price < 0) continue;
 				}
 				
 				// 적립 포인트 체크
@@ -167,11 +178,11 @@ class KBOrder {
 				$item->board_id = $this->board_id;
 				$item->uid = intval($item->uid);
 				$item->title = wp_strip_all_tags($item->title);
-				$item->price = floatval($item->price);
+				$item->price = $item_price;
 				$item->use_points = floatval($this->use_points);
 				$item->reward_point = floatval($item->reward_point);
 				$item->order_status = $item->price > 0 ? 'pay_waiting' : 'paid';
-				$item->quantity = intval($item->quantity);
+				$item->quantity = $quantity;
 				$item->total = $item->price * $item->quantity;
 				$item->total_reward_point = $item->reward_point * $item->quantity;
 				
