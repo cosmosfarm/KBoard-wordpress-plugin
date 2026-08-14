@@ -156,6 +156,14 @@ class KBContentList {
 		global $wpdb;
 		if($board_id){
 			$board_id = intval($board_id);
+			$permission_read = $wpdb->get_var($wpdb->prepare("SELECT `permission_read` FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`=%d", $board_id));
+			if($permission_read !== 'all'){
+				$this->total = 0;
+				$this->resource = array();
+				$this->index = 0;
+				$this->is_rss = true;
+				return $this;
+			}
 			$where[] = "`board_id`='{$board_id}'";
 		}
 		else{
@@ -166,6 +174,9 @@ class KBContentList {
 			}
 			if($read){
 				$where[] = '`board_id` IN(' . implode(',', $read) . ')';
+			}
+			else{
+				$where[] = '1=0';
 			}
 		}
 		$where[] = "`secret`=''";

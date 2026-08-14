@@ -604,6 +604,33 @@ class KBContent {
 	}
 	
 	/**
+	 * 안전한 썸네일 파일 경로를 반환한다.
+	 * @param string $thumbnail_file
+	 * @return string
+	 */
+	private function getSafeThumbnailFilePath($thumbnail_file){
+		if(!$thumbnail_file){
+			return '';
+		}
+
+		$upload_dir = wp_upload_dir();
+		$base_path = realpath($upload_dir['basedir'] . '/kboard_thumbnails');
+		$file_path = realpath($this->abspath . $thumbnail_file);
+
+		if(!$base_path || !$file_path || !is_file($file_path)){
+			return '';
+		}
+
+		$base_path = trailingslashit(wp_normalize_path($base_path));
+		$file_path = wp_normalize_path($file_path);
+		if(strpos($file_path, $base_path) !== 0){
+			return '';
+		}
+
+		return $file_path;
+	}
+
+	/**
 	 * post에 썸네일을 등록한다.
 	 * @param int $uid
 	 * @param int $board_id
@@ -618,7 +645,11 @@ class KBContent {
 			$thumbnail = $wpdb->get_row("SELECT `thumbnail_file`, `thumbnail_name` FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid`='{$uid}'");
 			
 			if($thumbnail->thumbnail_file){
-				$file = file_get_contents($this->abspath . $thumbnail->thumbnail_file);
+				$file_path = $this->getSafeThumbnailFilePath($thumbnail->thumbnail_file);
+				if(!$file_path){
+					return;
+				}
+				$file = file_get_contents($file_path);
 				
 				if($file){
 					$file_type = wp_check_filetype(basename($thumbnail->thumbnail_file), null);
@@ -1093,8 +1124,11 @@ class KBContent {
 	public function removeThumbnail($update=true){
 		global $wpdb;
 		if($this->uid && $this->thumbnail_file){
-			kbaord_delete_resize($this->abspath . $this->thumbnail_file);
-			@unlink($this->abspath . $this->thumbnail_file);
+			$file_path = $this->getSafeThumbnailFilePath($this->thumbnail_file);
+			if($file_path){
+				kbaord_delete_resize($file_path);
+				@unlink($file_path);
+			}
 			
 			if($update){
 				$wpdb->query("UPDATE `{$wpdb->prefix}kboard_board_content` SET `thumbnail_file`='', `thumbnail_name`='' WHERE `uid`='{$this->uid}'");

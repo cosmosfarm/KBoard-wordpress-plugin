@@ -31,7 +31,7 @@ function kboard_autolink($text){
 	}, $text);
 	
 	$text = preg_replace_callback(
-		'#(?<![="\'])(https?:\/\/(?:[-\w]+\.)+(com|net|org|kr|co\.kr|go\.kr|edu|gov|me|xyz|biz|tv|us|asia|store|shop|io|ai|re\.kr|pe\.kr|ne\.kr|or\.kr)(\/[^\s<]*)?)#i',
+		'#(?<![="\'])(https?:\/\/(?:[-\w]+\.)+(com|net|org|kr|co\.kr|go\.kr|edu|gov|me|xyz|biz|tv|us|asia|store|shop|io|ai|re\.kr|pe\.kr|ne\.kr|or\.kr)(\/[^\s<>"]*)?)#i',
 		'kboard_autolink_prependHTTP',
 		$text
 	);
@@ -54,6 +54,8 @@ function kboard_autolink_prependHTTP($m){
 	}
 	else{
 		$http = (!preg_match("#^https?://#i", $mStr)) ? 'http://' : '';
-		return "<a href=\"".$http.$mStr."\" target=\"_blank\">".$mStr."</a>";
+		$url = esc_url($http . $mStr);
+		$text = esc_html($mStr);
+		return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 	}
 }

@@ -1287,6 +1287,10 @@ class KBController {
 			$content = new KBContent();
 			$content->initWithUID($_POST['content_uid']);
 			if($content->isEditor() || $content->isConfirm()){
+				if(isset($_POST['data']) && is_array($_POST['data'])){
+					unset($_POST['data']['thumbnail_file'], $_POST['data']['thumbnail_name']);
+				}
+
 				// 게시글 수정 전에 액션 훅 실행
 				do_action('kboard_pre_document_update', $content->uid, $content->board_id, $content, $content->getBoard());
 				
