@@ -30,35 +30,31 @@ class KBSearchIndexer {
 			return false;
 		}
 		
-		$option_rows = $wpdb->get_results("SELECT `option_value` FROM `{$wpdb->prefix}kboard_board_option` WHERE `content_uid`='$content_uid' ORDER BY `uid` ASC");
-		$option_text = '';
-		foreach($option_rows as $option_row){
-			if(isset($option_row->option_value) && $option_row->option_value){
-				$option_text .= ' ' . $option_row->option_value;
-			}
-		}
-		
-		$title_plain = kboard_search_normalize_text((string) $row->title);
-		$content_plain = kboard_search_normalize_text((string) $row->content);
-		$option_plain = kboard_search_normalize_text($option_text);
-		$member_display = sanitize_text_field((string) $row->member_display);
+		// 원본 LIKE 검색의 후보를 빠짐없이 만들 수 있도록 원문을 인덱싱한다.
+		// 실제 일치 여부는 KBSearchEngine에서 원본 컬럼 LIKE 조건으로 다시 검증한다.
+		$title_plain = (string) $row->title;
+		$content_plain = (string) $row->content;
+		$option_plain = '';
+		$member_display = (string) $row->member_display;
 		
 		$table = "{$wpdb->prefix}kboard_search_document";
 		$sql = $wpdb->prepare(
-			"INSERT INTO `{$table}` (`content_uid`, `board_id`, `member_display`, `title_plain`, `content_plain`, `option_plain`)
-			VALUES (%d, %d, %s, %s, %s, %s)
+			"INSERT INTO `{$table}` (`content_uid`, `board_id`, `member_display`, `title_plain`, `content_plain`, `option_plain`, `index_version`)
+			VALUES (%d, %d, %s, %s, %s, %s, %d)
 			ON DUPLICATE KEY UPDATE
 				`board_id` = VALUES(`board_id`),
 				`member_display` = VALUES(`member_display`),
 				`title_plain` = VALUES(`title_plain`),
 				`content_plain` = VALUES(`content_plain`),
-				`option_plain` = VALUES(`option_plain`)",
+				`option_plain` = VALUES(`option_plain`),
+				`index_version` = VALUES(`index_version`)",
 			$content_uid,
 			intval($row->board_id),
 			$member_display,
 			$title_plain,
 			$content_plain,
-			$option_plain
+			$option_plain,
+			KBSearchEngine::INDEX_VERSION
 		);
 		$wpdb->query($sql);
 		
@@ -105,6 +101,14 @@ class KBSearchIndexer {
 		$limit = max(1, min(2000, intval($limit)));
 		$last_uid = max(0, intval($last_uid));
 		$board_id = max(0, intval($board_id));
+
+		$index_versions = get_option('kboard_search_index_versions', array());
+		$index_versions = is_array($index_versions) ? $index_versions : array();
+		$version_key = $board_id ? 'board:' . $board_id : 'all';
+		if($last_uid === 0){
+			unset($index_versions[$version_key]);
+			update_option('kboard_search_index_versions', $index_versions, false);
+		}
 		
 		$where = "WHERE `uid` > '$last_uid'";
 		if($board_id){
@@ -125,6 +129,10 @@ class KBSearchIndexer {
 		
 		$remaining = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` > '$next_last_uid'" . ($board_id ? " AND `board_id` = '$board_id'" : '')));
 		$total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content`" . ($board_id ? " WHERE `board_id` = '$board_id'" : '')));
+		if($remaining === 0){
+			$index_versions[$version_key] = KBSearchEngine::INDEX_VERSION;
+			update_option('kboard_search_index_versions', $index_versions, false);
+		}
 		
 		return array(
 			'processed' => $processed,

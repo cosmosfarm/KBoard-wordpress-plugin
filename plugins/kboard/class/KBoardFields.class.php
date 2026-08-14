@@ -865,6 +865,9 @@ class KBoardFields {
 				else if($field_type == 'address'){
 					$html .= '<span class="option-value">(' . $content->option->{$meta_key.'_postcode'} . ') ' . $content->option->{$meta_key.'_address_1'} . ' ' . $content->option->{$meta_key.'_address_2'} . '</span></div><hr>';
 				}
+				else if($field_type == 'ip'){
+					$html .= '<span class="option-value">' . nl2br(esc_html($option_value)) . '</span></div><hr>';
+				}
 				else{
 					$html .= '<span class="option-value">' . nl2br($option_value) . '</span></div><hr>';
 				}

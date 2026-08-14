@@ -426,8 +426,6 @@ class KBContentList {
 		}
 
 		$indexed_search = false;
-		$indexed_search_total = 0;
-		$indexed_search_uids = array();
 		
 		if($this->stop){
 			$this->total = 0;
@@ -536,43 +534,18 @@ class KBContentList {
 			}
 		}
 		
-		if($can_use_indexed_search && class_exists('KBSearchEngine') && is_callable(array('KBSearchEngine', 'search'))){
-			$search_engine_args = array(
+		if($can_use_indexed_search && class_exists('KBSearchEngine') && is_callable(array('KBSearchEngine', 'buildClause'))){
+			$search_engine_clause = KBSearchEngine::buildClause(array(
 				'keyword' => $keyword,
 				'search' => $search,
-				'compare' => $this->compare,
 				'board_id' => isset($search_board_id) ? $search_board_id : $this->board_id,
-				'with_notice' => $with_notice,
-				'status' => $this->status,
-				'category1' => $this->category1,
-				'category2' => $this->category2,
-				'category3' => $this->category3,
-				'category4' => $this->category4,
-				'category5' => $this->category5,
-				'member_uid' => $this->member_uid,
-				'author_id' => isset($search_author_id) ? $search_author_id : 0,
-				'start_date' => $this->start_date,
-				'end_date' => $this->end_date,
-				'within_days' => $this->within_days,
-				'page' => $this->page,
-				'rpp' => $this->rpp,
-				'sort' => $this->sort,
-				'order' => $this->order,
-				'is_latest' => $this->is_latest,
-			);
-			$search_engine_result = KBSearchEngine::search($search_engine_args);
-			$search_engine_total = isset($search_engine_result['total']) ? intval($search_engine_result['total']) : 0;
-			if(is_array($search_engine_result) && empty($search_engine_result['fallback']) && $search_engine_total > 0){
+				'auto_operator_or' => $search_auto_operator_or,
+				'include_member_display' => get_option('kboard_search_include_member_display') == '1',
+			));
+			if(is_array($search_engine_clause) && !empty($search_engine_clause['join']) && !empty($search_engine_clause['where'])){
 				$indexed_search = true;
-				$indexed_search_total = $search_engine_total;
-				if(isset($search_engine_result['uids']) && is_array($search_engine_result['uids'])){
-					foreach($search_engine_result['uids'] as $uid){
-						$uid = intval($uid);
-						if($uid){
-							$indexed_search_uids[] = $uid;
-						}
-					}
-				}
+				$this->from[] = $search_engine_clause['join'];
+				$this->where[] = $search_engine_clause['where'];
 			}
 		}
 		
@@ -710,7 +683,7 @@ class KBContentList {
 				}
 			}
 		}
-		else{
+		else if(!$keyword){
 			// 검색이 아니라면 답글이 아닌 일반글만 불러온다.
 			$this->where[] = "`{$wpdb->prefix}kboard_board_content`.`parent_uid`='0'";
 		}
@@ -872,18 +845,7 @@ class KBContentList {
 		
 		$offset = ($this->page-1)*$this->rpp;
 		
-		if($indexed_search){
-			$this->total = $indexed_search_total;
-			
-			if(!$indexed_search_uids){
-				$this->resource = array();
-			}
-			else{
-				$uids = implode(',', $indexed_search_uids);
-				$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `{$wpdb->prefix}kboard_board_content`.`uid` IN({$uids}) ORDER BY FIELD(`{$wpdb->prefix}kboard_board_content`.`uid`,{$uids})");
-			}
-		}
-		else if($default_select != $select){
+		if($default_select != $select){
 			$this->total = $wpdb->get_var("SELECT {$select_count} FROM {$from} WHERE {$where}");
 			if($this->sort_random){
 				$this->resource = $wpdb->get_results("SELECT {$select} FROM {$from} WHERE {$where} ORDER BY RAND() LIMIT {$this->rpp}");

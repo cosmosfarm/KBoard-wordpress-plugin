@@ -505,14 +505,24 @@ function kboard_current_user_roles($user_id=''){
 function kboard_user_ip(){
 	static $ip;
 	if($ip === null){
+		$ip = '';
+		$candidates = array();
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
+			$candidates[] = $_SERVER['HTTP_CLIENT_IP'];
 		}
-		else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+			$candidates = array_merge($candidates, explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
 		}
-		else{
-			$ip = $_SERVER['REMOTE_ADDR'];
+		if(!empty($_SERVER['REMOTE_ADDR'])){
+			$candidates[] = $_SERVER['REMOTE_ADDR'];
+		}
+
+		foreach($candidates as $candidate){
+			$candidate = trim($candidate);
+			if(filter_var($candidate, FILTER_VALIDATE_IP)){
+				$ip = $candidate;
+				break;
+			}
 		}
 	}
 	return apply_filters('kboard_user_ip', $ip);

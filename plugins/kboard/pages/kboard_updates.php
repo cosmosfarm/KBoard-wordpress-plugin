@@ -77,7 +77,9 @@
 </div>
 <script>
 function kboard_system_option_update(form){
-	jQuery.post(ajaxurl, jQuery(form).serialize(), function(res){
+	var data = jQuery(form).serializeArray();
+	data.push({name:'security', value:<?php echo wp_json_encode(wp_create_nonce('kboard-system-option-update'))?>});
+	jQuery.post(ajaxurl, data, function(res){
 		alert('변경되었습니다.');
 	});
 	return false;

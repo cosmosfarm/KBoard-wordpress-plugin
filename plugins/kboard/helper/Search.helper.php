@@ -49,6 +49,42 @@ function kboard_search_supports_ngram(){
 }
 
 /**
+ * MySQL ngram 토큰 크기를 반환한다.
+ * @return int
+ */
+function kboard_search_ngram_token_size(){
+	static $token_size = null;
+	if($token_size !== null) return $token_size;
+	global $wpdb;
+	$token_size = intval($wpdb->get_var("SELECT @@ngram_token_size"));
+	return max(1, $token_size);
+}
+
+/**
+ * 결과 동등성 검색에 필요한 ngram FULLTEXT 인덱스가 실제로 존재하는지 확인한다.
+ * @return boolean
+ */
+function kboard_search_has_required_indexes(){
+	static $available = null;
+	if($available !== null) return $available;
+	global $wpdb;
+	$table = $wpdb->prefix . 'kboard_search_document';
+	$create_sql = $wpdb->get_var("SHOW CREATE TABLE `{$table}`", 1);
+	if(!$create_sql || stripos($create_sql, 'ngram') === false || stripos($create_sql, '`index_version`') === false){
+		$available = false;
+		return $available;
+	}
+	foreach(array('ft_default', 'ft_title', 'ft_content', 'ft_member') as $index_name){
+		if(stripos($create_sql, '`' . $index_name . '`') === false){
+			$available = false;
+			return $available;
+		}
+	}
+	$available = true;
+	return $available;
+}
+
+/**
  * FULLTEXT BOOLEAN MODE 검색어를 이스케이프한다.
  * 특수 연산자(+, -, >, <, ~, *, (, ), @, ")를 제거한다.
  * @param string $keyword

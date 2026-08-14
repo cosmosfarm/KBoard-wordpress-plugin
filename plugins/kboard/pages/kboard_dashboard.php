@@ -442,7 +442,7 @@ textarea.kboard-form-control {
 	global $wpdb;
 	$kboard_use_search_index = kboard_use_search_index();
 	$kboard_search_index_total = intval($wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content`"));
-	$kboard_search_index_indexed = intval($wpdb->get_var("SELECT COUNT(DISTINCT `content_uid`) FROM `{$wpdb->prefix}kboard_search_document`"));
+	$kboard_search_index_indexed = intval($wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT `content_uid`) FROM `{$wpdb->prefix}kboard_search_document` WHERE `index_version`=%d", KBSearchEngine::INDEX_VERSION)));
 	$kboard_search_index_remaining = max(0, $kboard_search_index_total - $kboard_search_index_indexed);
 	$kboard_search_index_completed = $kboard_use_search_index && ($kboard_search_index_total == 0 || $kboard_search_index_remaining == 0);
 
@@ -1253,7 +1253,9 @@ function kboard_svg_scan_sprintf(template, args){
 }
 
 function kboard_system_option_update(form){
-	jQuery.post(ajaxurl, jQuery(form).serialize(), function(res){
+	var data = jQuery(form).serializeArray();
+	data.push({name:'security', value:<?php echo wp_json_encode(wp_create_nonce('kboard-system-option-update'))?>});
+	jQuery.post(ajaxurl, data, function(res){
 		window.location.reload();
 	});
 	return false;

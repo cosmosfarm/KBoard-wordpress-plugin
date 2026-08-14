@@ -819,12 +819,60 @@ class KBAdminController {
 	 */
 	public function system_option_update(){
 		if(current_user_can('manage_kboard')){
+			check_ajax_referer('kboard-system-option-update', 'security');
 			
 			$_POST = stripslashes_deep($_POST);
 			
 			$option = isset($_POST['option'])?$_POST['option']:array();
+			$allowed_options = apply_filters('kboard_system_option_update_allowed_options', array(
+				'kboard_allow_file_extensions',
+				'kboard_allow_search_engines_always_read',
+				'kboard_attached_copy_download',
+				'kboard_attached_open_browser',
+				'kboard_builtin_pg_inicis_general_api_key',
+				'kboard_builtin_pg_inicis_general_mid',
+				'kboard_builtin_pg_inicis_general_sign_key',
+				'kboard_builtin_pg_nicepay_general_merchant_key',
+				'kboard_builtin_pg_nicepay_general_mid',
+				'kboard_captcha_stop',
+				'kboard_content_delete_immediately',
+				'kboard_content_filter',
+				'kboard_content_filter_message',
+				'kboard_custom_css',
+				'kboard_fontawesome',
+				'kboard_google_api_key',
+				'kboard_iamport_api_key',
+				'kboard_iamport_api_secret',
+				'kboard_iamport_id',
+				'kboard_iframe_whitelist',
+				'kboard_image_optimize_height',
+				'kboard_image_optimize_quality',
+				'kboard_image_optimize_width',
+				'kboard_kakao_api_javascript_key',
+				'kboard_kakao_api_rest_key',
+				'kboard_limit_file_size',
+				'kboard_name_filter',
+				'kboard_name_filter_message',
+				'kboard_naver_api_client_id',
+				'kboard_naver_api_client_secret',
+				'kboard_new_document_notify_time',
+				'kboard_prevent_copy',
+				'kboard_public_data_portal_api_key',
+				'kboard_recaptcha_secret_key',
+				'kboard_recaptcha_site_key',
+				'kboard_recaptcha_type',
+				'kboard_search_auto_operator_or',
+				'kboard_search_include_member_display',
+				'kboard_updates_notify_disabled',
+				'kboard_use_search_index',
+				'kboard_xssfilter',
+			));
 			
 			foreach($option as $name=>$value){
+				$name = sanitize_key($name);
+				if(!in_array($name, $allowed_options, true) || !is_scalar($value)){
+					continue;
+				}
 				$value = sanitize_textarea_field($value);
 				
 				if(!$value){

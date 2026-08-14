@@ -23,7 +23,10 @@ class KBContentOption {
 		if(isset($this->row[$key])){
 			$object = $this->row[$key];
 			if(is_string($this->row[$key])){
-				$object = @unserialize($this->row[$key]);
+				$object = @unserialize($this->row[$key], array('allowed_classes'=>false));
+				if($this->containsObject($object)){
+					$object = false;
+				}
 			}
 			if($object !== false){
 				$value = $object;
@@ -33,6 +36,25 @@ class KBContentOption {
 			}
 		}
 		return apply_filters('kboard_content_option_value', $value, $key, $this);
+	}
+
+	/**
+	 * 값 또는 중첩 배열에 객체가 포함되어 있는지 확인한다.
+	 * @param mixed $value
+	 * @return boolean
+	 */
+	private function containsObject($value){
+		if(is_object($value)){
+			return true;
+		}
+		if(is_array($value)){
+			foreach($value as $item){
+				if($this->containsObject($item)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public function __set($key, $value){
