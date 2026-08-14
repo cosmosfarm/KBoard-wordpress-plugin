@@ -94,7 +94,8 @@ class KBController {
 			
 			if($board->meta->secret_checked_forced && !$board->isAdmin()){
 				$content->new_password = $content->new_password ? $content->new_password : uniqid();
-				$content->secret = true;
+				// 비밀글 표시는 저장 시에도 동일한 문자열 형식을 사용한다.
+				$content->secret = 'true';
 			}
 			
 			if(!$board->id){
@@ -488,7 +489,18 @@ class KBController {
 			$file_info = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}kboard_board_attached` WHERE `content_uid`='{$content->uid}' AND `file_key`='{$file}'");
 		}
 		
+		if(!$file_info || !is_object($file_info)){
+			echo '<script>alert("'.__('File does not exist.', 'kboard').' ");</script>';
+			echo '<script>window.location.href="' . wp_get_referer() . '";</script>';
+			exit;
+		}
+
 		$file_info = apply_filters('kboard_pre_download_file', $file_info, $content->uid, $board->id, $comment->uid);
+		if(!$file_info || !is_object($file_info)){
+			echo '<script>alert("'.__('File does not exist.', 'kboard').' ");</script>';
+			echo '<script>window.location.href="' . wp_get_referer() . '";</script>';
+			exit;
+		}
 		
 		do_action('kboard_pre_file_download', $file_info, $content, $board, $comment);
 		do_action("kboard_{$board->skin}_pre_file_download", $file_info, $content, $board, $comment);
@@ -498,9 +510,12 @@ class KBController {
 		$upload_dir = wp_upload_dir();
 		$basedir = explode('wp-content', $upload_dir['basedir']);
 		$path = untrailingslashit($basedir[0]);
-		$file_info->full_path = $path . str_replace('/', $ds, $file_info->file_path);
+		$attachment_root = realpath($upload_dir['basedir'] . '/kboard_attached');
+		$file_info->full_path = $file_info->file_path ? realpath($path . str_replace('/', $ds, $file_info->file_path)) : false;
+		$attachment_root = $attachment_root ? trailingslashit(wp_normalize_path($attachment_root)) : '';
+		$file_info->full_path = $file_info->full_path ? wp_normalize_path($file_info->full_path) : '';
 		
-		if(!$file_info->file_path || !file_exists($file_info->full_path)){
+		if(!$file_info->file_path || !$attachment_root || !$file_info->full_path || strpos($file_info->full_path, $attachment_root) !== 0 || !is_file($file_info->full_path)){
 			echo '<script>alert("'.__('File does not exist.', 'kboard').'");</script>';
 			echo '<script>window.location.href="' . wp_get_referer() . '";</script>';
 			exit;
@@ -1287,21 +1302,20 @@ class KBController {
 			$content = new KBContent();
 			$content->initWithUID($_POST['content_uid']);
 			if($content->isEditor() || $content->isConfirm()){
-				if(isset($_POST['data']) && is_array($_POST['data'])){
-					unset($_POST['data']['thumbnail_file'], $_POST['data']['thumbnail_name']);
-				}
+				$data = isset($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : array();
+				unset($data['thumbnail_file'], $data['thumbnail_name']);
 
 				// 게시글 수정 전에 액션 훅 실행
 				do_action('kboard_pre_document_update', $content->uid, $content->board_id, $content, $content->getBoard());
 				
-				$content->updateContent($_POST['data']);
-				$content->updateOptions($_POST['data']);
+				$content->updateContent($data);
+				$content->updateOptions($data);
 				
 				// 게시글 수정 액션 훅 실행
 				$content->initWithUID($_POST['content_uid']);
 				do_action('kboard_document_update', $content->uid, $content->board_id, $content, $content->getBoard());
 				
-				wp_send_json(array('result'=>'success', 'data'=>$_POST['data']));
+				wp_send_json(array('result'=>'success', 'data'=>$data));
 			}
 		}
 		wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
