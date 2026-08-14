@@ -241,16 +241,23 @@ class KBOrderSales {
 				$where[] = $this->getSearchQuery($condition);
 			}
 			else if(is_array($condition)){
+				$condition_values = array();
 				if(isset($condition['value']) && is_array($condition['value'])){
 					$condition_value = array();
 					foreach($condition['value'] as $value){
-						$condition_value[] = esc_sql(sanitize_text_field($value));
+						$condition_values[] = sanitize_text_field($value);
+					}
+					if(!$condition_values){
+						$condition_values[] = '';
 					}
 					
-					$condition_value = "'".implode("','", $condition_value)."'";
+					$condition_value = "'".implode("','", array_map('esc_sql', $condition_values))."'";
 				}
 				else{
 					$condition_value = isset($condition['value']) ? esc_sql(sanitize_text_field($condition['value'])) : '';
+					if(isset($condition['value'])){
+						$condition_values[] = sanitize_text_field($condition['value']);
+					}
 				}
 				
 				$condition_key = isset($condition['key']) ? esc_sql(sanitize_key($condition['key'])) : '';
@@ -258,20 +265,28 @@ class KBOrderSales {
 				$condition_wildcard= isset($condition['wildcard']) ? esc_sql($condition['wildcard']) : '';
 				
 				if($condition_key && $condition_value){
-					if(in_array($condition_compare, array('IN', 'NOT IN'))){
+					if(in_array($condition_compare, array('IN', 'NOT IN'), true)){
 						if(!isset($condition['table']) || !$condition['table'] || $condition['table'] == "{$wpdb->prefix}kboard_order_item_meta"){
 							$this->multiple_option_keys[$condition_key] = $condition_key;
 							$condition_index = array_search($condition_key, $this->multiple_option_keys);
-							$where[] = "(`meta_{$condition_index}`.`meta_key`='{$condition_key}' AND `meta_{$condition_index}`.`meta_value` {$condition_compare} ({$condition_value}))";
+							$placeholders = implode(',', array_fill(0, count($condition_values), '%s'));
+							$where[] = $wpdb->prepare(
+								"(`meta_{$condition_index}`.`meta_key`=%s AND `meta_{$condition_index}`.`meta_value` {$condition_compare} ({$placeholders}))",
+								array_merge(array($condition_key), $condition_values)
+							);
 						}
 						else{
 							$this->multiple_postmeta_keys[$condition_key] = $condition_key;
 							$condition_index = array_search($condition_key, $this->multiple_postmeta_keys);
-							$where[] = "(`postmeta_{$condition_index}`.`meta_key`='{$condition_key}' AND `postmeta_{$condition_index}`.`meta_value` {$condition_compare} ({$condition_value}))";
+							$placeholders = implode(',', array_fill(0, count($condition_values), '%s'));
+							$where[] = $wpdb->prepare(
+								"(`postmeta_{$condition_index}`.`meta_key`=%s AND `postmeta_{$condition_index}`.`meta_value` {$condition_compare} ({$placeholders}))",
+								array_merge(array($condition_key), $condition_values)
+							);
 						}
 					}
 					else{
-						if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){
+						if(!in_array($condition_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'), true)){
 							$condition_compare = '=';
 						}
 						

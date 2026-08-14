@@ -192,6 +192,14 @@ function kboard_sanitize_svg_markup($svg){
  * @param array $common_attributes
  */
 function kboard_sanitize_svg_node($node, $allowed_tags, $common_attributes){
+	if($node->nodeType == XML_ELEMENT_NODE){
+		$tag_name = strtolower($node->localName);
+		if(isset($allowed_tags[$tag_name])){
+			$allowed_attributes = array_merge($common_attributes, $allowed_tags[$tag_name]);
+			kboard_sanitize_svg_attributes($node, $allowed_attributes);
+		}
+	}
+
 	for($child=$node->firstChild; $child; $child=$next_sibling){
 		$next_sibling = $child->nextSibling;
 		
@@ -202,30 +210,40 @@ function kboard_sanitize_svg_node($node, $allowed_tags, $common_attributes){
 				continue;
 			}
 			
-			$allowed_attributes = array_merge($common_attributes, $allowed_tags[$tag_name]);
-			$remove_attributes = array();
-			foreach($child->attributes as $attribute){
-				$attribute_name = strtolower($attribute->nodeName);
-				if(strpos($attribute_name, 'on') === 0 || !in_array($attribute_name, $allowed_attributes)){
-					$remove_attributes[] = $attribute->nodeName;
-					continue;
-				}
-				$sanitized_value = kboard_sanitize_svg_attribute_value($attribute_name, $attribute->nodeValue);
-				if($sanitized_value === false || $sanitized_value === ''){
-					$remove_attributes[] = $attribute->nodeName;
-					continue;
-				}
-				$child->setAttribute($attribute->nodeName, $sanitized_value);
-			}
-			foreach($remove_attributes as $attribute_name){
-				$child->removeAttribute($attribute_name);
-			}
-			
 			kboard_sanitize_svg_node($child, $allowed_tags, $common_attributes);
 		}
 		else if(in_array($child->nodeType, array(XML_COMMENT_NODE, XML_PI_NODE, XML_DOCUMENT_TYPE_NODE, XML_ENTITY_REF_NODE, XML_CDATA_SECTION_NODE))){
 			$node->removeChild($child);
 		}
+	}
+}
+
+/**
+ * Sanitize an SVG element's attributes using the supplied allowlist.
+ * @param DOMElement $node
+ * @param array $allowed_attributes
+ */
+function kboard_sanitize_svg_attributes($node, $allowed_attributes){
+	$remove_attributes = array();
+
+	// Copy the live NamedNodeMap before changing attributes.
+	foreach(iterator_to_array($node->attributes) as $attribute){
+		$attribute_name = strtolower($attribute->nodeName);
+		if(strpos($attribute_name, 'on') === 0 || !in_array($attribute_name, $allowed_attributes)){
+			$remove_attributes[] = $attribute->nodeName;
+			continue;
+		}
+
+		$sanitized_value = kboard_sanitize_svg_attribute_value($attribute_name, $attribute->nodeValue);
+		if($sanitized_value === false || $sanitized_value === ''){
+			$remove_attributes[] = $attribute->nodeName;
+			continue;
+		}
+		$node->setAttribute($attribute->nodeName, $sanitized_value);
+	}
+
+	foreach($remove_attributes as $attribute_name){
+		$node->removeAttribute($attribute_name);
 	}
 }
 

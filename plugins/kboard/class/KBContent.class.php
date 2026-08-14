@@ -466,7 +466,13 @@ class KBContent {
 			if(isset($data['secret'])) $data['secret'] = sanitize_key($data['secret']);
 			if(isset($data['notice'])) $data['notice'] = sanitize_key($data['notice']);
 			if(isset($data['search'])) $data['search'] = intval($data['search']);
-			if(isset($data['thumbnail_file'])) $data['thumbnail_file'] = sanitize_text_field($data['thumbnail_file']);
+			if(isset($data['thumbnail_file'])){
+				$data['thumbnail_file'] = sanitize_text_field($data['thumbnail_file']);
+				if(!$this->getSafeThumbnailFilePath($data['thumbnail_file'])){
+					$data['thumbnail_file'] = '';
+					$data['thumbnail_name'] = '';
+				}
+			}
 			if(isset($data['thumbnail_name'])) $data['thumbnail_name'] = sanitize_text_field($data['thumbnail_name']);
 			if(isset($data['status'])) $data['status'] = sanitize_key($data['status']);
 			if(isset($data['password'])) $data['password'] = kboard_password_prepare($data['password']);
@@ -976,6 +982,10 @@ class KBContent {
 	 * @return string
 	 */
 	public function getThumbnail($width='', $height=''){
+		if($this->uid && $this->secret && !$this->isReader() && !$this->isConfirm()){
+			return '';
+		}
+
 		$size = array('width'=>$width, 'height'=>$height);
 		$size = apply_filters('kboard_content_get_thumbnail_size', $size, $this);
 		$width = isset($size['width']) ? intval($size['width']) : '';
@@ -985,7 +995,7 @@ class KBContent {
 		if(isset($this->thumbnail["{$width}x{$height}"]) && $this->thumbnail["{$width}x{$height}"]){
 			$thumbnail_url = $this->thumbnail["{$width}x{$height}"];
 		}
-		else if($this->thumbnail_file){
+		else if($this->thumbnail_file && $this->getSafeThumbnailFilePath($this->thumbnail_file)){
 			if($width && $height){
 				$this->thumbnail["{$width}x{$height}"] = kboard_resize($this->thumbnail_file, $width, $height);
 			}
@@ -1947,7 +1957,7 @@ class KBContent {
 	 */
 	public function getAttachmentList($key_filter=''){
 		$attachment_list = new stdClass();
-		if($this->uid){
+		if($this->uid && ($this->isReader() || $this->isConfirm())){
 			$board = $this->getBoard();
 			$attachment_list = $board->fields()->getAttachmentList($this);
 		}

@@ -72,6 +72,16 @@ class KBContentList {
 	public function initWithKeyword($keyword='', $search=''){
 		global $wpdb;
 		
+		if($this->board_id && !is_array($this->board_id)){
+			$board = new KBoard($this->board_id);
+			if(!$board->isReader(0, '')){
+				$this->total = 0;
+				$this->resource = array();
+				$this->index = 0;
+				return $this;
+			}
+		}
+
 		$start_date = kboard_start_date();
 		$end_date = kboard_end_date();
 		
@@ -405,6 +415,16 @@ class KBContentList {
 	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
 		
+		if($this->board_id && !is_array($this->board_id)){
+			$board = new KBoard($this->board_id);
+			if(!$board->isReader(0, '')){
+				$this->total = 0;
+				$this->resource = array();
+				$this->index = 0;
+				return $this->resource;
+			}
+		}
+
 		$indexed_search = false;
 		$indexed_search_total = 0;
 		$indexed_search_uids = array();
@@ -927,6 +947,8 @@ class KBContentList {
 	 * @return string
 	 */
 	public function multipleOptionQuery($multiple, $relation='AND'){
+		global $wpdb;
+
 		if(isset($multiple['relation'])){
 			if(in_array($multiple['relation'], array('AND', 'OR'))){
 				$relation = $multiple['relation'];
@@ -939,28 +961,35 @@ class KBContentList {
 				$where[] = $this->multipleOptionQuery($option);
 			}
 			else if(is_array($option)){
+				$option_values = array();
 				if(isset($option['value']) && is_array($option['value'])){
-					$option_value = array();
 					foreach($option['value'] as $value){
-						$option_value[] = esc_sql(sanitize_text_field($value));
+						$option_values[] = sanitize_text_field($value);
 					}
-					
-					$option_value = "'".implode("','", $option_value)."'";
+					if(!$option_values){
+						$option_values[] = '';
+					}
 				}
 				else{
-					$option_value = isset($option['value']) ? esc_sql(sanitize_text_field($option['value'])) : '';
+					$option_values[] = isset($option['value']) ? sanitize_text_field($option['value']) : '';
 				}
 				
-				$option_key = isset($option['key']) ? esc_sql(sanitize_key($option['key'])) : '';
+				$option_value = isset($option['value']) && is_array($option['value']) ? implode("','", array_map('esc_sql', $option_values)) : esc_sql($option_values[0]);
+				$has_option_value = isset($option['value']) && is_array($option['value']) ? true : $option_value !== '';
+				$option_key = isset($option['key']) ? sanitize_key($option['key']) : '';
 				$option_compare = isset($option['compare']) ? esc_sql($option['compare']) : '';
 				$option_wildcard = isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
 				
-				if($option_key && $option_value){
+				if($option_key && $has_option_value){
 					$this->multiple_option_keys[$option_key] = $option_key;
 					$option_index = array_search($option_key, $this->multiple_option_keys);
 					
-					if(in_array($option_compare, array('IN', 'NOT IN'))){
-						$where[] = "(`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} ({$option_value}))";
+					if(in_array($option_compare, array('IN', 'NOT IN'), true)){
+						$placeholders = implode(',', array_fill(0, count($option_values), '%s'));
+						$where[] = $wpdb->prepare(
+							"(`option_{$option_index}`.`option_key`=%s AND `option_{$option_index}`.`option_value` {$option_compare} ({$placeholders}))",
+							array_merge(array($option_key), $option_values)
+						);
 					}
 					else{
 						if(!in_array($option_compare, array('=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'))){

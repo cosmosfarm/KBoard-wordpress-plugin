@@ -243,6 +243,10 @@ class KBoardBuilder
 	 */
 	public function getListArray()
 	{
+		if(!$this->board || !$this->board->isReader(0, '')){
+			return array();
+		}
+
 		// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
 		kboard_builder_mod('list');
 
@@ -253,21 +257,22 @@ class KBoardBuilder
 			$url = new KBUrl();
 			$url->setBoard($this->board);
 			$url->setPath(wp_get_referer());
+			$can_read = $content->isReader() || $content->isConfirm();
 
 			$_data = array();
 			$_data['uid'] = $content->uid;
-			$_data['member_uid'] = $content->member_uid;
-			$_data['member_display'] = $content->member_display;
+			$_data['member_uid'] = $can_read ? $content->member_uid : 0;
+			$_data['member_display'] = $can_read ? $content->member_display : '';
 			$_data['title'] = $content->title;
-			$_data['content'] = $content->secret != 'true' ? $content->content : '';
+			$_data['content'] = $can_read ? $content->content : '';
 			$_data['date'] = $content->date;
 			$_data['view'] = $content->view;
 			$_data['comment'] = $content->comment;
 			$_data['like'] = $content->like;
 			$_data['unlike'] = $content->unlike;
 			$_data['vote'] = $content->vote;
-			$_data['thumbnail_file'] = $content->thumbnail_file;
-			$_data['thumbnail_name'] = $content->thumbnail_name;
+			$_data['thumbnail_file'] = $can_read ? $content->thumbnail_file : '';
+			$_data['thumbnail_name'] = $can_read ? $content->thumbnail_name : '';
 			$_data['category1'] = $content->category1;
 			$_data['category2'] = $content->category2;
 			$_data['category3'] = $content->category3;
@@ -275,8 +280,8 @@ class KBoardBuilder
 			$_data['category5'] = $content->category5;
 			$_data['secret'] = $content->secret;
 			$_data['search'] = $content->search;
-			$_data['attach'] = $content->attach;
-			$_data['option'] = $content->option->toArray();
+			$_data['attach'] = $can_read ? $this->getSafeListAttachments($content->attach) : (object) array();
+			$_data['option'] = $can_read ? $content->option->toArray() : array();
 
 			if ($this->view_iframe) {
 				$url->set('kboard_id', $content->board_id);
@@ -293,11 +298,42 @@ class KBoardBuilder
 	}
 
 	/**
+	 * 리스트 응답용 첨부파일 정보를 만든다.
+	 * 실제 저장 경로는 웹 직접 접근을 우회하는 데 사용될 수 있으므로 반환하지 않는다.
+	 * @param object|array $attachments
+	 * @return object
+	 */
+	private function getSafeListAttachments($attachments)
+	{
+		$safe_attachments = array();
+		$allowed_fields = array('file_name', 'file_size', 'download_url', 'download_count', 'metadata');
+
+		foreach ((array) $attachments as $key => $attachment) {
+			$attachment = (array) $attachment;
+			$safe_attachment = array();
+
+			foreach ($allowed_fields as $field) {
+				if (array_key_exists($field, $attachment)) {
+					$safe_attachment[$field] = $attachment[$field];
+				}
+			}
+
+			$safe_attachments[$key] = $safe_attachment;
+		}
+
+		return (object) $safe_attachments;
+	}
+
+	/**
 	 * 게시판 리스트 페이지의 HTML 코드를 반환한다.
 	 * @return string
 	 */
 	public function getListHTML()
 	{
+		if(!$this->board || !$this->board->isReader(0, '')){
+			return '';
+		}
+
 		// KBoardBuilder 클래스에서 실행된 게시판의 mod 값을 설정한다.
 		kboard_builder_mod('list');
 

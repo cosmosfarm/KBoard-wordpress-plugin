@@ -1176,6 +1176,11 @@ function kboard_ajax_builder(){
 	$board->setID($board_id);
 	
 	if($board->id){
+		// AJAX 목록도 일반 게시판 문서와 동일하게 게시판 읽기 권한을 적용한다.
+		if(!$board->isReader(0, '')){
+			wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')), 403);
+		}
+
 		$builder = new KBoardBuilder($board->id);
 		$builder->mod = 'list';
 		$builder->board = $board;
