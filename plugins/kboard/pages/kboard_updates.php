@@ -29,8 +29,8 @@
 				<td>
 					<p style="margin:0">현재 설치된 버전은 <strong><?php echo KBOARD_VERSION?></strong> 입니다.</p>
 					<p>
-						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates&action=kboard')?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')"><?php echo $version->kboard?> 설치하기</a>
-						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates&action=kboard-noskins')?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')">현재 스킨을 유지하고 <?php echo $version->kboard?> 설치하기</a>
+						<a class="button" href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=kboard_updates&action=kboard'), 'kboard_updates'))?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')"><?php echo $version->kboard?> 설치하기</a>
+						<a class="button" href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=kboard_updates&action=kboard-noskins'), 'kboard_updates'))?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')">현재 스킨을 유지하고 <?php echo $version->kboard?> 설치하기</a>
 						<a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard/history.md" onclick="window.open(this.href);return false;">변경사항 보기</a>
 					</p>
 					<p class="description">스킨을 유지한 상태로 설치하면 코어 파일만 덮어쓰기 됩니다.</p>
@@ -43,8 +43,8 @@
 				<td>
 					<p style="margin:0">현재 설치된 버전은 <strong><?php echo KBOARD_COMMNETS_VERSION?></strong> 입니다.</p>
 					<p>
-						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates&action=comments')?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')"><?php echo $version->comments?> 설치하기</a>
-						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates&action=comments-noskins')?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')">현재 스킨을 유지하고 <?php echo $version->comments?> 설치하기</a>
+						<a class="button" href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=kboard_updates&action=comments'), 'kboard_updates'))?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')"><?php echo $version->comments?> 설치하기</a>
+						<a class="button" href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=kboard_updates&action=comments-noskins'), 'kboard_updates'))?>" onclick="return confirm('플러그인을 백업해두셨나요? 모두 최신 파일로 교체됩니다. 계속 할까요?')">현재 스킨을 유지하고 <?php echo $version->comments?> 설치하기</a>
 						<a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href);return false;">변경사항 보기</a>
 					</p>
 					<p class="description">스킨을 유지한 상태로 설치하면 코어 파일만 덮어쓰기 됩니다.</p>
@@ -57,7 +57,7 @@
 				<td>
 					<p style="margin:0">댓글 플러그인을 설치해주세요.</p>
 					<p>
-						<a class="button" href="<?php echo admin_url('admin.php?page=kboard_updates&action=comments')?>" onclick="return confirm('플러그인 설치를 계속 할까요?')"><?php echo $version->comments?> 설치하기</a>
+						<a class="button" href="<?php echo esc_url(wp_nonce_url(admin_url('admin.php?page=kboard_updates&action=comments'), 'kboard_updates'))?>" onclick="return confirm('플러그인 설치를 계속 할까요?')"><?php echo $version->comments?> 설치하기</a>
 						<a class="button" href="https://github.com/cosmosfarm/KBoard-wordpress-plugin/blob/master/plugins/kboard-comments/history.md" onclick="window.open(this.href);return false;">변경사항 보기</a>
 					</p>
 					<p class="description">이미 설치되어 있다면 활성화 해주세요.</p>

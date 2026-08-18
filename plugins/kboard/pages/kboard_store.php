@@ -1,4 +1,5 @@
 <?php if(!defined('ABSPATH')) exit;?>
+<?php $kboard_updates_url = add_query_arg(array('page'=>'kboard_updates', '_wpnonce'=>wp_create_nonce('kboard_updates')), admin_url('admin.php'));?>
 <div class="wrap">
 	<div class="kboard-header-logo"></div>
 	<h1 class="wp-heading-inline"><?php echo __('KBoard : 스토어', 'kboard')?></h1>
@@ -234,15 +235,16 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 }
 function cf_get_a_install(action, download, version){
 	var a_install = document.createElement('a');
+	var updates_url = '<?php echo esc_js($kboard_updates_url)?>' + '&action=' + encodeURIComponent(action) + '&download_url=' + encodeURIComponent(download) + '&download_version=' + encodeURIComponent(version);
 	a_install.className = 'button-primary';
 	a_install.innerHTML = '설치하기';
-	a_install.setAttribute('href', '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version);
+	a_install.setAttribute('href', updates_url);
 	a_install.onclick = function(){
 		<?php if(KBOARD_STORE_AUTH):?>
 		cosmosfarm.oauthStatus(function(res){
 			if(res.status == 'valid' && cf_login_status == 'connected'){
 				if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
-					window.location.href = '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+					window.location.href = updates_url;
 				}
 			}
 			else{
@@ -257,7 +259,7 @@ function cf_get_a_install(action, download, version){
 		});
 		<?php else:?>
 		if(confirm('설치를 계속 할까요? 이미 설치되어 있다면 새로운 파일로 교체됩니다.')){
-			window.location.href = '<?php echo admin_url('admin.php?page=kboard_updates')?>' + '&action='+action+'&download_url='+download+'&download_version='+version;
+			window.location.href = updates_url;
 		}
 		<?php endif?>
 		return false;
