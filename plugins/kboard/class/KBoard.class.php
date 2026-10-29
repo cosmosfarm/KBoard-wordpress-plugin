@@ -983,9 +983,10 @@ class KBoard {
 	/**
 	 * 동일한 아이피로 작성된 마지막 글을 반환한다.
 	 * @param string $ip
+	 * @param boolean $guest_only 비회원 작성 간격은 회원 글과 분리한다.
 	 * @return KBContent
 	 */
-	public function getLastContentByIP($ip){
+	public function getLastContentByIP($ip, $guest_only=false){
 		global $wpdb;
 		$content = new KBContent();
 		$ip = esc_sql(sanitize_text_field($ip));
@@ -993,6 +994,7 @@ class KBoard {
 		if($this->id && $ip){
 			$where = array();
 			$where[] = "`content`.`board_id`='{$this->id}'";
+			if($guest_only) $where[] = "`content`.`member_uid`='0'";
 			$where[] = "`option`.`option_key`='ip'";
 			$where[] = "`option`.`option_value`='{$ip}'";
 			

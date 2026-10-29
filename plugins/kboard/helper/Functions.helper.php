@@ -449,6 +449,48 @@ function kboard_content_filter($to_array=false){
 }
 
 /**
+ * 저장할 HTML과 분리된 금지어 비교용 텍스트를 만든다.
+ * 설정된 단어와 입력값에 같은 정규화를 적용하며 원본 설정은 변경하지 않는다.
+ */
+function kboard_normalize_filter_text($value, $strip_tags=true){
+	if(!is_scalar($value)) return '';
+	$value = html_entity_decode(urldecode((string)$value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	if($strip_tags) $value = wp_strip_all_tags($value);
+	$value = function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
+	$value = str_replace(array('「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ', '$', '*', '♣', '♧', '☞'), '', $value);
+	$normalized = preg_replace('/[\s\p{Z}\x{200B}\x{200C}\x{200D}\x{FEFF}]+/u', '', $value);
+	return $normalized === null ? $value : $normalized;
+}
+
+/**
+ * 게시글과 댓글의 모든 HTTP 저장 경로에서 사용하는 금지어 검사.
+ * 기존 메시지 필터 및 관리자 예외는 유지한다.
+ */
+function kboard_get_forbidden_word_message($value, $type, $board, $comments=false){
+	if($board->isAdmin()) return null;
+	$type = $type == 'name' ? 'name' : 'content';
+	$filters = $type == 'name' ? kboard_name_filter(true) : kboard_content_filter(true);
+	// 링크·이미지 주소 검사도 유지하면서 태그로 분리한 표시 문구를 함께 검사한다.
+	$subject = kboard_normalize_filter_text($value, false);
+	$text = kboard_normalize_filter_text($value);
+	foreach($filters as $filter){
+		$word = kboard_normalize_filter_text($filter);
+		if($word !== '' && (strpos($subject, $word) !== false || strpos($text, $word) !== false)){
+			$message = get_option("kboard_{$type}_filter_message", '');
+			if(!$message){
+				$message = sprintf(__('%s is not available.', $comments ? 'kboard-comments' : 'kboard'), $filter);
+			}
+			else if(!$comments){
+				$message = sprintf($message, $filter);
+			}
+			$hook = $comments ? "kboard_comments_{$type}_filter_message" : "kboard_{$type}_filter_message";
+			return apply_filters($hook, $message, $filter, $subject, $board);
+		}
+	}
+	return null;
+}
+
+/**
  * 사용중인 스킨을 등록한다.
  * @param string $skin_name
  * @param string $current_name
@@ -598,23 +640,10 @@ function kboard_user_ip(){
 	static $ip;
 	if($ip === null){
 		$ip = '';
-		$candidates = array();
-		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-			$candidates[] = $_SERVER['HTTP_CLIENT_IP'];
-		}
-		if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-			$candidates = array_merge($candidates, explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
-		}
-		if(!empty($_SERVER['REMOTE_ADDR'])){
-			$candidates[] = $_SERVER['REMOTE_ADDR'];
-		}
-
-		foreach($candidates as $candidate){
-			$candidate = trim($candidate);
-			if(filter_var($candidate, FILTER_VALIDATE_IP)){
-				$ip = $candidate;
-				break;
-			}
+		// 전달 헤더는 누구나 보낼 수 있다. 신뢰 프록시 처리는 기존 필터에서 명시한다.
+		if(isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR'])){
+			$candidate = trim($_SERVER['REMOTE_ADDR']);
+			if(filter_var($candidate, FILTER_VALIDATE_IP)) $ip = $candidate;
 		}
 	}
 	return apply_filters('kboard_user_ip', $ip);

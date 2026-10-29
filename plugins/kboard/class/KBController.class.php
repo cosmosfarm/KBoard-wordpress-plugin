@@ -56,8 +56,11 @@ class KBController {
 			
 			$content = new KBContent();
 			$content->initWithUID($uid);
-			$content->setBoardID($board_id);
-			$content->saveTemporary();
+			// 원본 글의 소유자와 게시판으로 먼저 권한을 검사한다.
+			if($uid && (!$content->uid || $content->board_id != $board_id)){
+				die('<script>alert("'.__('You do not have permission.', 'kboard').'");history.go(-1);</script>');
+			}
+			if(!$content->uid) $content->setBoardID($board_id);
 			$board = $content->getBoard();
 			
 			if(!$content->uid && !$board->isWriter()){
@@ -74,6 +77,7 @@ class KBController {
 				}
 			}
 			
+			$content->saveTemporary();
 			$stored_password = $content->getPassword();
 			$submitted_password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 			if(kboard_password_is_mask($submitted_password)){
@@ -82,14 +86,16 @@ class KBController {
 			else{
 				$content->new_password = $submitted_password;
 			}
-			if(isset($_POST['notice_expired_date']) && $_POST['notice_expired_date']){
-				// notice_expired_date가 Y-m-d 형식으로 들어오니까 변환
-				$date = sanitize_text_field($_POST['notice_expired_date']);
-				$timestamp = strtotime($date);
-				$content->notice_expired_date = date('YmdHis', $timestamp);
-			}
-			else{
-				$content->notice_expired_date = '';
+			if($board->fields()->isUseNotice()){
+				if(isset($_POST['notice_expired_date']) && $_POST['notice_expired_date']){
+					// notice_expired_date가 Y-m-d 형식으로 들어오니까 변환
+					$date = sanitize_text_field($_POST['notice_expired_date']);
+					$timestamp = strtotime($date);
+					$content->notice_expired_date = date('YmdHis', $timestamp);
+				}
+				else{
+					$content->notice_expired_date = '';
+				}
 			}
 			
 			if($board->meta->secret_checked_forced && !$board->isAdmin()){
@@ -135,7 +141,7 @@ class KBController {
 						$last_content = $board->getLastContentByUser(get_current_user_id());
 					}
 					else{
-						$last_content = $board->getLastContentByIP(kboard_user_ip());
+						$last_content = $board->getLastContentByIP(kboard_user_ip(), true);
 					}
 					
 					if($last_content && $last_content->uid){
@@ -155,74 +161,10 @@ class KBController {
 				}
 			}
 			
-			// 금지단어 체크
-			if(!$board->isAdmin()){
-				$replace = array(' ', '「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ', '$', '*', '♣', '♧', '☞');
-				
-				// 작성자 금지단어 체크
-				$name_filter = kboard_name_filter(true);
-				if($name_filter){
-					$subject = urldecode($content->member_display);
-					$subject = strtolower($subject);
-					$subject = str_replace($replace, '', $subject);
-					
-					$name_filter_message = get_option('kboard_name_filter_message', '');
-					
-					foreach($name_filter as $filter){
-						if($filter && strpos($subject, $filter) !== false){
-							if($name_filter_message){
-								$name_filter_message = sprintf($name_filter_message, $filter);
-							}
-							else{
-								$name_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
-							}
-							$name_filter_message = apply_filters('kboard_name_filter_message', $name_filter_message, $filter, $subject, $board);
-							die("<script>alert('".$name_filter_message."');history.go(-1);</script>");
-						}
-					}
-				}
-				
-				// 본문/제목/댓글 금지단어 체크
-				$content_filter = kboard_content_filter(true);
-				if($content_filter){
-					$subject = urldecode($content->content);
-					$subject = strtolower($subject);
-					$subject = str_replace($replace, '', $subject);
-					
-					$content_filter_message = get_option('kboard_content_filter_message', '');
-					
-					foreach($content_filter as $filter){
-						if($filter && strpos($subject, $filter) !== false){
-							if($content_filter_message){
-								$content_filter_message = sprintf($content_filter_message, $filter);
-							}
-							else{
-								$content_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
-							}
-							$content_filter_message = apply_filters('kboard_content_filter_message', $content_filter_message, $filter, $subject, $board);
-							die("<script>alert('".$content_filter_message."');history.go(-1);</script>");
-						}
-					}
-					
-					$subject = urldecode($content->title);
-					$subject = strtolower($subject);
-					$subject = str_replace($replace, '', $subject);
-					
-					$content_filter_message = get_option('kboard_content_filter_message', '');
-					
-					foreach($content_filter as $filter){
-						if($filter && strpos($subject, $filter) !== false){
-							if($content_filter_message){
-								$content_filter_message = sprintf($content_filter_message, $filter);
-							}
-							else{
-								$content_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
-							}
-							$content_filter_message = apply_filters('kboard_content_filter_message', $content_filter_message, $filter, $subject, $board);
-							die("<script>alert('".$content_filter_message."');history.go(-1);</script>");
-						}
-					}
-				}
+			// 일반 등록·수정과 AJAX에서 같은 금지어 정책을 적용한다.
+			foreach(array(array($content->member_display, 'name'), array($content->content, 'content'), array($content->title, 'content')) as $check){
+				$message = kboard_get_forbidden_word_message($check[0], $check[1], $board);
+				if($message !== null) die('<script>alert('.wp_json_encode($message).');history.go(-1);</script>');
 			}
 			
 			do_action('kboard_pre_content_execute', $content, $board);
@@ -1305,8 +1247,30 @@ class KBController {
 			$content = new KBContent();
 			$content->initWithUID($_POST['content_uid']);
 			if($content->isEditor() || $content->isConfirm()){
-				$data = isset($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : array();
+				$board = $content->getBoard();
+				$data = isset($_POST['data']) && is_array($_POST['data']) ? wp_unslash($_POST['data']) : array();
 				unset($data['thumbnail_file'], $data['thumbnail_name']);
+				if(!$board->isAdmin()){
+					// 글 편집 권한은 게시판 이동·소유자 변경·승인·작성일 변경 권한이 아니다.
+					$allowed = array('title', 'content', 'member_display', 'category1', 'category2', 'category3', 'category4', 'category5', 'secret', 'password');
+					if($board->fields()->isUseNotice()) $allowed = array_merge($allowed, array('notice', 'notice_expired_date'));
+					foreach($data as $key=>$value){
+						if(!in_array($key, $allowed, true) && strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== 0) unset($data[$key]);
+					}
+					if($board->meta->secret_checked_forced) $data['secret'] = 'true';
+				}
+				else if(isset($data['board_id']) && intval($data['board_id']) != $content->board_id){
+					$target_board = new KBoard(intval($data['board_id']));
+					if(!$target_board->id || !$target_board->isAdmin()){
+						wp_send_json(array('result'=>'error', 'message'=>__('You do not have permission.', 'kboard')));
+					}
+				}
+				foreach(array('member_display'=>'name', 'title'=>'content', 'content'=>'content') as $key=>$type){
+					if(isset($data[$key])){
+						$message = kboard_get_forbidden_word_message($data[$key], $type, $board);
+						if($message !== null) wp_send_json(array('result'=>'error', 'message'=>$message));
+					}
+				}
 
 				// 게시글 수정 전에 액션 훅 실행
 				do_action('kboard_pre_document_update', $content->uid, $content->board_id, $content, $content->getBoard());

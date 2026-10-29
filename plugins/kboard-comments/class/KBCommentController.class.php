@@ -75,6 +75,13 @@ class KBCommentController {
 			$document = new KBContent();
 			$document->initWithUID($content_uid);
 			$board = new KBoard($document->board_id);
+			// 화면과 동일한 역할 검사 및 kboard_comments_is_writer 필터를 사용한다.
+			$comment_builder = new KBCommentsBuilder(false);
+			$comment_builder->board = $board;
+			$comment_builder->board_id = $board->id;
+			$comment_builder->content_uid = $content_uid;
+			$comment_builder->permission_comment_write = $board->meta->permission_comment_write;
+			$comment_builder->setSkin($board->meta->comment_skin);
 			
 			if(is_user_logged_in()){
 				$current_user = wp_get_current_user();
@@ -108,7 +115,7 @@ class KBCommentController {
 			else if(!$document->uid){
 				die("<script>alert('".__('You do not have permission.', 'kboard-comments')."');history.go(-1);</script>");
 			}
-			else if(!is_user_logged_in() && $board->meta->permission_comment_write){
+			else if(!$comment_builder->isWriter()){
 				die('<script>alert("'.__('You do not have permission.', 'kboard-comments').'");history.go(-1);</script>');
 			}
 			else if(!is_user_logged_in() && !$member_display){
@@ -124,49 +131,9 @@ class KBCommentController {
 				die("<script>alert('".__('content_uid is required.', 'kboard-comments')."');history.go(-1);</script>");
 			}
 			
-			// 금지단어 체크
-			if(!$board->isAdmin()){
-				$replace = array(' ', '「', '」', '『', '』', '-', '_', '.', '(', ')', '［', '］', ',', '~', '＊', '+', '^', '♥', '★', '!', '#', '=', '­', '[', ']', '/', '▶', '▷', '<', '>', '%', ':', 'ღ', '$', '*', '♣', '♧', '☞');
-				
-				// 작성자 금지단어 체크
-				$name_filter = kboard_name_filter(true);
-				if($name_filter){
-					$subject = urldecode($member_display);
-					$subject = strtolower($subject);
-					$subject = str_replace($replace, '', $subject);
-					
-					$name_filter_message = get_option('kboard_name_filter_message', '');
-					
-					foreach($name_filter as $filter){
-						if($filter && strpos($subject, $filter) !== false){
-							if(!$name_filter_message){
-								$name_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
-							}
-							$name_filter_message = apply_filters('kboard_comments_name_filter_message', $name_filter_message, $filter, $subject, $board);
-							die("<script>alert('".$name_filter_message."');history.go(-1);</script>");
-						}
-					}
-				}
-				
-				// 본문/제목/댓글 금지단어 체크
-				$content_filter = kboard_content_filter(true);
-				if($content_filter){
-					$subject = urldecode($content);
-					$subject = strtolower($subject);
-					$subject = str_replace($replace, '', $subject);
-					
-					$content_filter_message = get_option('kboard_content_filter_message', '');
-					
-					foreach($content_filter as $filter){
-						if($filter && strpos($subject, $filter) !== false){
-							if(!$content_filter_message){
-								$content_filter_message = sprintf(__('%s is not available.', 'kboard'), $filter);
-							}
-							$content_filter_message = apply_filters('kboard_comments_content_filter_message', $content_filter_message, $filter, $subject, $board);
-							die("<script>alert('".$content_filter_message."');history.go(-1);</script>");
-						}
-					}
-				}
+			foreach(array(array($member_display, 'name'), array($content, 'content')) as $check){
+				$message = kboard_get_forbidden_word_message($check[0], $check[1], $board, true);
+				if($message !== null) die('<script>alert('.wp_json_encode($message).');history.go(-1);</script>');
 			}
 			
 			// Captcha 검증
@@ -489,6 +456,9 @@ class KBCommentController {
 			}
 		}
 		
+		$message = kboard_get_forbidden_word_message($content, 'content', $board, true);
+		if($message !== null) die('<script>alert('.wp_json_encode($message).');history.go(-1);</script>');
+
 		do_action('kboard_comments_pre_update', $comment->uid, $comment->content_uid, $board);
 		
 		$comment->content = $content;

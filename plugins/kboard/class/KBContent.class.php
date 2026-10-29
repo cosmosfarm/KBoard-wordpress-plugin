@@ -161,7 +161,7 @@ class KBContent {
 		if($action){
 			$this->execute_action = $action;
 		}
-		else if($this->uid && $this->date){
+		else if($this->uid){
 			$this->execute_action = 'update';
 		}
 		else{
@@ -206,16 +206,12 @@ class KBContent {
 			
 			// Captcha 검증
 			if($board->useCAPTCHA()){
-				$fields = $board->fields()->getSkinFields();
-				if(isset($fields['captcha'])){
-					if(!class_exists('KBCaptcha')){
-						include_once 'KBCaptcha.class.php';
-					}
-					$captcha = new KBCaptcha();
-					
-					if(!$captcha->validate()){
-						die("<script>alert('".__('CAPTCHA is invalid.', 'kboard')."');history.go(-1);</script>");
-					}
+				if(!class_exists('KBCaptcha')){
+					include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+				}
+				$captcha = new KBCaptcha();
+				if(!$captcha->validate()){
+					die("<script>alert('".__('CAPTCHA is invalid.', 'kboard')."');history.go(-1);</script>");
 				}
 			}
 			
@@ -523,15 +519,15 @@ class KBContent {
 			
 			$post_id = $this->getPostID();
 			if($post_id){
-				if($data['search'] == 3){
+				if($this->search == 3){
 					$this->deletePost($post_id);
 				}
 				else{
-					$this->updatePost($post_id, $data['member_uid']);
+					$this->updatePost($post_id, $this->member_uid);
 				}
 			}
 			else{
-				$this->insertPost($this->uid, $data['member_uid']);
+				$this->insertPost($this->uid, $this->member_uid);
 			}
 			
 			$wpdb->flush();
@@ -912,19 +908,18 @@ class KBContent {
 		if($this->uid){
 			if(!$options) $options = $_POST;
 			$this->option = new KBContentOption($this->uid);
+			// 작성 간격 검사에 필요한 IP는 클라이언트 필드 유무와 무관하게 기록한다.
+			if($this->execute_action == 'insert'){
+				$this->option->ip = kboard_user_ip();
+			}
 			foreach($options as $key=>$value){
 				if(strpos($key, KBContent::$SKIN_OPTION_PREFIX) !== false){
 					$key = str_replace(KBContent::$SKIN_OPTION_PREFIX, '', $key);
 					$key = sanitize_key($key);
 					
 					if($key == 'ip'){
-						/*
-						 * IP 주소는 게시글 작성 시에만 입력되고 수정되지 않는다.
-						 */
-						if($this->execute_action == 'insert'){
-							$value = kboard_user_ip();
-							$this->option->{$key} = $value;
-						}
+						// 위에서 신규 등록 시에만 기록하며 요청 값으로 덮어쓰지 않는다.
+						continue;
 					}
 					else{
 						$value = kboard_xssfilter($value);
@@ -1602,12 +1597,15 @@ class KBContent {
 	 * 게시글 정보를 세션에 저장한다.
 	 */
 	public function saveTemporary(){
+		$board = $this->getBoard();
 		$this->parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):0;
-		$this->member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):0;
+		if(!$this->uid){
+			$this->member_uid = get_current_user_id();
+		}
 		$this->member_display = isset($_POST['member_display'])?sanitize_text_field($_POST['member_display']):'';
 		$this->title = isset($_POST['title'])?kboard_safeiframe(kboard_xssfilter($_POST['title'])):'';
 		$this->content = isset($_POST['kboard_content'])?kboard_safeiframe(kboard_xssfilter($_POST['kboard_content'])):'';
-		$this->date = isset($_POST['date'])?sanitize_key($_POST['date']):'';
+		// 기존 글의 작성자와 작성일은 원본 값을 유지한다.
 		if(isset($_POST['view'])) $this->view = intval($_POST['view']);
 		if(isset($_POST['comment'])) $this->comment = intval($_POST['comment']);
 		if(isset($_POST['like'])) $this->like = intval($_POST['like']);
@@ -1619,9 +1617,9 @@ class KBContent {
 		$this->category4 = isset($_POST['category4'])?sanitize_text_field($_POST['category4']):'';
 		$this->category5 = isset($_POST['category5'])?sanitize_text_field($_POST['category5']):'';
 		$this->secret = isset($_POST['secret'])?sanitize_key($_POST['secret']):'';
-		$this->notice = isset($_POST['notice'])?sanitize_key($_POST['notice']):'';
+		if($board->fields()->isUseNotice()) $this->notice = isset($_POST['notice'])?sanitize_key($_POST['notice']):'';
 		$this->search = isset($_POST['wordpress_search'])?intval(($this->secret && $_POST['wordpress_search']==1)?'2':$_POST['wordpress_search']):'1';
-		if(isset($_POST['status'])) $this->status = sanitize_key($_POST['status']);
+		if($board->isAdmin() && isset($_POST['status'])) $this->status = sanitize_key($_POST['status']);
 		
 		if(is_user_logged_in() && !$this->member_display){
 			$current_user = wp_get_current_user();

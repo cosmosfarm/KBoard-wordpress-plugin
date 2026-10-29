@@ -462,7 +462,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 						<th scope="row"><label for="permission_write">쓰기권한</label></th>
 						<td>
 							<select name="permission_write" id="permission_write" onchange="kboard_permission_roles_view('.kboard-permission-write-roles-view', this.value)">
-								<option value="all"<?php if($board->permission_read == 'all'):?> selected<?php endif?>>
+								<option value="all"<?php if($board->permission_write == 'all'):?> selected<?php endif?>>
 									<?php echo kboard_permission('all')?>
 								</option>
 								<option value="author"<?php if($board->permission_write == 'author'):?> selected<?php endif?>>

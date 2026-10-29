@@ -46,7 +46,7 @@ class KBCaptcha {
 			$src = content_url('/uploads/kboard_captcha/' . $captcha_name);
 		}
 		else{
-			$_SESSION['kboard_captcha'][] = 'ERROR';
+			unset($_SESSION['kboard_captcha']);
 			$src = KBOARD_URL_PATH . '/images/captcha-error.png';
 		}
 		
@@ -61,13 +61,12 @@ class KBCaptcha {
 		if(is_user_logged_in()){
 			return true;
 		}
-		if(kboard_use_recaptcha() && isset($_POST['g-recaptcha-response'])){
-			if($this->recaptcha()){
-				return true;
-			}
+		if(kboard_use_recaptcha()){
+			return $this->recaptcha();
 		}
-		if(isset($_POST['captcha'])){
-			if(in_array(strtoupper($_POST['captcha']), $_SESSION['kboard_captcha'])){
+		if(isset($_POST['captcha']) && is_string($_POST['captcha']) && !empty($_SESSION['kboard_captcha']) && is_array($_SESSION['kboard_captcha'])){
+			$answer = strtoupper($_POST['captcha']);
+			if($answer !== 'ERROR' && in_array($answer, $_SESSION['kboard_captcha'], true)){
 				unset($_SESSION['kboard_captcha']);
 				return true;
 			}
@@ -81,6 +80,9 @@ class KBCaptcha {
 	 */
 	function recaptcha(){
 		if(!kboard_use_recaptcha()){
+			return false;
+		}
+		if(empty($_POST['g-recaptcha-response']) || !is_string($_POST['g-recaptcha-response'])){
 			return false;
 		}
 

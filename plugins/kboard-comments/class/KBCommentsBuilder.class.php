@@ -14,9 +14,9 @@ class KBCommentsBuilder {
 	var $skin_name;
 	var $permission_comment_write;
 	
-	public function __construct(){
+	public function __construct($register=true){
 		global $kboard_comment_builder;
-		$kboard_comment_builder = $this;
+		if($register) $kboard_comment_builder = $this;
 		
 		$this->setSkin('default');
 	}

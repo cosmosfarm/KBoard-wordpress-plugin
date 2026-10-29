@@ -534,7 +534,12 @@ class KBoardFields {
 			}
 		}
 		
-		return apply_filters('kboard_skin_fields', $fields, $this->board);
+		$fields = apply_filters('kboard_skin_fields', $fields, $this->board);
+		// CAPTCHA가 켜져 있으면 필드 누락으로 비회원 작성 폼이 막히지 않게 한다.
+		if($this->board && $this->board->useCAPTCHA() && !isset($fields['captcha'])){
+			$fields['captcha'] = $this->default_fields['captcha'];
+		}
+		return $fields;
 	}
 	
 	/**
@@ -769,6 +774,18 @@ class KBoardFields {
 		return KBContent::$SKIN_OPTION_PREFIX . $name;
 	}
 	
+	/**
+	 * 공지 선택 필드에 설정된 권한을 서버 저장 경로에서도 사용한다.
+	 */
+	public function isUseNotice(){
+		if(!$this->board) return false;
+		if($this->board->isAdmin()) return true;
+		$fields = $this->getSkinFields();
+		if(!isset($fields['option']['notice_permission'])) return false;
+		$roles = isset($fields['option']['notice']) ? (array)$fields['option']['notice'] : array();
+		return $this->isUseFields($fields['option']['notice_permission'], $roles);
+	}
+
 	/**
 	 * 입력 필드를 사용할 수 있는 권한인지 확인한다.
 	 * @param string $permission
