@@ -166,29 +166,11 @@ class KBContentList {
 		global $wpdb;
 		if($board_id){
 			$board_id = intval($board_id);
-			$permission_read = $wpdb->get_var($wpdb->prepare("SELECT `permission_read` FROM `{$wpdb->prefix}kboard_board_setting` WHERE `uid`=%d", $board_id));
-			if($permission_read !== 'all'){
-				$this->total = 0;
-				$this->resource = array();
-				$this->index = 0;
-				$this->is_rss = true;
-				return $this;
-			}
 			$where[] = "`board_id`='{$board_id}'";
 		}
-		else{
-			$read = array();
-			$result = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_setting` WHERE `permission_read`='all'");
-			foreach($result as $row){
-				$read[] = $row->uid;
-			}
-			if($read){
-				$where[] = '`board_id` IN(' . implode(',', $read) . ')';
-			}
-			else{
-				$where[] = '1=0';
-			}
-		}
+		// RSS is public, even when requested by a board administrator. Match
+		// PHP's truthiness for the persisted "own posts only" setting.
+		$where[] = "`board_id` IN (SELECT `setting`.`uid` FROM `{$wpdb->prefix}kboard_board_setting` AS `setting` WHERE BINARY `setting`.`permission_read`=BINARY 'all' AND NOT EXISTS (SELECT 1 FROM `{$wpdb->prefix}kboard_board_meta` AS `meta` WHERE `meta`.`board_id`=`setting`.`uid` AND `meta`.`key`='permission_list' AND OCTET_LENGTH(`meta`.`value`)>0 AND NOT (OCTET_LENGTH(`meta`.`value`)=1 AND `meta`.`value`='0')))";
 		$where[] = "`secret`=''";
 		$where[] = "`status`=''";
 		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE " . implode(' AND ', $where));
