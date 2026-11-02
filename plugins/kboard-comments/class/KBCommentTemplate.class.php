@@ -90,17 +90,18 @@ class KBCommentTemplate {
 		
 		$password = isset($_POST['password'])?$_POST['password']:'';
 		
-		if($comment->isEditor() || ($comment->getPassword() && $comment->checkPassword($password))){
+		$is_editor = $comment->isEditor();
+		if($is_editor || ($comment->getPassword() && $comment->checkPassword($password))){
 			$commentURL = new KBCommentUrl();
 			$commentURL->setCommentUID($comment->uid);
 			$submit_action_url = $commentURL->getUpdateURL();
 			
-			if($comment->getPassword()){
+			if($comment->getPassword() && !$is_editor){
 				// 비밀번호 nonce 추가
 				$submit_action_url = add_query_arg('kboard-comments-update-nonce', wp_create_nonce("kboard-comments-update-{$comment->getPassword()}"), $submit_action_url);
 			}
 			
-			$edit_password = $comment->isEditor() ? '' : $comment->getPassword();
+			$edit_password = $is_editor ? '' : $comment->getPassword();
 			include_once KBOARD_COMMENTS_DIR_PATH . '/template/edit.php';
 		}
 		else{
