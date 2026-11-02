@@ -31,6 +31,9 @@ class KBUrl {
 	 */
 	public function init(){
 		$this->data = $_GET;
+		if(isset($this->data['kboard_search_option']) && is_array($this->data['kboard_search_option'])){
+			$this->data['kboard_search_option'] = wp_unslash($this->data['kboard_search_option']);
+		}
 		$this->data['mod'] = '';
 		$this->data['uid'] = '';
 		$this->data['rpp'] = '';

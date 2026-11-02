@@ -14,6 +14,7 @@
 		<?php $table->search_box(__('Search', 'kboard'), 'kboard_latestview_search')?>
 	</form>
 	<form method="post">
+		<?php wp_nonce_field('kboard_latestview_bulk_action', 'kboard_latestview_bulk_nonce')?>
 		<?php $table->display()?>
 	</form>
 </div>

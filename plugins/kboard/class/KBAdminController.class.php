@@ -420,6 +420,7 @@ class KBAdminController {
 	 */
 	function latestview_update(){
 		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
+		check_admin_referer('kboard_latestview_update', 'kboard_latestview_nonce');
 		
 		$latestview_uid = $_POST['latestview_uid'];
 		$latestview_link = $_POST['latestview_link'];
@@ -961,6 +962,7 @@ class KBAdminController {
 	 */
 	public function tree_category_update(){
 		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
+		check_ajax_referer('kboard_tree_category', 'security');
 		
 		$_POST = stripslashes_deep($_POST);
 		
@@ -1026,6 +1028,7 @@ class KBAdminController {
 	 */
 	public function tree_category_sortable(){
 		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
+		check_ajax_referer('kboard_tree_category', 'security');
 		
 		$_POST = stripslashes_deep($_POST);
 		

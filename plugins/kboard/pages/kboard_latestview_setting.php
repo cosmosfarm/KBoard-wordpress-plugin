@@ -10,6 +10,7 @@
 	<hr class="wp-header-end">
 	
 	<form action="<?php echo admin_url('admin-post.php')?>" method="post" onsubmit="return latestview_submit()">
+		<?php wp_nonce_field('kboard_latestview_update', 'kboard_latestview_nonce')?>
 		<input type="hidden" name="action" value="kboard_latestview_action">
 		<input type="hidden" name="latestview_uid" value="<?php echo $latestview->uid?>">
 		<input type="hidden" name="latestview_link">
@@ -19,7 +20,7 @@
 				<tr valign="top">
 					<th scope="row"><label for="name">최신글 모아보기 이름</label></th>
 					<td>
-						<input type="text" id="name" name="name" class="regular-text" value="<?php if(!$latestview->name):?>무명 최신글 모아보기 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo $latestview->name?><?php endif?>">
+						<input type="text" id="name" name="name" class="regular-text" value="<?php if(!$latestview->name):?>무명 최신글 모아보기 <?php echo date("Y-m-d", current_time('timestamp'))?><?php else:?><?php echo esc_attr($latestview->name)?><?php endif?>">
 					</td>
 				</tr>
 				<tr valign="top">

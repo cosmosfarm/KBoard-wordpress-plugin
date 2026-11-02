@@ -11,7 +11,11 @@ function kboard_pagination($current_page, $total, $limit, $args=array(), $text=a
 	if(!is_array($args)){
 		$args = array();
 	}
-	$args = array_merge($_GET, $args);
+	$request = $_GET;
+	if(isset($request['kboard_search_option']) && is_array($request['kboard_search_option'])){
+		$request['kboard_search_option'] = wp_unslash($request['kboard_search_option']);
+	}
+	$args = array_merge($request, $args);
 	
 	foreach($args as $key=>$value){
 		if(is_array($value)){

@@ -295,7 +295,7 @@ function kboard_tree_category_sortable(tree_category_serialize){
 
 	tree_category_serialize = JSON.stringify(tree_category_serialize);
 	
-	jQuery.post(ajaxurl, {action:'kboard_tree_category_sortable', board_id:board_id, tree_category_serialize:tree_category_serialize}, function(data){
+	jQuery.post(ajaxurl, {action:'kboard_tree_category_sortable', security:jQuery('#kboard-tree-category-security').val(), board_id:board_id, tree_category_serialize:tree_category_serialize}, function(data){
 		jQuery('.sortable li').remove();
 		jQuery('.sortable').append(data.table_body);
 	});
@@ -313,9 +313,9 @@ function kboard_tree_category_update(sub_action){
 			return false;
 		}
 		else{
-			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][id]" value="'+new_category_id+'">');
-			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][category_name]" value="'+category_name+'">');
-			jQuery('.sortable').append('<input type="hidden" name="tree_category['+new_category_id+'][parent_id]" value="">');
+			jQuery('<input>', {type:'hidden', name:'tree_category['+new_category_id+'][id]'}).val(new_category_id).appendTo('.sortable');
+			jQuery('<input>', {type:'hidden', name:'tree_category['+new_category_id+'][category_name]'}).val(category_name).appendTo('.sortable');
+			jQuery('<input>', {type:'hidden', name:'tree_category['+new_category_id+'][parent_id]'}).val('').appendTo('.sortable');
 		}
 	}
 	
@@ -347,7 +347,7 @@ function kboard_tree_category_update(sub_action){
 
 	var tree_category = jQuery('.sortable').find('input[name^="tree_category"]').serialize();
 	
-	jQuery.post(ajaxurl, {action:'kboard_tree_category_update', tree_category:tree_category, board_id:board_id, category_id:category_id}, function(data){
+	jQuery.post(ajaxurl, {action:'kboard_tree_category_update', security:jQuery('#kboard-tree-category-security').val(), tree_category:tree_category, board_id:board_id, category_id:category_id}, function(data){
 		jQuery('#new-category-name').val('');
 		jQuery('#update-category-name').val('');
 		jQuery('#new-category-name').focus();

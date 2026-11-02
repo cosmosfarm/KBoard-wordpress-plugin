@@ -14,7 +14,7 @@
 	<div class="kboard-content-list-search">
 		<form method="get">
 			<input type="hidden" name="page" value="kboard_content_list">
-			<input type="hidden" name="filter_view" value="<?php echo $table->filter_view?>">
+			<input type="hidden" name="filter_view" value="<?php echo esc_attr($table->filter_view)?>">
 			<input type="hidden" name="filter_board_id" value="<?php echo $table->filter_board_id?>">
 			<input type="hidden" name="per_page" value="<?php echo $table->per_page?>">
 			<input type="hidden" name="filter_category1" value="<?php echo esc_attr($table->filter_category1)?>">

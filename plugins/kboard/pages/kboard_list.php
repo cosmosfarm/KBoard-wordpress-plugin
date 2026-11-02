@@ -14,6 +14,7 @@
 		<?php $table->search_box(__('Search', 'kboard'), 'kboard_list_search')?>
 	</form>
 	<form method="post">
+		<?php wp_nonce_field('kboard_board_bulk_action', 'kboard_board_bulk_nonce')?>
 		<?php $table->display()?>
 	</form>
 </div>

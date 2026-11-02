@@ -386,6 +386,14 @@ class KBController {
 			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
 			exit;
 		}
+		if(!$content->isDirectReader()){
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
+			exit;
+		}
+		if($comment->uid && !$comment->isReader()){
+			do_action('kboard_cannot_download_file', 'go_back', wp_get_referer(), $content, $board, $comment);
+			exit;
+		}
 		
 		if(!$content->isReader()){
 			if($board->permission_read != 'all' && !is_user_logged_in()){

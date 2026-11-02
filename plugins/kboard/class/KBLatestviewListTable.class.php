@@ -77,7 +77,7 @@ class KBLatestviewListTable extends WP_List_Table {
 		echo '</th>';
 		
 		echo '<td><a href="'.admin_url("admin.php?page=kboard_latestview&latestview_uid={$item->uid}").'" title="'.__('Edit', 'kboard').'" style="display:block">';
-		echo $item->name;
+		echo esc_html($item->name);
 		echo '</a></td>';
 		
 		echo '<td>';

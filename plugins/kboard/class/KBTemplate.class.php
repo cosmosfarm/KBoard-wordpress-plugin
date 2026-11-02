@@ -120,6 +120,9 @@ class KBTemplate {
 		}
 		
 		$board = $content->getBoard();
+		if(!$content->isDirectReader()){
+			wp_die(__('You do not have permission.', 'kboard'));
+		}
 		
 		if(!$content->isReader()){
 			if($board->permission_read != 'all' && !is_user_logged_in()){

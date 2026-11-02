@@ -18,6 +18,7 @@ if(!defined('KBOARD_COMMNETS_VERSION')){
 		<?php wp_nonce_field('kboard-setting-execute', 'kboard-setting-execute-nonce');?>
 		<input type="hidden" name="action" value="kboard_update_execute">
 		<input type="hidden" name="board_id" value="<?php echo $board->id?>">
+		<input type="hidden" id="kboard-tree-category-security" value="<?php echo esc_attr(wp_create_nonce('kboard_tree_category'))?>">
 		<input type="hidden" name="tab_kboard_setting" value="">
 		
 		<h2 class="nav-tab-wrapper">

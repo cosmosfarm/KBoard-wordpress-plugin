@@ -16,7 +16,7 @@ class KBBackup {
 		$tables = array();
 		$tables_result = $wpdb->get_results('SHOW TABLES', ARRAY_N);
 		foreach($tables_result as $table){
-			if(strpos($table[0], "{$wpdb->prefix}kboard_") !== false) $tables[] = $table[0];
+			if(strpos($table[0], "{$wpdb->prefix}kboard_") === 0) $tables[] = $table[0];
 		}
 		return $tables;
 	}
@@ -113,8 +113,18 @@ class KBBackup {
 		$xml = file_get_contents($file);
 		$xml = trim($xml);
 		$array = XML2Array::createArray($xml);
+		if(!isset($array['kboard']) || !is_array($array['kboard'])){
+			wp_die(__('Invalid request.'));
+		}
+		$allowed_tables = $this->getTables();
+		foreach($array['kboard'] as $table=>$rows){
+			if(strpos($table, 'kboard_') !== 0){
+				wp_die(__('Invalid request.'));
+			}
+		}
 		
 		foreach($array['kboard'] as $table=>$rows){
+			if(!in_array($wpdb->prefix . $table, $allowed_tables, true)) continue;
 			
 			// 테이블에 입력될 데이터가 한 개인지 여러개 인지 확인한다.
 			if(isset($rows['data']) && is_array($rows['data'])){
@@ -162,7 +172,7 @@ class KBBackup {
 							$kboard_post = array(
 								'post_author'   => $row['member_uid']['@cdata'],
 								'post_title'    => $row['title']['@cdata'],
-								'post_content'  => ($row['secret']['@cdata']=='true' || $row['search']['@cdata']==2) ? '' : $row['content']['@cdata'],
+								'post_content'  => ($row['secret']['@cdata'] || $row['search']['@cdata']==2) ? '' : $row['content']['@cdata'],
 								'post_status'   => 'publish',
 								'comment_status'=> 'closed',
 								'ping_status'   => 'closed',

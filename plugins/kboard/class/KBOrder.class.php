@@ -108,7 +108,7 @@ class KBOrder {
 				if($key == 'use_points'){
 					if($this->board->isUsePointOrder()){
 						// 실제로 포인트가 있는지 체크 해야함
-						$value = intval($value);
+						$value = is_scalar($value) ? max(0, intval($value)) : 0;
 						$balance = mycred_get_users_balance(get_current_user_id());
 						if($balance < 0){
 							$balance = 0;
@@ -207,6 +207,10 @@ class KBOrder {
 				if($this->items_count > 1){
 					$this->title = $this->title . ' (+'.($this->items_count-1).')';
 				}
+			}
+			if($this->items_count == 1){
+				$first_item = reset($this->items);
+				$first_item->use_points = $this->use_points;
 			}
 		}
 		else if($this->order_id){

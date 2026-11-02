@@ -793,6 +793,9 @@ class KBoardBuilder
 			if (kboard_parent_uid() && !$content->uid && !$content->parent_uid) {
 				$parent = new KBContent();
 				$parent->initWithUID(kboard_parent_uid());
+				if (!$parent->uid || $this->isNotAllowed($parent->board_id) || !$parent->isDirectReader()) {
+					wp_die(__('You do not have permission.', 'kboard'));
+				}
 
 				// 부모 고유번호가 있으면 답글로 등록하기 위해서 부모 고유번호를 등록한다.
 				$content->parent_uid = $parent->uid;

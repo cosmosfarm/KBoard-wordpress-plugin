@@ -110,6 +110,8 @@ class KBSearchEngine {
 			'board_id' => 0,
 			'auto_operator_or' => false,
 			'include_member_display' => false,
+			'unreadable_secret_uids' => array(),
+			'unreadable_secret_check_failed' => false,
 		);
 		$args = wp_parse_args((array) $args, $defaults);
 
@@ -135,6 +137,8 @@ class KBSearchEngine {
 		}
 
 		$content_table = "`{$wpdb->prefix}kboard_board_content`";
+		$unreadable_secret_uids = array_filter(array_unique(array_map('intval', (array)$args['unreadable_secret_uids'])));
+		$secret_body_guard = $args['unreadable_secret_check_failed'] ? '1=0 AND ' : ($unreadable_secret_uids ? "{$content_table}.`uid` NOT IN (" . implode(',', $unreadable_secret_uids) . ") AND " : '');
 		$term_clauses = array();
 		$operators = $parsed['operators'];
 
@@ -160,7 +164,7 @@ class KBSearchEngine {
 			}
 			else if($search_target === 'content'){
 				$candidate[] = "MATCH(`kboard_search_doc`.`content_plain`) AGAINST ({$match_keyword} IN BOOLEAN MODE)";
-				$exact[] = $wpdb->prepare("{$content_table}.`content` LIKE %s", $like_keyword);
+				$exact[] = $wpdb->prepare("({$secret_body_guard}{$content_table}.`content` LIKE %s)", $like_keyword);
 			}
 			else if($search_target === 'member_display'){
 				$candidate[] = "MATCH(`kboard_search_doc`.`member_display`) AGAINST ({$match_keyword} IN BOOLEAN MODE)";
@@ -169,7 +173,7 @@ class KBSearchEngine {
 			else{
 				$candidate[] = "MATCH(`kboard_search_doc`.`title_plain`, `kboard_search_doc`.`content_plain`) AGAINST ({$match_keyword} IN BOOLEAN MODE)";
 				$exact[] = $wpdb->prepare("{$content_table}.`title` LIKE %s", $like_keyword);
-				$exact[] = $wpdb->prepare("{$content_table}.`content` LIKE %s", $like_keyword);
+				$exact[] = $wpdb->prepare("({$secret_body_guard}{$content_table}.`content` LIKE %s)", $like_keyword);
 				if(!empty($args['include_member_display'])){
 					$candidate[] = "MATCH(`kboard_search_doc`.`member_display`) AGAINST ({$match_keyword} IN BOOLEAN MODE)";
 					$exact[] = $wpdb->prepare("{$content_table}.`member_display` LIKE %s", $like_keyword);

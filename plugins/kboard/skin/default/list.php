@@ -14,7 +14,7 @@
 				
 				<?php
 				if(isset($_GET['kboard_search_option']) && is_array($_GET['kboard_search_option'])){
-					foreach($_GET['kboard_search_option'] as $key=>$value){
+					foreach(wp_unslash($_GET['kboard_search_option']) as $key=>$value){
 						foreach($value as $k=>$v){
 							echo '<input type="hidden" name="kboard_search_option['.esc_attr($key).']['.esc_attr($k).']" value="'.esc_attr($v).'">';
 						}

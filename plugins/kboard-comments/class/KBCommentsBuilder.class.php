@@ -78,7 +78,7 @@ class KBCommentsBuilder {
 	public function buildTreeList($template, $parent_uid='', $depth=0){
 		
 		$current_user = wp_get_current_user();
-		$commentList = new KBCommentList();
+		$commentList = new KBCommentList($this->content_uid);
 		$commentList->board = $this->board;
 		
 		if($parent_uid){

@@ -1,9 +1,9 @@
 <div class="comments-list">
 	<ul>
-		<?php while($comment = $commentList->hasNext()): $commentURL->setCommentUID($comment->uid);?>
-		<li itemscope itemtype="http://schema.org/Comment" class="kboard-comments-item" data-username="<?php echo esc_attr($comment->user_display)?>" data-created="<?php echo esc_attr($comment->created)?>">
+		<?php while($comment = $commentList->hasNext()): $commentURL->setCommentUID($comment->uid); $comment_user_display = $comment->getUserDisplay();?>
+		<li itemscope itemtype="http://schema.org/Comment" class="kboard-comments-item" data-username="<?php echo esc_attr(trim(wp_strip_all_tags($comment_user_display)))?>" data-created="<?php echo esc_attr($comment->created)?>">
 			<div class="comments-list-username" itemprop="author">
-				<?php echo $comment->getUserDisplay()?>
+				<?php echo $comment_user_display?>
 			</div>
 			<div class="comments-list-create" itemprop="dateCreated"><?php echo date('Y-m-d H:i', strtotime($comment->created))?></div>
 			<div class="comments-list-content" itemprop="description">

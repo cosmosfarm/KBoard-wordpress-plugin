@@ -254,7 +254,7 @@ class KBFileHandler {
 			if(!is_uploaded_file($file['tmp_name'])){
 				$this->rollback();
 				$message = sprintf(__('%s 파일이 올바르게 업로드되지 않았습니다.', 'kboard'), $file['name']);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 			
@@ -262,7 +262,7 @@ class KBFileHandler {
 			if(!$this->checkExtension($file['name'])){
 				$this->rollback();
 				$message = sprintf(__('%s 파일은 업로드 가능한 파일 형식이 아닙니다.', 'kboard'), $file['name']);
-				echo "<script>alert('{$message} ');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 			
@@ -270,7 +270,7 @@ class KBFileHandler {
 			if(!$this->checkFileSize($file['size'])){
 				$this->rollback();
 				$message = sprintf(__('%s 파일의 용량이 너무 큽니다.', 'kboard'), $file['name']);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 			
@@ -278,7 +278,7 @@ class KBFileHandler {
 			if($this->checkError($file['error'])){
 				$this->rollback();
 				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name']);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 			
@@ -288,7 +288,7 @@ class KBFileHandler {
 				$this->uploaded_file[] = "{$this->abspath}{$this->path}/{$file_unique_name}";
 				$this->rollback();
 				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name']);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 			
@@ -338,7 +338,7 @@ class KBFileHandler {
 			if($file['size'][$key] && !is_uploaded_file($tmp_name)){
 				$this->rollback();
 				$message = sprintf(__('%s 파일이 올바르게 업로드되지 않았습니다.', 'kboard'), $file['name'][$key]);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 		}
@@ -348,7 +348,7 @@ class KBFileHandler {
 			if($file['size'][$key] && !$this->checkExtension($name)){
 				$this->rollback();
 				$message = sprintf(__('%s 파일은 업로드 가능한 파일 형식이 아닙니다.', 'kboard'), $file['name'][$key]);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 		}
@@ -358,7 +358,7 @@ class KBFileHandler {
 			if($file['size'][$key] && !$this->checkFileSize($size)){
 				$this->rollback();
 				$message = sprintf(__('%s 파일의 용량이 너무 큽니다.', 'kboard'), $file['name'][$key]);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 		}
@@ -368,7 +368,7 @@ class KBFileHandler {
 			if($file['size'][$key] && $this->checkError($error)){
 				$this->rollback();
 				$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name'][$key]);
-				echo "<script>alert('{$message}');history.go(-1);</script>";
+				echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 				exit;
 			}
 		}
@@ -381,7 +381,7 @@ class KBFileHandler {
 					$this->uploaded_file[] = "{$this->abspath}{$this->path}/{$file_unique_name}";
 					$this->rollback();
 					$message = sprintf(__('%s 파일 업로드 중 오류가 발생했습니다.', 'kboard'), $file['name'][$key]);
-					echo "<script>alert('{$message}');history.go(-1);</script>";
+					echo '<script>alert(' . wp_json_encode($message, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) . ');history.go(-1);</script>';
 					exit;
 				}
 				

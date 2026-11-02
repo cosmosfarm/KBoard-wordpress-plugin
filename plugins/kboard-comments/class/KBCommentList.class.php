@@ -81,12 +81,13 @@ class KBCommentList {
 	 */
 	public function initWithParentUID($parent_uid){
 		global $wpdb;
-		$this->parent_uid = $parent_uid;
+		$this->parent_uid = intval($parent_uid);
+		$content_where = $this->content_uid ? " AND `content_uid`='" . intval($this->content_uid) . "'" : '';
 		
 		$orderby = apply_filters('kboard_comments_list_orderby', "`{$this->sort}` {$this->order}", $this);
 		
-		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}' ORDER BY {$orderby}");
-		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'");
+		$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'{$content_where} ORDER BY {$orderby}");
+		$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_comments` WHERE `parent_uid`='{$this->parent_uid}'{$content_where}");
 		$wpdb->flush();
 		return $this;
 	}

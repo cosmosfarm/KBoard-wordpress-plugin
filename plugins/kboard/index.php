@@ -149,6 +149,16 @@ function kboard_admin_init(){
 	// 게시판 관리
 	if($page == 'kboard_list' && (!isset($_GET['board_id']) || !$_GET['board_id'])){
 		$wp_list_table = _get_list_table('WP_Posts_List_Table');
+		$bulk_action = $wp_list_table->current_action();
+		if(isset($_POST['board_id']) && in_array($bulk_action, array('reset_total', 'truncate', 'delete'), true)){
+			if(!current_user_can('manage_kboard')){
+				wp_die(__('You do not have permission to access this page.'));
+			}
+			check_admin_referer('kboard_board_bulk_action', 'kboard_board_bulk_nonce');
+			if(!is_array($_POST['board_id'])){
+				wp_die(__('Invalid request.'));
+			}
+		}
 		if(isset($_POST['board_id']) && $wp_list_table->current_action() == 'reset_total'){
 			set_time_limit(0);
 			ini_set('memory_limit', '-1');
@@ -402,6 +412,9 @@ function kboard_latestview(){
 		include_once 'class/KBLatestviewListTable.class.php';
 		$table = new KBLatestviewListTable();
 		if(isset($_POST['latestview_uid']) && $table->current_action() == 'delete'){
+			if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard'));
+			check_admin_referer('kboard_latestview_bulk_action', 'kboard_latestview_bulk_nonce');
+			if(!is_array($_POST['latestview_uid'])) wp_die(__('Invalid request.'));
 			$latestview = new KBLatestview();
 			foreach($_POST['latestview_uid'] as $key=>$latestview_uid){
 				$latestview->initWithUID($latestview_uid);
@@ -1674,7 +1687,7 @@ function kboard_admin_style($hook_suffix){
 	wp_register_style('jquery-flick-style', KBOARD_URL_PATH.'/template/css/jquery-ui.css', array(), '1.12.1');
 	wp_register_style('jquery-timepicker', KBOARD_URL_PATH.'/template/css/jquery.timepicker.css', array(), KBOARD_VERSION);
 	wp_register_script('nested-sortable', KBOARD_URL_PATH . '/assets/nested-sortable/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-sortable'), '2.1a');
-	wp_register_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION, false);
+	wp_register_script('kboard-setting-script', KBOARD_URL_PATH . '/pages/kboard-setting-script.js', array(), KBOARD_VERSION . '.2', false);
 }
 add_action('admin_enqueue_scripts', 'kboard_admin_style', 999, 1);
 
@@ -1983,10 +1996,14 @@ function kboard_activation_execute(){
 	KEY `option_key` (`option_key`)
 	) {$charset_collate};");
 	
+	// dbDelta는 기존 테이블의 `key` 컬럼을 인덱스 선언으로 오인한다.
+	$suppress_errors = $wpdb->suppress_errors(true);
+	$meta_key_exists = $wpdb->get_var("SHOW COLUMNS FROM `{$wpdb->prefix}kboard_board_meta` LIKE 'key'");
+	$wpdb->suppress_errors($suppress_errors);
+	$meta_key_definition = $meta_key_exists ? '' : "\t`key` varchar(127) NOT NULL,\n";
 	dbDelta("CREATE TABLE `{$wpdb->prefix}kboard_board_meta` (
 	`board_id` bigint(20) unsigned NOT NULL,
-	`key` varchar(127) NOT NULL,
-	`value` longtext NOT NULL,
+{$meta_key_definition}	`value` longtext NOT NULL,
 	UNIQUE KEY `meta_index` (`board_id`,`key`),
 	KEY `key` (`key`)
 	) {$charset_collate};");

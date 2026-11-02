@@ -1441,12 +1441,7 @@ class KBContent {
 	 * @return int
 	 */
 	public function getTopContentUID(){
-		if($this->parent_uid){
-			$content = new KBContent();
-			$content->initWithUID($this->parent_uid);
-			return $content->getTopContentUID();
-		}
-		return $this->uid;
+		return $this->getTopContentChecked()->uid;
 	}
 	
 	/**
@@ -1454,12 +1449,27 @@ class KBContent {
 	 * @return KBContent
 	 */
 	public function getTopContent(){
-		if($this->parent_uid){
-			$content = new KBContent();
-			$content->initWithUID($this->parent_uid);
-			return $content->getTopContent();
+		return $this->getTopContentChecked();
+	}
+
+	private function getTopContentChecked(){
+		$content = $this;
+		$visited = array();
+		while($content->parent_uid){
+			$uid = intval($content->uid);
+			$parent_uid = intval($content->parent_uid);
+			if(!$parent_uid || ($uid && isset($visited[$uid]))){
+				return new KBContent();
+			}
+			if($uid) $visited[$uid] = true;
+			$parent = new KBContent();
+			$parent->initWithUID($parent_uid);
+			if(!$parent->uid){
+				return new KBContent();
+			}
+			$content = $parent;
 		}
-		return $this;
+		return $content;
 	}
 	
 	/**
@@ -1703,6 +1713,33 @@ class KBContent {
 			}
 		}
 		return false;
+	}
+
+	/** 본문을 직접 출력하는 기능에서 게시판의 읽기 조건을 확인한다. */
+	public function isDirectReader(){
+		if(!$this->uid || $this->isTrash() || ($this->status == 'pending_approval' && !$this->isEditor())) return false;
+		$board = $this->getBoard();
+		$top = $this->parent_uid ? $this->getTopContentChecked() : $this;
+		if(!$top->uid) return false;
+		if($this->parent_uid && intval($top->board_id) !== intval($this->board_id) && !$top->isDirectReader()) return false;
+		if($board->isPrivate()){
+			if(!is_user_logged_in()) return false;
+			$user_id = get_current_user_id();
+			if(!$this->notice && $this->member_uid != $user_id && $top->member_uid != $user_id) return false;
+		}
+		if(!$this->isReader()){
+			if(($board->permission_read != 'all' && !is_user_logged_in()) || !$this->secret) return false;
+			if(!$this->isConfirm() && (!$this->parent_uid || (!$board->isReader($top->member_uid, $this->secret) && !$top->isConfirm()))) return false;
+		}
+		if($board->meta->document_read_down_point && (!$board->meta->point_applied_to || !$board->isAdmin()) && function_exists('mycred_add')){
+			if(!is_user_logged_in()) return false;
+			if($this->member_uid != get_current_user_id()){
+				if(!class_exists('myCRED_Query_Log')) return false;
+				$log = new myCRED_Query_Log(array('user_id'=>get_current_user_id(), 'ref'=>'document_read_down_point', 'ref_id'=>$this->uid));
+				if(!$log->have_entries()) return false;
+			}
+		}
+		return true;
 	}
 	
 	/**

@@ -16,7 +16,7 @@ class KBContentListTable extends WP_List_Table {
 	
 	public function __construct(){
 		parent::__construct();
-		$this->filter_view = isset($_REQUEST['filter_view'])?$_REQUEST['filter_view']:'';
+		$this->filter_view = isset($_REQUEST['filter_view']) && is_scalar($_REQUEST['filter_view']) ? sanitize_key(wp_unslash($_REQUEST['filter_view'])) : '';
 		$this->filter_board_id = isset($_REQUEST['filter_board_id'])?intval($_REQUEST['filter_board_id']):'';
 		$this->filter_category1 = isset($_REQUEST['filter_category1'])?sanitize_text_field($_REQUEST['filter_category1']):'';
 		$this->per_page = isset($_REQUEST['per_page'])?intval($_REQUEST['per_page']):20;

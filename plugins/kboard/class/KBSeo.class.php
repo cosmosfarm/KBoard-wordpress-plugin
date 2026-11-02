@@ -40,13 +40,6 @@ class KBSeo {
 				}
 				
 				if($is_display){
-					if(current_theme_supports('title-tag')){
-						add_filter('document_title_parts', array($this, 'title'), 10, 1);
-					}
-					else{
-						add_filter('wp_title', array($this, 'title'), 10, 1);
-					}
-					
 					$is_display = false;
 					
 					if($this->content->secret){
@@ -62,7 +55,7 @@ class KBSeo {
 						}
 					}
 					
-					if($this->content->isTrash()){
+					if($this->content->isTrash() || ($this->content->status == 'pending_approval' && !$this->content->isEditor())){
 						$is_display = false;
 					}
 					
@@ -70,7 +63,13 @@ class KBSeo {
 						$is_display = false;
 					}
 					
-					if($is_display){
+					if($is_display && $this->content->isDirectReader()){
+						if(current_theme_supports('title-tag')){
+							add_filter('document_title_parts', array($this, 'title'), 10, 1);
+						}
+						else{
+							add_filter('wp_title', array($this, 'title'), 10, 1);
+						}
 						$this->init();
 					}
 				}

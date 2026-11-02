@@ -93,12 +93,17 @@ class KBoardTreeCategory {
 	public function buildAdminTreeCategorySortableRow($tree_category, $level=0){
 		if($tree_category){
 			foreach($tree_category as $key=>$value){
-				$this->row .= '<li id="tree_category_'.$value['id'].'" style="display: list-item;">'.
-					'<div id="tree-category-'.$value['id'].'" class="menu-item-bar"><div data-id="'.$value['id'].'" class="menu-item-handle ui-sortable-handle" onclick="kboard_tree_category_edit_toggle(\''.$value['id'].'\', \''.$value['category_name'].'\', \''.$value['parent_id'].'\')">'.
-					'<span class="item-title">'.$value['category_name'].'</span>'.
-					'<input type="hidden" id="tree-category-id-'.$value['id'].'" name="tree_category['.$value['id'].'][id]" value="'.$value['id'].'">'.
-					'<input type="hidden" id="tree-category-name-'.$value['id'].'" name="tree_category['.$value['id'].'][category_name]" value="'.$value['category_name'].'">'.
-					'<input type="hidden" id="tree-category-parent-'.$value['id'].'" class="kboard-tree-category-parents" name="tree_category['.$value['id'].'][parent_id]" value="'.$value['parent_id'].'">'.
+				$id = esc_attr($value['id']);
+				$parent_id = esc_attr($value['parent_id']);
+				$category_name = esc_attr($value['category_name']);
+				$js_flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+				$edit_args = esc_attr(wp_json_encode($value['id'], $js_flags)) . ', ' . esc_attr(wp_json_encode($value['category_name'], $js_flags)) . ', ' . esc_attr(wp_json_encode($value['parent_id'], $js_flags));
+				$this->row .= '<li id="tree_category_'.$id.'" style="display: list-item;">'.
+					'<div id="tree-category-'.$id.'" class="menu-item-bar"><div data-id="'.$id.'" class="menu-item-handle ui-sortable-handle" onclick="kboard_tree_category_edit_toggle('.$edit_args.')">'.
+					'<span class="item-title">'.esc_html($value['category_name']).'</span>'.
+					'<input type="hidden" id="tree-category-id-'.$id.'" name="tree_category['.$id.'][id]" value="'.$id.'">'.
+					'<input type="hidden" id="tree-category-name-'.$id.'" name="tree_category['.$id.'][category_name]" value="'.$category_name.'">'.
+					'<input type="hidden" id="tree-category-parent-'.$id.'" class="kboard-tree-category-parents" name="tree_category['.$id.'][parent_id]" value="'.$parent_id.'">'.
 					'</div></div>';
 				if(isset($value['children']) && $value['children']){
 					$this->row .= '<ul>';

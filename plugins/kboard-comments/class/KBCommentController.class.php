@@ -58,7 +58,7 @@ class KBCommentController {
 			$comment_anonymous = isset($_POST['comment_option_anonymous'])?sanitize_text_field($_POST['comment_option_anonymous']):'';
 			
 			$parent_uid = isset($_POST['parent_uid'])?intval($_POST['parent_uid']):'';
-			$member_uid = isset($_POST['member_uid'])?intval($_POST['member_uid']):'';
+			$member_uid = get_current_user_id();
 			$member_display = isset($_POST['member_display'])?sanitize_text_field($_POST['member_display']):'';
 			$status = isset($_POST['status'])?sanitize_key($_POST['status']):'';
 			$password = isset($_POST['password'])?sanitize_text_field($_POST['password']):'';
@@ -75,6 +75,13 @@ class KBCommentController {
 			$document = new KBContent();
 			$document->initWithUID($content_uid);
 			$board = new KBoard($document->board_id);
+			if($parent_uid){
+				$parent = new KBComment();
+				$parent->initWithUID($parent_uid);
+				if(!$parent->uid || intval($parent->content_uid) !== intval($content_uid)){
+					wp_die(__('You do not have permission.', 'kboard-comments'));
+				}
+			}
 			// 화면과 동일한 역할 검사 및 kboard_comments_is_writer 필터를 사용한다.
 			$comment_builder = new KBCommentsBuilder(false);
 			$comment_builder->board = $board;

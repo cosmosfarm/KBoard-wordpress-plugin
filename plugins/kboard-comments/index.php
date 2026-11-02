@@ -106,6 +106,9 @@ function kboard_comments_list(){
 	include_once 'class/KBCommentListTable.class.php';
 	$table = new KBCommentListTable();
 	if(isset($_POST['comment_uid']) && $table->current_action() == 'delete'){
+		if(!current_user_can('manage_kboard')) wp_die(__('You do not have permission.', 'kboard-comments'));
+		check_admin_referer('kboard_comments_bulk_action', 'kboard_comments_bulk_nonce');
+		if(!is_array($_POST['comment_uid'])) wp_die(__('Invalid request.'));
 		$comment = new KBComment();
 		foreach($_POST['comment_uid'] as $key=>$comment_uid){
 			$comment->initWithUID($comment_uid);

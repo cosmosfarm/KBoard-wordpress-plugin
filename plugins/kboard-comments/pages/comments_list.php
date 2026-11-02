@@ -25,6 +25,7 @@
 	
 	<div class="kboard-comments-list">
 		<form id="kboard-comments-list" method="post">
+			<?php wp_nonce_field('kboard_comments_bulk_action', 'kboard_comments_bulk_nonce')?>
 			<input type="hidden" id="kboard-comments-update-security" value="<?php echo esc_attr(wp_create_nonce('kboard_comments_list_update'))?>">
 			<?php $table->display()?>
 		</form>

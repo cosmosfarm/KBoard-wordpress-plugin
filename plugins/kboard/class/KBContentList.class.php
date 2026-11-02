@@ -11,6 +11,7 @@ class KBContentList {
 	private $from;
 	private $where;
 	private $multiple_option_keys;
+	private $secret_search_option_guard = '';
 	private $next_list_page = 1;
 	
 	var $board;
@@ -376,6 +377,78 @@ class KBContentList {
 	public function setSearchOption($search_option){
 		$this->search_option = $search_option;
 	}
+
+	/** 읽기 권한이 없는 글의 본문은 검색어 비교에서 제외한다. */
+	private function getUnreadableSearchBodyUIDs($board_ids){
+		global $wpdb;
+		$board_ids = array_filter(array_unique(array_map('intval', (array)$board_ids)));
+		if(!$board_ids) return array();
+		$fields = has_filter('kboard_content_value') ? 'c.*' : 'c.uid, c.board_id, c.parent_uid, c.member_uid, c.secret, c.status, c.notice, c.password';
+		$point_check = function_exists('mycred_add') ? " OR EXISTS (SELECT 1 FROM `{$wpdb->prefix}kboard_board_meta` m WHERE m.board_id=c.board_id AND m.`key`='document_read_down_point' AND m.`value` NOT IN ('', '0'))" : '';
+		$rows = $wpdb->get_results("SELECT {$fields} FROM `{$wpdb->prefix}kboard_board_content` c WHERE c.board_id IN (" . implode(',', $board_ids) . ") AND (c.secret NOT IN ('', '0'){$point_check})");
+		if($wpdb->last_error) return false;
+		$boards = array();
+		$unreadable = array();
+		foreach($rows as $row){
+			$board_id = (int)$row->board_id;
+			if(!isset($boards[$board_id])) $boards[$board_id] = new KBoard($board_id);
+			$content = new KBContent();
+			$content->row = $row;
+			$content->board_id = $board_id;
+			$content->board = $boards[$board_id];
+			if(!$content->isDirectReader()) $unreadable[] = (int)$row->uid;
+		}
+		return $unreadable;
+	}
+
+	/** 공개 분류 선택만 있는 경우에는 비밀 입력값 검색이 아니다. */
+	private function hasProtectedSearchOption($options){
+		foreach((array)$options as $option){
+			if(!is_array($option)) continue;
+			if(isset($option['relation'])){
+				if($this->hasProtectedSearchOption($option)) return true;
+			}
+			else if(isset($option['key']) && is_scalar($option['key'])){
+				$key = sanitize_key($option['key']);
+				if($key && !preg_match('/^tree_category_[0-9]+$/D', $key)) return true;
+			}
+		}
+		return false;
+	}
+
+	/** 여러 게시판을 검색할 때 현재 사용자가 볼 수 없는 글을 제외한다. */
+	private function getUnreadableSearchPostUIDs($board_ids){
+		global $wpdb;
+		$board_ids = array_filter(array_unique(array_map('intval', (array)$board_ids)));
+		if(!$board_ids) return array();
+		$fields = has_filter('kboard_content_value') ? 'c.*' : 'c.uid, c.board_id, c.parent_uid, c.member_uid, c.secret, c.status, c.notice, c.password';
+		$extra = has_filter('kboard_is_reader') ? ' OR 1=1' : '';
+		$rows = $wpdb->get_results("SELECT {$fields} FROM `{$wpdb->prefix}kboard_board_content` c
+			LEFT JOIN `{$wpdb->prefix}kboard_board_setting` b ON b.uid=c.board_id
+			WHERE c.board_id IN (" . implode(',', $board_ids) . ") AND (b.uid IS NULL OR b.permission_read<>'all' OR c.parent_uid<>0 OR c.status IN ('pending_approval', 'trash')
+			OR EXISTS (SELECT 1 FROM `{$wpdb->prefix}kboard_board_meta` m WHERE m.board_id=c.board_id AND m.`key`='permission_list' AND m.`value` NOT IN ('', '0')){$extra})");
+		if($wpdb->last_error) return false;
+		$boards = array();
+		$unreadable = array();
+		foreach($rows as $row){
+			$board_id = (int)$row->board_id;
+			if(!isset($boards[$board_id])) $boards[$board_id] = new KBoard($board_id);
+			$content = new KBContent();
+			$content->row = $row;
+			$content->board_id = $board_id;
+			$content->board = $boards[$board_id];
+			$board = $content->board;
+			if($board->id && $content->isDirectReader()) continue;
+			$title_only = $board->id && $content->secret && !$board->isPrivate() && $board->permission_read == 'all'
+				&& !$content->isTrash() && ($content->status != 'pending_approval' || $content->isEditor());
+			if($title_only && $content->parent_uid){
+				$top = $content->getTopContent();
+				if(!$top->uid || (intval($top->board_id) !== $board_id && !$top->isDirectReader())) $title_only = false;
+			}
+			if(!$title_only) $unreadable[] = (int)$row->uid;
+		}
+		return $unreadable;
+	}
 	
 	/**
 	 * 검색 조건을 추가한다.
@@ -396,6 +469,10 @@ class KBContentList {
 	 */
 	public function getList($keyword='', $search='title', $with_notice=false){
 		global $wpdb;
+		$search = is_scalar($search) ? (string)$search : 'title';
+		if(strtolower($search) === 'password'){
+			$search = 'title';
+		}
 		
 		if($this->board_id && !is_array($this->board_id)){
 			$board = new KBoard($this->board_id);
@@ -505,6 +582,14 @@ class KBContentList {
 		
 		$search_auto_operator_or = get_option('kboard_search_auto_operator_or');
 		$search_target = sanitize_key($search);
+		$check_secret_search = $keyword && ($search_target === '' || $search_target === 'content' || strpos($search, KBContent::$SKIN_OPTION_PREFIX) !== false);
+		$unreadable_secret_uids = $check_secret_search ? $this->getUnreadableSearchBodyUIDs($search_board_id) : array();
+		$secret_body_guard = $unreadable_secret_uids === false ? '1=0 AND ' : ($unreadable_secret_uids ? "`{$wpdb->prefix}kboard_board_content`.`uid` NOT IN (" . implode(',', $unreadable_secret_uids) . ") AND " : '');
+		if($keyword || $this->search_option){
+			$unreadable_posts = $this->getUnreadableSearchPostUIDs($search_board_id);
+			if($unreadable_posts === false) $this->where[] = '1=0';
+			else if($unreadable_posts) $this->where[] = "`{$wpdb->prefix}kboard_board_content`.`uid` NOT IN (" . implode(',', $unreadable_posts) . ")";
+		}
 		$is_indexed_search_target = in_array($search_target, array('', 'title', 'content', 'member_display'));
 		$can_use_indexed_search = false;
 		
@@ -523,6 +608,8 @@ class KBContentList {
 				'board_id' => isset($search_board_id) ? $search_board_id : $this->board_id,
 				'auto_operator_or' => $search_auto_operator_or,
 				'include_member_display' => get_option('kboard_search_include_member_display') == '1',
+				'unreadable_secret_uids' => $unreadable_secret_uids,
+				'unreadable_secret_check_failed' => $unreadable_secret_uids === false,
 			));
 			if(is_array($search_engine_clause) && !empty($search_engine_clause['join']) && !empty($search_engine_clause['where'])){
 				$indexed_search = true;
@@ -552,7 +639,7 @@ class KBContentList {
 							$keyword = "%{$keyword}%";
 						}
 						
-						$sub_where[] = "(`{$wpdb->prefix}kboard_board_option`.`option_key`='{$search}' AND `{$wpdb->prefix}kboard_board_option`.`option_value` {$this->compare} '{$keyword}')";
+						$sub_where[] = "({$secret_body_guard}`{$wpdb->prefix}kboard_board_option`.`option_key`='{$search}' AND `{$wpdb->prefix}kboard_board_option`.`option_value` {$this->compare} '{$keyword}')";
 					}
 				}
 				
@@ -620,7 +707,7 @@ class KBContentList {
 		}
 		else if($keyword && !$indexed_search){
 			// 일반적인 검색후 게시글을 불러온다.
-			$search = esc_sql($search);
+			$search = str_replace('`', '``', esc_sql($search));
 			$keyword = esc_sql($keyword);
 			
 			// 더 많은 게시글 검색 옵션 활성화 시 스페이스를 | 로 변경한다.
@@ -644,14 +731,15 @@ class KBContentList {
 						}
 						
 						if($search){
-							$sub_where[] = "`{$wpdb->prefix}kboard_board_content`.`{$search}` {$this->compare} '{$keyword}'";
+							$guard = $search_target === 'content' ? $secret_body_guard : '';
+							$sub_where[] = "({$guard}`{$wpdb->prefix}kboard_board_content`.`{$search}` {$this->compare} '{$keyword}')";
 						}
 						else{
 							if(get_option('kboard_search_include_member_display') == '1'){
-								$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`member_display` {$this->compare} '{$keyword}')";
+								$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR ({$secret_body_guard}`{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}') OR `{$wpdb->prefix}kboard_board_content`.`member_display` {$this->compare} '{$keyword}')";
 							}
 							else{
-								$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR `{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}')";
+								$sub_where[] = "(`{$wpdb->prefix}kboard_board_content`.`title` {$this->compare} '{$keyword}' OR ({$secret_body_guard}`{$wpdb->prefix}kboard_board_content`.`content` {$this->compare} '{$keyword}'))";
 							}
 						}
 					}
@@ -689,7 +777,18 @@ class KBContentList {
 		// 입력 필드 검색 옵션 쿼리를 생성한다.
 		$search_option = apply_filters('kboard_list_search_option', $this->search_option, $this->board_id, $this);
 		if($search_option){
+			if(!$keyword && !$this->search_option){
+				$unreadable_posts = $this->getUnreadableSearchPostUIDs($search_board_id);
+				if($unreadable_posts === false) $this->where[] = '1=0';
+				else if($unreadable_posts) $this->where[] = "`{$wpdb->prefix}kboard_board_content`.`uid` NOT IN (" . implode(',', $unreadable_posts) . ")";
+			}
+			if(!$check_secret_search && $this->hasProtectedSearchOption($search_option)){
+				$unreadable_secret_uids = $this->getUnreadableSearchBodyUIDs($search_board_id);
+				$secret_body_guard = $unreadable_secret_uids === false ? '1=0 AND ' : ($unreadable_secret_uids ? "`{$wpdb->prefix}kboard_board_content`.`uid` NOT IN (" . implode(',', $unreadable_secret_uids) . ") AND " : '');
+			}
+			$this->secret_search_option_guard = $secret_body_guard;
 			$multiple_option_query = $this->multipleOptionQuery($search_option);
+			$this->secret_search_option_guard = '';
 			if($multiple_option_query){
 				$this->where[] = $multiple_option_query;
 				
@@ -925,13 +1024,14 @@ class KBContentList {
 				$option_wildcard = isset($option['wildcard']) ? esc_sql($option['wildcard']) : '';
 				
 				if($option_key && $has_option_value){
+					$secret_guard = preg_match('/^tree_category_[0-9]+$/D', $option_key) ? '' : $this->secret_search_option_guard;
 					$this->multiple_option_keys[$option_key] = $option_key;
 					$option_index = array_search($option_key, $this->multiple_option_keys);
 					
 					if(in_array($option_compare, array('IN', 'NOT IN'), true)){
 						$placeholders = implode(',', array_fill(0, count($option_values), '%s'));
 						$where[] = $wpdb->prepare(
-							"(`option_{$option_index}`.`option_key`=%s AND `option_{$option_index}`.`option_value` {$option_compare} ({$placeholders}))",
+							"({$secret_guard}`option_{$option_index}`.`option_key`=%s AND `option_{$option_index}`.`option_value` {$option_compare} ({$placeholders}))",
 							array_merge(array($option_key), $option_values)
 						);
 					}
@@ -946,7 +1046,7 @@ class KBContentList {
 							case 'both': $option_value = "%{$option_value}%"; break;
 						}
 						
-						$where[] = "(`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} '{$option_value}')";
+						$where[] = "({$secret_guard}`option_{$option_index}`.`option_key`='{$option_key}' AND `option_{$option_index}`.`option_value` {$option_compare} '{$option_value}')";
 					}
 				}
 			}
@@ -1181,7 +1281,7 @@ class KBContentList {
 		$wpdb->flush();
 		return $this->resource_popular;
 	}
-	
+
 	/**
 	 * 리스트에서 다음 인기글을 반환한다.
 	 * @return KBContent
