@@ -147,6 +147,7 @@ class KBContentListTable extends WP_List_Table {
 					<option value="30"<?php if($this->per_page == 30):?> selected<?php endif?>>30개씩 보기</option>
 					<option value="50"<?php if($this->per_page == 50):?> selected<?php endif?>>50개씩 보기</option>
 					<option value="100"<?php if($this->per_page == 100):?> selected<?php endif?>>100개씩 보기</option>
+					<option value="200"<?php if($this->per_page == 200):?> selected<?php endif?>>200개씩 보기</option>
 				</select>
 				
 				<label class="screen-reader-text" for="filter-by-board-id">게시판으로 필터</label>

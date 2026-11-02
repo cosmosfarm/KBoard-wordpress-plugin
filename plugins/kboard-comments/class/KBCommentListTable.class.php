@@ -17,7 +17,7 @@ class KBCommentListTable extends WP_List_Table {
 		$this->list = new KBCommentList();
 		$this->url = new KBUrl();
 		$per_page = isset($_REQUEST['per_page']) && is_scalar($_REQUEST['per_page']) ? intval($_REQUEST['per_page']) : 20;
-		$this->per_page = in_array($per_page, array(10, 20, 30, 50, 100), true) ? $per_page : 20;
+		$this->per_page = in_array($per_page, array(10, 20, 30, 50, 100, 200), true) ? $per_page : 20;
 	}
 	
 	public function prepare_items(){
@@ -77,6 +77,7 @@ class KBCommentListTable extends WP_List_Table {
 					<option value="30"<?php if($this->per_page == 30):?> selected<?php endif?>>30개씩 보기</option>
 					<option value="50"<?php if($this->per_page == 50):?> selected<?php endif?>>50개씩 보기</option>
 					<option value="100"<?php if($this->per_page == 100):?> selected<?php endif?>>100개씩 보기</option>
+					<option value="200"<?php if($this->per_page == 200):?> selected<?php endif?>>200개씩 보기</option>
 				</select>
 
 				<input type="date" name="start_date" value="<?php echo esc_attr(kboard_start_date()) ?>" placeholder="시작일">
