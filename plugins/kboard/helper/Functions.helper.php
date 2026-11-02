@@ -297,6 +297,12 @@ function kboard_captcha(){
 	return $captcha->createImage();
 }
 
+/** ALTCHA uses Web Crypto, which requires HTTPS or a local development host. */
+function kboard_use_altcha(){
+	$host = isset($_SERVER['HTTP_HOST']) ? strtolower(preg_replace('/:\d+$/', '', wp_unslash($_SERVER['HTTP_HOST']))) : '';
+	return is_ssl() || in_array($host, array('localhost', '127.0.0.1', '[::1]'), true);
+}
+
 /**
  * 이미지 사이즈를 조절한다.
  * @param string $image_src

@@ -744,6 +744,7 @@ textarea.kboard-form-control {
 				<div class="kboard-card-body">
 					<p class="kboard-description">
 						CAPTCHA는 스팸을 차단하는 기능입니다.<br>
+						기본 CAPTCHA는 ALTCHA를 사용합니다. 난이도와 유효시간은 <a href="#kboard_altcha_settings">ALTCHA 설정</a>에서 변경할 수 있습니다.<br>
 						기능을 중지하면 스팸이 등록될 확률이 높아집니다.
 					</p>
 				</div>
@@ -752,6 +753,35 @@ textarea.kboard-form-control {
 						<?php echo get_option('kboard_captcha_stop')?'CAPTCHA 사용하기':'CAPTCHA 중지하기'?>
 					</button>
 				</div>
+			</form>
+		</div>
+
+		<!-- ALTCHA -->
+		<div class="kboard-card" id="kboard_altcha_settings">
+			<form method="post" onsubmit="return kboard_system_option_update(this)">
+				<input type="hidden" name="action" value="kboard_system_option_update">
+				<div class="kboard-card-header"><h3 class="kboard-card-title">ALTCHA 설정</h3></div>
+				<div class="kboard-card-body">
+					<p class="kboard-description">공식 권장 PBKDF2 작업증명을 사용하며, 난이도가 높을수록 정해진 계산량과 인증 시간이 늘어납니다. 인증을 시작한 후 유효시간 안에 글이나 댓글을 등록해야 하며, 만료되면 다시 인증해야 합니다. 서버는 인증 서명과 유효시간을 확인하며, 사용한 인증값은 다시 사용할 수 없습니다.</p>
+					<div class="kboard-input-group mt-4">
+						<label for="kboard-altcha-cost">작업증명 난이도</label>
+						<?php $altcha_cost = (int)get_option('kboard_altcha_cost', 5000); if($altcha_cost === 2000) $altcha_cost = 5000;?>
+						<select class="kboard-form-control" id="kboard-altcha-cost" name="option[kboard_altcha_cost]">
+							<option value="500"<?php selected($altcha_cost, 500)?>>낮음 (목표 1~2초)</option>
+							<option value="5000"<?php selected($altcha_cost, 5000)?>>보통 (목표 5초)</option>
+							<option value="10000"<?php selected($altcha_cost, 10000)?>>높음 (목표 10초)</option>
+						</select>
+						<p class="kboard-description">실제 인증 시간은 사용자 기기 성능과 브라우저에 따라 달라집니다.</p>
+						<label for="kboard-altcha-expiry">인증 유효시간</label>
+						<select class="kboard-form-control" id="kboard-altcha-expiry" name="option[kboard_altcha_expiry]">
+							<option value="10"<?php selected((int)get_option('kboard_altcha_expiry', 30), 10)?>>10분</option>
+							<option value="20"<?php selected((int)get_option('kboard_altcha_expiry', 30), 20)?>>20분</option>
+							<option value="30"<?php selected((int)get_option('kboard_altcha_expiry', 30), 30)?>>30분</option>
+							<option value="60"<?php selected((int)get_option('kboard_altcha_expiry', 30), 60)?>>60분</option>
+						</select>
+					</div>
+				</div>
+				<div class="kboard-card-footer"><button type="submit" class="kboard-btn primary full-width">ALTCHA 설정 저장</button></div>
 			</form>
 		</div>
 

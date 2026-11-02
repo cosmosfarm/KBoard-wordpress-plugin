@@ -18,6 +18,7 @@ class KBController {
 		}
 		
 		switch($action){
+			case 'kboard_altcha_challenge': add_action($action_name, array($this, 'altchaChallenge'), 0); break;
 			case 'kboard_editor_execute': add_action($action_name, array($this, 'editorExecute'), 0); break;
 			case 'kboard_media_upload': add_action($action_name, array($this, 'mediaUpload'), 0); break;
 			case 'kboard_media_delete': add_action($action_name, array($this, 'mediaDelete'), 0); break;
@@ -38,6 +39,19 @@ class KBController {
 		add_action('wp_ajax_kboard_order_item_update', array($this, 'orderItemUpdate'));
 		add_action('wp_ajax_kboard_content_update', array($this, 'contentUpdate'));
 		add_action('wp_ajax_nopriv_kboard_content_update', array($this, 'contentUpdate'));
+	}
+
+	/** 비로그인 ALTCHA 인증 요청을 생성한다. */
+	public function altchaChallenge(){
+		nocache_headers();
+		if(is_user_logged_in() || get_option('kboard_captcha_stop') || kboard_use_recaptcha() || !kboard_use_altcha()){
+			wp_send_json_error(array('message'=>'CAPTCHA unavailable'), 403);
+		}
+		include_once KBOARD_DIR_PATH.'/class/KBCaptcha.class.php';
+		$captcha = new KBCaptcha();
+		$challenge = $captcha->createAltchaChallenge();
+		if(!$challenge) wp_send_json_error(array('message'=>'CAPTCHA unavailable'), 503);
+		wp_send_json($challenge);
 	}
 	
 	/**

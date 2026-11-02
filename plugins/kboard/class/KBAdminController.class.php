@@ -859,6 +859,8 @@ class KBAdminController {
 				'kboard_builtin_pg_nicepay_general_merchant_key',
 				'kboard_builtin_pg_nicepay_general_mid',
 				'kboard_captcha_stop',
+				'kboard_altcha_cost',
+				'kboard_altcha_expiry',
 				'kboard_content_delete_immediately',
 				'kboard_content_filter',
 				'kboard_content_filter_message',
@@ -898,6 +900,8 @@ class KBAdminController {
 					continue;
 				}
 				$value = sanitize_textarea_field($value);
+				if($name === 'kboard_altcha_cost' && !in_array($value, array('500', '2000', '5000', '10000'), true)) continue;
+				if($name === 'kboard_altcha_expiry' && !in_array($value, array('10', '20', '30', '60'), true)) continue;
 				
 				if(!$value){
 					delete_option($name);
