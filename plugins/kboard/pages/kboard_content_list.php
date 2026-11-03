@@ -34,6 +34,7 @@
 	<div class="kboard-content-list">
 		<form id="kboard-content-list" method="post" onsubmit="return kboard_content_list_confirm_bulk_action(this)">
 			<?php wp_nonce_field('kboard_content_list_bulk_action', 'kboard_content_list_nonce')?>
+			<input type="hidden" id="kboard-empty-trash-security" value="<?php echo esc_attr(wp_create_nonce('kboard_empty_content_trash'))?>">
 			<input type="hidden" id="kboard-content-update-security" value="<?php echo esc_attr(wp_create_nonce('kboard_content_list_update'))?>">
 			<?php $table->display()?>
 		</form>
@@ -42,18 +43,57 @@
 
 <script>
 function kboard_content_list_confirm_bulk_action(form){
+	if(form.getAttribute('data-kboard-emptying') == '1') return false;
 	if(form.getAttribute('data-kboard-move-submission') == '1'){
 		return true;
 	}
 
 	var action = jQuery('select[name=action]', form).val();
 	var action2 = jQuery('select[name=action2]', form).val();
+	var selectedAction = action && action != '-1' ? action : action2;
+
+	if(selectedAction == 'empty_trash'){
+		if(window.confirm('모든 게시판의 휴지통에 있는 게시글을 전부 영구 삭제합니다. 검색 및 필터와 관계없이 삭제되며, 기존 영구 삭제와 같이 답글도 함께 삭제됩니다. 삭제 후 복구할 수 없습니다. 계속하시겠습니까?')){
+			kboard_empty_content_trash(form);
+		}
+		return false;
+	}
 
 	if(action == 'delete' || action == 'delete_immediately' || action2 == 'delete' || action2 == 'delete_immediately'){
 		return window.confirm('선택한 게시글을 영구 삭제합니다. 삭제 후 복구할 수 없습니다. 계속하시겠습니까?');
 	}
 
 	return true;
+}
+
+function kboard_empty_content_trash(form){
+	var controls = jQuery('button, input[type=submit], select', form);
+	var result = jQuery('<p role="status" aria-live="polite">휴지통을 비우는 중입니다. 이 페이지를 닫지 마세요.</p>').prependTo(form);
+	form.setAttribute('data-kboard-emptying', '1');
+	controls.prop('disabled', true);
+	function runBatch(){
+		jQuery.ajax({url:ajaxurl, type:'POST', dataType:'json', data:{action:'kboard_empty_content_trash', security:jQuery('#kboard-empty-trash-security').val()}}).done(function(response){
+			if(!response || !response.success){
+				fail(response && response.data && response.data.message);
+				return;
+			}
+			if(response.data.remaining > 0){
+				result.text('휴지통을 비우는 중입니다. 남은 게시글: ' + response.data.remaining + '개');
+				runBatch();
+			}
+			else{
+				window.location.reload();
+			}
+		}).fail(function(xhr){
+			fail(xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message);
+		});
+	}
+	function fail(message){
+		result.text((message || '휴지통을 비우지 못했습니다.') + ' 일부 게시글은 이미 삭제되었을 수 있습니다. 새로고침 후 다시 시도해 주세요.');
+		form.removeAttribute('data-kboard-emptying');
+		controls.prop('disabled', false);
+	}
+	runBatch();
 }
 
 function kboard_content_list_move_to_board(form){

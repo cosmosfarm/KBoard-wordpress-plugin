@@ -16,6 +16,7 @@ class KBAdminController {
 		add_action('admin_post_kboard_csv_download_execute', array($this, 'csv_download'));
 		add_action('admin_post_kboard_csv_upload_execute', array($this, 'csv_upload'));
 		add_action('wp_ajax_kboard_content_list_update', array($this, 'content_list_update'));
+		add_action('wp_ajax_kboard_empty_content_trash', array($this, 'empty_content_trash'));
 		add_action('wp_ajax_kboard_system_option_update', array($this, 'system_option_update'));
 		add_action('wp_ajax_kboard_search_reindex_batch', array($this, 'search_reindex_batch'));
 		add_action('wp_ajax_kboard_svg_batch_scan_execute', array($this, 'svg_batch_scan_execute'));
@@ -810,6 +811,31 @@ class KBAdminController {
 		wp_send_json_success(array('message'=>$message ? $message : '저장했습니다.', 'date'=>kboard_admin_date_parts($saved->date), 'status'=>$saved->status, 'board_id'=>intval($saved->board_id)));
 	}
 	
+	/** Empty the entire content trash in small batches. */
+	public function empty_content_trash(){
+		global $wpdb;
+		if(!current_user_can('manage_kboard')) wp_send_json_error(array('message'=>'권한이 없습니다.'), 403);
+		if(!check_ajax_referer('kboard_empty_content_trash', 'security', false)) wp_send_json_error(array('message'=>'보안 확인에 실패했습니다. 페이지를 새로고침해 주세요.'), 403);
+
+		$table = "`{$wpdb->prefix}kboard_board_content`";
+		$uids = $wpdb->get_col("SELECT `uid` FROM {$table} WHERE `status`='trash' ORDER BY `date` DESC LIMIT 20");
+		if($wpdb->last_error) wp_send_json_error(array('message'=>'휴지통 목록을 불러오지 못했습니다.'), 500);
+		$uids = array_map('intval', $uids);
+		if($uids){
+			foreach($uids as $uid){
+				$content = new KBContent();
+				$content->initWithUID($uid);
+				if($content->uid && $content->status == 'trash') $content->remove();
+			}
+			$failed = $wpdb->get_var("SELECT COUNT(*) FROM {$table} WHERE `uid` IN (".implode(',', $uids).") AND `status`='trash'");
+			if($wpdb->last_error || $failed === null || intval($failed)) wp_send_json_error(array('message'=>'일부 게시글을 삭제하지 못해 중단했습니다.'), 500);
+		}
+		$remaining = $wpdb->get_var("SELECT COUNT(*) FROM {$table} WHERE `status`='trash'");
+		if($wpdb->last_error || $remaining === null) wp_send_json_error(array('message'=>'남은 휴지통 글을 확인하지 못했습니다.'), 500);
+		if(!$uids && intval($remaining)) wp_send_json_error(array('message'=>'삭제할 게시글을 불러오지 못해 중단했습니다.'), 500);
+		wp_send_json_success(array('remaining'=>intval($remaining)));
+	}
+
 	/**
 	 * 검색 인덱스 재인덱싱 배치를 실행한다.
 	 */

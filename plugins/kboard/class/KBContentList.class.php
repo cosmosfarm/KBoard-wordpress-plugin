@@ -83,6 +83,32 @@ class KBContentList {
 			}
 		}
 
+		$where = $this->getKeywordWhere($keyword, $search);
+
+		$offset = ($this->page-1)*$this->rpp;
+
+		$results = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT {$offset},{$this->rpp}");
+		foreach($results as $row){
+			$select_uid[] = intval($row->uid);
+		}
+
+		if(!isset($select_uid)){
+			$this->total = 0;
+			$this->resource = array();
+		}
+		else{
+			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
+			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY `date` DESC");
+		}
+
+		$wpdb->flush();
+		$this->index = $this->total - $offset;
+		return $this;
+	}
+
+	/** Build the same conditions for the admin list and its status counts. */
+	private function getKeywordWhere($keyword, $search, $include_status=true){
+		$where = array();
 		$start_date = kboard_start_date();
 		$end_date = kboard_end_date();
 		
@@ -126,38 +152,34 @@ class KBContentList {
 			$category5 = esc_sql($this->category5);
 			$where[] = "`category5`='{$category5}'";
 		}
-		if($this->status){
-			if($this->status == 'published'){
-				$where[] = "`status`=''";
+		if($include_status){
+			if($this->status){
+				$status = $this->status == 'published' ? '' : esc_sql($this->status);
+				$where[] = "`status`='{$status}'";
 			}
 			else{
-				$where[] = "`status`='{$this->status}'";
+				$where[] = "`status`!='trash'";
 			}
 		}
-		if(!isset($where) || !$where) $where[] = "`status`!='trash'";
-		$where = implode(' AND ', $where);
-		
-		$offset = ($this->page-1)*$this->rpp;
-		
-		$results = $wpdb->get_results("SELECT `uid` FROM `{$wpdb->prefix}kboard_board_content` WHERE $where ORDER BY `date` DESC LIMIT {$offset},{$this->rpp}");
-		foreach($results as $row){
-			$select_uid[] = intval($row->uid);
-		}
-		
-		if(!isset($select_uid)){
-			$this->total = 0;
-			$this->resource = array();
-		}
-		else{
-			$this->total = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE $where");
-			$this->resource = $wpdb->get_results("SELECT * FROM `{$wpdb->prefix}kboard_board_content` WHERE `uid` IN(".implode(',', $select_uid).") ORDER BY `date` DESC");
-		}
-		
-		$wpdb->flush();
-		$this->index = $this->total - $offset;
-		return $this;
+		return $where ? implode(' AND ', $where) : '1=1';
 	}
-	
+
+	/** Count each status using the current list filters. */
+	public function getKeywordStatusCounts($keyword='', $search=''){
+		global $wpdb;
+		if($this->board_id && !is_array($this->board_id)){
+			$board = new KBoard($this->board_id);
+			if(!$board->isReader(0, '')) return array();
+		}
+		$where = $this->getKeywordWhere($keyword, $search, false);
+		$rows = $wpdb->get_results("SELECT `status`, COUNT(*) AS `count` FROM `{$wpdb->prefix}kboard_board_content` WHERE {$where} GROUP BY `status`");
+		$counts = array();
+		foreach($rows as $row){
+			$counts[$row->status] = intval($row->count);
+		}
+		return $counts;
+	}
+
 	/**
 	 * RSS 피드 출력을 위한 리스트를 반환한다.
 	 * @param int $board_id

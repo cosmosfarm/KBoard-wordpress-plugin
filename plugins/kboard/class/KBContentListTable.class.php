@@ -59,23 +59,39 @@ class KBContentListTable extends WP_List_Table {
 	}
 	
 	public function get_views(){
-		global $wpdb;
-		
 		$views = array();
-		$class = '';
-		
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status` NOT LIKE 'trash'");
+		$keyword = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
+		$target = kboard_target();
+		$list = new KBContentList($this->filter_board_id);
+		$list->category1 = $this->filter_category1;
+		$counts = $list->getKeywordStatusCounts($keyword, $target);
+		$all_count = 0;
+		foreach($counts as $status=>$count){
+			if($status !== 'trash') $all_count += $count;
+		}
+
+		$args = array(
+			'filter_board_id' => $this->filter_board_id,
+			'filter_category1' => $this->filter_category1,
+			'per_page' => $this->per_page,
+			'start_date' => kboard_start_date(),
+			'end_date' => kboard_end_date(),
+			'target' => $target,
+			's' => $keyword,
+		);
+		$args = array_map('rawurlencode', array_filter($args, 'strlen'));
+		$base_url = admin_url('admin.php?page=kboard_content_list');
 		$class = !$this->filter_view ? ' class="current"' : '';
-		$views['all'] = '<a href="' . add_query_arg(array('filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$count})</span></a>";
-		
+		$views['all'] = '<a href="' . esc_url(add_query_arg($args, $base_url)) . '"' . $class . '>' . __('All', 'kboard') . " <span class=\"count\">({$all_count})</span></a>";
+
 		$status_list = kboard_content_status_list();
 		foreach($status_list as $status=>$status_name){
 			$filter_view = $status ? $status : 'published';
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM `{$wpdb->prefix}kboard_board_content` WHERE `status`='{$status}'");
+			$count = isset($counts[$status]) ? $counts[$status] : 0;
 			$class = $this->filter_view == $filter_view ? ' class="current"' : '';
-			$views[$filter_view] = '<a href="' . add_query_arg(array('filter_view'=>$filter_view, 'filter_board_id'=>$this->filter_board_id), admin_url('admin.php?page=kboard_content_list')) . '"' . $class . '>' . $status_name . " <span class=\"count\">({$count})</span></a>";
+			$views[$filter_view] = '<a href="' . esc_url(add_query_arg(array_merge($args, array('filter_view'=>$filter_view)), $base_url)) . '"' . $class . '>' . $status_name . " <span class=\"count\">({$count})</span></a>";
 		}
-		
+
 		return $views;
 	}
 	
@@ -125,6 +141,7 @@ class KBContentListTable extends WP_List_Table {
 		
 		if($this->filter_view == 'trash'){
 			$actions['delete'] = __('Delete Permanently', 'kboard');
+			$actions['empty_trash'] = __('휴지통 비우기', 'kboard');
 		}
 		else{
 			$actions['delete_immediately'] = __('Delete Permanently', 'kboard');
