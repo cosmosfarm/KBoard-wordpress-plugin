@@ -235,7 +235,7 @@ function cf_add_kbstore_product(thumbnail, title, link, download, formatted_cate
 }
 function cf_get_a_install(action, download, version){
 	var a_install = document.createElement('a');
-	var updates_url = '<?php echo esc_js($kboard_updates_url)?>' + '&action=' + encodeURIComponent(action) + '&download_url=' + encodeURIComponent(download) + '&download_version=' + encodeURIComponent(version);
+	var updates_url = <?php echo wp_json_encode($kboard_updates_url, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT)?> + '&action=' + encodeURIComponent(action) + '&download_url=' + encodeURIComponent(download) + '&download_version=' + encodeURIComponent(version);
 	a_install.className = 'button-primary';
 	a_install.innerHTML = '설치하기';
 	a_install.setAttribute('href', updates_url);
