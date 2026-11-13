@@ -95,7 +95,7 @@ class KBTemplate {
 		$media->media_group = kboard_htmlclear(isset($_GET['media_group']) ? $_GET['media_group'] : '');
 		
 		if(!$media->hasPermission()){
-			wp_die(__('You do not have permission.', 'kboard'));
+			wp_die(__('You do not have permission.', 'kboard'), '', array('response'=>403));
 		}
 		
 		$media->truncate();
