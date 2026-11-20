@@ -818,6 +818,11 @@ class KBoardFields {
 	 * @return string
 	 */
 	public function getDocumentValuesHTML($content){
+		// 관리자 승인 대기 게시글은 제목·본문과 함께 추가 입력 필드도 공개하지 않는다.
+		if($content->status == 'pending_approval' && !$content->isEditor()){
+			return '';
+		}
+
 		$option_value_list = array();
 		
 		$board = $this->board;
@@ -905,6 +910,11 @@ class KBoardFields {
 	 * @return array
 	 */
 	public function getDocumentValues($content){
+		// 관리자 승인 대기 게시글은 제목·본문과 함께 추가 입력 필드도 공개하지 않는다.
+		if($content->status == 'pending_approval' && !$content->isEditor()){
+			return array();
+		}
+
 		$option_value_list = array();
 		
 		$board = $this->board;
