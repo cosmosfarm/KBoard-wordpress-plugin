@@ -44,7 +44,7 @@ class KBContent {
 		$value = '';
 		if(isset($this->row->{$name})){
 			if(in_array($name, array('title', 'content'))){
-				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(), array('list', 'document'))){
+				if(isset($this->row->status) && $this->row->status == 'pending_approval' && in_array(kboard_mod(kboard_builder_mod()), array('list', 'document'))){
 					if($this->isEditor()){
 						switch($name){
 							case 'title': return apply_filters('kboard_pending_approval_title', sprintf(__('&#91;Pending&#93; %s', 'kboard'), $this->row->title), $this); break;
